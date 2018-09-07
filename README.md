@@ -11,23 +11,48 @@ Colloratively create a game, to be put on, for example, Steam.
 ## Team
 
  * @richelbilderbeek: project manager, lead developer
- * Others: developers 
+   * Make (potentially impopular) decisions
+   * Primary software architect
+   * Maintain Continuous Integration pipeline
+ * Thurday:
+   * Mart: junior dev
+     * Run-time testing and report
+   * Rijk: junior dev
+   * Sacha: junior dev
+ * Friday:
+   * Anne: medior dev
+     * Complex procedures
+     * Education of junior devs
+   * ?Jorn: junior dev
+   * ?Joshua: medior dev
+     * Complex procedures
+     * Education of junior devs
+   * Mohammed: junior dev
+   * Rafayel: medior dev
+     * Secondary software architect
+     * Education of junior devs
+   * ?Same: junior dev
 
 ## Specifics
 
+ * Target operating system: Linux, Mac, Windows
  * Programming language: C++ 
  * IDE: Qt Creator
  * Graphics library: SFML
  * Game type: 
-    * 2D or isometric (not 3D)
+    * 2D (not isometric, not 3D)
     * Single or one-screen multiplayer (not an online game)
     * Desktop application (not a network/NDS/mobile/web application)
     * Single-screen (not scrolling)
- * Communication: via GitHub
+ * Graphics: either generated or downloaded sprites (no drawing of sprites)
+ * Communication: 
+   * Channel: via GitHub Issues
+   * Language: English (it does not need to be perfect English :rainbow:)
  * Commitment:
-    * 2 hours per week
+    * 2 hours per week, except if expert lecture
     * Notify per GitHub iff absent
  * Genre: any genre: horror, shooter, RPG, adventure, visual novel, strategy, puzzle, platformer
+ * Adults welcome: Yes
 
 ## Planning
 
