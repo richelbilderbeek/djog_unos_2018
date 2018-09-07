@@ -31,6 +31,7 @@ Colloratively create a game, to be put on, for example, Steam.
    * Rafayel: medior dev
      * Secondary software architect
      * Education of junior devs
+     * Merge `develop` with `master`
    * ?Same: junior dev
 
 ## Specifics
