@@ -7,7 +7,7 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 `rafayel`|[![Build Status](https://travis-ci.org/rafayelbilderbeek/djog_unos_2018.svg?branch=rafayel)](https://travis-ci.org/rafayelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/rafayelbilderbeek/djog_unos_2018/coverage.svg?branch=rafayel)](https://codecov.io/github/rafayelbilderbeek/djog_unos_2018?branch=rafayel)
 `richel`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=richel)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=richel)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=richel)
 
-![DJOG logo](Djog.png)
+![DJOG logo](pics/Djog.png)
 
 Project by the Uno's at DJOG 2018-2019
 
