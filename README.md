@@ -40,6 +40,7 @@ Collaboratively create a game, to be put on, for example, Steam.
      * Education of junior devs
      * Merge `develop` with `master`
    * Same: junior dev
+     * Lead graphics
 
 ## Specifics
 
