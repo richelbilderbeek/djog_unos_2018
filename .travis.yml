@@ -49,8 +49,8 @@ before_script:
 script: 
   # Game logic non-SFML tests
   - qmake -qt=qt5 djog_unos_2018.pro
-  - make debug
-  - travis wait 1 ./djog_unos_2018 || true
+  - make --silent debug
+  - travis_wait 1 ./djog_unos_2018 || true
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Get code coverage
