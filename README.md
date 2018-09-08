@@ -27,12 +27,12 @@ Colloratively create a game, to be put on, for example, Steam.
    * Joshua: medior dev
      * Debugging
      * Education of junior devs
-   * Mohammed: junior dev
+   * ?Mohammed: junior dev
    * Rafayel: medior dev
      * Secondary software architect
      * Education of junior devs
      * Merge `develop` with `master`
-   * ?Same: junior dev
+   * Same: junior dev
 
 ## Specifics
 
