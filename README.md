@@ -106,7 +106,7 @@ Date|What
 
 ## Branching model
 
- * `master`: stable, should always pass, only merged by @richelbilderbeek
+ * `master`: stable, should always pass, only merged by @richelbilderbeek and @RafayelGardishyan
  * `develop`: development, merge of personal branches, should always pass
  * `[developer name]`: personal branch
 
