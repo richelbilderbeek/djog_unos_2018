@@ -2,6 +2,10 @@ language: cpp
 compiler: gcc
 dist: trusty
 
+addons: 
+  apt: 
+    packages: libboost-all-dev
+
 before_install:
   # C++14
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -9,12 +13,53 @@ before_install:
 
 install: 
   # C++14
-  - sudo apt-get install -qq g++-5  
+  - sudo apt-get install -qq g++-5
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
   # SFML
   - sudo apt-get install libsfml-dev
+  # XRandR, else you get 'Failed to use the XRandR extension while trying to get the desktop video modes'
+  - sudo apt-get install libxrandr-dev
+  # clang-tidy
+  - sudo apt-get install -qq clang-3.8
+  # cppcheck
+  - sudo apt-get install -qq cppcheck
+  # Codecov
+  - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
+  - sudo pip install codecov
+  # OCLint
+  - ./install_oclint
+  # For the virtual X server
+  - sudo apt-get install libxrandr-dev
+  # valgrind, for helgrind and memcheck
+  - sudo apt-get install -qq valgrind
+  # SLOCcount
+  - sudo apt-get install sloccount
+
+# Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
 
 script: 
- - qmake
- - make
- - ./travis_qmake_gcc_cpp14_sfml
+  # Game logic non-SFML tests
+  - qmake -qt=qt5 djog_unos_2018.pro
+  - make debug
+  - travis wait 1 ./djog_unos_2018 || true
+  # cppcheck
+  - cppcheck --error-exitcode=1 . 
+  # Get code coverage
+  - ./get_code_cov
+  - codecov
+  # Call OCLint
+  - ./do_oclint
+  # SLOCcount
+  #   remove OCLint otherwise it will be counted as well
+  - rm -rf oclint-0.10.3
+  - cd ..; sloccount --overhead 1 --personcost 22614 AminoAcidFighter; cd AminoAcidFighter
+  # clang-tidy
+  #- ./do_clang-tidy
+
+after_success:
+  # Codecov
+  - bash <(curl -s https://codecov.io/bash)
