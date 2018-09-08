@@ -65,7 +65,7 @@ script:
   # SLOCcount
   #   remove OCLint otherwise it will be counted as well
   - rm -rf oclint-0.10.3
-  - cd ..; sloccount --overhead 1 --personcost 22614 AminoAcidFighter; cd AminoAcidFighter
+  - cd ..; sloccount --overhead 1 --personcost 22614 djog_unos_2018; cd djog_unos_2018
   # clang-tidy
   #- ./do_clang-tidy
 
