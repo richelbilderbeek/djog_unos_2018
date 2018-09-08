@@ -16,7 +16,7 @@ Colloratively create a game, to be put on, for example, Steam.
    * Maintain Continuous Integration pipeline
  * Thurday:
    * Mart: junior dev
-     * Run-time testing and report
+     * Lead testing and reporting
    * Rijk: junior dev
    * Sacha: junior dev
  * Friday:
@@ -24,8 +24,8 @@ Colloratively create a game, to be put on, for example, Steam.
      * Complex procedures
      * Education of junior devs
    * ?Jorn: junior dev
-   * ?Joshua: medior dev
-     * Complex procedures
+   * Joshua: medior dev
+     * Debugging
      * Education of junior devs
    * Mohammed: junior dev
    * Rafayel: medior dev
