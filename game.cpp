@@ -1,7 +1,7 @@
 #include "game.h"
 
-game::game()
-  : m_angle{0.0},
+game::game(const std::vector<std::string>& args)
+  : m_n_displayed_max{extract_n_displayed_max(args)},
     m_window(sf::VideoMode(800, 600), "sfml_unos_2018")
 {
 
@@ -9,6 +9,8 @@ game::game()
 
 void game::display()
 {
+  ++m_n_displayed;
+
   // clear the window with black color
   m_window.clear(sf::Color::Black);
 
@@ -34,9 +36,19 @@ int game::exec()
   return 0;
 }
 
+int extract_n_displayed_max(const std::vector<std::string>& /* args */)
+{
+  //STUB
+  return 100;
+}
+
 void game::process_events()
 {
   m_angle += 0.01;
+  if (m_n_displayed_max > 0 && m_n_displayed + 1 == m_n_displayed_max)
+  {
+    m_window.close();
+  }
 }
 
 void game::process_input()
@@ -47,6 +59,8 @@ void game::process_input()
   {
     // "close requested" event: we close the window
     if (event.type == sf::Event::Closed)
-    m_window.close();
+    {
+      m_window.close();
+    }
   }
 }

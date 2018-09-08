@@ -47,10 +47,14 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script: 
-  # Game logic non-SFML tests
+  # Test game logic, measure code coverage
+  - qmake -qt=qt5 djog_unos_2018_test.pro
+  - make --silent debug
+  - ./djog_unos_2018_test
+  # Run the game without crashing
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
-  - travis_wait 1 ./djog_unos_2018 || true
+  - travis_wait 1 ./djog_unos_2018&
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Get code coverage
