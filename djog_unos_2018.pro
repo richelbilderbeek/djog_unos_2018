@@ -1,4 +1,5 @@
-# Files
+include(djog_unos_2018.pri)
+# Entry point for user
 SOURCES += main.cpp
 
 # High warning levels
@@ -10,3 +11,4 @@ QMAKE_CXXFLAGS += -std=c++14
 
 # SFML
 LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
