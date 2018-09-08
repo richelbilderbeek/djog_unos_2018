@@ -13,7 +13,7 @@ Project by the Uno's at DJOG 2018-2019
 
 ## Goal
 
-Colloratively create a game, to be put on, for example, Steam.
+Collaboratively create a game, to be put on, for example, Steam.
 
 ## Team
 
