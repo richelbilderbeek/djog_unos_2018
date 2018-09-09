@@ -93,4 +93,4 @@ git checkout master
 git merge develop
 ```
 
-Only @RafayelGardishyan does this.
+Only @richelbilderbeek and @RafayelGardishyan do this.
