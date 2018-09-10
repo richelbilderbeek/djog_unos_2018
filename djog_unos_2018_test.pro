@@ -44,7 +44,8 @@ QMAKE_CXXFLAGS += -std=c++14
 QMAKE_LFLAGS += -fuse-ld=gold
 
 # High warning level, warnings are errors
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Weffc++
+# SFML goes bad with -Weffc++
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
 QMAKE_CXXFLAGS += -Werror
 
 # Qt
