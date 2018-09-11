@@ -28,9 +28,11 @@ void game::display()
 int game::exec()
 {
   m_window.setPosition(
-              sf::Vector2i(
-                  sf::VideoMode::getDesktopMode().width * 0.5 - width * 0.5,
-                  sf::VideoMode::getDesktopMode().height * 0.5 - height * 0.5));
+    sf::Vector2i(
+        sf::VideoMode::getDesktopMode().width * 0.5 - width * 0.5,
+        sf::VideoMode::getDesktopMode().height * 0.5 - height * 0.5
+    )
+);
 
   while (m_window.isOpen())
   {
@@ -50,10 +52,10 @@ int extract_n_displayed_max(const std::vector<std::string>& /* args */)
 void game::process_events()
 {
   m_angle += 0.01;
-//  if (m_n_displayed_max > 0 && m_n_displayed + 1 == m_n_displayed_max)
-//  {
-//    m_window.close();
-//  }
+  if (m_n_displayed_max > 0 && m_n_displayed + 1 == m_n_displayed_max)
+  {
+    m_window.close();
+  }
 }
 
 void game::process_input()
