@@ -2,7 +2,7 @@
 
 game::game(const std::vector<std::string>& args)
   : m_n_displayed_max{extract_n_displayed_max(args)},
-    m_window(sf::VideoMode(800, 600), "sfml_unos_2018")
+    m_window(sf::VideoMode(width, height), "sfml_unos_2018")
 {
 
 }
@@ -27,6 +27,11 @@ void game::display()
 
 int game::exec()
 {
+  m_window.setPosition(
+              sf::Vector2i(
+                  sf::VideoMode::getDesktopMode().width * 0.5 - width * 0.5,
+                  sf::VideoMode::getDesktopMode().height * 0.5 - height * 0.5));
+
   while (m_window.isOpen())
   {
     process_input();

@@ -35,6 +35,11 @@ private:
   ///Will be negative if the game has no time limit
   const int m_n_displayed_max;
 
+  ///Screen Width and Height
+  ///
+  int width = 800;
+  int height = 600;
+
   ///The window the game is rendered to
   sf::RenderWindow m_window;
 
