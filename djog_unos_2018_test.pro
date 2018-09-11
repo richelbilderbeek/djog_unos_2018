@@ -44,7 +44,7 @@ QMAKE_CXXFLAGS += -std=c++14
 QMAKE_LFLAGS += -fuse-ld=gold
 
 # High warning level, warnings are errors
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Weffc++
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
 QMAKE_CXXFLAGS += -Werror
 
 # Qt
@@ -57,4 +57,9 @@ QT += core gui
 QMAKE_CXXFLAGS += -fext-numeric-literals
 
 # SFML
+#LIBS += -L"/home/rafayel/SFML/lib"
+
 LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+#INCLUDEPATH += "/home/rafayel/SFML/include"
+#DEPENDPATH += "/home/rafayel/SFML/include"

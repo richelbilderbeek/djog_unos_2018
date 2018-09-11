@@ -8,7 +8,7 @@ CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
 
 # High warning levels
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Weffc++ -Werror
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
 
 # Fix error: unrecognized option '--push-state--no-as-needed'
 QMAKE_LFLAGS += -fuse-ld=gold
@@ -43,12 +43,19 @@ CONFIG(debug, debug|release) {
 # Develop on GNU/Linux
 unix:!macx {
   # High warning level, warnings are errors
-  QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Weffc++
+  QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
   QMAKE_CXXFLAGS += -Werror
 }
 
 # SFML
+
+#LIBS += -L"/home/rafayel/SFML/lib"
+
 LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+#INCLUDEPATH += "/home/rafayel/SFML/include"
+#DEPENDPATH += "/home/rafayel/SFML/include"
+
 
 # Qt5
 QT += core gui
