@@ -58,4 +58,9 @@ QT += core gui
 QMAKE_CXXFLAGS += -fext-numeric-literals
 
 # SFML
+#LIBS += -L"/home/rafayel/SFML/lib"
+
 LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+#INCLUDEPATH += "/home/rafayel/SFML/include"
+#DEPENDPATH += "/home/rafayel/SFML/include"
