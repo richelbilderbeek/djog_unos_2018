@@ -24,8 +24,8 @@ Checkout the `develop` branch and your topic branch (here: `richel)`.
 This needs to be done once:
 
 ```
-git checkout -b origin/develop
-git checkout -b origin/richel
+git checkout -t origin/develop
+git checkout -t origin/richel
 ```
 
 ### Push your work to GitHub
@@ -93,4 +93,4 @@ git checkout master
 git merge develop
 ```
 
-Only @RafayelGardishyan does this.
+Only @richelbilderbeek and @RafayelGardishyan do this.
