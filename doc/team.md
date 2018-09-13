@@ -4,9 +4,11 @@
    * Make (potentially impopular) decisions
    * Primary software architect
    * Maintain Continuous Integration pipeline
+   * Keeps branches synched
  * Thurday:
    * Mart: junior dev
      * Lead testing and reporting
+     * Allowed to close Issues in the `To be checked by testing`
    * Rijk: junior dev
    * ?Sacha: junior dev
  * Friday:
