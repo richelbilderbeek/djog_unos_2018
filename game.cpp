@@ -113,6 +113,5 @@ void game::process_input()
         default:
             break;
       }
-    }
   }
 }
