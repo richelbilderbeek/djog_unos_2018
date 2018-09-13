@@ -30,6 +30,14 @@ Then probably, you want to go into that folder:
 cd djog_unos_2018
 ```
 
+## Check the status
+
+```
+git status
+```
+
+This will show you which branch you are on, and which files you have changed.
+
 ## Checkout the `develop` branch for the first time
 
 ```
