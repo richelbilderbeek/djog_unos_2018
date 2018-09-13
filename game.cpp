@@ -78,6 +78,7 @@ void game::process_input()
   sf::Event event;
   while (m_window.pollEvent(event))
   {
+    // Travis isn't able to test this line which causes -> Codecov 97% (Could be 100%)
     switch(event.type)
     {
         // "close requested" event: we close the window
@@ -109,8 +110,9 @@ void game::process_input()
                 colorIndex = (colorIndex + 1) % 7;
             break;
 
-    default:
-        break;
+        default:
+            break;
+      }
     }
   }
 }
