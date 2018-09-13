@@ -67,6 +67,7 @@ void game::process_input()
     // "close requested" event: we close the window
     if (event.type == sf::Event::Closed)
     {
+      // Travis isn't able to test this line which causes -> Codecov 97% (Could be 100%)
       m_window.close();
     }
   }
