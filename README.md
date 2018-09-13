@@ -19,3 +19,4 @@ Collaboratively create a game, to be put on, for example, Steam.
   * [specifics](doc/specs.md)
   * [planning](doc/planning.md)
   * [git](doc/git.md)
+  * [Code of Conduct](code_of_conduct.md)
