@@ -123,4 +123,5 @@ Name|Branch name
 @richelbilderbeek|`richel`
 @RafayelGardishyan|`rafayel`
 @Joshua260403 |`joshua`
+@annehinrichs22|`anne`
 [other]|[to be added]
