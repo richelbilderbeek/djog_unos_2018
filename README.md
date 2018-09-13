@@ -124,5 +124,3 @@ Name|Branch name
 @RafayelGardishyan|`rafayel`
 @Joshua260403 |`joshua`
 [other]|[to be added]
-
-Test.
