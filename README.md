@@ -122,4 +122,5 @@ Name|Branch name
 ---|---
 @richelbilderbeek|`richel`
 @RafayelGardishyan|`rafayel`
+@annehinrichs22|`anne`
 [other]|[to be added]
