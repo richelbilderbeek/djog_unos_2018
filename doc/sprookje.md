@@ -1,6 +1,6 @@
 # Sprookje
 
-Er was een een ....
+Er was eens een hond, en ze woonde in stieletch.
 
 
 
