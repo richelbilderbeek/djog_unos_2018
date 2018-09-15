@@ -10,6 +10,11 @@ game::game(const std::vector<std::string>& args)
 
 int game::exec()
 {
+    background_music.setLoop(true);
+    //TODO Include this file in the build
+//    if (!background_music.openFromFile("resources/background_music.ogg"))
+//        return 1;
+    background_music.play();
     sfml_game_object.init();
     while (sfml_game_object.m_window.isOpen())
     {
@@ -37,7 +42,7 @@ void game::process_events()
   //Close if frames are limited
   if (m_n_displayed_max > 0 && m_n_displayed == m_n_displayed_max)
   {
-    sfml_game_object.m_window.close();
+    end();
   }
 }
 
@@ -49,7 +54,7 @@ void game::process_input()
   {
       switch (event.type) {
           case sf::Event::Closed:
-              sfml_game_object.m_window.close();
+              end();
               break;
 
           case sf::Event::KeyPressed:
@@ -63,8 +68,16 @@ void game::process_input()
   }
 }
 
+void game::end()
+{
+    background_music.stop();
+    sfml_game_object.m_window.close();
+}
+
 int extract_n_displayed_max(const std::vector<std::string>& /* args */)
 {
-  //STUB
-  return 100;
+//  //STUB
+//  return 100;
+  //Default
+  return -1;
 }

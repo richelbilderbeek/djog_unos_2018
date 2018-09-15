@@ -3,6 +3,8 @@
 
 #include <sfml_game.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 
 class game
 {
@@ -28,6 +30,9 @@ private:
     int width;
     int height;
 
+    ///Background music file object
+    sf::Music background_music;
+
     ///Timer, physics, bullets moving, etc.
     ///Everything except user input.
     void process_events();
@@ -42,6 +47,9 @@ private:
     void fixed_update(){
         ++m_n_displayed;
     }
+
+    ///This should happen when the game ends
+    void end();
 
     ///The number of times the sfml_game is displayed on screen
     ///Should be approx 60 times per second
