@@ -22,6 +22,8 @@ public:
   ///Display all shapes on the window
   void display();
 
+  void move_camera(sf::Vector2f offset);
+
 private:
   ///Camera position
   float camera_x = 0;
