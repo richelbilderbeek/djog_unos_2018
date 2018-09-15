@@ -1,15 +1,14 @@
 #include "sfml_game.h"
 
-sfml_game::sfml_game()
-  : m_n_displayed_max{6000},
-    m_window(sf::VideoMode(width, height), "Nature Zen")
+sfml_game::sfml_game(int width, int height)
+  : m_window(sf::VideoMode(width, height), "Nature Zen")
 {
-
+    wheight = height;
+    wwidth = width;
 }
 
 void sfml_game::display()
 {
-  ++m_n_displayed;
 
   // clear the window with black color
   m_window.clear(sf::Color::Black);
@@ -25,54 +24,29 @@ void sfml_game::display()
 
 }
 
-int sfml_game::exec()
+int sfml_game::init()
 {
   // Set the window start location to the center
   m_window.setPosition(
     sf::Vector2i(
-        sf::VideoMode::getDesktopMode().width * 0.5 - width * 0.5,
-        sf::VideoMode::getDesktopMode().height * 0.5 - height * 0.5
+        sf::VideoMode::getDesktopMode().width * 0.5 - wwidth * 0.5,
+        sf::VideoMode::getDesktopMode().height * 0.5 - wheight * 0.5
     )
 );
 
-  while (m_window.isOpen())
-  {
-    process_input();
-    process_events();
-    display();
-  }
+
   return 0;
+}
+
+void sfml_game::add_shape(sf::RectangleShape shape)
+{
+    sf::Vector2f pos = shape.getPosition();
+    shape.setPosition(pos.x + camera_x, pos.y + camera_y);
+    shapes.push_back(shape);
 }
 
 int extract_n_displayed_max(const std::vector<std::string>& /* args */)
 {
   //STUB
   return 1000;
-}
-
-void sfml_game::process_events()
-{
-  m_angle += 0.01;
-  if (m_n_displayed_max > 0 && m_n_displayed + 1 == m_n_displayed_max)
-  {
-    m_window.close();
-  }
-}
-
-void sfml_game::add_shape(sf::Vector2f size, sf::Vector2f position, float rotation)
-{
-    sf::RectangleShape shape(size);
-    shape.setPosition(position.x + camera_x, position.y + camera_y);
-    shape.setRotation(rotation);
-    shapes.push_back(shape);
-}
-
-void sfml_game::process_input()
-{
-  // check all the window's events that were triggered since the last iteration of the loop
-  sf::Event event;
-  while (m_window.pollEvent(event))
-  {
-    // Pass this
-  }
 }

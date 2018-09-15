@@ -7,43 +7,14 @@ class sfml_game
 {
 public:
 
-   sfml_game();
+  sfml_game(int width, int height);
 
-  ///Get how many times the sfml_game has been displayed on screen.
-  ///Will be approximately 60 times per second.
-  int get_n_displayed() const noexcept { return m_n_displayed; }
-
-  ///Get how many times the sfml_game has been displayed on screen.
-  ///Will be approximately 60 times per second.
-  int get_n_displayed_max() const noexcept { return m_n_displayed_max; }
-
-  void add_shape(sf::Vector2f size, sf::Vector2f position, float rotation);
+  void add_shape(sf::RectangleShape shape);
 
   ///Run the sfml_game until the user closes its, or an
   ///exception is thrown
   ///@return the error code (0 = OK, others are errors)
-  int exec();
-private:
-
-  ///The angle of the rectangle, just to have a member variable
-  double m_angle{0.0};
-
-  ///The number of times the sfml_game is displayed on screen
-  ///Should be approx 60 times per second
-  int m_n_displayed{0};
-
-  ///The number of times the sfml_game is displayed before it closes.
-  ///This is usefull in testing.
-  ///Will be negative if the sfml_game has no time limit
-  const int m_n_displayed_max;
-
-  ///Screen Width and Height
-  int width = 800;
-  int height = 600;
-
-  ///Camera position
-  float camera_x = 0;
-  float camera_y = 0;
+  int init();
 
   ///The window the sfml_game is rendered to
   sf::RenderWindow m_window;
@@ -51,12 +22,12 @@ private:
   ///Display all shapes on the window
   void display();
 
-  ///Timer, physics, bullets moving, etc.
-  ///Everything except user input.
-  void process_events();
+private:
+  ///Camera position
+  float camera_x = 0;
+  float camera_y = 0;
 
-  ///Key and mouse handling
-  void process_input();
+  int wheight, wwidth;
 
   std::vector<sf::RectangleShape> shapes;
 
