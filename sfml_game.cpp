@@ -44,9 +44,3 @@ void sfml_game::add_shape(sf::RectangleShape shape)
     shape.setPosition(pos.x + camera_x, pos.y + camera_y);
     shapes.push_back(shape);
 }
-
-int extract_n_displayed_max(const std::vector<std::string>& /* args */)
-{
-  //STUB
-  return 1000;
-}

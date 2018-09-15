@@ -33,8 +33,4 @@ private:
 
 };
 
-///Extract the maximum number of times the sfml_game will be displayed
-//STUB: returns 100 by default for now, new dafault must be -1
-int extract_n_displayed_max(const std::vector<std::string>& args);
-
 #endif // SFML_sfml_game_H

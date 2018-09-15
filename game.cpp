@@ -3,6 +3,7 @@
 game::game(const std::vector<std::string>& args)
   : sfml_game_object(800, 600),
     m_n_displayed_max{extract_n_displayed_max(args)}
+
 {
 
 }
@@ -12,7 +13,7 @@ int game::exec()
     sfml_game_object.init();
     while (sfml_game_object.m_window.isOpen())
     {
-      ++m_n_displayed;
+      fixed_update();
       process_input();
       process_events();
       update();
@@ -33,11 +34,11 @@ void game::update(){
 
 void game::process_events()
 {
-    //Close if frames are limited
-//  if (m_n_displayed_max > 0 && m_n_displayed + 1 == m_n_displayed_max)
-//  {
-//    sfml_game_object.m_window.close();
-//  }
+  //Close if frames are limited
+  if (m_n_displayed_max > 0 && m_n_displayed == m_n_displayed_max)
+  {
+    sfml_game_object.m_window.close();
+  }
 }
 
 void game::process_input()
@@ -60,4 +61,10 @@ void game::process_input()
               break;
       }
   }
+}
+
+int extract_n_displayed_max(const std::vector<std::string>& /* args */)
+{
+  //STUB
+  return 100;
 }

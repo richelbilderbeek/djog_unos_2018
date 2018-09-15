@@ -38,6 +38,11 @@ private:
     ///This should happen every frame and contains logic
     void update();
 
+    ///This should happen in every case every frame
+    void fixed_update(){
+        ++m_n_displayed;
+    }
+
     ///The number of times the sfml_game is displayed on screen
     ///Should be approx 60 times per second
     int m_n_displayed{0};
@@ -48,4 +53,9 @@ private:
     const int m_n_displayed_max;
 
 };
+
+///Extract the maximum number of times the sfml_game will be displayed
+//STUB: returns 100 by default for now, new dafault must be -1
+int extract_n_displayed_max(const std::vector<std::string>& args);
+
 #endif // GAME_H
