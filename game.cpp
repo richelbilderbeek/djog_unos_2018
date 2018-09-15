@@ -86,8 +86,8 @@ void game::end()
 
 int extract_n_displayed_max(const std::vector<std::string>& /* args */)
 {
-//  //STUB
-//  return 100;
-      //Default
-      return -1;
+  //STUB
+  return 100;
+//      //Default
+//      return -1;
 }
