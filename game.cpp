@@ -3,7 +3,6 @@
 game::game(const std::vector<std::string>& args)
   : sfml_game_object(800, 600),
     m_n_displayed_max{extract_n_displayed_max(args)}
-
 {
 
 }
@@ -58,7 +57,14 @@ void game::process_input()
               break;
 
           case sf::Event::KeyPressed:
-              //Coming Soon
+              if (event.key.code == sf::Keyboard::Right)
+                  sfml_game_object.move_camera(sf::Vector2f(5, 0));
+              if (event.key.code == sf::Keyboard::Left)
+                  sfml_game_object.move_camera(sf::Vector2f(-5, 0));
+              if (event.key.code == sf::Keyboard::Up)
+                  sfml_game_object.move_camera(sf::Vector2f(0, -5));
+              if (event.key.code == sf::Keyboard::Down)
+                  sfml_game_object.move_camera(sf::Vector2f(0, 5));
               break;
 
           default:
@@ -76,8 +82,8 @@ void game::end()
 
 int extract_n_displayed_max(const std::vector<std::string>& /* args */)
 {
-//  //STUB
-//  return 100;
-  //Default
-  return -1;
+  //STUB
+  return 100;
+    //  //Default
+    //  return -1;
 }

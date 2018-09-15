@@ -17,7 +17,7 @@ void sfml_game::display()
   {
     m_window.draw(*iter);
   }
-
+  shapes.clear();
 
   // end the current frame
   m_window.display();
@@ -43,4 +43,11 @@ void sfml_game::add_shape(sf::RectangleShape shape)
     sf::Vector2f pos = shape.getPosition();
     shape.setPosition(pos.x + camera_x, pos.y + camera_y);
     shapes.push_back(shape);
+}
+
+void sfml_game::move_camera(sf::Vector2f offset){
+
+    camera_x += offset.x;
+    camera_y += offset.y;
+
 }
