@@ -6,6 +6,6 @@ Iedereen weet: honden houden niet van katten!
 Behalve deze hond.
 Deze hond hield van katten.
 Omdat haar beste vriend een kat is. 
-Haar vriend heete gerard.
+Haar vriend heette gerard.
 
 en ze leefden nog lang en gelukkig.
