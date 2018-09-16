@@ -52,11 +52,18 @@ unix:!macx {
 
 #LIBS += -L"/home/rafayel/SFML/lib"
 
-LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+#LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+CONFIG(release, debug|release): LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+CONFIG(debug, debug|release): LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-system-d
+
+LIBS += -LC:\Qt\SFML\lib
 
 #INCLUDEPATH += "/home/rafayel/SFML/include"
 #DEPENDPATH += "/home/rafayel/SFML/include"
 
+INCLUDEPATH += C:/Qt/SFML/include
+DEPENDPATH += C:/Qt/SFML/include
 
 # Qt5
 QT += core gui
