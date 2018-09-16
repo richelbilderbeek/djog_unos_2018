@@ -55,7 +55,7 @@ unix:!macx {
 #LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 CONFIG(release, debug|release): LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-CONFIG(debug, debug|release): LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-system-d
+CONFIG(debug, debug|release): LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 LIBS += -LC:\Qt\SFML\lib
 
