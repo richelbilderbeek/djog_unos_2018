@@ -58,12 +58,13 @@ QMAKE_CXXFLAGS += -Werror
 # GNU/Linux
 unix:!macx {
   LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-}
 
-win32{
   #LIBS += -L"/home/rafayel/SFML/lib"
   #INCLUDEPATH += "/home/rafayel/SFML/include"
   #DEPENDPATH += "/home/rafayel/SFML/include"
+}
+
+win32{
   INCLUDEPATH += C:/sfml/include
   DEPENDPATH += C:/sfml/include
   LIBS += -LC:/sfml/lib
@@ -114,7 +115,6 @@ win32{
   #SFML-System Libs
   LIBS += -lsfml-system
   LIBS += -lwinmm                 #Dependency
-  }
 }
 
 # Qt5
