@@ -22,95 +22,99 @@ CONFIG(release, debug|release) {
 
   DEFINES += NDEBUG
 
-  # gprof
-  QMAKE_CXXFLAGS += -pg
-  QMAKE_LFLAGS += -pg
+  # GNU/Linux
+  unix:!macx {
+    # gprof
+    QMAKE_CXXFLAGS += -pg
+    QMAKE_LFLAGS += -pg
+  }
 }
+
+
 
 CONFIG(debug, debug|release) {
 
-  # gcov
-  QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
-  LIBS += -lgcov
+  # GNU/Linux
+  unix:!macx {
+    # gcov
+    QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+    LIBS += -lgcov
 
-  # helgrind, for helgrind and memcheck
-  QMAKE_LFLAGS += -pthread -Wl,--no-as-needed
+    # helgrind, for helgrind and memcheck
+    QMAKE_LFLAGS += -pthread -Wl,--no-as-needed
 
-  # UBSAN
-  QMAKE_CXXFLAGS += -fsanitize=undefined
-  QMAKE_LFLAGS += -fsanitize=undefined
-  LIBS += -lubsan
-# <TODO>remove all uses of this ^^^
+    # UBSAN
+    QMAKE_CXXFLAGS += -fsanitize=undefined
+    QMAKE_LFLAGS += -fsanitize=undefined
+    LIBS += -lubsan
+  }
 }
 
-# Develop on GNU/Linux
-unix:!macx {
-  # High warning level, warnings are errors
-  QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
-  QMAKE_CXXFLAGS += -Werror
-}
+# High warning level, warnings are errors
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
+QMAKE_CXXFLAGS += -Werror
 
 # SFML
-
-#LIBS += -L"/home/rafayel/SFML/lib"
-
-#LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-
-#INCLUDEPATH += "/home/rafayel/SFML/include"
-#DEPENDPATH += "/home/rafayel/SFML/include"
-
-!unix{
-INCLUDEPATH += C:/sfml/include
-DEPENDPATH += C:/sfml/include
-
-LIBS += -LC:/sfml/lib
-LIBS += -LC:/sfml/extlibs/libs-mingw/x86 #If using 64-bit MinGW, replace x86 with x64
-
-#Release Configuration
-CONFIG(debug, debug|release):
-{
-#Audio Related Libs
-LIBS += -lsfml-audio-d
-
-#SFML-Graphics Libs
-LIBS += -lsfml-graphics-d
-
-#SFML-Network Libs
-#LIBS += -lsfml-network-d
-
-#SFML-Window Libs
-LIBS += -lsfml-window-d
-
-#SFML-System Libs
-LIBS += -lsfml-system-d
+# GNU/Linux
+unix:!macx {
+  LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 }
 
-#Audio Related Libs
-LIBS += -lsfml-audio
-LIBS += -lopenal32              #Dependency
-LIBS += -lFLAC                  #Dependency
-LIBS += -lvorbisenc             #Dependency
-LIBS += -lvorbisfile            #Dependency
-LIBS += -lvorbis                #Dependency
-LIBS += -logg                   #Dependency
+win32{
+  #LIBS += -L"/home/rafayel/SFML/lib"
+  #INCLUDEPATH += "/home/rafayel/SFML/include"
+  #DEPENDPATH += "/home/rafayel/SFML/include"
+  INCLUDEPATH += C:/sfml/include
+  DEPENDPATH += C:/sfml/include
+  LIBS += -LC:/sfml/lib
+  LIBS += -LC:/sfml/extlibs/libs-mingw/x86 #If using 64-bit MinGW, replace x86 with x64
 
-#SFML-Graphics Libs
-LIBS += -lsfml-graphics
-LIBS += -lfreetype              #Dependency
-#LIBS += -ljpeg                  #Dependency
+  #Release Configuration
+  CONFIG(debug, debug|release):
+  {
+    #Audio Related Libs
+    LIBS += -lsfml-audio-d
 
-#SFML-Network Libs
-LIBS += -lsfml-network
-LIBS += -lws2_32                #Dependency
+    #SFML-Graphics Libs
+    LIBS += -lsfml-graphics-d
 
-#SFML-Window Libs
-LIBS += -lsfml-window
-LIBS += -lopengl32              #Dependency
-LIBS += -lgdi32                 #Dependency
+    #SFML-Network Libs
+    #LIBS += -lsfml-network-d
 
-#SFML-System Libs
-LIBS += -lsfml-system
-LIBS += -lwinmm                 #Dependency
+    #SFML-Window Libs
+    LIBS += -lsfml-window-d
+
+    #SFML-System Libs
+    LIBS += -lsfml-system-d
+  }
+
+  #Audio Related Libs
+  LIBS += -lsfml-audio
+  LIBS += -lopenal32              #Dependency
+  LIBS += -lFLAC                  #Dependency
+  LIBS += -lvorbisenc             #Dependency
+  LIBS += -lvorbisfile            #Dependency
+  LIBS += -lvorbis                #Dependency
+  LIBS += -logg                   #Dependency
+
+  #SFML-Graphics Libs
+  LIBS += -lsfml-graphics
+  LIBS += -lfreetype              #Dependency
+  #LIBS += -ljpeg                  #Dependency
+
+  #SFML-Network Libs
+  LIBS += -lsfml-network
+  LIBS += -lws2_32                #Dependency
+
+  #SFML-Window Libs
+  LIBS += -lsfml-window
+  LIBS += -lopengl32              #Dependency
+  LIBS += -lgdi32                 #Dependency
+
+  #SFML-System Libs
+  LIBS += -lsfml-system
+  LIBS += -lwinmm                 #Dependency
+  }
 }
 
 # Qt5
