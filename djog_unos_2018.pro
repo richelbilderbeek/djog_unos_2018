@@ -11,8 +11,10 @@ QMAKE_CXXFLAGS += -std=c++14
 # SFML goes bad with -Weffc++
 QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
 
+unix:!macx {
 # Fix error: unrecognized option '--push-state--no-as-needed'
 QMAKE_LFLAGS += -fuse-ld=gold
+}
 
 # Debug and release settings
 CONFIG += debug_and_release
@@ -56,7 +58,7 @@ unix:!macx {
 
 #INCLUDEPATH += "/home/rafayel/SFML/include"
 #DEPENDPATH += "/home/rafayel/SFML/include"
-
+win{
 LIBS += -LC:\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Debug\lib
 LIBS += -LC:/sfml/extlibs/libs-mingw/x86 #If using 64-bit MinGW, replace x86 with x64
 
@@ -124,7 +126,7 @@ LIBS += -lwinmm                 #Dependency
 
 INCLUDEPATH += C:/sfml/include
 DEPENDPATH += C:/sfml/include
-
+}
 # Qt5
 QT += core gui
 
@@ -141,4 +143,3 @@ QMAKE_CXXFLAGS += -fext-numeric-literals
 # qrc_[*].cpp:400:44: error: ‘qInitResources_[*]__init_variable__’ defined but not used
 # [*]: the resource filename
 QMAKE_CXXFLAGS += -Wno-unused-variable
-
