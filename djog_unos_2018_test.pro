@@ -16,24 +16,30 @@ CONFIG(release, debug|release) {
 
   DEFINES += NDEBUG
 
-  # gprof
-  QMAKE_CXXFLAGS += -pg
-  QMAKE_LFLAGS += -pg
+  # GNU/Linux
+  unix:!macx {
+    # gprof
+    QMAKE_CXXFLAGS += -pg
+    QMAKE_LFLAGS += -pg
+  }
 }
 
 CONFIG(debug, debug|release) {
 
-  # gcov
-  QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
-  LIBS += -lgcov
+  # GNU/Linux
+  unix:!macx {
+    # gcov
+    QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+    LIBS += -lgcov
 
-  # helgrind, for helgrind and memcheck
-  QMAKE_LFLAGS += -pthread -Wl,--no-as-needed
+    # helgrind, for helgrind and memcheck
+    QMAKE_LFLAGS += -pthread -Wl,--no-as-needed
 
-  # UBSAN
-  QMAKE_CXXFLAGS += -fsanitize=undefined
-  QMAKE_LFLAGS += -fsanitize=undefined
-  LIBS += -lubsan
+    # UBSAN
+    QMAKE_CXXFLAGS += -fsanitize=undefined
+    QMAKE_LFLAGS += -fsanitize=undefined
+    LIBS += -lubsan
+  }
 }
 
 # C++14
