@@ -114,7 +114,6 @@ win32{
   #SFML-System Libs
   LIBS += -lsfml-system
   LIBS += -lwinmm                 #Dependency
-  }
 }
 
 # Qt5
