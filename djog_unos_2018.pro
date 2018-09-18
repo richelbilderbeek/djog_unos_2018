@@ -65,32 +65,34 @@ unix:!macx {
 }
 
 win32{
-  INCLUDEPATH += C:/sfml/include
-  DEPENDPATH += C:/sfml/include
-  LIBS += -LC:/sfml/extlibs/libs-mingw/x86 #If using 64-bit MinGW, replace x86 with x64
-  LIBS += -LC:\sfml\bin
-  LIBS += -LC:/sfml/lib
-  LIBS += -LC:\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Debug\lib
-  LIBS += -LC:\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Release\lib
+  INCLUDEPATH += C:/Qt/sfml/include
+  DEPENDPATH += C:/Qt/sfml/include
+  LIBS += -LC:/Qt/sfml/extlibs/libs-mingw/x86 #If using 64-bit MinGW, replace x86 with x64
+#  LIBS += -LC:\Qt\sfml\extlibs\libs-msvc-universal\x86 -LC:\sfml\extlibs\libs-msvc\x86
+#  LIBS += -LC:\Qt\sfml\bin
+  LIBS += -LC:/Qt/sfml/build_debug/lib -LC:/Qt/sfml/build_release/lib
+#  LIBS += -LC:\Qt\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Debug\lib
+#  LIBS += -LC:\Qt\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Release\lib
+#  LIBS += -LC:\Qt\sfml\extlibs\bin\x86
 
   #Release Configuration
   CONFIG(release, debug|release):
   {
     #Audio Related Libs
-    LIBS += -lsfml-audio-s          #SFML Static Module
+#    LIBS += -lsfml-audio-s          #SFML Static Module
     LIBS += -lsfml-audio
     LIBS += -lopenal32              #Dependency
-    LIBS += -lFLAC                  #Dependency
-    LIBS += -lvorbisenc             #Dependency
-    LIBS += -lvorbisfile            #Dependency
-    LIBS += -lvorbis                #Dependency
-    LIBS += -logg                   #Dependency
+#    LIBS += -lFLAC                  #Dependency
+#    LIBS += -lvorbisenc             #Dependency
+#    LIBS += -lvorbisfile            #Dependency
+#    LIBS += -lvorbis                #Dependency
+#    LIBS += -logg                   #Dependency
 
     #SFML-Graphics Libs
-    LIBS += -lsfml-graphics-s       #SFML Static Module
+#    LIBS += -lsfml-graphics-s       #SFML Static Module
     LIBS += -lsfml-graphics
     LIBS += -lfreetype              #Dependency
-#    LIBS += -ljpeg                  #Dependency
+    LIBS += -ljpeg                  #Dependency
 
     #SFML-Network Libs
 #    LIBS += -lsfml-network-s        #SFML Static Module
@@ -98,13 +100,13 @@ win32{
 #    LIBS += -lws2_32                #Dependency
 
     #SFML-Window Libs
-    LIBS += -lsfml-window-s         #SFML Static Module
+#    LIBS += -lsfml-window-s         #SFML Static Module
     LIBS += -lsfml-window
     LIBS += -lopengl32              #Dependency
     LIBS += -lgdi32                 #Dependency
 
     #SFML-System Libs
-    LIBS += -lsfml-system-s         #SFML Static Module
+#    LIBS += -lsfml-system-s         #SFML Static Module
     LIBS += -lsfml-system
     LIBS += -lwinmm                 #Dependency
   }
@@ -113,20 +115,20 @@ win32{
   CONFIG(debug, debug|release):
   {
     #Audio Related Libs
-    LIBS += -lsfml-audio-s-d        #SFML Static Module
+#    LIBS += -lsfml-audio-s-d        #SFML Static Module
     LIBS += -lsfml-audio-d
     LIBS += -lopenal32              #Dependency
-    LIBS += -lFLAC                  #Dependency
-    LIBS += -lvorbisenc             #Dependency
-    LIBS += -lvorbisfile            #Dependency
-    LIBS += -lvorbis                #Dependency
-    LIBS += -logg                   #Dependency
+#    LIBS += -lFLAC                  #Dependency
+#    LIBS += -lvorbisenc             #Dependency
+#    LIBS += -lvorbisfile            #Dependency
+#    LIBS += -lvorbis                #Dependency
+#    LIBS += -logg                   #Dependency
 
     #SFML-Graphics Libs
-    LIBS += -lsfml-graphics-s-d     #SFML Static Module
+#    LIBS += -lsfml-graphics-s-d     #SFML Static Module
     LIBS += -lsfml-graphics-d
     LIBS += -lfreetype              #Dependency
-#    LIBS += -ljpeg                  #Dependency
+    LIBS += -ljpeg                  #Dependency
 
     #SFML-Network Libs
 #    LIBS += -lsfml-network-s-d      #SFML Static Module
@@ -134,13 +136,13 @@ win32{
 #    LIBS += -lws2_32                #Dependency
 
     #SFML-Window Libs
-    LIBS += -lsfml-window-s-d       #SFML Static Module
+#    LIBS += -lsfml-window-s-d       #SFML Static Module
     LIBS += -lsfml-window-d
     LIBS += -lopengl32              #Dependency
     LIBS += -lgdi32                 #Dependency
 
     #SFML-System Libs
-    LIBS += -lsfml-system-s-d       #SFML Static Module
+#    LIBS += -lsfml-system-s-d       #SFML Static Module
     LIBS += -lsfml-system-d
     LIBS += -lwinmm                 #Dependency
   }
