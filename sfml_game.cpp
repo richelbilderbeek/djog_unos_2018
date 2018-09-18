@@ -51,3 +51,6 @@ void sfml_game::move_camera(sf::Vector2f offset){
     camera_y += offset.y;
 
 }
+
+//TODO Create a note with your name below
+//Or if you want you can make a "NOTE", "FIXME", "BUG" or "WARNING" instead
