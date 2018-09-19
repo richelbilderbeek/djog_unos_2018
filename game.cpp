@@ -57,13 +57,13 @@ void game::process_input()
 
           case sf::Event::KeyPressed:
               if (event.key.code == sf::Keyboard::Right)
-                  sfml_game_object.move_camera(sf::Vector2f(5, 0));
-              if (event.key.code == sf::Keyboard::Left)
                   sfml_game_object.move_camera(sf::Vector2f(-5, 0));
+              if (event.key.code == sf::Keyboard::Left)
+                  sfml_game_object.move_camera(sf::Vector2f(5, 0));
               if (event.key.code == sf::Keyboard::Up)
-                  sfml_game_object.move_camera(sf::Vector2f(0, -5));
-              if (event.key.code == sf::Keyboard::Down)
                   sfml_game_object.move_camera(sf::Vector2f(0, 5));
+              if (event.key.code == sf::Keyboard::Down)
+                  sfml_game_object.move_camera(sf::Vector2f(0, -5));
               break;
 
           case sf::Event::MouseButtonPressed:
@@ -86,8 +86,8 @@ void game::end()
 
 int extract_n_displayed_max(const std::vector<std::string>& /* args */)
 {
-  //STUB
-  return 100;
-//      //Default
-//      return -1;
+//  //STUB
+//  return 100;
+      //Default
+      return -1;
 }
