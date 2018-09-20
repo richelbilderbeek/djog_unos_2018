@@ -6,12 +6,12 @@
    * Maintain Continuous Integration pipeline
    * Keeps branches synched
  * Thurday:
-   * ?Annabel, `?`: junior dev
+   * Annabel, `annabelliard`: junior dev
+   * Malin, `malin10`: junior dev
    * Mart, `martje127`: junior dev
      * Lead testing and reporting
      * Allowed to close Issues in the `To be checked by testing`
    * Rijk, `Rijk-van-Putten`: junior dev
-   * ?Sacha: junior dev
  * Friday:
    * Anne, `annehinrichs22`: medior dev
      * Complex procedures
@@ -19,7 +19,6 @@
    * Joshua, `Joshua260403`: medior dev
      * Debugging
      * Education of junior devs
-   * ?Mohammed: junior dev
    * Rafayel, `RafayelGardishyan`: medior dev
      * Secondary software architect
      * Education of junior devs
