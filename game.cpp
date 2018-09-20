@@ -27,12 +27,12 @@ int game::exec()
 }
 
 void game::update(){
-    sf::RectangleShape shape(sf::Vector2f(400, 200));
-      shape.setPosition(200, 200);
-      shape.setFillColor(sf::Color(0, 255, 0));
-      shape.setOutlineThickness(10);
-      shape.setOutlineColor(sf::Color(0, 100, 0));
-    sfml_game_object.add_shape(shape);
+    sf::RectangleShape shape1(sf::Vector2f(400, 200));
+      shape1.setPosition(200, 200);
+      shape1.setFillColor(sf::Color(0, 255, 0));
+      shape1.setOutlineThickness(10);
+      shape1.setOutlineColor(sf::Color(0, 100, 0));
+      sfml_game_object.add_shape(shape1);
 }
 
 void game::process_events()
@@ -69,6 +69,10 @@ void game::process_input()
           case sf::Event::MouseButtonPressed:
               if (event.mouseButton.button == sf::Mouse::Left && background_music.getStatus() != sf::Music::Playing)
                   background_music.play();
+                    //TODO need to register when mousebutton is down while hovering over an object (and need that object)
+                      //if (.getGlobalBounds().contains(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y)) {
+                      //foreach (shape in sfml_game_object.shapes)
+
               if (event.mouseButton.button == sf::Mouse::Right && background_music.getStatus() != sf::Music::Paused)
                   background_music.pause();
           default:
