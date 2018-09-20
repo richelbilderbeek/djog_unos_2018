@@ -92,7 +92,7 @@ win32{
 #    LIBS += -lsfml-graphics-s       #SFML Static Module
     LIBS += -lsfml-graphics
     LIBS += -lfreetype              #Dependency
-    LIBS += -ljpeg                  #Dependency
+#    LIBS += -ljpeg                  #Dependency
 
     #SFML-Network Libs
 #    LIBS += -lsfml-network-s        #SFML Static Module
@@ -128,7 +128,7 @@ win32{
 #    LIBS += -lsfml-graphics-s-d     #SFML Static Module
     LIBS += -lsfml-graphics-d
     LIBS += -lfreetype              #Dependency
-    LIBS += -ljpeg                  #Dependency
+#    LIBS += -ljpeg                  #Dependency
 
     #SFML-Network Libs
 #    LIBS += -lsfml-network-s-d      #SFML Static Module
