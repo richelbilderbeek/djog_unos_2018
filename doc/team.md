@@ -5,10 +5,10 @@
    * Primary software architect
    * Maintain Continuous Integration pipeline
    * Keeps branches synched
- * Thurday:
+ * Thursday:
    * Mart: junior dev
      * Lead testing and reporting
-     * Allowed to close Issues in the `To be checked by testing`
+     * Allowed to close Issues in the `To be checked by testing` column
    * Rijk: junior dev
    * ?Sacha: junior dev
  * Friday:
@@ -26,3 +26,6 @@
    * Same: junior dev
      * Lead graphics
      * Lead music and sound
+* Day unknown :
+  * Malin: junior dev
+  * Annabel: junior dev
