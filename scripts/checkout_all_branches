@@ -1,10 +1,10 @@
 #!/bin/bash
 git checkout -t origin/master
 git checkout -t origin/develop
-git checkout -t origin/annabelliard
+git checkout -t origin/annabel
 git checkout -t origin/anne
 git checkout -t origin/joshua
-git checkout -t origin/malin10
+git checkout -t origin/malin
 git checkout -t origin/mart
 git checkout -t origin/rafayel
 git checkout -t origin/richel
