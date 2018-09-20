@@ -4,6 +4,8 @@ Information about the game: Nature Zen.
 
 Original idea from [here](https://github.com/richelbilderbeek/djog_unos_2018/issues/2#issuecomment-420010313):
 
+![game tiles](game.jpg)
+
 > A game which consists of tiles that look like coth. (See picture.)
 > In this game, the different patterns on the cloth represent different types of worlds, such as forests, cities, oceans, rivers, mountains.
 > Main Features (Not everything)
