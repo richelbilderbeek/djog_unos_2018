@@ -5,13 +5,22 @@
    * Primary software architect
    * Maintain Continuous Integration pipeline
    * Keeps branches synched
- * Thurday:
+
+
+
+
+
+
+
+
+ * Thursday:
    * Annabel, `annabelliard`: junior dev
    * Malin, `malin10`: junior dev
    * Mart, `martje127`: junior dev
      * Lead testing and reporting
      * Allowed to close Issues in the `To be checked by testing`
    * Rijk, `Rijk-van-Putten`: junior dev
+
  * Friday:
    * Anne, `annehinrichs22`: medior dev
      * Complex procedures
@@ -26,3 +35,6 @@
    * Same, `same-drenth`: junior dev
      * Lead graphics
      * Lead music and sound
+
+
+
