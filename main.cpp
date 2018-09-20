@@ -9,6 +9,5 @@ int main()
 
 
   game g;
-  g.exec();
-
+  return g.exec();
 }
