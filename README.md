@@ -20,8 +20,10 @@ Project by the Uno's at DJOG 2018-2019
 
 Collaboratively create a game, to be put on, for example, Steam.
 
+  * [game](doc/game.md)
   * [team](doc/team.md)
   * [specifics](doc/specs.md)
   * [planning](doc/planning.md)
+  * [install](doc/install.md)
   * [git](doc/git.md)
   * [Code of Conduct](code_of_conduct.md)
