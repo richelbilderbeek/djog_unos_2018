@@ -8,4 +8,4 @@ Deze hond hield van katten.
 Omdat haar beste vriend een kat is. 
 Haar vriend heette gerard.
 
-en ze leefden nog lang en gelukkig.
+En ze leefden nog lang en gelukkig....
