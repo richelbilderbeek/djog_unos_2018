@@ -80,7 +80,6 @@ unix:!macx {
 
 win32{
   INCLUDEPATH += C:/Qt/sfml/include
-  DEPENDPATH += C:/Qt/sfml/bin
   LIBS += C:/Qt/sfml/lib
 
   CONFIG(release, debug|release):
