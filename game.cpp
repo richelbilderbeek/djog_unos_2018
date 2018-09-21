@@ -13,7 +13,7 @@ game::game()
   }
 }
 
-void test_game()
+void test_game() //!OCLINT a testing function may be long
 {
   //A game starts with one or more tiles
   {
