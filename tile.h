@@ -52,7 +52,9 @@ private:
 
   /// The y-coordinat of the top-left corner of the tile
   double m_y;
-
 };
+
+///Test the tile class
+void test_tile();
 
 #endif // TILE_H

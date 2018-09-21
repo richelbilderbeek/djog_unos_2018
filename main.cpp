@@ -1,4 +1,5 @@
 #include "game.h"
+#include "tile.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
 #include <QFile>
@@ -8,6 +9,7 @@
 void test()
 {
   test_sfml_game_delegate();
+  test_tile();
 }
 
 ///Nature Zen
