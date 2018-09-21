@@ -156,8 +156,11 @@ void sfml_game::process_mouse_input(const sf::Event& event)
   {
     m_background_music.play();
   }
-  //TODO need to register when mousebutton is down while hovering over an object (and need that object)
-  //if (.getGlobalBounds().contains(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y)) {
+  //TODO need to register when mousebutton is down while hovering over an
+  //object (and need that object)
+  //if (.getGlobalBounds().contains(
+  //  sf::Mouse::getPosition().x,sf::Mouse::getPosition().y)
+  //) {
   //foreach (shape in sfml_game_object.shapes)
   if (event.mouseButton.button == sf::Mouse::Right
     && m_background_music.getStatus() != sf::Music::Paused
