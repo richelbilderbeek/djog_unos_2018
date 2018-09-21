@@ -11,6 +11,14 @@ game::game()
     tile t(200, 200, 400, 200, tile_type::grassland);
     m_tiles.push_back(t);
   }
+  {
+    tile t(400, 430, 200, 400, tile_type::mountains);
+    m_tiles.push_back(t);
+  }
+  {
+    tile t(-30, 430, 400, 200, tile_type::ocean);
+    m_tiles.push_back(t);
+  }
 }
 
 void test_game() //!OCLINT a testing function may be long
