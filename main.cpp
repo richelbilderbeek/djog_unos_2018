@@ -10,6 +10,14 @@ void test()
   test_sfml_game_delegate();
 }
 
+///Nature Zen
+/// @param argc the number of arguments Nature Zen's executable is called
+///   with by the operating system.
+/// Arguments are:
+///   * '--no-music': run without music
+///   * '--short': only run for 10 seconds
+/// @param argv the arguments (as words) Nature Zen's executable is called
+///   with by the operating system
 int main(int argc, char ** argv)
 {
   #ifndef NDEBUG
@@ -19,9 +27,16 @@ int main(int argc, char ** argv)
   assert(1 == 2);
   #endif
 
-  sfml_game g;
-
   const std::vector<std::string> args(argv, argv + argc);
+
+  int close_at{-1};
+  if (std::count(std::begin(args), std::end(args), "--short"))
+  {
+    close_at = 600;
+  }
+
+  sfml_game g(800, 600, sfml_game_delegate(close_at));
+
   if (std::count(std::begin(args), std::end(args), "--no-music"))
   {
     g.stop_music();
