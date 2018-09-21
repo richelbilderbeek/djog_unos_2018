@@ -35,14 +35,6 @@ sfml_game::sfml_game(
         sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5
     )
   );
-
-  //Add a first shape
-  sf::RectangleShape shape1(sf::Vector2f(400, 200));
-  shape1.setPosition(200, 200);
-  shape1.setFillColor(sf::Color(0, 255, 0));
-  shape1.setOutlineThickness(10);
-  shape1.setOutlineColor(sf::Color(0, 100, 0));
-  add_shape(shape1);
 }
 
 sfml_game::~sfml_game()
@@ -64,19 +56,30 @@ void sfml_game::close()
 
 void sfml_game::display()
 {
-
-  // clear the window with black color
+  //Clear the window with black color
   m_window.clear(sf::Color::Black);
-  typedef  std::vector <sf::RectangleShape>::iterator tIntIter;
-  for( tIntIter iter = shapes.begin(); iter != shapes.end(); iter++)
+
+  for (const tile& t: m_game.get_tiles())
   {
-    m_window.draw(*iter);
+    sf::RectangleShape sfml_tile(
+      sf::Vector2f(t.get_width(), t.get_height())
+    );
+    sfml_tile.setPosition(t.get_x(), t.get_y());
+    if (t.get_type() == tile_type::grassland)
+    {
+      sfml_tile.setFillColor(sf::Color(0, 255, 0));
+      sfml_tile.setOutlineThickness(10);
+      sfml_tile.setOutlineColor(sf::Color(0, 100, 0));
+    }
+    else
+    {
+      assert(!"Display of this tile type not implemented yet");
+    }
+    m_window.draw(sfml_tile);
   }
-  shapes.clear();
 
-  // end the current frame
+  //Put everything on the screen
   m_window.display();
-
 }
 
 void sfml_game::exec()

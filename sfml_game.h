@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 
 #include "sfml_game_delegate.h"
+#include "game.h"
 
 class sfml_game
 {
@@ -43,6 +44,9 @@ private:
 
   ///an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
+
+  ///The game logic
+  game m_game;
 
 
   ///The window the sfml_game is rendered to

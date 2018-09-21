@@ -9,8 +9,11 @@ class game
 {
 
 public:
-    ///Constructor
-    game();
+  ///Constructor
+  game();
+
+  ///Read all tiles
+  const auto& get_tiles() const noexcept { return m_tiles; }
 
 private:
 

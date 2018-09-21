@@ -21,6 +21,21 @@ public:
     const tile_type type
   );
 
+  /// The height of the tile
+  double get_height() const noexcept { return m_height; }
+
+  /// The type the tile
+  tile_type get_type() const noexcept { return m_type; }
+
+  /// The width of the tile
+  double get_width() const noexcept { return m_width; }
+
+  /// The x-coordinat of the top-left corner of the tile
+  double get_x() const noexcept { return m_x; }
+
+  /// The y-coordinat of the top-left corner of the tile
+  double get_y() const noexcept { return m_y; }
+
 private:
 
   /// The height of the tile
