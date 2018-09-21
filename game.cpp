@@ -1,97 +1,69 @@
-#include <game.h>
+//Always include the header of the unit first
+#include "game.h"
 
-game::game(const std::vector<std::string>& args)
-  : sfml_game_object(800, 600),
-    m_n_displayed_max{extract_n_displayed_max(args)}
+#include <cassert>
+
+game::game()
+  : m_tiles{}
 {
-
-}
-
-int game::exec()
-{
-    background_music.setLoop(true);
-    if (!background_music.openFromFile("background_music.ogg"))
-        return 1;
-    background_music.play();
-    sfml_game_object.init();
-    while (sfml_game_object.m_window.isOpen())
-    {
-      fixed_update();
-      process_input();
-      process_events();
-      update();
-      sfml_game_object.display();
-    }
-
-    return 0;
-}
-
-void game::update(){
-    sf::RectangleShape shape1(sf::Vector2f(400, 200));
-      shape1.setPosition(200, 200);
-      shape1.setFillColor(sf::Color(0, 255, 0));
-      shape1.setOutlineThickness(10);
-      shape1.setOutlineColor(sf::Color(0, 100, 0));
-      sfml_game_object.add_shape(shape1);
-}
-
-void game::process_events()
-{
-  //Close if frames are limited
-  if (m_n_displayed_max > 0 && m_n_displayed == m_n_displayed_max)
+  //Add first tile
   {
-    end();
+    tile t(200, 200, 400, 200, tile_type::grassland);
+    m_tiles.push_back(t);
   }
 }
 
-void game::process_input()
+void test_game() //!OCLINT a testing function may be long
 {
-  // check all the window's events that were triggered since the last iteration of the loop
-  sf::Event event;
-  while (sfml_game_object.m_window.pollEvent(event))
+  //A game starts with one or more tiles
   {
-      switch (event.type) {
-          case sf::Event::Closed:
-              end();
-              break;
-
-          case sf::Event::KeyPressed:
-              if (event.key.code == sf::Keyboard::Right)
-                  sfml_game_object.move_camera(sf::Vector2f(-5, 0));
-              if (event.key.code == sf::Keyboard::Left)
-                  sfml_game_object.move_camera(sf::Vector2f(5, 0));
-              if (event.key.code == sf::Keyboard::Up)
-                  sfml_game_object.move_camera(sf::Vector2f(0, 5));
-              if (event.key.code == sf::Keyboard::Down)
-                  sfml_game_object.move_camera(sf::Vector2f(0, -5));
-              break;
-
-          case sf::Event::MouseButtonPressed:
-              if (event.mouseButton.button == sf::Mouse::Left && background_music.getStatus() != sf::Music::Playing)
-                  background_music.play();
-                    //TODO need to register when mousebutton is down while hovering over an object (and need that object)
-                      //if (.getGlobalBounds().contains(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y)) {
-                      //foreach (shape in sfml_game_object.shapes)
-
-              if (event.mouseButton.button == sf::Mouse::Right && background_music.getStatus() != sf::Music::Paused)
-                  background_music.pause();
-          default:
-              //Do nothing by default
-              break;
-      }
+    const game g;
+    assert(!g.get_tiles().empty());
   }
-}
+  //#define FIX_ISSUE_89_ADD_SECOND_TILE
+  #ifdef FIX_ISSUE_89_ADD_SECOND_TILE
+  {
+    const game g;
+    assert(!g.get_tiles().size() >= 2);
+    assert(g.get_tiles()[0].get_type() != g.get_tiles()[1].get_type());
+  }
+  #endif // FIX_ISSUE_89_ADD_SECOND_TILE
 
-void game::end()
-{
-    background_music.stop();
-    sfml_game_object.m_window.close();
-}
+  //#define FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
+  #ifdef FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
+  //A game starts with a score of zero
+  {
+    const game g;
+    assert(g.get_score() == 0);
+  }
+  #endif // FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
 
-int extract_n_displayed_max(const std::vector<std::string>& /* args */)
-{
-//  //STUB
-//  return 100;
-      //Default
-      return -1;
+  //#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+  #ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+  //A game starts with a zero number of game cycles
+  {
+    const game g;
+    assert(g.get_n_ticks() == 0);
+  }
+  //Number of game cycles is increased each time all events are processed
+  {
+    game g;
+    g.process_events();
+    assert(g.get_n_ticks() == 1);
+  }
+  #endif // FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+
+
+  //#define FIX_ISSUE_95_GAME_CAN_BE_SAVED
+  #ifdef FIX_ISSUE_95_GAME_CAN_BE_SAVED
+  //A game can be saved
+  {
+    const game g;
+    const std::string filename{"tmp.sav"};
+    if (file_exists(filename)) delete_file(filename);
+    assert(!file_exists(filename));
+    save(g, filename);
+    assert(file_exists(filename));
+  }
+  #endif // FIX_ISSUE_95_GAME_CAN_BE_SAVED
 }

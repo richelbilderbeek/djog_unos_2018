@@ -1,8 +1,30 @@
-include(djog_unos_2018.pri)
+# Builds the entire project
 
-# Entry point for user
+################################################################################
+# Files
+################################################################################
+# Source code of the project
+include(djog_unos_2018.pri)
+# Entry point for this project
 SOURCES += main.cpp
 
+################################################################################
+# Personal build
+################################################################################
+# Do things that depend on which you computer is used
+# I (RJCB) do not think this is relevant, but would
+# you need it, here you go
+message($$QMAKE_HOST.name)
+contains(QMAKE_HOST.name, "lubuntu"):{
+  message("Welcome back Richel")
+}
+contains(QMAKE_HOST.name, "fwnbiol"):{
+  message("Welcome back at the university")
+}
+
+################################################################################
+# Compiling, linking and tools
+################################################################################
 # C++14
 CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
@@ -12,8 +34,8 @@ QMAKE_CXXFLAGS += -std=c++14
 QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
 
 unix:!macx {
-# Fix error: unrecognized option '--push-state--no-as-needed'
-QMAKE_LFLAGS += -fuse-ld=gold
+  # Fix error: unrecognized option '--push-state--no-as-needed'
+  QMAKE_LFLAGS += -fuse-ld=gold
 }
 
 # Debug and release settings
@@ -29,8 +51,6 @@ CONFIG(release, debug|release) {
     QMAKE_LFLAGS += -pg
   }
 }
-
-
 
 CONFIG(debug, debug|release) {
 
@@ -50,105 +70,39 @@ CONFIG(debug, debug|release) {
   }
 }
 
-# High warning level, warnings are errors
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
-QMAKE_CXXFLAGS += -Werror
-
+################################################################################
 # SFML
+################################################################################
 # GNU/Linux
 unix:!macx {
   LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-
-  #LIBS += -L"/home/rafayel/SFML/lib"
-  #INCLUDEPATH += "/home/rafayel/SFML/include"
-  #DEPENDPATH += "/home/rafayel/SFML/include"
 }
 
 win32{
   INCLUDEPATH += C:/Qt/sfml/include
-  DEPENDPATH += C:/Qt/sfml/include
-  LIBS += -LC:/Qt/sfml/extlibs/libs-mingw/x86 #If using 64-bit MinGW, replace x86 with x64
-#  LIBS += -LC:\Qt\sfml\extlibs\libs-msvc-universal\x86 -LC:\sfml\extlibs\libs-msvc\x86
-#  LIBS += -LC:\Qt\sfml\bin
-  LIBS += -LC:/Qt/sfml/build_debug/lib -LC:/Qt/sfml/build_release/lib
-#  LIBS += -LC:\Qt\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Debug\lib
-#  LIBS += -LC:\Qt\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Release\lib
-#  LIBS += -LC:\Qt\sfml\extlibs\bin\x86
+  LIBS += C:/Qt/sfml/lib
 
-  #Release Configuration
   CONFIG(release, debug|release):
   {
-    #Audio Related Libs
-#    LIBS += -lsfml-audio-s          #SFML Static Module
-    LIBS += -lsfml-audio
-    LIBS += -lopenal32              #Dependency
-#    LIBS += -lFLAC                  #Dependency
-#    LIBS += -lvorbisenc             #Dependency
-#    LIBS += -lvorbisfile            #Dependency
-#    LIBS += -lvorbis                #Dependency
-#    LIBS += -logg                   #Dependency
-
-    #SFML-Graphics Libs
-#    LIBS += -lsfml-graphics-s       #SFML Static Module
-    LIBS += -lsfml-graphics
-    LIBS += -lfreetype              #Dependency
-#    LIBS += -ljpeg                  #Dependency
-
-    #SFML-Network Libs
-#    LIBS += -lsfml-network-s        #SFML Static Module
-#    LIBS += -lsfml-network
-#    LIBS += -lws2_32                #Dependency
-
-    #SFML-Window Libs
-#    LIBS += -lsfml-window-s         #SFML Static Module
-    LIBS += -lsfml-window
-    LIBS += -lopengl32              #Dependency
-    LIBS += -lgdi32                 #Dependency
-
-    #SFML-System Libs
-#    LIBS += -lsfml-system-s         #SFML Static Module
-    LIBS += -lsfml-system
-    LIBS += -lwinmm                 #Dependency
+    LIBS += -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
   }
 
-  #Debug Configuration
   CONFIG(debug, debug|release):
   {
-    #Audio Related Libs
-#    LIBS += -lsfml-audio-s-d        #SFML Static Module
-    LIBS += -lsfml-audio-d
-    LIBS += -lopenal32              #Dependency
-#    LIBS += -lFLAC                  #Dependency
-#    LIBS += -lvorbisenc             #Dependency
-#    LIBS += -lvorbisfile            #Dependency
-#    LIBS += -lvorbis                #Dependency
-#    LIBS += -logg                   #Dependency
-
-    #SFML-Graphics Libs
-#    LIBS += -lsfml-graphics-s-d     #SFML Static Module
-    LIBS += -lsfml-graphics-d
-    LIBS += -lfreetype              #Dependency
-#    LIBS += -ljpeg                  #Dependency
-
-    #SFML-Network Libs
-#    LIBS += -lsfml-network-s-d      #SFML Static Module
-#    LIBS += -lsfml-network-d
-#    LIBS += -lws2_32                #Dependency
-
-    #SFML-Window Libs
-#    LIBS += -lsfml-window-s-d       #SFML Static Module
-    LIBS += -lsfml-window-d
-    LIBS += -lopengl32              #Dependency
-    LIBS += -lgdi32                 #Dependency
-
-    #SFML-System Libs
-#    LIBS += -lsfml-system-s-d       #SFML Static Module
-    LIBS += -lsfml-system-d
-    LIBS += -lwinmm                 #Dependency
+    LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-window-d -lsfml-system-d
   }
+
+  LIBS += -lopenal32
+  LIBS += -lfreetype
+  LIBS += -lopengl32
+  LIBS += -lgdi32
+  LIBS += -lwinmm
 }
 
+
+################################################################################
 # Qt5
+################################################################################
 QT += core gui
 
 # QResources give this error
