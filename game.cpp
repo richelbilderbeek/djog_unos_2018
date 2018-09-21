@@ -28,4 +28,13 @@ void test_game()
     assert(g.get_tiles()[0].get_type() != g.get_tiles()[1].get_type());
   }
   #endif // FIX_ISSUE_89_ADD_SECOND_TILE
+
+  //#define FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
+  #ifdef FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
+  //A game starts with a score of zero
+  {
+    const game g;
+    assert(g.get_score() == 0);
+  }
+  #endif // FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
 }
