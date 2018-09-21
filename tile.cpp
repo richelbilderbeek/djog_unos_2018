@@ -26,14 +26,14 @@ tile::tile(
 
 void test_tile() //!OCLINT testing function may be many lines
 {
-  //#define FIX_ISSUE_85_TEST_TILE
+  #define FIX_ISSUE_85_TEST_TILE
   #ifdef FIX_ISSUE_85_TEST_TILE
   //width cannot be negative
   {
     try
     {
       const tile t(0.0, 0.0, -12.34, 100.0, tile_type::grassland);
-      assert(!"Should not get here"); //!OCLINT accepted idiom
+      assert(t.get_width() < 0); //!OCLINT accepted idiom
     }
     catch (const std::invalid_argument& e)
     {
@@ -45,7 +45,7 @@ void test_tile() //!OCLINT testing function may be many lines
     try
     {
       const tile t(0.0, 0.0, 100.0, -12.34, tile_type::grassland);
-      assert(!"Should not get here"); //!OCLINT accepted idiom
+      assert(t.get_height() < 0); //!OCLINT accepted idiom
     }
     catch (const std::invalid_argument& e)
     {
