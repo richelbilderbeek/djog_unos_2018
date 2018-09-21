@@ -37,4 +37,19 @@ void test_game()
     assert(g.get_score() == 0);
   }
   #endif // FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
+
+  //#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+  #ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+  //A game starts with a zero number of game cycles
+  {
+    const game g;
+    assert(g.get_n_ticks() == 0);
+  }
+  //Number of game cycles is increased each time all events are processed
+  {
+    game g;
+    g.process_events();
+    assert(g.get_n_ticks() == 1);
+  }
+  #endif // FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
 }
