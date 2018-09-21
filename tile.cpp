@@ -87,4 +87,21 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_y() == dy);
   }
   #endif // FIX_ISSUE_87_SET_TILE_SPEED
+
+  //#define FIX_ISSUE_92_ADD_AGENTS_ON_TILES
+  #ifdef FIX_ISSUE_92_ADD_AGENTS_ON_TILES
+  //A tile starts without agents
+  {
+    const tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland);
+    const std::vector<agent>& agents = t.get_agents();
+    assert(agents.size() == 0);
+  }
+  //Can add an agent to a tile
+  {
+    tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland);
+    const agent a(agent_type::cow, 5.0, 5.0);
+    t.add_agent(a);
+    assert(t.get_agents().size() == 1);
+  }
+  #endif // FIX_ISSUE_92_ADD_AGENTS_ON_TILES
 }
