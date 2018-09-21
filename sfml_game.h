@@ -33,6 +33,9 @@ public:
   ///Will be approximately 60 times per second.
   int get_n_displayed() const noexcept { return m_n_displayed; }
 
+  ///Stop the music
+  void stop_music();
+
 private:
 
   ///Background music file object

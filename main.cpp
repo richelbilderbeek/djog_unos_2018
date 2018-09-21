@@ -1,4 +1,5 @@
 #include "game.h"
+#include "sfml_game.h"
 #include "sfml_game_delegate.h"
 #include <QFile>
 #include <SFML/Graphics.hpp>
@@ -18,8 +19,13 @@ int main(int argc, char ** argv)
   assert(1 == 2);
   #endif
 
-  const std::vector<std::string> args(argv, argv + argc);
-
   sfml_game g;
+
+  const std::vector<std::string> args(argv, argv + argc);
+  if (std::count(std::begin(args), std::end(args), "--no-music"))
+  {
+    g.stop_music();
+  }
+
   g.exec();
 }

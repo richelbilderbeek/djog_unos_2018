@@ -163,3 +163,8 @@ void sfml_game::process_mouse_input(const sf::Event& event)
     m_background_music.pause();
   }
 }
+
+void sfml_game::stop_music()
+{
+  m_background_music.stop();
+}
