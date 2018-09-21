@@ -36,6 +36,21 @@ public:
   /// The y-coordinat of the top-left corner of the tile
   double get_y() const noexcept { return m_y; }
 
+  /// The movement coeficient on the x-axis
+  double get_dx() const noexcept {return m_dx; }
+
+  /// The movement coeficient on the y-axis
+  double get_dy() const noexcept {return m_dy; }
+
+  /// Set the movement coeficient on the x-axis
+  void set_dx(double dx);
+
+  /// Set the movement coeficient on the y-axis
+  void set_dy(double dy);
+
+  /// Move the tile by the movement coeficients
+  void move();
+
 private:
 
   /// The height of the tile
@@ -52,6 +67,12 @@ private:
 
   /// The y-coordinat of the top-left corner of the tile
   double m_y;
+
+  /// The movement coeficient on the x-axis
+  double m_dx;
+
+  /// The movement coeficient on the y-axis
+  double m_dy;
 };
 
 ///Test the tile class
