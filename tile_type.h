@@ -6,7 +6,9 @@ enum class tile_type
 {
   grassland,
   mountains,
-  ocean
+  ocean,
+  savannah,
+  arctic
 };
 
 #endif // TILE_TYPE_H

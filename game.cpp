@@ -8,15 +8,23 @@ game::game()
 {
   //Add first tile
   {
-    tile t(200, 200, 400, 200, tile_type::grassland);
+    tile t(100, 100, 215, 100, tile_type::grassland);
     m_tiles.push_back(t);
   }
   {
-    tile t(400, 430, 200, 400, tile_type::mountains);
+    tile t(215, 215, 100, 215, tile_type::mountains);
     m_tiles.push_back(t);
   }
   {
-    tile t(-30, 430, 400, 200, tile_type::ocean);
+    tile t(-15, 215, 215, 100, tile_type::ocean);
+    m_tiles.push_back(t);
+  }
+  {
+    tile t(-15, -15, 215, 100, tile_type::arctic);
+    m_tiles.push_back(t);
+  }
+  {
+    tile t(215, -15, 215, 100, tile_type::savannah);
     m_tiles.push_back(t);
   }
 }

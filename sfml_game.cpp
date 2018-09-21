@@ -65,20 +65,32 @@ void sfml_game::display()
     if (t.get_type() == tile_type::grassland)
     {
       sfml_tile.setFillColor(sf::Color(0, 255, 0));
-      sfml_tile.setOutlineThickness(10);
+      sfml_tile.setOutlineThickness(5);
       sfml_tile.setOutlineColor(sf::Color(0, 100, 0));
     }
     else if (t.get_type() == tile_type::mountains)
     {
       sfml_tile.setFillColor(sf::Color(120, 120, 120));
-      sfml_tile.setOutlineThickness(10);
+      sfml_tile.setOutlineThickness(5);
       sfml_tile.setOutlineColor(sf::Color(50, 50, 50));
     }
     else if (t.get_type() == tile_type::ocean)
     {
       sfml_tile.setFillColor(sf::Color(0, 0, 255));
-      sfml_tile.setOutlineThickness(10);
+      sfml_tile.setOutlineThickness(5);
       sfml_tile.setOutlineColor(sf::Color(0, 0, 100));
+    }
+    else if (t.get_type() == tile_type::savannah)
+    {
+      sfml_tile.setFillColor(sf::Color(235, 170, 0));
+      sfml_tile.setOutlineThickness(5);
+      sfml_tile.setOutlineColor(sf::Color(245, 190, 0));
+    }
+    else if (t.get_type() == tile_type::arctic)
+    {
+      sfml_tile.setFillColor(sf::Color(255, 255, 255));
+      sfml_tile.setOutlineThickness(5);
+      sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
     }
     else
     {
