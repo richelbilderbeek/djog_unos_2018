@@ -68,6 +68,18 @@ void sfml_game::display()
       sfml_tile.setOutlineThickness(10);
       sfml_tile.setOutlineColor(sf::Color(0, 100, 0));
     }
+    else if (t.get_type() == tile_type::mountains)
+    {
+      sfml_tile.setFillColor(sf::Color(120, 120, 120));
+      sfml_tile.setOutlineThickness(10);
+      sfml_tile.setOutlineColor(sf::Color(50, 50, 50));
+    }
+    else if (t.get_type() == tile_type::ocean)
+    {
+      sfml_tile.setFillColor(sf::Color(0, 0, 255));
+      sfml_tile.setOutlineThickness(10);
+      sfml_tile.setOutlineColor(sf::Color(0, 0, 100));
+    }
     else
     {
       assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
@@ -92,8 +104,8 @@ void sfml_game::exec()
 
 void sfml_game::move_camera(sf::Vector2f offset)
 {
-  m_camera_x += offset.x;
-  m_camera_y += offset.y;
+  m_camera_x -= offset.x;
+  m_camera_y -= offset.y;
 }
 
 void sfml_game::process_events()

@@ -4,7 +4,9 @@
 ///The type a tile can be
 enum class tile_type
 {
-  grassland
+  grassland,
+  mountains,
+  ocean
 };
 
 #endif // TILE_TYPE_H

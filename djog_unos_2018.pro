@@ -79,8 +79,8 @@ unix:!macx {
 }
 
 win32{
-  INCLUDEPATH += C:/Qt/sfml/include
-  LIBS += C:/Qt/sfml/lib
+  INCLUDEPATH += C:\Qt\sfml\include
+  LIBS += -LC:\Qt\sfml\lib
 
   CONFIG(release, debug|release):
   {
