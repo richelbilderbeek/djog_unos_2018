@@ -1,5 +1,9 @@
 # djog_unos_2018
 
+[![DJOG logo](pics/Djog.png)](https://www.djog.nl/)
+
+[![IRC Network](https://img.shields.io/badge/irc-%23nature_zen_devs-blue.svg "IRC Freenode")](https://webchat.freenode.net/?channels=nature_zen_devs)
+
 Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
 ---|---|---
 `master`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=master)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=master)
@@ -13,10 +17,6 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 `richel`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=richel)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=richel)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=richel)
 `rijk`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=rijk)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=rijk)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=rijk)
 `same`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=same)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=same)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=same)
-
-[![DJOG logo](pics/Djog.png)](https://www.djog.nl/)
-
-[![IRC Network](https://img.shields.io/badge/irc-%23nature_zen_devs-blue.svg "IRC Freenode")](https://webchat.freenode.net/?channels=nature_zen_devs)
 
 Project by the Uno's at DJOG 2018-2019
 
@@ -32,3 +32,4 @@ Collaboratively create a game, to be put on, for example, Steam.
   * [planning](doc/planning.md)
   * [specifics](doc/specs.md)
   * [team](doc/team.md)
+
