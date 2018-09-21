@@ -73,7 +73,7 @@ void sfml_game::display()
     }
     else
     {
-      assert(!"Display of this tile type not implemented yet");
+      assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
     }
     m_window.draw(sfml_tile);
   }
