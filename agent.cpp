@@ -31,6 +31,4 @@ void test_agent() //!OCLINT testing functions may be long
     assert(a.get_x() == x);
     assert(a.get_y() == y);
   }
-
-  assert(1 == 2);
 }
