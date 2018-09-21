@@ -1,4 +1,6 @@
 #include "tile.h"
+#include "agent.h"
+#include "agent_type.h"
 
 #include <cassert>
 #include <stdexcept>
@@ -48,6 +50,11 @@ void tile::move()
 {
     m_x += m_dx;
     m_y += m_dy;
+}
+
+void tile::add_agent(agent a)
+{
+    m_agents.push_back(a);
 }
 
 void test_tile() //!OCLINT testing function may be many lines
@@ -114,14 +121,14 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   #endif // FIX_ISSUE_87_SET_TILE_SPEED
 
-  //#define FIX_ISSUE_92_ADD_AGENTS_ON_TILES
+  #define FIX_ISSUE_92_ADD_AGENTS_ON_TILES
   #ifdef FIX_ISSUE_92_ADD_AGENTS_ON_TILES
   //A tile starts without agents
   {
     const tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland);
     const std::vector<agent>& agents = t.get_agents();
     assert(agents.size() == 0);
-  }l
+  }
   //Can add an agent to a tile
   {
     tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland);
