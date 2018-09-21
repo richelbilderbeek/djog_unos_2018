@@ -30,4 +30,5 @@ Collaboratively create a game, to be put on, for example, Steam.
   * [planning](doc/planning.md)
   * [specifics](doc/specs.md)
   * [team](doc/team.md)
+  * [todo](doc/todo.md)
 
