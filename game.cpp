@@ -52,4 +52,18 @@ void test_game()
     assert(g.get_n_ticks() == 1);
   }
   #endif // FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+
+
+  //#define FIX_ISSUE_95_GAME_CAN_BE_SAVED
+  #ifdef FIX_ISSUE_95_GAME_CAN_BE_SAVED
+  //A game can be saved
+  {
+    const game g;
+    const std::string filename{"tmp.sav"};
+    if (file_exists(filename)) delete_file(filename);
+    assert(!file_exists(filename));
+    save(g, filename);
+    assert(file_exists(filename));
+  }
+  #endif // FIX_ISSUE_95_GAME_CAN_BE_SAVED
 }
