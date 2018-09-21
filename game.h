@@ -24,4 +24,7 @@ private:
   std::vector<tile> m_tiles;
 };
 
+///Test the game class
+void test_game();
+
 #endif // GAME_H
