@@ -44,11 +44,11 @@ private:
 
   ///Camera position in the x direction
   ///If positive, camera is moved right of the origin
-  double m_camera_x{0.0};
+  double m_camera_x{-100.0};
 
   ///Camera position in the y direction
   ///If positive, camera is moved down of the origin
-  double m_camera_y{0.0};
+  double m_camera_y{-100.0};
 
   ///an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
@@ -86,6 +86,11 @@ private:
   ///Process mouse input from the user
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event& event);
+
+  bool movecam_r = false;
+  bool movecam_l = false;
+  bool movecam_u = false;
+  bool movecam_d = false;
 };
 
 #endif // SFML_sfml_game_H
