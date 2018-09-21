@@ -47,7 +47,7 @@ void sfml_game::close()
   m_window.close();
 }
 
-//FIXME method has to be shorter (temporarily fixed)
+//WARNING method has to be shorter (temporarily fixed)
 void sfml_game::display()
 {
   //Clear the window with black color
@@ -83,12 +83,11 @@ void sfml_game::display()
       sfml_tile.setFillColor(sf::Color(235, 170, 0));
       sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(245, 190, 0));
     }
-//NOTE left this out so it doesn't fail
-//    else if (t.get_type() == tile_type::arctic)
-//    {
-//      sfml_tile.setFillColor(sf::Color(255, 255, 255));
-//      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
-//    }
+    else if (t.get_type() == tile_type::arctic)
+    {
+      sfml_tile.setFillColor(sf::Color(255, 255, 255));
+      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
+    }
     else
     {
       assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
@@ -113,12 +112,20 @@ void sfml_game::exec()
 
 void sfml_game::move_camera(sf::Vector2f offset)
 {
-  m_camera_x -= offset.x;
-  m_camera_y -= offset.y;
+  m_camera_x += offset.x;
+  m_camera_y += offset.y;
 }
 
 void sfml_game::process_events()
 {
+  if (movecam_r == true)
+    move_camera(sf::Vector2f(0.5, 0));
+  if (movecam_l == true)
+    move_camera(sf::Vector2f(-0.5, 0));
+  if (movecam_u == true)
+    move_camera(sf::Vector2f(0, -0.5));
+  if (movecam_d == true)
+    move_camera(sf::Vector2f(0, 0.5));
   m_delegate.do_actions(*this);
   ++m_n_displayed;
 }
@@ -142,6 +149,10 @@ void sfml_game::process_input()
         process_mouse_input(event);
         break;
 
+      case sf::Event::KeyReleased:
+        process_keyboard_input(event);
+        break;
+
       default:
         //Do nothing by default
         break;
@@ -152,16 +163,30 @@ void sfml_game::process_input()
 void sfml_game::process_keyboard_input(const sf::Event& event)
 {
   //Only keyboard events
-  assert(event.type == sf::Event::KeyPressed);
+  assert(event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased);
 
-  if (event.key.code == sf::Keyboard::Right)
-      move_camera(sf::Vector2f(-5, 0));
-  if (event.key.code == sf::Keyboard::Left)
-      move_camera(sf::Vector2f(5, 0));
-  if (event.key.code == sf::Keyboard::Up)
-      move_camera(sf::Vector2f(0, 5));
-  if (event.key.code == sf::Keyboard::Down)
-      move_camera(sf::Vector2f(0, -5));
+  if (event.type == sf::Event::KeyPressed)
+  {
+    if (event.key.code == sf::Keyboard::Right)
+        movecam_r = true;
+    if (event.key.code == sf::Keyboard::Left)
+        movecam_l = true;
+    if (event.key.code == sf::Keyboard::Up)
+        movecam_u = true;
+    if (event.key.code == sf::Keyboard::Down)
+        movecam_d = true;
+  }
+  else
+  {
+    if (event.key.code == sf::Keyboard::Right)
+        movecam_r = false;
+    if (event.key.code == sf::Keyboard::Left)
+        movecam_l = false;
+    if (event.key.code == sf::Keyboard::Up)
+        movecam_u = false;
+    if (event.key.code == sf::Keyboard::Down)
+        movecam_d = false;
+  }
 }
 
 void sfml_game::process_mouse_input(const sf::Event& event)
