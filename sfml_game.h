@@ -42,32 +42,31 @@ private:
   ///Background music file object
   sf::Music m_background_music;
 
+  ///Camera position in the x direction
+  ///If positive, camera is moved right of the origin
+  double m_camera_x{0.0};
+
+  ///Camera position in the y direction
+  ///If positive, camera is moved down of the origin
+  double m_camera_y{0.0};
+
   ///an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
 
   ///The game logic
   game m_game;
 
-
-  ///The window the sfml_game is rendered to
-  sf::RenderWindow m_window;
-
-  ///Camera position
-  float camera_x = 0;
-  float camera_y = 0;
-
-  std::vector<sf::RectangleShape> shapes;
-
   ///The number of times the sfml_game is displayed on screen
   ///Should be approx 60 times per second
   int m_n_displayed{0};
 
-
-  void add_shape(sf::RectangleShape shape);
+  ///The window the sfml_game is rendered to
+  sf::RenderWindow m_window;
 
   ///Display all shapes on the window
   void display();
 
+  ///Moves the camera
   void move_camera(sf::Vector2f offset);
 
   ///Handle all events each game frame, for example,

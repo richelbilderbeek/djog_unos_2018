@@ -42,13 +42,6 @@ sfml_game::~sfml_game()
   m_background_music.stop();
 }
 
-void sfml_game::add_shape(sf::RectangleShape shape)
-{
-    sf::Vector2f pos = shape.getPosition();
-    shape.setPosition(pos.x + camera_x, pos.y + camera_y);
-    shapes.push_back(shape);
-}
-
 void sfml_game::close()
 {
   m_window.close();
@@ -64,7 +57,11 @@ void sfml_game::display()
     sf::RectangleShape sfml_tile(
       sf::Vector2f(t.get_width(), t.get_height())
     );
-    sfml_tile.setPosition(t.get_x(), t.get_y());
+    //If the camera moves to right/bottom, tiles move relatively left/downwards
+    sfml_tile.setPosition(
+      t.get_x() - m_camera_x,
+      t.get_y() - m_camera_y
+    );
     if (t.get_type() == tile_type::grassland)
     {
       sfml_tile.setFillColor(sf::Color(0, 255, 0));
@@ -95,8 +92,8 @@ void sfml_game::exec()
 
 void sfml_game::move_camera(sf::Vector2f offset)
 {
-  camera_x += offset.x;
-  camera_y += offset.y;
+  m_camera_x += offset.x;
+  m_camera_y += offset.y;
 }
 
 void sfml_game::process_events()
