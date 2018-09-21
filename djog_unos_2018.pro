@@ -5,8 +5,12 @@ include(djog_unos_2018.pri)
 # Entry point for user
 SOURCES += main.cpp
 
+# SFML
+include(djog_unos_2018_sfml.pri)
 
-# Show your name
+# Do things that depend on which you computer is used
+# I (RJCB) do not think this is relevant, but would
+# you need it, here you go
 message($$QMAKE_HOST.name)
 contains(QMAKE_HOST.name, "lubuntu"):{
   message("Welcome back Richel")
@@ -14,7 +18,6 @@ contains(QMAKE_HOST.name, "lubuntu"):{
 contains(QMAKE_HOST.name, "fwnbiol"):{
   message("Welcome back at the university")
 }
-
 
 # C++14
 CONFIG += c++14
@@ -43,7 +46,6 @@ CONFIG(release, debug|release) {
   }
 }
 
-
 CONFIG(debug, debug|release) {
 
   # GNU/Linux
@@ -61,10 +63,6 @@ CONFIG(debug, debug|release) {
     LIBS += -lubsan
   }
 }
-
-
-# SFML
-include(djog_unos_2018_sfml.pri)
 
 # Qt5
 QT += core gui
