@@ -4,19 +4,25 @@ All about `git`.
 
 ## Branching model
 
- * `master`: stable, should always pass, only merged by @richelbilderbeek and @RafayelGardishyan
- * `develop`: development, merge of personal branches, should always pass
- * `[developer name]`: personal branch
+ * `master`: stable, should always pass
+ * `develop`: development, merge of topic branches, should mostly pass
+ * `[developer name]`: topic branch, for isolated development
+
+![Branching model](git_branches.png)
 
 ## Branches
 
 Name|Branch name
 ---|---
-@richelbilderbeek|`richel`
-@RafayelGardishyan|`rafayel`
-@Joshua260403 |`joshua`
+@annabelliard|`annabel`
 @annehinrichs22|`anne`
-[other]|[to be added]
+@Joshua260403 |`joshua`
+@malin10 |`malin`
+@Martje127 |`mart`
+@RafayelGardishyan|`rafayel`
+@richelbilderbeek|`richel`
+@Rijk-van-Putten|`rijk`
+@Same-Drenth|`same`
 
 ## Clone this repository
 
