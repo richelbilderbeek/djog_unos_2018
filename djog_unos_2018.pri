@@ -1,5 +1,6 @@
 SOURCES += \
     $$PWD/game.cpp \
+    $$PWD/game_test.cpp \
     $$PWD/sfml_game.cpp
 
 HEADERS += \

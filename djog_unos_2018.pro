@@ -1,14 +1,16 @@
 # Builds the entire project
 
+################################################################################
+# Files
+################################################################################
 # Source code of the project
-include(djog_unos_2018_source_stl.pri)
-include(djog_unos_2018_source_sfml.pri)
+include(djog_unos_2018.pri)
 # Entry point for this project
 SOURCES += main.cpp
 
-# SFML
-include(djog_unos_2018_compile_sfml.pri)
-
+################################################################################
+# Personal build
+################################################################################
 # Do things that depend on which you computer is used
 # I (RJCB) do not think this is relevant, but would
 # you need it, here you go
@@ -20,6 +22,9 @@ contains(QMAKE_HOST.name, "fwnbiol"):{
   message("Welcome back at the university")
 }
 
+################################################################################
+# Compiling, linking and tools
+################################################################################
 # C++14
 CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
@@ -65,7 +70,41 @@ CONFIG(debug, debug|release) {
   }
 }
 
+################################################################################
+# SFML
+################################################################################
+# GNU/Linux
+unix:!macx {
+  LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+}
+
+win32{
+  INCLUDEPATH += C:/Qt/sfml/include
+  DEPENDPATH += C:/Qt/sfml/include
+  DEPENDPATH += C:/Qt/sfml/bin
+  LIBS += C:/Qt/sfml/lib
+
+  CONFIG(release, debug|release):
+  {
+    LIBS += -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+  }
+
+  CONFIG(debug, debug|release):
+  {
+    LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-window-d -lsfml-system-d
+  }
+
+  LIBS += -lopenal32
+  LIBS += -lfreetype
+  LIBS += -lopengl32
+  LIBS += -lgdi32
+  LIBS += -lwinmm
+}
+
+
+################################################################################
 # Qt5
+################################################################################
 QT += core gui
 
 # QResources give this error
