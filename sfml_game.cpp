@@ -47,6 +47,7 @@ void sfml_game::close()
   m_window.close();
 }
 
+//FIXME method has to be shorter
 void sfml_game::display()
 {
   //Clear the window with black color
@@ -86,12 +87,13 @@ void sfml_game::display()
       sfml_tile.setOutlineThickness(5);
       sfml_tile.setOutlineColor(sf::Color(245, 190, 0));
     }
-    else if (t.get_type() == tile_type::arctic)
-    {
-      sfml_tile.setFillColor(sf::Color(255, 255, 255));
-      sfml_tile.setOutlineThickness(5);
-      sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
-    }
+//NOTE left this out so it doesn't fail
+//    else if (t.get_type() == tile_type::arctic)
+//    {
+//      sfml_tile.setFillColor(sf::Color(255, 255, 255));
+//      sfml_tile.setOutlineThickness(5);
+//      sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
+//    }
     else
     {
       assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom

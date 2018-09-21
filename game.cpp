@@ -20,10 +20,11 @@ game::game()
     tile t(-15, 215, 215, 100, tile_type::ocean);
     m_tiles.push_back(t);
   }
-  {
-    tile t(-15, -15, 215, 100, tile_type::arctic);
-    m_tiles.push_back(t);
-  }
+//NOTE left out because of too lonf method in sfml_game.cpp
+//  {
+//    tile t(-15, -15, 215, 100, tile_type::arctic);
+//    m_tiles.push_back(t);
+//  }
   {
     tile t(215, -15, 215, 100, tile_type::savannah);
     m_tiles.push_back(t);
