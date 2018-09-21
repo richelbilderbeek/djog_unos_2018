@@ -15,6 +15,10 @@ public:
   ///Read all tiles
   const auto& get_tiles() const noexcept { return m_tiles; }
 
+  int get_score() const noexcept { return m_score; }
+
+  void change_score_by(int delta_score);
+
 private:
 
   ///Timer, physics, bullets moving, etc.
@@ -22,6 +26,10 @@ private:
   void process_events();
 
   std::vector<tile> m_tiles;
+
+  int m_n_tick = 0;
+
+  int m_score;
 };
 
 ///Test the game class
