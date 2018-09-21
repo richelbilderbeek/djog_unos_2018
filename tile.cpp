@@ -24,7 +24,7 @@ tile::tile(
   assert(m_height > 0.0);
 }
 
-void test_tile()
+void test_tile() //!OCLINT testing function may be many lines
 {
   //#define FIX_ISSUE_85_TEST_TILE
   #ifdef FIX_ISSUE_85_TEST_TILE
