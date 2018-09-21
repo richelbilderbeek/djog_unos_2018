@@ -58,7 +58,7 @@ void test_tile() //!OCLINT testing function may be many lines
   {
     try
     {
-      const tile t(0.0, 0.0, -12.34, 100.0, tile_type::grassland);
+      const tile t(0.0, 0.0, -12.34, 100.0, tile_type::grassland); //!OCLINT accepted idiom
       assert(!"This should not be executed"); //!OCLINT accepted idiom
     }
     catch (const std::invalid_argument& e)
@@ -70,7 +70,7 @@ void test_tile() //!OCLINT testing function may be many lines
   {
     try
     {
-      const tile t(0.0, 0.0, 100.0, -12.34, tile_type::grassland);
+      const tile t(0.0, 0.0, 100.0, -12.34, tile_type::grassland); //!OCLINT accepted idiom
       assert(!"This should not be executed"); //!OCLINT accepted idiom
     }
     catch (const std::invalid_argument& e)
@@ -121,7 +121,7 @@ void test_tile() //!OCLINT testing function may be many lines
     const tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland);
     const std::vector<agent>& agents = t.get_agents();
     assert(agents.size() == 0);
-  }
+  }l
   //Can add an agent to a tile
   {
     tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland);
