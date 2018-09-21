@@ -1,12 +1,13 @@
 # Builds the entire project
 
 # Source code of the project
-include(djog_unos_2018.pri)
-# Entry point for user
+include(djog_unos_2018_source_stl.pri)
+include(djog_unos_2018_source_sfml.pri)
+# Entry point for this project
 SOURCES += main.cpp
 
 # SFML
-include(djog_unos_2018_sfml.pri)
+include(djog_unos_2018_compile_sfml.pri)
 
 # Do things that depend on which you computer is used
 # I (RJCB) do not think this is relevant, but would
