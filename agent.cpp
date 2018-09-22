@@ -17,7 +17,7 @@ agent::agent(
 
 void test_agent() //!OCLINT testing functions may be long
 {
-  //A default agent has coordinat (0,0)
+  //A default agent has coordinate (0,0)
   {
     const agent a(agent_type::cow);
     assert(a.get_x() == 0.0);
