@@ -2,6 +2,8 @@
 #define TILE_H
 
 #include "tile_type.h"
+#include "agent.h"
+#include <vector>
 
 ///A world tile
 class tile
@@ -20,6 +22,9 @@ public:
     const double height,
     const tile_type type
   );
+
+  /// Read all agents
+  const std::vector<agent>& get_agents() const noexcept { return m_agents; }
 
   /// The height of the tile
   double get_height() const noexcept { return m_height; }
@@ -51,6 +56,8 @@ public:
   /// Move the tile by the movement coeficients
   void move();
 
+  void add_agent(agent a);
+
 private:
 
   /// The height of the tile
@@ -73,6 +80,10 @@ private:
 
   /// The movement coeficient on the y-axis
   double m_dy;
+
+  /// Agents list
+  std::vector<agent> m_agents;
+
 };
 
 ///Test the tile class
