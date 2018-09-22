@@ -5,7 +5,8 @@ SOURCES += \
     $$PWD/tile.cpp \
     $$PWD/tile_type.cpp \
     $$PWD/agent_type.cpp \
-    $$PWD/agent.cpp
+    $$PWD/agent.cpp \
+    $$PWD/title.cpp
 
 HEADERS += \
     $$PWD/game.h \
@@ -14,7 +15,8 @@ HEADERS += \
     $$PWD/tile.h \
     $$PWD/tile_type.h \
     $$PWD/agent_type.h \
-    $$PWD/agent.h
+    $$PWD/agent.h \
+    $$PWD/title.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc
