@@ -6,6 +6,11 @@
 #include <SFML/Audio.hpp>
 
 
+//Dont type every time sf::
+using namespace sf;
+//Dont type every time std::
+using namespace std;
+
 class game
 {
 
@@ -29,6 +34,11 @@ private:
     ///Screen sizes
     int width;
     int height;
+
+    //Key input bools
+    bool upPressed, rightPressed, downPressed, leftPressed;
+    //Speed Camera is moving
+    float moveSpeed = 0.1f;
 
     ///Background music file object
     sf::Music background_music;

@@ -33,6 +33,25 @@ void game::update(){
       shape.setOutlineThickness(10);
       shape.setOutlineColor(sf::Color(0, 100, 0));
     sfml_game_object.add_shape(shape);
+
+
+
+   //Move the camera
+   Vector2f move = Vector2f(0,0);
+   if (upPressed)
+       move.y = -moveSpeed;
+   else if (downPressed)
+       move.y = moveSpeed;
+   else
+       move.y = 0;
+   if (rightPressed)
+       move.x = moveSpeed;
+   else if (leftPressed)
+       move.x = -moveSpeed;
+   else
+       move.x = 0;
+
+   sfml_game_object.move_camera(move);
 }
 
 void game::process_events()
@@ -57,13 +76,22 @@ void game::process_input()
 
           case sf::Event::KeyPressed:
               if (event.key.code == sf::Keyboard::Right)
-                  sfml_game_object.move_camera(sf::Vector2f(-5, 0));
+                  rightPressed = true;
+              else
+                  rightPressed = false;
               if (event.key.code == sf::Keyboard::Left)
-                  sfml_game_object.move_camera(sf::Vector2f(5, 0));
+                  leftPressed = true;
+              else
+                  leftPressed = false;
               if (event.key.code == sf::Keyboard::Up)
-                  sfml_game_object.move_camera(sf::Vector2f(0, 5));
+                  upPressed = true;
+              else
+                  leftPressed = false;
               if (event.key.code == sf::Keyboard::Down)
-                  sfml_game_object.move_camera(sf::Vector2f(0, -5));
+                  downPressed = true;
+              else
+                  downPressed = false;
+
               break;
 
           case sf::Event::MouseButtonPressed:
