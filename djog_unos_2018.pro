@@ -120,3 +120,5 @@ QMAKE_CXXFLAGS += -fext-numeric-literals
 QMAKE_CXXFLAGS += -Wno-unused-variable
 
 HEADERS +=
+
+DISTFILES +=

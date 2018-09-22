@@ -3,7 +3,6 @@
 #include "agent.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
-#include "title.h"
 #include <QFile>
 #include <SFML/Graphics.hpp>
 #include <cassert>
@@ -34,50 +33,22 @@ int main(int argc, char ** argv)
   assert(1 == 2);
   #endif
 
-  std::string state = "title";
-  std::string old_state = "boot";
-  bool first = true;
   const std::vector<std::string> args(argv, argv + argc);
 
   int close_at{-1};
+
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
   }
 
   sfml_game g(800, 600, sfml_game_delegate(close_at));
-  title t(800, 600);
 
   if (std::count(std::begin(args), std::end(args), "--no-music"))
   {
     g.stop_music();
   }
-  if (std::count(std::begin(args), std::end(args), "--to_game"))
-  {
-    state = "game";
-  }
 
-  //i need some help here, when the commented code is used it says:
-  //FIXME "undefined reference to `title::exec()`"
-
-  {
-  if (first == true)
-    if (state == "game")
-      g.exec();
-    if (state == "title")
-      t.exec();
-  else
-    //close old state
-    if (old_state == "game")
-      g.close();
-    if (old_state == "title")
-      t.close();
-    //open new state
-    if (state == "game")
-      g.exec();
-    if (state == "title")
-      t.exec();
-  old_state = state;
-  }
+  g.exec();
 }
 
