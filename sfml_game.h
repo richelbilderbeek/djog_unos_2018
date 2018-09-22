@@ -2,6 +2,7 @@
 #define SFML_sfml_game_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream> // For debugging
 
 class sfml_game
 {

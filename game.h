@@ -38,7 +38,7 @@ private:
     //Key input bools
     bool upPressed, rightPressed, downPressed, leftPressed;
     //Speed Camera is moving
-    float moveSpeed = 0.1f;
+    float moveSpeed = 1.5f;
 
     ///Background music file object
     sf::Music background_music;

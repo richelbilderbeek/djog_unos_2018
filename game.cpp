@@ -35,22 +35,23 @@ void game::update(){
     sfml_game_object.add_shape(shape);
 
 
-
-   //Move the camera
-   Vector2f move = Vector2f(0,0);
+    //Move the camera
+    Vector2f move = Vector2f(0,0);
+    //Return when noting is pressed (SOLVES A BUG)
+    if (!upPressed && !downPressed && !rightPressed && !leftPressed) {
+        move = Vector2f(0,0);
+        return;
+    }
    if (upPressed)
-       move.y = -moveSpeed;
-   else if (downPressed)
        move.y = moveSpeed;
-   else
-       move.y = 0;
+   if (downPressed)
+       move.y = -moveSpeed;
    if (rightPressed)
-       move.x = moveSpeed;
-   else if (leftPressed)
        move.x = -moveSpeed;
-   else
-       move.x = 0;
-
+   if (leftPressed)
+       move.x = moveSpeed;
+   cout << upPressed << " " << rightPressed << " " << downPressed << " " << leftPressed << endl;
+   //Apply movement
    sfml_game_object.move_camera(move);
 }
 
@@ -77,23 +78,22 @@ void game::process_input()
           case sf::Event::KeyPressed:
               if (event.key.code == sf::Keyboard::Right)
                   rightPressed = true;
-              else
-                  rightPressed = false;
               if (event.key.code == sf::Keyboard::Left)
                   leftPressed = true;
-              else
-                  leftPressed = false;
               if (event.key.code == sf::Keyboard::Up)
                   upPressed = true;
-              else
-                  leftPressed = false;
               if (event.key.code == sf::Keyboard::Down)
                   downPressed = true;
-              else
-                  downPressed = false;
-
               break;
-
+          case sf::Event::KeyReleased:
+              if (event.key.code == sf::Keyboard::Right)
+                  rightPressed = false;
+              if (event.key.code == sf::Keyboard::Left)
+                  leftPressed = false;
+              if (event.key.code == sf::Keyboard::Up)
+                  upPressed = false;
+              if (event.key.code == sf::Keyboard::Down)
+                  downPressed = false;
           case sf::Event::MouseButtonPressed:
               if (event.mouseButton.button == sf::Mouse::Left && background_music.getStatus() != sf::Music::Playing)
                   background_music.play();
