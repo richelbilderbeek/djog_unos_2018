@@ -37,6 +37,8 @@ public:
   ///Stop the music
   void stop_music();
 
+  void arrows(bool b, const sf::Event& event);
+
 private:
 
   ///Background music file object

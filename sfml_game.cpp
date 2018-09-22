@@ -167,25 +167,11 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
 
   if (event.type == sf::Event::KeyPressed)
   {
-    if (event.key.code == sf::Keyboard::Right)
-        movecam_r = true;
-    if (event.key.code == sf::Keyboard::Left)
-        movecam_l = true;
-    if (event.key.code == sf::Keyboard::Up)
-        movecam_u = true;
-    if (event.key.code == sf::Keyboard::Down)
-        movecam_d = true;
+    arrows(true, event);
   }
   else
   {
-    if (event.key.code == sf::Keyboard::Right)
-        movecam_r = false;
-    if (event.key.code == sf::Keyboard::Left)
-        movecam_l = false;
-    if (event.key.code == sf::Keyboard::Up)
-        movecam_u = false;
-    if (event.key.code == sf::Keyboard::Down)
-        movecam_d = false;
+    arrows(false, event);
   }
 }
 
@@ -216,4 +202,16 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 void sfml_game::stop_music()
 {
   m_background_music.stop();
+}
+
+void sfml_game::arrows(bool b, const sf::Event& event)
+{
+  if (event.key.code == sf::Keyboard::Right)
+      movecam_r = b;
+  if (event.key.code == sf::Keyboard::Left)
+      movecam_l = b;
+  if (event.key.code == sf::Keyboard::Up)
+      movecam_u = b;
+  if (event.key.code == sf::Keyboard::Down)
+      movecam_d = b;
 }
