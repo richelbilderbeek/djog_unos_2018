@@ -32,3 +32,12 @@ Collaboratively create a game, to be put on, for example, Steam.
   * [team](doc/team.md)
   * [todo](doc/todo.md)
 
+## Progress
+
+Most recent at the top.
+
+![](pics/20180923.png)
+
+![](pics/20180916.png)
+
+![](pics/20180907.png)
