@@ -1,9 +1,11 @@
 #include "game.h"
 #include "tile.h"
+#include "agent.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
 #include <QFile>
 #include <SFML/Graphics.hpp>
+#include <cassert>
 
 ///All tests are called from here, only in debug mode
 void test()
@@ -11,6 +13,7 @@ void test()
   test_game();
   test_sfml_game_delegate();
   test_tile();
+  test_agent();
 }
 
 ///Nature Zen
@@ -33,6 +36,7 @@ int main(int argc, char ** argv)
   const std::vector<std::string> args(argv, argv + argc);
 
   int close_at{-1};
+
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
@@ -47,3 +51,4 @@ int main(int argc, char ** argv)
 
   g.exec();
 }
+

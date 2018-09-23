@@ -47,6 +47,7 @@ void sfml_game::close()
   m_window.close();
 }
 
+//WARNING method has to be shorter (temporarily fixed)
 void sfml_game::display()
 {
   //Clear the window with black color
@@ -65,8 +66,27 @@ void sfml_game::display()
     if (t.get_type() == tile_type::grassland)
     {
       sfml_tile.setFillColor(sf::Color(0, 255, 0));
-      sfml_tile.setOutlineThickness(10);
-      sfml_tile.setOutlineColor(sf::Color(0, 100, 0));
+      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(0, 100, 0));
+    }
+    else if (t.get_type() == tile_type::mountains)
+    {
+      sfml_tile.setFillColor(sf::Color(120, 120, 120));
+      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(50, 50, 50));
+    }
+    else if (t.get_type() == tile_type::ocean)
+    {
+      sfml_tile.setFillColor(sf::Color(0, 0, 255));
+      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(0, 0, 100));
+    }
+    else if (t.get_type() == tile_type::savannah)
+    {
+      sfml_tile.setFillColor(sf::Color(235, 170, 0));
+      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(245, 190, 0));
+    }
+    else if (t.get_type() == tile_type::arctic)
+    {
+      sfml_tile.setFillColor(sf::Color(255, 255, 255));
+      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
     }
     else
     {
@@ -98,6 +118,14 @@ void sfml_game::move_camera(sf::Vector2f offset)
 
 void sfml_game::process_events()
 {
+  if (movecam_r == true)
+    move_camera(sf::Vector2f(0.5, 0));
+  if (movecam_l == true)
+    move_camera(sf::Vector2f(-0.5, 0));
+  if (movecam_u == true)
+    move_camera(sf::Vector2f(0, -0.5));
+  if (movecam_d == true)
+    move_camera(sf::Vector2f(0, 0.5));
   m_delegate.do_actions(*this);
   ++m_n_displayed;
 }
@@ -121,6 +149,10 @@ void sfml_game::process_input()
         process_mouse_input(event);
         break;
 
+      case sf::Event::KeyReleased:
+        process_keyboard_input(event);
+        break;
+
       default:
         //Do nothing by default
         break;
@@ -131,16 +163,16 @@ void sfml_game::process_input()
 void sfml_game::process_keyboard_input(const sf::Event& event)
 {
   //Only keyboard events
-  assert(event.type == sf::Event::KeyPressed);
+  assert(event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased);
 
-  if (event.key.code == sf::Keyboard::Right)
-      move_camera(sf::Vector2f(-5, 0));
-  if (event.key.code == sf::Keyboard::Left)
-      move_camera(sf::Vector2f(5, 0));
-  if (event.key.code == sf::Keyboard::Up)
-      move_camera(sf::Vector2f(0, 5));
-  if (event.key.code == sf::Keyboard::Down)
-      move_camera(sf::Vector2f(0, -5));
+  if (event.type == sf::Event::KeyPressed)
+  {
+    arrows(true, event);
+  }
+  else
+  {
+    arrows(false, event);
+  }
 }
 
 void sfml_game::process_mouse_input(const sf::Event& event)
@@ -170,4 +202,16 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 void sfml_game::stop_music()
 {
   m_background_music.stop();
+}
+
+void sfml_game::arrows(bool b, const sf::Event& event)
+{
+  if (event.key.code == sf::Keyboard::Right)
+      movecam_r = b;
+  if (event.key.code == sf::Keyboard::Left)
+      movecam_l = b;
+  if (event.key.code == sf::Keyboard::Up)
+      movecam_u = b;
+  if (event.key.code == sf::Keyboard::Down)
+      movecam_d = b;
 }
