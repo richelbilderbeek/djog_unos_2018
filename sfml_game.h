@@ -3,9 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <string>
+#include <iostream>
 
 #include "sfml_game_delegate.h"
 #include "game.h"
+
+
+using namespace sf;
+using namespace std;
+
+enum GameState {TitleScreen, MenuScreen, AboutScreen, Playing};
 
 class sfml_game
 {
@@ -19,6 +27,8 @@ public:
     const int window_width = 800,
     const int window_height = 600,
     const sfml_game_delegate& delegate = sfml_game_delegate()
+
+
   );
 
   ///Destructor, is called when sfml_game is destroyed
@@ -43,6 +53,9 @@ private:
 
   ///Background music file object
   sf::Music m_background_music;
+
+  ///Sate of Game
+  GameState gameState = TitleScreen;
 
   ///Camera position in the x direction
   ///If positive, camera is moved right of the origin
@@ -88,6 +101,13 @@ private:
   ///Process mouse input from the user
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event& event);
+
+  sf::Font font;
+  ///Draw Text
+  Text titleScreenText;
+  Text mainMenuScreenText;
+  Text aboutScreenText;
+
 
   bool movecam_r = false;
   bool movecam_l = false;

@@ -28,6 +28,23 @@ sfml_game::sfml_game(
     }
     m_background_music.play();
   }
+    //Set up text
+    if (!font.loadFromFile("font.ttf"))
+    {
+
+    }
+    titleScreenText.setString("TITLE SCREEN");
+    titleScreenText.setCharacterSize(32);
+    titleScreenText.setPosition(0,0);
+    titleScreenText.setFillColor(sf::Color::White);
+    mainMenuScreenText.setString("MAIN MENU");
+    mainMenuScreenText.setCharacterSize(32);
+    mainMenuScreenText.setPosition(0,0);
+    mainMenuScreenText.setFillColor(sf::Color::White);
+    aboutScreenText.setString("ABOUT");
+    aboutScreenText.setCharacterSize(32);
+    aboutScreenText.setPosition(0,0);
+    aboutScreenText.setFillColor(sf::Color::White);
   //Set up window, start location to the center
   m_window.setPosition(
     sf::Vector2i(
@@ -53,48 +70,58 @@ void sfml_game::display()
   //Clear the window with black color
   m_window.clear(sf::Color::Black);
 
-  for (const tile& t: m_game.get_tiles())
-  {
-    sf::RectangleShape sfml_tile(
-      sf::Vector2f(t.get_width(), t.get_height())
-    );
-    //If the camera moves to right/bottom, tiles move relatively left/downwards
-    sfml_tile.setPosition(
-      t.get_x() - m_camera_x,
-      t.get_y() - m_camera_y
-    );
-    if (t.get_type() == tile_type::grassland)
-    {
-      sfml_tile.setFillColor(sf::Color(0, 255, 0));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(0, 100, 0));
-    }
-    else if (t.get_type() == tile_type::mountains)
-    {
-      sfml_tile.setFillColor(sf::Color(120, 120, 120));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(50, 50, 50));
-    }
-    else if (t.get_type() == tile_type::ocean)
-    {
-      sfml_tile.setFillColor(sf::Color(0, 0, 255));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(0, 0, 100));
-    }
-    else if (t.get_type() == tile_type::savannah)
-    {
-      sfml_tile.setFillColor(sf::Color(235, 170, 0));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(245, 190, 0));
-    }
-    else if (t.get_type() == tile_type::arctic)
-    {
-      sfml_tile.setFillColor(sf::Color(255, 255, 255));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
-    }
-    else
-    {
-      assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
-    }
-    m_window.draw(sfml_tile);
+  if (gameState == TitleScreen) {
+    m_window.draw(titleScreenText);
   }
-
+  else if (gameState == MenuScreen) {
+    m_window.draw(mainMenuScreenText);
+  }
+  else if (gameState == AboutScreen) {
+    m_window.draw(aboutScreenText);
+  }
+  else if (gameState == Playing) {
+      for (const tile& t: m_game.get_tiles())
+      {
+        sf::RectangleShape sfml_tile(
+          sf::Vector2f(t.get_width(), t.get_height())
+        );
+        //If the camera moves to right/bottom, tiles move relatively left/downwards
+        sfml_tile.setPosition(
+          t.get_x() - m_camera_x,
+          t.get_y() - m_camera_y
+        );
+        if (t.get_type() == tile_type::grassland)
+        {
+          sfml_tile.setFillColor(sf::Color(0, 255, 0));
+          sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(0, 100, 0));
+        }
+        else if (t.get_type() == tile_type::mountains)
+        {
+          sfml_tile.setFillColor(sf::Color(120, 120, 120));
+          sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(50, 50, 50));
+        }
+        else if (t.get_type() == tile_type::ocean)
+        {
+          sfml_tile.setFillColor(sf::Color(0, 0, 255));
+          sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(0, 0, 100));
+        }
+        else if (t.get_type() == tile_type::savannah)
+        {
+          sfml_tile.setFillColor(sf::Color(235, 170, 0));
+          sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(245, 190, 0));
+        }
+        else if (t.get_type() == tile_type::arctic)
+        {
+          sfml_tile.setFillColor(sf::Color(255, 255, 255));
+          sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
+        }
+        else
+        {
+          assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
+        }
+        m_window.draw(sfml_tile);
+      }
+  }
   //Put everything on the screen
   m_window.display();
 }
@@ -118,6 +145,7 @@ void sfml_game::move_camera(sf::Vector2f offset)
 
 void sfml_game::process_events()
 {
+
   if (movecam_r == true)
     move_camera(sf::Vector2f(0.5, 0));
   if (movecam_l == true)
@@ -126,6 +154,10 @@ void sfml_game::process_events()
     move_camera(sf::Vector2f(0, -0.5));
   if (movecam_d == true)
     move_camera(sf::Vector2f(0, 0.5));
+
+
+
+
   m_delegate.do_actions(*this);
   ++m_n_displayed;
 }
