@@ -65,7 +65,8 @@ public:
 
   void set_id(int tid);
 
-  bool tile_contains(double x,double y);
+  /// Is this coordinat within the tile?
+  bool tile_contains(double x, double y) const noexcept;
 
 private:
 

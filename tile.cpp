@@ -65,7 +65,8 @@ void tile::set_id(int id) {
 }
 
 //BUG this doesn't seem to work (tested with assert, never returns true in game)
-bool tile::tile_contains(double x, double y) {
+bool tile::tile_contains(double x, double y) const noexcept
+{
   return ((x>m_x&&x<(m_x+m_width))||(y>m_y&&y<(m_y+m_height)));
 }
 
@@ -149,4 +150,25 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_agents().size() == 1);
   }
   #endif // FIX_ISSUE_92_ADD_AGENTS_ON_TILES
+
+  #define FIX_ISSUE_116_TILE_CONTAINS
+  #ifdef FIX_ISSUE_116_TILE_CONTAINS
+  //
+  //
+  //   (10,0)------(30,0)
+  //     |           |
+  //     |     A     |     B
+  //     |           |
+  //   (10,10)-----(30,10)
+  //
+  //           C           D
+  {
+    const tile t(10.0, 0.0, 20.0, 10.0, tile_type::grassland, 0);
+    assert( t.tile_contains(20, 5)); //A
+    assert(!t.tile_contains(40, 5)); //B
+    assert(!t.tile_contains(20,15)); //C
+    assert(!t.tile_contains(40,15)); //D
+
+  }
+  #endif // FIX_ISSUE_116_TILE_CONTAINS
 }
