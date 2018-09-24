@@ -28,7 +28,18 @@ Collaboratively create a game, to be put on, for example, Steam.
   * [git](doc/git.md)
   * [install](doc/install.md)
   * [planning](doc/planning.md)
+  * [social](doc/social.md)
   * [specifics](doc/specs.md)
   * [team](doc/team.md)
   * [todo](doc/todo.md)
+  * [videos](doc/videos.md)
 
+## Progress
+
+Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
+
+![](pics/20180923.png)
+
+![](pics/20180916.png)
+
+![](pics/20180907.jpg)
