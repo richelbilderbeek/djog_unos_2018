@@ -84,9 +84,10 @@ void sfml_game::display()
     } else {
       assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
     }
-    //FIXME the following is a bit odd
-    std::vector<int> v; v.push_back(t.get_id());
-    if (v == m_selected) {
+    auto selected = std::accumulate( m_selected.begin(), m_selected.end(), 0, []( int l, int r ) {
+        return l * 10 + r;
+    } );
+    if (t.get_id() == selected) {
         sfml_tile.setOutlineColor(sf::Color(255,255,255));
       } else {
         sfml_tile.setOutlineColor(outline);
@@ -211,3 +212,4 @@ void sfml_game::arrows(bool b, const sf::Event& event)
   if (event.key.code == sf::Keyboard::Down)
       movecam_d = b;
 }
+
