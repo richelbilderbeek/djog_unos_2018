@@ -1,0 +1,11 @@
+#!/bin/bash
+git merge develop
+git merge annabel
+git merge anne
+git merge joshua
+git merge malin
+git merge mart
+git merge rafayel
+git merge richel
+git merge rijk
+git merge same
