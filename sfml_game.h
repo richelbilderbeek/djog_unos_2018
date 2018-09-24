@@ -39,6 +39,10 @@ public:
 
   void arrows(bool b, const sf::Event& event);
 
+  std::vector<int> m_selected;
+
+  bool clicked_tile = false;
+
 private:
 
   ///Background music file object

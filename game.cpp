@@ -9,23 +9,23 @@ game::game()
 {
   //Add first tile
   {
-    tile t(100, 100, 215, 100, tile_type::grassland);
+    tile t(100, 100, 215, 100, tile_type::grassland, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(215, 215, 100, 215, tile_type::mountains);
+    tile t(215, 215, 100, 215, tile_type::mountains, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(-15, 215, 215, 100, tile_type::ocean);
+    tile t(-15, 215, 215, 100, tile_type::ocean, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(-15, -15, 215, 100, tile_type::arctic);
+    tile t(-15, -15, 215, 100, tile_type::arctic, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(215, -15, 215, 100, tile_type::savannah);
+    tile t(215, -15, 215, 100, tile_type::savannah, new_id());
     m_tiles.push_back(t);
   }
 }

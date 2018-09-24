@@ -15,12 +15,14 @@ public:
   /// @param width the width of the tile
   /// @param height the height of the tile
   /// @param type the type the tile
+  /// @param the tiles id
   tile(
     const double x,
     const double y,
     const double width,
     const double height,
-    const tile_type type
+    const tile_type type,
+    const int id
   );
 
   /// Read all agents
@@ -58,6 +60,13 @@ public:
 
   void add_agent(agent a);
 
+  /// Get the tile's id
+  int get_id() const noexcept {return m_id; }
+
+  void set_id(int tid);
+
+  bool tile_contains(double x,double y);
+
 private:
 
   /// The height of the tile
@@ -84,6 +93,8 @@ private:
   /// Agents list
   std::vector<agent> m_agents;
 
+  /// The tile's id
+  int m_id;
 };
 
 ///Test the tile class

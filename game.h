@@ -19,6 +19,11 @@ public:
 
   void change_score_by(int delta_score);
 
+  int new_id() {
+    ++old_id;
+    return old_id;
+  }
+
 private:
 
   ///Timer, physics, bullets moving, etc.
@@ -30,6 +35,8 @@ private:
   int m_n_tick = 0;
 
   int m_score;
+
+  int old_id = 0;
 };
 
 ///Test the game class
