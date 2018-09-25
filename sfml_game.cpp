@@ -50,9 +50,7 @@ void sfml_game::close()
 //WARNING method has to be shorter (temporarily fixed)
 void sfml_game::display()
 {
-  //Clear the window with black color
-  m_window.clear(sf::Color::Black);
-
+  m_window.clear(sf::Color::Black);//Clear the window with black color
   for (const tile& t: m_game.get_tiles())
   {
     sf::RectangleShape sfml_tile(
@@ -63,40 +61,38 @@ void sfml_game::display()
       t.get_x() - m_camera_x,
       t.get_y() - m_camera_y
     );
-    if (t.get_type() == tile_type::grassland)
-    {
+    sf::Color outline;
+    if (t.get_type() == tile_type::grassland) {
       sfml_tile.setFillColor(sf::Color(0, 255, 0));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(0, 100, 0));
+      sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 100, 0);
     }
-    else if (t.get_type() == tile_type::mountains)
-    {
+    else if (t.get_type() == tile_type::mountains) {
       sfml_tile.setFillColor(sf::Color(120, 120, 120));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(50, 50, 50));
+      sfml_tile.setOutlineThickness(5); outline = sf::Color(50, 50, 50);
     }
-    else if (t.get_type() == tile_type::ocean)
-    {
+    else if (t.get_type() == tile_type::ocean) {
       sfml_tile.setFillColor(sf::Color(0, 0, 255));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(0, 0, 100));
+      sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 0, 100);
     }
-    else if (t.get_type() == tile_type::savannah)
-    {
+    else if (t.get_type() == tile_type::savannah) {
       sfml_tile.setFillColor(sf::Color(235, 170, 0));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(245, 190, 0));
+      sfml_tile.setOutlineThickness(5); outline = sf::Color(245, 190, 0);
     }
-    else if (t.get_type() == tile_type::arctic)
-    {
-      sfml_tile.setFillColor(sf::Color(255, 255, 255));
-      sfml_tile.setOutlineThickness(5);sfml_tile.setOutlineColor(sf::Color(200, 200, 250));
-    }
-    else
-    {
+    else if (t.get_type() == tile_type::arctic) {
+      sfml_tile.setFillColor(sf::Color(50, 230, 255));
+      sfml_tile.setOutlineThickness(5); outline = sf::Color(10, 200, 255);
+    } else {
       assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
     }
+    auto selected = vectortoint(m_selected);
+    if (t.get_id() == selected) {
+        sfml_tile.setOutlineColor(sf::Color(255,255,255));
+      } else {
+        sfml_tile.setOutlineColor(outline);
+      }
     m_window.draw(sfml_tile);
   }
-
-  //Put everything on the screen
-  m_window.display();
+  m_window.display();//Put everything on the screen
 }
 
 void sfml_game::exec()
@@ -180,22 +176,21 @@ void sfml_game::process_mouse_input(const sf::Event& event)
   //Only mouse input
   assert(event.type == sf::Event::MouseButtonPressed);
 
-  if (event.mouseButton.button == sf::Mouse::Left
-    && m_background_music.getStatus() != sf::Music::Playing)
-  {
-    m_background_music.play();
-  }
-  //TODO need to register when mousebutton is down while hovering over an
-  //object (and need that object)
-  //if (.getGlobalBounds().contains(
-  //  sf::Mouse::getPosition().x,sf::Mouse::getPosition().y)
-  //) {
-  //foreach (shape in sfml_game_object.shapes)
-  if (event.mouseButton.button == sf::Mouse::Right
-    && m_background_music.getStatus() != sf::Music::Paused
-  )
-  {
-    m_background_music.pause();
+  if (event.mouseButton.button == sf::Mouse::Left) {
+   std::vector<tile> game_tiles = m_game.get_tiles();
+   for (unsigned i = 0; i<game_tiles.size(); i++) {
+     if (game_tiles.at(i).tile_contains(
+           sf::Mouse::getPosition(m_window).x+m_camera_x,
+           sf::Mouse::getPosition(m_window).y+m_camera_y)) {
+       m_selected.clear();
+       m_selected.push_back(game_tiles.at(i).get_id());
+       clicked_tile = true;
+     }
+    }
+   if (clicked_tile == false) {
+      m_selected.clear();
+    }
+    clicked_tile = false;
   }
 }
 
@@ -214,4 +209,17 @@ void sfml_game::arrows(bool b, const sf::Event& event)
       movecam_u = b;
   if (event.key.code == sf::Keyboard::Down)
       movecam_d = b;
+}
+
+int sfml_game::vectortoint(std::vector<int> v)
+{
+    reverse(v.begin(), v.end());
+    int decimal = 1;
+    int total = 0;
+    for (auto& it : v)
+    {
+        total += it * decimal;
+        decimal *= 10;
+    }
+    return total;
 }
