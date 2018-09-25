@@ -84,9 +84,7 @@ void sfml_game::display()
     } else {
       assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
     }
-    auto selected = std::accumulate( m_selected.begin(), m_selected.end(), 0, []( int l, int r ) {
-        return l * 10 + r;
-    } );
+    auto selected = vectortoint(m_selected);
     if (t.get_id() == selected) {
         sfml_tile.setOutlineColor(sf::Color(255,255,255));
       } else {
@@ -213,3 +211,15 @@ void sfml_game::arrows(bool b, const sf::Event& event)
       movecam_d = b;
 }
 
+int sfml_game::vectortoint(std::vector<int> v)
+{
+    reverse(v.begin(), v.end());
+    int decimal = 1;
+    int total = 0;
+    for (auto& it : v)
+    {
+        total += it * decimal;
+        decimal *= 10;
+    }
+    return total;
+}

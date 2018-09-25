@@ -67,7 +67,7 @@ void tile::set_id(int id) {
 //BUG this doesn't seem to work (tested with assert, never returns true in game)
 bool tile::tile_contains(double x, double y) const noexcept
 {
-  return ((x>m_x&&x<(m_x+m_width))&&(y>m_y&&y<(m_y+m_height)));
+  return ((x>m_x-5&&x<(m_x+m_width+5))&&(y>m_y-5&&y<(m_y+m_height+5)));
 }
 
 void test_tile() //!OCLINT testing function may be many lines

@@ -43,6 +43,8 @@ public:
 
   bool clicked_tile = false;
 
+  int vectortoint(std::vector<int> v);
+
 private:
 
   ///Background music file object
