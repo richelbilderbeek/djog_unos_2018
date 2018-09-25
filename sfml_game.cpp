@@ -182,8 +182,8 @@ void sfml_game::process_mouse_input(const sf::Event& event)
    std::vector<tile> game_tiles = m_game.get_tiles();
    for (unsigned i = 0; i<game_tiles.size(); i++) {
      if (game_tiles.at(i).tile_contains(
-           sf::Mouse::getPosition().x,
-           sf::Mouse::getPosition().y)) {
+           sf::Mouse::getPosition(m_window).x+m_camera_x,
+           sf::Mouse::getPosition(m_window).y+m_camera_y)) {
        m_selected.clear();
        m_selected.push_back(game_tiles.at(i).get_id());
        clicked_tile = true;

@@ -10,8 +10,8 @@ class tile
 {
 public:
   ///Constructor
-  /// @param x the x-coordinat of the top-left corner of the tile
-  /// @param y the y-coordinat of the top-left corner of the tile
+  /// @param x the x-coordinate of the top-left corner of the tile
+  /// @param y the y-coordinate of the top-left corner of the tile
   /// @param width the width of the tile
   /// @param height the height of the tile
   /// @param type the type the tile
