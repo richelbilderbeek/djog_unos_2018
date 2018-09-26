@@ -6,8 +6,7 @@
    * Maintain Continuous Integration pipeline
    * Keeps branches synched
  * Thursday:
-   * Annabel, `annabelliard`: medior dev
-   * Malin, `malin10`: junior dev
+   * Annabel, `annabelliard`: junior dev
    * Mart, `martje127`: junior dev
      * Lead testing and reporting
      * Allowed to close Issues in the `To be checked by testing`
@@ -16,6 +15,7 @@
    * Anne, `annehinrichs22`: medior dev
      * Complex procedures
      * Education of junior devs
+   * Elles, `EllyJet`: junior dev
    * Joshua, `Joshua260403`: medior dev
      * Debugging
      * Education of junior devs
