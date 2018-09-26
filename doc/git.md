@@ -16,8 +16,8 @@ Name|Branch name
 ---|---
 @annabelliard|`annabel`
 @annehinrichs22|`anne`
+@EllyJet |`?`
 @Joshua260403 |`joshua`
-@malin10 |`malin`
 @Martje127 |`mart`
 @RafayelGardishyan|`rafayel`
 @richelbilderbeek|`richel`
