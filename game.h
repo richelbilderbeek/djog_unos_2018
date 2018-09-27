@@ -1,69 +1,45 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <sfml_game.h>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+#include <vector>
 
+#include "tile.h"
 
 class game
 {
 
 public:
-    ///Initialize game with arguments
-    game(const std::vector<std::string>& args = {});
+  ///Constructor
+  game();
 
-    ///Get how many times the sfml_game has been displayed on screen.
-    ///Will be approximately 60 times per second.
-    int get_n_displayed() const noexcept { return m_n_displayed; }
+  ///Read all tiles
+  const auto& get_tiles() const noexcept { return m_tiles; }
 
-    ///Get how many times the sfml_game has been displayed on screen.
-    ///Will be approximately 60 times per second.
-    int get_n_displayed_max() const noexcept { return m_n_displayed_max; }
+  int get_score() const noexcept { return m_score; }
 
-    ///sfml_game object
-    sfml_game sfml_game_object;
+  void change_score_by(int delta_score);
 
-    int exec();
+  int new_id() {
+    ++old_id;
+    return old_id;
+  }
+
 private:
-    ///Screen sizes
-    int width;
-    int height;
 
-    ///Background music file object
-    sf::Music background_music;
+  ///Timer, physics, bullets moving, etc.
+  ///Everything except user input.
+  void process_events();
 
-    ///Timer, physics, bullets moving, etc.
-    ///Everything except user input.
-    void process_events();
+  std::vector<tile> m_tiles;
 
-    ///Key and mouse handling
-    void process_input();
+  int m_n_tick = 0;
 
-    ///This should happen every frame and contains logic
-    void update();
+  int m_score;
 
-    ///This should happen in every case every frame
-    void fixed_update(){
-        ++m_n_displayed;
-    }
-
-    ///This should happen when the game ends
-    void end();
-
-    ///The number of times the sfml_game is displayed on screen
-    ///Should be approx 60 times per second
-    int m_n_displayed{0};
-
-    ///The number of times the sfml_game is displayed before it closes.
-    ///This is usefull in testing.
-    ///Will be negative if the sfml_game has no time limit
-    const int m_n_displayed_max;
-
+  int old_id = 0;
 };
 
-///Extract the maximum number of times the sfml_game will be displayed
-//STUB: returns 100 by default for now, new dafault must be -1
-int extract_n_displayed_max(const std::vector<std::string>& args);
+///Test the game class
+void test_game();
 
 #endif // GAME_H

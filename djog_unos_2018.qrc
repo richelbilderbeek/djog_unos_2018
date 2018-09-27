@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/nature_zen">
         <file>resources/background_music.ogg</file>
+        <file>resources/title_music.ogg</file>
     </qresource>
 </RCC>
