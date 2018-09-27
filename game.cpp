@@ -1,4 +1,4 @@
-#include <game.h>
+#include "game.h"
 
 game::game(const std::vector<std::string>& args)
   : sfml_game_object(800, 600),

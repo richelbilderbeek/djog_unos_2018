@@ -68,9 +68,12 @@ win32{
   INCLUDEPATH += C:/Qt/sfml/include
   DEPENDPATH += C:/Qt/sfml/include
   LIBS += -LC:/Qt/sfml/extlibs/libs-mingw/x86 #If using 64-bit MinGW, replace x86 with x64
+  INCLUDEPATH += D:/Qt/sfml/include
+  DEPENDPATH += D:/Qt/sfml/include
+  LIBS += -LD:/Qt/sfml/lib
 #  LIBS += -LC:\Qt\sfml\extlibs\libs-msvc-universal\x86 -LC:\sfml\extlibs\libs-msvc\x86
 #  LIBS += -LC:\Qt\sfml\bin
-  LIBS += -LC:/Qt/sfml/build_debug/lib -LC:/Qt/sfml/build_release/lib
+  LIBS += -LD:/Qt/sfml/build_debug/lib -LC:/Qt/sfml/build_release/lib
 #  LIBS += -LC:\Qt\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Debug\lib
 #  LIBS += -LC:\Qt\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Release\lib
 #  LIBS += -LC:\Qt\sfml\extlibs\bin\x86

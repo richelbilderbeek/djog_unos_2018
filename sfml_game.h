@@ -1,6 +1,7 @@
 #ifndef SFML_sfml_game_H
 #define SFML_sfml_game_H
 
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 class sfml_game
