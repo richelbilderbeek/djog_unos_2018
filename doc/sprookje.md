@@ -6,9 +6,9 @@ Iedereen weet: honden houden niet van katten!
 Behalve deze hond.
 Deze hond was anders.
 Deze hond hield van katten.
-Omdat haar beste vriend een kat is, die niet van honden houdt. 
+Omdat haar beste vrienden een kat zijn.
 Haar vriend heette Gerard en haar vriendin heette Joline.
-
+Het was een siamese tweeling. (Get it?)
 
 en ze leefden nog lang en gelukkig.
 
