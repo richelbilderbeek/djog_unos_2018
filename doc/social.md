@@ -1,8 +1,24 @@
 # Social
 
-These are more specific social rules than [the code of conduct](../code_of_conduct.md).
 
-## S.1. Never assign yourself a second Issue
+## S.1. Follow [the code of conduct](../code_of_conduct.md)
+
+
+### Reason
+
+[The code of conduct](../code_of_conduct.md) helps us having a healthy team dynamics.
+
+### Exceptions
+
+None
+
+### Note
+
+The [code of conduct](../code_of_conduct.md) assigns @richelbilderbeek as the spokesperson
+of the team. In case a problem with him arises, Carleen Baarda, the director of Stichting
+De Jonge Onderzoekers, can be contacted anonimously.
+
+## S.2. Never assign yourself a second Issue
 
 ### Reason
 
@@ -12,7 +28,7 @@ Everyone should have the same opportunity of picking an Issue.
 
 Richel may assign you a second/third/etc. Issue. There will be a good reason for that.
 
-## S.2. Never modify other people's topic branches
+## S.3. Never modify other people's topic branches
 
 ### Reason
 
