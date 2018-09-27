@@ -48,6 +48,10 @@ int main(int argc, char ** argv)
   {
     g.stop_music();
   }
+  if (std::count(std::begin(args), std::end(args), "--menu"))
+  {
+    g.show_menu();
+  }
 
   g.exec();
 }

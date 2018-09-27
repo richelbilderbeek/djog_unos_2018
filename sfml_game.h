@@ -47,6 +47,9 @@ public:
   ///Stop the music
   void stop_music();
 
+  //Show to menu
+  void show_menu();
+
   void arrows(bool b, const sf::Event& event);
   bool space_pressed = false;
 
@@ -62,7 +65,7 @@ private:
   sf::Music m_background_music;
 
   ///Sate of Game
-  GameState gameState = TitleScreen;
+  GameState gameState = Playing;
 
   ///Camera position in the x direction
   ///If positive, camera is moved right of the origin

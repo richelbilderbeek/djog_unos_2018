@@ -237,7 +237,10 @@ void sfml_game::stop_music()
 {
   m_background_music.stop();
 }
-
+void sfml_game::show_menu()
+{
+    gameState = TitleScreen;
+}
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::Right)
