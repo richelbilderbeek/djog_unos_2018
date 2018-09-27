@@ -48,6 +48,7 @@ public:
   void stop_music();
 
   void arrows(bool b, const sf::Event& event);
+  bool space_pressed = false;
 
   std::vector<int> m_selected;
 
@@ -108,12 +109,14 @@ private:
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event& event);
 
-  sf::Font font;
+
+
   ///Draw Text
   Text titleScreenText;
   Text mainMenuScreenText;
   Text aboutScreenText;
-
+  //Font
+  Font m_font;
 
   bool movecam_r = false;
   bool movecam_l = false;
