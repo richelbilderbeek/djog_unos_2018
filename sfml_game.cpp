@@ -80,11 +80,9 @@ void sfml_game::close()
   m_window.close();
 }
 
-//WARNING method has to be shorter (temporarily fixed)
 void sfml_game::display()
 {
   m_window.clear(sf::Color::Black);//Clear the window with black color
-
   if (gameState == Playing) {
       for (const tile& t: m_game.get_tiles())
       {
@@ -96,40 +94,12 @@ void sfml_game::display()
           t.get_x() - m_camera_x,
           t.get_y() - m_camera_y
         );
-        sf::Color outline;
-        if (t.get_type() == tile_type::grassland) {
-          sfml_tile.setFillColor(sf::Color(0, 255, 0));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 100, 0);
-        }
-        else if (t.get_type() == tile_type::mountains) {
-          sfml_tile.setFillColor(sf::Color(120, 120, 120));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(50, 50, 50);
-        }
-        else if (t.get_type() == tile_type::ocean) {
-          sfml_tile.setFillColor(sf::Color(0, 0, 255));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 0, 100);
-        }
-        else if (t.get_type() == tile_type::savannah) {
-          sfml_tile.setFillColor(sf::Color(235, 170, 0));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(245, 190, 0);
-        }
-        else if (t.get_type() == tile_type::arctic) {
-          sfml_tile.setFillColor(sf::Color(50, 230, 255));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(10, 200, 255);
-        } else {
-          assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
-        }
-        auto selected = vectortoint(m_selected);
-        if (t.get_id() == selected) {
-            sfml_tile.setOutlineColor(sf::Color(255,255,255));
-          } else {
-            sfml_tile.setOutlineColor(outline);
-          }
+        color_tile_shape(sfml_tile, t);
         m_window.draw(sfml_tile);
       }
   }
   sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
-  else if (gameState == TitleScreen) {
+  if (gameState == TitleScreen) {
     m_window.draw(titleScreenText);
     if (space_pressed) {
         reset_input();
@@ -148,7 +118,7 @@ void sfml_game::display()
         gameState = Playing;
     }
   }
-  m_window.draw(text);
+//  m_window.draw(text);
   m_window.display();//Put everything on the screen
 }
 
@@ -351,4 +321,36 @@ tile& sfml_game::getTileById(std::vector<int> tile_id) {
   }
   assert(!"Should never get here"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
+}
+
+void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) {
+  sf::Color outline;
+  if (t.get_type() == tile_type::grassland) {
+    sfml_tile.setFillColor(sf::Color(0, 255, 0));
+    sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 100, 0);
+  }
+  else if (t.get_type() == tile_type::mountains) {
+    sfml_tile.setFillColor(sf::Color(120, 120, 120));
+    sfml_tile.setOutlineThickness(5); outline = sf::Color(50, 50, 50);
+  }
+  else if (t.get_type() == tile_type::ocean) {
+    sfml_tile.setFillColor(sf::Color(0, 0, 255));
+    sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 0, 100);
+  }
+  else if (t.get_type() == tile_type::savannah) {
+    sfml_tile.setFillColor(sf::Color(235, 170, 0));
+    sfml_tile.setOutlineThickness(5); outline = sf::Color(245, 190, 0);
+  }
+  else if (t.get_type() == tile_type::arctic) {
+    sfml_tile.setFillColor(sf::Color(50, 230, 255));
+    sfml_tile.setOutlineThickness(5); outline = sf::Color(10, 200, 255);
+  } else {
+    assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
+  }
+  auto selected = vectortoint(m_selected);
+  if (t.get_id() == selected) {
+      sfml_tile.setOutlineColor(sf::Color(255,255,255));
+    } else {
+      sfml_tile.setOutlineColor(outline);
+    }
 }
