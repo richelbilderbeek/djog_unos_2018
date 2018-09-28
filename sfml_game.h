@@ -59,6 +59,14 @@ public:
 
   int vectortoint(std::vector<int> v);
 
+  int m_timer = 0;
+
+  tile& getTileById(std::vector<int> tile_id);
+
+  void tile_movement(bool b, const sf::Event& event, tile& t);
+
+  double tile_speed = 1; // 115/tile_speed must be a whole number!
+
 private:
 
   ///Background music file object
