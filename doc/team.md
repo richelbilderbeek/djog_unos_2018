@@ -19,6 +19,7 @@
    * Joshua, `Joshua260403`: medior dev
      * Debugging
      * Education of junior devs
+   * Mohammed: junior dev
    * Rafayel, `RafayelGardishyan`: medior dev
      * Secondary software architect
      * Education of junior devs
