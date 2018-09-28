@@ -127,6 +127,7 @@ void sfml_game::display()
         m_window.draw(sfml_tile);
       }
   }
+  sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   else if (gameState == TitleScreen) {
     m_window.draw(titleScreenText);
     if (space_pressed) {
@@ -146,7 +147,7 @@ void sfml_game::display()
         gameState = Playing;
     }
   }
-
+  m_window.draw(text);
   m_window.display();//Put everything on the screen
 }
 
