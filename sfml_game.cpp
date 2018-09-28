@@ -45,9 +45,10 @@ sfml_game::sfml_game(
   {
     throw std::runtime_error("Cannot find font file font.ttf");
   }
-  //Set up text
   screen_center = Vector2i(sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
           sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5);
+
+  //Set up text
   titleScreenText.setFont(m_font);
   titleScreenText.setString("Title Screen \n press space to go next");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left + titleScreenText.getGlobalBounds().width /2.0f,
@@ -253,6 +254,7 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
         space_pressed = false;
   }
 }
+
 void sfml_game::reset_input() {
     space_pressed = false;
     movecam_r = false;
