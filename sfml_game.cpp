@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <QFile>
+#include <cmath>
 
 sfml_game::sfml_game(
   const int window_width,
@@ -353,4 +354,14 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) {
     } else {
       sfml_tile.setOutlineColor(outline);
     }
+}
+
+bool sfml_game::check_collision(double x, double y) {
+  for (tile& t: m_game.get_tiles())
+  {
+    if (t.tile_contains(x,y)) {
+      return false;
+    }
+  }
+  return true;
 }

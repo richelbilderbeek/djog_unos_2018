@@ -70,6 +70,8 @@ public:
 
   void color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t);
 
+  bool check_collision(double x, double y);
+
 private:
 
   ///Background music file object
