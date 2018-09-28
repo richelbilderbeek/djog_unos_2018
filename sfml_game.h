@@ -4,9 +4,17 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <string>
+#include <iostream>
 
 #include "sfml_game_delegate.h"
 #include "game.h"
+
+
+using namespace sf;
+using namespace std;
+
+enum GameState {TitleScreen, MenuScreen, AboutScreen, Playing};
 
 class sfml_game
 {
@@ -20,6 +28,8 @@ public:
     const int window_width = 800,
     const int window_height = 600,
     const sfml_game_delegate& delegate = sfml_game_delegate()
+
+
   );
 
   ///Destructor, is called when sfml_game is destroyed
@@ -38,7 +48,11 @@ public:
   ///Stop the music
   void stop_music();
 
+  //Show to menu
+  void show_menu();
+
   void arrows(bool b, const sf::Event& event);
+  bool space_pressed = false;
 
   std::vector<int> m_selected;
 
@@ -46,10 +60,21 @@ public:
 
   int vectortoint(std::vector<int> v);
 
+  int m_timer = 0;
+
+  tile& getTileById(std::vector<int> tile_id);
+
+  void tile_movement(bool b, const sf::Event& event, tile& t);
+
+  double tile_speed = 1; // 115/tile_speed must be a whole number!
+
 private:
 
   ///Background music file object
   sf::Music m_background_music;
+
+  ///Sate of Game
+  GameState gameState = Playing;
 
   ///Camera position in the x direction
   ///If positive, camera is moved right of the origin
@@ -88,6 +113,9 @@ private:
   ///Process all input from the user: mouse and keyboard
   void process_input();
 
+  ///Reset the input when game state changes
+  void reset_input();
+
   ///Process keyboard input from the user
   ///@param event the SFML keyboard event that needs to be processed
   void process_keyboard_input(const sf::Event& event);
@@ -95,6 +123,16 @@ private:
   ///Process mouse input from the user
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event& event);
+
+
+
+  ///Draw Text
+  Text titleScreenText;
+  Text mainMenuScreenText;
+  Text aboutScreenText;
+  //Font
+  Font m_font;
+  Vector2i screen_center;
 
   bool movecam_r = false;
   bool movecam_l = false;
