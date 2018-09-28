@@ -104,6 +104,9 @@ private:
   ///Process all input from the user: mouse and keyboard
   void process_input();
 
+  ///Reset the input when game state changes
+  void reset_input();
+
   ///Process keyboard input from the user
   ///@param event the SFML keyboard event that needs to be processed
   void process_keyboard_input(const sf::Event& event);
@@ -120,6 +123,7 @@ private:
   Text aboutScreenText;
   //Font
   Font m_font;
+  Vector2i screen_center;
 
   bool movecam_r = false;
   bool movecam_l = false;

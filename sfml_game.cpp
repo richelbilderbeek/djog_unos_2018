@@ -44,6 +44,28 @@ sfml_game::sfml_game(
   {
     throw std::runtime_error("Cannot find font file font.ttf");
   }
+  //Set up text
+  screen_center = Vector2i(sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
+          sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5);
+  titleScreenText.setFont(m_font);
+  titleScreenText.setString("Title Screen \n press space to go next");
+  titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left + titleScreenText.getGlobalBounds().width /2.0f,
+                            titleScreenText.getGlobalBounds().top + titleScreenText.getGlobalBounds().height /2.0f);
+  titleScreenText.setPosition(screen_center.x, screen_center.y);
+
+
+  mainMenuScreenText.setFont(m_font);
+  mainMenuScreenText.setString("Main Menu \n press space to go next");
+  mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left + mainMenuScreenText.getGlobalBounds().width /2.0f,
+                            mainMenuScreenText.getGlobalBounds().top + mainMenuScreenText.getGlobalBounds().height /2.0f);
+  mainMenuScreenText.setPosition(screen_center.x, screen_center.y);
+
+
+  aboutScreenText.setFont(m_font);
+  aboutScreenText.setString("About Screen \n press space to play");
+  titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left + aboutScreenText.getGlobalBounds().width /2.0f,
+                            aboutScreenText.getGlobalBounds().top + aboutScreenText.getGlobalBounds().height /2.0f);
+  aboutScreenText.setPosition(screen_center.x, screen_center.y);
 }
 
 sfml_game::~sfml_game()
@@ -60,13 +82,6 @@ void sfml_game::close()
 void sfml_game::display()
 {
   m_window.clear(sf::Color::Black);//Clear the window with black color
-
-  sf::Text text;
-  text.setFont(m_font);
-
-  text.setCharacterSize(24);
-  text.setStyle(sf::Text::Bold);
-  text.setPosition(0,0);
 
   if (gameState == Playing) {
       for (const tile& t: m_game.get_tiles())
@@ -112,20 +127,24 @@ void sfml_game::display()
       }
   }
   else if (gameState == TitleScreen) {
-    text.setString("TitleScreen");
-    if (space_pressed)
+    m_window.draw(titleScreenText);
+    if (space_pressed) {
+        reset_input();
         gameState = MenuScreen;
+    }
   } else if (gameState == MenuScreen) {
-    text.setString("Menu");
-    if (space_pressed)
+    m_window.draw(mainMenuScreenText);
+    if (space_pressed) {
+        reset_input();
         gameState = AboutScreen;
+    }
   } else if (gameState == AboutScreen) {
-    text.setString("About");
-    if (space_pressed)
+    m_window.draw(aboutScreenText);
+    if (space_pressed) {
+        reset_input();
         gameState = Playing;
+    }
   }
-
-  m_window.draw(text);
 
   m_window.display();//Put everything on the screen
 }
@@ -143,6 +162,9 @@ void sfml_game::exec()
 
 void sfml_game::move_camera(sf::Vector2f offset)
 {
+  //Dont move the camera in the menu
+  if (gameState != Playing)
+      return;
   m_camera_x += offset.x;
   m_camera_y += offset.y;
 }
@@ -209,7 +231,13 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
         space_pressed = false;
   }
 }
-
+void sfml_game::reset_input() {
+    space_pressed = false;
+    movecam_r = false;
+    movecam_l = false;
+    movecam_u = false;
+    movecam_d = false;
+}
 void sfml_game::process_mouse_input(const sf::Event& event)
 {
   //Only mouse input
