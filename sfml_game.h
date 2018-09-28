@@ -68,6 +68,10 @@ public:
 
   double tile_speed = 1; // 115/tile_speed must be a whole number!
 
+  void color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t);
+
+  bool check_collision(double x, double y);
+
 private:
 
   ///Background music file object
