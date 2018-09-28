@@ -128,6 +128,7 @@ void sfml_game::display()
         m_window.draw(sfml_tile);
       }
   }
+  sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   else if (gameState == TitleScreen) {
     m_window.draw(titleScreenText);
     if (space_pressed) {
@@ -147,7 +148,7 @@ void sfml_game::display()
         gameState = Playing;
     }
   }
-
+  m_window.draw(text);
   m_window.display();//Put everything on the screen
 }
 
@@ -239,14 +240,12 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
   if (event.type == sf::Event::KeyPressed)
   {
     arrows(true, event);
-
+    if (event.key.code == sf::Keyboard::Space)
+        space_pressed = true;
     if (m_selected.size() > 0)
       tile_movement(true, event, getTileById(m_selected));
     if (m_timer > 0)
       tile_movement(false, event, getTileById(m_selected));
-
-    if (event.key.code == sf::Keyboard::Space)
-        space_pressed = true;
   }
   else
   {
