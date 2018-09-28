@@ -1,6 +1,7 @@
 //Always include the header of the unit first
 #include "sfml_game.h"
 
+#include <iostream>
 #include <cassert>
 #include <QFile>
 
@@ -105,7 +106,6 @@ void sfml_game::exec()
   }
 }
 
-
 void sfml_game::move_camera(sf::Vector2f offset)
 {
   m_camera_x += offset.x;
@@ -114,6 +114,12 @@ void sfml_game::move_camera(sf::Vector2f offset)
 
 void sfml_game::process_events()
 {
+ if ((115/tile_speed != abs(floor(115/tile_speed)) ||
+      115/tile_speed != abs(ceil(115/tile_speed))) ||
+      tile_speed > 115.0) {
+   throw std::runtime_error("The set tile speed is not usable");
+ }
+
   if (movecam_r == true)
     move_camera(sf::Vector2f(0.5, 0));
   if (movecam_l == true)
@@ -122,6 +128,17 @@ void sfml_game::process_events()
     move_camera(sf::Vector2f(0, -0.5));
   if (movecam_d == true)
     move_camera(sf::Vector2f(0, 0.5));
+
+  if (m_timer > 0) {
+    getTileById(m_selected).move();
+    m_timer--;
+  } else {
+    if (!m_selected.empty()) {
+      getTileById(m_selected).set_dx(0);
+      getTileById(m_selected).set_dy(0);
+    }
+  }
+
   m_delegate.do_actions(*this);
   ++m_n_displayed;
 }
@@ -164,6 +181,10 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
   if (event.type == sf::Event::KeyPressed)
   {
     arrows(true, event);
+    if (m_selected.size() > 0)
+      tile_movement(true, event, getTileById(m_selected));
+    if (m_timer > 0)
+      tile_movement(false, event, getTileById(m_selected));
   }
   else
   {
@@ -211,6 +232,26 @@ void sfml_game::arrows(bool b, const sf::Event& event)
       movecam_d = b;
 }
 
+void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
+{
+  if (m_timer == 0) {
+    if (b == true) {
+      if (event.key.code == sf::Keyboard::D)
+        t.set_dx(tile_speed);
+      if (event.key.code == sf::Keyboard::A)
+        t.set_dx(-tile_speed);
+      if (event.key.code == sf::Keyboard::W)
+        t.set_dy(-tile_speed);
+      if (event.key.code == sf::Keyboard::S)
+        t.set_dy(tile_speed);
+      m_timer += (1/tile_speed)*115;
+    } else {
+      t.set_dx(0);
+      t.set_dy(0);
+    }
+  }//TODO make it so this executes only when m_timer = 0
+}
+
 int sfml_game::vectortoint(std::vector<int> v)
 {
     reverse(v.begin(), v.end());
@@ -222,4 +263,19 @@ int sfml_game::vectortoint(std::vector<int> v)
         decimal *= 10;
     }
     return total;
+}
+
+tile& sfml_game::getTileById(std::vector<int> tile_id) {
+  assert(!tile_id.empty());
+  const int id = tile_id[0];
+  //if (id > m_game.old_id)
+  //  assert(!"Tile id has not been used yet"); //!OCLINT accepted idiom
+  for (tile& t: m_game.get_tiles())
+  {
+    if (t.get_id() == id) {
+      return t;
+    }
+  }
+  assert(!"Should never get here"); //!OCLINT accepted idiom
+  throw std::runtime_error("ID not found");
 }
