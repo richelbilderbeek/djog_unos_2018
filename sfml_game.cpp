@@ -306,48 +306,47 @@ tile& sfml_game::getTileById(std::vector<int> tile_id) {
 }
 
 void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) {
-  sf::Color outline;
   switch (t.get_type()) {
     case tile_type::grassland:
-      sfml_tile.setFillColor(sf::Color(0, 255, 0));
-      sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 100, 0);
+      color_shape(sfml_tile,sf::Color(0, 255, 0),sf::Color(0, 100, 0));
       break;
 
     case tile_type::mountains:
-      sfml_tile.setFillColor(sf::Color(120, 120, 120));
-      sfml_tile.setOutlineThickness(5); outline = sf::Color(50, 50, 50);
+      color_shape(sfml_tile,sf::Color(120, 120, 120),sf::Color(50, 50, 50));
       break;
 
     case tile_type::ocean:
-      sfml_tile.setFillColor(sf::Color(0, 0, 255));
-      sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 0, 100);
+      color_shape(sfml_tile,sf::Color(0, 0, 100),sf::Color(0, 0, 255));
       break;
 
     case tile_type::savannah:
-      sfml_tile.setFillColor(sf::Color(235, 170, 0));
-      sfml_tile.setOutlineThickness(5); outline = sf::Color(245, 190, 0);
+      color_shape(sfml_tile,sf::Color(245, 190, 0),sf::Color(235, 170, 0));
       break;
 
     case tile_type::arctic:
-      sfml_tile.setFillColor(sf::Color(50, 230, 255));
-      sfml_tile.setOutlineThickness(5); outline = sf::Color(10, 200, 255);
+      color_shape(sfml_tile,sf::Color(50, 230, 255),sf::Color(10, 200, 255));
       break;
 
     case tile_type::desert:
-      sfml_tile.setFillColor(sf::Color(250, 210, 80));
-      sfml_tile.setOutlineThickness(5); outline = sf::Color(225, 180, 50);
+      color_shape(sfml_tile,sf::Color(250, 210, 80),sf::Color(255, 180, 50));
       break;
 
-    default:
+    default: //!OCLINT accepted idiom
       assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
       break;
   }
+  sfml_tile.setOutlineThickness(5);
   auto selected = vectortoint(m_selected);
   if (t.get_id() == selected) {
     sfml_tile.setOutlineColor(sf::Color(255,255,255));
   } else {
     sfml_tile.setOutlineColor(outline);
   }
+}
+
+void sfml_game::color_shape(sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2) {
+  sfml_tile.setFillColor(c1);
+  outline = sf::Color(c2);
 }
 
 bool sfml_game::check_collision(double x, double y) {
