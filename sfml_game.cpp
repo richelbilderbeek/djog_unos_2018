@@ -316,7 +316,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) {
       break;
 
     case tile_type::ocean:
-      color_shape(sfml_tile,sf::Color(0, 0, 100),sf::Color(0, 0, 255));
+      color_shape(sfml_tile,sf::Color(0, 0, 255),sf::Color(0, 0, 100));
       break;
 
     case tile_type::savannah:
@@ -329,10 +329,6 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) {
 
     case tile_type::desert:
       color_shape(sfml_tile,sf::Color(250, 210, 80),sf::Color(255, 180, 50));
-      break;
-
-    default: //!OCLINT accepted idiom
-      assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
       break;
   }
   sfml_tile.setOutlineThickness(5);
