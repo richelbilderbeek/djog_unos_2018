@@ -8,7 +8,8 @@ enum class tile_type
   mountains,
   ocean,
   savannah,
-  arctic
+  arctic,
+  desert
 };
 
 #endif // TILE_TYPE_H

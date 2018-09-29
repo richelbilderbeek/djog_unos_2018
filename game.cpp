@@ -29,6 +29,10 @@ game::game()
     tile t(215, -15, 215, 100, tile_type::savannah, new_id());
     m_tiles.push_back(t);
   }
+  {
+    tile t(445, -15, 100, 215, tile_type::desert, new_id());
+    m_tiles.push_back(t);
+  }
 }
 
 void game::process_events()

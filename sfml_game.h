@@ -72,6 +72,8 @@ public:
 
   bool check_collision(double x, double y);
 
+
+  void setup_text();
 private:
 
   ///Background music file object
