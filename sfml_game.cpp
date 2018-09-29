@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <QFile>
+#include <cmath>
 
 sfml_game::sfml_game(
   const int window_width,
@@ -48,26 +49,7 @@ sfml_game::sfml_game(
   screen_center = Vector2i(sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
           sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5);
 
-  //Set up text
-  titleScreenText.setFont(m_font);
-  titleScreenText.setString("Title Screen \n press space to go next");
-  titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left + titleScreenText.getGlobalBounds().width /2.0f,
-                            titleScreenText.getGlobalBounds().top + titleScreenText.getGlobalBounds().height /2.0f);
-  titleScreenText.setPosition(screen_center.x, screen_center.y);
-
-
-  mainMenuScreenText.setFont(m_font);
-  mainMenuScreenText.setString("Main Menu \n press space to go next");
-  mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left + mainMenuScreenText.getGlobalBounds().width /2.0f,
-                            mainMenuScreenText.getGlobalBounds().top + mainMenuScreenText.getGlobalBounds().height /2.0f);
-  mainMenuScreenText.setPosition(screen_center.x, screen_center.y);
-
-
-  aboutScreenText.setFont(m_font);
-  aboutScreenText.setString("About Screen \n press space to play");
-  titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left + aboutScreenText.getGlobalBounds().width /2.0f,
-                            aboutScreenText.getGlobalBounds().top + aboutScreenText.getGlobalBounds().height /2.0f);
-  aboutScreenText.setPosition(screen_center.x, screen_center.y);
+  setup_text();
 }
 
 sfml_game::~sfml_game()
@@ -80,11 +62,9 @@ void sfml_game::close()
   m_window.close();
 }
 
-//WARNING method has to be shorter (temporarily fixed)
 void sfml_game::display()
 {
   m_window.clear(sf::Color::Black);//Clear the window with black color
-
   if (gameState == Playing) {
       for (const tile& t: m_game.get_tiles())
       {
@@ -96,40 +76,12 @@ void sfml_game::display()
           t.get_x() - m_camera_x,
           t.get_y() - m_camera_y
         );
-        sf::Color outline;
-        if (t.get_type() == tile_type::grassland) {
-          sfml_tile.setFillColor(sf::Color(0, 255, 0));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 100, 0);
-        }
-        else if (t.get_type() == tile_type::mountains) {
-          sfml_tile.setFillColor(sf::Color(120, 120, 120));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(50, 50, 50);
-        }
-        else if (t.get_type() == tile_type::ocean) {
-          sfml_tile.setFillColor(sf::Color(0, 0, 255));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 0, 100);
-        }
-        else if (t.get_type() == tile_type::savannah) {
-          sfml_tile.setFillColor(sf::Color(235, 170, 0));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(245, 190, 0);
-        }
-        else if (t.get_type() == tile_type::arctic) {
-          sfml_tile.setFillColor(sf::Color(50, 230, 255));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(10, 200, 255);
-        } else {
-          assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
-        }
-        auto selected = vectortoint(m_selected);
-        if (t.get_id() == selected) {
-            sfml_tile.setOutlineColor(sf::Color(255,255,255));
-          } else {
-            sfml_tile.setOutlineColor(outline);
-          }
+        color_tile_shape(sfml_tile, t);
         m_window.draw(sfml_tile);
       }
   }
   sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
-  else if (gameState == TitleScreen) {
+  if (gameState == TitleScreen) {
     m_window.draw(titleScreenText);
     if (space_pressed) {
         reset_input();
@@ -148,7 +100,7 @@ void sfml_game::display()
         gameState = Playing;
     }
   }
-  m_window.draw(text);
+//  m_window.draw(text);
   m_window.display();//Put everything on the screen
 }
 
@@ -173,8 +125,8 @@ void sfml_game::move_camera(sf::Vector2f offset)
 
 void sfml_game::process_events()
 {
- if ((115/tile_speed != abs(floor(115/tile_speed)) ||
-      115/tile_speed != abs(ceil(115/tile_speed))) ||
+ if ((115/tile_speed != std::abs(std::floor(115/tile_speed)) ||
+      115/tile_speed != std::abs(std::ceil(115/tile_speed))) ||
       tile_speed > 115.0) {
    throw std::runtime_error("The set tile speed is not usable");
  }
@@ -322,7 +274,7 @@ void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
       t.set_dx(0);
       t.set_dy(0);
     }
-  }//TODO make it so this executes only when m_timer = 0
+  }
 }
 
 int sfml_game::vectortoint(std::vector<int> v)
@@ -351,4 +303,81 @@ tile& sfml_game::getTileById(std::vector<int> tile_id) {
   }
   assert(!"Should never get here"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
+}
+
+void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) {
+  switch (t.get_type()) {
+    case tile_type::grassland:
+      color_shape(sfml_tile,sf::Color(0, 255, 0),sf::Color(0, 100, 0));
+      break;
+
+    case tile_type::mountains:
+      color_shape(sfml_tile,sf::Color(120, 120, 120),sf::Color(50, 50, 50));
+      break;
+
+    case tile_type::ocean:
+      color_shape(sfml_tile,sf::Color(0, 0, 255),sf::Color(0, 0, 100));
+      break;
+
+    case tile_type::savannah:
+      color_shape(sfml_tile,sf::Color(245, 190, 0),sf::Color(235, 170, 0));
+      break;
+
+    case tile_type::arctic:
+      color_shape(sfml_tile,sf::Color(50, 230, 255),sf::Color(10, 200, 255));
+      break;
+
+    case tile_type::desert:
+      color_shape(sfml_tile,sf::Color(250, 210, 80),sf::Color(255, 180, 50));
+      break;
+  }
+  sfml_tile.setOutlineThickness(5);
+  auto selected = vectortoint(m_selected);
+  if (t.get_id() == selected) {
+    sfml_tile.setOutlineColor(sf::Color(255,255,255));
+  } else {
+    sfml_tile.setOutlineColor(outline);
+  }
+}
+
+void sfml_game::color_shape(sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2) {
+  sfml_tile.setFillColor(c1);
+  outline = sf::Color(c2);
+}
+
+bool sfml_game::check_collision(double x, double y) {
+  for (tile& t: m_game.get_tiles())
+  {
+    if (t.tile_contains(x,y)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+void sfml_game::setup_text() {
+  //Set up text
+  titleScreenText.setFont(m_font);
+  titleScreenText.setString("Title Screen \n press space to go next");
+  titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left+
+                            titleScreenText.getGlobalBounds().width /2.0f,
+                            titleScreenText.getGlobalBounds().top +
+                            titleScreenText.getGlobalBounds().height /2.0f);
+  titleScreenText.setPosition(screen_center.x, screen_center.y);
+
+  mainMenuScreenText.setFont(m_font);
+  mainMenuScreenText.setString("Main Menu \n press space to go next");
+  mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left+
+                               mainMenuScreenText.getGlobalBounds().width /2.0f,
+                               mainMenuScreenText.getGlobalBounds().top+
+                               mainMenuScreenText.getGlobalBounds().height /2.0f);
+  mainMenuScreenText.setPosition(screen_center.x, screen_center.y);
+
+  aboutScreenText.setFont(m_font);
+  aboutScreenText.setString("About Screen \n press space to play");
+  titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left+
+                            aboutScreenText.getGlobalBounds().width /2.0f,
+                            aboutScreenText.getGlobalBounds().top+
+                            aboutScreenText.getGlobalBounds().height /2.0f);
+  aboutScreenText.setPosition(screen_center.x, screen_center.y);
 }
