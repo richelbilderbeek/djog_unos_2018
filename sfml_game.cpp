@@ -81,17 +81,16 @@ void sfml_game::display()
       }
       sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
-<<<<<<< HEAD
-  else if (gameState == TitleScreen) {
-    text.setString("TitleScreen");
-    if (space_pressed)
-=======
-  sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
+
+  sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
+  text.setPosition(m_window.getSize().x - 80, 10);
+  text.setStyle(Text::Bold);
+  m_window.draw(text);
   if (gameState == TitleScreen) {
     m_window.draw(titleScreenText);
     if (space_pressed) {
         reset_input();
->>>>>>> develop
+
         gameState = MenuScreen;
     }
   } else if (gameState == MenuScreen) {
