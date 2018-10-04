@@ -14,6 +14,7 @@ public:
 
   ///Read all tiles
   const auto& get_tiles() const noexcept { return m_tiles; }
+  auto& get_tiles() noexcept { return m_tiles; }
 
   int get_score() const noexcept { return m_score; }
 
@@ -23,6 +24,8 @@ public:
     ++old_id;
     return old_id;
   }
+
+  int old_id = 0;
 
 private:
 
@@ -36,7 +39,6 @@ private:
 
   int m_score;
 
-  int old_id = 0;
 };
 
 ///Test the game class

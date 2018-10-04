@@ -4,7 +4,6 @@ git checkout -t origin/develop
 git checkout -t origin/annabel
 git checkout -t origin/anne
 git checkout -t origin/joshua
-git checkout -t origin/malin
 git checkout -t origin/mart
 git checkout -t origin/rafayel
 git checkout -t origin/richel

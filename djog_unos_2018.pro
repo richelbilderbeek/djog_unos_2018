@@ -10,7 +10,7 @@ SOURCES += main.cpp
 
 ################################################################################
 # Personal build
-################################################################################
+###########################r#####################################################
 # Do things that depend on which you computer is used
 # I (RJCB) do not think this is relevant, but would
 # you need it, here you go

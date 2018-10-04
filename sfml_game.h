@@ -1,6 +1,7 @@
 #ifndef SFML_sfml_game_H
 #define SFML_sfml_game_H
 
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <string>
@@ -47,6 +48,9 @@ public:
   ///Stop the music
   void stop_music();
 
+  //Show to menu
+  void show_menu();
+
   void arrows(bool b, const sf::Event& event);
   bool space_pressed = false;
 
@@ -56,13 +60,29 @@ public:
 
   int vectortoint(std::vector<int> v);
 
+  int m_timer = 0;
+
+  tile& getTileById(std::vector<int> tile_id);
+
+  void tile_movement(bool b, const sf::Event& event, tile& t);
+
+  double tile_speed = 1; // 115/tile_speed must be a whole number!
+
+  void color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t);
+  void color_shape(sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2);
+  sf::Color outline;
+
+  bool check_collision(double x, double y);
+
+  void setup_text();
+
 private:
 
   ///Background music file object
   sf::Music m_background_music;
 
   ///Sate of Game
-  GameState gameState = TitleScreen;
+  GameState gameState = Playing;
 
   ///Camera position in the x direction
   ///If positive, camera is moved right of the origin
@@ -101,6 +121,9 @@ private:
   ///Process all input from the user: mouse and keyboard
   void process_input();
 
+  ///Reset the input when game state changes
+  void reset_input();
+
   ///Process keyboard input from the user
   ///@param event the SFML keyboard event that needs to be processed
   void process_keyboard_input(const sf::Event& event);
@@ -117,6 +140,7 @@ private:
   Text aboutScreenText;
   //Font
   Font m_font;
+  Vector2i screen_center;
 
   bool movecam_r = false;
   bool movecam_l = false;

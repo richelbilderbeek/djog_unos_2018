@@ -1,8 +1,10 @@
 //Always include the header of the unit first
 #include "sfml_game.h"
 
+#include <iostream>
 #include <cassert>
 #include <QFile>
+#include <cmath>
 
 sfml_game::sfml_game(
   const int window_width,
@@ -44,6 +46,10 @@ sfml_game::sfml_game(
   {
     throw std::runtime_error("Cannot find font file font.ttf");
   }
+  screen_center = Vector2i(sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
+          sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5);
+
+  setup_text();
 }
 
 sfml_game::~sfml_game()
@@ -56,18 +62,9 @@ void sfml_game::close()
   m_window.close();
 }
 
-//WARNING method has to be shorter (temporarily fixed)
 void sfml_game::display()
 {
   m_window.clear(sf::Color::Black);//Clear the window with black color
-
-  sf::Text text;
-  text.setFont(m_font);
-
-  text.setCharacterSize(24);
-  text.setStyle(sf::Text::Bold);
-  text.setPosition(0,0);
-
   if (gameState == Playing) {
       for (const tile& t: m_game.get_tiles())
       {
@@ -79,53 +76,38 @@ void sfml_game::display()
           t.get_x() - m_camera_x,
           t.get_y() - m_camera_y
         );
-        sf::Color outline;
-        if (t.get_type() == tile_type::grassland) {
-          sfml_tile.setFillColor(sf::Color(0, 255, 0));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 100, 0);
-        }
-        else if (t.get_type() == tile_type::mountains) {
-          sfml_tile.setFillColor(sf::Color(120, 120, 120));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(50, 50, 50);
-        }
-        else if (t.get_type() == tile_type::ocean) {
-          sfml_tile.setFillColor(sf::Color(0, 0, 255));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(0, 0, 100);
-        }
-        else if (t.get_type() == tile_type::savannah) {
-          sfml_tile.setFillColor(sf::Color(235, 170, 0));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(245, 190, 0);
-        }
-        else if (t.get_type() == tile_type::arctic) {
-          sfml_tile.setFillColor(sf::Color(50, 230, 255));
-          sfml_tile.setOutlineThickness(5); outline = sf::Color(10, 200, 255);
-        } else {
-          assert(!"Display of this tile type not implemented yet"); //!OCLINT accepted idiom
-        }
-        auto selected = vectortoint(m_selected);
-        if (t.get_id() == selected) {
-            sfml_tile.setOutlineColor(sf::Color(255,255,255));
-          } else {
-            sfml_tile.setOutlineColor(outline);
-          }
+        color_tile_shape(sfml_tile, t);
         m_window.draw(sfml_tile);
       }
       sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
+<<<<<<< HEAD
   else if (gameState == TitleScreen) {
     text.setString("TitleScreen");
     if (space_pressed)
+=======
+  sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
+  if (gameState == TitleScreen) {
+    m_window.draw(titleScreenText);
+    if (space_pressed) {
+        reset_input();
+>>>>>>> develop
         gameState = MenuScreen;
+    }
   } else if (gameState == MenuScreen) {
-    text.setString("Menu");
-    if (space_pressed)
+    m_window.draw(mainMenuScreenText);
+    if (space_pressed) {
+        reset_input();
         gameState = AboutScreen;
+    }
   } else if (gameState == AboutScreen) {
-    text.setString("About");
-    if (space_pressed)
+    m_window.draw(aboutScreenText);
+    if (space_pressed) {
+        reset_input();
         gameState = Playing;
+    }
   }
-  m_window.draw(text);
+//  m_window.draw(text);
   m_window.display();//Put everything on the screen
 }
 
@@ -139,15 +121,23 @@ void sfml_game::exec()
   }
 }
 
-
 void sfml_game::move_camera(sf::Vector2f offset)
 {
+  //Dont move the camera in the menu
+  if (gameState != Playing)
+      return;
   m_camera_x += offset.x;
   m_camera_y += offset.y;
 }
 
 void sfml_game::process_events()
 {
+ if ((115/tile_speed != std::abs(std::floor(115/tile_speed)) ||
+      115/tile_speed != std::abs(std::ceil(115/tile_speed))) ||
+      tile_speed > 115.0) {
+   throw std::runtime_error("The set tile speed is not usable");
+ }
+
   if (movecam_r == true)
     move_camera(sf::Vector2f(0.5, 0));
   if (movecam_l == true)
@@ -156,6 +146,17 @@ void sfml_game::process_events()
     move_camera(sf::Vector2f(0, -0.5));
   if (movecam_d == true)
     move_camera(sf::Vector2f(0, 0.5));
+
+  if (m_timer > 0) {
+    getTileById(m_selected).move();
+    m_timer--;
+  } else {
+    if (!m_selected.empty()) {
+      getTileById(m_selected).set_dx(0);
+      getTileById(m_selected).set_dy(0);
+    }
+  }
+
   m_delegate.do_actions(*this);
   ++m_n_displayed;
 }
@@ -200,6 +201,10 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
     arrows(true, event);
     if (event.key.code == sf::Keyboard::Space)
         space_pressed = true;
+    if (m_selected.size() > 0)
+      tile_movement(true, event, getTileById(m_selected));
+    if (m_timer > 0)
+      tile_movement(false, event, getTileById(m_selected));
   }
   else
   {
@@ -209,6 +214,13 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
   }
 }
 
+void sfml_game::reset_input() {
+    space_pressed = false;
+    movecam_r = false;
+    movecam_l = false;
+    movecam_u = false;
+    movecam_d = false;
+}
 void sfml_game::process_mouse_input(const sf::Event& event)
 {
   //Only mouse input
@@ -236,7 +248,10 @@ void sfml_game::stop_music()
 {
   m_background_music.stop();
 }
-
+void sfml_game::show_menu()
+{
+    gameState = TitleScreen;
+}
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::Right)
@@ -247,6 +262,26 @@ void sfml_game::arrows(bool b, const sf::Event& event)
       movecam_u = b;
   if (event.key.code == sf::Keyboard::Down)
       movecam_d = b;
+}
+
+void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
+{
+  if (m_timer == 0) {
+    if (b == true) {
+      if (event.key.code == sf::Keyboard::D)
+        t.set_dx(tile_speed);
+      if (event.key.code == sf::Keyboard::A)
+        t.set_dx(-tile_speed);
+      if (event.key.code == sf::Keyboard::W)
+        t.set_dy(-tile_speed);
+      if (event.key.code == sf::Keyboard::S)
+        t.set_dy(tile_speed);
+      m_timer += (1/tile_speed)*115;
+    } else {
+      t.set_dx(0);
+      t.set_dy(0);
+    }
+  }
 }
 
 int sfml_game::vectortoint(std::vector<int> v)
@@ -260,4 +295,96 @@ int sfml_game::vectortoint(std::vector<int> v)
         decimal *= 10;
     }
     return total;
+}
+
+tile& sfml_game::getTileById(std::vector<int> tile_id) {
+  assert(!tile_id.empty());
+  const int id = tile_id[0];
+  //if (id > m_game.old_id)
+  //  assert(!"Tile id has not been used yet"); //!OCLINT accepted idiom
+  for (tile& t: m_game.get_tiles())
+  {
+    if (t.get_id() == id) {
+      return t;
+    }
+  }
+  assert(!"Should never get here"); //!OCLINT accepted idiom
+  throw std::runtime_error("ID not found");
+}
+
+void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) {
+  switch (t.get_type()) {
+    case tile_type::grassland:
+      color_shape(sfml_tile,sf::Color(0, 255, 0),sf::Color(0, 100, 0));
+      break;
+
+    case tile_type::mountains:
+      color_shape(sfml_tile,sf::Color(120, 120, 120),sf::Color(50, 50, 50));
+      break;
+
+    case tile_type::ocean:
+      color_shape(sfml_tile,sf::Color(0, 0, 255),sf::Color(0, 0, 100));
+      break;
+
+    case tile_type::savannah:
+      color_shape(sfml_tile,sf::Color(245, 190, 0),sf::Color(235, 170, 0));
+      break;
+
+    case tile_type::arctic:
+      color_shape(sfml_tile,sf::Color(50, 230, 255),sf::Color(10, 200, 255));
+      break;
+
+    case tile_type::desert:
+      color_shape(sfml_tile,sf::Color(250, 210, 80),sf::Color(255, 180, 50));
+      break;
+  }
+  sfml_tile.setOutlineThickness(5);
+  auto selected = vectortoint(m_selected);
+  if (t.get_id() == selected) {
+    sfml_tile.setOutlineColor(sf::Color(255,255,255));
+  } else {
+    sfml_tile.setOutlineColor(outline);
+  }
+}
+
+void sfml_game::color_shape(sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2) {
+  sfml_tile.setFillColor(c1);
+  outline = sf::Color(c2);
+}
+
+bool sfml_game::check_collision(double x, double y) {
+  for (tile& t: m_game.get_tiles())
+  {
+    if (t.tile_contains(x,y)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+void sfml_game::setup_text() {
+  //Set up text
+  titleScreenText.setFont(m_font);
+  titleScreenText.setString("Title Screen \n press space to go next");
+  titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left+
+                            titleScreenText.getGlobalBounds().width /2.0f,
+                            titleScreenText.getGlobalBounds().top +
+                            titleScreenText.getGlobalBounds().height /2.0f);
+  titleScreenText.setPosition(screen_center.x, screen_center.y);
+
+  mainMenuScreenText.setFont(m_font);
+  mainMenuScreenText.setString("Main Menu \n press space to go next");
+  mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left+
+                               mainMenuScreenText.getGlobalBounds().width /2.0f,
+                               mainMenuScreenText.getGlobalBounds().top+
+                               mainMenuScreenText.getGlobalBounds().height /2.0f);
+  mainMenuScreenText.setPosition(screen_center.x, screen_center.y);
+
+  aboutScreenText.setFont(m_font);
+  aboutScreenText.setString("About Screen \n press space to play");
+  titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left+
+                            aboutScreenText.getGlobalBounds().width /2.0f,
+                            aboutScreenText.getGlobalBounds().top+
+                            aboutScreenText.getGlobalBounds().height /2.0f);
+  aboutScreenText.setPosition(screen_center.x, screen_center.y);
 }
