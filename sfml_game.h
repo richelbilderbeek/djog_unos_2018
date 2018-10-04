@@ -73,6 +73,11 @@ private:
   ///Background music file object
   sf::Music m_background_music;
 
+  //Agent for testing
+  //agent agent_test;
+  //Texture for test agent
+  Texture test_agent_tex;
+
   ///Sate of Game
   GameState gameState = Playing;
 

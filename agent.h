@@ -2,8 +2,11 @@
 #define AGENT_H
 
 #include "agent_type.h"
+#include "SFML/Graphics.hpp"
 
 ///A world tile
+
+using namespace sf;
 class agent
 {
 public:
@@ -14,7 +17,8 @@ public:
   agent(
     const agent_type type,
     const double x = 0,
-    const double y = 0
+    const double y = 0,
+    const Texture texture = Texture()
   );
 
   /// The type the tile
@@ -26,6 +30,9 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
+  Sprite getSprite();
+
+  Texture getTexure();
 private:
 
   /// The type the tile
@@ -37,6 +44,12 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
+
+  // The sprite
+  Sprite m_sprite;
+
+  // The texture
+  Texture m_texture;
 };
 
 ///Test the tile class
