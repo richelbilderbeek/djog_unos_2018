@@ -152,15 +152,15 @@ void sfml_game::process_events()
   ++m_n_displayed;
 }
 
-void sfml_game::exec_tile_move(const std::vector<int> selected) {
+//TODO fix this (runs at start and selected is empty)
+void sfml_game::exec_tile_move(std::vector<int> selected) {
+  tile temp_t = getTileById(selected);
   if (m_timer > 0) {
-    getTileById(selected).move();
+    temp_t.move();
     m_timer--;
-  } else {
-    if (!selected.empty()) {
-      getTileById(selected).set_dx(0);
-      getTileById(selected).set_dy(0);
-    }
+  } else if (!selected.empty()) {
+      temp_t.set_dx(0);
+      temp_t.set_dy(0);
   }
 }
 

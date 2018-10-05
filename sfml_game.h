@@ -82,7 +82,7 @@ public:
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   bool will_colide(int direction, tile& t);
 
-  void exec_tile_move(const std::vector<int> selected);
+  void exec_tile_move(std::vector<int> selected);
 
 private:
 
