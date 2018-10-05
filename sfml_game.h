@@ -49,7 +49,7 @@ public:
   void stop_music();
 
   //Show to menu
-  void show_menu();
+  void show_title();
 
   void arrows(bool b, const sf::Event& event);
   bool space_pressed = false;
@@ -65,6 +65,7 @@ public:
   tile& getTileById(std::vector<int> tile_id);
 
   void tile_movement(bool b, const sf::Event& event, tile& t);
+  void tile_move_ctrl(const sf::Event& event, tile& t);
 
   double tile_speed = 1; // 115/tile_speed must be a whole number!
 
@@ -72,9 +73,13 @@ public:
   void color_shape(sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2);
   sf::Color outline;
 
+  void setup_text();
+
   bool check_collision(double x, double y);
 
-  void setup_text();
+  /// Check if the tile will colide with another tile if it moves in given direction
+  /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
+  bool will_colide(int direction, tile& t);
 
 private:
 

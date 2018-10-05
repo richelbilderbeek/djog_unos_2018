@@ -247,10 +247,13 @@ void sfml_game::stop_music()
 {
   m_background_music.stop();
 }
-void sfml_game::show_menu()
+
+//NOTE Changed it to show_title (was show_menu)
+void sfml_game::show_title()
 {
     gameState = TitleScreen;
 }
+
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::Right)
@@ -267,20 +270,24 @@ void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
 {
   if (m_timer == 0) {
     if (b == true) {
-      if (event.key.code == sf::Keyboard::D)
-        t.set_dx(tile_speed);
-      if (event.key.code == sf::Keyboard::A)
-        t.set_dx(-tile_speed);
-      if (event.key.code == sf::Keyboard::W)
-        t.set_dy(-tile_speed);
-      if (event.key.code == sf::Keyboard::S)
-        t.set_dy(tile_speed);
+      tile_move_ctrl(event, t);
       m_timer += (1/tile_speed)*115;
     } else {
       t.set_dx(0);
       t.set_dy(0);
     }
   }
+}
+
+void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t) {
+  if (event.key.code == sf::Keyboard::D && !will_colide(2,t))
+    t.set_dx(tile_speed);
+  if (event.key.code == sf::Keyboard::A && !will_colide(4,t))
+    t.set_dx(-tile_speed);
+  if (event.key.code == sf::Keyboard::W && !will_colide(1,t))
+    t.set_dy(-tile_speed);
+  if (event.key.code == sf::Keyboard::S && !will_colide(3,t))
+    t.set_dy(tile_speed);
 }
 
 int sfml_game::vectortoint(std::vector<int> v)
@@ -354,11 +361,48 @@ void sfml_game::color_shape(sf::RectangleShape& sfml_tile, sf::Color c1, sf::Col
 bool sfml_game::check_collision(double x, double y) {
   for (tile& t: m_game.get_tiles())
   {
-    if (t.tile_contains(x,y)) {
-      return false;
+    //._____.
+    //|     |
+    //|_A___|
+    //._____.
+    //|   B |
+    //|_____|
+    //
+    if (t.tile_contains(x+15,y+15)||
+        t.tile_contains(x-15,y-15)) {
+      return true;
     }
   }
-  return true;
+  return false;
+}
+
+//Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
+bool sfml_game::will_colide(int direction, tile& t) {
+  switch (direction) {
+    case 1://TODO fix this mess (Joshua)
+      if (sfml_game::check_collision(t.get_x()+(t.get_width()/2),t.get_y()-(t.get_height()/2))) {
+        return true;
+      }
+      return false;
+    case 2:
+      if (sfml_game::check_collision(t.get_x()+(t.get_width()*1.5),t.get_y()+(t.get_height()/2))) {
+        return true;
+      }
+      return false;
+    case 3:
+      if (sfml_game::check_collision(t.get_x()+(t.get_width()/2),t.get_y()+(t.get_height()*1.5))) {
+        return true;
+      }
+      return false;
+    case 4:
+      if (sfml_game::check_collision(t.get_x()-(t.get_width()/2),t.get_y()+(t.get_height()/2))) {
+        return true;
+      }
+      return false;
+    default:
+      return false;
+  }
+  return false;
 }
 
 void sfml_game::setup_text() {

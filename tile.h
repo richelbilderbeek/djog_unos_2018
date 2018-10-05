@@ -68,10 +68,6 @@ public:
   /// Is this coordinate within the tile?
   bool tile_contains(double x, double y) const noexcept;
 
-  /// Check if the tile will colide with another tile if it moves in given direction
-  /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-  bool will_colide(int direction);
-
 private:
 
   /// The height of the tile
