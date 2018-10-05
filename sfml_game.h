@@ -87,7 +87,7 @@ private:
   sf::Music m_background_music;
 
   ///Sate of Game
-  GameState gameState = Playing;
+  GameState m_game_state = Playing;
 
   ///Camera position in the x direction
   ///If positive, camera is moved right of the origin

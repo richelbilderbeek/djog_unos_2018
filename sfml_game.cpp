@@ -65,7 +65,7 @@ void sfml_game::close()
 void sfml_game::display()
 {
   m_window.clear(sf::Color::Black);//Clear the window with black color
-  if (gameState == Playing) {
+  if (m_game_state == Playing) {
       for (const tile& t: m_game.get_tiles())
       {
         sf::RectangleShape sfml_tile(
@@ -86,24 +86,24 @@ void sfml_game::display()
   text.setPosition(m_window.getSize().x - 80, 10);
   text.setStyle(Text::Bold);
   m_window.draw(text);
-  if (gameState == TitleScreen) {
+  if (m_game_state == TitleScreen) {
     m_window.draw(titleScreenText);
     if (space_pressed) {
         reset_input();
 
-        gameState = MenuScreen;
+        m_game_state = MenuScreen;
     }
-  } else if (gameState == MenuScreen) {
+  } else if (m_game_state == MenuScreen) {
     m_window.draw(mainMenuScreenText);
     if (space_pressed) {
         reset_input();
-        gameState = AboutScreen;
+        m_game_state = AboutScreen;
     }
-  } else if (gameState == AboutScreen) {
+  } else if (m_game_state == AboutScreen) {
     m_window.draw(aboutScreenText);
     if (space_pressed) {
         reset_input();
-        gameState = Playing;
+        m_game_state = Playing;
     }
   }
 //  m_window.draw(text);
@@ -123,7 +123,7 @@ void sfml_game::exec()
 void sfml_game::move_camera(sf::Vector2f offset)
 {
   //Dont move the camera in the menu
-  if (gameState != Playing)
+  if (m_game_state != Playing)
       return;
   m_camera_x += offset.x;
   m_camera_y += offset.y;
@@ -251,7 +251,7 @@ void sfml_game::stop_music()
 //NOTE Changed it to show_title (was show_menu)
 void sfml_game::show_title()
 {
-    gameState = TitleScreen;
+    m_game_state = TitleScreen;
 }
 
 void sfml_game::arrows(bool b, const sf::Event& event)
