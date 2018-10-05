@@ -58,7 +58,7 @@ void test_game() //!OCLINT a testing function may be long
   #ifdef FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
   //A game starts with a score of zero
   {
-    const game g;
+    const game g;a
     assert(g.get_score() == 0);
   }
   #endif // FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
