@@ -146,18 +146,22 @@ void sfml_game::process_events()
   if (movecam_d == true)
     move_camera(sf::Vector2f(0, 0.5));
 
-  if (m_timer > 0) {
-    getTileById(m_selected).move();
-    m_timer--;
-  } else {
-    if (!m_selected.empty()) {
-      getTileById(m_selected).set_dx(0);
-      getTileById(m_selected).set_dy(0);
-    }
-  }
+  exec_tile_move(m_selected);
 
   m_delegate.do_actions(*this);
   ++m_n_displayed;
+}
+
+void sfml_game::exec_tile_move(const std::vector<int> selected) {
+  if (m_timer > 0) {
+    getTileById(selected).move();
+    m_timer--;
+  } else {
+    if (!selected.empty()) {
+      getTileById(selected).set_dx(0);
+      getTileById(selected).set_dy(0);
+    }
+  }
 }
 
 void sfml_game::process_input()
@@ -379,7 +383,7 @@ bool sfml_game::check_collision(double x, double y) {
 //Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
 bool sfml_game::will_colide(int direction, tile& t) {
   switch (direction) {
-    case 1://TODO fix this mess (Joshua)
+    case 1:
       if (sfml_game::check_collision(t.get_x()+(t.get_width()/2),t.get_y()-(t.get_height()/2))) {
         return true;
       }
