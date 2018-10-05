@@ -247,10 +247,13 @@ void sfml_game::stop_music()
 {
   m_background_music.stop();
 }
-void sfml_game::show_menu()
+
+//NOTE Changed it to show_title (was show_menu)
+void sfml_game::show_title()
 {
     gameState = TitleScreen;
 }
+
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::Right)
@@ -267,13 +270,13 @@ void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
 {
   if (m_timer == 0) {
     if (b == true) {
-      if (event.key.code == sf::Keyboard::D)
+      if (event.key.code == sf::Keyboard::D && !will_colide(2,t))
         t.set_dx(tile_speed);
-      if (event.key.code == sf::Keyboard::A)
+      if (event.key.code == sf::Keyboard::A && !will_colide(4,t))
         t.set_dx(-tile_speed);
-      if (event.key.code == sf::Keyboard::W)
+      if (event.key.code == sf::Keyboard::W && !will_colide(1,t))
         t.set_dy(-tile_speed);
-      if (event.key.code == sf::Keyboard::S)
+      if (event.key.code == sf::Keyboard::S && !will_colide(3,t))
         t.set_dy(tile_speed);
       m_timer += (1/tile_speed)*115;
     } else {
@@ -359,6 +362,37 @@ bool sfml_game::check_collision(double x, double y) {
     }
   }
   return true;
+}
+
+//Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
+bool sfml_game::will_colide(int direction, tile& t) {
+  switch (direction) {
+    case 1://TODO fix this mess (Joshua)
+      if (sfml_game::check_collision(t.get_x()+50,t.get_y()-65) ||
+          (sfml_game::check_collision(t.get_x()+t.get_width()-50,
+          t.get_y()+t.get_height()-165) && t.get_width() == 215.0)) {
+        return true;
+      }
+    case 2:
+      if (sfml_game::check_collision(t.get_x()+165,t.get_y()+50) ||
+          (sfml_game::check_collision(t.get_x()+t.get_width()+65,
+          t.get_y()+t.get_height()-50) && t.get_height() == 215.0)) {
+        return true;
+      }
+    case 3:
+      if (sfml_game::check_collision(t.get_x()+50,t.get_y()+165) ||
+          (sfml_game::check_collision(t.get_x()+t.get_width()-50,
+          t.get_y()+t.get_height()+65) && t.get_width() == 215.0)) {
+        return true;
+      }
+    case 4:
+      if (sfml_game::check_collision(t.get_x()-65,t.get_y()+50) ||
+          (sfml_game::check_collision(t.get_x()+t.get_width()+65,
+          t.get_y()+t.get_height()-165) && t.get_width() == 215.0)) {
+        return true;
+      }
+  }
+  return false;
 }
 
 void sfml_game::setup_text() {

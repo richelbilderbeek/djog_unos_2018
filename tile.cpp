@@ -69,13 +69,6 @@ bool tile::tile_contains(double x, double y) const noexcept
   return x>m_x-5&&x<m_x+m_width+5&&y>m_y-5&&y<m_y+m_height+5;
 }
 
-//bool tile::will_colide(int direction) {
-//  switch (direction) {
-//    case 1:
-//      if (sfml_game::check_collision(get))
-//  }
-//}
-
 void test_tile() //!OCLINT testing function may be many lines
 {
   #define FIX_ISSUE_85_TEST_TILE
