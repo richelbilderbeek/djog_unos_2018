@@ -1,117 +1,96 @@
+
+//Always include the header of the unit first
 #include "game.h"
 
-sf::Color shapeColors[] = {sf::Color(255, 255, 255),
-                           sf::Color(255, 0, 0),
-                           sf::Color(0, 255, 0),
-                           sf::Color(0, 0, 255),
-                           sf::Color(255, 255, 0),
-                           sf::Color(255, 0, 255),
-                           sf::Color(0, 255, 255),
-                           sf::Color(150, 150, 150)
-};
+#include <cassert>
 
-int colorIndex = 0;
-
-game::game(const std::vector<std::string>& args)
-  : m_n_displayed_max{extract_n_displayed_max(args)},
-    m_window(sf::VideoMode(width, height), "sfml_unos_2018")
+game::game()
+  : m_tiles{},
+    m_score{0}
 {
-
-}
-
-void game::display()
-{
-  ++m_n_displayed;
-
-  // clear the window with black color
-  m_window.clear(sf::Color::Black);
-
-  // draw everything here...
-  sf::RectangleShape shape(sf::Vector2f(12.34, 56.78));
-  shape.setPosition(100 + camera_x, 100 + camera_y);
-  shape.setRotation(m_angle);
-  shape.setFillColor(shapeColors[colorIndex]);
-  m_window.draw(shape);
-
-  // end the current frame
-  m_window.display();
-
-}
-
-int game::exec()
-{
-  // Set the window start location to the center
-  m_window.setPosition(
-    sf::Vector2i(
-        sf::VideoMode::getDesktopMode().width * 0.5 - width * 0.5,
-        sf::VideoMode::getDesktopMode().height * 0.5 - height * 0.5
-    )
-);
-
-  while (m_window.isOpen())
+  //Add first tile
   {
-    process_input();
-    process_events();
-    display();
+    tile t(100, 100, 215, 100, tile_type::grassland, new_id());
+    m_tiles.push_back(t);
   }
-  return 0;
-}
-
-int extract_n_displayed_max(const std::vector<std::string>& /* args */)
-{
-  //STUB
-  return 100;
+  {
+    tile t(215, 215, 100, 215, tile_type::mountains, new_id());
+    m_tiles.push_back(t);
+  }
+  {
+    tile t(-15, 215, 215, 100, tile_type::ocean, new_id());
+    m_tiles.push_back(t);
+  }
+  {
+    tile t(-15, -15, 215, 100, tile_type::arctic, new_id());
+    m_tiles.push_back(t);
+  }
+  {
+    tile t(215, -15, 215, 100, tile_type::savannah, new_id());
+    m_tiles.push_back(t);
+  }
+  {
+    tile t(445, -15, 100, 215, tile_type::desert, new_id());
+    m_tiles.push_back(t);
+  }
 }
 
 void game::process_events()
 {
-  m_angle += 0.01;
-  if (m_n_displayed_max > 0 && m_n_displayed + 1 == m_n_displayed_max)
-  {
-    m_window.close();
-  }
+    ++m_n_tick;
 }
 
-void game::process_input()
+void test_game() //!OCLINT a testing function may be long
 {
-  // check all the window's events that were triggered since the last iteration of the loop
-  sf::Event event;
-  while (m_window.pollEvent(event))
+  //A game starts with one or more tiles
   {
-    // Travis isn't able to test this line which causes -> Codecov 75% (Could be 100%)
-    switch(event.type)
-    {
-        // "close requested" event: we close the window
-        case sf::Event::Closed:
-            m_window.close();
-            break;
-
-        // "key pressed" event: parse events for every key
-        case sf::Event::KeyPressed:
-            //Check for arrow presses
-            //If the Right arrow is pressed move camera to right
-            if (event.key.code == sf::Keyboard::Right)
-                camera_x += 5;
-            //If Left arrow key is pressed move the camrea to the left
-            if (event.key.code == sf::Keyboard::Left)
-                camera_x -= 5;
-            //If Up arrow key is pressed move the camera up
-            if (event.key.code == sf::Keyboard::Up)
-                camera_y -= 5;
-            //If Down arrow key is pressed move the camera down
-            if (event.key.code == sf::Keyboard::Down)
-                camera_y += 5;
-            break;
-
-        // "mouse button pressed" event: parse event vor mousse buttons
-        case sf::Event::MouseButtonPressed:
-            //Check for mouse buttons
-            if (event.mouseButton.button == sf::Mouse::Button::Left)
-                colorIndex = (colorIndex + 1) % 7;
-            break;
-
-        default:
-            break;
-      }
+    const game g;
+    assert(!g.get_tiles().empty());
   }
+  //#define FIX_ISSUE_89_ADD_SECOND_TILE
+  #ifdef FIX_ISSUE_89_ADD_SECOND_TILE
+  {
+    const game g;
+    assert(!g.get_tiles().size() >= 2);
+    assert(g.get_tiles()[0].get_type() != g.get_tiles()[1].get_type());
+  }
+  #endif // FIX_ISSUE_89_ADD_SECOND_TILE
+
+  #define FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
+  #ifdef FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
+  //A game starts with a score of zero
+  {
+    const game g;
+    assert(g.get_score() == 0);
+  }
+  #endif // FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
+
+  //#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+  #ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+  //A game starts with a zero number of game cycles
+  {
+    const game g;
+    assert(g.get_n_ticks() == 0);
+  }
+  //Number of game cycles is increased each time all events are processed
+  {
+    game g;
+    g.process_events();
+    assert(g.get_n_ticks() == 1);
+  }
+  #endif // FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+
+
+  //#define FIX_ISSUE_95_GAME_CAN_BE_SAVED
+  #ifdef FIX_ISSUE_95_GAME_CAN_BE_SAVED
+  //A game can be saved
+  {
+    const game g;
+    const std::string filename{"tmp.sav"};
+    if (file_exists(filename)) delete_file(filename);
+    assert(!file_exists(filename));
+    save(g, filename);
+    assert(file_exists(filename));
+  }
+  #endif // FIX_ISSUE_95_GAME_CAN_BE_SAVED
 }

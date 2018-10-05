@@ -47,14 +47,10 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script: 
-  # Test game logic, measure code coverage
-  - qmake -qt=qt5 djog_unos_2018_test.pro
-  - make --silent debug
-  - ./djog_unos_2018_test
-  # Run the game without crashing
+  # Build and run the game
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
-  - travis_wait 1 ./djog_unos_2018&
+  - ./djog_unos_2018 --short
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Get code coverage
@@ -64,7 +60,7 @@ script:
   - ./do_oclint
   # SLOCcount
   #   remove OCLint otherwise it will be counted as well
-  - rm -rf oclint-0.10.3
+  - rm -rf oclint-0.10.3 oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz oclint.log
   - cd ..; sloccount --overhead 1 --personcost 22614 djog_unos_2018; cd djog_unos_2018
   # clang-tidy
   #- ./do_clang-tidy

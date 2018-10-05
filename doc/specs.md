@@ -1,5 +1,7 @@
 # Specifics
 
+Technical specifics of the game.
+
  * Target operating system: Linux, Mac, Windows
  * Programming language: C++ 
  * IDE: Qt Creator
