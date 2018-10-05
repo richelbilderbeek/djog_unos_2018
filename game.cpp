@@ -1,5 +1,7 @@
 //Always include the header of the unit first
 #include "game.h"
+#include "object_blob.h"
+#include "object_blob_list.h"
 
 #include <cassert>
 
@@ -89,4 +91,9 @@ void test_game() //!OCLINT a testing function may be long
     assert(file_exists(filename));
   }
   #endif // FIX_ISSUE_95_GAME_CAN_BE_SAVED
+}
+
+void save(const game &, std::string filename)
+{
+
 }
