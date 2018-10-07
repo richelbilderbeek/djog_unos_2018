@@ -23,6 +23,7 @@ Collaboratively create a game, to be put on, for example, Steam.
 
   * [architecture](doc/architecture.md)
   * [code of conduct](code_of_conduct.md)
+  * [coding standard](doc/coding_standard.md)
   * [game](doc/game.md)
   * [git](doc/git.md)
   * [install](doc/install.md)
