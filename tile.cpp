@@ -41,11 +41,13 @@ tile::tile(
 
 void tile::set_dx(double dx)
 {
+  if (!m_locked)
     m_dx = dx;
 }
 
 void tile::set_dy(double dy)
 {
+  if (!m_locked)
     m_dy = dy;
 }
 
@@ -67,6 +69,10 @@ void tile::set_id(int id) {
 bool tile::tile_contains(double x, double y) const noexcept
 {
   return x>m_x-5&&x<m_x+m_width+5&&y>m_y-5&&y<m_y+m_height+5;
+}
+
+void tile::lock_movement(bool b) {
+  m_locked = b;
 }
 
 void test_tile() //!OCLINT testing function may be many lines

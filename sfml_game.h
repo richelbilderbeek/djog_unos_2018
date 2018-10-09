@@ -52,6 +52,7 @@ public:
   void show_title();
 
   void arrows(bool b, const sf::Event& event);
+
   bool space_pressed = false;
 
   std::vector<int> m_selected;
@@ -80,6 +81,12 @@ public:
   /// Check if the tile will colide with another tile if it moves in given direction
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   bool will_colide(int direction, tile& t);
+
+  void exec_tile_move(std::vector<int> selected);
+
+  std::vector<int> m_temp_id;
+
+  void manage_timer();
 
 private:
 

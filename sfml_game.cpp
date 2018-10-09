@@ -146,18 +146,34 @@ void sfml_game::process_events()
   if (movecam_d == true)
     move_camera(sf::Vector2f(0, 0.5));
 
-  if (m_timer > 0) {
-    getTileById(m_selected).move();
-    m_timer--;
-  } else {
-    if (!m_selected.empty()) {
-      getTileById(m_selected).set_dx(0);
-      getTileById(m_selected).set_dy(0);
-    }
-  }
+  exec_tile_move(m_selected);
+
+  manage_timer();
 
   m_delegate.do_actions(*this);
   ++m_n_displayed;
+}
+
+void sfml_game::manage_timer() {
+  if (m_timer > 0) {
+    --m_timer;
+  } else {
+    m_selected.clear();
+    if (!m_temp_id.empty())
+      m_selected.push_back(m_temp_id[0]);
+  }
+}
+
+void sfml_game::exec_tile_move(std::vector<int> selected) {
+  if (!selected.empty()) {
+    tile& temp_tile = getTileById(selected);
+    if (m_timer > 0) {
+      temp_tile.move();
+    } else {
+      temp_tile.set_dx(0);
+      temp_tile.set_dy(0);
+    }
+  }
 }
 
 void sfml_game::process_input()
@@ -200,7 +216,7 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
     arrows(true, event);
     if (event.key.code == sf::Keyboard::Space)
         space_pressed = true;
-    if (m_selected.size() > 0)
+    if (!m_selected.empty())
       tile_movement(true, event, getTileById(m_selected));
     if (m_timer > 0)
       tile_movement(false, event, getTileById(m_selected));
@@ -226,18 +242,18 @@ void sfml_game::process_mouse_input(const sf::Event& event)
   assert(event.type == sf::Event::MouseButtonPressed);
 
   if (event.mouseButton.button == sf::Mouse::Left) {
-   std::vector<tile> game_tiles = m_game.get_tiles();
-   for (unsigned i = 0; i<game_tiles.size(); i++) {
-     if (game_tiles.at(i).tile_contains(
-           sf::Mouse::getPosition(m_window).x+m_camera_x,
-           sf::Mouse::getPosition(m_window).y+m_camera_y)) {
-       m_selected.clear();
-       m_selected.push_back(game_tiles.at(i).get_id());
-       clicked_tile = true;
-     }
-    }
-   if (clicked_tile == false) {
-      m_selected.clear();
+      std::vector<tile> game_tiles = m_game.get_tiles();
+        for (unsigned i = 0; i<game_tiles.size(); i++) {
+          if (game_tiles.at(i).tile_contains(
+               sf::Mouse::getPosition(m_window).x+m_camera_x,
+               sf::Mouse::getPosition(m_window).y+m_camera_y)) {
+          m_temp_id.clear();
+          m_temp_id.push_back(game_tiles.at(i).get_id());
+          clicked_tile = true;
+        }
+      }
+    if (clicked_tile == false) {
+      m_temp_id.clear();
     }
     clicked_tile = false;
   }
@@ -379,7 +395,7 @@ bool sfml_game::check_collision(double x, double y) {
 //Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
 bool sfml_game::will_colide(int direction, tile& t) {
   switch (direction) {
-    case 1://TODO fix this mess (Joshua)
+    case 1:
       if (sfml_game::check_collision(t.get_x()+(t.get_width()/2),t.get_y()-(t.get_height()/2))) {
         return true;
       }
