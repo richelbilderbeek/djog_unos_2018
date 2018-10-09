@@ -68,6 +68,10 @@ public:
   /// Is this coordinate within the tile?
   bool tile_contains(double x, double y) const noexcept;
 
+  void lock_movement(bool b);
+
+  bool get_m_locked() const noexcept { return m_locked; }
+
 private:
 
   /// The height of the tile
@@ -96,6 +100,8 @@ private:
 
   /// The tile's id
   int m_id;
+
+  bool m_locked = false;
 };
 
 ///Test the tile class
