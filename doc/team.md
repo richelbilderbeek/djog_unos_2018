@@ -17,6 +17,7 @@
      * Education of junior devs
    * Elles, `EllyJet`: junior dev
    * Joshua, `Joshua260403`: medior dev
+     * Wiki manager
      * Debugging
      * Education of junior devs
    * Mohammed: junior dev
