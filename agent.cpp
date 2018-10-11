@@ -7,14 +7,23 @@
 agent::agent(
   const agent_type type,
   const double x,
-  const double y
+  const double y,
+  const Texture texture
 ) : m_type{type},
     m_x{x},
-    m_y{y}
+    m_y{y},
+    m_texture{texture}
 {
-
+    m_sprite.setTexture(texture);
 }
 
+Sprite agent::getSprite()
+{
+    return m_sprite;
+}
+Texture agent::getTexure() {
+    return  m_texture;
+}
 void test_agent() //!OCLINT testing functions may be long
 {
   //A default agent has coordinate (0,0)

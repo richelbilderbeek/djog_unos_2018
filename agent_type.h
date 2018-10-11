@@ -4,7 +4,7 @@
 ///The type a tile can be
 enum class agent_type
 {
-  cow
+    cow
 };
 
 #endif // TILE_TYPE_H
