@@ -102,7 +102,7 @@ public:
 private:
 
   ///Background music file object
-  sf::Music m_background_music;
+  sf::Music& m_background_music;
 
   //Agent for testing
   //agent agent_test;

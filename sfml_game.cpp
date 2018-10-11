@@ -2,7 +2,7 @@
 #include "sfml_game.h"
 #include "agent.h"
 #include "agent_type.h"
-
+#include "sfml_resources.h"
 #include <iostream>
 #include <cassert>
 #include <QFile>
@@ -13,7 +13,7 @@ sfml_game::sfml_game(
   const int window_height,
   const sfml_game_delegate& delegate
 )
-  : m_background_music{},
+  : m_background_music{sfml_resources::get().get_background_music()},
     m_delegate{delegate},
     m_window(sf::VideoMode(window_width, window_height), "Nature Zen"),
     m_font{}

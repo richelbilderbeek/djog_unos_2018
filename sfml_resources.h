@@ -10,7 +10,7 @@ public:
   ///Access the resources
   static sfml_resources& get();
 
-  const sf::Music& get_background_music() const noexcept { return m_background_music; }
+  sf::Music& get_background_music() noexcept { return m_background_music; }
 
 private:
   ///Do not construct a sfml_resources,

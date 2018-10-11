@@ -32,8 +32,8 @@ void test_resources() noexcept
 {
   //Music must have a length
   {
-    const sfml_resources& resources = sfml_resources::get();
-    const sf::Music& music = resources.get_background_music();
+    sfml_resources& resources = sfml_resources::get();
+    sf::Music& music = resources.get_background_music();
     assert(music.getDuration().asMilliseconds() > 0.0);
   }
 }
