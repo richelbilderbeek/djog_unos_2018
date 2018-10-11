@@ -36,6 +36,7 @@ public:
 
   Texture getTexure();
   // TODO Add below functions to the cpp file (Joshua)
+  // TODO Add below functions to the cpp file (#33) -Joshua
 
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);
