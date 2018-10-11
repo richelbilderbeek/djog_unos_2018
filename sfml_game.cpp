@@ -46,9 +46,7 @@ sfml_game::sfml_game(
   {
     throw std::runtime_error("Cannot find font file font.ttf");
   }
-  screen_center = Vector2i(sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
-          sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5);
-
+  m_screen_center = Vector2i(window_width/2,window_height/2);
   setup_text();
 }
 
@@ -131,12 +129,27 @@ void sfml_game::move_camera(sf::Vector2f offset)
 
 void sfml_game::process_events()
 {
- if ((115/tile_speed != std::abs(std::floor(115/tile_speed)) ||
+  if ((115/tile_speed != std::abs(std::floor(115/tile_speed)) ||
       115/tile_speed != std::abs(std::ceil(115/tile_speed))) ||
       tile_speed > 115.0) {
-   throw std::runtime_error("The set tile speed is not usable");
- }
+    throw std::runtime_error("The set tile speed is not usable");
+  }
 
+  if (!m_selected.empty()) {
+    follow_tile();
+  } else {
+    confirm_move();
+  }
+
+  exec_tile_move(m_selected);
+
+  manage_timer();
+
+  m_delegate.do_actions(*this);
+  ++m_n_displayed;
+}
+
+void sfml_game::confirm_move() {
   if (movecam_r == true)
     move_camera(sf::Vector2f(0.5, 0));
   if (movecam_l == true)
@@ -145,13 +158,12 @@ void sfml_game::process_events()
     move_camera(sf::Vector2f(0, -0.5));
   if (movecam_d == true)
     move_camera(sf::Vector2f(0, 0.5));
+}
 
-  exec_tile_move(m_selected);
-
-  manage_timer();
-
-  m_delegate.do_actions(*this);
-  ++m_n_displayed;
+void sfml_game::follow_tile() {
+  tile& t = getTileById(m_selected);
+  m_camera_x = t.get_x()+(t.get_width()/2)-m_screen_center.x;
+  m_camera_y = t.get_y()+(t.get_height()/2)-m_screen_center.y;
 }
 
 void sfml_game::manage_timer() {
@@ -272,14 +284,14 @@ void sfml_game::show_title()
 
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
-  if (event.key.code == sf::Keyboard::Right)
-      movecam_r = b;
-  if (event.key.code == sf::Keyboard::Left)
-      movecam_l = b;
-  if (event.key.code == sf::Keyboard::Up)
-      movecam_u = b;
-  if (event.key.code == sf::Keyboard::Down)
-      movecam_d = b;
+  if (event.key.code == sf::Keyboard::D)
+    movecam_r = b;
+  if (event.key.code == sf::Keyboard::A)
+    movecam_l = b;
+  if (event.key.code == sf::Keyboard::W)
+    movecam_u = b;
+  if (event.key.code == sf::Keyboard::S)
+    movecam_d = b;
 }
 
 void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
@@ -429,7 +441,7 @@ void sfml_game::setup_text() {
                             titleScreenText.getGlobalBounds().width /2.0f,
                             titleScreenText.getGlobalBounds().top +
                             titleScreenText.getGlobalBounds().height /2.0f);
-  titleScreenText.setPosition(screen_center.x, screen_center.y);
+  titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 
   mainMenuScreenText.setFont(m_font);
   mainMenuScreenText.setString("Main Menu \n press space to go next");
@@ -437,7 +449,7 @@ void sfml_game::setup_text() {
                                mainMenuScreenText.getGlobalBounds().width /2.0f,
                                mainMenuScreenText.getGlobalBounds().top+
                                mainMenuScreenText.getGlobalBounds().height /2.0f);
-  mainMenuScreenText.setPosition(screen_center.x, screen_center.y);
+  mainMenuScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 
   aboutScreenText.setFont(m_font);
   aboutScreenText.setString("About Screen \n press space to play");
@@ -445,5 +457,5 @@ void sfml_game::setup_text() {
                             aboutScreenText.getGlobalBounds().width /2.0f,
                             aboutScreenText.getGlobalBounds().top+
                             aboutScreenText.getGlobalBounds().height /2.0f);
-  aboutScreenText.setPosition(screen_center.x, screen_center.y);
+  aboutScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }

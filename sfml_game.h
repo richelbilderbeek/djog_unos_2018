@@ -88,6 +88,11 @@ public:
 
   void manage_timer();
 
+  void confirm_move();
+  void follow_tile();
+
+  sf::Vector2i m_screen_center;
+
 private:
 
   ///Background music file object
@@ -152,7 +157,6 @@ private:
   Text aboutScreenText;
   //Font
   Font m_font;
-  Vector2i screen_center;
 
   bool movecam_r = false;
   bool movecam_l = false;
