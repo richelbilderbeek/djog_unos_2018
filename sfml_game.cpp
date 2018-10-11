@@ -28,7 +28,7 @@ sfml_game::sfml_game(
     { QFile f(":/nature_zen/resources/font.ttf"); f.copy("font.ttf"); }
 
     //Re-create font
-    { QFile f(":/nature_zen/resources/cow.jpg"); f.copy("cow.jpg"); }
+    { QFile f(":/nature_zen/resources/cow.png"); f.copy("cow.png"); }
   }
   //Set up music
   {
@@ -54,32 +54,7 @@ sfml_game::sfml_game(
   screen_center = Vector2i(sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
           sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5);
 
-  //Set up text
-  titleScreenText.setFont(m_font);
-  titleScreenText.setString("Title Screen");
-  titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left + titleScreenText.getGlobalBounds().width /2.0f,
-                            titleScreenText.getGlobalBounds().top + titleScreenText.getGlobalBounds().height /2.0f);
-  titleScreenText.setPosition(screen_center.x, screen_center.y);
-
-
-  mainMenuScreenText.setFont(m_font);
-  mainMenuScreenText.setString("Main Menu");
-  mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left + mainMenuScreenText.getGlobalBounds().width /2.0f,
-                            mainMenuScreenText.getGlobalBounds().top + mainMenuScreenText.getGlobalBounds().height /2.0f);
-  mainMenuScreenText.setPosition(screen_center.x, screen_center.y);
-
-
-  aboutScreenText.setFont(m_font);
-  aboutScreenText.setString("About Screen");
-  titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left + aboutScreenText.getGlobalBounds().width /2.0f,
-                            aboutScreenText.getGlobalBounds().top + aboutScreenText.getGlobalBounds().height /2.0f);
-  aboutScreenText.setPosition(screen_center.x, screen_center.y);
-
-  //Set up agent for testing
-  test_agent_tex.loadFromFile("cow.png");
-  agent agent_test(agent_type::cow, 0, 0, test_agent_tex);
-  m_window.draw(agent_test.getSprite());
-
+  // Set up text
   setup_text();
 
 }
@@ -97,6 +72,8 @@ void sfml_game::close()
 void sfml_game::display()
 {
   m_window.clear(sf::Color::Black);//Clear the window with black color
+
+
   if (m_game_state == Playing) {
       for (const tile& t: m_game.get_tiles())
       {
@@ -112,18 +89,19 @@ void sfml_game::display()
         m_window.draw(sfml_tile);
       }
       sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
+
+      //Set up agent for testing
+      test_agent_tex.loadFromFile("cow.png");
+      agent agent_test(agent_type::cow, 1000, 1000, test_agent_tex);
+      m_window.draw(agent_test.getSprite());
   }
-<<<<<<< HEAD
   /////sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
-  else if (gameState == TitleScreen) {
-=======
 
   sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   text.setPosition(m_window.getSize().x - 80, 10);
   text.setStyle(Text::Bold);
   m_window.draw(text);
   if (m_game_state == TitleScreen) {
->>>>>>> develop
     m_window.draw(titleScreenText);
     if (space_pressed) {
         reset_input();
@@ -143,12 +121,9 @@ void sfml_game::display()
         m_game_state = Playing;
     }
   }
-<<<<<<< HEAD
   /////m_window.draw(text);
 
-=======
 //  m_window.draw(text);
->>>>>>> develop
   m_window.display();//Put everything on the screen
 }
 
@@ -466,7 +441,7 @@ bool sfml_game::will_colide(int direction, tile& t) {
 void sfml_game::setup_text() {
   //Set up text
   titleScreenText.setFont(m_font);
-  titleScreenText.setString("Title Screen \n press space to go next");
+  titleScreenText.setString("Title Screen");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left+
                             titleScreenText.getGlobalBounds().width /2.0f,
                             titleScreenText.getGlobalBounds().top +
@@ -474,7 +449,7 @@ void sfml_game::setup_text() {
   titleScreenText.setPosition(screen_center.x, screen_center.y);
 
   mainMenuScreenText.setFont(m_font);
-  mainMenuScreenText.setString("Main Menu \n press space to go next");
+  mainMenuScreenText.setString("Main Menu");
   mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left+
                                mainMenuScreenText.getGlobalBounds().width /2.0f,
                                mainMenuScreenText.getGlobalBounds().top+
@@ -482,7 +457,7 @@ void sfml_game::setup_text() {
   mainMenuScreenText.setPosition(screen_center.x, screen_center.y);
 
   aboutScreenText.setFont(m_font);
-  aboutScreenText.setString("About Screen \n press space to play");
+  aboutScreenText.setString("About Screen");
   titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left+
                             aboutScreenText.getGlobalBounds().width /2.0f,
                             aboutScreenText.getGlobalBounds().top+
