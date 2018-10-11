@@ -44,4 +44,6 @@ private:
 ///Test the game class
 void test_game();
 
+void save(const game&, std::string filename);
+
 #endif // GAME_H
