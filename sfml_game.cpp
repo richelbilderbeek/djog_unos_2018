@@ -21,9 +21,6 @@ sfml_game::sfml_game(
 
   //Resources
   {
-    //Re-create resource at executable's location
-    { QFile f(":/nature_zen/resources/background_music.ogg"); f.copy("background_music.ogg"); }
-
     //Re-create font
     { QFile f(":/nature_zen/resources/font.ttf"); f.copy("font.ttf"); }
 

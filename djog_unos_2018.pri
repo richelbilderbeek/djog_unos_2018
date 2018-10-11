@@ -7,6 +7,7 @@ SOURCES += \
     $$PWD/agent_type.cpp \
     $$PWD/agent.cpp \
     $$PWD/object_blob.cpp \
+    $$PWD/sfml_resources.cpp \
     $$PWD/object_blob_list.cpp
 
 HEADERS += \
@@ -17,6 +18,7 @@ HEADERS += \
     $$PWD/tile_type.h \
     $$PWD/agent_type.h \
     $$PWD/agent.h \
+    $$PWD/sfml_resources.h \
     $$PWD/object_blob.h \
     $$PWD/object_blob_list.h
 

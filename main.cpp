@@ -6,10 +6,12 @@
 #include <QFile>
 #include <SFML/Graphics.hpp>
 #include <cassert>
+#include "sfml_resources.h"
 
 ///All tests are called from here, only in debug mode
 void test()
 {
+  test_resources();
   test_game();
   test_sfml_game_delegate();
   test_tile();
