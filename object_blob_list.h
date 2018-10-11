@@ -1,6 +1,8 @@
 #ifndef OBJECTBLOBLIST_H
 #define OBJECTBLOBLIST_H
 
+#ifdef WHY_WOULD_ONE_WANT_THIS_EVER
+
 #include "object_blob.h"
 
 class object_blob_list {
@@ -19,5 +21,7 @@ public:
     bool save(char *filename);
     bool load(char *filename);
 };
+
+#endif //WHY_WOULD_ONE_WANT_THIS_EVER
 
 #endif

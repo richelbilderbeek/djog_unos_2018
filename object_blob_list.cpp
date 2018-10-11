@@ -1,7 +1,11 @@
 #include "object_blob_list.h"
+
+#ifdef WHY_WOULD_ONE_WANT_THIS_EVER
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
 
 object_blob_list::object_blob_list()
 {
@@ -141,3 +145,5 @@ bool object_blob_list::load(char *filename)
     free(blob_name_temp);
     return true;
 }
+
+#endif // WHY_WOULD_ONE_WANT_THIS_EVER

@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#ifdef WHY_WOULD_ONE_WANT_THIS_EVER
+
 #include "object_blob.h"
 
 object_blob::object_blob()
@@ -159,7 +161,7 @@ platform, currently it is just a simple pass-through but the idea
 is this can deal with data size mismatches and endian differences
 across platform types.
 */
-void object_blob::massage_data(int type, void *data_in, int length, int size)
+void object_blob::massage_data(int /* type */, void *data_in, int length, int size)
 {
     //passthrough for LE (ie x86, iOS)
     //stored data is Little Endian
@@ -241,3 +243,5 @@ void object_blob::loadBlob(char *blob)
         blob_offset += lengthTemp*sizeTemp;
     }
 }
+
+#endif // WHY_WOULD_ONE_WANT_THIS_EVER

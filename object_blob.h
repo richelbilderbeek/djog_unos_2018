@@ -1,6 +1,8 @@
 #ifndef OBJECTBLOB_H
 #define OBJECTBLOB_H
 
+#ifdef WHY_WOULD_ONE_WANT_THIS_EVER
+
 /*
 bool,char,int,float,double
 */
@@ -34,5 +36,7 @@ public:
     char *save_blob(int *size);
     void load_blob(char *blob);
 };
+
+#endif // WHY_WOULD_ONE_WANT_THIS_EVER
 
 #endif
