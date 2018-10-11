@@ -23,17 +23,10 @@ sfml_game::sfml_game(
   {
     //Re-create font
     { QFile f(":/nature_zen/resources/font.ttf"); f.copy("font.ttf"); }
-
-    //Re-create font
-    { QFile f(":/nature_zen/resources/cow.png"); f.copy("cow.png"); }
   }
   //Set up music
   {
     m_background_music.setLoop(true);
-    if (!m_background_music.openFromFile("background_music.ogg"))
-    {
-      throw std::runtime_error("Cannot find music file 'background_music.ogg'");
-    }
     m_background_music.play();
   }
   //Set up window, start location to the center
@@ -86,8 +79,7 @@ void sfml_game::display()
       sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
 
       //Set up agent for testing
-      test_agent_tex.loadFromFile("cow.png");
-      agent agent_test(agent_type::cow, 1000, 1000, test_agent_tex);
+      agent agent_test(agent_type::cow, 1000, 1000, sfml_resources::get().get_cow_texture());
       m_window.draw(agent_test.getSprite());
   }
   /////sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
