@@ -1,5 +1,7 @@
 # Team
 
+Name of our team: 'Octane'
+
  * @richelbilderbeek: project manager, lead developer
    * Make (potentially impopular) decisions
    * Primary software architect
