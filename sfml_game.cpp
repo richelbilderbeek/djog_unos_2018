@@ -135,10 +135,10 @@ void sfml_game::process_events()
     throw std::runtime_error("The set tile speed is not usable");
   }
 
-  if (!m_selected.empty()) {
-    follow_tile();
-  } else {
+  if (m_selected.empty()) {
     confirm_move();
+  } else {
+    follow_tile();
   }
 
   exec_tile_move(m_selected);
