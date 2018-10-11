@@ -49,9 +49,10 @@ public:
   void stop_music();
 
   //Show to menu
-  void show_menu();
+  void show_title();
 
   void arrows(bool b, const sf::Event& event);
+
   bool space_pressed = false;
 
   std::vector<int> m_selected;
@@ -65,8 +66,27 @@ public:
   tile& getTileById(std::vector<int> tile_id);
 
   void tile_movement(bool b, const sf::Event& event, tile& t);
+  void tile_move_ctrl(const sf::Event& event, tile& t);
 
   double tile_speed = 1; // 115/tile_speed must be a whole number!
+
+  void color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t);
+  void color_shape(sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2);
+  sf::Color outline;
+
+  void setup_text();
+
+  bool check_collision(double x, double y);
+
+  /// Check if the tile will colide with another tile if it moves in given direction
+  /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
+  bool will_colide(int direction, tile& t);
+
+  void exec_tile_move(std::vector<int> selected);
+
+  std::vector<int> m_temp_id;
+
+  void manage_timer();
 
 private:
 
@@ -79,7 +99,7 @@ private:
   Texture test_agent_tex;
 
   ///Sate of Game
-  GameState gameState = Playing;
+  GameState m_game_state = Playing;
 
   ///Camera position in the x direction
   ///If positive, camera is moved right of the origin

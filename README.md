@@ -23,6 +23,7 @@ Collaboratively create a game, to be put on, for example, Steam.
 
   * [architecture](doc/architecture.md)
   * [code of conduct](code_of_conduct.md)
+  * [coding standard](doc/coding_standard.md)
   * [game](doc/game.md)
   * [git](doc/git.md)
   * [install](doc/install.md)
@@ -36,6 +37,8 @@ Collaboratively create a game, to be put on, for example, Steam.
 ## Progress
 
 Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
+
+![](pics/20181011.png)
 
 ![](pics/20180923.png)
 

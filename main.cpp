@@ -51,7 +51,7 @@ int main(int argc, char ** argv)
   }
   if (std::count(std::begin(args), std::end(args), "--menu"))
   {
-    g.show_menu();
+    g.show_title();
   }
 
   g.exec();
