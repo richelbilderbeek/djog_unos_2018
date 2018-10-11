@@ -38,6 +38,8 @@ Collaboratively create a game, to be put on, for example, Steam.
 
 Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
 
+![](pics/20181011.png)
+
 ![](pics/20180923.png)
 
 ![](pics/20180916.png)
