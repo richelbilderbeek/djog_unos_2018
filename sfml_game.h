@@ -52,7 +52,6 @@ public:
   void show_title();
 
   void arrows(bool b, const sf::Event& event);
-  bool space_pressed = false;
 
   std::vector<int> m_selected;
 
@@ -80,6 +79,23 @@ public:
   /// Check if the tile will colide with another tile if it moves in given direction
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   bool will_colide(int direction, tile& t);
+
+  void exec_tile_move(std::vector<int> selected);
+
+  std::vector<int> m_temp_id;
+
+  void manage_timer();
+
+  void confirm_move();
+  void follow_tile();
+
+  sf::Vector2i m_screen_center;
+
+  void change_game_state();
+
+  void load_game_state();
+
+  void check_change_game_state(const sf::Event& event);
 
 private:
 
@@ -145,7 +161,6 @@ private:
   Text aboutScreenText;
   //Font
   Font m_font;
-  Vector2i screen_center;
 
   bool movecam_r = false;
   bool movecam_l = false;
