@@ -21,9 +21,11 @@ Sprite agent::getSprite()
 {
     return m_sprite;
 }
-Texture agent::getTexure() {
+Texture agent::getTexure()
+{
     return  m_texture;
 }
+
 void test_agent() //!OCLINT testing functions may be long
 {
   //A default agent has coordinate (0,0)

@@ -1,6 +1,8 @@
 #ifndef AGENT_H
 #define AGENT_H
 
+#include <vector>
+
 #include "agent_type.h"
 #include "SFML/Graphics.hpp"
 
@@ -33,6 +35,17 @@ public:
   Sprite getSprite();
 
   Texture getTexure();
+  // TODO Add below functions to the cpp file (Joshua)
+
+  /// Check if the agent wants to move to position
+  bool checkout(double x, double y);
+
+  /// Make the agent move (movement depends on agent type and surroundings)
+  void action();
+
+  bool can_eat(agent& a);
+  bool run_away(agent& a);
+
 private:
 
   /// The type the tile
