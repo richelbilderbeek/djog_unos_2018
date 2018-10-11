@@ -5,6 +5,7 @@ SOURCES += \
     $$PWD/tile.cpp \
     $$PWD/tile_type.cpp \
     $$PWD/agent_type.cpp \
+    $$PWD/about_screen.cpp \
     $$PWD/agent.cpp
 
 HEADERS += \
@@ -14,6 +15,7 @@ HEADERS += \
     $$PWD/tile.h \
     $$PWD/tile_type.h \
     $$PWD/agent_type.h \
+    $$PWD/about_screen.h \
     $$PWD/agent.h
 
 RESOURCES += \

@@ -6,7 +6,7 @@
 # Source code of the project
 include(djog_unos_2018.pri)
 # Entry point for this project
-SOURCES += main.cpp
+SOURCES += main_about.cpp
 
 ################################################################################
 # Personal build
@@ -79,29 +79,12 @@ unix:!macx {
 }
 
 win32{
-<<<<<<< HEAD
-  INCLUDEPATH += C:/Qt/sfml/include
-  DEPENDPATH += C:/Qt/sfml/include
-  LIBS += -LC:/Qt/sfml/extlibs/libs-mingw/x86 #If using 64-bit MinGW, replace x86 with x64
-  INCLUDEPATH += D:/Qt/sfml/include
-  DEPENDPATH += D:/Qt/sfml/include
-  LIBS += -LD:/Qt/sfml/lib
-#  LIBS += -LC:\Qt\sfml\extlibs\libs-msvc-universal\x86 -LC:\sfml\extlibs\libs-msvc\x86
-#  LIBS += -LC:\Qt\sfml\bin
-  LIBS += -LD:/Qt/sfml/build_debug/lib -LC:/Qt/sfml/build_release/lib
-#  LIBS += -LC:\Qt\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Debug\lib
-#  LIBS += -LC:\Qt\sfml\build-SFML-2.5.0-Desktop_Qt_5_9_1_MinGW_32bit-Release\lib
-#  LIBS += -LC:\Qt\sfml\extlibs\bin\x86
-
-  #Release Configuration
-=======
   # Some people use C:, others use D:, it does not hurt to put both here
   INCLUDEPATH += C:\Qt\sfml\include
   INCLUDEPATH += D:\Qt\sfml\include
   LIBS += -LC:\Qt\sfml\lib
   LIBS += -LD:\Qt\sfml\lib
 
->>>>>>> develop
   CONFIG(release, debug|release):
   {
     LIBS += -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
@@ -138,7 +121,3 @@ QMAKE_CXXFLAGS += -fext-numeric-literals
 # qrc_[*].cpp:400:44: error: ‘qInitResources_[*]__init_variable__’ defined but not used
 # [*]: the resource filename
 QMAKE_CXXFLAGS += -Wno-unused-variable
-
-HEADERS +=
-
-DISTFILES +=
