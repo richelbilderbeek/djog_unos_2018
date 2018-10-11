@@ -53,8 +53,6 @@ public:
 
   void arrows(bool b, const sf::Event& event);
 
-  bool space_pressed = false;
-
   std::vector<int> m_selected;
 
   bool clicked_tile = false;
@@ -92,6 +90,12 @@ public:
   void follow_tile();
 
   sf::Vector2i m_screen_center;
+
+  void change_game_state();
+
+  void load_game_state();
+
+  void check_change_game_state(const sf::Event& event);
 
 private:
 

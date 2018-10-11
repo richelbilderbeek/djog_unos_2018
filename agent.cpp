@@ -15,6 +15,7 @@ agent::agent(
 
 }
 
+
 void test_agent() //!OCLINT testing functions may be long
 {
   //A default agent has coordinate (0,0)

@@ -79,33 +79,49 @@ void sfml_game::display()
       }
       sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
-
   sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   text.setPosition(m_window.getSize().x - 80, 10);
   text.setStyle(Text::Bold);
   m_window.draw(text);
-  if (m_game_state == TitleScreen) {
-    m_window.draw(titleScreenText);
-    if (space_pressed) {
-        reset_input();
-
-        m_game_state = MenuScreen;
-    }
-  } else if (m_game_state == MenuScreen) {
-    m_window.draw(mainMenuScreenText);
-    if (space_pressed) {
-        reset_input();
-        m_game_state = AboutScreen;
-    }
-  } else if (m_game_state == AboutScreen) {
-    m_window.draw(aboutScreenText);
-    if (space_pressed) {
-        reset_input();
-        m_game_state = Playing;
-    }
-  }
+  load_game_state();
 //  m_window.draw(text);
   m_window.display();//Put everything on the screen
+}
+
+void sfml_game::load_game_state() {
+  switch(m_game_state) {
+    case TitleScreen:
+      m_window.draw(titleScreenText);
+      return;
+    case MenuScreen:
+      m_window.draw(mainMenuScreenText);
+      return;
+    case AboutScreen:
+      m_window.draw(aboutScreenText);
+      return;
+    default:
+      return;
+
+  }
+}
+
+void sfml_game::change_game_state() {
+  switch(m_game_state) {
+    case TitleScreen:
+      reset_input();
+      m_game_state = MenuScreen;
+      return;
+    case MenuScreen:
+      reset_input();
+      m_game_state = AboutScreen;
+      return;
+    case AboutScreen:
+      reset_input();
+      m_game_state = Playing;
+      return;
+    default:
+      return;
+  }
 }
 
 void sfml_game::exec()
@@ -225,9 +241,8 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
 
   if (event.type == sf::Event::KeyPressed)
   {
+    check_change_game_state(event);
     arrows(true, event);
-    if (event.key.code == sf::Keyboard::Space)
-        space_pressed = true;
     if (!m_selected.empty())
       tile_movement(true, event, getTileById(m_selected));
     if (m_timer > 0)
@@ -236,13 +251,19 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
   else
   {
     arrows(false, event);
-    if (event.key.code == sf::Keyboard::Space)
-        space_pressed = false;
   }
 }
 
+void sfml_game::check_change_game_state(const sf::Event& event) {
+  if (event.key.code == sf::Keyboard::Space)
+    change_game_state();
+  if (m_game_state == Playing && event.key.code == sf::Keyboard::Escape)
+    m_game_state = MenuScreen;
+}
+
 void sfml_game::reset_input() {
-    space_pressed = false;
+    m_camera_x = 0;
+    m_camera_y = 0;
     movecam_r = false;
     movecam_l = false;
     movecam_u = false;
