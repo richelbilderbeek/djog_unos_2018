@@ -35,8 +35,11 @@ void about_screen::display() {
     about_screen::abouttext.setCharacterSize(24); // in pixels, not points!
 
     // set the color
+    #if(SFML_VERSION_MINOR > 1)
     about_screen::abouttext.setFillColor(sf::Color::Red);
-
+    #else
+    about_screen::abouttext.setColor(sf::Color::Red);
+    #endif
     aboutwindow.draw(about_screen::abouttext);
     aboutwindow.display();
   }
