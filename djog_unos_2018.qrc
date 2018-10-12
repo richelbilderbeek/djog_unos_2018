@@ -3,5 +3,7 @@
         <file>resources/background_music.ogg</file>
         <file>resources/title_music.ogg</file>
         <file>resources/font.ttf</file>
+        <file>resources/cow.png</file>
+        <file>resources/OpenSans.ttf</file>
     </qresource>
 </RCC>

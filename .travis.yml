@@ -47,6 +47,10 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script: 
+  # Show the version of SFML
+  - qmake -qt=qt5 djog_unos_2018_version.pro
+  - make --silent debug
+  - ./djog_unos_2018_version
   # Build and run the game
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
