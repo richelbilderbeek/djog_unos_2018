@@ -199,32 +199,37 @@ void sfml_game::exec_tile_move(std::vector<int> selected) {
   }
 }
 
+void sfml_game::process_event(const sf::Event& event)
+{
+  switch (event.type) {
+  case sf::Event::Closed:
+    close();
+    break;
+
+  case sf::Event::KeyPressed:
+    process_keyboard_input(event);
+    break;
+
+  case sf::Event::MouseButtonPressed:
+    process_mouse_input(event);
+    break;
+
+  case sf::Event::KeyReleased:
+    process_keyboard_input(event);
+    break;
+
+  default:
+    // Do nothing by default
+    break;
+  }
+}
+
 void sfml_game::process_input() {
   // check all the window's events that were triggered since the last iteration
   // of the loop
   sf::Event event;
   while (m_window.pollEvent(event)) {
-    switch (event.type) {
-    case sf::Event::Closed:
-      close();
-      break;
-
-    case sf::Event::KeyPressed:
-      process_keyboard_input(event);
-      break;
-
-    case sf::Event::MouseButtonPressed:
-      process_mouse_input(event);
-      break;
-
-    case sf::Event::KeyReleased:
-      process_keyboard_input(event);
-      break;
-
-    default:
-      // Do nothing by default
-      break;
-    }
+    process_event(event);
   }
 }
 
@@ -250,6 +255,13 @@ void sfml_game::check_change_game_state(const sf::Event &event) {
     change_game_state();
   if (m_game_state == Playing && event.key.code == sf::Keyboard::Escape)
     m_game_state = MenuScreen;
+}
+
+void sfml_game::move_selected_tile_randomly()
+{
+  if (m_selected.empty()) return;
+  const int id = m_selected[0];
+  this->getTileById( { id } ).set_dx(5);
 }
 
 void sfml_game::reset_input() {
@@ -280,6 +292,15 @@ void sfml_game::process_mouse_input(const sf::Event &event) {
     }
     clicked_tile = false;
   }
+}
+
+void sfml_game::select_random_tile()
+{
+  const auto& tiles = m_game.get_tiles();
+  const int i = std::rand() % tiles.size();
+  const int id = tiles[i].get_id();
+  m_selected.resize(1);
+  m_selected[0] = id;
 }
 
 void sfml_game::stop_music() { m_background_music.stop(); }

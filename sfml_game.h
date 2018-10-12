@@ -39,6 +39,12 @@ public:
   /// Will be approximately 60 times per second.
   int get_n_displayed() const noexcept { return m_n_displayed; }
 
+  /// Move a selected tile randomly. Will do nothing if no tile is selected.
+  void move_selected_tile_randomly();
+
+  ///Select a random tile
+  void select_random_tile();
+
   /// Stop the music
   void stop_music();
 
@@ -47,10 +53,12 @@ public:
 
   void arrows(bool b, const sf::Event &event);
 
+  ///ID of the selected tile. Is empty if there is no tile selected
   std::vector<int> m_selected;
 
   bool clicked_tile = false;
 
+  //TODO: make a free function
   int vectortoint(std::vector<int> v);
 
   int m_timer = 0;
@@ -132,6 +140,9 @@ private:
 
   /// Moves the camera
   void move_camera(sf::Vector2f offset);
+
+  ///Process an SFML event
+  void process_event(const sf::Event& event);
 
   /// Handle all events each game frame, for example,
   /// game logic, keyboard and mouse input and the actions
