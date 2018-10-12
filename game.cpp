@@ -38,7 +38,7 @@ game::game() : m_tiles{}, m_score{0} {
 
 void game::process_events() { ++m_n_tick; }
 
-void test_game() //! OCLINT a testing function may be long
+void test_game() //!OCLINT a testing function may be long
 {
   // A game starts with one or more tiles
   {

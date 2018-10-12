@@ -53,16 +53,16 @@ bool tile::tile_contains(double x, double y) const noexcept {
 
 void tile::lock_movement(bool b) { m_locked = b; }
 
-void test_tile() //! OCLINT testing function may be many lines
+void test_tile() //!OCLINT testing function may be many lines
 {
 #define FIX_ISSUE_85_TEST_TILE
 #ifdef FIX_ISSUE_85_TEST_TILE
   // width cannot be negative
   {
     try {
-      const tile t(0.0, 0.0, -12.34, 100.0, tile_type::grassland,
-                   0);                        //! OCLINT accepted idiom
-      assert(!"This should not be executed"); //! OCLINT accepted idiom
+      const tile t(0.0, 0.0, -12.34, 100.0, tile_type::grassland, //!OCLINT indeed t is unused
+                   0);
+      assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'width' cannot be negative");
     }
@@ -70,9 +70,9 @@ void test_tile() //! OCLINT testing function may be many lines
   // height cannot be negative
   {
     try {
-      const tile t(0.0, 0.0, 100.0, -12.34, tile_type::grassland,
-                   0);                        //! OCLINT accepted idiom
-      assert(!"This should not be executed"); //! OCLINT accepted idiom
+      const tile t(0.0, 0.0, 100.0, -12.34, tile_type::grassland, //!OCLINT indeed t is unused
+                   0);                        //!OCLINT accepted idiom
+      assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'height' cannot be negative");
     }

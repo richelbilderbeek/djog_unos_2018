@@ -22,7 +22,7 @@ void about_screen::close() { aboutwindow.close(); }
 void about_screen::display() {
   while (aboutwindow.isOpen()) {
     sf::Event event;
-    while (aboutwindow.pollEvent(event)) {
+    while (aboutwindow.pollEvent(event)) { //!OCLINT indeed an empty while statement
       // Haha!
     }
 

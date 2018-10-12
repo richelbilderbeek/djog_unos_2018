@@ -13,7 +13,7 @@ agent::agent(const agent_type type, const double x, const double y,
 Sprite agent::getSprite() { return m_sprite; }
 Texture agent::getTexure() { return m_texture; }
 
-void test_agent() //! OCLINT testing functions may be long
+void test_agent() //!OCLINT testing functions may be long
 {
   // A default agent has coordinate (0,0)
   {

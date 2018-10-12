@@ -341,7 +341,7 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
       return t;
     }
   }
-  assert(!"Should never get here"); //! OCLINT accepted idiom
+  assert(!"Should never get here"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
 }
 
