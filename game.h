@@ -36,11 +36,24 @@ private:
   int m_n_tick = 0;
 
   int m_score;
+
+
+  //A rare exception to use a friend
+  friend std::ostream& operator<<(std::ostream& os, const game& g);
+  friend std::istream& operator>>(std::istream& os, game& g);
 };
+
+/// Load a game from a file
+game load(const std::string &filename);
+
+/// Save the game to a file
+void save(const game &game, const std::string &filename);
 
 /// Test the game class
 void test_game();
 
-void save(const game &, std::string filename);
+std::ostream& operator<<(std::ostream& os, const game& g);
+
+std::istream& operator>>(std::istream& os, game& g);
 
 #endif // GAME_H

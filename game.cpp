@@ -3,8 +3,10 @@
 #include "game.h"
 #include "object_blob.h"
 #include "object_blob_list.h"
-
 #include <cassert>
+#include <fstream>
+#include <cstdio>
+#include <QFile>
 
 game::game() : m_tiles{}, m_score{0} {
   // Add first tile
@@ -73,19 +75,65 @@ void test_game() //! OCLINT a testing function may be long
   }
 #endif // FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
 
-//#define FIX_ISSUE_95_GAME_CAN_BE_SAVED
-#ifdef FIX_ISSUE_95_GAME_CAN_BE_SAVED
   // A game can be saved
   {
     const game g;
     const std::string filename{"tmp.sav"};
-    if (file_exists(filename))
-      delete_file(filename);
-    assert(!file_exists(filename));
+    if (QFile::exists(filename.c_str()))
+    {
+      std::remove(filename.c_str());
+    }
+    assert(!QFile::exists(filename.c_str()));
     save(g, filename);
-    assert(file_exists(filename));
+    assert(QFile::exists(filename.c_str()));
   }
-#endif // FIX_ISSUE_95_GAME_CAN_BE_SAVED
+  // A game can be loaded
+  {
+    const game g;
+    const std::string filename{"tmp.sav"};
+    if (QFile::exists(filename.c_str()))
+    {
+      std::remove(filename.c_str());
+    }
+    assert(!QFile::exists(filename.c_str()));
+    save(g, filename);
+    assert(QFile::exists(filename.c_str()));
+    const game h = load(filename);
+    assert(g.get_score() == h.get_score());
+  }
 }
 
-void save(const game &, std::string /* filename */) {}
+game load(const std::string &filename) {
+  std::ifstream f(filename);
+  game g;
+  f >> g;
+  return g;
+}
+
+void save(const game &g, const std::string &filename) {
+  std::ofstream f(filename);
+  f << g;
+}
+
+std::ostream& operator<<(std::ostream& os, const game& g)
+{
+  //TODO: actually save the tile and agents
+  os << g.m_n_tick << ' ' << g.m_score << ' ' << g.m_tiles.size();
+  return os;
+}
+
+std::istream& operator>>(std::istream& is, game& g)
+{
+  //TODO: actually save the tile and agents
+  is >> g.m_n_tick >> g.m_score;
+  int n_tiles = 0;
+  is >> n_tiles;
+  //TODO: the line below is a stub
+  for (int i=0; i!=n_tiles; ++i)
+  {
+    g.m_tiles.emplace_back(
+      tile(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 1)
+    );
+  }
+  return is;
+}
