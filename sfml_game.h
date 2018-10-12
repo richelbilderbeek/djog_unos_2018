@@ -47,8 +47,6 @@ public:
 
   void arrows(bool b, const sf::Event &event);
 
-  std::vector<int> m_selected;
-
   bool clicked_tile = false;
 
   int vectortoint(std::vector<int> v);
@@ -105,6 +103,9 @@ private:
 
   /// Sate of Game
   GameState m_game_state = Playing;
+
+  /// The selected tile
+  std::vector<int> m_selected;
 
   /// Camera position in the x direction
   /// If positive, camera is moved right of the origin
