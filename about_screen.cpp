@@ -1,6 +1,7 @@
 #include "about_screen.h"
 //#include "Text.hpp"
 //#include <SFML/Graphics.hpp>
+#include <SFML/Main.hpp>
 #include <QFile>
 #include <cassert>
 

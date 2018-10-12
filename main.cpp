@@ -58,6 +58,12 @@ int main(int argc, char **argv) {
     // TODO: @annabelliard
     ;
   }
-
+  if (std::count(std::begin(args), std::end(args), "--version")) {
+    std::cout
+      << 'v' << SFML_VERSION_MAJOR
+      << "." << SFML_VERSION_MINOR
+      << "." << SFML_VERSION_PATCH
+    ;
+  }
   g.exec();
 }
