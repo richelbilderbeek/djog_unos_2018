@@ -30,7 +30,8 @@ sfml_game::~sfml_game() { m_background_music.stop(); }
 
 void sfml_game::close() { m_window.close(); }
 
-void sfml_game::display() {
+//TODO: Simplify this function
+void sfml_game::display() { //!OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
   if (m_game_state == Playing) {

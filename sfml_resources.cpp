@@ -3,7 +3,7 @@
 #include <QFile>
 #include <cassert>
 
-sfml_resources *sfml_resources::m_instance = nullptr;
+sfml_resources *sfml_resources::m_instance = nullptr; //!OCLINT static members are accepted in a Singleton
 
 sfml_resources::sfml_resources() {
   // Background music
