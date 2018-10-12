@@ -7,14 +7,14 @@
 agent::agent(
   const agent_type type,
   const double x,
-  const double y
-  //const Texture texture
+  const double y,
+  const Texture texture
 ) : m_type{type},
     m_x{x},
-    m_y{y}
-    //m_texture{texture}
+    m_y{y},
+    m_texture{texture}
 {
-    //m_sprite.setTexture(texture);
+    m_sprite.setTexture(texture);
 }
 
 Sprite agent::getSprite()

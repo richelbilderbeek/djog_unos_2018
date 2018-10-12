@@ -24,7 +24,11 @@ void test()
 /// Arguments are:
 ///   * '--no-music': run without music
 ///   * '--short': only run for 10 seconds
+<<<<<<< HEAD
 ///   * '--menu': show the menu
+=======
+///   * '--about': access about screen
+>>>>>>> annabel
 /// @param argv the arguments (as words) Nature Zen's executable is called
 ///   with by the operating system
 int main(int argc, char ** argv)
@@ -54,6 +58,11 @@ int main(int argc, char ** argv)
   if (std::count(std::begin(args), std::end(args), "--menu"))
   {
     g.show_title();
+  }
+
+  if (std::count(std::begin(args), std::end(args), "--about"))
+  {
+    ;
   }
 
   g.exec();

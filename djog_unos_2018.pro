@@ -6,7 +6,7 @@
 # Source code of the project
 include(djog_unos_2018.pri)
 # Entry point for this project
-SOURCES += main.cpp
+SOURCES += main_about.cpp
 
 ################################################################################
 # Personal build

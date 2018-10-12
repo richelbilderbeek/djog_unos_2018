@@ -6,9 +6,9 @@
 #include "agent_type.h"
 #include "SFML/Graphics.hpp"
 
-///A world tile
-
 using namespace sf;
+
+///Logic of an agent; something that moves on the tiles
 class agent
 {
 public:
@@ -19,8 +19,8 @@ public:
   agent(
     const agent_type type,
     const double x = 0,
-    const double y = 0//,
-    //const Texture texture = Texture()
+    const double y = 0,
+    const Texture texture = Texture()
   );
 
   /// The type the tile
@@ -60,10 +60,10 @@ private:
 
 
   // The sprite
-  //Sprite m_sprite;
+  Sprite m_sprite;
 
   // The texture
-  //Texture m_texture;
+  Texture m_texture;
 };
 
 ///Test the tile class
