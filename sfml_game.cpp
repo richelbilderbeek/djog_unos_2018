@@ -12,14 +12,13 @@ sfml_game::sfml_game(const int window_width, const int window_height,
                      const sfml_game_delegate &delegate)
     : m_background_music{sfml_resources::get().get_background_music()},
       m_delegate{delegate},
-      m_window(sf::VideoMode(window_width, window_height), "Nature Zen"),
-      m_font{} {
-  // Set up music
+      m_window(sf::VideoMode(static_cast<unsigned int>(window_width), static_cast<unsigned int>(window_height)), "Nature Zen"),
+      m_font{} { // Set up music
   m_background_music.setLoop(true);
   m_background_music.play();
   // Set up window, start location to the center
   m_window.setPosition(sf::Vector2i(
-      sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
+      static_cast<double>(sf::VideoMode::getDesktopMode().width) * 0.5 - static_cast<double>(window_width) * 0.5,
       sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5));
   m_screen_center = Vector2i(window_width / 2, window_height / 2);
   // Set up text
