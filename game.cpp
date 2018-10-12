@@ -1,8 +1,6 @@
 
 // Always include the header of the unit first
 #include "game.h"
-#include "object_blob.h"
-#include "object_blob_list.h"
 #include <cassert>
 #include <fstream>
 #include <cstdio>
