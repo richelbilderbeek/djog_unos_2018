@@ -15,12 +15,16 @@ public:
 
   sf::Texture &get_cow_texture() noexcept { return m_cow_texture; }
 
+  sf::Font& get_default_font() noexcept { return m_default_font; }
+
 private:
   /// Do not construct a sfml_resources,
   /// use sfml_resources::get() instead
   sfml_resources();
 
   static sfml_resources *m_instance;
+
+  sf::Font m_default_font;
 
   sf::Music m_background_music;
 

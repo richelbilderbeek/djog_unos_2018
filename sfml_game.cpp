@@ -14,29 +14,16 @@ sfml_game::sfml_game(const int window_width, const int window_height,
       m_delegate{delegate},
       m_window(sf::VideoMode(window_width, window_height), "Nature Zen"),
       m_font{} {
-
-  // Resources
-  {// Re-create font
-   {QFile f(":/nature_zen/resources/font.ttf");
-  f.copy("font.ttf");
-}
-}
-// Set up music
-{
+  // Set up music
   m_background_music.setLoop(true);
   m_background_music.play();
-}
-// Set up window, start location to the center
-m_window.setPosition(sf::Vector2i(
-    sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
-    sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5));
-// Set up font
-if (!m_font.loadFromFile("font.ttf")) {
-  throw std::runtime_error("Cannot find font file font.ttf");
-}
-m_screen_center = Vector2i(window_width / 2, window_height / 2);
-// Set up text
-setup_text();
+  // Set up window, start location to the center
+  m_window.setPosition(sf::Vector2i(
+      sf::VideoMode::getDesktopMode().width * 0.5 - window_width * 0.5,
+      sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5));
+  m_screen_center = Vector2i(window_width / 2, window_height / 2);
+  // Set up text
+  setup_text();
 }
 
 sfml_game::~sfml_game() { m_background_music.stop(); }

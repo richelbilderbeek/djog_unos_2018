@@ -21,6 +21,15 @@ sfml_resources::sfml_resources() {
     f.copy("cow.png");
     m_cow_texture.loadFromFile("cow.png");
   }
+  // Resources
+  {
+    QFile f(":/nature_zen/resources/font.ttf");
+    f.copy("font.ttf");
+    // Set up font
+    if (!m_default_font.loadFromFile("font.ttf")) {
+      throw std::runtime_error("Cannot find font file font.ttf");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
