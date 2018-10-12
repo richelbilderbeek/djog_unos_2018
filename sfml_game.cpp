@@ -34,20 +34,26 @@ void sfml_game::display() {
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
   if (m_game_state == Playing) {
+    //Display all tiles
     for (const tile &t : m_game.get_tiles()) {
       sf::RectangleShape sfml_tile(sf::Vector2f(t.get_width(), t.get_height()));
       // If the camera moves to right/bottom, tiles move relatively
       // left/downwards
-      sfml_tile.setPosition(t.get_x() - m_camera_x, t.get_y() - m_camera_y);
+      const double screen_x{t.get_x() - m_camera_x};
+      const double screen_y{t.get_y() - m_camera_y};
+      sfml_tile.setPosition(screen_x, screen_y);
       color_tile_shape(sfml_tile, t);
       m_window.draw(sfml_tile);
+      //Draw agents
+      for (const agent& a: t.get_agents()) {
+        sf::Sprite sprite;
+        sprite.setTexture(sfml_resources::get().get_cow_texture());
+        sprite.setPosition(screen_x + a.get_x(), screen_y + a.get_y());
+        //sprite.setScale(10,10);
+        m_window.draw(sprite);
+      }
     }
     sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
-
-    // Set up agent for testing
-    agent agent_test(agent_type::cow, 1000, 1000,
-                     sfml_resources::get().get_cow_texture());
-    m_window.draw(agent_test.getSprite());
   }
   /////sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
 
