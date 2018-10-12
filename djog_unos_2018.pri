@@ -4,8 +4,6 @@ SOURCES += \
     $$PWD/agent.cpp \
     $$PWD/agent_type.cpp \
     $$PWD/game.cpp \
-    $$PWD/object_blob.cpp \
-    $$PWD/object_blob_list.cpp \
     $$PWD/sfml_game.cpp \
     $$PWD/sfml_game_delegate.cpp \
     $$PWD/sfml_resources.cpp \
@@ -17,8 +15,6 @@ HEADERS += \
     $$PWD/agent.h \
     $$PWD/agent_type.h \
     $$PWD/game.h \
-    $$PWD/object_blob.h \
-    $$PWD/object_blob_list.h \
     $$PWD/sfml_game.h \
     $$PWD/sfml_game_delegate.h \
     $$PWD/sfml_resources.h \
