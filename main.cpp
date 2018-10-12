@@ -62,7 +62,9 @@ int main(int argc, char **argv) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR
       << "." << SFML_VERSION_MINOR
+      #if(SFML_VERSION_MINOR > 1)
       << "." << SFML_VERSION_PATCH
+      #endif
     ;
   }
   g.exec();
