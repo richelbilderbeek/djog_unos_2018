@@ -52,14 +52,11 @@ void test_game() //! OCLINT a testing function may be long
   }
 #endif // FIX_ISSUE_89_ADD_SECOND_TILE
 
-#define FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
-#ifdef FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
   // A game starts with a score of zero
   {
     const game g;
     assert(g.get_score() == 0);
   }
-#endif // FIX_ISSUE_90_GAME_MUST_HAVE_A_SCORE
 
 //#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
 #ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
