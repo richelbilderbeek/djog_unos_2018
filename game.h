@@ -5,16 +5,15 @@
 
 #include "tile.h"
 
-class game
-{
+class game {
 
 public:
-  ///Constructor
+  /// Constructor
   game();
 
-  ///Read all tiles
-  const auto& get_tiles() const noexcept { return m_tiles; }
-  auto& get_tiles() noexcept { return m_tiles; }
+  /// Read all tiles
+  const auto &get_tiles() const noexcept { return m_tiles; }
+  auto &get_tiles() noexcept { return m_tiles; }
 
   int get_score() const noexcept { return m_score; }
 
@@ -28,9 +27,8 @@ public:
   int old_id = 0;
 
 private:
-
-  ///Timer, physics, bullets moving, etc.
-  ///Everything except user input.
+  /// Timer, physics, bullets moving, etc.
+  /// Everything except user input.
   void process_events();
 
   std::vector<tile> m_tiles;
@@ -38,12 +36,11 @@ private:
   int m_n_tick = 0;
 
   int m_score;
-
 };
 
-///Test the game class
+/// Test the game class
 void test_game();
 
-void save(const game&, std::string filename);
+void save(const game &, std::string filename);
 
 #endif // GAME_H

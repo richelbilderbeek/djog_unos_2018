@@ -4,19 +4,12 @@
 #include <QFile>
 #include <cassert>
 
-about_screen::about_screen(
-  const int window_width,
-  const int window_height
-) : aboutwindow(
-      sf::VideoMode(
-        static_cast<unsigned int>(window_width),
-        static_cast<unsigned int>(window_height)
-      ),
-      "About"
-   )
-{
-  //Haha done everything already :-)
-  //Re-create font
+about_screen::about_screen(const int window_width, const int window_height)
+    : aboutwindow(sf::VideoMode(static_cast<unsigned int>(window_width),
+                                static_cast<unsigned int>(window_height)),
+                  "About") {
+  // Haha done everything already :-)
+  // Re-create font
   {
     QFile f(":/nature_zen/resources/OpenSans.ttf");
     f.copy("OpenSans.ttf");
@@ -24,32 +17,25 @@ about_screen::about_screen(
   }
 }
 
-void about_screen::close()
-{
-  aboutwindow.close();
-}
+void about_screen::close() { aboutwindow.close(); }
 
-void about_screen::display()
-{
-  while (aboutwindow.isOpen())
-  {
+void about_screen::display() {
+  while (aboutwindow.isOpen()) {
     sf::Event event;
-    while (aboutwindow.pollEvent(event))
-    {
-        //Haha!
+    while (aboutwindow.pollEvent(event)) {
+      // Haha!
     }
 
     sf::Font font;
     assert(QFile::exists("OpenSans.ttf"));
     font.loadFromFile("OpenSans.ttf");
-    aboutwindow.clear(sf::Color::Green);//Clear the window with black color
+    aboutwindow.clear(sf::Color::Green); // Clear the window with black color
     about_screen::abouttext.setFont(font);
     about_screen::abouttext.setString("About lalala..");
     about_screen::abouttext.setCharacterSize(24); // in pixels, not points!
 
     // set the color
     about_screen::abouttext.setFillColor(sf::Color::Red);
-
 
     aboutwindow.draw(about_screen::abouttext);
     aboutwindow.display();

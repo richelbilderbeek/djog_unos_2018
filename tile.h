@@ -1,32 +1,25 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include "tile_type.h"
 #include "agent.h"
+#include "tile_type.h"
 #include <vector>
 
-///A world tile
-class tile
-{
+/// A world tile
+class tile {
 public:
-  ///Constructor
+  /// Constructor
   /// @param x the x-coordinate of the top-left corner of the tile
   /// @param y the y-coordinate of the top-left corner of the tile
   /// @param width the width of the tile
   /// @param height the height of the tile
   /// @param type the type the tile
   /// @param the tiles id
-  tile(
-    const double x,
-    const double y,
-    const double width,
-    const double height,
-    const tile_type type,
-    const int id
-  );
+  tile(const double x, const double y, const double width, const double height,
+       const tile_type type, const int id);
 
   /// Read all agents
-  const std::vector<agent>& get_agents() const noexcept { return m_agents; }
+  const std::vector<agent> &get_agents() const noexcept { return m_agents; }
 
   /// The height of the tile
   double get_height() const noexcept { return m_height; }
@@ -44,10 +37,10 @@ public:
   double get_y() const noexcept { return m_y; }
 
   /// The movement coeficient on the x-axis
-  double get_dx() const noexcept {return m_dx; }
+  double get_dx() const noexcept { return m_dx; }
 
   /// The movement coeficient on the y-axis
-  double get_dy() const noexcept {return m_dy; }
+  double get_dy() const noexcept { return m_dy; }
 
   /// Set the movement coeficient on the x-axis
   void set_dx(double dx);
@@ -61,7 +54,7 @@ public:
   void add_agent(agent a);
 
   /// Get the tile's id
-  int get_id() const noexcept {return m_id; }
+  int get_id() const noexcept { return m_id; }
 
   void set_id(int tid);
 
@@ -73,7 +66,6 @@ public:
   bool get_m_locked() const noexcept { return m_locked; }
 
 private:
-
   /// The height of the tile
   const double m_height;
 
@@ -104,7 +96,7 @@ private:
   bool m_locked = false;
 };
 
-///Test the tile class
+/// Test the tile class
 void test_tile();
 
 #endif // TILE_H
