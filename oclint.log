@@ -8,9 +8,8 @@ Compiler Errors:
 /home/richel/GitHubs/djog_unos_2018/main.cpp:7:10: 'QFile' file not found
 /home/richel/GitHubs/djog_unos_2018/sfml_game.cpp:6:10: 'QFile' file not found
 /home/richel/GitHubs/djog_unos_2018/sfml_resources.cpp:3:10: 'QFile' file not found
-/usr/include/SFML/System/Err.hpp:32:10: 'ostream' file not found
-/home/richel/GitHubs/djog_unos_2018/agent.h:4:10: 'vector' file not found
-/home/richel/GitHubs/djog_unos_2018/game.h:4:10: 'vector' file not found
+/usr/include/c++/7/iosfwd:38:10: 'bits/c++config.h' file not found
+/usr/include/c++/7/bits/stl_algobase.h:59:10: 'bits/c++config.h' file not found
 
 
 OCLint Report
