@@ -6,6 +6,7 @@
 #include <vector>
 
 /// Singleton class to access all resources
+//TODO: make this a member variable of sfml_game
 class sfml_resources {
 public:
   /// Access the resources
@@ -22,7 +23,7 @@ private:
   /// use sfml_resources::get() instead
   sfml_resources();
 
-  static sfml_resources *m_instance;
+  static sfml_resources *m_instance; //!OCLINT accepted for now
 
   sf::Font m_default_font;
 

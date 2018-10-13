@@ -12,13 +12,16 @@ sfml_game::sfml_game(const int window_width, const int window_height,
                      const sfml_game_delegate &delegate)
     : m_background_music{sfml_resources::get().get_background_music()},
       m_delegate{delegate},
-      m_window(sf::VideoMode(static_cast<unsigned int>(window_width), static_cast<unsigned int>(window_height)), "Nature Zen"),
+      m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
+                             static_cast<unsigned int>(window_height)),
+               "Nature Zen"),
       m_font{} { // Set up music
   m_background_music.setLoop(true);
   m_background_music.play();
   // Set up window, start location to the center
   m_window.setPosition(sf::Vector2i(
-      static_cast<double>(sf::VideoMode::getDesktopMode().width) * 0.5 - static_cast<double>(window_width) * 0.5,
+      static_cast<double>(sf::VideoMode::getDesktopMode().width) * 0.5 -
+          (static_cast<double>(window_width) * 0.5),
       sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5));
   m_screen_center = Vector2i(window_width / 2, window_height / 2);
   // Set up text
@@ -29,12 +32,12 @@ sfml_game::~sfml_game() { m_background_music.stop(); }
 
 void sfml_game::close() { m_window.close(); }
 
-//TODO: Simplify this function
-void sfml_game::display() { //!OCLINT indeed long, must be made shorter
+// TODO: Simplify this function
+void sfml_game::display() {         //! OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
   if (m_game_state == Playing) {
-    //Display all tiles
+    // Display all tiles
     for (const tile &t : m_game.get_tiles()) {
       sf::RectangleShape sfml_tile(sf::Vector2f(t.get_width(), t.get_height()));
       // If the camera moves to right/bottom, tiles move relatively
@@ -44,12 +47,12 @@ void sfml_game::display() { //!OCLINT indeed long, must be made shorter
       sfml_tile.setPosition(screen_x, screen_y);
       color_tile_shape(sfml_tile, t);
       m_window.draw(sfml_tile);
-      //Draw agents
-      for (const agent& a: t.get_agents()) {
+      // Draw agents
+      for (const agent &a : t.get_agents()) {
         sf::Sprite sprite;
         sprite.setTexture(sfml_resources::get().get_cow_texture());
         sprite.setPosition(screen_x + a.get_x(), screen_y + a.get_y());
-        //sprite.setScale(10,10);
+        // sprite.setScale(10,10);
         m_window.draw(sprite);
       }
     }
@@ -341,7 +344,7 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
       return t;
     }
   }
-  assert(!"Should never get here"); //!OCLINT accepted idiom
+  assert(!"Should never get here"); //! OCLINT accepted idiom
   throw std::runtime_error("ID not found");
 }
 
