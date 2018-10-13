@@ -19,8 +19,12 @@ sfml_game::sfml_game(const int window_width, const int window_height,
   m_background_music.setLoop(true);
   m_background_music.play();
   // Set up window, start location to the center
-  const int window_x = static_cast<int>(sf::VideoMode::getDesktopMode().width / 2) - window_width / 2;
-  const int window_y = static_cast<int>(sf::VideoMode::getDesktopMode().height / 2) - window_height / 2;
+  const int window_x =
+      static_cast<int>(sf::VideoMode::getDesktopMode().width / 2) -
+      window_width / 2;
+  const int window_y =
+      static_cast<int>(sf::VideoMode::getDesktopMode().height / 2) -
+      window_height / 2;
   m_window.setPosition(sf::Vector2i(window_x, window_y));
   m_screen_center = Vector2i(window_width / 2, window_height / 2);
   // Set up text
@@ -32,13 +36,15 @@ sfml_game::~sfml_game() { m_background_music.stop(); }
 void sfml_game::close() { m_window.close(); }
 
 // TODO: Simplify this function
-void sfml_game::display() { //!OCLINT indeed long, must be made shorter
+void sfml_game::display() {         //! OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
   if (m_game_state == Playing) {
     // Display all tiles
     for (const tile &t : m_game.get_tiles()) {
-      sf::RectangleShape sfml_tile(sf::Vector2f(static_cast<float>(t.get_width()),static_cast<float>( t.get_height())));
+      sf::RectangleShape sfml_tile(
+          sf::Vector2f(static_cast<float>(t.get_width()),
+                       static_cast<float>(t.get_height())));
       // If the camera moves to right/bottom, tiles move relatively
       // left/downwards
       const float screen_x{static_cast<float>(t.get_x() - m_camera_x)};
@@ -50,8 +56,9 @@ void sfml_game::display() { //!OCLINT indeed long, must be made shorter
       for (const agent &a : t.get_agents()) {
         sf::Sprite sprite;
         sprite.setTexture(sfml_resources::get().get_cow_texture());
-        sprite.setPosition(screen_x + static_cast<float>(a.get_x()), screen_y + static_cast<float>(a.get_y()));
-        //sprite.setScale(10,10);
+        sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
+                           screen_y + static_cast<float>(a.get_y()));
+        // sprite.setScale(10,10);
         m_window.draw(sprite);
       }
     }
@@ -200,8 +207,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected) {
   }
 }
 
-void sfml_game::process_event(const sf::Event& event)
-{
+void sfml_game::process_event(const sf::Event &event) {
   switch (event.type) {
   case sf::Event::Closed:
     close();
@@ -258,11 +264,11 @@ void sfml_game::check_change_game_state(const sf::Event &event) {
     m_game_state = MenuScreen;
 }
 
-void sfml_game::move_selected_tile_randomly()
-{
-  if (m_selected.empty()) return;
+void sfml_game::move_selected_tile_randomly() {
+  if (m_selected.empty())
+    return;
   const int id = m_selected[0];
-  this->getTileById( { id } ).set_dx(5);
+  this->getTileById({id}).set_dx(5);
 }
 
 void sfml_game::reset_input() {
@@ -295,9 +301,8 @@ void sfml_game::process_mouse_input(const sf::Event &event) {
   }
 }
 
-void sfml_game::select_random_tile()
-{
-  const auto& tiles = m_game.get_tiles();
+void sfml_game::select_random_tile() {
+  const auto &tiles = m_game.get_tiles();
   const int i = std::rand() % tiles.size();
   const int id = tiles[i].get_id();
   m_selected.resize(1);
@@ -364,7 +369,7 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
       return t;
     }
   }
-  assert(! "Should never get here"); //!OCLINT accepted idiom
+  assert(!"Should never get here"); //! OCLINT accepted idiom
   throw std::runtime_error("ID not found");
 }
 
