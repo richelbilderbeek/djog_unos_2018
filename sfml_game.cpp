@@ -36,7 +36,7 @@ sfml_game::~sfml_game() { m_background_music.stop(); }
 void sfml_game::close() { m_window.close(); }
 
 // TODO: Simplify this function
-void sfml_game::display() {         //! OCLINT indeed long, must be made shorter
+void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
   if (m_game_state == Playing) {
@@ -369,7 +369,7 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
       return t;
     }
   }
-  assert(!"Should never get here"); //! OCLINT accepted idiom
+  assert(!"Should never get here"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
 }
 
