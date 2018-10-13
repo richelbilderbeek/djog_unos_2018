@@ -12,7 +12,9 @@ sfml_game::sfml_game(const int window_width, const int window_height,
                      const sfml_game_delegate &delegate)
     : m_background_music{sfml_resources::get().get_background_music()},
       m_delegate{delegate},
-      m_window(sf::VideoMode(static_cast<unsigned int>(window_width), static_cast<unsigned int>(window_height)), "Nature Zen"),
+      m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
+                             static_cast<unsigned int>(window_height)),
+               "Nature Zen"),
       m_font{} { // Set up music
   m_background_music.setLoop(true);
   m_background_music.play();
@@ -29,12 +31,12 @@ sfml_game::~sfml_game() { m_background_music.stop(); }
 
 void sfml_game::close() { m_window.close(); }
 
-//TODO: Simplify this function
+// TODO: Simplify this function
 void sfml_game::display() { //!OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
   if (m_game_state == Playing) {
-    //Display all tiles
+    // Display all tiles
     for (const tile &t : m_game.get_tiles()) {
       sf::RectangleShape sfml_tile(sf::Vector2f(static_cast<float>(t.get_width()),static_cast<float>( t.get_height())));
       // If the camera moves to right/bottom, tiles move relatively
@@ -44,8 +46,8 @@ void sfml_game::display() { //!OCLINT indeed long, must be made shorter
       sfml_tile.setPosition(screen_x, screen_y);
       color_tile_shape(sfml_tile, t);
       m_window.draw(sfml_tile);
-      //Draw agents
-      for (const agent& a: t.get_agents()) {
+      // Draw agents
+      for (const agent &a : t.get_agents()) {
         sf::Sprite sprite;
         sprite.setTexture(sfml_resources::get().get_cow_texture());
         sprite.setPosition(screen_x + static_cast<float>(a.get_x()), screen_y + static_cast<float>(a.get_y()));
