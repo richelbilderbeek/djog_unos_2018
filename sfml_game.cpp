@@ -17,9 +17,9 @@ sfml_game::sfml_game(const int window_width, const int window_height,
   m_background_music.setLoop(true);
   m_background_music.play();
   // Set up window, start location to the center
-  m_window.setPosition(sf::Vector2i(
-      static_cast<double>(sf::VideoMode::getDesktopMode().width) * 0.5 - static_cast<double>(window_width) * 0.5,
-      sf::VideoMode::getDesktopMode().height * 0.5 - window_height * 0.5));
+  const int window_x = static_cast<int>(sf::VideoMode::getDesktopMode().width / 2) - window_width / 2;
+  const int window_y = static_cast<int>(sf::VideoMode::getDesktopMode().height / 2) - window_height / 2;
+  m_window.setPosition(sf::Vector2i(window_x, window_y));
   m_screen_center = Vector2i(window_width / 2, window_height / 2);
   // Set up text
   setup_text();
@@ -36,11 +36,11 @@ void sfml_game::display() { //!OCLINT indeed long, must be made shorter
   if (m_game_state == Playing) {
     //Display all tiles
     for (const tile &t : m_game.get_tiles()) {
-      sf::RectangleShape sfml_tile(sf::Vector2f(t.get_width(), t.get_height()));
+      sf::RectangleShape sfml_tile(sf::Vector2f(static_cast<float>(t.get_width()),static_cast<float>( t.get_height())));
       // If the camera moves to right/bottom, tiles move relatively
       // left/downwards
-      const double screen_x{t.get_x() - m_camera_x};
-      const double screen_y{t.get_y() - m_camera_y};
+      const float screen_x{static_cast<float>(t.get_x() - m_camera_x)};
+      const float screen_y{static_cast<float>(t.get_y() - m_camera_y)};
       sfml_tile.setPosition(screen_x, screen_y);
       color_tile_shape(sfml_tile, t);
       m_window.draw(sfml_tile);
@@ -48,7 +48,7 @@ void sfml_game::display() { //!OCLINT indeed long, must be made shorter
       for (const agent& a: t.get_agents()) {
         sf::Sprite sprite;
         sprite.setTexture(sfml_resources::get().get_cow_texture());
-        sprite.setPosition(screen_x + a.get_x(), screen_y + a.get_y());
+        sprite.setPosition(screen_x + static_cast<float>(a.get_x()), screen_y + static_cast<float>(a.get_y()));
         //sprite.setScale(10,10);
         m_window.draw(sprite);
       }
@@ -134,13 +134,13 @@ void sfml_game::move_camera(sf::Vector2f offset) {
   // Dont move the camera in the menu
   if (m_game_state != Playing)
     return;
-  m_camera_x += offset.x;
-  m_camera_y += offset.y;
+  m_camera_x += static_cast<double>(offset.x);
+  m_camera_y += static_cast<double>(offset.y);
 }
 
 void sfml_game::process_events() {
-  if ((115 / tile_speed != std::abs(std::floor(115 / tile_speed)) ||
-       115 / tile_speed != std::abs(std::ceil(115 / tile_speed))) ||
+  if ((115.0 / tile_speed != std::abs(std::floor(115.0 / tile_speed)) ||
+       115.0 / tile_speed != std::abs(std::ceil(115.0 / tile_speed))) ||
       tile_speed > 115.0) {
     throw std::runtime_error("The set tile speed is not usable");
   }
@@ -362,7 +362,7 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
       return t;
     }
   }
-  assert(!"Should never get here"); //!OCLINT accepted idiom
+  assert(! "Should never get here"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
 }
 
@@ -453,7 +453,6 @@ bool sfml_game::will_colide(int direction, tile &t) {
   default:
     return false;
   }
-  return false;
 }
 
 void sfml_game::setup_text() {
