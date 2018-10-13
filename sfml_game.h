@@ -53,9 +53,6 @@ public:
 
   void arrows(bool b, const sf::Event &event);
 
-  ///ID of the selected tile. Is empty if there is no tile selected
-  std::vector<int> m_selected;
-
   bool clicked_tile = false;
 
   //TODO: make a free function
@@ -113,6 +110,9 @@ private:
 
   /// Sate of Game
   GameState m_game_state = Playing;
+
+  /// The selected tile
+  std::vector<int> m_selected;
 
   /// Camera position in the x direction
   /// If positive, camera is moved right of the origin
