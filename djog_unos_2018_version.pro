@@ -1,12 +1,12 @@
-# Builds the entire project
+# Displays the version of SFML
 
 ################################################################################
 # Files
 ################################################################################
 # Source code of the project
-include(djog_unos_2018.pri)
+#include(djog_unos_2018.pri)
 # Entry point for this project
-SOURCES += main.cpp
+SOURCES += main_version.cpp
 
 ################################################################################
 # Personal build

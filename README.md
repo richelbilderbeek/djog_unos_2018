@@ -16,6 +16,7 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 `richel`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=richel)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=richel)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=richel)
 `rijk`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=rijk)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=rijk)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=rijk)
 `same`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=same)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=same)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=same)
+`ellyjet`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=ellyjet)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=ellyjet)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=ellyjet)
 
 ## Goal
 
@@ -37,6 +38,8 @@ Collaboratively create a game, to be put on, for example, Steam.
 ## Progress
 
 Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
+
+![](pics/20181012.png)
 
 ![](pics/20181011.png)
 

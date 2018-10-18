@@ -1,0 +1,20 @@
+
+Compiler Errors:
+(please be aware that these errors will prevent OCLint from analyzing this source code)
+
+/home/richel/GitHubs/djog_unos_2018/about_screen.cpp:4:10: 'QFile' file not found
+/home/richel/GitHubs/djog_unos_2018/game.cpp:7:10: 'QFile' file not found
+/home/richel/GitHubs/djog_unos_2018/main_about.cpp:7:10: 'QFile' file not found
+/home/richel/GitHubs/djog_unos_2018/main.cpp:7:10: 'QFile' file not found
+/home/richel/GitHubs/djog_unos_2018/sfml_game.cpp:6:10: 'QFile' file not found
+/home/richel/GitHubs/djog_unos_2018/sfml_resources.cpp:3:10: 'QFile' file not found
+/usr/include/c++/7/iosfwd:38:10: 'bits/c++config.h' file not found
+/usr/include/c++/7/bits/stl_algobase.h:59:10: 'bits/c++config.h' file not found
+
+
+OCLint Report
+
+Summary: TotalFiles=9 FilesWithViolations=0 P1=0 P2=0 P3=0 
+
+
+[OCLint (http://oclint.org) v0.10.3]
