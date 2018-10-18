@@ -139,8 +139,8 @@ void sfml_game::move_camera(sf::Vector2f offset) {
 }
 
 void sfml_game::process_events() {
-  if ((115 / tile_speed != std::abs(std::floor(115 / tile_speed)) ||
-       115 / tile_speed != std::abs(std::ceil(115 / tile_speed))) ||
+  if ((115.0 / tile_speed != std::abs(std::floor(115.0 / tile_speed)) ||
+       115.0 / tile_speed != std::abs(std::ceil(115.0 / tile_speed))) ||
       tile_speed > 115.0) {
     throw std::runtime_error("The set tile speed is not usable");
   }
@@ -430,7 +430,8 @@ bool sfml_game::will_colide(int direction, tile &t) {
     }
     return false;
   default:
-    return false;
+    
+      break;
   }
   return false;
 }
