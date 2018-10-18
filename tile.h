@@ -42,11 +42,16 @@ public:
   /// The movement coeficient on the y-axis
   double get_dy() const noexcept { return m_dy; }
 
+  /// The center of the tile
+  Vector2f get_center() const noexcept { return Vector2f(m_width / 2.0f, m_height / 2.0f); }
+
   /// Set the movement coeficient on the x-axis
   void set_dx(double dx);
 
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
+
+
 
   /// Move the tile by the movement coeficients
   void move();
