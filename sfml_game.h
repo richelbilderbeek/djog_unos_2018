@@ -75,6 +75,7 @@ public:
   void setup_text();
 
   bool check_collision(double x, double y);
+  int get_collision_id(double x, double y);
 
   /// Check if the tile will colide with another tile if it moves in given
   /// direction
@@ -99,6 +100,12 @@ public:
   void load_game_state();
 
   void check_change_game_state(const sf::Event &event);
+
+  // TODO #145 @Joshua260403
+
+  tile_type merge_1(tile_type type1, tile_type type2);
+
+  // End todo
 
 private:
   /// Background music file object

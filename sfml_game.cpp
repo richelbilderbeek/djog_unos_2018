@@ -35,7 +35,7 @@ sfml_game::~sfml_game() { m_background_music.stop(); }
 
 void sfml_game::close() { m_window.close(); }
 
-// TODO: Simplify this function
+// WARNING function is getting too long again
 void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
@@ -70,27 +70,11 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   text.setPosition(m_window.getSize().x - 80, 10);
   text.setStyle(Text::Bold);
   m_window.draw(text);
-  if (m_game_state == TitleScreen) {
-    m_window.draw(titleScreenText);
-    if (space_pressed) {
-      reset_input();
 
-      m_game_state = MenuScreen;
-    }
-  } else if (m_game_state == MenuScreen) {
-    m_window.draw(mainMenuScreenText);
-    if (space_pressed) {
-      reset_input();
-      m_game_state = AboutScreen;
-    }
-  } else if (m_game_state == AboutScreen) {
-    m_window.draw(aboutScreenText);
-    if (space_pressed) {
-      reset_input();
-      m_game_state = Playing;
-    }
+  if (space_pressed) {
+    reset_input();
   }
-  /////m_window.draw(text);
+
   load_game_state();
   //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
@@ -337,6 +321,8 @@ void sfml_game::tile_movement(bool b, const sf::Event &event, tile &t) {
   }
 }
 
+// TODO @Joshua260403
+
 void sfml_game::tile_move_ctrl(const sf::Event &event, tile &t) {
   if (event.key.code == sf::Keyboard::D && !will_colide(2, t))
     t.set_dx(tile_speed);
@@ -347,6 +333,17 @@ void sfml_game::tile_move_ctrl(const sf::Event &event, tile &t) {
   if (event.key.code == sf::Keyboard::S && !will_colide(3, t))
     t.set_dy(tile_speed);
 }
+
+tile_type sfml_game::merge_1(tile_type type1, tile_type type2){
+  if (type1 == tile_type::grassland && type2 == tile_type::grassland)
+    return tile_type::mountains;
+  else if (type1 == tile_type::grassland && type2 == tile_type::desert)
+    return tile_type::savannah;
+  else
+    return tile_type::nonetile;
+}
+
+// End todo
 
 int sfml_game::vectortoint(std::vector<int> v) {
   reverse(v.begin(), v.end());
@@ -398,6 +395,9 @@ void sfml_game::color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t) {
   case tile_type::desert:
     color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
     break;
+
+  default:
+    color_shape(sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
   }
   sfml_tile.setOutlineThickness(5);
   auto selected = vectortoint(m_selected);
@@ -416,18 +416,27 @@ void sfml_game::color_shape(sf::RectangleShape &sfml_tile, sf::Color c1,
 
 bool sfml_game::check_collision(double x, double y) {
   for (tile &t : m_game.get_tiles()) {
-    //._____.
-    //|     |
-    //|_A___|
-    //._____.
-    //|   B |
-    //|_____|
+    // ._____.
+    // |     |
+    // |_A___|
+    // ._____.
+    // |   B |
+    // |_____|
     //
     if (t.tile_contains(x + 15, y + 15) || t.tile_contains(x - 15, y - 15)) {
       return true;
     }
   }
   return false;
+}
+
+int sfml_game::get_collision_id(double x, double y) {
+  for (tile &t : m_game.get_tiles()) {
+    if (t.tile_contains(x, y)) {
+      return t.get_id();
+    }
+  }
+  return 0;
 }
 
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
