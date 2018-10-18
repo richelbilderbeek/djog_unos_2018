@@ -24,6 +24,9 @@ sfml_game::sfml_game(
 
     //Re-create font
     { QFile f(":/nature_zen/resources/font.ttf"); f.copy("font.ttf"); }
+
+    //Copy background file
+    { QFile f(":/nature_zen/resources/title_screen_background.PNG"); f.copy("title_screen_background.PNG"); }
   }
   //Set up music
   {
@@ -87,6 +90,11 @@ void sfml_game::display()
   text.setStyle(Text::Bold);
   m_window.draw(text);
   if (m_game_state == TitleScreen) {
+      Texture texture = Texture();
+      texture.loadFromFile("title_screen_background.PNG");
+      Sprite sprite = Sprite();
+      sprite.setTexture(texture);
+      m_window.draw(sprite);
     m_window.draw(titleScreenText);
     if (space_pressed) {
         reset_input();
@@ -424,7 +432,7 @@ bool sfml_game::will_colide(int direction, tile& t) {
 void sfml_game::setup_text() {
   //Set up text
   titleScreenText.setFont(m_font);
-  titleScreenText.setString("Title Screen \n press space to go next");
+  titleScreenText.setString("Natur Zen");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left+
                             titleScreenText.getGlobalBounds().width /2.0f,
                             titleScreenText.getGlobalBounds().top +

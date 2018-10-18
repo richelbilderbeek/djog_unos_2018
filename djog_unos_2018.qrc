@@ -3,5 +3,6 @@
         <file>resources/background_music.ogg</file>
         <file>resources/title_music.ogg</file>
         <file>resources/font.ttf</file>
+        <file>resources/title_screen_background.PNG</file>
     </qresource>
 </RCC>
