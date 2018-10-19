@@ -75,7 +75,7 @@ public:
   void setup_text();
 
   bool check_collision(double x, double y);
-  int get_collision_id(double x, double y);
+  std::vector<int> get_collision_id(double x, double y);
 
   /// Check if the tile will colide with another tile if it moves in given
   /// direction
@@ -103,7 +103,16 @@ public:
 
   // TODO #145 @Joshua260403
 
-  tile_type merge_1(tile_type type1, tile_type type2);
+  bool check_merge(tile &t1, tile &t2);
+
+  void switch_collide(tile& t, int direction);
+
+  tile_type merge(tile_type type1, tile_type type2);
+
+  /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
+  sf::Vector2f get_direction_pos(int direction, tile& t);
+
+  void confirm_tile_move(tile& t, int direction);
 
   // End todo
 

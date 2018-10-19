@@ -323,6 +323,7 @@ void sfml_game::tile_movement(bool b, const sf::Event &event, tile &t) {
 
 // TODO @Joshua260403
 
+// TODO edit this function
 void sfml_game::tile_move_ctrl(const sf::Event &event, tile &t) {
   if (event.key.code == sf::Keyboard::D && !will_colide(2, t))
     t.set_dx(tile_speed);
@@ -334,7 +335,56 @@ void sfml_game::tile_move_ctrl(const sf::Event &event, tile &t) {
     t.set_dy(tile_speed);
 }
 
-tile_type sfml_game::merge_1(tile_type type1, tile_type type2){
+void sfml_game::confirm_tile_move(tile& t, int direction) {
+  switch(direction) {
+    case 1:
+      t.set_dy(-tile_speed);
+      return;
+    case 2:
+      t.set_dx(tile_speed);
+      return;
+    case 3:
+      t.set_dy(tile_speed);
+      return;
+    case 4:
+      t.set_dx(-tile_speed);
+      return;
+  }
+}
+
+void sfml_game::switch_collide(tile& t, int direction) {
+  sf::Vector2f v = get_direction_pos(direction, t);
+  if (will_colide(direction, t) && check_merge(t,
+      getTileById(get_collision_id(v.x,v.y)))) {
+    // TODO Create new tiles and use game::add_tiles
+    assert(!"Work in progress!");
+  } else if (!will_colide(direction, t)) {
+    confirm_tile_move(t, direction);
+  }
+}
+
+bool sfml_game::check_merge(tile& t1, tile& t2) {
+  if (merge(t1.get_type(),t2.get_type()) == tile_type::nonetile) {
+    return false;
+  }
+  return true;
+}
+
+sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t) {
+  switch (direction) {
+  case 1:
+    return sf::Vector2f(t.get_x() + (t.get_width() / 2), t.get_y() - (t.get_height() / 2));
+  case 2:
+    return sf::Vector2f(t.get_x() + (t.get_width() * 1.5), t.get_y() + (t.get_height() / 2));
+  case 3:
+    return sf::Vector2f(t.get_x() + (t.get_width() / 2), t.get_y() + (t.get_height() * 1.5));
+  case 4:
+    return sf::Vector2f(t.get_x() - (t.get_width() / 2), t.get_y() + (t.get_height() / 2));
+  }
+  return sf::Vector2f(0,0);
+}
+
+tile_type sfml_game::merge(tile_type type1, tile_type type2) {
   if (type1 == tile_type::grassland && type2 == tile_type::grassland)
     return tile_type::mountains;
   else if (type1 == tile_type::grassland && type2 == tile_type::desert)
@@ -430,13 +480,16 @@ bool sfml_game::check_collision(double x, double y) {
   return false;
 }
 
-int sfml_game::get_collision_id(double x, double y) {
+std::vector<int> sfml_game::get_collision_id(double x, double y) {
+  std::vector<int> ret;
   for (tile &t : m_game.get_tiles()) {
     if (t.tile_contains(x, y)) {
-      return t.get_id();
+      ret.push_back(t.get_id());
+      return ret;
     }
   }
-  return 0;
+  ret.push_back(0);
+  return ret;
 }
 
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <

@@ -34,6 +34,12 @@ game::game() : m_tiles{}, m_score{0} {
   }
 }
 
+void game::add_tiles(std::vector<tile> ts) {
+  for (tile& t: ts) {
+    m_tiles.push_back(t);
+  }
+}
+
 void game::process_events() { ++m_n_tick; }
 
 void test_game() //!OCLINT a testing function may be long

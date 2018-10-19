@@ -24,6 +24,8 @@ public:
     return old_id;
   }
 
+  void add_tiles(std::vector<tile> ts);
+
   int old_id = 0;
 
 private:
