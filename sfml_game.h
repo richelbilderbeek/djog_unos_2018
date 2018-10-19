@@ -9,14 +9,19 @@
 
 #include "game.h"
 #include "sfml_game_delegate.h"
+#include "game_state.h"
 
 using namespace sf;
 using namespace std;
 
+<<<<<<< HEAD
 enum GameState { TitleScreen, MenuScreen, AboutScreen, Playing };
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game { //!OCLINT indeed to many member functions and member variables
+=======
+class sfml_game {
+>>>>>>> ellyjet
 public:
   /// Constructor
   /// @param window_width width of the game window in pixels
@@ -107,7 +112,7 @@ private:
   Texture test_agent_tex;
 
   /// Sate of Game
-  GameState m_game_state = Playing;
+  game_state m_game_state = game_state::playing;
 
   /// The selected tile
   std::vector<int> m_selected;
