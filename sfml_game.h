@@ -9,11 +9,10 @@
 
 #include "game.h"
 #include "sfml_game_delegate.h"
+#include "game_state.h"
 
 using namespace sf;
 using namespace std;
-
-enum GameState { TitleScreen, MenuScreen, AboutScreen, Playing };
 
 class sfml_game {
 public:
@@ -102,7 +101,7 @@ private:
   Texture test_agent_tex;
 
   /// Sate of Game
-  GameState m_game_state = Playing;
+  game_state m_game_state = game_state::playing;
 
   /// The selected tile
   std::vector<int> m_selected;
