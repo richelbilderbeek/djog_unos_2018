@@ -28,6 +28,7 @@ Collaboratively create a game, to be put on, for example, Steam.
   * [game](doc/game.md)
   * [git](doc/git.md)
   * [install](doc/install.md)
+  * [new members](doc/new_members.md)
   * [planning](doc/planning.md)
   * [social](doc/social.md)
   * [specifics](doc/specs.md)
