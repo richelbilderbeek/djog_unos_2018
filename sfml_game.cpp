@@ -348,7 +348,7 @@ void sfml_game::tile_move_ctrl(const sf::Event &event, tile &t) {
     t.set_dy(tile_speed);
 }
 
-int sfml_game::vectortoint(std::vector<int> v) {
+int vectortoint(std::vector<int> v) {
   reverse(v.begin(), v.end());
   int decimal = 1;
   int total = 0;

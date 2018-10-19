@@ -56,9 +56,6 @@ public:
 
   bool clicked_tile = false;
 
-  //TODO: make a free function
-  int vectortoint(std::vector<int> v);
-
   int m_timer = 0;
 
   tile &getTileById(std::vector<int> tile_id);
@@ -178,5 +175,7 @@ private:
   bool movecam_u = false;
   bool movecam_d = false;
 };
+
+int vectortoint(std::vector<int> v);
 
 #endif // SFML_sfml_game_H
