@@ -14,14 +14,9 @@
 using namespace sf;
 using namespace std;
 
-<<<<<<< HEAD
-enum GameState { TitleScreen, MenuScreen, AboutScreen, Playing };
-
 //TODO: decrease the number of member functions and member variables
-class sfml_game { //!OCLINT indeed to many member functions and member variables
-=======
 class sfml_game {
->>>>>>> ellyjet
+
 public:
   /// Constructor
   /// @param window_width width of the game window in pixels

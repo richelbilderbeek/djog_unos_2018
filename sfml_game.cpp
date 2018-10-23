@@ -40,13 +40,9 @@ void sfml_game::close() { m_window.close(); }
 void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
-<<<<<<< HEAD
-  if (m_game_state == Playing) {
-    // Display all tiles
-=======
+
   if (m_game_state == game_state::playing) {
     //Display all tiles
->>>>>>> ellyjet
     for (const tile &t : m_game.get_tiles()) {
       sf::RectangleShape sfml_tile(
           sf::Vector2f(static_cast<float>(t.get_width()),
