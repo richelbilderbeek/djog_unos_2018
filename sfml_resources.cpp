@@ -15,7 +15,7 @@ sfml_resources::sfml_resources() {
       throw std::runtime_error("Cannot find music file 'background_music.ogg'");
     }
   }
-  // Cow texture
+  // cow texture
   {
     QFile f(":/nature_zen/resources/cow.png");
     f.copy("cow.png");
