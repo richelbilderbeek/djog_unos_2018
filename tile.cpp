@@ -50,7 +50,9 @@ void tile::move() {
   m_y += m_dy;
 }
 
-void tile::add_agent(agent a) { m_agents.push_back(a); }
+void tile::add_agent(agent a) {
+    m_agents.push_back(a);
+}
 
 void tile::set_id(int id) { m_id = id; }
 

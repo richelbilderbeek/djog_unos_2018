@@ -42,6 +42,9 @@ public:
   /// The movement coeficient on the y-axis
   double get_dy() const noexcept { return m_dy; }
 
+  /// The center of the tile
+  Vector2f get_center() const noexcept { return Vector2f(m_width / 2.0f, m_height / 2.0f); }
+
   ///Process events, for example, make the agents move
   void process_events();
 
@@ -50,6 +53,8 @@ public:
 
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
+
+
 
   /// Move the tile by the movement coeficients
   void move();
