@@ -463,9 +463,10 @@ bool sfml_game::will_colide(int direction, tile &t) {
     }
     return false;
   default:
-    
-      break;
+    break;
   }
+  assert(!"Should not get here");
+  return false;
 }
 
 void sfml_game::setup_text() {
