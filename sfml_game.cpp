@@ -16,7 +16,7 @@ sfml_game::sfml_game(const int window_width, const int window_height,
       m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
                              static_cast<unsigned int>(window_height)),
                "Nature Zen"),
-      m_font{} { // Set up music
+      m_font{sfml_resources::get().get_default_font()} { // Set up music
   m_background_music.setLoop(true);
   m_background_music.play();
   // Set up window, start location to the center
