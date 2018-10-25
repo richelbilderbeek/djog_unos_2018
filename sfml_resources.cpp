@@ -15,6 +15,18 @@ sfml_resources::sfml_resources() {
       throw std::runtime_error("Cannot find music file 'background_music.ogg'");
     }
   }
+    // bacterie texture
+    {
+      QFile f(":/nature_zen/resources/bacterie.png");
+      f.copy("bacterie.png");
+      m_bacterie_texture.loadFromFile("bacterie.png");
+    }
+    // gras texture
+    {
+      QFile f(":/nature_zen/resources/gras.png");
+      f.copy("gras.png");
+      m_gras_texture.loadFromFile("gras.png");
+    }
   // cow texture
   {
     QFile f(":/nature_zen/resources/cow.png");

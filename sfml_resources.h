@@ -18,6 +18,10 @@ public:
 
   sf::Texture &get_fish_texture() noexcept { return m_fish_texture; }
 
+  sf::Texture &get_gras_texture() noexcept { return m_gras_texture; }
+
+  sf::Texture &get_bacterie_texture() noexcept { return m_bacterie_texture; }
+
   sf::Font& get_default_font() noexcept { return m_default_font; }
 
 private:
@@ -34,6 +38,10 @@ private:
   sf::Texture m_cow_texture;
 
   sf::Texture m_fish_texture;
+
+  sf::Texture m_gras_texture;
+
+  sf::Texture m_bacterie_texture;
 };
 
 /// Test the resources class
