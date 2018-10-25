@@ -1,5 +1,6 @@
 #include "tile.h"
 #include "agent.h"
+#include "tile_type.h"
 #include "agent_type.h"
 #include "sfml_game.h"
 
@@ -24,7 +25,17 @@ tile::tile(const double x, const double y, const double width,
 
   assert(m_width > 0.0);
   assert(m_height > 0.0);
-  m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+
+
+  switch (m_type) {
+    default:
+      m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+      break;
+    case tile_type::ocean:
+      m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
+      break;
+  }
+
 }
 
 void tile::process_events()
@@ -50,7 +61,9 @@ void tile::move() {
   m_y += m_dy;
 }
 
-void tile::add_agent(agent a) { m_agents.push_back(a); }
+void tile::add_agent(agent a) {
+    m_agents.push_back(a);
+}
 
 void tile::set_id(int id) { m_id = id; }
 
@@ -68,7 +81,7 @@ void test_tile() //!OCLINT testing function may be many lines
   // width cannot be negative
   {
     try {
-      const tile t(0.0, 0.0, -12.34, 100.0, tile_type::grassland, //!OCLINT indeed t is unused
+      const tile t(0.0, 0.0, -12.34, 100.0, tile_type::cowsland, //!OCLINT indeed t is unused
                    0);
       assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
@@ -78,7 +91,7 @@ void test_tile() //!OCLINT testing function may be many lines
   // height cannot be negative
   {
     try {
-      const tile t(0.0, 0.0, 100.0, -12.34, tile_type::grassland, //!OCLINT indeed t is unused
+      const tile t(0.0, 0.0, 100.0, -12.34, tile_type::cowsland, //!OCLINT indeed t is unused
                    0);                        //!OCLINT accepted idiom
       assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
@@ -91,13 +104,13 @@ void test_tile() //!OCLINT testing function may be many lines
 #ifdef FIX_ISSUE_87_SET_TILE_SPEED
   // A tile starts from standstill
   {
-    const tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
+    const tile t(0.0, 0.0, 10.0, 10.0, tile_type::cowsland, 0);
     assert(t.get_dx() == 0.0);
     assert(t.get_dy() == 0.0);
   }
   // Speed is set correctly
   {
-    tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
+    tile t(0.0, 0.0, 10.0, 10.0, tile_type::cowsland, 0);
     const double dx{12.34};
     const double dy{56.78};
     t.set_dx(dx);
@@ -107,7 +120,7 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Tile responds to its speed
   {
-    tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
+    tile t(0.0, 0.0, 10.0, 10.0, tile_type::cowsland, 0);
     const double dx{12.34};
     const double dy{56.78};
     t.set_dx(dx);
@@ -122,13 +135,13 @@ void test_tile() //!OCLINT testing function may be many lines
 
   // A tile starts with one agent
   {
-    const tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
+    const tile t(0.0, 0.0, 10.0, 10.0, tile_type::cowsland, 0);
     const std::vector<agent> &agents = t.get_agents();
     assert(agents.size() == 1);
   }
   // Can add an agent to a tile
   {
-    tile t(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
+    tile t(0.0, 0.0, 10.0, 10.0, tile_type::cowsland, 0);
     const agent a(agent_type::cow, 5.0, 5.0);
     t.add_agent(a);
     assert(t.get_agents().size() == 2);
@@ -146,7 +159,7 @@ void test_tile() //!OCLINT testing function may be many lines
   //
   //           C           D
   {
-    const tile t(10.0, 0.0, 20.0, 10.0, tile_type::grassland, 0);
+    const tile t(10.0, 0.0, 20.0, 10.0, tile_type::cowsland, 0);
     assert(t.tile_contains(20, 5));   // A
     assert(!t.tile_contains(40, 5));  // B
     assert(!t.tile_contains(20, 15)); // C

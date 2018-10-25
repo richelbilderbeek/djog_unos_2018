@@ -17,7 +17,7 @@ sfml_game::sfml_game(const int window_width, const int window_height,
       m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
                              static_cast<unsigned int>(window_height)),
                "Nature Zen"),
-      m_font{} { // Set up music
+      m_font{sfml_resources::get().get_default_font()} { // Set up music
   m_background_music.setLoop(true);
   m_background_music.play();
   // Set up window, start location to the center
@@ -58,10 +58,27 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
       // Draw agents
       for (const agent &a : t.get_agents()) {
         sf::Sprite sprite;
-        sprite.setTexture(sfml_resources::get().get_cow_texture());
+        switch (t.get_type()) {
+            case tile_type::ocean:
+                sprite.setTexture(sfml_resources::get().get_fish_texture());
+                break;
+            case tile_type::savannah:
+            sprite.setTexture(sfml_resources::get().get_gras_texture());
+           break;
+        case tile_type::cowsland:
+            sprite.setTexture(sfml_resources::get().get_cow_texture());
+            break;
+            default:
+                sprite.setTexture(sfml_resources::get().get_bacterie_texture());
+                break;
+        }
+
+        sprite.setPosition(screen_x + t.get_center().x - (sprite.getTexture()->getSize().x * 0.05f),
+                           screen_y + t.get_center().y - (sprite.getTexture()->getSize().y * 0.05f));
+
+        sprite.setScale(0.2f , 0.2f);
         sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
                            screen_y + static_cast<float>(a.get_y()));
-        // sprite.setScale(10,10);
         m_window.draw(sprite);
       }
     }
@@ -269,6 +286,7 @@ void sfml_game::reset_input() {
   movecam_u = false;
   movecam_d = false;
 }
+
 void sfml_game::process_mouse_input(const sf::Event &event) {
   // Only mouse input
   assert(event.type == sf::Event::MouseButtonPressed);
@@ -548,6 +566,7 @@ bool sfml_game::will_colide(int direction, tile &t) {
 void sfml_game::setup_text() {
   // Set up text
   titleScreenText.setFont(m_font);
+
   titleScreenText.setString("Title Screen");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left +
                                 titleScreenText.getGlobalBounds().width / 2.0f,

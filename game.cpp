@@ -9,7 +9,7 @@
 game::game() : m_tiles{}, m_score{0} {
   // Add first tile
   {
-    tile t(100, 100, 215, 100, tile_type::grassland, new_id());
+    tile t(100, 100, 215, 100, tile_type::cowsland, new_id());
     m_tiles.push_back(t);
   }
   {
@@ -157,7 +157,7 @@ std::istream& operator>>(std::istream& is, game& g)
   for (int i=0; i!=n_tiles; ++i)
   {
     g.m_tiles.emplace_back(
-      tile(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 1)
+      tile(0.0, 0.0, 10.0, 10.0, tile_type::cowsland, 1)
     );
   }
   return is;
