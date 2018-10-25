@@ -470,7 +470,6 @@ bool sfml_game::will_colide(int direction, tile &t) {
 void sfml_game::setup_text() {
   // Set up text
   titleScreenText.setFont(m_font);
-  titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left+
 
   titleScreenText.setString("Title Screen");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left +
