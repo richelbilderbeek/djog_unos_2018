@@ -465,7 +465,7 @@ bool sfml_game::will_colide(int direction, tile &t) {
   default:
     break;
   }
-  assert(!"Should not get here");
+  assert(!"Should not get here"); //!OCLINT accepted idiom
   return false;
 }
 
