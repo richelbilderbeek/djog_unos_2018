@@ -42,6 +42,9 @@ public:
   /// The movement coeficient on the y-axis
   double get_dy() const noexcept { return m_dy; }
 
+  ///Process events, for example, make the agents move
+  void process_events();
+
   /// Set the movement coeficient on the x-axis
   void set_dx(double dx);
 

@@ -3,6 +3,7 @@
 #include "agent.h"
 #include "agent_type.h"
 #include "sfml_resources.h"
+#include "game_state.h"
 #include <QFile>
 #include <cassert>
 #include <cmath>
@@ -39,8 +40,9 @@ void sfml_game::close() { m_window.close(); }
 void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
-  if (m_game_state == Playing) {
-    // Display all tiles
+
+  if (m_game_state == game_state::playing) {
+    //Display all tiles
     for (const tile &t : m_game.get_tiles()) {
       sf::RectangleShape sfml_tile(
           sf::Vector2f(static_cast<float>(t.get_width()),
@@ -70,24 +72,24 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   text.setPosition(m_window.getSize().x - 80, 10);
   text.setStyle(Text::Bold);
   m_window.draw(text);
-  if (m_game_state == TitleScreen) {
+  if (m_game_state == game_state::titlescreen) {
     m_window.draw(titleScreenText);
     if (space_pressed) {
       reset_input();
 
-      m_game_state = MenuScreen;
+      m_game_state = game_state::menuscreen;
     }
-  } else if (m_game_state == MenuScreen) {
+  } else if (m_game_state == game_state::menuscreen) {
     m_window.draw(mainMenuScreenText);
     if (space_pressed) {
       reset_input();
-      m_game_state = AboutScreen;
+      m_game_state = game_state::aboutscreen;
     }
-  } else if (m_game_state == AboutScreen) {
+  } else if (m_game_state == game_state::aboutscreen) {
     m_window.draw(aboutScreenText);
     if (space_pressed) {
       reset_input();
-      m_game_state = Playing;
+      m_game_state = game_state::playing;
     }
   }
   /////m_window.draw(text);
@@ -98,13 +100,13 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
 
 void sfml_game::load_game_state() {
   switch (m_game_state) {
-  case TitleScreen:
+  case game_state::titlescreen:
     m_window.draw(titleScreenText);
     return;
-  case MenuScreen:
+  case game_state::menuscreen:
     m_window.draw(mainMenuScreenText);
     return;
-  case AboutScreen:
+  case game_state::aboutscreen:
     m_window.draw(aboutScreenText);
     return;
   default:
@@ -114,17 +116,17 @@ void sfml_game::load_game_state() {
 
 void sfml_game::change_game_state() {
   switch (m_game_state) {
-  case TitleScreen:
+  case game_state::titlescreen:
     reset_input();
-    m_game_state = MenuScreen;
+    m_game_state = game_state::menuscreen;
     return;
-  case MenuScreen:
+  case game_state::menuscreen:
     reset_input();
-    m_game_state = AboutScreen;
+    m_game_state = game_state::aboutscreen;
     return;
-  case AboutScreen:
+  case game_state::aboutscreen:
     reset_input();
-    m_game_state = Playing;
+    m_game_state = game_state::playing;
     return;
   default:
     return;
@@ -141,13 +143,16 @@ void sfml_game::exec() {
 
 void sfml_game::move_camera(sf::Vector2f offset) {
   // Dont move the camera in the menu
-  if (m_game_state != Playing)
+  if (m_game_state != game_state::playing)
     return;
   m_camera_x += static_cast<double>(offset.x);
   m_camera_y += static_cast<double>(offset.y);
 }
 
 void sfml_game::process_events() {
+
+  m_game.process_events();
+
   if ((115.0 / tile_speed != std::abs(std::floor(115.0 / tile_speed)) ||
        115.0 / tile_speed != std::abs(std::ceil(115.0 / tile_speed))) ||
       tile_speed > 115.0) {
@@ -260,8 +265,8 @@ void sfml_game::process_keyboard_input(const sf::Event &event) {
 void sfml_game::check_change_game_state(const sf::Event &event) {
   if (event.key.code == sf::Keyboard::Space)
     change_game_state();
-  if (m_game_state == Playing && event.key.code == sf::Keyboard::Escape)
-    m_game_state = MenuScreen;
+  if (m_game_state == game_state::playing && event.key.code == sf::Keyboard::Escape)
+    m_game_state = game_state::menuscreen;
 }
 
 void sfml_game::move_selected_tile_randomly() {
@@ -312,7 +317,7 @@ void sfml_game::select_random_tile() {
 void sfml_game::stop_music() { m_background_music.stop(); }
 
 // NOTE Changed it to show_title (was show_menu)
-void sfml_game::show_title() { m_game_state = TitleScreen; }
+void sfml_game::show_title() { m_game_state = game_state::titlescreen; }
 
 void sfml_game::arrows(bool b, const sf::Event &event) {
   if (event.key.code == sf::Keyboard::D)
@@ -348,7 +353,7 @@ void sfml_game::tile_move_ctrl(const sf::Event &event, tile &t) {
     t.set_dy(tile_speed);
 }
 
-int sfml_game::vectortoint(std::vector<int> v) {
+int vectortoint(std::vector<int> v) {
   reverse(v.begin(), v.end());
   int decimal = 1;
   int total = 0;
@@ -458,8 +463,10 @@ bool sfml_game::will_colide(int direction, tile &t) {
     }
     return false;
   default:
-    return false;
+    break;
   }
+  assert(!"Should not get here"); //!OCLINT accepted idiom
+  return false;
 }
 
 void sfml_game::setup_text() {
