@@ -2,6 +2,8 @@
 #define AGENT_TYPE_H
 
 /// The type a tile can be
-enum class agent_type { cow, cows };
+
+enum class agent_type { cow, grass, fish };
+
 
 #endif // TILE_TYPE_H

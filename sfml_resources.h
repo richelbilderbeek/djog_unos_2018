@@ -16,6 +16,8 @@ public:
 
   sf::Texture &get_cow_texture() noexcept { return m_cow_texture; }
 
+  sf::Texture &get_fish_texture() noexcept { return m_fish_texture; }
+
   sf::Font& get_default_font() noexcept { return m_default_font; }
 
 private:
@@ -30,6 +32,8 @@ private:
   sf::Music m_background_music;
 
   sf::Texture m_cow_texture;
+
+  sf::Texture m_fish_texture;
 };
 
 /// Test the resources class

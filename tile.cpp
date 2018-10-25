@@ -1,5 +1,6 @@
 #include "tile.h"
 #include "agent.h"
+#include "tile_type.h"
 #include "agent_type.h"
 #include "sfml_game.h"
 
@@ -24,7 +25,17 @@ tile::tile(const double x, const double y, const double width,
 
   assert(m_width > 0.0);
   assert(m_height > 0.0);
-  m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+
+
+  switch (m_type) {
+    default:
+      m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+      break;
+    case tile_type::ocean:
+      m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
+      break;
+  }
+
 }
 
 void tile::process_events()

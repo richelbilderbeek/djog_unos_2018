@@ -5,7 +5,8 @@
         <file>resources/font.ttf</file>
         <file>resources/title_screen_background.PNG</file>
         <file>resources/OpenSans.ttf</file>
-        <file>resources/cow.png</file>
-        <file>resources/cow.png</file>
+
+        <file>resources/fish.png</file>
+
     </qresource>
 </RCC>

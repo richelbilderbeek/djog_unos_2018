@@ -21,6 +21,12 @@ sfml_resources::sfml_resources() {
     f.copy("cow.png");
     m_cow_texture.loadFromFile("cow.png");
   }
+  // Fish texture
+  {
+    QFile f(":/nature_zen/resources/fish.png");
+    f.copy("fish.png");
+    m_fish_texture.loadFromFile("fish.png");
+  }
   // Resources
   {
     QFile f(":/nature_zen/resources/font.ttf");
