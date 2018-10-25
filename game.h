@@ -26,10 +26,11 @@ public:
 
   int old_id = 0;
 
-private:
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
   void process_events();
+
+private:
 
   std::vector<tile> m_tiles;
 
