@@ -5,5 +5,6 @@
         <file>resources/font.ttf</file>
         <file>resources/cow.png</file>
         <file>resources/OpenSans.ttf</file>
+        <file>resources/fish.png</file>
     </qresource>
 </RCC>
