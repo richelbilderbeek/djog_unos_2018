@@ -27,6 +27,14 @@ tile::tile(const double x, const double y, const double width,
   m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
 }
 
+void tile::process_events()
+{
+  for (auto& a: m_agents) {
+    a.move();
+  }
+
+}
+
 void tile::set_dx(double dx) {
   if (!m_locked)
     m_dx = dx;

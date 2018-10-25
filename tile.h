@@ -45,6 +45,9 @@ public:
   /// The center of the tile
   Vector2f get_center() const noexcept { return Vector2f(m_width / 2.0f, m_height / 2.0f); }
 
+  ///Process events, for example, make the agents move
+  void process_events();
+
   /// Set the movement coeficient on the x-axis
   void set_dx(double dx);
 
