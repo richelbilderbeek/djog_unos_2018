@@ -148,6 +148,9 @@ void sfml_game::move_camera(sf::Vector2f offset) {
 }
 
 void sfml_game::process_events() {
+
+  m_game.process_events();
+
   if ((115.0 / tile_speed != std::abs(std::floor(115.0 / tile_speed)) ||
        115.0 / tile_speed != std::abs(std::ceil(115.0 / tile_speed))) ||
       tile_speed > 115.0) {
