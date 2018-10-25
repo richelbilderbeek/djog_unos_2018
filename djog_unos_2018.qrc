@@ -3,8 +3,9 @@
         <file>resources/background_music.ogg</file>
         <file>resources/title_music.ogg</file>
         <file>resources/font.ttf</file>
-        <file>resources/cow.png</file>
+        <file>resources/title_screen_background.PNG</file>
         <file>resources/OpenSans.ttf</file>
         <file>resources/fish.png</file>
+        <file>resources/bacterie.png</file>
     </qresource>
 </RCC>

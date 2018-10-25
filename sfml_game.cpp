@@ -58,11 +58,17 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
       for (const agent &a : t.get_agents()) {
         sf::Sprite sprite;
         switch (t.get_type()) {
-            case (tile_type::ocean):
+            case tile_type::ocean:
                 sprite.setTexture(sfml_resources::get().get_fish_texture());
                 break;
+            case tile_type::savannah:
+            sprite.setTexture(sfml_resources::get().get_gras_texture());
+           break;
+        case tile_type::cowsland:
+            sprite.setTexture(sfml_resources::get().get_cow_texture());
+            break;
             default:
-                sprite.setTexture(sfml_resources::get().get_cow_texture());
+                sprite.setTexture(sfml_resources::get().get_bacterie_texture());
                 break;
         }
 
@@ -83,7 +89,9 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   text.setPosition(m_window.getSize().x - 80, 10);
   text.setStyle(Text::Bold);
   m_window.draw(text);
+
   if (m_game_state == game_state::titlescreen) {
+
     m_window.draw(titleScreenText);
     if (space_pressed) {
       reset_input();
@@ -392,7 +400,7 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
 
 void sfml_game::color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t) {
   switch (t.get_type()) {
-  case tile_type::grassland:
+  case tile_type::cowsland:
     color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
     break;
 
@@ -484,6 +492,7 @@ bool sfml_game::will_colide(int direction, tile &t) {
 void sfml_game::setup_text() {
   // Set up text
   titleScreenText.setFont(m_font);
+
   titleScreenText.setString("Title Screen");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left +
                                 titleScreenText.getGlobalBounds().width / 2.0f,
