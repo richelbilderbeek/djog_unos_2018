@@ -9,14 +9,14 @@
 
 #include "game.h"
 #include "sfml_game_delegate.h"
+#include "game_state.h"
 
 using namespace sf;
 using namespace std;
 
-enum GameState { TitleScreen, MenuScreen, AboutScreen, Playing };
-
 //TODO: decrease the number of member functions and member variables
-class sfml_game { //!OCLINT indeed to many member functions and member variables
+class sfml_game { //!OCLINT indeed to big, will need to simplify
+
 public:
   /// Constructor
   /// @param window_width width of the game window in pixels
@@ -55,9 +55,6 @@ public:
   void arrows(bool b, const sf::Event &event);
 
   bool clicked_tile = false;
-
-  //TODO: make a free function
-  int vectortoint(std::vector<int> v);
 
   int m_timer = 0;
 
@@ -126,7 +123,7 @@ private:
   Texture test_agent_tex;
 
   /// Sate of Game
-  GameState m_game_state = Playing;
+  game_state m_game_state = game_state::playing;
 
   /// The selected tile
   std::vector<int> m_selected;
@@ -194,5 +191,7 @@ private:
   bool movecam_u = false;
   bool movecam_d = false;
 };
+
+int vectortoint(std::vector<int> v);
 
 #endif // SFML_sfml_game_H

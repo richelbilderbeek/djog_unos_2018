@@ -40,7 +40,13 @@ void game::add_tiles(std::vector<tile> ts) {
   }
 }
 
-void game::process_events() { ++m_n_tick; }
+void game::process_events() {
+  for (auto& tile: m_tiles)
+  {
+    tile.process_events();
+  }
+  ++m_n_tick;
+}
 
 void test_game() //!OCLINT a testing function may be long
 {

@@ -42,6 +42,9 @@ public:
   bool can_eat(agent &a);
   bool run_away(agent &a);
 
+  ///Make the agent move
+  void move();
+
 private:
   /// The type the tile
   const agent_type m_type;
