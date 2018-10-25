@@ -35,8 +35,23 @@ game::game() : m_tiles{}, m_score{0} {
 }
 
 void game::add_tiles(std::vector<tile> ts) {
-  for (tile& t: ts) {
+  for (tile& t : ts) {
     m_tiles.push_back(t);
+  }
+}
+
+void game::delete_tiles(std::vector<tile> ts) {
+  for (tile& t : ts) {
+    auto here = std::find_if(
+          std::begin(m_tiles),
+          std::end(m_tiles),
+          [t](const tile& u)
+          {
+            return u.get_id() == t.get_id();
+          }
+    );
+    std::swap(*here, m_tiles.back());
+    m_tiles.pop_back();
   }
 }
 

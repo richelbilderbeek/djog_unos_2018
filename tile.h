@@ -70,13 +70,13 @@ public:
 
 private:
   /// The height of the tile
-  const double m_height;
+  double m_height;
 
   /// The type the tile
-  const tile_type m_type;
+  tile_type m_type;
 
   /// The width of the tile
-  const double m_width;
+  double m_width;
 
   /// The x-coordinat of the top-left corner of the tile
   double m_x;

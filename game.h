@@ -25,6 +25,7 @@ public:
   }
 
   void add_tiles(std::vector<tile> ts);
+  void delete_tiles(std::vector<tile> ts);
 
   int old_id = 0;
 

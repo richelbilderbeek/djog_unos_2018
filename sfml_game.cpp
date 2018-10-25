@@ -5,6 +5,7 @@
 #include "sfml_resources.h"
 #include "game_state.h"
 #include <QFile>
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -326,9 +327,6 @@ void sfml_game::tile_movement(bool b, const sf::Event &event, tile &t) {
   }
 }
 
-// TODO @Joshua260403
-
-// TODO edit this function
 void sfml_game::tile_move_ctrl(const sf::Event &event, tile &t) {
   if (event.key.code == sf::Keyboard::D)
     switch_collide(t, 2);
@@ -361,25 +359,35 @@ void sfml_game::confirm_tile_move(tile& t, int direction) {
 
 void sfml_game::switch_collide(tile& t, int direction) {
   sf::Vector2f v = get_direction_pos(direction, t);
-//  if (get_collision_id(v.x,v.y)[0] == 0)
-//    return;
-  if (will_colide(direction, t) && check_merge(t,
+  std::vector<tile> added_tiles;
+  std::vector<tile> deleted_tiles;
+  if (get_collision_id(v.x,v.y)[0] != 0 &&
+      will_colide(direction, t) && check_merge(t,
       getTileById(get_collision_id(v.x,v.y)))) {
     // TODO Create new tiles and use game::add_tiles
-    assert(!"Work in progress!");
+    tile& collide_tile = getTileById(get_collision_id(v.x,v.y));
+    tile new_t(collide_tile.get_x(),collide_tile.get_y(),
+               collide_tile.get_width(),collide_tile.get_height(),
+               merge_type(t.get_type(),
+               collide_tile.get_type()),
+               m_game.new_id());
+    added_tiles.push_back(new_t);
+    deleted_tiles.push_back(t);
+    deleted_tiles.push_back(collide_tile);
+    m_game.add_tiles(added_tiles);
+    m_game.delete_tiles(deleted_tiles);
   } else if (!will_colide(direction, t)) {
     confirm_tile_move(t, direction);
   }
 }
 
 bool sfml_game::check_merge(tile& t1, tile& t2) {
-  if (merge(t1.get_type(),t2.get_type()) == tile_type::nonetile) {
+  if (merge_type(t1.get_type(),t2.get_type()) == tile_type::nonetile) {
     return false;
   }
   return true;
 }
 
-<<<<<<< HEAD
 sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t) {
   switch (direction) {
   case 1:
@@ -396,7 +404,7 @@ sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t) {
   return sf::Vector2f(0,0);
 }
 
-tile_type sfml_game::merge(tile_type type1, tile_type type2) {
+tile_type sfml_game::merge_type(tile_type type1, tile_type type2) {
   if (type1 == tile_type::grassland && type2 == tile_type::grassland)
     return tile_type::mountains;
   else if (type1 == tile_type::grassland && type2 == tile_type::desert)
@@ -404,12 +412,7 @@ tile_type sfml_game::merge(tile_type type1, tile_type type2) {
   return tile_type::nonetile;
 }
 
-// End todo
-
-int sfml_game::vectortoint(std::vector<int> v) {
-=======
 int vectortoint(std::vector<int> v) {
->>>>>>> develop
   reverse(v.begin(), v.end());
   int decimal = 1;
   int total = 0;
@@ -426,11 +429,12 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
   // if (id > m_game.old_id)
   //  assert(!"Tile id has not been used yet"); //!OCLINT accepted idiom
   for (tile &t : m_game.get_tiles()) {
+    assert(!1);
     if (t.get_id() == id) {
       return t;
     }
   }
-  assert(!"Should never get here"); //!OCLINT accepted idiom
+  //assert(!"Should never get here"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
 }
 

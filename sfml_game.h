@@ -98,20 +98,16 @@ public:
 
   void check_change_game_state(const sf::Event &event);
 
-  // TODO #145 @Joshua260403
-
   bool check_merge(tile &t1, tile &t2);
 
   void switch_collide(tile& t, int direction);
 
-  tile_type merge(tile_type type1, tile_type type2);
+  tile_type merge_type(tile_type type1, tile_type type2);
 
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   sf::Vector2f get_direction_pos(int direction, tile& t);
 
   void confirm_tile_move(tile& t, int direction);
-
-  // End todo
 
 private:
   /// Background music file object
