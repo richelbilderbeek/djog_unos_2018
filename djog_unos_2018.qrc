@@ -7,5 +7,6 @@
         <file>resources/OpenSans.ttf</file>
         <file>resources/fish.png</file>
         <file>resources/bacterie.png</file>
+        <file>resources/gras.png</file>
     </qresource>
 </RCC>

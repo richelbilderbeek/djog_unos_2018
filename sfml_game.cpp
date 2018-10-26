@@ -64,7 +64,7 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
             case tile_type::savannah:
             sprite.setTexture(sfml_resources::get().get_gras_texture());
            break;
-        case tile_type::cowsland:
+        case tile_type::grassland:
             sprite.setTexture(sfml_resources::get().get_cow_texture());
             break;
             default:
@@ -400,7 +400,7 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
 
 void sfml_game::color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t) {
   switch (t.get_type()) {
-  case tile_type::cowsland:
+  case tile_type::grassland:
     color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
     break;
 
