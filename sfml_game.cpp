@@ -50,8 +50,8 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
                        static_cast<float>(t.get_height())));
       // If the camera moves to right/bottom, tiles move relatively
       // left/downwards
-      const float screen_x{static_cast<float>(t.get_x() - m_camera_x)};
-      const float screen_y{static_cast<float>(t.get_y() - m_camera_y)};
+      const double screen_x{t.get_x() - m_camera_x};
+      const double screen_y{t.get_y() - m_camera_y};
       sfml_tile.setPosition(screen_x, screen_y);
       color_tile_shape(sfml_tile, t);
       m_window.draw(sfml_tile);
@@ -147,8 +147,8 @@ void sfml_game::move_camera(sf::Vector2f offset) {
   // Dont move the camera in the menu
   if (m_game_state != game_state::playing)
     return;
-  m_camera_x += static_cast<double>(offset.x);
-  m_camera_y += static_cast<double>(offset.y);
+  m_camera_x += offset.x;
+  m_camera_y += offset.y;
 }
 
 void sfml_game::process_events() {
@@ -466,6 +466,7 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
 
 void sfml_game::color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t) {
   switch (t.get_type()) {
+
     case tile_type::grassland:
       color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
       break;
@@ -476,19 +477,19 @@ void sfml_game::color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t) {
 
     case tile_type::ocean:
       color_shape(sfml_tile, sf::Color(0, 0, 255), sf::Color(0, 0, 100));
-     break;
+      break;
 
     case tile_type::savannah:
-     color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
-     break;
+      color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
+      break;
 
     case tile_type::arctic:
-     color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
-     break;
+      color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
+      break;
 
     case tile_type::desert:
-     color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
-     break;
+      color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
+      break;
 
     default:
       color_shape(sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
@@ -567,7 +568,6 @@ bool sfml_game::will_colide(int direction, tile &t) {
   default:
     break;
   }
-  assert(!"Should not get here"); //!OCLINT accepted idiom
   return false;
 }
 

@@ -13,6 +13,20 @@ agent::agent(const agent_type type, const double x, const double y,
 Sprite agent::getSprite() { return m_sprite; }
 Texture agent::getTexure() { return m_texture; }
 
+std::ostream& operator<<(std::ostream& os, const agent& a)
+{
+  //TODO: actually save the tile and agents
+  os << a.m_type << ' ' << a.m_x << ' ' << a.m_y;
+  return os;
+}
+
+std::istream& operator>>(std::istream& is, agent& a)
+{
+  //TODO: actually save the tile and agents
+  is >> a.m_type >> a.m_x >> a.m_y;
+  return is;
+}
+
 void agent::move()
 {
   if (m_type == agent_type::cow) {
