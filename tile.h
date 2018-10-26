@@ -15,8 +15,9 @@ public:
   /// @param height the height of the tile
   /// @param type the type the tile
   /// @param the tiles id
-  tile(const double x, const double y, const double width, const double height,
-       const tile_type type, const int id);
+  tile(
+        const double x = 0.0, const double y = 0.0, const double width = 0.0, const double height = 0.0,
+       const tile_type type = tile_type::grassland, const int id = 0);
 
   /// Read all agents
   const std::vector<agent> &get_agents() const noexcept { return m_agents; }
@@ -67,13 +68,13 @@ public:
 
 private:
   /// The height of the tile
-  const double m_height;
+  double m_height;
 
   /// The type the tile
-  const tile_type m_type;
+  tile_type m_type;
 
   /// The width of the tile
-  const double m_width;
+  double m_width;
 
   /// The x-coordinat of the top-left corner of the tile
   double m_x;
@@ -94,7 +95,16 @@ private:
   int m_id;
 
   bool m_locked = false;
+
+
+  //A rare exception to use a friend
+  friend std::ostream& operator<<(std::ostream& os, const tile& t);
+  friend std::istream& operator>>(std::istream& os, tile& t);
 };
+
+std::ostream& operator<<(std::ostream& os, const tile& t);
+
+std::istream& operator>>(std::istream& os, tile& t);
 
 /// Test the tile class
 void test_tile();

@@ -42,6 +42,44 @@ void tile::move() {
   m_y += m_dy;
 }
 
+std::ostream& operator<<(std::ostream& os, const tile& t)
+{
+  //TODO: actually save the tile and agents
+  os << t.m_x << ' ' << t.m_y << ' '
+     << t.m_height << ' ' << t.m_width << ' '
+     << t.m_locked << ' ' << t.m_type << ' '
+     << t.m_dx << ' ' << t.m_dy
+     << t.m_agents.size() << ' ';
+
+  for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){
+      os << t.m_agents[i];
+  }
+
+  return os;
+}
+
+std::istream& operator>>(std::istream& is, tile& t)
+{
+  //TODO: actually save the tile and agents
+  is >> t.m_x >> t.m_y;
+  is >> t.m_height >> t.m_width;
+  is >> t.m_locked >> t.m_type;
+  is >> t.m_dx >> t.m_dy;
+  int n_agents = 1;
+  is >> n_agents;
+  //TODO: the line below is a stub
+  for (int i=0; i!=n_agents; ++i)
+  {
+    agent a(agent_type::none, 0, 0);
+    is >> a;
+    t.m_agents.emplace_back(
+      a
+    );
+  }
+  return is;
+}
+
+
 void tile::add_agent(agent a) { m_agents.push_back(a); }
 
 void tile::set_id(int id) { m_id = id; }

@@ -116,7 +116,13 @@ void save(const game &g, const std::string &filename) {
 std::ostream& operator<<(std::ostream& os, const game& g)
 {
   //TODO: actually save the tile and agents
-  os << g.m_n_tick << ' ' << g.m_score << ' ' << g.m_tiles.size();
+  os << g.m_n_tick << ' ' << g.m_score << ' '
+     << g.m_tiles.size() << ' ';
+
+  for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
+      os << g.m_tiles[i];
+  }
+
   return os;
 }
 
@@ -129,9 +135,9 @@ std::istream& operator>>(std::istream& is, game& g)
   //TODO: the line below is a stub
   for (int i=0; i!=n_tiles; ++i)
   {
-    g.m_tiles.emplace_back(
-      tile(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 1)
-    );
+      tile t(0, 0, 0, 0, tile_type::grassland, g.new_id());
+      is >> t;
+      g.m_tiles.emplace_back(t);
   }
   return is;
 }

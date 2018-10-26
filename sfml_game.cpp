@@ -398,6 +398,9 @@ void sfml_game::color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t) {
   case tile_type::desert:
     color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
     break;
+
+  default:
+      break;
   }
   sfml_tile.setOutlineThickness(5);
   auto selected = vectortoint(m_selected);
