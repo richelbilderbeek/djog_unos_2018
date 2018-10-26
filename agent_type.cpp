@@ -6,15 +6,12 @@ std::string to_str(agent_type t)
   switch (t) {
     case agent_type::cow:
         return "cow";
-      break;
 
     case agent_type::grass:
         return "grass";
-      break;
 
     default:
       return "none";
-      break;
   }
 }
 

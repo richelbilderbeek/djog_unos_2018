@@ -35,7 +35,6 @@ tile::tile(const double x, const double y, const double width,
       m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
       break;
   }
-
 }
 
 void tile::process_events()
@@ -43,7 +42,6 @@ void tile::process_events()
   for (auto& a: m_agents) {
     a.move();
   }
-
 }
 
 void tile::set_dx(double dx) {
@@ -84,7 +82,7 @@ std::istream& operator>>(std::istream& is, tile& t)
   is >> t.m_height >> t.m_width;
   is >> t.m_locked >> t.m_type;
   is >> t.m_dx >> t.m_dy;
-  int n_agents = 1;
+  int n_agents = 20;
   is >> n_agents;
   //TODO: the line below is a stub
   for (int i=0; i!=n_agents; ++i)

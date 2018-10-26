@@ -7,27 +7,21 @@ std::string to_str(tile_type t)
   switch (t) {
     case tile_type::grassland:
         return "grassland";
-      break;
 
     case tile_type::arctic:
         return "arctic";
-      break;
 
     case tile_type::desert:
         return "desert";
-    break;
 
     case tile_type::mountains:
         return "mountains";
-    break;
 
     case tile_type::ocean:
         return "ocean";
-      break;
 
     case tile_type::savannah:
         return "savannah";
-      break;
 
     default:
       return "none";

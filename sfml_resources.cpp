@@ -21,11 +21,11 @@ sfml_resources::sfml_resources() {
       f.copy("bacterie.png");
       m_bacterie_texture.loadFromFile("bacterie.png");
     }
-    // gras texture
+    // grass texture
     {
-      QFile f(":/nature_zen/resources/gras.png");
-      f.copy("gras.png");
-      m_gras_texture.loadFromFile("gras.png");
+      QFile f(":/nature_zen/resources/grass.png");
+      f.copy("grass.png");
+      m_grass_texture.loadFromFile("grass.png");
     }
   // cow texture
   {

@@ -57,15 +57,15 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
       // Draw agents
       for (const agent &a : t.get_agents()) {
         sf::Sprite sprite;
-        switch (t.get_type()) {
-            case tile_type::ocean:
-                sprite.setTexture(sfml_resources::get().get_fish_texture());
+        switch (a.get_type()) {
+            case agent_type::cow:
+                sprite.setTexture(sfml_resources::get().get_cow_texture());
                 break;
-            case tile_type::savannah:
-            sprite.setTexture(sfml_resources::get().get_gras_texture());
+            case agent_type::fish:
+            sprite.setTexture(sfml_resources::get().get_fish_texture());
            break;
-        case tile_type::grassland:
-            sprite.setTexture(sfml_resources::get().get_cow_texture());
+        case agent_type::grass:
+            sprite.setTexture(sfml_resources::get().get_grass_texture());
             break;
             default:
                 sprite.setTexture(sfml_resources::get().get_bacterie_texture());
