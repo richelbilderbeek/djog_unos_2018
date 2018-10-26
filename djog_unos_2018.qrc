@@ -8,5 +8,6 @@
         <file>resources/fish.png</file>
         <file>resources/bacterie.png</file>
         <file>resources/gras.png</file>
+        <file>resources/cow.png</file>
     </qresource>
 </RCC>
