@@ -13,6 +13,10 @@ game::game() : m_tiles{}, m_score{0} {
     m_tiles.push_back(t);
   }
   {
+    tile t(-15, 330, 215, 100, tile_type::grassland, new_id());
+    m_tiles.push_back(t);
+  }
+  {
     tile t(215, 215, 100, 215, tile_type::mountains, new_id());
     m_tiles.push_back(t);
   }

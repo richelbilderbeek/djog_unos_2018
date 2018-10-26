@@ -105,7 +105,7 @@ public:
   tile_type merge_type(tile_type type1, tile_type type2);
 
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-  sf::Vector2f get_direction_pos(int direction, tile& t);
+  sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
 
   void confirm_tile_move(tile& t, int direction);
 
