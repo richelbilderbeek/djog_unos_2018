@@ -13,6 +13,10 @@ game::game() : m_tiles{}, m_score{0} {
     m_tiles.push_back(t);
   }
   {
+    tile t(-15, 330, 215, 100, tile_type::grassland, new_id());
+    m_tiles.push_back(t);
+  }
+  {
     tile t(215, 215, 100, 215, tile_type::mountains, new_id());
     m_tiles.push_back(t);
   }
@@ -31,6 +35,27 @@ game::game() : m_tiles{}, m_score{0} {
   {
     tile t(445, -15, 100, 215, tile_type::desert, new_id());
     m_tiles.push_back(t);
+  }
+}
+
+void game::add_tiles(std::vector<tile> ts) {
+  for (tile& t : ts) {
+    m_tiles.push_back(t);
+  }
+}
+
+void game::delete_tiles(std::vector<tile> ts) {
+  for (tile& t : ts) {
+    auto here = std::find_if(
+          std::begin(m_tiles),
+          std::end(m_tiles),
+          [t](const tile& u)
+          {
+            return u.get_id() == t.get_id();
+          }
+    );
+    std::swap(*here, m_tiles.back());
+    m_tiles.pop_back();
   }
 }
 

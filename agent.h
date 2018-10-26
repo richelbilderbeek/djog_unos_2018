@@ -34,8 +34,8 @@ public:
   Sprite getSprite();
 
   Texture getTexure();
-  // TODO Add below functions to the cpp file (Joshua)
-  // TODO Add below functions to the cpp file (#33) -Joshua
+
+  // TODO #33 Add below functions to the cpp file
 
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);

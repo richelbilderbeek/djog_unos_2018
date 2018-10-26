@@ -5,6 +5,7 @@
 #include "sfml_resources.h"
 #include "game_state.h"
 #include <QFile>
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -36,7 +37,7 @@ sfml_game::~sfml_game() { m_background_music.stop(); }
 
 void sfml_game::close() { m_window.close(); }
 
-// TODO: Simplify this function
+// WARNING function is getting too long again
 void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
@@ -59,17 +60,17 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
         sf::Sprite sprite;
         switch (t.get_type()) {
             case tile_type::ocean:
-                sprite.setTexture(sfml_resources::get().get_fish_texture());
-                break;
+              sprite.setTexture(sfml_resources::get().get_fish_texture());
+              break;
             case tile_type::savannah:
-            sprite.setTexture(sfml_resources::get().get_gras_texture());
-           break;
-        case tile_type::grassland:
-            sprite.setTexture(sfml_resources::get().get_cow_texture());
-            break;
+              sprite.setTexture(sfml_resources::get().get_gras_texture());
+              break;
+            case tile_type::grassland:
+              sprite.setTexture(sfml_resources::get().get_cow_texture());
+              break;
             default:
-                sprite.setTexture(sfml_resources::get().get_bacterie_texture());
-                break;
+              sprite.setTexture(sfml_resources::get().get_bacterie_texture());
+              break;
         }
 
         sprite.setPosition(screen_x + t.get_center().x - (sprite.getTexture()->getSize().x * 0.05f),
@@ -90,28 +91,10 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
   text.setStyle(Text::Bold);
   m_window.draw(text);
 
-  if (m_game_state == game_state::titlescreen) {
-
-    m_window.draw(titleScreenText);
-    if (space_pressed) {
-      reset_input();
-
-      m_game_state = game_state::menuscreen;
-    }
-  } else if (m_game_state == game_state::menuscreen) {
-    m_window.draw(mainMenuScreenText);
-    if (space_pressed) {
-      reset_input();
-      m_game_state = game_state::aboutscreen;
-    }
-  } else if (m_game_state == game_state::aboutscreen) {
-    m_window.draw(aboutScreenText);
-    if (space_pressed) {
-      reset_input();
-      m_game_state = game_state::playing;
-    }
+  if (space_pressed) {
+    reset_input();
   }
-  /////m_window.draw(text);
+
   load_game_state();
   //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
@@ -363,14 +346,97 @@ void sfml_game::tile_movement(bool b, const sf::Event &event, tile &t) {
 }
 
 void sfml_game::tile_move_ctrl(const sf::Event &event, tile &t) {
-  if (event.key.code == sf::Keyboard::D && !will_colide(2, t))
-    t.set_dx(tile_speed);
-  if (event.key.code == sf::Keyboard::A && !will_colide(4, t))
-    t.set_dx(-tile_speed);
-  if (event.key.code == sf::Keyboard::W && !will_colide(1, t))
-    t.set_dy(-tile_speed);
-  if (event.key.code == sf::Keyboard::S && !will_colide(3, t))
-    t.set_dy(tile_speed);
+  if (event.key.code == sf::Keyboard::D)
+    switch_collide(t, 2);
+  if (event.key.code == sf::Keyboard::A)
+    switch_collide(t, 4);
+  if (event.key.code == sf::Keyboard::W)
+    switch_collide(t, 1);
+  if (event.key.code == sf::Keyboard::S)
+    switch_collide(t, 3);
+}
+
+void sfml_game::confirm_tile_move(tile& t, int direction) {
+  switch(direction) {
+    case 1:
+      t.set_dy(-tile_speed);
+      return;
+    case 2:
+      t.set_dx(tile_speed);
+      return;
+    case 3:
+      t.set_dy(tile_speed);
+      return;
+    case 4:
+      t.set_dx(-tile_speed);
+      return;
+    default:
+      return;
+  }
+}
+
+void sfml_game::switch_collide(tile& t, int direction) {
+  sf::Vector2f v = get_direction_pos(direction, t, 0);
+  std::vector<tile> added_tiles;
+  std::vector<tile> deleted_tiles;
+  if (get_collision_id(v.x,v.y)[0] != 0 &&
+      will_colide(direction, t) && check_merge(t,
+      getTileById(get_collision_id(v.x,v.y)))) {
+    confirm_tile_move(t, direction);
+    sf::Vector2f b = get_direction_pos(direction, t, 115);
+    if (get_collision_id(b.x,b.y)[0] == get_collision_id(v.x,v.y)[0]) {
+      t.set_dx(t.get_dx()*2);
+      t.set_dy(t.get_dy()*2);
+    }
+    tile& collide_tile = getTileById(get_collision_id(v.x,v.y));
+    {
+      tile new_t(collide_tile.get_x(),collide_tile.get_y(),
+                 collide_tile.get_width(),collide_tile.get_height(),
+                 merge_type(t.get_type(),
+                 collide_tile.get_type()),
+                 m_game.new_id());
+      added_tiles.push_back(new_t);
+    }
+    deleted_tiles.push_back(t);
+    deleted_tiles.push_back(collide_tile);
+    m_game.add_tiles(added_tiles);
+    //TODO delete old tiles
+    //m_game.delete_tiles(deleted_tiles);
+  } else if (!will_colide(direction, t)) {
+    confirm_tile_move(t, direction);
+  }
+}
+
+bool sfml_game::check_merge(tile& t1, tile& t2) {
+  if (merge_type(t1.get_type(),t2.get_type()) == tile_type::nonetile) {
+    return false;
+  }
+  return true;
+}
+
+sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus) {
+  switch (direction) {
+  case 1:
+    return sf::Vector2f(t.get_x() + (t.get_width() / 2), t.get_y() - (t.get_height() / 2) - plus);
+  case 2:
+    return sf::Vector2f(t.get_x() + (t.get_width() * 1.5) + plus, t.get_y() + (t.get_height() / 2));
+  case 3:
+    return sf::Vector2f(t.get_x() + (t.get_width() / 2), t.get_y() + (t.get_height() * 1.5) + plus);
+  case 4:
+    return sf::Vector2f(t.get_x() - (t.get_width() / 2) - plus, t.get_y() + (t.get_height() / 2));
+  default:
+    return sf::Vector2f(0,0);
+  }
+  return sf::Vector2f(0,0);
+}
+
+tile_type sfml_game::merge_type(tile_type type1, tile_type type2) {
+  if (type1 == tile_type::grassland && type2 == tile_type::grassland)
+    return tile_type::mountains;
+  else if ((type1 == tile_type::grassland && type2 == tile_type::desert) ||
+           (type1 == tile_type::desert && type2 == tile_type::grassland))
+    return tile_type::savannah;
+  return tile_type::nonetile;
 }
 
 int vectortoint(std::vector<int> v) {
@@ -394,37 +460,39 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
       return t;
     }
   }
-  assert(!"Should never get here"); //!OCLINT accepted idiom
+  //assert(!"Should never get here"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
 }
 
 void sfml_game::color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t) {
   switch (t.get_type()) {
-  case tile_type::grassland:
-    color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
-    break;
 
-  case tile_type::mountains:
-    color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
-    break;
+    case tile_type::grassland:
+      color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
+      break;
 
-  case tile_type::ocean:
-    color_shape(sfml_tile, sf::Color(0, 0, 255), sf::Color(0, 0, 100));
-    break;
+    case tile_type::mountains:
+      color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
+      break;
 
-  case tile_type::savannah:
-    color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
-    break;
+    case tile_type::ocean:
+      color_shape(sfml_tile, sf::Color(0, 0, 255), sf::Color(0, 0, 100));
+      break;
 
-  case tile_type::arctic:
-    color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
-    break;
+    case tile_type::savannah:
+      color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
+      break;
 
-  case tile_type::desert:
-    color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
-    break;
+    case tile_type::arctic:
+      color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
+      break;
 
-  default:
+    case tile_type::desert:
+      color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
+      break;
+
+    default:
+      color_shape(sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
       break;
   }
   sfml_tile.setOutlineThickness(5);
@@ -444,18 +512,30 @@ void sfml_game::color_shape(sf::RectangleShape &sfml_tile, sf::Color c1,
 
 bool sfml_game::check_collision(double x, double y) {
   for (tile &t : m_game.get_tiles()) {
-    //._____.
-    //|     |
-    //|_A___|
-    //._____.
-    //|   B |
-    //|_____|
+    // ._____.
+    // |     |
+    // |_A___|
+    // ._____.
+    // |   B |
+    // |_____|
     //
     if (t.tile_contains(x + 15, y + 15) || t.tile_contains(x - 15, y - 15)) {
       return true;
     }
   }
   return false;
+}
+
+std::vector<int> sfml_game::get_collision_id(double x, double y) {
+  std::vector<int> ret;
+  for (tile &t : m_game.get_tiles()) {
+    if (t.tile_contains(x, y)) {
+      ret.push_back(t.get_id());
+      return ret;
+    }
+  }
+  ret.push_back(0);
+  return ret;
 }
 
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <

@@ -24,6 +24,9 @@ public:
     return old_id;
   }
 
+  void add_tiles(std::vector<tile> ts);
+  void delete_tiles(std::vector<tile> ts);
+
   int old_id = 0;
 
   /// Timer, physics, bullets moving, etc.
