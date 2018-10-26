@@ -49,8 +49,8 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
                        static_cast<float>(t.get_height())));
       // If the camera moves to right/bottom, tiles move relatively
       // left/downwards
-      const float screen_x{static_cast<float>(t.get_x() - m_camera_x)};
-      const float screen_y{static_cast<float>(t.get_y() - m_camera_y)};
+      const double screen_x{t.get_x() - m_camera_x};
+      const double screen_y{t.get_y() - m_camera_y};
       sfml_tile.setPosition(screen_x, screen_y);
       color_tile_shape(sfml_tile, t);
       m_window.draw(sfml_tile);
@@ -164,8 +164,8 @@ void sfml_game::move_camera(sf::Vector2f offset) {
   // Dont move the camera in the menu
   if (m_game_state != game_state::playing)
     return;
-  m_camera_x += static_cast<double>(offset.x);
-  m_camera_y += static_cast<double>(offset.y);
+  m_camera_x += offset.x;
+  m_camera_y += offset.y;
 }
 
 void sfml_game::process_events() {
@@ -488,7 +488,6 @@ bool sfml_game::will_colide(int direction, tile &t) {
   default:
     break;
   }
-  assert(!"Should not get here"); //!OCLINT accepted idiom
   return false;
 }
 
