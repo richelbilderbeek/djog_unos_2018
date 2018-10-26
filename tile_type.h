@@ -8,5 +8,4 @@ enum class tile_type { none, grassland, mountains, ocean, savannah, arctic, dese
 std::ostream& operator<<(std::ostream& os, const tile_type t) noexcept;
 std::istream& operator>>(std::istream& is, tile_type& t) noexcept;
 
-
 #endif // TILE_TYPE_H

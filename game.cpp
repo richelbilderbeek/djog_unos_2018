@@ -9,7 +9,7 @@
 game::game() : m_tiles{}, m_score{0} {
   // Add first tile
   {
-    tile t(100, 100, 215, 100, tile_type::grassland, new_id());
+    tile t(100, 100, 215, 100, tile_type::cowsland, new_id());
     m_tiles.push_back(t);
   }
   {
@@ -34,7 +34,13 @@ game::game() : m_tiles{}, m_score{0} {
   }
 }
 
-void game::process_events() { ++m_n_tick; }
+void game::process_events() {
+  for (auto& tile: m_tiles)
+  {
+    tile.process_events();
+  }
+  ++m_n_tick;
+}
 
 void test_game() //!OCLINT a testing function may be long
 {

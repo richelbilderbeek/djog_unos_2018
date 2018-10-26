@@ -27,6 +27,14 @@ std::istream& operator>>(std::istream& is, agent& a)
   return is;
 }
 
+void agent::move()
+{
+  if (m_type == agent_type::cow) {
+    m_x += 0.1 * (-1 + (std::rand() % 3));
+    m_y += 0.1 * (-1 + (std::rand() % 3));
+  }
+}
+
 void test_agent() //!OCLINT testing functions may be long
 {
   // A default agent has coordinate (0,0)

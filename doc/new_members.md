@@ -4,14 +4,17 @@ New team members are almost always welcome.
 
 To work together with the [team](team.md) smoothly, these things must be done:
 
-## 1. Install Qt Creator and SFML
-
-See [install](install.md).
-
-## 2. Create a verified GitHub account
+## 1. Create a verified GitHub account
 
  * Go to [https://github.com](https://github.com) and create a new account
  * A verification email will be sent to your personal email address. Accept it
+ * Let @richelbilderbeek know your GitHub username, either by
+   [re-opening this Issue](https://github.com/richelbilderbeek/djog_unos_2018/issues/5)
+   or send him an email
+
+## 2. Install Qt Creator and SFML
+
+See [install](install.md).
 
 ## 3. Create a branch for yourself
 

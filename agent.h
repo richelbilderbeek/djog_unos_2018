@@ -27,6 +27,10 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
+  double get_width() const noexcept { return m_sprite.getTexture()->getSize().x; }
+
+  double get_height() const noexcept { return m_sprite.getTexture()->getSize().y; }
+
   Sprite getSprite();
 
   Texture getTexure();
@@ -41,6 +45,9 @@ public:
 
   bool can_eat(agent &a);
   bool run_away(agent &a);
+
+  ///Make the agent move
+  void move();
 
 private:
   /// The type the tile
