@@ -382,7 +382,6 @@ void sfml_game::switch_collide(tile& t, int direction) {
   if (get_collision_id(v.x,v.y)[0] != 0 &&
       will_colide(direction, t) && check_merge(t,
       getTileById(get_collision_id(v.x,v.y)))) {
-    // TODO Create new tiles and use game::add_tiles
     tile& collide_tile = getTileById(get_collision_id(v.x,v.y));
     tile new_t(collide_tile.get_x(),collide_tile.get_y(),
                collide_tile.get_width(),collide_tile.get_height(),
@@ -393,6 +392,7 @@ void sfml_game::switch_collide(tile& t, int direction) {
     deleted_tiles.push_back(t);
     deleted_tiles.push_back(collide_tile);
     m_game.add_tiles(added_tiles);
+    //TODO delete old tiles
     //m_game.delete_tiles(deleted_tiles);
   } else if (!will_colide(direction, t)) {
     confirm_tile_move(t, direction);
