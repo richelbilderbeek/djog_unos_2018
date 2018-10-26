@@ -103,7 +103,7 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
     const game h = load(filename);
-    assert(g.get_score() == h.get_score());
+    assert(g == h);
   }
 }
 
@@ -123,11 +123,13 @@ std::ostream& operator<<(std::ostream& os, const game& g)
 {
   //TODO: actually save the tile and agents
   os << g.m_n_tick << ' ' << g.m_score << ' '
-     << g.m_tiles.size() << ' ';
+     << g.m_tiles.size();
 
   for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
-      os << g.m_tiles[i];
+      os << ' ' <<g.m_tiles[i];
   }
+
+  os << ' ';
 
   return os;
 }
@@ -146,4 +148,16 @@ std::istream& operator>>(std::istream& is, game& g)
       g.m_tiles.emplace_back(t);
   }
   return is;
+}
+
+bool operator==(const game& lhs, const game& rhs) noexcept
+{
+  if (lhs.m_n_tick != rhs.m_n_tick)
+      return false;
+  if (lhs.m_score != rhs.m_score)
+      return false;
+  if (lhs.m_tiles != rhs.m_tiles)
+      return false;
+
+  return true;
 }

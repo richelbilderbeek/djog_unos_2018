@@ -1,6 +1,6 @@
 #include "agent_type.h"
 #include "string"
-
+#include <cassert>
 std::string to_str(agent_type t)
 {
   switch (t) {
@@ -12,16 +12,26 @@ std::string to_str(agent_type t)
         return "grass";
       break;
 
-    default:
-      return "none";
+    case agent_type::fish:
+        return "fish";
       break;
+
+    case agent_type::none:
+        return "none";
+      break;
+
   }
+  assert(!"Agent types aren't translated completely");
+  return "";
 }
 
 agent_type to_agent(std::string str)
 {
   if (str == "cow") return agent_type::cow;
   if (str == "grass") return agent_type::grass;
+  if (str == "fish") return agent_type::fish;
+  if (str == "none") return agent_type::none;
+  assert(!"Agent types aren't translated completely");
   return agent_type::none;
 }
 

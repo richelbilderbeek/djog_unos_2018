@@ -1,7 +1,38 @@
 #include "tile_type.h"
 #include "string"
-
+#include <cassert>
 #include <iostream>
+#include <sstream>
+
+std::vector<tile_type> collect_all_tile_types()
+{
+  return
+  {
+        tile_type::none,
+        tile_type::grassland,
+        tile_type::mountains,
+        tile_type::ocean,
+        tile_type::savannah,
+        tile_type::arctic,
+        tile_type::desert
+  };
+}
+
+void test_tile_type() //!OCLINT testing function may be many lines
+{
+  // Stream in and out must be symmetrical
+  {
+    for (const tile_type t: collect_all_tile_types())
+    {
+      std::stringstream s;
+      s << t;
+      tile_type u;
+      s >> u;
+      assert(t == u);
+    }
+  }
+}
+
 std::string to_str(tile_type t)
 {
   switch (t) {

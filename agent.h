@@ -68,11 +68,14 @@ private:
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const agent& a);
   friend std::istream& operator>>(std::istream& is, agent& a);
+  friend bool operator==(const agent& lhs, const agent& rhs) noexcept;
 };
 
 std::ostream& operator<<(std::ostream& os, const agent& a);
 
 std::istream& operator>>(std::istream& is, agent& a);
+
+bool operator==(const agent& lhs, const agent& rhs) noexcept;
 
 /// Test the tile class
 void test_agent();

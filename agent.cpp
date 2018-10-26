@@ -27,6 +27,17 @@ std::istream& operator>>(std::istream& is, agent& a)
   return is;
 }
 
+bool operator==(const agent& lhs, const agent& rhs) noexcept{
+    if (!(lhs.m_type == rhs.m_type))
+        return false;
+    if (!(lhs.m_x == rhs.m_x))
+        return false;
+    if (!(lhs.m_y == rhs.m_y))
+        return false;
+
+    return true;
+}
+
 void agent::move()
 {
   if (m_type == agent_type::cow) {
