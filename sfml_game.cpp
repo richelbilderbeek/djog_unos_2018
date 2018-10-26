@@ -60,17 +60,17 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
         sf::Sprite sprite;
         switch (t.get_type()) {
             case tile_type::ocean:
-                sprite.setTexture(sfml_resources::get().get_fish_texture());
-                break;
+              sprite.setTexture(sfml_resources::get().get_fish_texture());
+              break;
             case tile_type::savannah:
-            sprite.setTexture(sfml_resources::get().get_gras_texture());
-           break;
-        case tile_type::cowsland:
-            sprite.setTexture(sfml_resources::get().get_cow_texture());
-            break;
+              sprite.setTexture(sfml_resources::get().get_gras_texture());
+              break;
+            case tile_type::grassland:
+              sprite.setTexture(sfml_resources::get().get_cow_texture());
+              break;
             default:
-                sprite.setTexture(sfml_resources::get().get_bacterie_texture());
-                break;
+              sprite.setTexture(sfml_resources::get().get_bacterie_texture());
+              break;
         }
 
         sprite.setPosition(screen_x + t.get_center().x - (sprite.getTexture()->getSize().x * 0.05f),
@@ -393,7 +393,7 @@ void sfml_game::switch_collide(tile& t, int direction) {
     deleted_tiles.push_back(t);
     deleted_tiles.push_back(collide_tile);
     m_game.add_tiles(added_tiles);
-    m_game.delete_tiles(deleted_tiles);
+    //m_game.delete_tiles(deleted_tiles);
   } else if (!will_colide(direction, t)) {
     confirm_tile_move(t, direction);
   }
@@ -447,7 +447,6 @@ tile &sfml_game::getTileById(std::vector<int> tile_id) {
   // if (id > m_game.old_id)
   //  assert(!"Tile id has not been used yet"); //!OCLINT accepted idiom
   for (tile &t : m_game.get_tiles()) {
-    assert(!1);
     if (t.get_id() == id) {
       return t;
     }
