@@ -2,7 +2,7 @@
 #define AGENT_H
 
 #include <vector>
-
+#include <iosfwd>
 #include "SFML/Graphics.hpp"
 #include "agent_type.h"
 
@@ -27,11 +27,15 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
+  double get_width() const noexcept { return m_sprite.getTexture()->getSize().x; }
+
+  double get_height() const noexcept { return m_sprite.getTexture()->getSize().y; }
+
   Sprite getSprite();
 
   Texture getTexure();
-  // TODO Add below functions to the cpp file (Joshua)
-  // TODO Add below functions to the cpp file (#33) -Joshua
+
+  // TODO #33 Add below functions to the cpp file
 
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);
@@ -42,9 +46,12 @@ public:
   bool can_eat(agent &a);
   bool run_away(agent &a);
 
+  ///Make the agent move
+  void move();
+
 private:
   /// The type the tile
-  const agent_type m_type;
+  agent_type m_type;
 
   /// The x-coordinat of the top-left corner of the agent
   double m_x;
@@ -57,7 +64,15 @@ private:
 
   // The texture
   Texture m_texture;
+
+  //A rare exception to use a friend
+  friend std::ostream& operator<<(std::ostream& os, const agent& a);
+  friend std::istream& operator>>(std::istream& is, agent& a);
 };
+
+std::ostream& operator<<(std::ostream& os, const agent& a);
+
+std::istream& operator>>(std::istream& is, agent& a);
 
 /// Test the tile class
 void test_agent();

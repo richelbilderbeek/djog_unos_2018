@@ -13,6 +13,10 @@ game::game() : m_tiles{}, m_score{0} {
     m_tiles.push_back(t);
   }
   {
+    tile t(-15, 330, 215, 100, tile_type::grassland, new_id());
+    m_tiles.push_back(t);
+  }
+  {
     tile t(215, 215, 100, 215, tile_type::mountains, new_id());
     m_tiles.push_back(t);
   }
@@ -34,7 +38,34 @@ game::game() : m_tiles{}, m_score{0} {
   }
 }
 
-void game::process_events() { ++m_n_tick; }
+void game::add_tiles(std::vector<tile> ts) {
+  for (tile& t : ts) {
+    m_tiles.push_back(t);
+  }
+}
+
+void game::delete_tiles(std::vector<tile> ts) {
+  for (tile& t : ts) {
+    auto here = std::find_if(
+          std::begin(m_tiles),
+          std::end(m_tiles),
+          [t](const tile& u)
+          {
+            return u.get_id() == t.get_id();
+          }
+    );
+    std::swap(*here, m_tiles.back());
+    m_tiles.pop_back();
+  }
+}
+
+void game::process_events() {
+  for (auto& tile: m_tiles)
+  {
+    tile.process_events();
+  }
+  ++m_n_tick;
+}
 
 void test_game() //!OCLINT a testing function may be long
 {
@@ -116,7 +147,13 @@ void save(const game &g, const std::string &filename) {
 std::ostream& operator<<(std::ostream& os, const game& g)
 {
   //TODO: actually save the tile and agents
-  os << g.m_n_tick << ' ' << g.m_score << ' ' << g.m_tiles.size();
+  os << g.m_n_tick << ' ' << g.m_score << ' '
+     << g.m_tiles.size() << ' ';
+
+  for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
+      os << g.m_tiles[i];
+  }
+
   return os;
 }
 
@@ -129,9 +166,9 @@ std::istream& operator>>(std::istream& is, game& g)
   //TODO: the line below is a stub
   for (int i=0; i!=n_tiles; ++i)
   {
-    g.m_tiles.emplace_back(
-      tile(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 1)
-    );
+      tile t(1, 1, 1, 1, tile_type::grassland, g.new_id());
+      is >> t;
+      g.m_tiles.emplace_back(t);
   }
   return is;
 }

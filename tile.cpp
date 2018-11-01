@@ -1,5 +1,6 @@
 #include "tile.h"
 #include "agent.h"
+#include "tile_type.h"
 #include "agent_type.h"
 #include "sfml_game.h"
 
@@ -24,7 +25,25 @@ tile::tile(const double x, const double y, const double width,
 
   assert(m_width > 0.0);
   assert(m_height > 0.0);
-  m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+
+
+  switch (m_type) {
+    default:
+      m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+      break;
+    case tile_type::ocean:
+      m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
+      break;
+  }
+
+}
+
+void tile::process_events()
+{
+  for (auto& a: m_agents) {
+    a.move();
+  }
+
 }
 
 void tile::set_dx(double dx) {
@@ -41,6 +60,44 @@ void tile::move() {
   m_x += m_dx;
   m_y += m_dy;
 }
+
+std::ostream& operator<<(std::ostream& os, const tile& t)
+{
+  //TODO: actually save the tile and agents
+  os << t.m_x << ' ' << t.m_y << ' '
+     << t.m_height << ' ' << t.m_width << ' '
+     << t.m_locked << ' ' << t.m_type << ' '
+     << t.m_dx << ' ' << t.m_dy
+     << t.m_agents.size() << ' ';
+
+  for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){
+      os << t.m_agents[i];
+  }
+
+  return os;
+}
+
+std::istream& operator>>(std::istream& is, tile& t)
+{
+  //TODO: actually save the tile and agents
+  is >> t.m_x >> t.m_y;
+  is >> t.m_height >> t.m_width;
+  is >> t.m_locked >> t.m_type;
+  is >> t.m_dx >> t.m_dy;
+  int n_agents = 1;
+  is >> n_agents;
+  //TODO: the line below is a stub
+  for (int i=0; i!=n_agents; ++i)
+  {
+    agent a(agent_type::none, 0, 0);
+    is >> a;
+    t.m_agents.emplace_back(
+      a
+    );
+  }
+  return is;
+}
+
 
 void tile::add_agent(agent a) { m_agents.push_back(a); }
 

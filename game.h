@@ -24,12 +24,16 @@ public:
     return old_id;
   }
 
+  void add_tiles(std::vector<tile> ts);
+  void delete_tiles(std::vector<tile> ts);
+
   int old_id = 0;
 
-private:
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
   void process_events();
+
+private:
 
   std::vector<tile> m_tiles;
 
