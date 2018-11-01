@@ -16,7 +16,8 @@ public:
   /// @param type the type the tile
   /// @param the tiles id
   tile(
-        const double x = 0.0, const double y = 0.0, const double width = 0.0, const double height = 0.0,
+       const double x = 0.0, const double y = 0.0,
+       const double width = 0.0, const double height = 0.0,
        const tile_type type = tile_type::grassland, const int id = 0);
 
   /// Read all agents

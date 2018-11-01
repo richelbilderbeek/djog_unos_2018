@@ -27,15 +27,11 @@ tile::tile(const double x, const double y, const double width,
   assert(m_height > 0.0);
 
 
-  switch (m_type) {
-    default:
-      m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
-      break;
-    case tile_type::ocean:
+  if (m_type == tile_type::ocean) {
       m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
-      break;
+   } else {
+      m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
   }
-
 }
 
 void tile::process_events()

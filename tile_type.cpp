@@ -6,32 +6,25 @@ std::string to_str(tile_type t)
 {
   switch (t) {
     case tile_type::grassland:
-        return "grassland";
-      break;
+      return "grassland";
 
     case tile_type::arctic:
-        return "arctic";
-      break;
+      return "arctic";
 
     case tile_type::desert:
-        return "desert";
-    break;
+      return "desert";
 
     case tile_type::mountains:
-        return "mountains";
-    break;
+      return "mountains";
 
     case tile_type::ocean:
-        return "ocean";
-      break;
+      return "ocean";
 
     case tile_type::savannah:
-        return "savannah";
-      break;
+      return "savannah";
 
     default:
       return "none";
-      break;
   }
 }
 
@@ -54,6 +47,6 @@ std::ostream& operator <<(std::ostream& os, const tile_type t) noexcept {
 std::istream& operator>>(std::istream& is, tile_type& t) noexcept {
     std::string str;
     is >> str;
-    t = to_tile(str);
+    t = to_tile(str); //!OCLINT indeed parameter reassignment, which is exactly the idea
     return is;
 }
