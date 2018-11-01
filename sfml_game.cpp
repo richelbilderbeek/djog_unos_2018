@@ -381,7 +381,9 @@ void sfml_game::switch_collide(tile& t, int direction) {
   std::vector<tile> deleted_tiles;
   if (get_collision_id(v.x,v.y)[0] != 0 &&
       will_colide(direction, t) && check_merge(t,
-      getTileById(get_collision_id(v.x,v.y)))) {
+      getTileById(get_collision_id(v.x,v.y))) &&
+      getTileById(get_collision_id(v.x,v.y)).get_width() == t.get_width() &&
+      getTileById(get_collision_id(v.x,v.y)).get_height() == t.get_height()) {
     confirm_tile_move(t, direction);
     sf::Vector2f b = get_direction_pos(direction, t, 115);
     if (get_collision_id(b.x,b.y)[0] == get_collision_id(v.x,v.y)[0]) {

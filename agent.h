@@ -35,7 +35,7 @@ public:
 
   Texture getTexure();
 
-  // TODO #33 Add below functions to the cpp file
+  // TODO Add below functions to the cpp file
 
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);
