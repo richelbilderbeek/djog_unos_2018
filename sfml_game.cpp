@@ -74,9 +74,10 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
         }
 
         sprite.setPosition(screen_x + t.get_center().x - (sprite.getTexture()->getSize().x * 0.05f),
-                           screen_y + t.get_center().y - (sprite.getTexture()->getSize().y * 0.05f));
+                               screen_y + t.get_center().y - (sprite.getTexture()->getSize().y * 0.05f));
 
         sprite.setScale(0.2f , 0.2f);
+
         sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
                            screen_y + static_cast<float>(a.get_y()));
         m_window.draw(sprite);

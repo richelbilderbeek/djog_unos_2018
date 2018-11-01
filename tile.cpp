@@ -31,11 +31,7 @@ tile::tile(const double x, const double y, const double width,
     default:
       m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
       break;
-    case tile_type::ocean:
-      m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
-      break;
   }
-
 }
 
 void tile::process_events()
