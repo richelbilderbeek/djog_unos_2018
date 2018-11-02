@@ -12,7 +12,6 @@
 #include "game_state.h"
 
 using namespace sf;
-using namespace std;
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game { //!OCLINT indeed to big, will need to simplify
