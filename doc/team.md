@@ -18,6 +18,7 @@ Name of our team: 'Octane'
      * Complex procedures
      * Education of junior devs
    * Elles, `EllyJet`: junior dev
+   * Jolien, `jolien`: junior dev
    * Joshua, `Joshua260403`: medior dev
      * Wiki manager
      * Debugging
@@ -30,7 +31,6 @@ Name of our team: 'Octane'
    * Same, `same-drenth`: junior dev
      * Lead graphics
      * Lead music and sound
-   * Jolien, `jolien`: junior dev
 
 
 
