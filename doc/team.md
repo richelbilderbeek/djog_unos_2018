@@ -30,6 +30,7 @@ Name of our team: 'Octane'
    * Same, `same-drenth`: junior dev
      * Lead graphics
      * Lead music and sound
+   * Jolien, `jolien`: junior dev
 
 
 
