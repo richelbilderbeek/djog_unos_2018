@@ -395,7 +395,7 @@ void sfml_game::switch_collide(tile& t, int direction) {
     }
     tile& collide_tile = getTileById(get_collision_id(v.x,v.y));
     {
-      tile new_t(collide_tile.get_x(),collide_tile.get_y(),
+      tile new_t(collide_tile.get_x(),collide_tile.get_y(), collide_tile.get_z(),
                  collide_tile.get_width(),collide_tile.get_height(),
                  merge_type(t.get_type(),
                  collide_tile.get_type()),
