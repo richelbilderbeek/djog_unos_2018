@@ -22,6 +22,11 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 `ellyjet`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=ellyjet)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=ellyjet)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=ellyjet)
 `jolien`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jolien)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jolien)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jolien)
 
+Branch|AppVeyor status
+---|---
+master|[![Build status](https://ci.appveyor.com/api/projects/status/wy43dnx199ir3n2h/branch/master?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/babette/branch/master)
+develop||[![Build status](https://ci.appveyor.com/api/projects/status/wy43dnx199ir3n2h/branch/master?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/babette/branch/develop)
+
 ## Goal
 
 Collaboratively create a game, to be put on, for example, Steam.
