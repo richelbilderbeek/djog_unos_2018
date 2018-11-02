@@ -188,6 +188,8 @@ private:
   bool movecam_d = false;
 };
 
+void test_sfml_game(sfml_game g);
+
 int vectortoint(std::vector<int> v);
 
 #endif // SFML_sfml_game_H
