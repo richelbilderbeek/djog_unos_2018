@@ -580,7 +580,7 @@ void sfml_game::setup_text() {
   // Set up text
   titleScreenText.setFont(m_font);
 
-  titleScreenText.setString("Title Screen");
+  titleScreenText.setString("Nature Zen");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left +
                                 titleScreenText.getGlobalBounds().width / 2.0f,
                             titleScreenText.getGlobalBounds().top +
