@@ -11,11 +11,12 @@ public:
   /// Constructor
   /// @param x the x-coordinate of the top-left corner of the tile
   /// @param y the y-coordinate of the top-left corner of the tile
+  /// @param z the z-coordinate of the top-left corner of the tile
   /// @param width the width of the tile
   /// @param height the height of the tile
   /// @param type the type the tile
   /// @param the tiles id
-  tile(const double x, const double y, const double width, const double height,
+  tile(const double x, const double y, const double z, const double width, const double height,
        const tile_type type, const int id);
 
   /// Read all agents
@@ -36,6 +37,9 @@ public:
   /// The y-coordinat of the top-left corner of the tile
   double get_y() const noexcept { return m_y; }
 
+  /// The z-coordinate of the top_left corner of the tile
+  double get_z() const noexcept { return m_z; }
+
   /// The movement coeficient on the x-axis
   double get_dx() const noexcept { return m_dx; }
 
@@ -47,6 +51,9 @@ public:
 
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
+
+  /// Set the movement coeficient of the z-axis
+  void set_dz(double dz);
 
   /// Move the tile by the movement coeficients
   void move();
@@ -75,17 +82,23 @@ private:
   /// The width of the tile
   const double m_width;
 
-  /// The x-coordinat of the top-left corner of the tile
+  /// The x-coordinate of the top-left corner of the tile
   double m_x;
 
-  /// The y-coordinat of the top-left corner of the tile
+  /// The y-coordinate of the top-left corner of the tile
   double m_y;
 
-  /// The movement coeficient on the x-axis
+  /// The z-coordinate of the top-left corner of the tile
+  double m_z;
+
+  /// The movement coefficient on the x-axis
   double m_dx;
 
-  /// The movement coeficient on the y-axis
+  /// The movement coefficient on the y-axis
   double m_dy;
+
+  /// The movement coefficient on the z-axis
+  double m_dz;
 
   /// Agents list
   std::vector<agent> m_agents;

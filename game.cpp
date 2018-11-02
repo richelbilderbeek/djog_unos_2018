@@ -9,27 +9,27 @@
 game::game() : m_tiles{}, m_score{0} {
   // Add first tile
   {
-    tile t(100, 100, 215, 100, tile_type::grassland, new_id());
+    tile t(100, 100, 10, 215, 100, tile_type::grassland, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(215, 215, 100, 215, tile_type::mountains, new_id());
+    tile t(215, 215, 20, 100, 215, tile_type::mountains, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(-15, 215, 215, 100, tile_type::ocean, new_id());
+    tile t(-15, 215, 30, 215, 100, tile_type::ocean, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(-15, -15, 215, 100, tile_type::arctic, new_id());
+    tile t(-15, -15, 40, 215, 100, tile_type::arctic, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(215, -15, 215, 100, tile_type::savannah, new_id());
+    tile t(215, -15, 50, 215, 100, tile_type::savannah, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(445, -15, 100, 215, tile_type::desert, new_id());
+    tile t(445, -15, 60, 100, 215, tile_type::desert, new_id());
     m_tiles.push_back(t);
   }
 }
@@ -130,7 +130,7 @@ std::istream& operator>>(std::istream& is, game& g)
   for (int i=0; i!=n_tiles; ++i)
   {
     g.m_tiles.emplace_back(
-      tile(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 1)
+      tile(0.0, 0.0, 0.0, 10.0, 10.0, tile_type::grassland, 1)
     );
   }
   return is;
