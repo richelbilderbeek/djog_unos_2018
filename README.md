@@ -17,6 +17,7 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 `rijk`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=rijk)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=rijk)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=rijk)
 `same`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=same)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=same)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=same)
 `ellyjet`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=ellyjet)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=ellyjet)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=ellyjet)
+`jolien`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jolien)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jolien)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jolien)
 
 ## Goal
 
