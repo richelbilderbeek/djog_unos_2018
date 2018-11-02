@@ -15,8 +15,7 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0, const double y = 0,
-        const Texture texture = Texture());
+  agent(const agent_type type, const double x = 0, const double y = 0);
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
@@ -27,9 +26,6 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
-  Sprite getSprite();
-
-  Texture getTexure();
   // TODO Add below functions to the cpp file (Joshua)
   // TODO Add below functions to the cpp file (#33) -Joshua
 
@@ -52,11 +48,6 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
-  // The sprite
-  Sprite m_sprite;
-
-  // The texture
-  Texture m_texture;
 };
 
 /// Test the tile class

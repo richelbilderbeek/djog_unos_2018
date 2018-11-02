@@ -4,14 +4,8 @@
 #include <iostream>
 #include <stdexcept>
 
-agent::agent(const agent_type type, const double x, const double y,
-             const Texture texture)
-    : m_type{type}, m_x{x}, m_y{y}, m_texture{texture} {
-  m_sprite.setTexture(texture);
-}
-
-Sprite agent::getSprite() { return m_sprite; }
-Texture agent::getTexure() { return m_texture; }
+agent::agent(const agent_type type, const double x, const double y)
+    : m_type{type}, m_x{x}, m_y{y}{}
 
 void test_agent() //!OCLINT testing functions may be long
 {
@@ -30,3 +24,4 @@ void test_agent() //!OCLINT testing functions may be long
     assert(a.get_y() == y);
   }
 }
+
