@@ -6,6 +6,7 @@
 
 Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
 ---|---|---
+<<<<<<< HEAD
 `master`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=master)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=master)
 `develop`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=develop)
 `annabel`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=annabel)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=annabel)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=annabel)
@@ -48,6 +49,8 @@ Collaboratively create a game, to be put on, for example, Steam.
 ## Progress
 
 Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
+
+![]([pics/20181103.png)
 
 ![](pics/20181012.png)
 
