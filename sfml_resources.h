@@ -18,6 +18,8 @@ public:
 
   sf::Texture &get_fish_texture() noexcept { return m_fish_texture; }
 
+  sf::Texture &get_crocodile_texture() noexcept { return m_crocodile_texture; }
+
   sf::Texture &get_gras_texture() noexcept { return m_gras_texture; }
 
   sf::Texture &get_bacterie_texture() noexcept { return m_bacterie_texture; }
@@ -38,6 +40,8 @@ private:
   sf::Texture m_cow_texture;
 
   sf::Texture m_fish_texture;
+
+  sf::Texture m_crocodile_texture;
 
   sf::Texture m_gras_texture;
 
