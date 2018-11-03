@@ -68,9 +68,6 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
             case tile_type::grassland:
               sprite.setTexture(sfml_resources::get().get_cow_texture());
               break;
-            //case tile_type::desert:
-              //sprite.setTexture(sfml_resources::get().get_crocodile_texture());
-              //break;
             default:
               sprite.setTexture(sfml_resources::get().get_bacterie_texture());
               break;
@@ -599,7 +596,6 @@ void sfml_game::setup_text() {
       mainMenuScreenText.getGlobalBounds().top +
           mainMenuScreenText.getGlobalBounds().height / 2.0f);
   mainMenuScreenText.setPosition(m_screen_center.x, m_screen_center.y);
-  std::cout << mainMenuScreenText.getGlobalBounds().height;
   aboutScreenText.setFont(m_font);
   aboutScreenText.setString("About Screen");
   titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left +
@@ -607,6 +603,5 @@ void sfml_game::setup_text() {
                             aboutScreenText.getGlobalBounds().top +
                                 aboutScreenText.getGlobalBounds().height /
                                     2.0f);
-  std::cout << aboutScreenText.getGlobalBounds().height;
   aboutScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
