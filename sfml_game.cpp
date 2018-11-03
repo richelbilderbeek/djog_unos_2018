@@ -68,9 +68,9 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
             case tile_type::grassland:
               sprite.setTexture(sfml_resources::get().get_cow_texture());
               break;
-            case tile_type::desert:
+            //case tile_type::desert:
               //sprite.setTexture(sfml_resources::get().get_crocodile_texture());
-              break;
+              //break;
             default:
               sprite.setTexture(sfml_resources::get().get_bacterie_texture());
               break;
