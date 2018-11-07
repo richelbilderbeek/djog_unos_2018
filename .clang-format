@@ -20,7 +20,7 @@ BinPackParameters: false
 BreakBeforeBinaryOperators: All
 BreakBeforeBraces: Allman
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializersBeforeComma: true
+BreakConstructorInitializersBeforeComma: false
 ColumnLimit:     80
 CommentPragmas:  '^ IWYU pragma:'
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
