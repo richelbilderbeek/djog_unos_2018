@@ -41,6 +41,12 @@ private:
   friend std::istream& operator>>(std::istream& os, game& g);
 };
 
+/// Collect all the tiles' types
+std::vector<tile_type> collect_tile_types(const game& g) noexcept;
+
+/// Count the number of tiles a game has
+int count_n_tiles(const game& g) noexcept;
+
 /// Load a game from a file
 game load(const std::string &filename);
 

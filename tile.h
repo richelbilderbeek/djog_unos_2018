@@ -63,6 +63,9 @@ public:
   /// Set the movement coeficient of the z-axis
   void set_dz(double dz);
 
+  /// Set the type of the tile
+  void set_type(const tile_type t) noexcept;
+
   /// Move the tile by the movement coeficients
   void move();
 
@@ -124,6 +127,15 @@ private:
 
 /// Create the default collection of tiles
 std::vector<tile> create_default_tiles() noexcept;
+
+/// Create two horizontally adjacent grass tiles
+/// +----+----+----+----+
+/// |  grass  |  grass  |
+/// +----+----+----+----+
+std::vector<tile> create_two_grass_tiles() noexcept;
+
+/// Do these tiles have the same position?
+bool have_same_position(const tile& lhs, const tile& rhs) noexcept;
 
 std::ostream& operator<<(std::ostream& os, const tile& t);
 

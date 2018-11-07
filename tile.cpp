@@ -73,6 +73,23 @@ std::vector<tile> create_default_tiles() noexcept
   return tiles;
 }
 
+std::vector<tile> create_two_grass_tiles() noexcept
+{
+  return
+  {
+    //   x    y    z   w    h    type                  ID
+    tile(100, 100, 10, 215, 100, tile_type::grassland, new_id()),
+    tile(315, 100, 10, 215, 100, tile_type::grassland, new_id())
+  };
+}
+
+bool have_same_position(const tile& lhs, const tile& rhs) noexcept
+{
+  return lhs.get_x() == rhs.get_x()
+    && lhs.get_y() == rhs.get_y()
+  ;
+}
+
 void tile::process_events()
 {
   for (auto& a: m_agents) {
@@ -95,6 +112,12 @@ void tile::set_dz(double dz) {
   if(!m_locked)
     m_dz = dz;
 }
+
+void tile::set_type(const tile_type t) noexcept
+{
+  m_type = t;
+}
+
 
 void tile::move() {
   m_x += m_dx;

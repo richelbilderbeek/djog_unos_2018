@@ -22,6 +22,21 @@ void game::add_tiles(std::vector<tile> ts)
   }
 }
 
+std::vector<tile_type> collect_tile_types(const game& g) noexcept
+{
+  std::vector<tile_type> types;
+  for (const tile& t: g.get_tiles())
+  {
+    types.push_back(t.get_type());
+  }
+  return types;
+}
+
+int count_n_tiles(const game& g) noexcept
+{
+  return g.get_tiles().size();
+}
+
 void game::delete_tiles(std::vector<tile> ts)
 {
   for (tile& t : ts)
@@ -39,7 +54,43 @@ void game::delete_tiles(std::vector<tile> ts)
   }
 }
 
-void game::process_events() {
+void game::process_events()
+{
+  //Merge tiles
+  //(I use indices here, so it is more beginner-friendly)
+  //(one day, we'll use iterators)
+  bool done = false;
+  while (!done)
+  {
+    done = true;
+    const int n = count_n_tiles(*this);
+    for (int i = 0; i != n; ++i)
+    {
+      tile& focal_tile = m_tiles[i];
+      // j is the next tile in the vector
+      for (int j = i + 1; j < n; ++j)
+      {
+        const tile& other_tile = m_tiles[j];
+        if (have_same_position(focal_tile, other_tile))
+        {
+          const tile_type merged_type = get_merge_type(
+            focal_tile.get_type(),
+            other_tile.get_type()
+          );
+          //focal tile becomes merged type
+          focal_tile.set_type(merged_type);
+          //other tile is swapped to the back, then deleted
+          m_tiles[j] = m_tiles.back();
+          m_tiles.pop_back();
+          //Redo
+          done = false;
+        }
+      }
+    }
+  }
+
+
+  //Process the events happening on the tiles
   for (auto& tile: m_tiles)
   {
     tile.process_events();
@@ -101,6 +152,27 @@ void test_game() //!OCLINT a testing function may be long
     assert(QFile::exists(filename.c_str()));
     const game h = load(filename);
     assert(g.get_score() == h.get_score());
+  }
+  {
+    // Create a game with two grassland blocks on top of each other
+    // +====+====+    +----+----+
+    // || grass || -> |mountains|
+    // +====+====+    +----+----+
+    const std::vector<tile> tiles
+    {
+      //   x    y    z   w    h    type                  ID
+      tile(100, 100, 10, 215, 100, tile_type::grassland, new_id()),
+      tile(100, 100, 10, 215, 100, tile_type::grassland, new_id())
+    };
+
+    game g(tiles);
+    assert(count_n_tiles(g) == 2);
+    assert(collect_tile_types(g)[0] == tile_type::grassland);
+    assert(collect_tile_types(g)[1] == tile_type::grassland);
+    g.process_events();
+    assert(count_n_tiles(g) == 1);
+    assert(collect_tile_types(g)[0] == tile_type::mountains);
+
   }
 }
 

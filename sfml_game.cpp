@@ -471,7 +471,7 @@ void sfml_game::switch_collide(tile& t, int direction)
         collide_tile.get_z(),
         collide_tile.get_width(),
         collide_tile.get_height(),
-        merge_type(t.get_type(), collide_tile.get_type()),
+        get_merge_type(t.get_type(), collide_tile.get_type()),
         new_id());
       added_tiles.push_back(new_t);
     }
@@ -489,7 +489,7 @@ void sfml_game::switch_collide(tile& t, int direction)
 
 bool sfml_game::check_merge(tile& t1, tile& t2)
 {
-  if (merge_type(t1.get_type(), t2.get_type()) == tile_type::nonetile)
+  if (get_merge_type(t1.get_type(), t2.get_type()) == tile_type::nonetile)
   {
     return false;
   }
@@ -516,16 +516,6 @@ sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
       return sf::Vector2f(0, 0);
   }
   return sf::Vector2f(0, 0);
-}
-
-tile_type sfml_game::merge_type(tile_type type1, tile_type type2)
-{
-  if (type1 == tile_type::grassland && type2 == tile_type::grassland)
-    return tile_type::mountains;
-  else if ((type1 == tile_type::grassland && type2 == tile_type::desert)
-    || (type1 == tile_type::desert && type2 == tile_type::grassland))
-    return tile_type::savannah;
-  return tile_type::nonetile;
 }
 
 int vectortoint(std::vector<int> v)
