@@ -1,58 +1,38 @@
 
 // Always include the header of the unit first
+#include "id.h"
 #include "game.h"
 #include <cassert>
 #include <fstream>
 #include <cstdio>
 #include <QFile>
 
-game::game() : m_tiles{}, m_score{0} {
-  // Add first tile
+game::game(const std::vector<tile>& tiles)
+  : m_tiles{tiles},
+    m_score{0}
+{
+
+}
+
+void game::add_tiles(std::vector<tile> ts)
+{
+  for (tile& t : ts)
   {
-    tile t(100, 100, 10, 215, 100, tile_type::grassland, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(-15, 330, 15, 215, 100, tile_type::grassland, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(215, 215, 20, 100, 215, tile_type::mountains, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(-15, 215, 30, 215, 100, tile_type::ocean, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(-15, -15, 40, 215, 100, tile_type::arctic, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(215, -15, 50, 215, 100, tile_type::savannah, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(445, -15, 60, 100, 215, tile_type::desert, new_id());
     m_tiles.push_back(t);
   }
 }
 
-void game::add_tiles(std::vector<tile> ts) {
-  for (tile& t : ts) {
-    m_tiles.push_back(t);
-  }
-}
-
-void game::delete_tiles(std::vector<tile> ts) {
-  for (tile& t : ts) {
+void game::delete_tiles(std::vector<tile> ts)
+{
+  for (tile& t : ts)
+  {
     auto here = std::find_if(
-          std::begin(m_tiles),
-          std::end(m_tiles),
-          [t](const tile& u)
-          {
-            return u.get_id() == t.get_id();
-          }
+      std::begin(m_tiles),
+      std::end(m_tiles),
+      [t](const tile& u)
+      {
+        return u.get_id() == t.get_id();
+      }
     );
     std::swap(*here, m_tiles.back());
     m_tiles.pop_back();
@@ -74,14 +54,6 @@ void test_game() //!OCLINT a testing function may be long
     const game g;
     assert(!g.get_tiles().empty());
   }
-//#define FIX_ISSUE_89_ADD_SECOND_TILE
-#ifdef FIX_ISSUE_89_ADD_SECOND_TILE
-  {
-    const game g;
-    assert(!g.get_tiles().size() >= 2);
-    assert(g.get_tiles()[0].get_type() != g.get_tiles()[1].get_type());
-  }
-#endif // FIX_ISSUE_89_ADD_SECOND_TILE
 
   // A game starts with a score of zero
   {
@@ -166,7 +138,7 @@ std::istream& operator>>(std::istream& is, game& g)
   //TODO: the line below is a stub
   for (int i=0; i!=n_tiles; ++i)
   {
-      tile t(1, 1, 1, 1, 1, tile_type::grassland, g.new_id());
+      tile t(1, 1, 1, 1, 1, tile_type::grassland, new_id());
       is >> t;
       g.m_tiles.emplace_back(t);
   }

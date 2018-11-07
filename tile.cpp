@@ -1,5 +1,6 @@
 #include "tile.h"
 #include "agent.h"
+#include "id.h"
 #include "tile_type.h"
 #include "agent_type.h"
 #include "sfml_game.h"
@@ -10,17 +11,19 @@
 
 tile::tile(const double x, const double y, const double z, const double width,
            const double height, const tile_type type, const int id)
-    : m_height{height}, m_type{type}, m_width{width}, m_x{x}, m_y{y}, m_z{z}, m_id{id} {
-
+    : m_height{height}, m_type{type}, m_width{width}, m_x{x}, m_y{y}, m_z{z}, m_id{id}
+{
   m_dx = 0;
   m_dy = 0;
   m_dz = 0;
 
-  if (width <= 0.0) {
+  if (width <= 0.0)
+  {
     throw std::invalid_argument("'width' cannot be negative");
   }
 
-  if (height <= 0.0) {
+  if (height <= 0.0)
+  {
     throw std::invalid_argument("'height' cannot be negative");
   }
 
@@ -28,11 +31,46 @@ tile::tile(const double x, const double y, const double z, const double width,
   assert(m_height > 0.0);
 
 
-  if (m_type == tile_type::ocean) {
-      m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
-   } else {
-      m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+  if (m_type == tile_type::ocean)
+  {
+    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
+  } else {
+    m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
   }
+}
+
+std::vector<tile> create_default_tiles() noexcept
+{
+  std::vector<tile> tiles;
+  {
+    tile t(100, 100, 10, 215, 100, tile_type::grassland, new_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(-15, 330, 15, 215, 100, tile_type::grassland, new_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(215, 215, 20, 100, 215, tile_type::mountains, new_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(-15, 215, 30, 215, 100, tile_type::ocean, new_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(-15, -15, 40, 215, 100, tile_type::arctic, new_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(215, -15, 50, 215, 100, tile_type::savannah, new_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(445, -15, 60, 100, 215, tile_type::desert, new_id());
+    tiles.push_back(t);
+  }
+  return tiles;
 }
 
 void tile::process_events()

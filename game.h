@@ -5,11 +5,12 @@
 
 #include "tile.h"
 
+
 class game {
 
 public:
   /// Constructor
-  game();
+  game(const std::vector<tile>& tiles = create_default_tiles());
 
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
@@ -19,15 +20,8 @@ public:
 
   void change_score_by(int delta_score);
 
-  int new_id() {
-    ++old_id;
-    return old_id;
-  }
-
   void add_tiles(std::vector<tile> ts);
   void delete_tiles(std::vector<tile> ts);
-
-  int old_id = 0;
 
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.

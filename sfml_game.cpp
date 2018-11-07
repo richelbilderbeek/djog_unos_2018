@@ -3,6 +3,7 @@
 #include "agent.h"
 #include "agent_type.h"
 #include "sfml_resources.h"
+#include "id.h"
 #include "game_state.h"
 #include <QFile>
 #include <algorithm>
@@ -378,7 +379,8 @@ void sfml_game::confirm_tile_move(tile& t, int direction) {
   }
 }
 
-void sfml_game::switch_collide(tile& t, int direction) {
+void sfml_game::switch_collide(tile& t, int direction)
+{
   sf::Vector2f v = get_direction_pos(direction, t, 0);
   std::vector<tile> added_tiles;
   std::vector<tile> deleted_tiles;
@@ -386,20 +388,25 @@ void sfml_game::switch_collide(tile& t, int direction) {
       will_colide(direction, t) && check_merge(t,
       getTileById(get_collision_id(v.x,v.y))) &&
       getTileById(get_collision_id(v.x,v.y)).get_width() == t.get_width() &&
-      getTileById(get_collision_id(v.x,v.y)).get_height() == t.get_height()) {
+      getTileById(get_collision_id(v.x,v.y)).get_height() == t.get_height()
+  )
+  {
     confirm_tile_move(t, direction);
     sf::Vector2f b = get_direction_pos(direction, t, 115);
-    if (get_collision_id(b.x,b.y)[0] == get_collision_id(v.x,v.y)[0]) {
+    if (get_collision_id(b.x,b.y)[0] == get_collision_id(v.x,v.y)[0])
+    {
       t.set_dx(t.get_dx()*2);
       t.set_dy(t.get_dy()*2);
     }
     tile& collide_tile = getTileById(get_collision_id(v.x,v.y));
     {
-      tile new_t(collide_tile.get_x(),collide_tile.get_y(), collide_tile.get_z(),
-                 collide_tile.get_width(),collide_tile.get_height(),
-                 merge_type(t.get_type(),
-                 collide_tile.get_type()),
-                 m_game.new_id());
+      tile new_t(
+        collide_tile.get_x(),collide_tile.get_y(), collide_tile.get_z(),
+        collide_tile.get_width(),collide_tile.get_height(),
+        merge_type(t.get_type(),
+        collide_tile.get_type()),
+        new_id()
+      );
       added_tiles.push_back(new_t);
     }
     deleted_tiles.push_back(t);
@@ -407,7 +414,9 @@ void sfml_game::switch_collide(tile& t, int direction) {
     m_game.add_tiles(added_tiles);
     //TODO delete old tiles
     //m_game.delete_tiles(deleted_tiles);
-  } else if (!will_colide(direction, t)) {
+  }
+  else if (!will_colide(direction, t))
+  {
     confirm_tile_move(t, direction);
   }
 }

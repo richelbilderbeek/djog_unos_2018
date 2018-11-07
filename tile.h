@@ -122,6 +122,9 @@ private:
   friend std::istream& operator>>(std::istream& os, tile& t);
 };
 
+/// Create the default collection of tiles
+std::vector<tile> create_default_tiles() noexcept;
+
 std::ostream& operator<<(std::ostream& os, const tile& t);
 
 std::istream& operator>>(std::istream& os, tile& t);
