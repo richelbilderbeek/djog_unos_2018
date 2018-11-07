@@ -47,8 +47,8 @@ void sfml_game::close()
 }
 
 // WARNING function is getting too long again
-void sfml_game::display()
-{ //! OCLINT indeed long, must be made shorter
+void sfml_game::display() //!OCLINT indeed long, must be made shorter
+{
   m_window.clear(sf::Color::Black); // Clear the window with black color
 
   if (m_game_state == game_state::playing)
