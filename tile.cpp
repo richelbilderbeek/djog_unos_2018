@@ -44,10 +44,14 @@ std::vector<tile> create_default_tiles() noexcept
   std::vector<tile> tiles;
   {
     tile t(100, 100, 10, 215, 100, tile_type::grassland, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
     tile t(-15, 330, 15, 215, 100, tile_type::grassland, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
@@ -56,6 +60,8 @@ std::vector<tile> create_default_tiles() noexcept
   }
   {
     tile t(-15, 215, 30, 215, 100, tile_type::ocean, new_id());
+    agent a(agent_type::fish);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
@@ -64,6 +70,8 @@ std::vector<tile> create_default_tiles() noexcept
   }
   {
     tile t(215, -15, 50, 215, 100, tile_type::savannah, new_id());
+    agent a(agent_type::grass);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
