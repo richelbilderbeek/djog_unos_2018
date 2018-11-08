@@ -69,20 +69,22 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
       for (const agent& a : t.get_agents())
       {
         sf::Sprite sprite;
-        switch (t.get_type())
-        {
-          case tile_type::ocean:
-            sprite.setTexture(sfml_resources::get().get_fish_texture());
-            break;
-          case tile_type::savannah:
-            sprite.setTexture(sfml_resources::get().get_gras_texture());
-            break;
-          case tile_type::grassland:
-            sprite.setTexture(sfml_resources::get().get_cow_texture());
-            break;
-          default:
-            sprite.setTexture(sfml_resources::get().get_bacterie_texture());
-            break;
+        switch (t.get_type()) {
+            case tile_type::ocean:
+              sprite.setTexture(sfml_resources::get().get_fish_texture());
+              break;
+            case tile_type::savannah:
+              sprite.setTexture(sfml_resources::get().get_gras_texture());
+              break;
+            case tile_type::swamp:
+              sprite.setTexture(sfml_resources::get().get_crocodile_texture());
+              break;
+            case tile_type::grassland:
+              sprite.setTexture(sfml_resources::get().get_cow_texture());
+              break;
+            default:
+              sprite.setTexture(sfml_resources::get().get_bacterie_texture());
+              break;
         }
 
         sprite.setPosition(screen_x + t.get_center().x
@@ -568,6 +570,9 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t)
     case tile_type::savannah:
       color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
       break;
+    case tile_type::swamp:
+      color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
+      break;
 
     case tile_type::arctic:
       color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
@@ -678,12 +683,11 @@ void sfml_game::setup_text()
 {
   // Set up text
   titleScreenText.setFont(m_font);
-
-  titleScreenText.setString("Title Screen");
+  titleScreenText.setString("Nature Zen");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left
       + titleScreenText.getGlobalBounds().width / 2.0f,
     titleScreenText.getGlobalBounds().top
-      + titleScreenText.getGlobalBounds().height / 2.0f);
+      + titleScreenText.getGlobalBounds().height /2.0f);
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 
   mainMenuScreenText.setFont(m_font);
@@ -693,7 +697,6 @@ void sfml_game::setup_text()
     mainMenuScreenText.getGlobalBounds().top
       + mainMenuScreenText.getGlobalBounds().height / 2.0f);
   mainMenuScreenText.setPosition(m_screen_center.x, m_screen_center.y);
-
   aboutScreenText.setFont(m_font);
   aboutScreenText.setString("About Screen");
   titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left
