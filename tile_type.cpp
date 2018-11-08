@@ -1,7 +1,37 @@
 #include "tile_type.h"
-#include "string"
 
+#include <cassert>
 #include <iostream>
+#include <string>
+
+tile_type get_merge_type(tile_type type1, tile_type type2) noexcept
+{
+  if (type1 == tile_type::grassland && type2 == tile_type::grassland)
+  {
+    return tile_type::mountains;
+  }
+  else if (
+       (type1 == tile_type::grassland && type2 == tile_type::desert)
+    || (type1 == tile_type::desert && type2 == tile_type::grassland)
+  )
+  {
+    return tile_type::savannah;
+  }
+  return tile_type::nonetile;
+}
+
+void test_tile_type()
+{
+  {
+    // merging of types
+    assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::mountains);
+    assert(get_merge_type(tile_type::grassland, tile_type::desert) == tile_type::savannah);
+    assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
+    //TODO: after Issue #187: test more combinationss
+  }
+  //TODO: after Issue #188: test all tile to string to tile conversions
+}
+
 std::string to_str(tile_type t)
 {
   switch (t) {

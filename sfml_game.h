@@ -12,7 +12,6 @@
 #include "game_state.h"
 
 using namespace sf;
-using namespace std;
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game { //!OCLINT indeed to big, will need to simplify
@@ -101,8 +100,6 @@ public:
   bool check_merge(tile &t1, tile &t2);
 
   void switch_collide(tile& t, int direction);
-
-  tile_type merge_type(tile_type type1, tile_type type2);
 
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
