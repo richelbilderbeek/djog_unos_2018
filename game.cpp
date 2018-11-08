@@ -1,40 +1,102 @@
 
 // Always include the header of the unit first
+#include "id.h"
 #include "game.h"
 #include <cassert>
 #include <fstream>
 #include <cstdio>
 #include <QFile>
 
-game::game() : m_tiles{}, m_score{0} {
-  // Add first tile
+game::game(const std::vector<tile>& tiles)
+  : m_tiles{tiles},
+    m_score{0}
+{
+
+}
+
+void game::add_tiles(std::vector<tile> ts)
+{
+  for (tile& t : ts)
   {
-    tile t(100, 100, 215, 100, tile_type::grassland, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(215, 215, 100, 215, tile_type::mountains, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(-15, 215, 215, 100, tile_type::ocean, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(-15, -15, 215, 100, tile_type::arctic, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(215, -15, 215, 100, tile_type::savannah, new_id());
-    m_tiles.push_back(t);
-  }
-  {
-    tile t(445, -15, 100, 215, tile_type::desert, new_id());
     m_tiles.push_back(t);
   }
 }
 
-void game::process_events() { ++m_n_tick; }
+std::vector<tile_type> collect_tile_types(const game& g) noexcept
+{
+  std::vector<tile_type> types;
+  for (const tile& t: g.get_tiles())
+  {
+    types.push_back(t.get_type());
+  }
+  return types;
+}
+
+int count_n_tiles(const game& g) noexcept
+{
+  return g.get_tiles().size();
+}
+
+void game::delete_tiles(std::vector<tile> ts)
+{
+  for (tile& t : ts)
+  {
+    auto here = std::find_if(
+      std::begin(m_tiles),
+      std::end(m_tiles),
+      [t](const tile& u)
+      {
+        return u.get_id() == t.get_id();
+      }
+    );
+    std::swap(*here, m_tiles.back());
+    m_tiles.pop_back();
+  }
+}
+
+void game::process_events()
+{
+  //Merge tiles
+  //(I use indices here, so it is more beginner-friendly)
+  //(one day, we'll use iterators)
+  bool done = false;
+  while (!done)
+  {
+    done = true;
+    const int n = count_n_tiles(*this);
+    for (int i = 0; i != n; ++i)
+    {
+      tile& focal_tile = m_tiles[i];
+      // j is the next tile in the vector
+      for (int j = i + 1; j < n; ++j)
+      {
+        const tile& other_tile = m_tiles[j];
+        if (have_same_position(focal_tile, other_tile))
+        {
+          const tile_type merged_type = get_merge_type(
+            focal_tile.get_type(),
+            other_tile.get_type()
+          );
+          //focal tile becomes merged type
+          focal_tile.set_type(merged_type);
+          //other tile is swapped to the back, then deleted
+          m_tiles[j] = m_tiles.back();
+          m_tiles.pop_back();
+          //Redo
+          done = false;
+        }
+      }
+    }
+  }
+
+
+  //Process the events happening on the tiles
+  for (auto& tile: m_tiles)
+  {
+    tile.process_events();
+  }
+  ++m_n_tick;
+}
 
 void test_game() //!OCLINT a testing function may be long
 {
@@ -43,14 +105,6 @@ void test_game() //!OCLINT a testing function may be long
     const game g;
     assert(!g.get_tiles().empty());
   }
-//#define FIX_ISSUE_89_ADD_SECOND_TILE
-#ifdef FIX_ISSUE_89_ADD_SECOND_TILE
-  {
-    const game g;
-    assert(!g.get_tiles().size() >= 2);
-    assert(g.get_tiles()[0].get_type() != g.get_tiles()[1].get_type());
-  }
-#endif // FIX_ISSUE_89_ADD_SECOND_TILE
 
   // A game starts with a score of zero
   {
@@ -99,6 +153,27 @@ void test_game() //!OCLINT a testing function may be long
     const game h = load(filename);
     assert(g.get_score() == h.get_score());
   }
+  {
+    // Create a game with two grassland blocks on top of each other
+    // +====+====+    +----+----+
+    // || grass || -> |mountains|
+    // +====+====+    +----+----+
+    const std::vector<tile> tiles
+    {
+      //   x    y    z   w    h    type                  ID
+      tile(100, 100, 10, 215, 100, tile_type::grassland, new_id()),
+      tile(100, 100, 10, 215, 100, tile_type::grassland, new_id())
+    };
+
+    game g(tiles);
+    assert(count_n_tiles(g) == 2);
+    assert(collect_tile_types(g)[0] == tile_type::grassland);
+    assert(collect_tile_types(g)[1] == tile_type::grassland);
+    g.process_events();
+    assert(count_n_tiles(g) == 1);
+    assert(collect_tile_types(g)[0] == tile_type::mountains);
+
+  }
 }
 
 game load(const std::string &filename) {
@@ -116,7 +191,13 @@ void save(const game &g, const std::string &filename) {
 std::ostream& operator<<(std::ostream& os, const game& g)
 {
   //TODO: actually save the tile and agents
-  os << g.m_n_tick << ' ' << g.m_score << ' ' << g.m_tiles.size();
+  os << g.m_n_tick << ' ' << g.m_score << ' '
+     << g.m_tiles.size() << ' ';
+
+  for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
+      os << g.m_tiles[i];
+  }
+
   return os;
 }
 
@@ -129,9 +210,9 @@ std::istream& operator>>(std::istream& is, game& g)
   //TODO: the line below is a stub
   for (int i=0; i!=n_tiles; ++i)
   {
-    g.m_tiles.emplace_back(
-      tile(0.0, 0.0, 10.0, 10.0, tile_type::grassland, 1)
-    );
+      tile t(1, 1, 1, 1, 1, tile_type::grassland, new_id());
+      is >> t;
+      g.m_tiles.emplace_back(t);
   }
   return is;
 }

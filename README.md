@@ -17,7 +17,15 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 `rijk`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=rijk)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=rijk)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=rijk)
 `same`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=same)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=same)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=same)
 `ellyjet`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=ellyjet)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=ellyjet)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=ellyjet)
+`jolien`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jolien)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jolien)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jolien)
 `tom`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=tom)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=tom)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=tom)
+
+Branch|AppVeyor status
+---|---
+master|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/master?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog_unos_2018/branch/master)
+develop||[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/develop?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog_unos_2018/branch/develop)
+
+develop
 ## Goal
 
 Collaboratively create a game, to be put on, for example, Steam.
@@ -39,6 +47,8 @@ Collaboratively create a game, to be put on, for example, Steam.
 ## Progress
 
 Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
+
+![](pics/20181103.png)
 
 ![](pics/20181012.png)
 

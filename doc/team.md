@@ -13,6 +13,7 @@ Name of our team: 'Octane'
      * Lead testing and reporting
      * Allowed to close Issues in the `To be checked by testing`
    * Rijk, `Rijk-van-Putten`: junior dev
+   * Jorn, `JornPrengerFormeel`: junior dev
  * Friday:
    * Anne, `annehinrichs22`: medior dev
      * Complex procedures

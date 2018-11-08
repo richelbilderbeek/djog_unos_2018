@@ -15,8 +15,7 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0, const double y = 0,
-        const Texture texture = Texture());
+  agent(const agent_type type, const double x = 0, const double y = 0);
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
@@ -27,12 +26,6 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
-  Sprite getSprite();
-
-  Texture getTexure();
-  // TODO Add below functions to the cpp file (Joshua)
-  // TODO Add below functions to the cpp file (#33) -Joshua
-
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);
 
@@ -42,9 +35,11 @@ public:
   bool can_eat(agent &a);
   bool run_away(agent &a);
 
+  void move();
+
 private:
   /// The type the tile
-  const agent_type m_type;
+  agent_type m_type;
 
   /// The x-coordinat of the top-left corner of the agent
   double m_x;
@@ -52,14 +47,15 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
-  // The sprite
-  Sprite m_sprite;
+  friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
+  friend std::istream& operator>>(std::istream& is, agent& a);
 
-  // The texture
-  Texture m_texture;
 };
 
 /// Test the tile class
 void test_agent();
+
+std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
+std::istream& operator>>(std::istream& is, agent& a);
 
 #endif // TILE_H
