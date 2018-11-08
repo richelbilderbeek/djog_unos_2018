@@ -28,6 +28,7 @@ Name of our team: 'Octane'
      * Secondary software architect
      * Education of junior devs
      * Merge `develop` with `master`
+   * Tom, 'tom': junior dev
    * Same, `same-drenth`: junior dev
      * Lead graphics
      * Lead music and sound
