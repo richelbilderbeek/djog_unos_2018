@@ -9,31 +9,35 @@
 game::game() : m_tiles{}, m_score{0} {
   // Add first tile
   {
-    tile t(100, 100, 215, 100, tile_type::grassland, new_id());
+    tile t(115, 115, 215, 100, tile_type::grassland, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(-15, 330, 215, 100, tile_type::grassland, new_id());
+    tile t(0, 345, 215, 100, tile_type::grassland, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(215, 215, 100, 215, tile_type::mountains, new_id());
+    tile t(230, 230, 100, 215, tile_type::mountains, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(-15, 215, 215, 100, tile_type::ocean, new_id());
+    tile t(0, 230, 215, 100, tile_type::ocean, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(-15, -15, 215, 100, tile_type::arctic, new_id());
+    tile t(0, 0, 215, 100, tile_type::arctic, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(215, -15, 215, 100, tile_type::savannah, new_id());
+    tile t(230, 0, 215, 100, tile_type::savannah, new_id());
     m_tiles.push_back(t);
   }
   {
-    tile t(445, -15, 100, 215, tile_type::desert, new_id());
+    tile t(345, 115, 100, 215, tile_type::swamp, new_id());
+    m_tiles.push_back(t);
+  }
+  {
+    tile t(460, 0, 100, 215, tile_type::desert, new_id());
     m_tiles.push_back(t);
   }
 }

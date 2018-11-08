@@ -11,7 +11,8 @@ enum class tile_type {
   ocean,
   savannah,
   arctic,
-  desert
+  desert,
+  swamp
 };
 
 std::ostream& operator<<(std::ostream& os, const tile_type t) noexcept;

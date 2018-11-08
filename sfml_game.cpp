@@ -65,6 +65,9 @@ void sfml_game::display() {         //!OCLINT indeed long, must be made shorter
             case tile_type::savannah:
               sprite.setTexture(sfml_resources::get().get_gras_texture());
               break;
+            case tile_type::swamp:
+              sprite.setTexture(sfml_resources::get().get_crocodile_texture());
+              break;
             case tile_type::grassland:
               sprite.setTexture(sfml_resources::get().get_cow_texture());
               break;
@@ -486,6 +489,9 @@ void sfml_game::color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t) {
 
     case tile_type::savannah:
       color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
+      break;
+    case tile_type::swamp:
+      color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
       break;
 
     case tile_type::arctic:
