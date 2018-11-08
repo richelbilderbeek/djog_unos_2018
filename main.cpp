@@ -13,6 +13,7 @@ void test() {
   test_resources();
   test_game();
   test_sfml_game_delegate();
+  test_tile_type();
   test_tile();
   test_agent();
 }

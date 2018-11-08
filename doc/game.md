@@ -2,6 +2,8 @@
 
 Information about the game: Nature Zen.
 
+Goal of the game is to keep the Zen and to not go Game Over.
+
 Original idea from [here](https://github.com/richelbilderbeek/djog_unos_2018/issues/2#issuecomment-420010313):
 
 ![game tiles](game.jpg)
