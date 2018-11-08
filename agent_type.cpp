@@ -13,6 +13,9 @@ std::string to_str(agent_type t)
     case agent_type::fish:
       return "fish";
 
+    case agent_type::crocodile:
+      return "crocodile";
+
     default:
       return "none";
   }

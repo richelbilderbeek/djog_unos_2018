@@ -586,7 +586,7 @@ void sfml_game::setup_text() {
   // Set up text
   titleScreenText.setFont(m_font);
 
-  titleScreenText.setString("Title Screen");
+  titleScreenText.setString("Nature Zen");
   titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left +
                                 titleScreenText.getGlobalBounds().width / 2.0f,
                             titleScreenText.getGlobalBounds().top +
@@ -602,7 +602,6 @@ void sfml_game::setup_text() {
       mainMenuScreenText.getGlobalBounds().top +
           mainMenuScreenText.getGlobalBounds().height / 2.0f);
   mainMenuScreenText.setPosition(m_screen_center.x, m_screen_center.y);
-
   aboutScreenText.setFont(m_font);
   aboutScreenText.setString("About Screen");
   titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left +
