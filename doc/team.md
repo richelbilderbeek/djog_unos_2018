@@ -2,7 +2,7 @@
 
 Name of our team: 'Octane'.
 
-Ordered per day (both, TH, FR), then by first name.
+Ordered per day (both, TH, FR), then by first name. Roles are described below.
 
 Day|Name|GitHub username|Role(s)
 ---|---|---|---
@@ -22,9 +22,9 @@ FR|Tom|`?`|Dev (junior)
 
 Role|Description
 ---|---
-CI|Maintain the Continuous Integration pipelines, teach 
-Dev|Develop new code
-`git`|merges topic branches with `develop` iff topic branches pass the build
+CI|Maintain the Continuous Integration pipelines 
+Dev|Change, write, document and test code
+`git`|merges branches upstream iff downstream branches pass the build
 Project manager|Make (potentially impopular) decisions
 Test|Find and report bugs, allowed to close Issues in the `To be checked by testing`
 UX|Decide about the user experience
