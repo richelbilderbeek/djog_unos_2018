@@ -4,14 +4,30 @@
 #include <iostream>
 #include <stdexcept>
 
-agent::agent(const agent_type type, const double x, const double y,
-             const Texture texture)
-    : m_type{type}, m_x{x}, m_y{y}, m_texture{texture} {
-  m_sprite.setTexture(texture);
+agent::agent(const agent_type type, const double x, const double y)
+    : m_type{type}, m_x{x}, m_y{y}{}
+
+std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
+{
+  //TODO: actually save the tile and agents
+  os << a.m_type << ' ' << a.m_x << ' ' << a.m_y;
+  return os;
 }
 
-Sprite agent::getSprite() { return m_sprite; }
-Texture agent::getTexure() { return m_texture; }
+std::istream& operator>>(std::istream& is, agent& a)
+{
+  //TODO: actually save the tile and agents
+  is >> a.m_type >> a.m_x >> a.m_y;
+  return is;
+}
+
+void agent::move()
+{
+  if (m_type == agent_type::cow) {
+    m_x += 0.1 * (-1 + (std::rand() % 3));
+    m_y += 0.1 * (-1 + (std::rand() % 3));
+  }
+}
 
 void test_agent() //!OCLINT testing functions may be long
 {
@@ -30,3 +46,4 @@ void test_agent() //!OCLINT testing functions may be long
     assert(a.get_y() == y);
   }
 }
+
