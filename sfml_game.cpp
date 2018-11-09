@@ -552,6 +552,7 @@ tile& sfml_game::getTileById(std::vector<int> tile_id)
 
 void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t)
 {
+  //delcaring tiles
   switch (t.get_type())
   {
 
