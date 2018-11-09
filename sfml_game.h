@@ -12,7 +12,6 @@
 #include "game_state.h"
 
 using namespace sf;
-using namespace std;
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game { //!OCLINT indeed to big, will need to simplify
@@ -72,6 +71,7 @@ public:
   void setup_text();
 
   bool check_collision(double x, double y);
+  std::vector<int> get_collision_id(double x, double y);
 
   /// Check if the tile will colide with another tile if it moves in given
   /// direction
@@ -96,6 +96,15 @@ public:
   void load_game_state();
 
   void check_change_game_state(const sf::Event &event);
+
+  bool check_merge(tile &t1, tile &t2);
+
+  void switch_collide(tile& t, int direction);
+
+  /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
+  sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
+
+  void confirm_tile_move(tile& t, int direction);
 
 private:
   /// Background music file object
@@ -175,6 +184,8 @@ private:
   bool movecam_u = false;
   bool movecam_d = false;
 };
+
+void test_sfml_game(sfml_game g);
 
 int vectortoint(std::vector<int> v);
 
