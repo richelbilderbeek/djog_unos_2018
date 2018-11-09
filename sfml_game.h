@@ -59,6 +59,8 @@ public:
 
   tile &getTileById(std::vector<int> tile_id);
 
+  bool test_id(int tile_id);
+
   void tile_movement(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
 

@@ -10,6 +10,7 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <string>
 
 sfml_game::sfml_game(const int window_width,
   const int window_height,
@@ -240,7 +241,7 @@ void sfml_game::manage_timer()
 
 void sfml_game::exec_tile_move(std::vector<int> selected)
 {
-  if (!selected.empty())
+  if (!selected.empty() && test_id(selected[0]))
   {
     tile& temp_tile = getTileById(selected);
     if (m_timer > 0)
@@ -302,10 +303,12 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
   {
     check_change_game_state(event);
     arrows(true, event);
-    if (!m_selected.empty())
-      tile_movement(true, event, getTileById(m_selected));
-    if (m_timer > 0)
-      tile_movement(false, event, getTileById(m_selected));
+    if (test_id(m_selected[0])) {
+      if (!m_selected.empty())
+        tile_movement(true, event, getTileById(m_selected));
+      if (m_timer > 0)
+        tile_movement(false, event, getTileById(m_selected));
+    }
   }
   else
   {
@@ -324,7 +327,7 @@ void sfml_game::check_change_game_state(const sf::Event& event)
 
 void sfml_game::move_selected_tile_randomly()
 {
-  if (m_selected.empty())
+  if (m_selected.empty() || !test_id(m_selected[0]))
     return;
   const int id = m_selected[0];
   this->getTileById({ id }).set_dx(5);
@@ -453,39 +456,40 @@ void sfml_game::switch_collide(tile& t, int direction)
 {
   sf::Vector2f v = get_direction_pos(direction, t, 0);
   std::vector<tile> added_tiles;
-  std::vector<tile> deleted_tiles;
-  if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
-    && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
-    && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
-    && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
+  if (!will_colide(direction, t))
   {
     confirm_tile_move(t, direction);
-    sf::Vector2f b = get_direction_pos(direction, t, 115);
-    if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
-    {
-      t.set_dx(t.get_dx() * 2);
-      t.set_dy(t.get_dy() * 2);
-    }
-    tile& collide_tile = getTileById(get_collision_id(v.x, v.y));
-    {
-      tile new_t(collide_tile.get_x(),
-        collide_tile.get_y(),
-        collide_tile.get_z(),
-        collide_tile.get_width(),
-        collide_tile.get_height(),
-        get_merge_type(t.get_type(), collide_tile.get_type()),
-        new_id());
-      added_tiles.push_back(new_t);
-    }
-    deleted_tiles.push_back(t);
-    deleted_tiles.push_back(collide_tile);
-    m_game.add_tiles(added_tiles);
-    // TODO delete old tiles
-    // m_game.delete_tiles(deleted_tiles);
   }
-  else if (!will_colide(direction, t))
-  {
-    confirm_tile_move(t, direction);
+  if (test_id(get_collision_id(v.x, v.y)[0]) && test_id(t.get_id())) {
+    if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
+      && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
+      && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
+      && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
+      {
+        confirm_tile_move(t, direction);
+        sf::Vector2f b = get_direction_pos(direction, t, 115);
+        if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
+        {
+          t.set_dx(t.get_dx() * 2);
+          t.set_dy(t.get_dy() * 2);
+        }
+//    tile& collide_tile = getTileById(get_collision_id(v.x, v.y));
+//    {
+//      tile new_t(collide_tile.get_x(),
+//        collide_tile.get_y(),
+//        collide_tile.get_z(),
+//        collide_tile.get_width(),
+//        collide_tile.get_height(),
+//        get_merge_type(t.get_type(), collide_tile.get_type()),
+//        new_id());
+//      added_tiles.push_back(new_t);
+//    }
+//    deleted_tiles.push_back(t);
+//    deleted_tiles.push_back(collide_tile);
+//    m_game.add_tiles(added_tiles);
+//    // TODO delete old tiles
+//    // m_game.delete_tiles(deleted_tiles);
+    }
   }
 }
 
@@ -537,8 +541,10 @@ tile& sfml_game::getTileById(std::vector<int> tile_id)
 {
   assert(!tile_id.empty());
   const int id = tile_id[0];
-  // if (id > m_game.old_id)
-  //  assert(!"Tile id has not been used yet"); //!OCLINT accepted idiom
+  if (id > get_old_id()) {
+    assert(!"Tile id has not been used yet"); //!OCLINT accepted idiom
+    throw std::runtime_error("ID not found");
+  }
   for (tile& t : m_game.get_tiles())
   {
     if (t.get_id() == id)
@@ -546,8 +552,20 @@ tile& sfml_game::getTileById(std::vector<int> tile_id)
       return t;
     }
   }
-  // assert(!"Should never get here"); //!OCLINT accepted idiom
+  assert(!"The tile with that id has been deleted"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
+}
+
+bool sfml_game::test_id(int tile_id) {
+  const int id = tile_id;
+  for (tile& t : m_game.get_tiles())
+  {
+    if (t.get_id() == id)
+    {
+      return true;
+    }
+  }
+  return false;
 }
 
 void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t)
@@ -570,6 +588,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t)
     case tile_type::savannah:
       color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
       break;
+
     case tile_type::swamp:
       color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
       break;

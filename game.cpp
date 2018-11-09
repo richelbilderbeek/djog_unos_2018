@@ -161,8 +161,8 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<tile> tiles
     {
       //   x    y    z   w    h    type                  ID
-      tile(1, 1, 1, 2, 1, tile_type::grassland, new_id()),
-      tile(1, 1, 1, 2, 1, tile_type::grassland, new_id())
+      tile(1, 1, 1, 2, 1, tile_type::grassland, 0),
+      tile(1, 1, 1, 2, 1, tile_type::grassland, 0)
     };
 
     game g(tiles);
