@@ -76,6 +76,10 @@ std::vector<tile> create_default_tiles() noexcept
     tile t(3, 1, 8, 1, 2, tile_type::swamp, new_id());
     tiles.push_back(t);
   }
+  {
+    tile t(5, 1, 8, 1, 2, tile_type::woods, new_id());
+    tiles.push_back(t);
+  }
   return tiles;
 }
 
