@@ -13,11 +13,13 @@ Name of our team: 'Octane'
      * Lead testing and reporting
      * Allowed to close Issues in the `To be checked by testing`
    * Rijk, `Rijk-van-Putten`: junior dev
+   * Jorn, `JornPrengerFormeel`: junior dev
  * Friday:
    * Anne, `annehinrichs22`: medior dev
      * Complex procedures
      * Education of junior devs
    * Elles, `EllyJet`: junior dev
+   * Jolien, `jolien`: junior dev
    * Joshua, `Joshua260403`: medior dev
      * Wiki manager
      * Debugging
@@ -27,6 +29,7 @@ Name of our team: 'Octane'
      * Secondary software architect
      * Education of junior devs
      * Merge `develop` with `master`
+   * Tom, `tom`: junior dev
    * Same, `same-drenth`: junior dev
      * Lead graphics
      * Lead music and sound
