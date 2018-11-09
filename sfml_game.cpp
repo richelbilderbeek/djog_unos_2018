@@ -189,7 +189,7 @@ void sfml_game::process_events()
     throw std::runtime_error("The set tile speed is not usable");
   }
 
-  if (m_selected.empty())
+  if (m_game.m_selected.empty())
   {
     confirm_move();
   }
@@ -198,7 +198,7 @@ void sfml_game::process_events()
     follow_tile();
   }
 
-  exec_tile_move(m_selected);
+  exec_tile_move(m_game.m_selected);
 
   manage_timer();
 
@@ -220,7 +220,7 @@ void sfml_game::confirm_move()
 
 void sfml_game::follow_tile()
 {
-  tile& t = getTileById(m_selected);
+  tile& t = getTileById(m_game.m_selected);
   m_camera_x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
   m_camera_y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
 }
@@ -233,15 +233,15 @@ void sfml_game::manage_timer()
   }
   else
   {
-    m_selected.clear();
+    m_game.m_selected.clear();
     if (!m_temp_id.empty())
-      m_selected.push_back(m_temp_id[0]);
+      m_game.m_selected.push_back(m_temp_id[0]);
   }
 }
 
 void sfml_game::exec_tile_move(std::vector<int> selected)
 {
-  if (!selected.empty() && test_id(selected[0]))
+  if (!selected.empty())
   {
     tile& temp_tile = getTileById(selected);
     if (m_timer > 0)
@@ -303,12 +303,10 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
   {
     check_change_game_state(event);
     arrows(true, event);
-    if (test_id(m_selected[0])) {
-      if (!m_selected.empty())
-        tile_movement(true, event, getTileById(m_selected));
-      if (m_timer > 0)
-        tile_movement(false, event, getTileById(m_selected));
-    }
+    if (!m_game.m_selected.empty())
+      tile_movement(true, event, getTileById(m_game.m_selected));
+    if (m_timer > 0)
+      tile_movement(false, event, getTileById(m_game.m_selected));
   }
   else
   {
@@ -327,9 +325,9 @@ void sfml_game::check_change_game_state(const sf::Event& event)
 
 void sfml_game::move_selected_tile_randomly()
 {
-  if (m_selected.empty() || !test_id(m_selected[0]))
+  if (m_game.m_selected.empty())
     return;
-  const int id = m_selected[0];
+  const int id = m_game.m_selected[0];
   this->getTileById({ id }).set_dx(5);
 }
 
@@ -375,8 +373,8 @@ void sfml_game::select_random_tile()
   const auto& tiles = m_game.get_tiles();
   const int i = std::rand() % tiles.size();
   const int id = tiles[i].get_id();
-  m_selected.resize(1);
-  m_selected[0] = id;
+  m_game.m_selected.resize(1);
+  m_game.m_selected[0] = id;
 }
 
 void sfml_game::stop_music()
@@ -460,7 +458,6 @@ void sfml_game::switch_collide(tile& t, int direction)
   {
     confirm_tile_move(t, direction);
   }
-  if (test_id(get_collision_id(v.x, v.y)[0]) && test_id(t.get_id())) {
     if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
@@ -489,7 +486,6 @@ void sfml_game::switch_collide(tile& t, int direction)
 //    m_game.add_tiles(added_tiles);
 //    // TODO delete old tiles
 //    // m_game.delete_tiles(deleted_tiles);
-    }
   }
 }
 
@@ -556,18 +552,6 @@ tile& sfml_game::getTileById(std::vector<int> tile_id)
   throw std::runtime_error("ID not found");
 }
 
-bool sfml_game::test_id(int tile_id) {
-  const int id = tile_id;
-  for (tile& t : m_game.get_tiles())
-  {
-    if (t.get_id() == id)
-    {
-      return true;
-    }
-  }
-  return false;
-}
-
 void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t)
 {
   switch (t.get_type())
@@ -607,7 +591,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t)
       break;
   }
   sfml_tile.setOutlineThickness(5);
-  auto selected = vectortoint(m_selected);
+  auto selected = vectortoint(m_game.m_selected);
   if (t.get_id() == selected)
   {
     sfml_tile.setOutlineColor(sf::Color(255, 255, 255));

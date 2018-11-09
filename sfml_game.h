@@ -59,8 +59,6 @@ public:
 
   tile &getTileById(std::vector<int> tile_id);
 
-  bool test_id(int tile_id);
-
   void tile_movement(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
 
@@ -119,9 +117,6 @@ private:
 
   /// Sate of Game
   game_state m_game_state = game_state::playing;
-
-  /// The selected tile
-  std::vector<int> m_selected;
 
   /// Camera position in the x direction
   /// If positive, camera is moved right of the origin

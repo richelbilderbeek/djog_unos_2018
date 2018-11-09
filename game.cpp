@@ -64,12 +64,17 @@ void game::process_events()
   {
     done = true;
     const int n = count_n_tiles(*this);
-    for (int i = 0; i != n; ++i)
+    for (int i = 0; i < n; ++i)
     {
+      assert(i >=0);
+      assert(i < static_cast<int>(m_tiles.size()));
       tile& focal_tile = m_tiles[i];
       // j is the next tile in the vector
       for (int j = i + 1; j < n; ++j)
       {
+        assert(j >=0);
+        std::cout << j << "\n";
+        assert(j < static_cast<int>(m_tiles.size()));
         const tile& other_tile = m_tiles[j];
         if (have_same_position(focal_tile, other_tile))
         {
@@ -82,8 +87,12 @@ void game::process_events()
           //other tile is swapped to the back, then deleted
           m_tiles[j] = m_tiles.back();
           m_tiles.pop_back();
+          //change the selected tile
+          m_selected.clear();
           //Redo
           done = false;
+          i = n;
+          j = n;
         }
       }
     }
