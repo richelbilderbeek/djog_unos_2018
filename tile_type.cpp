@@ -32,6 +32,15 @@ void test_tile_type()
     //TODO: after Issue #187: test more combinationss
   }
   //TODO: after Issue #188: test all tile to string to tile conversions
+  {
+
+    const std::vector<tile_type> v = get_all_tile_types();
+    for (const tile_type t : v)
+    {
+        const std::string s = to_str(t);
+        tile_type u = to_tile(s);
+    }
+  }
 }
 
 std::vector<tile_type> get_all_tile_types() noexcept

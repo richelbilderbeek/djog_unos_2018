@@ -23,6 +23,9 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept;
 ///Test the tile_type function
 void test_tile_type();
 
+std::string to_str(tile_type t);
+tile_type to_tile(std::string str);
+
 std::vector<tile_type> get_all_tile_types() noexcept;
 ///Get all tile types
 
