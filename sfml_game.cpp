@@ -554,7 +554,7 @@ tile& sfml_game::getTileById(std::vector<int> tile_id)
   throw std::runtime_error("ID not found");
 }
 
-void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t)
+void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) //!OCLINT no 32 statements
 {
   switch (t.get_type())
   {
