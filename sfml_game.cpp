@@ -705,3 +705,10 @@ void sfml_game::setup_text()
       + aboutScreenText.getGlobalBounds().height / 2.0f);
   aboutScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
+
+void test_sfml_game(sfml_game g) {
+  {
+    for (int i = 0; i < 3; i++)
+      g.change_game_state();
+  }
+}
