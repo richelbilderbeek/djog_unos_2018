@@ -220,9 +220,11 @@ void sfml_game::confirm_move()
 
 void sfml_game::follow_tile()
 {
-  tile& t = getTileById(m_game.m_selected);
-  m_camera_x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
-  m_camera_y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
+  if (!m_game.m_selected.empty()) {
+    tile& t = getTileById(m_game.m_selected);
+    m_camera_x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
+    m_camera_y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
+  }
 }
 
 void sfml_game::manage_timer()

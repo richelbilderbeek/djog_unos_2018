@@ -73,7 +73,6 @@ void game::process_events()
       for (int j = i + 1; j < n; ++j)
       {
         assert(j >=0);
-        std::cout << j << "\n";
         assert(j < static_cast<int>(m_tiles.size()));
         const tile& other_tile = m_tiles[j];
         if (have_same_position(focal_tile, other_tile))
@@ -89,6 +88,7 @@ void game::process_events()
           m_tiles.pop_back();
           //change the selected tile
           m_selected.clear();
+          assert(m_selected.empty());
           //Redo
           done = false;
           i = n;
@@ -97,7 +97,6 @@ void game::process_events()
       }
     }
   }
-
 
   //Process the events happening on the tiles
   for (auto& tile: m_tiles)
