@@ -19,6 +19,7 @@ FR|Jolien|`?`|Dev (junior)
 FR|Rafayel|`RafayelGardishyan`|Dev (medior), `git`
 FR|Same|`same-drenth`|Dev (junior), UX
 FR|Tom|`?`|Dev (junior)
+FR|Rob|`robkruger`|Dev (junior)
 
 Role|Description
 ---|---
