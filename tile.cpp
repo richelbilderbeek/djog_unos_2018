@@ -101,7 +101,6 @@ void tile::process_events()
   for (auto& a: m_agents) {
     a.move();
   }
-
 }
 
 void tile::set_dx(double dx) {
