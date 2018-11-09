@@ -18,7 +18,7 @@ sfml_game::sfml_game(const int window_width,
     m_delegate{ delegate },
     m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
                static_cast<unsigned int>(window_height)),
-      "Nature Zen"),
+      "Nature Zen", sf::Style::Fullscreen),
     m_font{ sfml_resources::get().get_default_font() }
 { // Set up music
   m_background_music.setLoop(true);
