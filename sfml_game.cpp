@@ -18,7 +18,7 @@ sfml_game::sfml_game(const int window_width,
     m_delegate{ delegate },
     m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
                static_cast<unsigned int>(window_height)),
-      "Nature Zen", sf::Style::Fullscreen),
+      "Nature Zen", get_video_mode()),
     m_font{ sfml_resources::get().get_default_font() }
 { // Set up music
   m_background_music.setLoop(true);
@@ -111,6 +111,16 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   load_game_state();
   //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
+}
+
+int get_video_mode()
+{
+  int s = sf::Style::Fullscreen;
+  if (std::getenv("TRAVIS"))
+  {
+    s = Style::Default;
+  }
+  return s;
 }
 
 void sfml_game::load_game_state()
