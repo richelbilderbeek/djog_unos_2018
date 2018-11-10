@@ -690,6 +690,7 @@ void sfml_game::setup_text()
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 
   mainMenuScreenText.setFont(m_font);
+
   mainMenuScreenText.setString("Main Menu");
   mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left
       + mainMenuScreenText.getGlobalBounds().width / 2.0f,
