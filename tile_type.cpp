@@ -31,7 +31,6 @@ void test_tile_type()
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
     //TODO: after Issue #187: test more combinationss
   }
-  //TODO: after Issue #188: test all tile to string to tile conversions
   {
     //Uncomment if you want to run this test
     //#define FIX_ISSUE_188
