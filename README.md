@@ -2,6 +2,8 @@
 
 [![DJOG logo](pics/Djog.png)](https://www.djog.nl/)
 
+![Octane logo](pics/octane_black.png)
+
 [![IRC Network](https://img.shields.io/badge/irc-%23nature_zen_devs-blue.svg "IRC Freenode")](https://webchat.freenode.net/?channels=nature_zen_devs)
 
 Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
