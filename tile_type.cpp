@@ -3,6 +3,8 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+#include <vector>
+#include <string>
 
 tile_type get_merge_type(tile_type type1, tile_type type2) noexcept
 {
@@ -30,6 +32,31 @@ void test_tile_type()
     //TODO: after Issue #187: test more combinationss
   }
   //TODO: after Issue #188: test all tile to string to tile conversions
+  {
+
+    const std::vector<tile_type> v = get_all_tile_types();
+    for (const tile_type t : v)
+    {
+        const std::string s = to_str(t);
+        //tile_type u = to_tile(s);
+    }
+  }
+}
+
+std::vector<tile_type> get_all_tile_types() noexcept
+{
+  std::vector<tile_type> v;
+  v.push_back(tile_type::none);
+  v.push_back(tile_type::nonetile);
+  v.push_back(tile_type::grassland);
+  v.push_back(tile_type::mountains);
+  v.push_back(tile_type::ocean);
+  v.push_back(tile_type::savannah);
+  v.push_back(tile_type::arctic);
+  v.push_back(tile_type::desert);
+  v.push_back(tile_type::swamp);
+  return v;
+  //make function to get all types, stupid way!
 }
 
 std::string to_str(tile_type t)
