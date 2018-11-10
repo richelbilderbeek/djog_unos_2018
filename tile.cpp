@@ -57,6 +57,12 @@ std::vector<tile> create_default_tiles() noexcept
     tiles.push_back(t);
   }
   {
+    tile t(0, 4, 2, 2, 1, tile_type::grassland, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
+    tiles.push_back(t);
+  }
+  {
     tile t(0, 2, 4, 2, 1, tile_type::ocean, new_id());
     tiles.push_back(t);
   }
