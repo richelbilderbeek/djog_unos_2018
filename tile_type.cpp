@@ -33,13 +33,17 @@ void test_tile_type()
   }
   //TODO: after Issue #188: test all tile to string to tile conversions
   {
-
+    //Uncomment if you want to run this test
+    //#define FIX_ISSUE_188
+    #ifdef FIX_ISSUE_188
     const std::vector<tile_type> v = get_all_tile_types();
     for (const tile_type t : v)
     {
-        const std::string s = to_str(t);
-        //tile_type u = to_tile(s);
+      const std::string s = to_str(t);
+      const tile_type u = to_tile(s);
+      assert(t == u);
     }
+    #endif // FIX_ISSUE_188
   }
 }
 
