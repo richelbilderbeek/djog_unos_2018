@@ -38,7 +38,7 @@ void test_tile_type()
     for (const tile_type t : v)
     {
         const std::string s = to_str(t);
-        tile_type u = to_tile(s);
+        //tile_type u = to_tile(s);
     }
   }
 }
