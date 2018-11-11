@@ -220,10 +220,12 @@ void sfml_game::confirm_move()
 
 void sfml_game::follow_tile()
 {
-  if (!m_game.m_selected.empty()) {
+  try {
     tile& t = getTileById(m_game.m_selected);
     m_camera_x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
     m_camera_y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
+  } catch (...) {
+    return;
   }
 }
 
@@ -550,7 +552,7 @@ tile& sfml_game::getTileById(std::vector<int> tile_id)
       return t;
     }
   }
-  assert(!"The tile with that id has been deleted"); //!OCLINT accepted idiom
+  //assert(!"The tile with that id has been deleted"); //!OCLINT accepted idiom
   throw std::runtime_error("ID not found");
 }
 
