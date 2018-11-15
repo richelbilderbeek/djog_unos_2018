@@ -57,10 +57,10 @@ int main(int argc, char **argv) {
     g.stop_music();
   }
   if (std::count(std::begin(args), std::end(args), "--menu")) {
-    //#define FIX_ISSUE_37
+    #define FIX_ISSUE_37
     #ifdef FIX_ISSUE_37
-    sfml_menu_screen g;
-    g.exec();
+    sfml_menu_screen ms;
+    ms.exec();
     return 0;
     #else
     g.show_title();
