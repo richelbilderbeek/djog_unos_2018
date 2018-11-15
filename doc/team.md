@@ -2,6 +2,8 @@
 
 Name of our team: 'Octane'.
 
+![Octane](../pics/octane_black.png)
+
 Ordered per day (both, TH, FR), then by first name. Roles are described below.
 
 Day|Name|GitHub username|Role(s)

@@ -19,7 +19,7 @@ sfml_game::sfml_game(const int window_width,
     m_delegate{ delegate },
     m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
                static_cast<unsigned int>(window_height)),
-      "Nature Zen"),
+      "Nature Zen", get_video_mode()),
     m_font{ sfml_resources::get().get_default_font() }
 { // Set up music
   m_background_music.setLoop(true);
@@ -88,16 +88,11 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
               break;
         }
 
-        sprite.setPosition(screen_x + t.get_center().x
-            - (sprite.getTexture()->getSize().x * 0.05f),
-          screen_y + t.get_center().y
-            - (sprite.getTexture()->getSize().y * 0.05f));
-
         sprite.setScale(0.2f, 0.2f);
 
         sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
-          screen_y + static_cast<float>(a.get_y()));
-        m_window.draw(sprite);
+            screen_y + static_cast<float>(a.get_y()));
+       m_window.draw(sprite);
       }
     }
     sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
@@ -117,6 +112,16 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   load_game_state();
   //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
+}
+
+int get_video_mode()
+{
+  int s = sf::Style::Fullscreen;
+  if (std::getenv("TRAVIS"))
+  {
+    s = Style::Default;
+  }
+  return s;
 }
 
 void sfml_game::load_game_state()
@@ -589,6 +594,10 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
       break;
 
+    case tile_type::woods:
+      color_shape(sfml_tile, sf::Color(34, 139, 34), sf::Color(0, 128, 0));
+      break;
+
     default:
       color_shape(
         sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
@@ -698,6 +707,7 @@ void sfml_game::setup_text()
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 
   mainMenuScreenText.setFont(m_font);
+
   mainMenuScreenText.setString("Main Menu");
   mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left
       + mainMenuScreenText.getGlobalBounds().width / 2.0f,

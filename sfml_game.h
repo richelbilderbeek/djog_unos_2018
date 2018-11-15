@@ -186,4 +186,8 @@ void test_sfml_game(sfml_game g);
 
 int vectortoint(std::vector<int> v);
 
+///Get the video mode, which is full-screen
+///by default, except on Travis CI
+int get_video_mode();
+
 #endif // SFML_sfml_game_H

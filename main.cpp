@@ -1,4 +1,5 @@
 #include "agent.h"
+#include "agent_type.h"
 #include "game.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
@@ -16,6 +17,7 @@ void test() {
   test_tile_type();
   test_tile();
   test_agent();
+  test_agent_type();
 }
 
 /// Nature Zen
@@ -55,14 +57,30 @@ int main(int argc, char **argv) {
     g.stop_music();
   }
   if (std::count(std::begin(args), std::end(args), "--menu")) {
-    // NOTE: g.show_menu() would be more logical
+    //#define FIX_ISSUE_37
+    #ifdef FIX_ISSUE_37
+    sfml_menu_screen g;
+    g.exec();
+    return 0;
+    #else
     g.show_title();
+    #endif
   }
-  // TODO: @martje127: Should show title on '--title'
-  {}
   if (std::count(std::begin(args), std::end(args), "--about")) {
-    // TODO: @annabelliard
-    ;
+    //#define FIX_ISSUE_35
+    #ifdef FIX_ISSUE_35
+    sfml_about_screen g;
+    g.exec();
+    return 0;
+    #endif
+  }
+  if (std::count(std::begin(args), std::end(args), "--title")) {
+    //#define FIX_ISSUE_184
+    #ifdef FIX_ISSUE_184
+    sfml_about_screen g;
+    g.exec();
+    return 0;
+    #endif
   }
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout

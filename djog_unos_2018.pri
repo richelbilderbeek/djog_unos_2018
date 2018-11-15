@@ -1,4 +1,3 @@
-
 SOURCES += \
     $$PWD/agent.cpp \
     $$PWD/agent_type.cpp \
