@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "sfml_menu_screen.h"
 #include "game.h"
 #include "sfml_game_delegate.h"
 #include "game_state.h"
@@ -173,7 +174,6 @@ private:
 
   /// Draw Text
   Text titleScreenText;
-  Text mainMenuScreenText;
   Text aboutScreenText;
   // Font
   Font m_font;

@@ -33,6 +33,7 @@ sfml_game::sfml_game(const int window_width,
     - window_height / 2;
   m_window.setPosition(sf::Vector2i(window_x, window_y));
   m_screen_center = Vector2i(window_width / 2, window_height / 2);
+
   // Set up text
   setup_text();
 }
@@ -134,7 +135,6 @@ void sfml_game::load_game_state()
       m_window.draw(titleScreenText);
       return;
     case game_state::menuscreen:
-      m_window.draw(mainMenuScreenText);
       return;
     case game_state::aboutscreen:
       m_window.draw(aboutScreenText);
@@ -708,14 +708,8 @@ void sfml_game::setup_text()
       + titleScreenText.getGlobalBounds().height /2.0f);
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 
-  mainMenuScreenText.setFont(m_font);
 
-  mainMenuScreenText.setString("Main Menu");
-  mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left
-      + mainMenuScreenText.getGlobalBounds().width / 2.0f,
-    mainMenuScreenText.getGlobalBounds().top
-      + mainMenuScreenText.getGlobalBounds().height / 2.0f);
-  mainMenuScreenText.setPosition(m_screen_center.x, m_screen_center.y);
+
   aboutScreenText.setFont(m_font);
   aboutScreenText.setString("About Screen");
   titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left
