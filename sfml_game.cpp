@@ -51,7 +51,6 @@ void sfml_game::close()
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color
-
   if (m_game_state == game_state::playing)
   {
     // Display all tiles
@@ -70,26 +69,9 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
       for (const agent& a : t.get_agents())
       {
         sf::Sprite sprite;
-        switch (t.get_type()) {
-            case tile_type::ocean:
-              sprite.setTexture(sfml_resources::get().get_fish_texture());
-              break;
-            case tile_type::savannah:
-              sprite.setTexture(sfml_resources::get().get_gras_texture());
-              break;
-            case tile_type::swamp:
-              sprite.setTexture(sfml_resources::get().get_crocodile_texture());
-              break;
-            case tile_type::grassland:
-              sprite.setTexture(sfml_resources::get().get_cow_texture());
-              break;
-            default:
-              sprite.setTexture(sfml_resources::get().get_bacterie_texture());
-              break;
-        }
-
+        set_agent_sprite(a, sprite);
+        assert(sprite.getTexture());
         sprite.setScale(0.2f, 0.2f);
-
         sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
             screen_y + static_cast<float>(a.get_y()));
        m_window.draw(sprite);
@@ -112,6 +94,26 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   load_game_state();
   //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
+}
+
+void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
+  switch (a.get_type()) {
+    case agent_type::cow:
+      sprite.setTexture(sfml_resources::get().get_cow_texture());
+      break;
+    case agent_type::crocodile:
+      sprite.setTexture(sfml_resources::get().get_crocodile_texture());
+      break;
+    case agent_type::fish:
+      sprite.setTexture(sfml_resources::get().get_fish_texture());
+      break;
+    case agent_type::grass:
+      sprite.setTexture(sfml_resources::get().get_gras_texture());
+      break;
+    default:
+      sprite.setTexture(sfml_resources::get().get_bacterie_texture());
+      break;
+  }
 }
 
 int get_video_mode()
@@ -462,7 +464,7 @@ void sfml_game::confirm_tile_move(tile& t, int direction)
 void sfml_game::switch_collide(tile& t, int direction)
 {
   sf::Vector2f v = get_direction_pos(direction, t, 0);
-  std::vector<tile> added_tiles;
+  //std::vector<tile> added_tiles;
   if (!will_colide(direction, t))
   {
     confirm_tile_move(t, direction);

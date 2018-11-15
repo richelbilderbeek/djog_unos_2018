@@ -106,6 +106,8 @@ public:
 
   void confirm_tile_move(tile& t, int direction);
 
+  void set_agent_sprite(const agent& a, sf::Sprite& sprite);
+
 private:
   /// Background music file object
   sf::Music &m_background_music;
