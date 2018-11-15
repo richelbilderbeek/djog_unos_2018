@@ -1,4 +1,5 @@
 #include "agent.h"
+#include "agent_type.h"
 #include "game.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
@@ -16,6 +17,7 @@ void test() {
   test_tile_type();
   test_tile();
   test_agent();
+  test_agent_type();
 }
 
 /// Nature Zen

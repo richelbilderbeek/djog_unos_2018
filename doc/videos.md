@@ -19,3 +19,7 @@ YouTube|MP4
 ---|---
 [here](https://youtu.be/U0-Wv_ek0k8)|[here](http://richelbilderbeek.nl/nature_zen_klassenontwerp_1.ogv)
 [here](https://youtu.be/tCC_Kf_K_48)|[here](http://richelbilderbeek.nl/nature_zen_klassenontwerp_2.ogv)
+[here](https://youtu.be/FJDm7sK5BZY)|[here](http://richelbilderbeek.nl/nature_zen_minimal_sfml_application.ogv)
+[here](https://youtu.be/0KC02eHzVbI)|[here](http://richelbilderbeek.nl/nature_zen_minimal_sfml_dialog_class.ogv)
+
+
