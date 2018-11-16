@@ -104,7 +104,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   text.setStyle(Text::Bold);
   m_window.draw(text);
 
-  if (space_pressed)
+  if (m_is_space_pressed)
   {
     reset_input();
   }
