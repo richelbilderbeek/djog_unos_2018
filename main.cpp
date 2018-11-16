@@ -50,7 +50,7 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
 
   sfml_game g(800, 600, sfml_game_delegate(close_at));
 
-  if (std::count(std::begin(args), std::end(args), "--no-music"))
+  if (!std::count(std::begin(args), std::end(args), "--music"))
   {
     g.stop_music();
   }
