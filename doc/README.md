@@ -1,6 +1,7 @@
 # Documentation
 
   * [architecture](architecture.md): the software architecture
+  * [FAQ](faq.md): Frequently Asked Questions
   * [game](game.md): the game
   * [git](git.md): how to use `git` and GitHub
   * [install](install.md): how to install Qt Creator and SFML
