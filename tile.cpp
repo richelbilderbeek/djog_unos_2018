@@ -150,7 +150,7 @@ std::ostream& operator<<(std::ostream& os, const tile& t)
   os << t.m_x << ' ' << t.m_y << ' '
      << t.m_height << ' ' << t.m_width << ' '
      << t.m_locked << ' ' << t.m_type << ' '
-     << t.m_dx << ' ' << t.m_dy
+     << t.m_dx << ' ' << t.m_dy << ' '
      << t.m_agents.size();
 
   for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){

@@ -139,10 +139,12 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
   }
+
+  #define FIX_ISSUE_RAFAYEL
   #ifdef FIX_ISSUE_RAFAYEL
   // A game can be loaded
   {
-    const game g;
+    const game g(create_two_grass_tiles());
     const std::string filename{"tmp.sav"};
     if (QFile::exists(filename.c_str()))
     {

@@ -32,6 +32,7 @@ std::vector<tile_type> get_all_tile_types() noexcept;
 
 std::ostream& operator<<(std::ostream& os, const tile_type t) noexcept;
 std::istream& operator>>(std::istream& is, tile_type& t) noexcept;
+bool operator==(tile_type lhs, tile_type rhs) noexcept;
 
 void test_tile_type();
 
