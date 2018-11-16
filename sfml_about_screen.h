@@ -7,7 +7,7 @@ class sfml_about_screen {
 public:
   sfml_about_screen(const int window_width = 1000, const int window_height = 600);
   void close();
-  void display();
+  void exec();
   sf::RenderWindow aboutwindow;
   sf::Text abouttext;
 };

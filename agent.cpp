@@ -56,5 +56,44 @@ void test_agent() //!OCLINT testing functions may be long
     assert(a.get_x() == x);
     assert(a.get_y() == y);
   }
+  // A cow moves
+  {
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::cow, x, y);
+    a.move();
+    assert(a.get_x() != x || a.get_y() != y);
+  }
+  //#define FIX_ISSUE_202
+  #ifdef FIX_ISSUE_202
+  // A crocodile moves
+  {
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::crocodile, x, y);
+    a.move();
+    assert(a.get_x() != x || a.get_y() != y);
+  }
+  #endif // FIX_ISSUE_202
+
+  //#define FIX_ISSUE_201
+  #ifdef FIX_ISSUE_201
+  // A fish moves
+  {
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::fish, x, y);
+    a.move();
+    assert(a.get_x() != x || a.get_y() != y);
+  }
+  #endif // FIX_ISSUE_201
+  // Grass does not move
+  {
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::grass, x, y);
+    a.move();
+    assert(a.get_x() == x && a.get_y() == y);
+  }
 }
 
