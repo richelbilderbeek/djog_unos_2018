@@ -1,4 +1,3 @@
-
 SOURCES += \
     $$PWD/agent.cpp \
     $$PWD/agent_type.cpp \
@@ -9,7 +8,8 @@ SOURCES += \
     $$PWD/tile.cpp \
     $$PWD/tile_type.cpp \
     $$PWD/sfml_about_screen.cpp \
-    $$PWD/game_state.cpp
+    $$PWD/game_state.cpp \
+    $$PWD/id.cpp
 
 HEADERS += \
     $$PWD/agent.h \
@@ -21,7 +21,8 @@ HEADERS += \
     $$PWD/tile.h \
     $$PWD/tile_type.h \
     $$PWD/sfml_about_screen.h \
-    $$PWD/game_state.h
+    $$PWD/game_state.h \
+    $$PWD/id.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc

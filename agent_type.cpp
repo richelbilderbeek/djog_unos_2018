@@ -5,21 +5,24 @@ std::string to_str(agent_type t)
 {
   switch (t) {
     case agent_type::cow:
-        return "cow";
-      break;
+      return "cow";
 
     case agent_type::grass:
-        return "grass";
-      break;
+      return "grass";
 
     case agent_type::fish:
-        return "fish";
+      return "fish";
+
+    case agent_type::crocodile:
+      return "crocodile";
       break;
 
     case agent_type::none:
         return "none";
       break;
 
+    default:
+      return "none";
   }
   assert(!"Agent types aren't translated completely");
   return "";
@@ -43,6 +46,6 @@ std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
 std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
     std::string s;
     is >> s;
-    a = to_agent(s);
+    a = to_agent(s); //!OCLINT
     return is;
 }

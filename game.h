@@ -5,11 +5,12 @@
 
 #include "tile.h"
 
+
 class game {
 
 public:
   /// Constructor
-  game();
+  game(const std::vector<tile>& tiles = create_default_tiles());
 
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
@@ -19,12 +20,8 @@ public:
 
   void change_score_by(int delta_score);
 
-  int new_id() {
-    ++old_id;
-    return old_id;
-  }
-
-  int old_id = 0;
+  void add_tiles(std::vector<tile> ts);
+  void delete_tiles(std::vector<tile> ts);
 
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
@@ -44,6 +41,12 @@ private:
   friend std::istream& operator>>(std::istream& os, game& g);
   friend bool operator==(const game& lhs, const game& rhs) noexcept;
 };
+
+/// Collect all the tiles' types
+std::vector<tile_type> collect_tile_types(const game& g) noexcept;
+
+/// Count the number of tiles a game has
+int count_n_tiles(const game& g) noexcept;
 
 /// Load a game from a file
 game load(const std::string &filename);

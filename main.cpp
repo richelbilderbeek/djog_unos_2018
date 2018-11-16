@@ -14,6 +14,7 @@ void test() {
   test_tile_type();
   test_game();
   test_sfml_game_delegate();
+  test_tile_type();
   test_tile();
   test_agent();
 }
@@ -45,6 +46,11 @@ int main(int argc, char **argv) {
   }
 
   sfml_game g(800, 600, sfml_game_delegate(close_at));
+
+//  if (std::count(std::begin(args), std::end(args), "--test")) {
+//    g.show_title();
+//    test_sfml_game(g);
+//  }
 
   if (std::count(std::begin(args), std::end(args), "--no-music")) {
     g.stop_music();
