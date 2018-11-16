@@ -47,6 +47,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   // A cow moves
   {
+    std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::cow, x, y);
