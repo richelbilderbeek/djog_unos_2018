@@ -4,6 +4,19 @@
 #include <cassert>
 #include <string>
 
+std::vector<agent_type> collect_all_tile_types()
+{
+  return
+  {
+        agent_type::cow,
+        agent_type::crocodile,
+        agent_type::fish,
+        agent_type::grass,
+        agent_type::none
+  };
+}
+
+
 void test_agent_type() //!OCLINT testing functions may be long
 {
   {
