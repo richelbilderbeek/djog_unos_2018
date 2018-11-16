@@ -56,14 +56,9 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
   }
   if (std::count(std::begin(args), std::end(args), "--menu"))
   {
-    #define FIX_ISSUE_37
-    #ifdef FIX_ISSUE_37
     sfml_menu_screen ms;
     ms.exec();
     return 0;
-    #else
-    g.show_title();
-    #endif
   }
   //#define FIX_ISSUE_35
   #ifdef FIX_ISSUE_35
@@ -76,7 +71,7 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
   //#define FIX_ISSUE_184
   #ifdef FIX_ISSUE_184
   if (std::count(std::begin(args), std::end(args), "--title")) {
-    sfml_about_screen g;
+    sfml_title_screen g;
     g.exec();
     return 0;
   }
