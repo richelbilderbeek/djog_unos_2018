@@ -4,7 +4,7 @@
 #include <cassert>
 #include <string>
 
-std::vector<agent_type> collect_all_tile_types()
+std::vector<agent_type> collect_all_agent_types()
 {
   return
   {
