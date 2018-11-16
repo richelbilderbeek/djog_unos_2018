@@ -1,6 +1,7 @@
 #include "agent.h"
 #include "agent_type.h"
 #include "game.h"
+#include "sfml_title_screen.h"
 #include "sfml_about_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
@@ -54,6 +55,13 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
   if (!std::count(std::begin(args), std::end(args), "--music"))
   {
     g.stop_music();
+  }
+
+  if (std::count(std::begin(args), std::end(args), "--title"))
+  {
+    sfml_title_screen ts;
+    ts.exec();
+    return 0;
   }
   if (std::count(std::begin(args), std::end(args), "--menu"))
   {

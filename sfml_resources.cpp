@@ -54,6 +54,14 @@ sfml_resources::sfml_resources() {
       throw std::runtime_error("Cannot find font file font.ttf");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/zen_font.ttf");
+    f.copy("zen_font.ttf");
+    // Set up font
+    if (!m_title_font.loadFromFile("zen_font.ttf")) {
+      throw std::runtime_error("Cannot find font file zen_font.ttf");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {

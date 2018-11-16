@@ -26,6 +26,8 @@ public:
 
   sf::Font& get_default_font() noexcept { return m_default_font; }
 
+  sf::Font& get_title_font() noexcept { return m_title_font; }
+
 private:
   /// Do not construct a sfml_resources,
   /// use sfml_resources::get() instead
@@ -34,6 +36,8 @@ private:
   static sfml_resources *m_instance; //!OCLINT accepted for now
 
   sf::Font m_default_font;
+
+  sf::Font m_title_font;
 
   sf::Music m_background_music;
 

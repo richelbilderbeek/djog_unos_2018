@@ -48,7 +48,7 @@ void sfml_game::close()
   m_window.close();
 }
 
-// WARNING function is getting too long again
+// WARNING function is long
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color
@@ -119,11 +119,11 @@ void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
 
 int get_video_mode()
 {
-  int s = sf::Style::Fullscreen;
-  if (std::getenv("TRAVIS"))
-  {
-    s = Style::Default;
-  }
+  int s = sf::Style::Default;
+//  if (std::getenv("TRAVIS"))
+//  {
+//    s = Style::Default;
+//  }
   return s;
 }
 
