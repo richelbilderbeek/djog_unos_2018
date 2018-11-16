@@ -41,19 +41,25 @@ tile::tile(const double x, const double y, const double z, double const width,
   }
 }
 
-std::vector<tile> create_default_tiles() noexcept
+std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function that is too long
 {
   std::vector<tile> tiles;
   {
-    tile t(1, 1, 1, 2, 1, tile_type::grassland, new_id());
+    tile t(2, 2, 3, 1, 2, tile_type::mountains, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
     tile t(0, 3, 2, 2, 1, tile_type::grassland, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
-    tile t(2, 2, 3, 1, 2, tile_type::mountains, new_id());
+    tile t(0, 4, 2, 2, 1, tile_type::grassland, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
@@ -62,6 +68,8 @@ std::vector<tile> create_default_tiles() noexcept
   }
   {
     tile t(0, 0, 5, 2, 1, tile_type::arctic, new_id());
+    agent a(agent_type::fish);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
@@ -70,10 +78,16 @@ std::vector<tile> create_default_tiles() noexcept
   }
   {
     tile t(4, 0, 7, 1, 2, tile_type::desert, new_id());
+    agent a(agent_type::grass);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
     tile t(3, 1, 8, 1, 2, tile_type::swamp, new_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(5, 1, 8, 1, 2, tile_type::woods, new_id());
     tiles.push_back(t);
   }
   return tiles;
@@ -101,7 +115,6 @@ void tile::process_events()
   for (auto& a: m_agents) {
     a.move();
   }
-
 }
 
 void tile::set_dx(double dx) {

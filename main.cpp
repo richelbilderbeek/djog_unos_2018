@@ -1,4 +1,5 @@
 #include "agent.h"
+#include "agent_type.h"
 #include "game.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
@@ -16,6 +17,7 @@ void test() {
   test_tile_type();
   test_tile();
   test_agent();
+  test_agent_type();
 }
 
 /// Nature Zen
@@ -28,7 +30,8 @@ void test() {
 ///   * '--about': access about screen
 /// @param argv the arguments (as words) Nature Zen's executable is called
 ///   with by the operating system
-int main(int argc, char **argv) {
+int main(int argc, char **argv) //!OCLINT too long, but accepted for now
+{
 #ifndef NDEBUG
   test();
 #else
@@ -40,30 +43,44 @@ int main(int argc, char **argv) {
 
   int close_at{-1};
 
-  if (std::count(std::begin(args), std::end(args), "--short")) {
+  if (std::count(std::begin(args), std::end(args), "--short"))
+  {
     close_at = 600;
   }
 
   sfml_game g(800, 600, sfml_game_delegate(close_at));
 
-//  if (std::count(std::begin(args), std::end(args), "--test")) {
-//    g.show_title();
-//    test_sfml_game(g);
-//  }
-
-  if (std::count(std::begin(args), std::end(args), "--no-music")) {
+  if (!std::count(std::begin(args), std::end(args), "--music"))
+  {
     g.stop_music();
   }
-  if (std::count(std::begin(args), std::end(args), "--menu")) {
-    // NOTE: g.show_menu() would be more logical
+  if (std::count(std::begin(args), std::end(args), "--menu"))
+  {
+    #define FIX_ISSUE_37
+    #ifdef FIX_ISSUE_37
+    sfml_menu_screen ms;
+    ms.exec();
+    return 0;
+    #else
     g.show_title();
+    #endif
   }
-  // TODO: @martje127: Should show title on '--title'
-  {}
+  //#define FIX_ISSUE_35
+  #ifdef FIX_ISSUE_35
   if (std::count(std::begin(args), std::end(args), "--about")) {
-    // TODO: @annabelliard
-    ;
+    sfml_about_screen g;
+    g.exec();
+    return 0;
   }
+  #endif
+  //#define FIX_ISSUE_184
+  #ifdef FIX_ISSUE_184
+  if (std::count(std::begin(args), std::end(args), "--title")) {
+    sfml_about_screen g;
+    g.exec();
+    return 0;
+  }
+  #endif
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR
