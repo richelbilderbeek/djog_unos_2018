@@ -76,6 +76,14 @@ sfml_resources::sfml_resources() {
       throw std::runtime_error("Cannot find font file zen_font.ttf");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/title_screen_background.jpg");
+    f.copy("title_screen_background.jpg");
+    // Set up font
+    if (!m_background_image.loadFromFile("title_screen_background.jpg")) {
+      throw std::runtime_error("Cannot find image file title_screen_background.jpg");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {

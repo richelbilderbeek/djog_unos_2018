@@ -4,7 +4,7 @@
 
 sfml_title_screen::sfml_title_screen()
   : m_title_music{ sfml_resources::get().get_title_music() },
-    m_window{sf::VideoMode(600, 600), "Nature Zen - Title"},
+    m_window{sf::VideoMode(800, 600), "Nature Zen - Title"},
     m_font{ sfml_resources::get().get_title_font() }
 {
   m_title_music.setLoop(true);
@@ -16,24 +16,37 @@ sfml_title_screen::sfml_title_screen()
     title_text.getGlobalBounds().top
       + title_text.getGlobalBounds().height / 2.0f);
   title_text.setScale(2,2);
-  title_text.setOutlineColor(sf::Color(0, 180, 30));
+  title_text.setOutlineColor(sf::Color(36, 211, 16));
   title_text.setFillColor(sf::Color(155, 40, 0));
   title_text.setOutlineThickness(1);
-  title_text.setPosition(300, 200);
+  title_text.setPosition(400, 200);
 
-  m_bg_sprite.setTexture(sfml_resources::get().get_bacterie_texture());
+  m_bg_sprite.setTexture(sfml_resources::get().get_background_image());
   m_bg_sprite.setOrigin(m_bg_sprite.getGlobalBounds().left
                         + m_bg_sprite.getGlobalBounds().width / 2.0f,
                         m_bg_sprite.getGlobalBounds().top
                         + m_bg_sprite.getGlobalBounds().height / 2.0f);
-  m_bg_sprite.setPosition(300, 300);
-  m_bg_sprite.setScale(30,30);
-  m_bg_sprite.setRotation(90);
+  m_bg_sprite.setPosition(400, 300);
+  m_bg_sprite.setScale(4,4);
 }
 
 void sfml_title_screen::exec()
 {
     while(m_window.isOpen()) {
+        static int i = 0;
+        static bool b = true;
+        if (i < 50 && b) {
+          i++;
+        } else if (i == 50 && b) {
+          b = false;
+        }
+        if (i > 0 && !b) {
+          i--;
+        } else if (i == 0 && !b) {
+          b = true;
+        }
+        title_text.setPosition(400, 125+i);
+
         sf::Event event;
         while (m_window.pollEvent(event))
         {
