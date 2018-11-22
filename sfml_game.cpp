@@ -212,13 +212,13 @@ void sfml_game::process_events()
 
 void sfml_game::confirm_move()
 {
-  if (movecam_r == true)
+  if (m_movecam_r == true)
     move_camera(sf::Vector2f(0.5, 0));
-  if (movecam_l == true)
+  if (m_movecam_l == true)
     move_camera(sf::Vector2f(-0.5, 0));
-  if (movecam_u == true)
+  if (m_movecam_u == true)
     move_camera(sf::Vector2f(0, -0.5));
-  if (movecam_d == true)
+  if (m_movecam_d == true)
     move_camera(sf::Vector2f(0, 0.5));
 }
 
@@ -339,10 +339,10 @@ void sfml_game::reset_input()
 {
   m_camera_x = 0;
   m_camera_y = 0;
-  movecam_r = false;
-  movecam_l = false;
-  movecam_u = false;
-  movecam_d = false;
+  m_movecam_r = false;
+  m_movecam_l = false;
+  m_movecam_u = false;
+  m_movecam_d = false;
 }
 
 void sfml_game::process_mouse_input(const sf::Event& event)
@@ -395,13 +395,13 @@ void sfml_game::show_title()
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::D)
-    movecam_r = b;
+    m_movecam_r = b;
   if (event.key.code == sf::Keyboard::A)
-    movecam_l = b;
+    m_movecam_l = b;
   if (event.key.code == sf::Keyboard::W)
-    movecam_u = b;
+    m_movecam_u = b;
   if (event.key.code == sf::Keyboard::S)
-    movecam_d = b;
+    m_movecam_d = b;
 }
 
 void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
