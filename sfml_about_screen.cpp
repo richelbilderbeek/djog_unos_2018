@@ -17,13 +17,19 @@ sfml_about_screen::sfml_about_screen(const int window_width, const int window_he
   }
 }
 
-void sfml_about_screen::close() { aboutwindow.close(); }
+void sfml_about_screen::close()
+{
+  aboutwindow.close();
+}
 
-void sfml_about_screen::exec() {
-  while (aboutwindow.isOpen()) {
+void sfml_about_screen::exec()
+{
+  while (aboutwindow.isOpen())
+  {
     sf::Event event;
-    while (aboutwindow.pollEvent(event)) { //!OCLINT indeed an empty while statement
-      // Haha!
+    while (aboutwindow.pollEvent(event))
+    { //!OCLINT indeed an empty while statement
+      // Indeed empty
     }
 
     sf::Font font;
