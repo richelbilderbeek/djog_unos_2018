@@ -6,10 +6,17 @@
 
 [![IRC Network](https://img.shields.io/badge/irc-%23nature_zen_devs-blue.svg "IRC Freenode")](https://webchat.freenode.net/?channels=nature_zen_devs)
 
+Main branches:
+
 Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
 ---|---|---
 `master`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=master)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=master)
 `develop`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=develop)
+
+Topic branches, ordered alphabetically:
+
+Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
+---|---|---
 `annabel`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=annabel)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=annabel)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=annabel)
 `anne`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=anne)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=anne)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=anne)
 `ellyjet`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=ellyjet)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=ellyjet)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=ellyjet)
