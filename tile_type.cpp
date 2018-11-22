@@ -40,7 +40,7 @@ void test_tile_type()
   }
   {
     //Uncomment if you want to run this test
-    //#define FIX_ISSUE_188
+    #define FIX_ISSUE_188
     #ifdef FIX_ISSUE_188
     const std::vector<tile_type> v = get_all_tile_types();
     for (const tile_type t : v)
@@ -93,8 +93,13 @@ std::string to_str(tile_type t)
     case tile_type::swamp:
       return "swamp";
 
+    case tile_type::nonetile:
+      return "nonetile";
+
     default:
       return "none";
+
+
   }
 }
 
@@ -107,6 +112,7 @@ tile_type to_tile(std::string str)
   if (str == "mountains") return tile_type::mountains;
   if (str == "ocean") return tile_type::ocean;
   if (str == "savannah") return tile_type::savannah;
+  if (str == "nonetile") return tile_type::nonetile;
   return tile_type::none;
 }
 

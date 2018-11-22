@@ -79,8 +79,6 @@ public:
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   bool will_colide(int direction, tile &t);
 
-  bool space_pressed = false;
-
   void exec_tile_move(std::vector<int> selected);
 
   std::vector<int> m_temp_id;
@@ -182,6 +180,8 @@ private:
   bool movecam_l = false;
   bool movecam_u = false;
   bool movecam_d = false;
+
+  bool m_is_space_pressed = false;
 };
 
 void test_sfml_game(sfml_game g);
