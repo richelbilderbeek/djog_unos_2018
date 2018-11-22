@@ -1,7 +1,8 @@
 #ifndef SFML_TITLE_SCREEN_H
 #define SFML_TITLE_SCREEN_H
 
-#include <sfml/Graphics.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class sfml_title_screen
 {
@@ -16,6 +17,7 @@ public:
 
 private:
 
+    sf::Music &m_title_music;
     sf::RenderWindow m_window;
     sf::Font m_font;
     sf::Text title_text;

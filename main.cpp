@@ -43,6 +43,13 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
 
   const std::vector<std::string> args(argv, argv + argc);
 
+  if (std::count(std::begin(args), std::end(args), "--title"))
+  {
+    sfml_title_screen ts;
+    ts.exec();
+    return 0;
+  }
+
   int close_at{-1};
 
   if (std::count(std::begin(args), std::end(args), "--short"))
@@ -57,12 +64,6 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
     g.stop_music();
   }
 
-  if (std::count(std::begin(args), std::end(args), "--title"))
-  {
-    sfml_title_screen ts;
-    ts.exec();
-    return 0;
-  }
   if (std::count(std::begin(args), std::end(args), "--menu"))
   {
     sfml_menu_screen ms;

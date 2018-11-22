@@ -3,9 +3,12 @@
 #include <iostream>
 
 sfml_title_screen::sfml_title_screen()
-  : m_window{sf::VideoMode(600, 600), "Nature Zen - Title"},
+  : m_title_music{ sfml_resources::get().get_title_music() },
+    m_window{sf::VideoMode(600, 600), "Nature Zen - Title"},
     m_font{ sfml_resources::get().get_title_font() }
 {
+  m_title_music.setLoop(true);
+  m_title_music.play();
   title_text.setFont(m_font);
   title_text.setString("Nature Zen");
   title_text.setOrigin(title_text.getGlobalBounds().left
