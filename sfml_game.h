@@ -176,10 +176,10 @@ private:
   // Font
   Font m_font;
 
-  bool movecam_r = false;
-  bool movecam_l = false;
-  bool movecam_u = false;
-  bool movecam_d = false;
+  bool m_movecam_r = false;
+  bool m_movecam_l = false;
+  bool m_movecam_u = false;
+  bool m_movecam_d = false;
 
   bool m_is_space_pressed = false;
 };
