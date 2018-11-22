@@ -1,6 +1,7 @@
 #include "agent.h"
 #include "agent_type.h"
 #include "game.h"
+#include "sfml_about_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
 #include "sfml_resources.h"
@@ -56,31 +57,24 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
   }
   if (std::count(std::begin(args), std::end(args), "--menu"))
   {
-    #define FIX_ISSUE_37
-    #ifdef FIX_ISSUE_37
     sfml_menu_screen ms;
     ms.exec();
     return 0;
-    #else
-    g.show_title();
-    #endif
   }
-  //#define FIX_ISSUE_35
-  #ifdef FIX_ISSUE_35
-  if (std::count(std::begin(args), std::end(args), "--about")) {
-    sfml_about_screen g;
-    g.exec();
+  if (std::count(std::begin(args), std::end(args), "--about"))
+  {
+    sfml_about_screen as;
+    as.exec();
     return 0;
   }
-  #endif
-  //#define FIX_ISSUE_184
-  #ifdef FIX_ISSUE_184
+  //#define FIX_ISSUE_206
+  #ifdef FIX_ISSUE_206
   if (std::count(std::begin(args), std::end(args), "--title")) {
-    sfml_about_screen g;
+    sfml_title_screen g;
     g.exec();
     return 0;
   }
-  #endif
+  #endif // FIX_ISSUE_206
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR

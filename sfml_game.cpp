@@ -116,7 +116,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 
 int get_video_mode()
 {
-  int s = sf::Style::Fullscreen;
+  int s = sf::Style::Default;
   if (std::getenv("TRAVIS"))
   {
     s = Style::Default;
