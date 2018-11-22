@@ -96,7 +96,7 @@ std::string to_str(tile_type t)
   }
 }
 
-tile_type to_tile(std::string str)
+tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
 {
   if (str == "arctic") return tile_type::arctic;
   if (str == "grassland") return tile_type::grassland;
