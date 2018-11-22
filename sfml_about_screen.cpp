@@ -27,8 +27,8 @@ void sfml_about_screen::exec()
   while (aboutwindow.isOpen())
   {
     sf::Event event;
-    while (aboutwindow.pollEvent(event)) //!OCLINT indeed an empty while statement
-    {
+    while (aboutwindow.pollEvent(event))
+    { //!OCLINT indeed an empty while statement
       // Indeed empty
     }
 
