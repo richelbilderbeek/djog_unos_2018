@@ -52,3 +52,8 @@ void sfml_title_screen::exec()
         m_window.display();
     }
 }
+
+sfml_title_screen::~sfml_title_screen()
+{
+  m_title_music.stop();
+}

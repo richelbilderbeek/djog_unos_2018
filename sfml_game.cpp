@@ -227,7 +227,7 @@ void sfml_game::confirm_move()
 
 void sfml_game::follow_tile()
 {
-  const tile& t = getTileById(m_selected);
+  const tile& t = getTileById(m_game.m_selected);
   m_camera_x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
   m_camera_y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
 }
@@ -540,7 +540,7 @@ int vectortoint(std::vector<int> v)
   return total;
 }
 
-tile& sfml_game::getTileById(std::vector<int> tile_id)
+tile& sfml_game::getTileById(const std::vector<int>& tile_id)
 {
   assert(!tile_id.empty());
   const int id = tile_id[0];
@@ -639,19 +639,16 @@ bool sfml_game::check_collision(double x, double y)
   return false;
 }
 
-std::vector<int> sfml_game::get_collision_id(double x, double y)
+std::vector<int> sfml_game::get_collision_id(double x, double y) const
 {
-  std::vector<int> ret;
-  for (tile& t : m_game.get_tiles())
+  for (const tile& t : m_game.get_tiles())
   {
     if (t.tile_contains(x, y))
     {
-      ret.push_back(t.get_id());
-      return ret;
+      return { t.get_id() };
     }
   }
-  ret.push_back(0);
-  return ret;
+  return { 0 } ;
 }
 
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <

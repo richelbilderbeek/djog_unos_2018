@@ -10,6 +10,7 @@ class sfml_title_screen
 public:
 
     sfml_title_screen();
+    ~sfml_title_screen();
 
     void exec();
 

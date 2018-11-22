@@ -58,7 +58,7 @@ public:
 
   int m_timer = 0;
 
-  tile &getTileById(std::vector<int> tile_id);
+  tile &getTileById(const std::vector<int> &tile_id);
 
   void tile_movement(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
@@ -72,7 +72,7 @@ public:
   void setup_text();
 
   bool check_collision(double x, double y);
-  std::vector<int> get_collision_id(double x, double y);
+  std::vector<int> get_collision_id(double x, double y) const;
 
   /// Check if the tile will colide with another tile if it moves in given
   /// direction
