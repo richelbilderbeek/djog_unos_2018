@@ -56,6 +56,7 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     t.add_agent(a);
     tiles.push_back(t);
   }
+
   {
     tile t(0, 4, 2, 2, 1, tile_type::grassland, new_id());
     agent a(agent_type::cow);
