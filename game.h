@@ -27,6 +27,9 @@ public:
   /// Everything except user input.
   void process_events();
 
+  /// The selected tile
+  std::vector<int> m_selected;
+
 private:
 
   std::vector<tile> m_tiles;

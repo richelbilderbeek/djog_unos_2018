@@ -19,6 +19,13 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept
   {
     return tile_type::savannah;
   }
+  else if (
+       (type1 == tile_type::grassland && type2 == tile_type::ocean)
+    || (type1 == tile_type::ocean && type2 == tile_type::grassland)
+  )
+  {
+    return tile_type::swamp;
+  }
   return tile_type::nonetile;
 }
 
