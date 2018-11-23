@@ -10,7 +10,7 @@ public:
 private:
     sf::RenderWindow m_window;
     sf::Font m_font;
-    sf::Text mainMenuScreenText;
+    sf::Text m_main_text;
 
     sf::Sprite m_bg_sprite;
 };
