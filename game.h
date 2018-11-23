@@ -42,6 +42,7 @@ private:
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);
   friend std::istream& operator>>(std::istream& os, game& g);
+  friend bool operator==(const game& lhs, const game& rhs) noexcept;
 };
 
 /// Collect all the tiles' types in the game
@@ -62,5 +63,7 @@ void test_game();
 std::ostream& operator<<(std::ostream& os, const game& g);
 
 std::istream& operator>>(std::istream& os, game& g);
+
+bool operator==(const game& lhs, const game& rhs) noexcept;
 
 #endif // GAME_H

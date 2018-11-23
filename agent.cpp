@@ -21,9 +21,21 @@ std::istream& operator>>(std::istream& is, agent& a)
   return is;
 }
 
+bool operator==(const agent& lhs, const agent& rhs) noexcept{
+    if (!(lhs.m_type == rhs.m_type))
+        return false;
+    if (!(lhs.m_x == rhs.m_x))
+        return false;
+    if (!(lhs.m_y == rhs.m_y))
+        return false;
+
+    return true;
+}
+
 void agent::move()
 {
-  if (m_type == agent_type::cow) {
+  if (m_type == agent_type::cow ||
+      m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
@@ -67,8 +79,6 @@ void test_agent() //!OCLINT testing functions may be long
   }
   #endif // FIX_ISSUE_202
 
-  //#define FIX_ISSUE_201
-  #ifdef FIX_ISSUE_201
   // A fish moves
   {
     const double x{12.34};
@@ -77,7 +87,7 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #endif // FIX_ISSUE_201
+
   // Grass does not move
   {
     const double x{12.34};

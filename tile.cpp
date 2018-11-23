@@ -155,12 +155,14 @@ std::ostream& operator<<(std::ostream& os, const tile& t)
   os << t.m_x << ' ' << t.m_y << ' '
      << t.m_height << ' ' << t.m_width << ' '
      << t.m_locked << ' ' << t.m_type << ' '
-     << t.m_dx << ' ' << t.m_dy
-     << t.m_agents.size() << ' ';
+     << t.m_dx << ' ' << t.m_dy << ' '
+     << t.m_agents.size();
 
   for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){
-      os << t.m_agents[i];
+      os << ' ' << t.m_agents[i];
   }
+
+  os << ' ';
 
   return os;
 }
@@ -186,6 +188,24 @@ std::istream& operator>>(std::istream& is, tile& t)
   return is;
 }
 
+bool operator==(const tile& lhs, const tile& rhs) noexcept{
+    if (!(lhs.m_agents == rhs.m_agents))
+        return false;
+    if (!(lhs.m_dx == rhs.m_dx))
+        return false;
+    if (!(lhs.m_dy == rhs.m_dy))
+        return false;
+    if (!(lhs.m_height == rhs.m_height))
+        return false;
+    if (!(lhs.m_width == rhs.m_width))
+        return false;
+    if (!(lhs.m_locked == rhs.m_locked))
+        return false;
+    if (!(lhs.m_type == rhs.m_type))
+        return false;
+
+    return true;
+}
 
 void tile::add_agent(agent a) { m_agents.push_back(a); }
 

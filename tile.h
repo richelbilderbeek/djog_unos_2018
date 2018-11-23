@@ -122,6 +122,7 @@ private:
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const tile& t);
   friend std::istream& operator>>(std::istream& os, tile& t);
+  friend bool operator==(const tile& lhs, const tile& rhs) noexcept;
 };
 
 /// Create the default collection of tiles
@@ -139,6 +140,8 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept;
 std::ostream& operator<<(std::ostream& os, const tile& t);
 
 std::istream& operator>>(std::istream& os, tile& t);
+
+bool operator==(const tile& lhs, const tile& rhs) noexcept;
 
 /// Test the tile class
 void test_tile();

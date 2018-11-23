@@ -1,10 +1,31 @@
 #include "tile_type.h"
-
+#include "string"
+#include <cassert>
+#include <iostream>
+#include <sstream>
 #include <cassert>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <string>
+
+std::vector<tile_type> collect_all_tile_types()
+{
+  return
+  {
+      tile_type::none,
+      tile_type::nonetile,
+      tile_type::grassland,
+      tile_type::mountains,
+      tile_type::ocean,
+      tile_type::savannah,
+      tile_type::arctic,
+      tile_type::desert,
+      tile_type::swamp,
+      tile_type::woods
+  };
+}
+
 
 tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
 {
@@ -65,6 +86,8 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::arctic);
   v.push_back(tile_type::desert);
   v.push_back(tile_type::swamp);
+  v.push_back(tile_type::woods);
+
   return v;
   //make function to get all types, stupid way!
 }
@@ -92,7 +115,8 @@ std::string to_str(tile_type t)
 
     case tile_type::swamp:
       return "swamp";
-
+    case tile_type::woods:
+      return "woods";
     case tile_type::nonetile:
       return "nonetile";
 
@@ -101,6 +125,7 @@ std::string to_str(tile_type t)
 
 
   }
+
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
@@ -112,6 +137,7 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
   if (str == "mountains") return tile_type::mountains;
   if (str == "ocean") return tile_type::ocean;
   if (str == "savannah") return tile_type::savannah;
+  if (str == "woods") return tile_type::woods;
   if (str == "nonetile") return tile_type::nonetile;
   return tile_type::none;
 }
@@ -126,4 +152,10 @@ std::istream& operator>>(std::istream& is, tile_type& t) noexcept {
     is >> str;
     t = to_tile(str); //!OCLINT indeed parameter reassignment, which is exactly the idea
     return is;
+}
+
+bool operator==(tile_type lhs, tile_type rhs) noexcept{
+    if (to_str(lhs) == to_str(rhs)) return true;
+    else return false;
+
 }
