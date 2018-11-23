@@ -43,7 +43,7 @@ int show_sfml_about_screen() {
     as.exec();
     return 0;
 }
-int main(int argc, char **argv) //!OCLINT must become shorter
+int main(int argc, char **argv)
 {
 #ifndef NDEBUG
   test();
