@@ -119,7 +119,7 @@ void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
 
 int get_video_mode()
 {
-  int s = sf::Style::Default;
+  int s = sf::Style::Default; //!OCLINT local variable redundant
 //  if (std::getenv("TRAVIS"))
 //  {
 //    s = Style::Default;
@@ -534,6 +534,7 @@ int vectortoint(std::vector<int> v)
   int total = 0;
   for (auto& it : v)
   {
+    assert(it < 10);
     total += it * decimal;
     decimal *= 10;
   }

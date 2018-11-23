@@ -75,7 +75,7 @@ void game::process_events()
         assert(j >=0);
         assert(j < static_cast<int>(m_tiles.size()));
         const tile& other_tile = m_tiles[j];
-        if (have_same_position(focal_tile, other_tile))
+        if (have_same_position(focal_tile, other_tile)) //!OCLINT must be simpler
         {
           const tile_type merged_type = get_merge_type(
             focal_tile.get_type(),
@@ -180,8 +180,15 @@ void test_game() //!OCLINT a testing function may be long
     g.process_events();
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
-
   }
+  //#define FIX_ISSUE_218
+  #ifdef FIX_ISSUE_218
+  {
+    const game g;
+    const std::vector<agent> agents = collect_all_agents(g);
+    assert(!agents.empty());
+  }
+  #endif
 }
 
 game load(const std::string &filename) {

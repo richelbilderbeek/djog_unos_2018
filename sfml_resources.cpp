@@ -5,7 +5,7 @@
 
 sfml_resources *sfml_resources::m_instance = nullptr; //!OCLINT static accepted singleton
 
-sfml_resources::sfml_resources() {
+sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
   {
     // Re-create resource at executable's location

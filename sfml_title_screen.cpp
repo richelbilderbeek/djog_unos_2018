@@ -35,7 +35,7 @@ sfml_title_screen::sfml_title_screen()
   m_bg_sprite.setScale(4,4);
 }
 
-void sfml_title_screen::exec()
+void sfml_title_screen::exec() //!OCLINT must be shorter
 {
     while(m_window.isOpen()) {
         static int i = 0;
