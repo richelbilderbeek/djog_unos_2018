@@ -184,7 +184,8 @@ private:
   bool m_is_space_pressed = false;
 };
 
-void test_sfml_game(sfml_game g);
+///Test the sfml_game class
+void test_sfml_game();
 
 int vectortoint(std::vector<int> v);
 

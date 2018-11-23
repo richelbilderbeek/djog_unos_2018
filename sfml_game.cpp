@@ -534,7 +534,6 @@ int vectortoint(std::vector<int> v)
   int total = 0;
   for (auto& it : v)
   {
-    assert(it < 10);
     total += it * decimal;
     decimal *= 10;
   }
@@ -713,9 +712,42 @@ void sfml_game::setup_text()
   aboutScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
 
-void test_sfml_game(sfml_game g) {
+void test_sfml_game() //!OCLINT tests may be long
+{
   {
+    //A game can change state
+    sfml_game g;
     for (int i = 0; i < 3; i++)
+    {
       g.change_game_state();
+    }
   }
+  //#define FIX_ISSUE_221
+  #ifdef FIX_ISSUE_221
+  {
+    //Get the fill color of a tile type
+    assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
+    assert(get_fill_color(tile_type::mountains) == sf::Color(120, 120, 120));
+    assert(get_fill_color(tile_type::ocean) == sf::Color(0, 0, 255));
+    assert(get_fill_color(tile_type::savannah) == sf::Color(245, 190, 0));
+    assert(get_fill_color(tile_type::swamp) == sf::Color(130, 100, 15));
+    assert(get_fill_color(tile_type::arctic) == sf::Color(50, 230, 255));
+    assert(get_fill_color(tile_type::desert) == sf::Color(250, 210, 80));
+    assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));
+  }
+  #endif // FIX_ISSUE_221
+  //#define FIX_ISSUE_222
+  #ifdef FIX_ISSUE_222
+  {
+    //Get the outline/border color of a tile tipe
+    assert(get_outline_color(tile_type::grassland) == sf::Color(0, 100, 0));
+    assert(get_outline_color(tile_type::mountains) == sf::Color(50, 50, 50));
+    assert(get_outline_color(tile_type::ocean) == sf::Color(0, 0, 100));
+    assert(get_outline_color(tile_type::savannah) == sf::Color(245, 190, 0));
+    assert(get_outline_color(tile_type::swamp) == sf::Color(100, 80, 15));
+    assert(get_outline_color(tile_type::arctic) == sf::Color(10, 200, 255));
+    assert(get_outline_color(tile_type::desert) == sf::Color(255, 180, 50));
+    assert(get_outline_color(tile_type::woods) == sf::Color(0, 128, 0));
+  }
+  #endif // FIX_ISSUE_222
 }
