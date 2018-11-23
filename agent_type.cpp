@@ -7,9 +7,9 @@
 void test_agent_type() //!OCLINT testing functions may be long
 {
   {
-    //#define FIX_ISSUE_203
-    #ifdef FIX_ISSUE_203
-    static_assert(agent_type::cow != agent_type::bacteria, "bacteria must exist");
+    //#define FIX_ISSUE_224
+    #ifdef FIX_ISSUE_224
+    static_assert(agent_type::cow != agent_type::bacterium, "bacterium must exist");
     #endif
   }
   //Collect all agent_types
@@ -61,6 +61,6 @@ std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
 std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
     std::string s;
     is >> s;
-    a = to_agent(s); //!OCLINT
+    a = to_agent(s); //!OCLINT correct idiom in this context
     return is;
 }

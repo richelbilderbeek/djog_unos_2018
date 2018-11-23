@@ -33,12 +33,12 @@ tile::tile(const double x, const double y, const double z, double const width,
   assert(m_width > 0.0);
   assert(m_height > 0.0);
 
-  if (m_type == tile_type::ocean)
-  {
-    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
-  } else {
-    m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
-  }
+//  if (m_type == tile_type::ocean)
+//  {
+//    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
+//  } else {
+//    m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+//  }
 }
 
 std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function that is too long
@@ -56,6 +56,7 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     t.add_agent(a);
     tiles.push_back(t);
   }
+
   {
     tile t(0, 4, 2, 2, 1, tile_type::grassland, new_id());
     agent a(agent_type::cow);
@@ -84,6 +85,10 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
   }
   {
     tile t(3, 1, 8, 1, 2, tile_type::swamp, new_id());
+    agent a1(agent_type::crocodile);
+    t.add_agent(a1);
+    agent a2(agent_type::grass);
+    t.add_agent(a2);
     tiles.push_back(t);
   }
   {
@@ -249,20 +254,6 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_y() == dy);
   }
 #endif // FIX_ISSUE_87_SET_TILE_SPEED
-
-  // A tile starts with one agent
-  {
-    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
-    const std::vector<agent> &agents = t.get_agents();
-    assert(agents.size() == 1);
-  }
-  // Can add an agent to a tile
-  {
-    tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
-    const agent a(agent_type::cow, 5.0, 5.0);
-    t.add_agent(a);
-    assert(t.get_agents().size() == 2);
-  }
 
 #define FIX_ISSUE_116_TILE_CONTAINS
 #ifdef FIX_ISSUE_116_TILE_CONTAINS
