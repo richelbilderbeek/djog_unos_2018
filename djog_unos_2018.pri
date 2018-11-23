@@ -11,7 +11,8 @@ SOURCES += \
     $$PWD/game_state.cpp \
     $$PWD/id.cpp \
     $$PWD/sfml_menu_screen.cpp \
-    $$PWD/sfml_title_screen.cpp
+    $$PWD/sfml_title_screen.cpp \
+    $$PWD/sfml_camera.cpp
 
 HEADERS += \
     $$PWD/agent.h \
@@ -26,7 +27,8 @@ HEADERS += \
     $$PWD/game_state.h \
     $$PWD/id.h \
     $$PWD/sfml_menu_screen.h \
-    $$PWD/sfml_title_screen.h
+    $$PWD/sfml_title_screen.h \
+    $$PWD/sfml_camera.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc
