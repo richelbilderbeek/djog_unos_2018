@@ -61,6 +61,14 @@ int main(int argc, char **argv)
     ts.exec();
     return 0;
   }
+  if (std::count(std::begin(args), std::end(args), "--menu"))
+  {
+    return show_sfml_menu_screen();
+  }
+  if (std::count(std::begin(args), std::end(args), "--about"))
+  {
+    return show_sfml_about_screen();
+  }
 
   int close_at{-1};
 
@@ -76,14 +84,6 @@ int main(int argc, char **argv)
     g.stop_music();
   }
 
-  if (std::count(std::begin(args), std::end(args), "--menu"))
-  {
-    return show_sfml_menu_screen();
-  }
-  if (std::count(std::begin(args), std::end(args), "--about"))
-  {
-    return show_sfml_about_screen();
-  }
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR
