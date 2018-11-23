@@ -64,14 +64,18 @@ void game::process_events()
   {
     done = true;
     const int n = count_n_tiles(*this);
-    for (int i = 0; i != n; ++i)
+    for (int i = 0; i < n; ++i)
     {
+      assert(i >=0);
+      assert(i < static_cast<int>(m_tiles.size()));
       tile& focal_tile = m_tiles[i];
       // j is the next tile in the vector
       for (int j = i + 1; j < n; ++j)
       {
+        assert(j >=0);
+        assert(j < static_cast<int>(m_tiles.size()));
         const tile& other_tile = m_tiles[j];
-        if (have_same_position(focal_tile, other_tile))
+        if (have_same_position(focal_tile, other_tile)) //!OCLINT must be simpler
         {
           const tile_type merged_type = get_merge_type(
             focal_tile.get_type(),
@@ -82,13 +86,17 @@ void game::process_events()
           //other tile is swapped to the back, then deleted
           m_tiles[j] = m_tiles.back();
           m_tiles.pop_back();
+          //change the selected tile
+          m_selected.clear();
+          assert(m_selected.empty());
           //Redo
           done = false;
+          i = n;
+          j = n;
         }
       }
     }
   }
-
 
   //Process the events happening on the tiles
   for (auto& tile: m_tiles)
@@ -161,8 +169,8 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<tile> tiles
     {
       //   x    y    z   w    h    type                  ID
-      tile(100, 100, 10, 215, 100, tile_type::grassland, new_id()),
-      tile(100, 100, 10, 215, 100, tile_type::grassland, new_id())
+      tile(1, 1, 1, 2, 1, tile_type::grassland, 0),
+      tile(1, 1, 1, 2, 1, tile_type::grassland, 0)
     };
 
     game g(tiles);
@@ -172,8 +180,15 @@ void test_game() //!OCLINT a testing function may be long
     g.process_events();
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
-
   }
+  //#define FIX_ISSUE_218
+  #ifdef FIX_ISSUE_218
+  {
+    const game g;
+    const std::vector<agent> agents = collect_all_agents(g);
+    assert(!agents.empty());
+  }
+  #endif
 }
 
 game load(const std::string &filename) {

@@ -1,5 +1,8 @@
 #include "agent.h"
+#include "agent_type.h"
 #include "game.h"
+#include "sfml_title_screen.h"
+#include "sfml_about_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
 #include "sfml_resources.h"
@@ -7,16 +10,6 @@
 #include <QFile>
 #include <SFML/Graphics.hpp>
 #include <cassert>
-
-/// All tests are called from here, only in debug mode
-void test() {
-  test_resources();
-  test_game();
-  test_sfml_game_delegate();
-  test_tile_type();
-  test_tile();
-  test_agent();
-}
 
 /// Nature Zen
 /// @param argc the number of arguments Nature Zen's executable is called
@@ -28,7 +21,31 @@ void test() {
 ///   * '--about': access about screen
 /// @param argv the arguments (as words) Nature Zen's executable is called
 ///   with by the operating system
-int main(int argc, char **argv) {
+
+
+/// All tests are called from here, only in debug mode
+void test() {
+  test_sfml_resources();
+  test_game();
+  test_sfml_game();
+  test_sfml_game_delegate();
+  test_tile_type();
+  test_tile();
+  test_agent();
+  test_agent_type();
+}
+int show_sfml_menu_screen() {
+    sfml_menu_screen ms;
+    ms.exec();
+    return 0;
+}
+int show_sfml_about_screen() {
+    sfml_about_screen as;
+    as.exec();
+    return 0;
+}
+int main(int argc, char **argv)
+{
 #ifndef NDEBUG
   test();
 #else
@@ -38,26 +55,34 @@ int main(int argc, char **argv) {
 
   const std::vector<std::string> args(argv, argv + argc);
 
+  if (std::count(std::begin(args), std::end(args), "--title"))
+  {
+    sfml_title_screen ts;
+    ts.exec();
+    return 0;
+  }
+
   int close_at{-1};
 
-  if (std::count(std::begin(args), std::end(args), "--short")) {
+  if (std::count(std::begin(args), std::end(args), "--short"))
+  {
     close_at = 600;
   }
 
   sfml_game g(800, 600, sfml_game_delegate(close_at));
 
-  if (std::count(std::begin(args), std::end(args), "--no-music")) {
+  if (!std::count(std::begin(args), std::end(args), "--music"))
+  {
     g.stop_music();
   }
-  if (std::count(std::begin(args), std::end(args), "--menu")) {
-    // NOTE: g.show_menu() would be more logical
-    g.show_title();
+
+  if (std::count(std::begin(args), std::end(args), "--menu"))
+  {
+    return show_sfml_menu_screen();
   }
-  // TODO: @martje127: Should show title on '--title'
-  {}
-  if (std::count(std::begin(args), std::end(args), "--about")) {
-    // TODO: @annabelliard
-    ;
+  if (std::count(std::begin(args), std::end(args), "--about"))
+  {
+    return show_sfml_about_screen();
   }
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout

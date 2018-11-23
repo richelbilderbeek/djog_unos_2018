@@ -14,15 +14,23 @@ public:
 
   sf::Music &get_background_music() noexcept { return m_background_music; }
 
+  sf::Music &get_title_music() noexcept { return m_title_music; }
+
   sf::Texture &get_cow_texture() noexcept { return m_cow_texture; }
 
   sf::Texture &get_fish_texture() noexcept { return m_fish_texture; }
+
+  sf::Texture &get_crocodile_texture() noexcept { return m_crocodile_texture; }
 
   sf::Texture &get_gras_texture() noexcept { return m_gras_texture; }
 
   sf::Texture &get_bacterie_texture() noexcept { return m_bacterie_texture; }
 
   sf::Font& get_default_font() noexcept { return m_default_font; }
+
+  sf::Font& get_title_font() noexcept { return m_title_font; }
+
+  sf::Texture& get_background_image() noexcept { return m_background_image; }
 
 private:
   /// Do not construct a sfml_resources,
@@ -33,18 +41,26 @@ private:
 
   sf::Font m_default_font;
 
+  sf::Font m_title_font;
+
   sf::Music m_background_music;
+
+  sf::Music m_title_music;
 
   sf::Texture m_cow_texture;
 
   sf::Texture m_fish_texture;
 
+  sf::Texture m_crocodile_texture;
+
   sf::Texture m_gras_texture;
 
   sf::Texture m_bacterie_texture;
+
+  sf::Texture m_background_image;
 };
 
-/// Test the resources class
-void test_resources() noexcept;
+/// Test the sfml_resources class
+void test_sfml_resources();
 
 #endif // SFML_RESOURCES_H

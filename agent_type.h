@@ -2,9 +2,16 @@
 #define AGENT_TYPE_H
 
 #include <iosfwd>
-/// The type a tile can be
+#include <vector>
 
-enum class agent_type { none, cow, grass, fish };
+/// The type a tile can be
+enum class agent_type { none,bacteria, cow, grass, fish, crocodile };
+
+/// Get all the agent types in a std::vector
+std::vector<agent_type> collect_all_agent_types();
+
+///Tests the agent_type
+void test_agent_type();
 
 std::ostream& operator<<(std::ostream& os, const agent_type a) noexcept;
 std::istream& operator>>(std::istream& is, agent_type& a) noexcept;

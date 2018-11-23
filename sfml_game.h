@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "sfml_menu_screen.h"
 #include "game.h"
 #include "sfml_game_delegate.h"
 #include "game_state.h"
@@ -14,7 +15,8 @@
 using namespace sf;
 
 //TODO: decrease the number of member functions and member variables
-class sfml_game { //!OCLINT indeed to big, will need to simplify
+class sfml_game //!OCLINT indeed to big, will need to simplify
+{
 
 public:
   /// Constructor
@@ -57,7 +59,7 @@ public:
 
   int m_timer = 0;
 
-  tile &getTileById(std::vector<int> tile_id);
+  tile &getTileById(const std::vector<int> &tile_id);
 
   void tile_movement(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
@@ -71,14 +73,12 @@ public:
   void setup_text();
 
   bool check_collision(double x, double y);
-  std::vector<int> get_collision_id(double x, double y);
+  std::vector<int> get_collision_id(double x, double y) const;
 
   /// Check if the tile will colide with another tile if it moves in given
   /// direction
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   bool will_colide(int direction, tile &t);
-
-  bool space_pressed = false;
 
   void exec_tile_move(std::vector<int> selected);
 
@@ -106,6 +106,8 @@ public:
 
   void confirm_tile_move(tile& t, int direction);
 
+  void set_agent_sprite(const agent& a, sf::Sprite& sprite);
+
 private:
   /// Background music file object
   sf::Music &m_background_music;
@@ -117,9 +119,6 @@ private:
 
   /// Sate of Game
   game_state m_game_state = game_state::playing;
-
-  /// The selected tile
-  std::vector<int> m_selected;
 
   /// Camera position in the x direction
   /// If positive, camera is moved right of the origin
@@ -174,17 +173,25 @@ private:
 
   /// Draw Text
   Text titleScreenText;
-  Text mainMenuScreenText;
   Text aboutScreenText;
   // Font
   Font m_font;
 
-  bool movecam_r = false;
-  bool movecam_l = false;
-  bool movecam_u = false;
-  bool movecam_d = false;
+  bool m_movecam_r = false;
+  bool m_movecam_l = false;
+  bool m_movecam_u = false;
+  bool m_movecam_d = false;
+
+  bool m_is_space_pressed = false;
 };
 
+///Test the sfml_game class
+void test_sfml_game();
+
 int vectortoint(std::vector<int> v);
+
+///Get the video mode, which is full-screen
+///by default, except on Travis CI
+int get_video_mode();
 
 #endif // SFML_sfml_game_H

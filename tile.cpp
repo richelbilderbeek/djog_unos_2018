@@ -9,13 +9,11 @@
 #include <iostream>
 #include <stdexcept>
 
-tile::tile(const double x, const double y, const double z, const double width,
+tile::tile(const double x, const double y, const double z, double const width,
            const double height, const tile_type type, const int id)
-    : m_height{height}, m_type{type}, m_width{width}, m_x{x}, m_y{y}, m_z{z}, m_id{id}
+    : m_height{height}, m_type{type}, m_width{width}, m_x{x}, m_y{y}, m_z{z},
+      m_dx{0}, m_dy{0}, m_dz{0}, m_id{id}
 {
-  m_dx = 0;
-  m_dy = 0;
-  m_dz = 0;
 
   if (width <= 0.0)
   {
@@ -27,47 +25,74 @@ tile::tile(const double x, const double y, const double z, const double width,
     throw std::invalid_argument("'height' cannot be negative");
   }
 
+  m_x *= 115;
+  m_y *= 115;
+  m_width = (width * 100) + ((width - 1) * 15);
+  m_height = (height * 100) + ((height - 1) * 15);
+
   assert(m_width > 0.0);
   assert(m_height > 0.0);
 
-
-  if (m_type == tile_type::ocean)
-  {
-    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
-  } else {
-    m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
-  }
+//  if (m_type == tile_type::ocean)
+//  {
+//    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
+//  } else {
+//    m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+//  }
 }
 
-std::vector<tile> create_default_tiles() noexcept
+std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function that is too long
 {
   std::vector<tile> tiles;
   {
-    tile t(100, 100, 10, 215, 100, tile_type::grassland, new_id());
+    tile t(2, 2, 3, 1, 2, tile_type::mountains, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
-    tile t(-15, 330, 15, 215, 100, tile_type::grassland, new_id());
+    tile t(0, 3, 2, 2, 1, tile_type::grassland, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
+    tiles.push_back(t);
+  }
+
+  {
+    tile t(0, 4, 2, 2, 1, tile_type::grassland, new_id());
+    agent a(agent_type::cow);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
-    tile t(215, 215, 20, 100, 215, tile_type::mountains, new_id());
+    tile t(0, 2, 4, 2, 1, tile_type::ocean, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(-15, 215, 30, 215, 100, tile_type::ocean, new_id());
+    tile t(0, 0, 5, 2, 1, tile_type::arctic, new_id());
+    agent a(agent_type::fish);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
-    tile t(-15, -15, 40, 215, 100, tile_type::arctic, new_id());
+    tile t(2, 0, 6, 2, 1, tile_type::savannah, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(215, -15, 50, 215, 100, tile_type::savannah, new_id());
+    tile t(4, 0, 7, 1, 2, tile_type::desert, new_id());
+    agent a(agent_type::grass);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
-    tile t(445, -15, 60, 100, 215, tile_type::desert, new_id());
+    tile t(3, 1, 8, 1, 2, tile_type::swamp, new_id());
+    agent a1(agent_type::crocodile);
+    t.add_agent(a1);
+    agent a2(agent_type::grass);
+    t.add_agent(a2);
+    tiles.push_back(t);
+  }
+  {
+    tile t(5, 1, 8, 1, 2, tile_type::woods, new_id());
     tiles.push_back(t);
   }
   return tiles;
@@ -78,8 +103,8 @@ std::vector<tile> create_two_grass_tiles() noexcept
   return
   {
     //   x    y    z   w    h    type                  ID
-    tile(100, 100, 10, 215, 100, tile_type::grassland, new_id()),
-    tile(315, 100, 10, 215, 100, tile_type::grassland, new_id())
+    tile(1, 1, 1, 2, 1, tile_type::grassland, new_id()),
+    tile(3, 1, 1, 2, 1, tile_type::grassland, new_id())
   };
 }
 
@@ -95,7 +120,6 @@ void tile::process_events()
   for (auto& a: m_agents) {
     a.move();
   }
-
 }
 
 void tile::set_dx(double dx) {
@@ -181,8 +205,7 @@ void test_tile() //!OCLINT testing function may be many lines
   // width cannot be negative
   {
     try {
-      const tile t(0.0, 0.0, 0.0, -12.34, 100.0, tile_type::grassland, //!OCLINT indeed t is unused
-                   0);
+      const tile t(0.0, 0.0, 0.0, -1, 1, tile_type::grassland, 0); //!OCLINT indeed t is unused
       assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'width' cannot be negative");
@@ -191,8 +214,7 @@ void test_tile() //!OCLINT testing function may be many lines
   // height cannot be negative
   {
     try {
-      const tile t(0.0, 0.0, 0.0, 100.0, -12.34, tile_type::grassland, //!OCLINT indeed t is unused
-                   0);                        //!OCLINT accepted idiom
+      const tile t(0.0, 0.0, 0.0, 1, -1, tile_type::grassland, 0); //!OCLINT indeed t is unused
       assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'height' cannot be negative");
@@ -204,13 +226,13 @@ void test_tile() //!OCLINT testing function may be many lines
 #ifdef FIX_ISSUE_87_SET_TILE_SPEED
   // A tile starts from standstill
   {
-    const tile t(0.0, 0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
+    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
     assert(t.get_dx() == 0.0);
     assert(t.get_dy() == 0.0);
   }
   // Speed is set correctly
   {
-    tile t(0.0, 0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
+    tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
     const double dx{12.34};
     const double dy{56.78};
     t.set_dx(dx);
@@ -220,7 +242,7 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Tile responds to its speed
   {
-    tile t(0.0, 0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
+    tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
     const double dx{12.34};
     const double dy{56.78};
     t.set_dx(dx);
@@ -233,37 +255,23 @@ void test_tile() //!OCLINT testing function may be many lines
   }
 #endif // FIX_ISSUE_87_SET_TILE_SPEED
 
-  // A tile starts with one agent
-  {
-    const tile t(0.0, 0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
-    const std::vector<agent> &agents = t.get_agents();
-    assert(agents.size() == 1);
-  }
-  // Can add an agent to a tile
-  {
-    tile t(0.0, 0.0, 0.0, 10.0, 10.0, tile_type::grassland, 0);
-    const agent a(agent_type::cow, 5.0, 5.0);
-    t.add_agent(a);
-    assert(t.get_agents().size() == 2);
-  }
-
 #define FIX_ISSUE_116_TILE_CONTAINS
 #ifdef FIX_ISSUE_116_TILE_CONTAINS
   //
   //
-  //   (10,0)------(30,0)
+  //   (0,0)------(100,0)
   //     |           |
   //     |     A     |     B
   //     |           |
-  //   (10,10)-----(30,10)
+  //   (0,100)-----(100,100)
   //
   //           C           D
   {
-    const tile t(10.0, 0.0, 0.0, 20.0, 10.0, tile_type::grassland, 0);
-    assert(t.tile_contains(20, 5));   // A
-    assert(!t.tile_contains(40, 5));  // B
-    assert(!t.tile_contains(20, 15)); // C
-    assert(!t.tile_contains(40, 15)); // D
+    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
+    assert(t.tile_contains(50, 50));   // A
+    assert(!t.tile_contains(165, 50));  // B
+    assert(!t.tile_contains(50, 165)); // C
+    assert(!t.tile_contains(165, 165)); // D
   }
 #endif // FIX_ISSUE_116_TILE_CONTAINS
 }

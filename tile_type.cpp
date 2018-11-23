@@ -3,8 +3,10 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+#include <vector>
+#include <string>
 
-tile_type get_merge_type(tile_type type1, tile_type type2) noexcept
+tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
 {
   if (type1 == tile_type::grassland && type2 == tile_type::grassland)
   {
@@ -16,6 +18,13 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept
   )
   {
     return tile_type::savannah;
+  }
+  else if (
+       (type1 == tile_type::grassland && type2 == tile_type::ocean)
+    || (type1 == tile_type::ocean && type2 == tile_type::grassland)
+  )
+  {
+    return tile_type::swamp;
   }
   return tile_type::nonetile;
 }
@@ -29,7 +38,35 @@ void test_tile_type()
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
     //TODO: after Issue #187: test more combinationss
   }
-  //TODO: after Issue #188: test all tile to string to tile conversions
+  {
+    //Uncomment if you want to run this test
+    #define FIX_ISSUE_188
+    #ifdef FIX_ISSUE_188
+    const std::vector<tile_type> v = get_all_tile_types();
+    for (const tile_type t : v)
+    {
+      const std::string s = to_str(t);
+      const tile_type u = to_tile(s);
+      assert(t == u);
+    }
+    #endif // FIX_ISSUE_188
+  }
+}
+
+std::vector<tile_type> get_all_tile_types() noexcept
+{
+  std::vector<tile_type> v;
+  v.push_back(tile_type::none);
+  v.push_back(tile_type::nonetile);
+  v.push_back(tile_type::grassland);
+  v.push_back(tile_type::mountains);
+  v.push_back(tile_type::ocean);
+  v.push_back(tile_type::savannah);
+  v.push_back(tile_type::arctic);
+  v.push_back(tile_type::desert);
+  v.push_back(tile_type::swamp);
+  return v;
+  //make function to get all types, stupid way!
 }
 
 std::string to_str(tile_type t)
@@ -53,19 +90,29 @@ std::string to_str(tile_type t)
     case tile_type::savannah:
       return "savannah";
 
+    case tile_type::swamp:
+      return "swamp";
+
+    case tile_type::nonetile:
+      return "nonetile";
+
     default:
       return "none";
+
+
   }
 }
 
-tile_type to_tile(std::string str)
+tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
 {
   if (str == "arctic") return tile_type::arctic;
   if (str == "grassland") return tile_type::grassland;
   if (str == "desert") return tile_type::desert;
+  if (str == "swamp") return tile_type::swamp;
   if (str == "mountains") return tile_type::mountains;
   if (str == "ocean") return tile_type::ocean;
   if (str == "savannah") return tile_type::savannah;
+  if (str == "nonetile") return tile_type::nonetile;
   return tile_type::none;
 }
 
