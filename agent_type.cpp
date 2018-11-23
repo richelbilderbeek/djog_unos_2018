@@ -14,7 +14,7 @@ void test_agent_type() //!OCLINT testing functions may be long
   }
   //Collect all agent_types
   {
-    //#define FIX_ISSUE_204
+    #define FIX_ISSUE_204
     #ifdef FIX_ISSUE_204
     const std::vector<agent_type> v = collect_all_agent_types();
     assert(std::count(std::begin(v), std::end(v), agent_type::cow) == 1);
@@ -24,6 +24,18 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
     #endif
   }
+}
+
+std::vector<agent_type> collect_all_agent_types()
+{
+  return
+  {
+    agent_type::cow,
+    agent_type::crocodile,
+    agent_type::fish,
+    agent_type::grass,
+    agent_type::none
+  };
 }
 
 std::string to_str(agent_type t)
