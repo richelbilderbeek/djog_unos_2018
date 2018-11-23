@@ -54,10 +54,11 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  //#define FIX_ISSUE_202
+  #define FIX_ISSUE_202
   #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
+    std::srand(15);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
