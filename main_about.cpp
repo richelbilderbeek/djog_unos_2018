@@ -10,7 +10,9 @@
 
 int main()
 {
+  //#define FIX_ISSUE_217
+  #ifdef FIX_ISSUE_217
   sfml_about_screen a(1000, 600);
   a.exec();
+  #endif // FIX_ISSUE_217
 }
-
