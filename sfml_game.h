@@ -110,8 +110,8 @@ public:
 
 private:
 
-  void display_tile(tile& t);
-  void display_agent(agent& a);
+  void display_tile(const tile& t);
+  void display_agent(const agent& a, double screen_x, double screen_y);
 
   /// Background music file object
   sf::Music &m_background_music;

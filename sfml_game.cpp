@@ -57,26 +57,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     // Display all tiles
     for (const tile& t : m_game.get_tiles())
     {
-      sf::RectangleShape sfml_tile(sf::Vector2f(
-        static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
-      // If the camera moves to right/bottom, tiles move relatively
-      // left/downwards
-      const double screen_x{ t.get_x() - m_camera_x };
-      const double screen_y{ t.get_y() - m_camera_y };
-      sfml_tile.setPosition(screen_x, screen_y);
-      color_tile_shape(sfml_tile, t);
-      m_window.draw(sfml_tile);
-      // Draw agents
-      for (const agent& a : t.get_agents())
-      {
-        sf::Sprite sprite;
-        set_agent_sprite(a, sprite);
-        assert(sprite.getTexture());
-        sprite.setScale(0.2f, 0.2f);
-        sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
-            screen_y + static_cast<float>(a.get_y()));
-       m_window.draw(sprite);
-      }
+      sfml_game::display_tile(t);
     }
     sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
@@ -95,6 +76,33 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   load_game_state();
   //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
+}
+
+void sfml_game::display_tile(const tile &t){
+    sf::RectangleShape sfml_tile(sf::Vector2f(
+      static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
+    // If the camera moves to right/bottom, tiles move relatively
+    // left/downwards
+    const double screen_x{ t.get_x() - m_camera_x };
+    const double screen_y{ t.get_y() - m_camera_y };
+    sfml_tile.setPosition(screen_x, screen_y);
+    color_tile_shape(sfml_tile, t);
+    m_window.draw(sfml_tile);
+    // Draw agents
+    for (const agent& a : t.get_agents())
+    {
+      sfml_game::display_agent(a, screen_x, screen_y);
+    }
+}
+
+void sfml_game::display_agent(const agent &a, double screen_x, double screen_y){
+    sf::Sprite sprite;
+    set_agent_sprite(a, sprite);
+    assert(sprite.getTexture());
+    sprite.setScale(0.2f, 0.2f);
+    sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
+        screen_y + static_cast<float>(a.get_y()));
+   m_window.draw(sprite);
 }
 
 void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
