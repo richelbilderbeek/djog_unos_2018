@@ -60,7 +60,7 @@ private:
   sf::Texture m_background_image;
 };
 
-/// Test the resources class
-void test_sfml_resources() noexcept;
+/// Test the sfml_resources class
+void test_sfml_resources();
 
 #endif // SFML_RESOURCES_H

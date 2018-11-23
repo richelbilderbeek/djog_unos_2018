@@ -97,7 +97,8 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
-void test_sfml_resources() noexcept {
+void test_sfml_resources() //!OCLINT tests may be long
+{
   sfml_resources &resources = sfml_resources::get();
   // Music must have a length
   {
