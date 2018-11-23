@@ -27,6 +27,9 @@ public:
   /// Everything except user input.
   void process_events();
 
+  /// The selected tile
+  std::vector<int> m_selected;
+
 private:
 
   std::vector<tile> m_tiles;
@@ -42,7 +45,7 @@ private:
   friend bool operator==(const game& lhs, const game& rhs) noexcept;
 };
 
-/// Collect all the tiles' types
+/// Collect all the tiles' types in the game
 std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 
 /// Count the number of tiles a game has

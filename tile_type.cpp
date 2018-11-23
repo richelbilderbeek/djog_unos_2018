@@ -27,7 +27,7 @@ std::vector<tile_type> collect_all_tile_types()
 }
 
 
-tile_type get_merge_type(tile_type type1, tile_type type2) noexcept
+tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
 {
   if (type1 == tile_type::grassland && type2 == tile_type::grassland)
   {
@@ -39,6 +39,13 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept
   )
   {
     return tile_type::savannah;
+  }
+  else if (
+       (type1 == tile_type::grassland && type2 == tile_type::ocean)
+    || (type1 == tile_type::ocean && type2 == tile_type::grassland)
+  )
+  {
+    return tile_type::swamp;
   }
   return tile_type::nonetile;
 }
@@ -108,20 +115,20 @@ std::string to_str(tile_type t)
 
     case tile_type::swamp:
       return "swamp";
-
     case tile_type::woods:
       return "woods";
-
     case tile_type::nonetile:
       return "nonetile";
 
     default:
       return "none";
+
+
   }
 
 }
 
-tile_type to_tile(std::string str)
+tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
 {
   if (str == "arctic") return tile_type::arctic;
   if (str == "grassland") return tile_type::grassland;
@@ -132,7 +139,6 @@ tile_type to_tile(std::string str)
   if (str == "savannah") return tile_type::savannah;
   if (str == "woods") return tile_type::woods;
   if (str == "nonetile") return tile_type::nonetile;
-
   return tile_type::none;
 }
 

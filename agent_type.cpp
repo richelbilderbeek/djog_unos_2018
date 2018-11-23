@@ -10,6 +10,7 @@ std::vector<agent_type> collect_all_agent_types()
   {
         agent_type::cow,
         agent_type::crocodile,
+        agent_type::bacteria,
         agent_type::fish,
         agent_type::grass,
         agent_type::none
@@ -20,9 +21,9 @@ std::vector<agent_type> collect_all_agent_types()
 void test_agent_type() //!OCLINT testing functions may be long
 {
   {
-    //#define FIX_ISSUE_203
-    #ifdef FIX_ISSUE_203
-    static_assert(agent_type::cow != agent_type::bacteria, "bacteria must exist");
+    //#define FIX_ISSUE_224
+    #ifdef FIX_ISSUE_224
+    static_assert(agent_type::cow != agent_type::bacterium, "bacterium must exist");
     #endif
   }
   //Collect all agent_types
@@ -55,6 +56,9 @@ void test_agent_type() //!OCLINT testing functions may be long
 std::string to_str(agent_type t)
 {
   switch (t) {
+    case agent_type::bacteria:
+      return "batteria";
+
     case agent_type::cow:
       return "cow";
 
@@ -77,6 +81,7 @@ std::string to_str(agent_type t)
 agent_type to_agent(std::string str)
 {
   if (str == "cow") return agent_type::cow;
+  if (str == "batteria") return agent_type::bacteria;
   if (str == "grass") return agent_type::grass;
   if (str == "fish") return agent_type::fish;
   if (str == "crocodile") return agent_type::crocodile;
@@ -93,7 +98,7 @@ std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
 std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
     std::string s;
     is >> s;
-    a = to_agent(s); //!OCLINT
+    a = to_agent(s); //!OCLINT correct idiom in this context
     return is;
 }
 
