@@ -21,7 +21,9 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 `anne`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=anne)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=anne)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=anne)
 `ellyjet`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=ellyjet)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=ellyjet)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=ellyjet)
 `fauve`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=fauve)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=fauve)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=fauve)
+`giorgio`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=giorgio)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=giorgio)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=giorgio)
 `isis`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=isis)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=isis)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=isis)
+`jana`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jana)](https://travis-ci.org/richelbilderbeek/djog_unos_2018) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jana)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jana)
 `jolien`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jolien)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jolien)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jolien)
 `jorn`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2017.svg?branch=jorn)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jorn)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jorn)
 `joshua`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=joshua)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=joshua)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=joshua)
@@ -77,6 +79,3 @@ Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.
 ![](pics/20180916.png)
 
 ![](pics/20180907.jpg)
-
-
-

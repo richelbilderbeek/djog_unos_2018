@@ -57,26 +57,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     // Display all tiles
     for (const tile& t : m_game.get_tiles())
     {
-      sf::RectangleShape sfml_tile(sf::Vector2f(
-        static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
-      // If the camera moves to right/bottom, tiles move relatively
-      // left/downwards
-      const double screen_x{ t.get_x() - m_camera_x };
-      const double screen_y{ t.get_y() - m_camera_y };
-      sfml_tile.setPosition(screen_x, screen_y);
-      color_tile_shape(sfml_tile, t);
-      m_window.draw(sfml_tile);
-      // Draw agents
-      for (const agent& a : t.get_agents())
-      {
-        sf::Sprite sprite;
-        set_agent_sprite(a, sprite);
-        assert(sprite.getTexture());
-        sprite.setScale(0.2f, 0.2f);
-        sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
-            screen_y + static_cast<float>(a.get_y()));
-       m_window.draw(sprite);
-      }
+      sfml_game::display_tile(t);
     }
     sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
@@ -95,6 +76,33 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   load_game_state();
   //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
+}
+
+void sfml_game::display_tile(const tile &t){
+    sf::RectangleShape sfml_tile(sf::Vector2f(
+      static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
+    // If the camera moves to right/bottom, tiles move relatively
+    // left/downwards
+    const double screen_x{ t.get_x() - m_camera.x };
+    const double screen_y{ t.get_y() - m_camera.y };
+    sfml_tile.setPosition(screen_x, screen_y);
+    color_tile_shape(sfml_tile, t);
+    m_window.draw(sfml_tile);
+    // Draw agents
+    for (const agent& a : t.get_agents())
+    {
+      sfml_game::display_agent(a, screen_x, screen_y);
+    }
+}
+
+void sfml_game::display_agent(const agent &a, double screen_x, double screen_y){
+    sf::Sprite sprite;
+    set_agent_sprite(a, sprite);
+    assert(sprite.getTexture());
+    sprite.setScale(0.2f, 0.2f);
+    sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
+        screen_y + static_cast<float>(a.get_y()));
+   m_window.draw(sprite);
 }
 
 void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
@@ -175,23 +183,14 @@ void sfml_game::exec()
   }
 }
 
-void sfml_game::move_camera(sf::Vector2f offset)
-{
-  // Dont move the camera in the menu
-  if (m_game_state != game_state::playing)
-    return;
-  m_camera_x += offset.x;
-  m_camera_y += offset.y;
-}
-
 void sfml_game::process_events()
 {
 
   m_game.process_events();
 
-  if ((115.0 / tile_speed != std::abs(std::floor(115.0 / tile_speed))
-        || 115.0 / tile_speed != std::abs(std::ceil(115.0 / tile_speed)))
-    || tile_speed > 115.0)
+  if ((115.0 / m_tile_speed != std::abs(std::floor(115.0 / m_tile_speed))
+        || 115.0 / m_tile_speed != std::abs(std::ceil(115.0 / m_tile_speed)))
+    || m_tile_speed > 115.0)
   {
     throw std::runtime_error("The set tile speed is not usable");
   }
@@ -215,21 +214,21 @@ void sfml_game::process_events()
 
 void sfml_game::confirm_move()
 {
-  if (m_movecam_r == true)
-    move_camera(sf::Vector2f(0.5, 0));
-  if (m_movecam_l == true)
-    move_camera(sf::Vector2f(-0.5, 0));
-  if (m_movecam_u == true)
-    move_camera(sf::Vector2f(0, -0.5));
-  if (m_movecam_d == true)
-    move_camera(sf::Vector2f(0, 0.5));
+  if (m_camera.movecam_r == true)
+    m_camera.move_camera(sf::Vector2f(0.5, 0));
+  if (m_camera.movecam_l == true)
+    m_camera.move_camera(sf::Vector2f(-0.5, 0));
+  if (m_camera.movecam_u == true)
+    m_camera.move_camera(sf::Vector2f(0, -0.5));
+  if (m_camera.movecam_d == true)
+    m_camera.move_camera(sf::Vector2f(0, 0.5));
 }
 
 void sfml_game::follow_tile()
 {
   const tile& t = getTileById(m_game.m_selected);
-  m_camera_x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
-  m_camera_y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
+  m_camera.x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
+  m_camera.y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
 }
 
 void sfml_game::manage_timer()
@@ -340,12 +339,12 @@ void sfml_game::move_selected_tile_randomly()
 
 void sfml_game::reset_input()
 {
-  m_camera_x = 0;
-  m_camera_y = 0;
-  m_movecam_r = false;
-  m_movecam_l = false;
-  m_movecam_u = false;
-  m_movecam_d = false;
+  m_camera.x = 0;
+  m_camera.y = 0;
+  m_camera.movecam_r = false;
+  m_camera.movecam_l = false;
+  m_camera.movecam_u = false;
+  m_camera.movecam_d = false;
 }
 
 void sfml_game::process_mouse_input(const sf::Event& event)
@@ -359,8 +358,8 @@ void sfml_game::process_mouse_input(const sf::Event& event)
     for (unsigned i = 0; i < game_tiles.size(); i++)
     {
       if (game_tiles.at(i).tile_contains(
-            sf::Mouse::getPosition(m_window).x + m_camera_x,
-            sf::Mouse::getPosition(m_window).y + m_camera_y))
+            sf::Mouse::getPosition(m_window).x + m_camera.x,
+            sf::Mouse::getPosition(m_window).y + m_camera.y))
       {
         m_temp_id.clear();
         m_temp_id.push_back(game_tiles.at(i).get_id());
@@ -398,13 +397,13 @@ void sfml_game::show_title()
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::D)
-    m_movecam_r = b;
+    m_camera.movecam_r = b;
   if (event.key.code == sf::Keyboard::A)
-    m_movecam_l = b;
+    m_camera.movecam_l = b;
   if (event.key.code == sf::Keyboard::W)
-    m_movecam_u = b;
+    m_camera.movecam_u = b;
   if (event.key.code == sf::Keyboard::S)
-    m_movecam_d = b;
+    m_camera.movecam_d = b;
 }
 
 void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
@@ -414,7 +413,7 @@ void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
     if (b == true)
     {
       tile_move_ctrl(event, t);
-      m_timer += (1 / tile_speed) * 115;
+      m_timer += (1 / m_tile_speed) * 115;
     }
     else
     {
@@ -441,16 +440,16 @@ void sfml_game::confirm_tile_move(tile& t, int direction)
   switch (direction)
   {
     case 1:
-      t.set_dy(-tile_speed);
+      t.set_dy(-m_tile_speed);
       return;
     case 2:
-      t.set_dx(tile_speed);
+      t.set_dx(m_tile_speed);
       return;
     case 3:
-      t.set_dy(tile_speed);
+      t.set_dy(m_tile_speed);
       return;
     case 4:
-      t.set_dx(-tile_speed);
+      t.set_dx(-m_tile_speed);
       return;
     default:
       return;

@@ -49,12 +49,15 @@ private:
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);
+  friend bool operator==(const agent& lhs, const agent& rhs) noexcept;
 
 };
+
 
 /// Test the tile class
 void test_agent();
 
+bool operator==(const agent& lhs, const agent& rhs) noexcept;
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
 std::istream& operator>>(std::istream& is, agent& a);
 
