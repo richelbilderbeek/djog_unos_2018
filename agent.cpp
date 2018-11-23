@@ -58,7 +58,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
     std::srand(314);
@@ -68,7 +67,6 @@ void test_agent() //!OCLINT testing functions may be long
     for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #endif // FIX_ISSUE_202
 
   //#define FIX_ISSUE_201
   #ifdef FIX_ISSUE_201
