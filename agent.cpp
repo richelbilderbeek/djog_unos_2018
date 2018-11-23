@@ -24,7 +24,8 @@ std::istream& operator>>(std::istream& is, agent& a)
 void agent::move()
 {
   if (m_type == agent_type::cow ||
-      m_type == agent_type::fish) {
+      m_type == agent_type::fish ||
+      m_type == agent_type::crocodile) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
@@ -55,18 +56,14 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  //#define FIX_ISSUE_202
-  #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
-    std::srand(15);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
     for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #endif // FIX_ISSUE_202
 
   // A fish moves
   {
