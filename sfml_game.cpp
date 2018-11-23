@@ -616,7 +616,12 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
 void sfml_game::color_shape(
   sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2)
 {
+  #if(SFML_VERSION_MINOR > 1)
   sfml_tile.setFillColor(c1);
+  #else
+  //Only relevant for Travis
+  sfml_tile.setColor(c1);
+  #endif
   outline = sf::Color(c2);
 }
 

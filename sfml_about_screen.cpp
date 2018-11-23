@@ -44,6 +44,7 @@ void sfml_about_screen::exec()
     #if(SFML_VERSION_MINOR > 1)
     sfml_about_screen::abouttext.setFillColor(sf::Color::Red);
     #else
+    //Only relevant for Travis
     sfml_about_screen::abouttext.setColor(sf::Color::Red);
     #endif
     aboutwindow.draw(sfml_about_screen::abouttext);
