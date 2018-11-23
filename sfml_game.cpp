@@ -616,7 +616,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
 void sfml_game::color_shape(
   sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2)
 {
-  sfml_tile.setColor(c1);
+  sfml_tile.setFillColor(c1);
   outline = sf::Color(c2);
 }
 
