@@ -144,9 +144,6 @@ void sfml_game::load_game_state()
       return;
     case game_state::menuscreen:
       return;
-    case game_state::aboutscreen:
-      m_window.draw(aboutScreenText);
-      return;
     default:
       return;
   }
@@ -699,16 +696,6 @@ void sfml_game::setup_text()
     titleScreenText.getGlobalBounds().top
       + titleScreenText.getGlobalBounds().height /2.0f);
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
-
-
-
-  aboutScreenText.setFont(m_font);
-  aboutScreenText.setString("About Screen");
-  titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left
-      + aboutScreenText.getGlobalBounds().width / 2.0f,
-    aboutScreenText.getGlobalBounds().top
-      + aboutScreenText.getGlobalBounds().height / 2.0f);
-  aboutScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
 
 void test_sfml_game() //!OCLINT tests may be long
