@@ -61,6 +61,6 @@ private:
 };
 
 /// Test the resources class
-void test_resources() noexcept;
+void test_sfml_resources() noexcept;
 
 #endif // SFML_RESOURCES_H
