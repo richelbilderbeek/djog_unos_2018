@@ -83,14 +83,6 @@ int main(int argc, char **argv) //!OCLINT must become shorter
   {
     return show_sfml_about_screen();
   }
-  //#define FIX_ISSUE_206
-  #ifdef FIX_ISSUE_206
-  if (std::count(std::begin(args), std::end(args), "--title")) {
-    sfml_title_screen g;
-    g.exec();
-    return 0;
-  }
-  #endif // FIX_ISSUE_206
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR
