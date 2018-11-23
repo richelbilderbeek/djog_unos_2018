@@ -30,6 +30,8 @@ public:
 
   sf::Font& get_title_font() noexcept { return m_title_font; }
 
+  sf::Texture& get_background_image() noexcept { return m_background_image; }
+
 private:
   /// Do not construct a sfml_resources,
   /// use sfml_resources::get() instead
@@ -54,6 +56,8 @@ private:
   sf::Texture m_gras_texture;
 
   sf::Texture m_bacterie_texture;
+
+  sf::Texture m_background_image;
 };
 
 /// Test the resources class

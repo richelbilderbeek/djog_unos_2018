@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-tile_type get_merge_type(tile_type type1, tile_type type2) noexcept
+tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
 {
   if (type1 == tile_type::grassland && type2 == tile_type::grassland)
   {
