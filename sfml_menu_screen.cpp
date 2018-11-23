@@ -14,13 +14,14 @@ sfml_menu_screen::sfml_menu_screen()
         + mainMenuScreenText.getGlobalBounds().height / 2.0f);
     mainMenuScreenText.setPosition(300, 300);
 
-    m_bg_sprite.setTexture(sfml_resources::get().get_gras_texture());
-    m_bg_sprite.setScale(3,3);
+//    m_bg_sprite.setTexture(sfml_resources::get().get_gras_texture());
+//    m_bg_sprite.setScale(3,3);
 }
 
 void sfml_menu_screen::exec()
 {
     while(m_window.isOpen()) {
+        m_window.clear(get_bg_color());
         sf::Event event;
         while (m_window.pollEvent(event))
         {
@@ -33,9 +34,45 @@ void sfml_menu_screen::exec()
                     break;
             }
         }
-        m_window.clear();
-        m_window.draw(m_bg_sprite);
+//        m_window.draw(m_bg_sprite);
         m_window.draw(mainMenuScreenText);
         m_window.display();
     }
+}
+
+sf::Color sfml_menu_screen::get_bg_color() {
+  if (r < 255 && rb) {
+    r++;
+  } else if (r == 255 && rb) {
+    rb = false;
+  }
+  if (r > 0 && !rb) {
+    r--;
+  } else if (r == 0 && !rb) {
+    rb = true;
+  }
+
+  if (g < 255 && gb) {
+    g++;
+  } else if (g == 255 && gb) {
+    gb = false;
+  }
+  if (g > 0 && !gb) {
+    g--;
+  } else if (g == 0 && !gb) {
+    gb = true;
+  }
+
+  if (b < 255 && bb) {
+    b++;
+  } else if (b == 255 && bb) {
+    bb = false;
+  }
+  if (b > 0 && !bb) {
+    b--;
+  } else if (b == 0 && !bb) {
+    bb = true;
+  }
+
+  return sf::Color(r,g,b);
 }

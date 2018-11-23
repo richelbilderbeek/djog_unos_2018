@@ -1,11 +1,14 @@
 #include "sfml_resources.h"
 
-#include <QFile>
+#include "agent_type.h"
+
 #include <cassert>
+
+#include <QFile>
 
 sfml_resources *sfml_resources::m_instance = nullptr; //!OCLINT static accepted singleton
 
-sfml_resources::sfml_resources() {
+sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
   {
     // Re-create resource at executable's location
@@ -94,7 +97,8 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
-void test_resources() noexcept {
+void test_sfml_resources() //!OCLINT tests may be long
+{
   sfml_resources &resources = sfml_resources::get();
   // Music must have a length
   {
@@ -107,4 +111,15 @@ void test_resources() noexcept {
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
+  //#define FIX_ISSUE_225
+  #ifdef FIX_ISSUE_225
+  // Can get the sprite of an agent_type
+  {
+    assert(resources.get_texture(agent_type::bacteria).getSize().x > 0);
+    assert(resources.get_texture(agent_type::cow).getSize().x > 0);
+    assert(resources.get_texture(agent_type::crocodile).getSize().x > 0);
+    assert(resources.get_texture(agent_type::fish).getSize().x > 0);
+    assert(resources.get_texture(agent_type::grass).getSize().x > 0);
+  }
+  #endif // FIX_ISSUE_225
 }

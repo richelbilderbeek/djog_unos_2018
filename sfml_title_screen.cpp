@@ -16,9 +16,14 @@ sfml_title_screen::sfml_title_screen()
     title_text.getGlobalBounds().top
       + title_text.getGlobalBounds().height / 2.0f);
   title_text.setScale(2,2);
+  #if(SFML_VERSION_MINOR > 1)
   title_text.setOutlineColor(sf::Color(36, 211, 16));
   title_text.setFillColor(sf::Color(155, 40, 0));
   title_text.setOutlineThickness(1);
+  #else
+  //Only relevant for Travis
+  title_text.setColor(sf::Color(36, 211, 16));
+  #endif
   title_text.setPosition(400, 200);
 
   m_bg_sprite.setTexture(sfml_resources::get().get_background_image());
@@ -30,7 +35,7 @@ sfml_title_screen::sfml_title_screen()
   m_bg_sprite.setScale(4,4);
 }
 
-void sfml_title_screen::exec()
+void sfml_title_screen::exec() //!OCLINT must be shorter
 {
     while(m_window.isOpen()) {
         static int i = 0;

@@ -25,8 +25,9 @@
 
 /// All tests are called from here, only in debug mode
 void test() {
-  test_resources();
+  test_sfml_resources();
   test_game();
+  test_sfml_game();
   test_sfml_game_delegate();
   test_tile_type();
   test_tile();
@@ -83,14 +84,6 @@ int main(int argc, char **argv)
     g.stop_music();
   }
 
-  //#define FIX_ISSUE_206
-  #ifdef FIX_ISSUE_206
-  if (std::count(std::begin(args), std::end(args), "--title")) {
-    sfml_title_screen g;
-    g.exec();
-    return 0;
-  }
-  #endif // FIX_ISSUE_206
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR

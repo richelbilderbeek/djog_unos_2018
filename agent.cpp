@@ -61,7 +61,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
-    a.move();
+    for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
   #endif // FIX_ISSUE_202
