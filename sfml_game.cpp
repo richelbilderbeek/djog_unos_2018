@@ -83,8 +83,8 @@ void sfml_game::display_tile(const tile &t){
       static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
-    const double screen_x{ t.get_x() - m_camera_x };
-    const double screen_y{ t.get_y() - m_camera_y };
+    const double screen_x{ t.get_x() - m_camera.x };
+    const double screen_y{ t.get_y() - m_camera.y };
     sfml_tile.setPosition(screen_x, screen_y);
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
@@ -183,15 +183,6 @@ void sfml_game::exec()
   }
 }
 
-void sfml_game::move_camera(sf::Vector2f offset)
-{
-  // Dont move the camera in the menu
-  if (m_game_state != game_state::playing)
-    return;
-  m_camera_x += offset.x;
-  m_camera_y += offset.y;
-}
-
 void sfml_game::process_events()
 {
 
@@ -223,21 +214,21 @@ void sfml_game::process_events()
 
 void sfml_game::confirm_move()
 {
-  if (m_movecam_r == true)
-    move_camera(sf::Vector2f(0.5, 0));
-  if (m_movecam_l == true)
-    move_camera(sf::Vector2f(-0.5, 0));
-  if (m_movecam_u == true)
-    move_camera(sf::Vector2f(0, -0.5));
-  if (m_movecam_d == true)
-    move_camera(sf::Vector2f(0, 0.5));
+  if (m_camera.movecam_r == true)
+    m_camera.move_camera(sf::Vector2f(0.5, 0));
+  if (m_camera.movecam_l == true)
+    m_camera.move_camera(sf::Vector2f(-0.5, 0));
+  if (m_camera.movecam_u == true)
+    m_camera.move_camera(sf::Vector2f(0, -0.5));
+  if (m_camera.movecam_d == true)
+    m_camera.move_camera(sf::Vector2f(0, 0.5));
 }
 
 void sfml_game::follow_tile()
 {
   const tile& t = getTileById(m_game.m_selected);
-  m_camera_x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
-  m_camera_y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
+  m_camera.x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
+  m_camera.y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
 }
 
 void sfml_game::manage_timer()
@@ -348,12 +339,12 @@ void sfml_game::move_selected_tile_randomly()
 
 void sfml_game::reset_input()
 {
-  m_camera_x = 0;
-  m_camera_y = 0;
-  m_movecam_r = false;
-  m_movecam_l = false;
-  m_movecam_u = false;
-  m_movecam_d = false;
+  m_camera.x = 0;
+  m_camera.y = 0;
+  m_camera.movecam_r = false;
+  m_camera.movecam_l = false;
+  m_camera.movecam_u = false;
+  m_camera.movecam_d = false;
 }
 
 void sfml_game::process_mouse_input(const sf::Event& event)
@@ -367,8 +358,8 @@ void sfml_game::process_mouse_input(const sf::Event& event)
     for (unsigned i = 0; i < game_tiles.size(); i++)
     {
       if (game_tiles.at(i).tile_contains(
-            sf::Mouse::getPosition(m_window).x + m_camera_x,
-            sf::Mouse::getPosition(m_window).y + m_camera_y))
+            sf::Mouse::getPosition(m_window).x + m_camera.x,
+            sf::Mouse::getPosition(m_window).y + m_camera.y))
       {
         m_temp_id.clear();
         m_temp_id.push_back(game_tiles.at(i).get_id());
@@ -406,13 +397,13 @@ void sfml_game::show_title()
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::D)
-    m_movecam_r = b;
+    m_camera.movecam_r = b;
   if (event.key.code == sf::Keyboard::A)
-    m_movecam_l = b;
+    m_camera.movecam_l = b;
   if (event.key.code == sf::Keyboard::W)
-    m_movecam_u = b;
+    m_camera.movecam_u = b;
   if (event.key.code == sf::Keyboard::S)
-    m_movecam_d = b;
+    m_camera.movecam_d = b;
 }
 
 void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)

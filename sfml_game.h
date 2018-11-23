@@ -11,6 +11,7 @@
 #include "game.h"
 #include "sfml_game_delegate.h"
 #include "game_state.h"
+#include "sfml_camera.h"
 
 using namespace sf;
 
@@ -109,7 +110,7 @@ public:
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
 private:
-
+  // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);
   void display_agent(const agent& a, double screen_x, double screen_y);
 
@@ -123,14 +124,6 @@ private:
 
   /// Sate of Game
   game_state m_game_state = game_state::playing;
-
-  /// Camera position in the x direction
-  /// If positive, camera is moved right of the origin
-  double m_camera_x{-100.0};
-
-  /// Camera position in the y direction
-  /// If positive, camera is moved down of the origin
-  double m_camera_y{-100.0};
 
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
@@ -147,9 +140,6 @@ private:
 
   /// Display all shapes on the window
   void display();
-
-  /// Moves the camera
-  void move_camera(sf::Vector2f offset);
 
   ///Process an SFML event
   void process_event(const sf::Event& event);
@@ -181,12 +171,9 @@ private:
   // Font
   Font m_font;
 
-  bool m_movecam_r = false;
-  bool m_movecam_l = false;
-  bool m_movecam_u = false;
-  bool m_movecam_d = false;
-
   bool m_is_space_pressed = false;
+
+  sfml_camera m_camera;
 };
 
 ///Test the sfml_game class
