@@ -17,6 +17,7 @@ TH|Mart|`martje127`|Dev (junior), test
 TH|Rijk|`Rijk-van-Putten`|Dev (junior)
 FR|Anne|`annehinrichs22`|Dev (junior)
 FR|Elles|`EllyJet`|Dev (junior)
+FR|Jana|Jana17|Dev (junior)
 FR|Jolien|`?`|Dev (junior)
 FR|Koen|`ko0n`|Dev (junior)
 FR|Rafayel|`RafayelGardishyan`|Dev (medior), `git`
