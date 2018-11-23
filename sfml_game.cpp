@@ -119,12 +119,11 @@ void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
 
 int get_video_mode()
 {
-  int s = sf::Style::Default; //!OCLINT local variable redundant
+  return sf::Style::Default;
 //  if (std::getenv("TRAVIS"))
 //  {
 //    s = Style::Default;
 //  }
-  return s;
 }
 
 void sfml_game::load_game_state()
