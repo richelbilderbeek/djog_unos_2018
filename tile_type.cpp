@@ -98,8 +98,6 @@ std::string to_str(tile_type t)
 
     default:
       return "none";
-
-
   }
 }
 

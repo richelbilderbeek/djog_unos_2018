@@ -26,9 +26,9 @@ void test_agent_type() //!OCLINT testing functions may be long
   }
 }
 
-std::string to_str(agent_type t)
+std::string to_str(agent_type a)
 {
-  switch (t) {
+  switch (a) {
     case agent_type::cow:
       return "cow";
 

@@ -1,6 +1,7 @@
 #include "sfml_resources.h"
 
 #include "agent_type.h"
+#include "agent.h"
 
 #include <cassert>
 

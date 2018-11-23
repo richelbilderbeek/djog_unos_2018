@@ -1,6 +1,7 @@
 #ifndef SFML_RESOURCES_H
 #define SFML_RESOURCES_H
 
+#include <agent.h>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>

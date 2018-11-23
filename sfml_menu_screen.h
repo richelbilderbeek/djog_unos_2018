@@ -13,11 +13,11 @@ private:
     sf::Font m_font;
     sf::Text mainMenuScreenText;
     sf::Sprite m_bg_sprite;
-    int r = 120;
+    int r = 181;
     bool rb = true;
-    int g = 50;
+    int g = 3;
     bool gb = false;
-    int b = 210;
+    int b = 3;
     bool bb = true;
 };
 

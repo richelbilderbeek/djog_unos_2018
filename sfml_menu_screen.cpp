@@ -41,20 +41,20 @@ void sfml_menu_screen::exec()
 }
 
 sf::Color sfml_menu_screen::get_bg_color() {
-  if (r < 255 && rb) {
+  if (r < 200 && rb) {
     r++;
-  } else if (r == 255 && rb) {
+  } else if (r == 200 && rb) {
     rb = false;
   }
-  if (r > 0 && !rb) {
+  if (r > 55 && !rb) {
     r--;
-  } else if (r == 0 && !rb) {
+  } else if (r == 55 && !rb) {
     rb = true;
   }
 
-  if (g < 255 && gb) {
+  if (g < 50 && gb) {
     g++;
-  } else if (g == 255 && gb) {
+  } else if (g == 50 && gb) {
     gb = false;
   }
   if (g > 0 && !gb) {
@@ -63,9 +63,9 @@ sf::Color sfml_menu_screen::get_bg_color() {
     gb = true;
   }
 
-  if (b < 255 && bb) {
+  if (b < 50 && bb) {
     b++;
-  } else if (b == 255 && bb) {
+  } else if (b == 50 && bb) {
     bb = false;
   }
   if (b > 0 && !bb) {
