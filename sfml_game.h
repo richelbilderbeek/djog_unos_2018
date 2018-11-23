@@ -109,6 +109,10 @@ public:
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
 private:
+
+  void display_tile(tile& t);
+  void display_agent(agent& a);
+
   /// Background music file object
   sf::Music &m_background_music;
 
