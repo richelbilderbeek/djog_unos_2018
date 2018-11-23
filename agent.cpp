@@ -27,6 +27,10 @@ void agent::move()
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
+  if (m_type == agent_type::crocodile) {
+    m_x += 0.1 * (-1 + (std::rand() % 3));
+    m_y += 0.1 * (-1 + (std::rand() % 3));
+  }
 }
 
 void test_agent() //!OCLINT testing functions may be long
@@ -57,6 +61,7 @@ void test_agent() //!OCLINT testing functions may be long
   #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
+    std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
