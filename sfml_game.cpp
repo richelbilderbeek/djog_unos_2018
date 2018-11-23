@@ -189,9 +189,9 @@ void sfml_game::process_events()
 
   m_game.process_events();
 
-  if ((115.0 / tile_speed != std::abs(std::floor(115.0 / tile_speed))
-        || 115.0 / tile_speed != std::abs(std::ceil(115.0 / tile_speed)))
-    || tile_speed > 115.0)
+  if ((115.0 / m_tile_speed != std::abs(std::floor(115.0 / m_tile_speed))
+        || 115.0 / m_tile_speed != std::abs(std::ceil(115.0 / m_tile_speed)))
+    || m_tile_speed > 115.0)
   {
     throw std::runtime_error("The set tile speed is not usable");
   }
@@ -414,7 +414,7 @@ void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
     if (b == true)
     {
       tile_move_ctrl(event, t);
-      m_timer += (1 / tile_speed) * 115;
+      m_timer += (1 / m_tile_speed) * 115;
     }
     else
     {
@@ -441,16 +441,16 @@ void sfml_game::confirm_tile_move(tile& t, int direction)
   switch (direction)
   {
     case 1:
-      t.set_dy(-tile_speed);
+      t.set_dy(-m_tile_speed);
       return;
     case 2:
-      t.set_dx(tile_speed);
+      t.set_dx(m_tile_speed);
       return;
     case 3:
-      t.set_dy(tile_speed);
+      t.set_dy(m_tile_speed);
       return;
     case 4:
-      t.set_dx(-tile_speed);
+      t.set_dx(-m_tile_speed);
       return;
     default:
       return;
