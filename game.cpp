@@ -172,7 +172,7 @@ void test_game() //!OCLINT a testing function may be long
     // +====+====+    +----+----+
     const std::vector<tile> tiles
     {
-      //   x    y    z   w    h    type                  ID
+      //   x    y    z   w    h    type         ID
       tile(1, 1, 1, 2, 1, tile_type::grassland, 0),
       tile(1, 1, 1, 2, 1, tile_type::grassland, 0)
     };
@@ -185,7 +185,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
   }
-  //#define FIX_ISSUE_218
+  #define FIX_ISSUE_218
   #ifdef FIX_ISSUE_218
   {
     const game g;
@@ -193,6 +193,16 @@ void test_game() //!OCLINT a testing function may be long
     assert(!agents.empty());
   }
   #endif
+}
+
+std::vector<agent> collect_all_agents(const game& g) noexcept {
+  std::vector<agent> agents;
+  for (tile t : g.get_tiles()) {
+    for (agent a : t.get_agents()) {
+      agents.push_back(a);
+    }
+  }
+  return agents;
 }
 
 game load(const std::string &filename) {
