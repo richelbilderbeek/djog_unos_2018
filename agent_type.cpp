@@ -74,7 +74,7 @@ std::string to_str(agent_type a)
     case agent_type::none:
       return "none";
   }
-  assert(!"Agent types aren't translated completely");
+  assert(!"Agent types aren't translated completely"); //!OCLINT accepted idiom
   return "none";
 }
 
@@ -86,7 +86,7 @@ agent_type to_agent(std::string str)
   if (str == "fish") return agent_type::fish;
   if (str == "crocodile") return agent_type::crocodile;
   if (str == "none") return agent_type::none;
-  assert(!"Agent types aren't translated completely");
+  assert(!"Agent types aren't translated completely"); //!OCLINT accepted idiom
   return agent_type::none;
 }
 
@@ -103,8 +103,8 @@ std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
 }
 
 
-bool operator==(agent_type lhs, agent_type rhs) noexcept{
-    if (to_str(lhs) == to_str(rhs)) return true;
-    else return false;
-
+bool operator==(agent_type lhs, agent_type rhs) noexcept
+{
+  if (to_str(lhs) == to_str(rhs)) return true; //!OCLINT redundant if statement
+  else return false; //!OCLINT unnecessary else statement
 }

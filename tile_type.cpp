@@ -152,8 +152,8 @@ std::istream& operator>>(std::istream& is, tile_type& t) noexcept {
     return is;
 }
 
-bool operator==(tile_type lhs, tile_type rhs) noexcept{
-    if (to_str(lhs) == to_str(rhs)) return true;
-    else return false;
-
+bool operator==(tile_type lhs, tile_type rhs) noexcept
+{
+  if (to_str(lhs) == to_str(rhs)) return true; //!OCLINT redundant if statement
+  else return false; //!OCLINT unnecessary else statement
 }
