@@ -24,7 +24,7 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept;
 ///Test the tile_type function
 void test_tile_type();
 
-std::string to_str(tile_type t);
+std::string to_str(tile_type t) noexcept;
 tile_type to_tile(std::string str);
 
 std::vector<tile_type> get_all_tile_types() noexcept;
@@ -36,6 +36,6 @@ bool operator==(tile_type lhs, tile_type rhs) noexcept;
 
 void test_tile_type();
 
-std::vector<tile_type> collect_all_tile_types();
+std::vector<tile_type> collect_all_tile_types() noexcept;
 
 #endif // TILE_TYPE_H

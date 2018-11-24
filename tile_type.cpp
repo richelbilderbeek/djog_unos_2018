@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 
-std::vector<tile_type> collect_all_tile_types()
+std::vector<tile_type> collect_all_tile_types() noexcept
 {
   return
   {
@@ -92,7 +92,7 @@ std::vector<tile_type> get_all_tile_types() noexcept
   //make function to get all types, stupid way!
 }
 
-std::string to_str(tile_type t)
+std::string to_str(tile_type t) noexcept
 {
   switch (t) {
     case tile_type::grassland:
@@ -121,6 +121,7 @@ std::string to_str(tile_type t)
       return "nonetile";
 
     default:
+      assert(t == tile_type::none);
       return "none";
   }
 
@@ -140,16 +141,18 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
   return tile_type::none;
 }
 
-std::ostream& operator <<(std::ostream& os, const tile_type t) noexcept {
-    os << to_str(t);
-    return os;
+std::ostream& operator <<(std::ostream& os, const tile_type t) noexcept
+{
+  os << to_str(t);
+  return os;
 }
 
-std::istream& operator>>(std::istream& is, tile_type& t) noexcept {
-    std::string str;
-    is >> str;
-    t = to_tile(str); //!OCLINT indeed parameter reassignment, which is exactly the idea
-    return is;
+std::istream& operator>>(std::istream& is, tile_type& t) noexcept
+{
+  std::string str;
+  is >> str;
+  t = to_tile(str); //!OCLINT indeed parameter reassignment, which is exactly the idea
+  return is;
 }
 
 bool operator==(tile_type lhs, tile_type rhs) noexcept
