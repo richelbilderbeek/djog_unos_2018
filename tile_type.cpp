@@ -92,7 +92,7 @@ std::vector<tile_type> get_all_tile_types() noexcept
   //make function to get all types, stupid way!
 }
 
-std::string to_str(tile_type t) noexcept
+std::string to_str(tile_type t)
 {
   switch (t) {
     case tile_type::grassland:
@@ -153,10 +153,4 @@ std::istream& operator>>(std::istream& is, tile_type& t) noexcept
   is >> str;
   t = to_tile(str); //!OCLINT indeed parameter reassignment, which is exactly the idea
   return is;
-}
-
-bool operator==(tile_type lhs, tile_type rhs) noexcept
-{
-  if (to_str(lhs) == to_str(rhs)) return true; //!OCLINT redundant if statement
-  else return false; //!OCLINT unnecessary else statement
 }
