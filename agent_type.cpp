@@ -56,6 +56,9 @@ void test_agent_type() //!OCLINT testing functions may be long
 std::string to_str(agent_type a)
 {
   switch (a) {
+    case agent_type::bacteria:
+      return "bacteria";
+
     case agent_type::cow:
       return "cow";
 
@@ -78,7 +81,7 @@ std::string to_str(agent_type a)
 agent_type to_agent(std::string str)
 {
   if (str == "cow") return agent_type::cow;
-  if (str == "batteria") return agent_type::bacteria;
+  if (str == "bacteria") return agent_type::bacteria;
   if (str == "grass") return agent_type::grass;
   if (str == "fish") return agent_type::fish;
   if (str == "crocodile") return agent_type::crocodile;
