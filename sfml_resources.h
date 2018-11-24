@@ -17,21 +17,13 @@ public:
 
   sf::Music &get_title_music() noexcept { return m_title_music; }
 
-  sf::Texture &get_cow_texture() noexcept { return m_cow_texture; }
-
-  sf::Texture &get_fish_texture() noexcept { return m_fish_texture; }
-
-  sf::Texture &get_crocodile_texture() noexcept { return m_crocodile_texture; }
-
-  sf::Texture &get_gras_texture() noexcept { return m_gras_texture; }
-
-  sf::Texture &get_bacterie_texture() noexcept { return m_bacterie_texture; }
-
   sf::Font& get_default_font() noexcept { return m_default_font; }
 
   sf::Font& get_title_font() noexcept { return m_title_font; }
 
-  sf::Texture& get_background_image() noexcept { return m_background_image; }
+  sf::Texture &get_background_image() noexcept { return m_background_image; }
+
+  sf::Texture &get_agent_sprite(const agent& a) noexcept;
 
 private:
   /// Do not construct a sfml_resources,
@@ -55,6 +47,8 @@ private:
   sf::Texture m_crocodile_texture;
 
   sf::Texture m_gras_texture;
+
+  sf::Texture m_none_texture;
 
   sf::Texture m_bacterie_texture;
 

@@ -106,23 +106,7 @@ void sfml_game::display_agent(const agent &a, double screen_x, double screen_y){
 }
 
 void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
-  switch (a.get_type()) {
-    case agent_type::cow:
-      sprite.setTexture(sfml_resources::get().get_cow_texture());
-      break;
-    case agent_type::crocodile:
-      sprite.setTexture(sfml_resources::get().get_crocodile_texture());
-      break;
-    case agent_type::fish:
-      sprite.setTexture(sfml_resources::get().get_fish_texture());
-      break;
-    case agent_type::grass:
-      sprite.setTexture(sfml_resources::get().get_gras_texture());
-      break;
-    default:
-      sprite.setTexture(sfml_resources::get().get_bacterie_texture());
-      break;
-  }
+  sprite.setTexture(sfml_resources::get().get_agent_sprite(a));
 }
 
 int get_video_mode()
