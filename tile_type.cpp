@@ -92,7 +92,7 @@ std::vector<tile_type> get_all_tile_types() noexcept
   //make function to get all types, stupid way!
 }
 
-std::string to_str(tile_type t)
+std::string to_str(tile_type t) //!OCLINT cannot be simpler
 {
   switch (t) {
     case tile_type::grassland:

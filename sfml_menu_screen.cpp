@@ -20,59 +20,75 @@ sfml_menu_screen::sfml_menu_screen()
 
 void sfml_menu_screen::exec()
 {
-    while(m_window.isOpen()) {
-        m_window.clear(get_bg_color());
-        sf::Event event;
-        while (m_window.pollEvent(event))
-        {
-            switch (event.type) //!OCLINT too few branches, please fix
-            {
-                case sf::Event::Closed:
-                    m_window.close();
-                    break;
-                default:
-                    break;
-            }
-        }
-//        m_window.draw(m_bg_sprite);
-        m_window.draw(mainMenuScreenText);
-        m_window.display();
+  while(m_window.isOpen())
+  {
+    m_window.clear(get_bg_color());
+    sf::Event event;
+    while (m_window.pollEvent(event))
+    {
+      switch (event.type) //!OCLINT too few branches, please fix
+      {
+        case sf::Event::Closed:
+            m_window.close();
+            break;
+        default:
+            break;
+      }
     }
+    m_window.draw(mainMenuScreenText);
+    m_window.display();
+  }
 }
 
-sf::Color sfml_menu_screen::get_bg_color() {
-  if (r < 200 && rb) {
+sf::Color sfml_menu_screen::get_bg_color() //!OCLINT high ncss method
+{
+  if (r < 200 && rb)
+  {
     r++;
-  } else if (r == 200 && rb) {
+  }
+  else if (r == 200 && rb)
+  {
     rb = false;
   }
-  if (r > 55 && !rb) {
+  if (r > 55 && !rb)
+  {
     r--;
-  } else if (r == 55 && !rb) {
+  }
+  else if (r == 55 && !rb)
+  {
     rb = true;
   }
-
-  if (g < 50 && gb) {
+  if (g < 50 && gb)
+  {
     g++;
-  } else if (g == 50 && gb) {
+  }
+  else if (g == 50 && gb)
+  {
     gb = false;
   }
-  if (g > 0 && !gb) {
+  if (g > 0 && !gb)
+  {
     g--;
-  } else if (g == 0 && !gb) {
+  }
+  else if (g == 0 && !gb)
+  {
     gb = true;
   }
-
-  if (b < 50 && bb) {
+  if (b < 50 && bb)
+  {
     b++;
-  } else if (b == 50 && bb) {
+  }
+  else if (b == 50 && bb)
+  {
     bb = false;
   }
-  if (b > 0 && !bb) {
+  if (b > 0 && !bb)
+  {
     b--;
-  } else if (b == 0 && !bb) {
+  }
+  else if (b == 0 && !bb)
+  {
     bb = true;
   }
-
   return sf::Color(r,g,b);
 }
