@@ -18,9 +18,10 @@ Date|YouTube|MP4
 
 YouTube|MP4
 ---|---
-[here](https://youtu.be/U0-Wv_ek0k8)|[here](http://richelbilderbeek.nl/nature_zen_klassenontwerp_1.ogv)
-[here](https://youtu.be/tCC_Kf_K_48)|[here](http://richelbilderbeek.nl/nature_zen_klassenontwerp_2.ogv)
-[here](https://youtu.be/FJDm7sK5BZY)|[here](http://richelbilderbeek.nl/nature_zen_minimal_sfml_application.ogv)
-[here](https://youtu.be/0KC02eHzVbI)|[here](http://richelbilderbeek.nl/nature_zen_minimal_sfml_dialog_class.ogv)
-
+Class design 1|[here](https://youtu.be/U0-Wv_ek0k8)|[here](http://richelbilderbeek.nl/nature_zen_klassenontwerp_1.ogv)
+Class design 2|[here](https://youtu.be/tCC_Kf_K_48)|[here](http://richelbilderbeek.nl/nature_zen_klassenontwerp_2.ogv)
+Minimal SFML application|[here](https://youtu.be/FJDm7sK5BZY)|[here](http://richelbilderbeek.nl/nature_zen_minimal_sfml_application.ogv)
+Minimal SFML dialog class|[here](https://youtu.be/0KC02eHzVbI)|[here](http://richelbilderbeek.nl/nature_zen_minimal_sfml_dialog_class.ogv)
+`is_prime`|[here](https://youtu.be/lK0ISpaFj3g)|[here](http://richelbilderbeek.nl/cpp_tdd_is_prime.ogv)
+`is_perfect`|[here](https://youtu.be/bufKQ7DhKq4)|[here](http://richelbilderbeek.nl/cpp_tdd_is_perfect.ogv)
 
