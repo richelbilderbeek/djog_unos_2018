@@ -37,10 +37,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   }
   // gras texture
   {
-    QFile f(":/nature_zen/resources/gras.png");
-    f.copy("gras.png");
-    if (!m_gras_texture.loadFromFile("gras.png"))
-      throw std::runtime_error("Cannot find image file 'gras.png'");
+    QFile f(":/nature_zen/resources/grass.png");
+    f.copy("grass.png");
+    if (!m_gras_texture.loadFromFile("grass.png"))
+      throw std::runtime_error("Cannot find image file 'grass.png'");
   }
   // cow texture
   {
