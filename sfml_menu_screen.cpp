@@ -14,7 +14,7 @@ sfml_menu_screen::sfml_menu_screen()
         + mainMenuScreenText.getGlobalBounds().height / 2.0f);
     mainMenuScreenText.setPosition(300, 300);
 
-    m_bg_sprite.setTexture(sfml_resources::get().get_gras_texture());
+    m_bg_sprite.setTexture(sfml_resources::get().get_grass_texture());
     m_bg_sprite.setScale(3,3);
 }
 

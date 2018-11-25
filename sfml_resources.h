@@ -46,7 +46,7 @@ private:
 
   sf::Texture m_crocodile_texture;
 
-  sf::Texture m_gras_texture;
+  sf::Texture m_grass_texture;
 
   sf::Texture m_none_texture;
 
