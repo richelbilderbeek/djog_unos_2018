@@ -167,7 +167,6 @@ private:
 
   /// Draw Text
   Text titleScreenText;
-  Text aboutScreenText;
   // Font
   Font m_font;
 
