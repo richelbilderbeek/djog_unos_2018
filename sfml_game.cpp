@@ -697,64 +697,84 @@ void sfml_game::setup_text()
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
 
-sf::Color get_fill_color(tile_type tile){
-    if(tile == tile_type::grassland){
-        return sf::Color(0, 255, 0);
-    }
-    else if(tile == tile_type::mountains){
-        return sf::Color(120, 120, 120);
-    }
-    else if(tile == tile_type::ocean){
-        return sf::Color(0, 0, 255);
-    }
-    else if(tile == tile_type::savannah){
-        return sf::Color(245, 190, 0);
-    }
-    else if(tile == tile_type::swamp){
-        return sf::Color(130, 100, 15);
-    }
-    else if(tile == tile_type::arctic){
-        return sf::Color(50, 230, 255);
-    }
-    else if(tile == tile_type::desert){
-        return sf::Color(250, 210, 80);
-    }
-    else if(tile == tile_type::woods){
-        return sf::Color(34, 139, 34);
-    }
-    else{
-        return sf::Color(0, 0, 0);
-    }
+sf::Color get_fill_color(tile_type tile)
+{
+  if(tile == tile_type::grassland)
+  {
+    return sf::Color(0, 255, 0);
+  }
+  else if(tile == tile_type::mountains)
+  {
+    return sf::Color(120, 120, 120);
+  }
+  else if(tile == tile_type::ocean)
+  {
+    return sf::Color(0, 0, 255);
+  }
+  else if(tile == tile_type::savannah)
+  {
+    return sf::Color(245, 190, 0);
+  }
+  else if(tile == tile_type::swamp)
+  {
+    return sf::Color(130, 100, 15);
+  }
+  else if(tile == tile_type::arctic)
+  {
+    return sf::Color(50, 230, 255);
+  }
+  else if(tile == tile_type::desert)
+  {
+    return sf::Color(250, 210, 80);
+  }
+  else if(tile == tile_type::woods)
+  {
+    return sf::Color(34, 139, 34);
+  }
+  else //!OCLINT unnecessary else
+  {
+    return sf::Color(0, 0, 0);
+  }
 }
 
-sf::Color get_outline_color(tile_type tile){
-    if(tile == tile_type::grassland){
-        return sf::Color(0, 100, 0);
-    }
-    else if(tile == tile_type::mountains){
-        return sf::Color(50, 50, 50);
-    }
-    else if(tile == tile_type::ocean){
-        return sf::Color(0, 0, 100);
-    }
-    else if(tile == tile_type::savannah){
-        return sf::Color(245, 190, 0);
-    }
-    else if(tile == tile_type::swamp){
-        return sf::Color(100, 80, 15);
-    }
-    else if(tile == tile_type::arctic){
-        return sf::Color(10, 200, 255);
-    }
-    else if(tile == tile_type::desert){
-        return sf::Color(255, 180, 50);
-    }
-    else if(tile == tile_type::woods){
-        return sf::Color(0, 128, 0);
-    }
-    else{
-        return sf::Color(0, 0, 0);
-    }
+sf::Color get_outline_color(tile_type tile)
+{
+  if(tile == tile_type::grassland)
+  {
+    return sf::Color(0, 100, 0);
+  }
+  else if(tile == tile_type::mountains)
+  {
+    return sf::Color(50, 50, 50);
+  }
+  else if(tile == tile_type::ocean)
+  {
+    return sf::Color(0, 0, 100);
+  }
+  else if(tile == tile_type::savannah)
+  {
+    return sf::Color(245, 190, 0);
+  }
+  else if(tile == tile_type::swamp)
+  {
+    return sf::Color(100, 80, 15);
+  }
+  else if(tile == tile_type::arctic)
+  {
+    return sf::Color(10, 200, 255);
+  }
+  else if(tile == tile_type::desert)
+  {
+    return sf::Color(255, 180, 50);
+  }
+  else if(tile == tile_type::woods)
+  {
+    return sf::Color(0, 128, 0);
+  }
+  else //!OCLINT unnecessary else
+  {
+    return sf::Color(0, 0, 0);
+  }
 }
 
 void test_sfml_game() //!OCLINT tests may be long
