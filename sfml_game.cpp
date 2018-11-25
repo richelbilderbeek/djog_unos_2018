@@ -136,7 +136,7 @@ int get_video_mode()
 
 void sfml_game::load_game_state()
 {
-  switch (m_game_state)
+  switch (m_game_state) //!OCLINT too few branches in if-statement, replace by if-else
   {
     case game_state::titlescreen:
       m_window.draw(titleScreenText);
@@ -731,8 +731,8 @@ sf::Color get_fill_color(tile_type tile)
   {
     return sf::Color(34, 139, 34);
   }
-  else //!OCLINT unnecessary else
-  {
+  else
+  { //!OCLINT unnecessary else
     return sf::Color(0, 0, 0);
   }
 }
@@ -771,8 +771,8 @@ sf::Color get_outline_color(tile_type tile)
   {
     return sf::Color(0, 128, 0);
   }
-  else //!OCLINT unnecessary else
-  {
+  else
+  { //!OCLINT unnecessary else
     return sf::Color(0, 0, 0);
   }
 }
