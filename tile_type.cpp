@@ -26,7 +26,6 @@ std::vector<tile_type> collect_all_tile_types() noexcept
   };
 }
 
-
 tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
 {
   if (type1 == tile_type::grassland && type2 == tile_type::grassland)
@@ -86,8 +85,6 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::arctic);
   v.push_back(tile_type::desert);
   v.push_back(tile_type::swamp);
-  v.push_back(tile_type::woods);
-
   return v;
   //make function to get all types, stupid way!
 }
@@ -123,6 +120,8 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
     default:
       assert(t == tile_type::none);
       return "none";
+
+
   }
 
 }

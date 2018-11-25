@@ -14,8 +14,8 @@ sfml_menu_screen::sfml_menu_screen()
         + mainMenuScreenText.getGlobalBounds().height / 2.0f);
     mainMenuScreenText.setPosition(300, 300);
 
-//    m_bg_sprite.setTexture(sfml_resources::get().get_gras_texture());
-//    m_bg_sprite.setScale(3,3);
+    m_bg_sprite.setTexture(sfml_resources::get().get_gras_texture());
+    m_bg_sprite.setScale(3,3);
 }
 
 void sfml_menu_screen::exec()
@@ -35,7 +35,9 @@ void sfml_menu_screen::exec()
             break;
       }
     }
-    m_window.draw(mainMenuScreenText);
+    m_window.clear();
+    m_window.draw(m_bg_sprite);
+    m_window.draw(m_main_text);
     m_window.display();
   }
 }

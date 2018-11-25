@@ -19,6 +19,7 @@ private:
     bool gb = false;
     int b = 3;
     bool bb = true;
+    sf::Text m_main_text;
 };
 
 #endif // SFML_MENU_SCREEN_H

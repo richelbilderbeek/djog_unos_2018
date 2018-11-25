@@ -61,7 +61,6 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     }
     sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
-  /////sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
 
   sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   text.setPosition(m_window.getSize().x - 80, 10);
@@ -711,6 +710,66 @@ void sfml_game::setup_text()
   aboutScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
 
+sf::Color get_fill_color(tile_type tile){
+    if(tile == tile_type::grassland){
+        return sf::Color(0, 255, 0);
+    }
+    else if(tile == tile_type::mountains){
+        return sf::Color(120, 120, 120);
+    }
+    else if(tile == tile_type::ocean){
+        return sf::Color(0, 0, 255);
+    }
+    else if(tile == tile_type::savannah){
+        return sf::Color(245, 190, 0);
+    }
+    else if(tile == tile_type::swamp){
+        return sf::Color(130, 100, 15);
+    }
+    else if(tile == tile_type::arctic){
+        return sf::Color(50, 230, 255);
+    }
+    else if(tile == tile_type::desert){
+        return sf::Color(250, 210, 80);
+    }
+    else if(tile == tile_type::woods){
+        return sf::Color(34, 139, 34);
+    }
+    else{
+        return sf::Color(0, 0, 0);
+    }
+}
+
+sf::Color get_outline_color(tile_type tile){
+    if(tile == tile_type::grassland){
+        return sf::Color(0, 100, 0);
+    }
+    else if(tile == tile_type::mountains){
+        return sf::Color(50, 50, 50);
+    }
+    else if(tile == tile_type::ocean){
+        return sf::Color(0, 0, 100);
+    }
+    else if(tile == tile_type::savannah){
+        return sf::Color(245, 190, 0);
+    }
+    else if(tile == tile_type::swamp){
+        return sf::Color(100, 80, 15);
+    }
+    else if(tile == tile_type::arctic){
+        return sf::Color(10, 200, 255);
+    }
+    else if(tile == tile_type::desert){
+        return sf::Color(255, 180, 50);
+    }
+    else if(tile == tile_type::woods){
+        return sf::Color(0, 128, 0);
+    }
+    else{
+        return sf::Color(0, 0, 0);
+    }
+}
+
 void test_sfml_game() //!OCLINT tests may be long
 {
   {
@@ -721,8 +780,6 @@ void test_sfml_game() //!OCLINT tests may be long
       g.change_game_state();
     }
   }
-  //#define FIX_ISSUE_221
-  #ifdef FIX_ISSUE_221
   {
     //Get the fill color of a tile type
     assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
@@ -734,9 +791,6 @@ void test_sfml_game() //!OCLINT tests may be long
     assert(get_fill_color(tile_type::desert) == sf::Color(250, 210, 80));
     assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));
   }
-  #endif // FIX_ISSUE_221
-  //#define FIX_ISSUE_222
-  #ifdef FIX_ISSUE_222
   {
     //Get the outline/border color of a tile tipe
     assert(get_outline_color(tile_type::grassland) == sf::Color(0, 100, 0));
@@ -748,5 +802,4 @@ void test_sfml_game() //!OCLINT tests may be long
     assert(get_outline_color(tile_type::desert) == sf::Color(255, 180, 50));
     assert(get_outline_color(tile_type::woods) == sf::Color(0, 128, 0));
   }
-  #endif // FIX_ISSUE_222
 }

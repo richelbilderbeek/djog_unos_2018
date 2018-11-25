@@ -25,7 +25,11 @@ FR|Rafayel|`RafayelGardishyan`|Dev (medior), `git`
 FR|Rob|`robkruger`|Dev (junior)
 FR|Same|`same-drenth`|Dev (junior), UX
 FR|Tom|`?`|Dev (junior)
+<<<<<<< HEAD
 FR|Fauve| `Fauve`|Dev (junior)
+=======
+
+>>>>>>> rob
 Role|Description
 ---|---
 CI|Maintain the Continuous Integration pipelines 

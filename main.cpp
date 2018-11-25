@@ -83,7 +83,6 @@ int main(int argc, char **argv)
   {
     g.stop_music();
   }
-
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR

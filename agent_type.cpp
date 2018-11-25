@@ -1,5 +1,4 @@
 #include "agent_type.h"
-#include "string"
 #include <algorithm>
 #include <cassert>
 #include <string>
@@ -50,6 +49,24 @@ void test_agent_type() //!OCLINT testing functions may be long
       assert(t == u);
     }
     #endif // FIX_ISSUE_188
+  }
+  {
+    //#define FIX_ISSUE_224
+    #ifdef FIX_ISSUE_224
+    static_assert(agent_type::cow != agent_type::bacterium, "bacterium must exist");
+    #endif
+  }
+  //Collect all agent_types
+  {
+    //#define FIX_ISSUE_204
+    #ifdef FIX_ISSUE_204
+    const std::vector<agent_type> v = collect_all_agent_types();
+    assert(std::count(std::begin(v), std::end(v), agent_type::cow) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
+    #endif
   }
 }
 
