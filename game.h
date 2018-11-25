@@ -48,6 +48,9 @@ private:
 /// Collect all the tiles' types in the game
 std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 
+/// Collect all agents
+std::vector<agent> collect_all_agents(const game& g) noexcept;
+
 /// Count the number of tiles a game has
 int count_n_tiles(const game& g) noexcept;
 

@@ -65,6 +65,8 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
   }
   {
     tile t(0, 2, 4, 2, 1, tile_type::ocean, new_id());
+    agent a(agent_type::fish);
+    t.add_agent(a);
     tiles.push_back(t);
   }
   {
@@ -101,8 +103,6 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
   }
   {
     tile t(0, 0, 5, 2, 1, tile_type::arctic, new_id());
-    agent a(agent_type::fish);
-    t.add_agent(a);
     tiles.push_back(t);
   }
   {

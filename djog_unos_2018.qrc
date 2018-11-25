@@ -11,5 +11,7 @@
         <file>resources/crocodile.png</file>
         <file>resources/zen_font.ttf</file>
         <file>resources/title_screen_background.jpg</file>
+        <file>resources/none_agent.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>
