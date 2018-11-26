@@ -723,9 +723,42 @@ void test_sfml_game() //!OCLINT tests may be long
     }
   }
   //#define FIX_ISSUE_221
-  #ifdef FIX_ISSUE_221
+
+   return sf::Color(0, 0, 0);
+}
   {
-    //Get the fill color of a tile type
+        int sf::Color get_fill_color(tile_type title) {
+            if == (tile_type::grassland){
+                return sf::Color(0, 255, 0) ;
+        }
+            else if(tile_type::mountains){
+                return sf::Color(120, 120, 120);
+            }
+                else if(tile_type::ocean){
+                    return sf::Color(0, 0, 255);
+            }
+                else if(tile_type:savannah){
+                                return sf::Color(245, 190, 0);
+            }
+                else if(tile_type::swamp){
+                return sf::Color(130, 100, 15);
+            }
+               else if(tile_type::arctic){
+               return sf::Color(50, 230, 255);
+            }
+               else if(tile_type::desert){
+               return sf::Color(250, 210, 80);
+            }
+              else if(tile_type::woods){
+              return sf::Color(34, 139, 34);
+            }
+            else{
+                return::Color(0, 0, 0);
+            }
+
+            }
+        void test_sfml_game()
+
     assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
     assert(get_fill_color(tile_type::mountains) == sf::Color(120, 120, 120));
     assert(get_fill_color(tile_type::ocean) == sf::Color(0, 0, 255));
@@ -733,9 +766,9 @@ void test_sfml_game() //!OCLINT tests may be long
     assert(get_fill_color(tile_type::swamp) == sf::Color(130, 100, 15));
     assert(get_fill_color(tile_type::arctic) == sf::Color(50, 230, 255));
     assert(get_fill_color(tile_type::desert) == sf::Color(250, 210, 80));
-    assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));
-  }
-  #endif // FIX_ISSUE_221
+    assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));}
+
+
   //#define FIX_ISSUE_222
   #ifdef FIX_ISSUE_222
   {
@@ -748,6 +781,6 @@ void test_sfml_game() //!OCLINT tests may be long
     assert(get_outline_color(tile_type::arctic) == sf::Color(10, 200, 255));
     assert(get_outline_color(tile_type::desert) == sf::Color(255, 180, 50));
     assert(get_outline_color(tile_type::woods) == sf::Color(0, 128, 0));
+    return (0, 0, 0);
   }
   #endif // FIX_ISSUE_222
-}
