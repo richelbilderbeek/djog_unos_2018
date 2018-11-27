@@ -6,16 +6,13 @@ sfml_menu_screen::sfml_menu_screen()
     : m_window{sf::VideoMode(600, 600), "Nature Zen - Menu"},
       m_font{ sfml_resources::get().get_default_font() }
 {
-    mainMenuScreenText.setFont(m_font);
-    mainMenuScreenText.setString("MAIN MENU");
-    mainMenuScreenText.setOrigin(mainMenuScreenText.getGlobalBounds().left
-        + mainMenuScreenText.getGlobalBounds().width / 2.0f,
-      mainMenuScreenText.getGlobalBounds().top
-        + mainMenuScreenText.getGlobalBounds().height / 2.0f);
-    mainMenuScreenText.setPosition(300, 300);
-
-    m_bg_sprite.setTexture(sfml_resources::get().get_grass_texture());
-    m_bg_sprite.setScale(3,3);
+    m_main_text.setFont(m_font);
+    m_main_text.setString("MAIN MENU");
+    m_main_text.setOrigin(m_main_text.getGlobalBounds().left
+        + m_main_text.getGlobalBounds().width / 2.0f,
+      m_main_text.getGlobalBounds().top
+        + m_main_text.getGlobalBounds().height / 2.0f);
+    m_main_text.setPosition(300, 300);
 }
 
 void sfml_menu_screen::exec()
@@ -35,8 +32,6 @@ void sfml_menu_screen::exec()
             break;
       }
     }
-    m_window.clear();
-    m_window.draw(m_bg_sprite);
     m_window.draw(m_main_text);
     m_window.display();
   }
@@ -44,6 +39,13 @@ void sfml_menu_screen::exec()
 
 sf::Color sfml_menu_screen::get_bg_color() //!OCLINT high ncss method
 {
+  process_red();
+  process_green();
+  process_blue();
+  return sf::Color(r,g,b);
+}
+
+void sfml_menu_screen::process_red() {
   if (r < 200 && rb)
   {
     r++;
@@ -60,6 +62,9 @@ sf::Color sfml_menu_screen::get_bg_color() //!OCLINT high ncss method
   {
     rb = true;
   }
+}
+
+void sfml_menu_screen::process_green() {
   if (g < 50 && gb)
   {
     g++;
@@ -76,6 +81,9 @@ sf::Color sfml_menu_screen::get_bg_color() //!OCLINT high ncss method
   {
     gb = true;
   }
+}
+
+void sfml_menu_screen::process_blue() {
   if (b < 50 && bb)
   {
     b++;
@@ -92,5 +100,4 @@ sf::Color sfml_menu_screen::get_bg_color() //!OCLINT high ncss method
   {
     bb = true;
   }
-  return sf::Color(r,g,b);
 }

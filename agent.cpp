@@ -80,7 +80,6 @@ void test_agent() //!OCLINT testing functions may be long
     for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
-
   // A fish moves
   {
     const double x{12.34};

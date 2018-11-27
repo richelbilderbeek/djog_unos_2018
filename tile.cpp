@@ -45,68 +45,33 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
 {
   std::vector<tile> tiles;
   {
-    tile t(2, 2, 3, 1, 2, tile_type::mountains, new_id());
-    agent a(agent_type::cow);
-    t.add_agent(a);
+    tile t(0, 0, 0, 1, 2, tile_type::grassland, new_id());
+    agent a1(agent_type::cow);
+    t.add_agent(a1);
+    agent a2(agent_type::cow, 40, 70);
+    t.add_agent(a2);
+    agent a3(agent_type::grass, 70, 40);
+    t.add_agent(a3);
     tiles.push_back(t);
   }
   {
-    tile t(0, 3, 2, 2, 1, tile_type::grassland, new_id());
-    agent a(agent_type::cow);
-    t.add_agent(a);
-    tiles.push_back(t);
-  }
-
-  {
-    tile t(0, 4, 2, 2, 1, tile_type::grassland, new_id());
-    agent a(agent_type::cow);
-    t.add_agent(a);
+    tile t(1, 0, 1, 1, 2, tile_type::grassland, new_id());
+    agent a1(agent_type::cow);
+    t.add_agent(a1);
+    agent a2(agent_type::cow, 90, 30);
+    t.add_agent(a2);
+    agent a3(agent_type::cow, 30, 90);
+    t.add_agent(a3);
     tiles.push_back(t);
   }
   {
-    tile t(0, 2, 4, 2, 1, tile_type::ocean, new_id());
-    agent a(agent_type::fish);
-    t.add_agent(a);
+    tile t(0, 2, 2, 1, 2, tile_type::desert, new_id());
+    agent a1(agent_type::crocodile, 30, 160);
+    t.add_agent(a1);
     tiles.push_back(t);
   }
   {
-    tile t(0, 3, 2, 2, 1, tile_type::grassland, new_id());
-    agent a(agent_type::cow);
-    t.add_agent(a);
-    tiles.push_back(t);
-  }
-  {
-    tile t(0, 0, 5, 2, 1, tile_type::arctic, new_id());
-    agent a(agent_type::fish);
-    t.add_agent(a);
-    tiles.push_back(t);
-  }
-  {
-    tile t(0, 4, 2, 2, 1, tile_type::grassland, new_id());
-    agent a(agent_type::cow);
-    t.add_agent(a);
-    tiles.push_back(t);
-  }
-  {
-    tile t(2, 0, 6, 2, 1, tile_type::savannah, new_id());
-    tiles.push_back(t);
-  }
-  {
-    tile t(4, 0, 7, 1, 2, tile_type::desert, new_id());
-    agent a(agent_type::grass);
-    t.add_agent(a);
-    tiles.push_back(t);
-  }
-  {
-    tile t(0, 2, 4, 2, 1, tile_type::ocean, new_id());
-    tiles.push_back(t);
-  }
-  {
-    tile t(0, 0, 5, 2, 1, tile_type::arctic, new_id());
-    tiles.push_back(t);
-  }
-  {
-    tile t(3, 1, 8, 1, 2, tile_type::swamp, new_id());
+    tile t(2, 1, 3, 2, 1, tile_type::swamp, new_id());
     agent a1(agent_type::crocodile);
     t.add_agent(a1);
     agent a2(agent_type::grass);
@@ -114,25 +79,29 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tiles.push_back(t);
   }
   {
-    tile t(2, 0, 6, 2, 1, tile_type::savannah, new_id());
+    tile t(1, 2, 4, 2, 1, tile_type::mountains, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 0, 7, 1, 2, tile_type::desert, new_id());
-    agent a(agent_type::grass);
-    t.add_agent(a);
+    tile t(4, 1, 5, 2, 1, tile_type::arctic, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(3, 1, 8, 1, 2, tile_type::swamp, new_id());
-    agent a1(agent_type::crocodile);
+    tile t(3, 2, 6, 1, 2, tile_type::ocean, new_id());
+    agent a1(agent_type::fish);
     t.add_agent(a1);
-    agent a2(agent_type::grass);
+    agent a2(agent_type::fish, 10, 10);
     t.add_agent(a2);
     tiles.push_back(t);
   }
   {
-    tile t(5, 1, 8, 1, 2, tile_type::woods, new_id());
+    tile t(1, -1, 7, 2, 1, tile_type::savannah, new_id());
+    agent a1(agent_type::grass);
+    t.add_agent(a1);
+    tiles.push_back(t);
+  }
+  {
+    tile t(4, -1, 8, 1, 2, tile_type::woods, new_id());
     tiles.push_back(t);
   }
   return tiles;

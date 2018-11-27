@@ -21,8 +21,6 @@ public:
 
   sf::Font& get_title_font() noexcept { return m_title_font; }
 
-  sf::Texture& get_grass_texture() noexcept { return m_grass_texture; }
-
   sf::Texture &get_background_image() noexcept { return m_background_image; }
 
   sf::Texture &get_agent_sprite(const agent& a) noexcept;

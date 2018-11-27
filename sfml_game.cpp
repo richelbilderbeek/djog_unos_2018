@@ -444,34 +444,18 @@ void sfml_game::switch_collide(tile& t, int direction)
   {
     confirm_tile_move(t, direction);
   }
-    if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
+  if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
-      {
-        confirm_tile_move(t, direction);
-        sf::Vector2f b = get_direction_pos(direction, t, 115);
-        if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
-        {
-          t.set_dx(t.get_dx() * 2);
-          t.set_dy(t.get_dy() * 2);
-        }
-//    tile& collide_tile = getTileById(get_collision_id(v.x, v.y));
-//    {
-//      tile new_t(collide_tile.get_x(),
-//        collide_tile.get_y(),
-//        collide_tile.get_z(),
-//        collide_tile.get_width(),
-//        collide_tile.get_height(),
-//        get_merge_type(t.get_type(), collide_tile.get_type()),
-//        new_id());
-//      added_tiles.push_back(new_t);
-//    }
-//    deleted_tiles.push_back(t);
-//    deleted_tiles.push_back(collide_tile);
-//    m_game.add_tiles(added_tiles);
-//    // TODO delete old tiles
-//    // m_game.delete_tiles(deleted_tiles);
+  {
+    confirm_tile_move(t, direction);
+    sf::Vector2f b = get_direction_pos(direction, t, 115);
+    if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
+    {
+      t.set_dx(t.get_dx() * 2);
+      t.set_dy(t.get_dy() * 2);
+    }
   }
 }
 
@@ -681,7 +665,7 @@ void sfml_game::setup_text()
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
 
-sf::Color get_fill_color(tile_type tile)
+sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
 {
   if(tile == tile_type::grassland)
   {
@@ -721,7 +705,7 @@ sf::Color get_fill_color(tile_type tile)
   }
 }
 
-sf::Color get_outline_color(tile_type tile)
+sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
 {
   if(tile == tile_type::grassland)
   {
