@@ -39,7 +39,7 @@ void test_tile_type()
     assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::mountains);
     assert(get_merge_type(tile_type::grassland, tile_type::desert) == tile_type::savannah);
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
-    //TODO: after Issue #187: test more combinationss
+    //TODO: after Issue #187: test more combinations
   }
   {
     //Uncomment if you want to run this test
@@ -68,7 +68,6 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::desert);
   v.push_back(tile_type::swamp);
   return v;
-  //make function to get all types, stupid way!
 }
 
 std::string to_str(tile_type t) //!OCLINT cannot be simpler

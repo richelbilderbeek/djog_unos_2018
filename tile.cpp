@@ -4,6 +4,7 @@
 #include "tile_type.h"
 #include "agent_type.h"
 #include "sfml_game.h"
+#include "game.h"
 
 #include <cassert>
 #include <iostream>
@@ -41,41 +42,27 @@ tile::tile(const double x, const double y, const double z, double const width,
 //  }
 }
 
+
+
+
+
 std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function that is too long
 {
   std::vector<tile> tiles;
   {
     tile t(0, 0, 0, 1, 2, tile_type::grassland, new_id());
-    agent a1(agent_type::cow);
-    t.add_agent(a1);
-    agent a2(agent_type::cow, 40, 70);
-    t.add_agent(a2);
-    agent a3(agent_type::grass, 70, 40);
-    t.add_agent(a3);
     tiles.push_back(t);
   }
   {
     tile t(1, 0, 1, 1, 2, tile_type::grassland, new_id());
-    agent a1(agent_type::cow);
-    t.add_agent(a1);
-    agent a2(agent_type::cow, 90, 30);
-    t.add_agent(a2);
-    agent a3(agent_type::cow, 30, 90);
-    t.add_agent(a3);
     tiles.push_back(t);
   }
   {
     tile t(0, 2, 2, 1, 2, tile_type::desert, new_id());
-    agent a1(agent_type::crocodile, 30, 160);
-    t.add_agent(a1);
     tiles.push_back(t);
   }
   {
     tile t(2, 1, 3, 2, 1, tile_type::swamp, new_id());
-    agent a1(agent_type::crocodile);
-    t.add_agent(a1);
-    agent a2(agent_type::grass);
-    t.add_agent(a2);
     tiles.push_back(t);
   }
   {
@@ -88,16 +75,10 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
   }
   {
     tile t(3, 2, 6, 1, 2, tile_type::ocean, new_id());
-    agent a1(agent_type::fish);
-    t.add_agent(a1);
-    agent a2(agent_type::fish, 10, 10);
-    t.add_agent(a2);
     tiles.push_back(t);
   }
   {
     tile t(1, -1, 7, 2, 1, tile_type::savannah, new_id());
-    agent a1(agent_type::grass);
-    t.add_agent(a1);
     tiles.push_back(t);
   }
   {
@@ -126,9 +107,7 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 
 void tile::process_events()
 {
-  for (auto& a: m_agents) {
-    a.move();
-  }
+
 }
 
 void tile::set_dx(double dx) {
@@ -164,12 +143,13 @@ std::ostream& operator<<(std::ostream& os, const tile& t)
   os << t.m_x << ' ' << t.m_y << ' '
      << t.m_height << ' ' << t.m_width << ' '
      << t.m_locked << ' ' << t.m_type << ' '
-     << t.m_dx << ' ' << t.m_dy << ' '
-     << t.m_agents.size();
-
-  for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){
-      os << ' ' << t.m_agents[i];
-  }
+     << t.m_dx << ' ' << t.m_dy << ' ';
+// WARNING agents have been moved to 'game', commented everything affected by the move
+//   << t.m_agents.size();
+//
+//  for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){
+//      os << ' ' << t.m_agents[i];
+//  }
 
   os << ' ';
 
@@ -190,16 +170,16 @@ std::istream& operator>>(std::istream& is, tile& t)
   {
     agent a(agent_type::none, 0, 0);
     is >> a;
-    t.m_agents.emplace_back(
-      a
-    );
+//    t.m_agents.emplace_back(
+//      a
+//    );
   }
   return is;
 }
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept{
-    if (!(lhs.m_agents == rhs.m_agents))
-        return false;
+//    if (!(lhs.m_agents == rhs.m_agents))
+//        return false;
     if (!(lhs.m_dx == rhs.m_dx))
         return false;
     if (!(lhs.m_dy == rhs.m_dy))
@@ -215,8 +195,6 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept{
 
     return true;
 }
-
-void tile::add_agent(agent a) { m_agents.push_back(a); }
 
 void tile::set_id(int id) { m_id = id; }
 

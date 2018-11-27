@@ -7,8 +7,10 @@
 #include <cstdio>
 #include <QFile>
 
-game::game(const std::vector<tile>& tiles)
+game::game(const std::vector<tile>& tiles,
+           const std::vector<agent>& agents)
   : m_tiles{tiles},
+    m_agents{agents},
     m_score{0}
 {
 
@@ -20,21 +22,6 @@ void game::add_tiles(std::vector<tile> ts)
   {
     m_tiles.push_back(t);
   }
-}
-
-std::vector<tile_type> collect_tile_types(const game& g) noexcept
-{
-  std::vector<tile_type> types;
-  for (const tile& t: g.get_tiles())
-  {
-    types.push_back(t.get_type());
-  }
-  return types;
-}
-
-int count_n_tiles(const game& g) noexcept
-{
-  return g.get_tiles().size();
 }
 
 void game::delete_tiles(std::vector<tile> ts)
@@ -54,11 +41,46 @@ void game::delete_tiles(std::vector<tile> ts)
   }
 }
 
+void game::add_agents(std::vector<agent> as)
+{
+  for (agent& a : as)
+  {
+    m_agents.push_back(a);
+  }
+}
+
+std::vector<tile_type> collect_tile_types(const game& g) noexcept
+{
+  std::vector<tile_type> types;
+  for (const tile& t: g.get_tiles())
+  {
+    types.push_back(t.get_type());
+  }
+  return types;
+}
+
+int count_n_tiles(const game& g) noexcept
+{
+  return g.get_tiles().size();
+}
+
 void game::process_events()
 {
-  //Merge tiles
-  //(I use indices here, so it is more beginner-friendly)
-  //(one day, we'll use iterators)
+  for (auto& a: m_agents) {
+    a.move();
+  }
+  merge_tiles();
+  //Process the events happening on the tiles
+  for (auto& tile: m_tiles)
+  {
+    tile.process_events();
+  }
+  ++m_n_tick;
+}
+
+void game::merge_tiles() {
+  // I use indices here, so it is more beginner-friendly
+  // one day, we'll use iterators
   bool done = false;
   while (!done)
   {
@@ -97,13 +119,6 @@ void game::process_events()
       }
     }
   }
-
-  //Process the events happening on the tiles
-  for (auto& tile: m_tiles)
-  {
-    tile.process_events();
-  }
-  ++m_n_tick;
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -185,24 +200,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
   }
-  #define FIX_ISSUE_218
-  #ifdef FIX_ISSUE_218
-  {
-    const game g;
-    const std::vector<agent> agents = collect_all_agents(g);
-    assert(!agents.empty());
-  }
-  #endif
-}
-
-std::vector<agent> collect_all_agents(const game& g) noexcept {
-  std::vector<agent> agents;
-  for (tile t : g.get_tiles()) {
-    for (agent a : t.get_agents()) {
-      agents.push_back(a);
-    }
-  }
-  return agents;
+  // TODO write a similar test as the one above for agents
 }
 
 game load(const std::string &filename) {

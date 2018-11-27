@@ -59,6 +59,11 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     {
       sfml_game::display_tile(t);
     }
+    // Display all agents
+    for (const agent& a : m_game.get_agents())
+    {
+      sfml_game::display_agent(a);
+    }
     sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
 
@@ -87,20 +92,16 @@ void sfml_game::display_tile(const tile &t){
     sfml_tile.setPosition(screen_x, screen_y);
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
-    // Draw agents
-    for (const agent& a : t.get_agents())
-    {
-      sfml_game::display_agent(a, screen_x, screen_y);
-    }
 }
 
-void sfml_game::display_agent(const agent &a, double screen_x, double screen_y){
+void sfml_game::display_agent(const agent &a){
+    const double screen_x{ a.get_x() - m_camera.x };
+    const double screen_y{ a.get_y() - m_camera.y };
     sf::Sprite sprite;
     set_agent_sprite(a, sprite);
     assert(sprite.getTexture());
     sprite.setScale(0.2f, 0.2f);
-    sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
-        screen_y + static_cast<float>(a.get_y()));
+    sprite.setPosition(screen_x, screen_y);
    m_window.draw(sprite);
 }
 
