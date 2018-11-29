@@ -1,6 +1,7 @@
 #include "agent.h"
 #include "agent_type.h"
 #include "game.h"
+#include "sfml_title_screen.h"
 #include "sfml_about_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
@@ -9,17 +10,6 @@
 #include <QFile>
 #include <SFML/Graphics.hpp>
 #include <cassert>
-
-/// All tests are called from here, only in debug mode
-void test() {
-  test_resources();
-  test_game();
-  test_sfml_game_delegate();
-  test_tile_type();
-  test_tile();
-  test_agent();
-  test_agent_type();
-}
 
 /// Nature Zen
 /// @param argc the number of arguments Nature Zen's executable is called
@@ -31,7 +21,30 @@ void test() {
 ///   * '--about': access about screen
 /// @param argv the arguments (as words) Nature Zen's executable is called
 ///   with by the operating system
-int main(int argc, char **argv) //!OCLINT too long, but accepted for now
+
+
+/// All tests are called from here, only in debug mode
+void test() {
+  test_sfml_resources();
+  test_game();
+  test_sfml_game();
+  test_sfml_game_delegate();
+  test_tile_type();
+  test_tile();
+  test_agent();
+  test_agent_type();
+}
+int show_sfml_menu_screen() {
+    sfml_menu_screen ms;
+    ms.exec();
+    return 0;
+}
+int show_sfml_about_screen() {
+    sfml_about_screen as;
+    as.exec();
+    return 0;
+}
+int main(int argc, char **argv)
 {
 #ifndef NDEBUG
   test();
@@ -41,6 +54,21 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
 #endif
 
   const std::vector<std::string> args(argv, argv + argc);
+
+  if (std::count(std::begin(args), std::end(args), "--title"))
+  {
+    sfml_title_screen ts;
+    ts.exec();
+    return 0;
+  }
+  if (std::count(std::begin(args), std::end(args), "--menu"))
+  {
+    return show_sfml_menu_screen();
+  }
+  if (std::count(std::begin(args), std::end(args), "--about"))
+  {
+    return show_sfml_about_screen();
+  }
 
   int close_at{-1};
 
@@ -55,26 +83,6 @@ int main(int argc, char **argv) //!OCLINT too long, but accepted for now
   {
     g.stop_music();
   }
-  if (std::count(std::begin(args), std::end(args), "--menu"))
-  {
-    sfml_menu_screen ms;
-    ms.exec();
-    return 0;
-  }
-  if (std::count(std::begin(args), std::end(args), "--about"))
-  {
-    sfml_about_screen as;
-    as.exec();
-    return 0;
-  }
-  //#define FIX_ISSUE_206
-  #ifdef FIX_ISSUE_206
-  if (std::count(std::begin(args), std::end(args), "--title")) {
-    sfml_title_screen g;
-    g.exec();
-    return 0;
-  }
-  #endif // FIX_ISSUE_206
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR

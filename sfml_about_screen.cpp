@@ -9,12 +9,6 @@ sfml_about_screen::sfml_about_screen(const int window_width, const int window_he
                                 static_cast<unsigned int>(window_height)),
                   "About") {
   // Haha done everything already :-)
-  // Re-create font
-  {
-    QFile f(":/nature_zen/resources/OpenSans.ttf");
-    f.copy("OpenSans.ttf");
-    assert(QFile::exists("OpenSans.ttf"));
-  }
 }
 
 void sfml_about_screen::close()
@@ -44,6 +38,7 @@ void sfml_about_screen::exec()
     #if(SFML_VERSION_MINOR > 1)
     sfml_about_screen::abouttext.setFillColor(sf::Color::Red);
     #else
+    //Only relevant for Travis
     sfml_about_screen::abouttext.setColor(sf::Color::Red);
     #endif
     aboutwindow.draw(sfml_about_screen::abouttext);

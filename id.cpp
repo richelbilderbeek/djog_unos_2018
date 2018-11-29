@@ -1,8 +1,15 @@
 #include "id.h"
+#include <cassert>
+
+static int old_id = 0;
 
 int new_id() noexcept
 {
-  static int old_id = 0; //!OCLINT accepted idiom to use static here
   ++old_id;
+  return old_id;
+}
+
+int get_old_id() noexcept
+{
   return old_id;
 }

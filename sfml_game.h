@@ -11,11 +11,13 @@
 #include "game.h"
 #include "sfml_game_delegate.h"
 #include "game_state.h"
+#include "sfml_camera.h"
 
 using namespace sf;
 
 //TODO: decrease the number of member functions and member variables
-class sfml_game { //!OCLINT indeed to big, will need to simplify
+class sfml_game //!OCLINT indeed to big, will need to simplify
+{
 
 public:
   /// Constructor
@@ -58,12 +60,12 @@ public:
 
   int m_timer = 0;
 
-  tile &getTileById(std::vector<int> tile_id);
+  tile &getTileById(const std::vector<int> &tile_id);
 
   void tile_movement(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
 
-  double tile_speed = 1; // 115/tile_speed must be a whole number!
+  double m_tile_speed = 1; // 115/tile_speed must be a whole number!
 
   void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
   void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);
@@ -72,7 +74,7 @@ public:
   void setup_text();
 
   bool check_collision(double x, double y);
-  std::vector<int> get_collision_id(double x, double y);
+  std::vector<int> get_collision_id(double x, double y) const;
 
   /// Check if the tile will colide with another tile if it moves in given
   /// direction
@@ -105,7 +107,13 @@ public:
 
   void confirm_tile_move(tile& t, int direction);
 
+  void set_agent_sprite(const agent& a, sf::Sprite& sprite);
+
 private:
+  // Functions to display tiles and agents on the screen
+  void display_tile(const tile& t);
+  void display_agent(const agent& a);
+
   /// Background music file object
   sf::Music &m_background_music;
 
@@ -116,17 +124,6 @@ private:
 
   /// Sate of Game
   game_state m_game_state = game_state::playing;
-
-  /// The selected tile
-  std::vector<int> m_selected;
-
-  /// Camera position in the x direction
-  /// If positive, camera is moved right of the origin
-  double m_camera_x{-100.0};
-
-  /// Camera position in the y direction
-  /// If positive, camera is moved down of the origin
-  double m_camera_y{-100.0};
 
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
@@ -143,9 +140,6 @@ private:
 
   /// Display all shapes on the window
   void display();
-
-  /// Moves the camera
-  void move_camera(sf::Vector2f offset);
 
   ///Process an SFML event
   void process_event(const sf::Event& event);
@@ -173,19 +167,16 @@ private:
 
   /// Draw Text
   Text titleScreenText;
-  Text aboutScreenText;
   // Font
   Font m_font;
 
-  bool movecam_r = false;
-  bool movecam_l = false;
-  bool movecam_u = false;
-  bool movecam_d = false;
-
   bool m_is_space_pressed = false;
+
+  sfml_camera m_camera;
 };
 
-void test_sfml_game(sfml_game g);
+///Test the sfml_game class
+void test_sfml_game();
 
 int vectortoint(std::vector<int> v);
 

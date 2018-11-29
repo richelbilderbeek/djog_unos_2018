@@ -4,6 +4,7 @@
 #include "tile_type.h"
 #include "agent_type.h"
 #include "sfml_game.h"
+#include "game.h"
 
 #include <cassert>
 #include <iostream>
@@ -33,62 +34,55 @@ tile::tile(const double x, const double y, const double z, double const width,
   assert(m_width > 0.0);
   assert(m_height > 0.0);
 
-  if (m_type == tile_type::ocean)
-  {
-    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
-  } else {
-    m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
-  }
+//  if (m_type == tile_type::ocean)
+//  {
+//    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
+//  } else {
+//    m_agents.emplace_back(agent(agent_type::cow, width / 2.0, height / 2.0));
+//  }
 }
+
+
+
+
 
 std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function that is too long
 {
   std::vector<tile> tiles;
   {
-    tile t(2, 2, 3, 1, 2, tile_type::mountains, new_id());
-    agent a(agent_type::cow);
-    t.add_agent(a);
+    tile t(0, 0, 0, 1, 2, tile_type::grassland, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(0, 3, 2, 2, 1, tile_type::grassland, new_id());
-    agent a(agent_type::cow);
-    t.add_agent(a);
-    tiles.push_back(t);
-  }
-
-  {
-    tile t(0, 4, 2, 2, 1, tile_type::grassland, new_id());
-    agent a(agent_type::cow);
-    t.add_agent(a);
+    tile t(1, 0, 1, 1, 2, tile_type::grassland, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(0, 2, 4, 2, 1, tile_type::ocean, new_id());
+    tile t(0, 2, 2, 1, 2, tile_type::desert, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(0, 0, 5, 2, 1, tile_type::arctic, new_id());
-    agent a(agent_type::fish);
-    t.add_agent(a);
+    tile t(2, 1, 3, 2, 1, tile_type::swamp, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(2, 0, 6, 2, 1, tile_type::savannah, new_id());
+    tile t(1, 2, 4, 2, 1, tile_type::mountains, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 0, 7, 1, 2, tile_type::desert, new_id());
-    agent a(agent_type::grass);
-    t.add_agent(a);
+    tile t(4, 1, 5, 2, 1, tile_type::arctic, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(3, 1, 8, 1, 2, tile_type::swamp, new_id());
+    tile t(3, 2, 6, 1, 2, tile_type::ocean, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(5, 1, 8, 1, 2, tile_type::woods, new_id());
+    tile t(1, -1, 7, 2, 1, tile_type::savannah, new_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(4, -1, 8, 1, 2, tile_type::woods, new_id());
     tiles.push_back(t);
   }
   return tiles;
@@ -113,9 +107,7 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 
 void tile::process_events()
 {
-  for (auto& a: m_agents) {
-    a.move();
-  }
+
 }
 
 void tile::set_dx(double dx) {
@@ -151,12 +143,15 @@ std::ostream& operator<<(std::ostream& os, const tile& t)
   os << t.m_x << ' ' << t.m_y << ' '
      << t.m_height << ' ' << t.m_width << ' '
      << t.m_locked << ' ' << t.m_type << ' '
-     << t.m_dx << ' ' << t.m_dy
-     << t.m_agents.size() << ' ';
+     << t.m_dx << ' ' << t.m_dy << ' ';
+// WARNING agents have been moved to 'game', commented everything affected by the move
+//   << t.m_agents.size();
+//
+//  for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){
+//      os << ' ' << t.m_agents[i];
+//  }
 
-  for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){
-      os << t.m_agents[i];
-  }
+  os << ' ';
 
   return os;
 }
@@ -168,22 +163,38 @@ std::istream& operator>>(std::istream& is, tile& t)
   is >> t.m_height >> t.m_width;
   is >> t.m_locked >> t.m_type;
   is >> t.m_dx >> t.m_dy;
-  int n_agents = 1;
+  int n_agents = 20;
   is >> n_agents;
   //TODO: the line below is a stub
   for (int i=0; i!=n_agents; ++i)
   {
     agent a(agent_type::none, 0, 0);
     is >> a;
-    t.m_agents.emplace_back(
-      a
-    );
+//    t.m_agents.emplace_back(
+//      a
+//    );
   }
   return is;
 }
 
+bool operator==(const tile& lhs, const tile& rhs) noexcept{
+//    if (!(lhs.m_agents == rhs.m_agents))
+//        return false;
+    if (!(lhs.m_dx == rhs.m_dx))
+        return false;
+    if (!(lhs.m_dy == rhs.m_dy))
+        return false;
+    if (!(lhs.m_height == rhs.m_height))
+        return false;
+    if (!(lhs.m_width == rhs.m_width))
+        return false;
+    if (!(lhs.m_locked == rhs.m_locked))
+        return false;
+    if (!(lhs.m_type == rhs.m_type))
+        return false;
 
-void tile::add_agent(agent a) { m_agents.push_back(a); }
+    return true;
+}
 
 void tile::set_id(int id) { m_id = id; }
 
@@ -250,20 +261,6 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_y() == dy);
   }
 #endif // FIX_ISSUE_87_SET_TILE_SPEED
-
-  // A tile starts with one agent
-  {
-    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
-    const std::vector<agent> &agents = t.get_agents();
-    assert(agents.size() == 1);
-  }
-  // Can add an agent to a tile
-  {
-    tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
-    const agent a(agent_type::cow, 5.0, 5.0);
-    t.add_agent(a);
-    assert(t.get_agents().size() == 2);
-  }
 
 #define FIX_ISSUE_116_TILE_CONTAINS
 #ifdef FIX_ISSUE_116_TILE_CONTAINS
