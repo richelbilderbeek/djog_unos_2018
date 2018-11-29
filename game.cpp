@@ -97,25 +97,23 @@ void game::merge_tiles() {
         assert(j >=0);
         assert(j < static_cast<int>(m_tiles.size()));
         const tile& other_tile = m_tiles[j];
-        if (have_same_position(focal_tile, other_tile)) //!OCLINT @Joshua260403
-        {
-          const tile_type merged_type = get_merge_type(
-            focal_tile.get_type(),
-            other_tile.get_type()
-          );
-          //focal tile becomes merged type
-          focal_tile.set_type(merged_type);
-          //other tile is swapped to the back, then deleted
-          m_tiles[j] = m_tiles.back();
-          m_tiles.pop_back();
-          //change the selected tile
-          m_selected.clear();
-          assert(m_selected.empty());
-          //Redo
-          done = false;
-          i = n;
-          j = n;
-        }
+        if (!have_same_position(focal_tile, other_tile)) return;
+        const tile_type merged_type = get_merge_type(
+          focal_tile.get_type(),
+          other_tile.get_type()
+        );
+        //focal tile becomes merged type
+        focal_tile.set_type(merged_type);
+        //other tile is swapped to the back, then deleted
+        m_tiles[j] = m_tiles.back();
+        m_tiles.pop_back();
+        //change the selected tile
+        m_selected.clear();
+        assert(m_selected.empty());
+        //Redo
+        done = false;
+        i = n;
+        j = n;
       }
     }
   }
