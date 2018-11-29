@@ -9,12 +9,6 @@ sfml_about_screen::sfml_about_screen(const int window_width, const int window_he
                                 static_cast<unsigned int>(window_height)),
                   "About") {
   // Haha done everything already :-)
-  // Re-create font
-  {
-    QFile f(":/nature_zen/resources/OpenSans.ttf");
-    f.copy("OpenSans.ttf");
-    assert(QFile::exists("OpenSans.ttf"));
-  }
 }
 
 void sfml_about_screen::close()

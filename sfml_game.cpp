@@ -57,30 +57,10 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     // Display all tiles
     for (const tile& t : m_game.get_tiles())
     {
-      sf::RectangleShape sfml_tile(sf::Vector2f(
-        static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
-      // If the camera moves to right/bottom, tiles move relatively
-      // left/downwards
-      const double screen_x{ t.get_x() - m_camera_x };
-      const double screen_y{ t.get_y() - m_camera_y };
-      sfml_tile.setPosition(screen_x, screen_y);
-      color_tile_shape(sfml_tile, t);
-      m_window.draw(sfml_tile);
-      // Draw agents
-      for (const agent& a : t.get_agents())
-      {
-        sf::Sprite sprite;
-        set_agent_sprite(a, sprite);
-        assert(sprite.getTexture());
-        sprite.setScale(0.2f, 0.2f);
-        sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
-            screen_y + static_cast<float>(a.get_y()));
-       m_window.draw(sprite);
-      }
+      sfml_game::display_tile(t);
     }
     sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
-  /////sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
 
   sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   text.setPosition(m_window.getSize().x - 80, 10);
@@ -97,24 +77,35 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   m_window.display(); // Put everything on the screen
 }
 
+void sfml_game::display_tile(const tile &t){
+    sf::RectangleShape sfml_tile(sf::Vector2f(
+      static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
+    // If the camera moves to right/bottom, tiles move relatively
+    // left/downwards
+    const double screen_x{ t.get_x() - m_camera.x };
+    const double screen_y{ t.get_y() - m_camera.y };
+    sfml_tile.setPosition(screen_x, screen_y);
+    color_tile_shape(sfml_tile, t);
+    m_window.draw(sfml_tile);
+    // Draw agents
+    for (const agent& a : t.get_agents())
+    {
+      sfml_game::display_agent(a, screen_x, screen_y);
+    }
+}
+
+void sfml_game::display_agent(const agent &a, double screen_x, double screen_y){
+    sf::Sprite sprite;
+    set_agent_sprite(a, sprite);
+    assert(sprite.getTexture());
+    sprite.setScale(0.2f, 0.2f);
+    sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
+        screen_y + static_cast<float>(a.get_y()));
+   m_window.draw(sprite);
+}
+
 void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
-  switch (a.get_type()) {
-    case agent_type::cow:
-      sprite.setTexture(sfml_resources::get().get_cow_texture());
-      break;
-    case agent_type::crocodile:
-      sprite.setTexture(sfml_resources::get().get_crocodile_texture());
-      break;
-    case agent_type::fish:
-      sprite.setTexture(sfml_resources::get().get_fish_texture());
-      break;
-    case agent_type::grass:
-      sprite.setTexture(sfml_resources::get().get_gras_texture());
-      break;
-    default:
-      sprite.setTexture(sfml_resources::get().get_bacterie_texture());
-      break;
-  }
+  sprite.setTexture(sfml_resources::get().get_agent_sprite(a));
 }
 
 int get_video_mode()
@@ -129,15 +120,12 @@ int get_video_mode()
 
 void sfml_game::load_game_state()
 {
-  switch (m_game_state)
+  switch (m_game_state) //!OCLINT too few branches in if-statement, replace by if-else
   {
     case game_state::titlescreen:
       m_window.draw(titleScreenText);
       return;
     case game_state::menuscreen:
-      return;
-    case game_state::aboutscreen:
-      m_window.draw(aboutScreenText);
       return;
     default:
       return;
@@ -175,15 +163,6 @@ void sfml_game::exec()
   }
 }
 
-void sfml_game::move_camera(sf::Vector2f offset)
-{
-  // Dont move the camera in the menu
-  if (m_game_state != game_state::playing)
-    return;
-  m_camera_x += offset.x;
-  m_camera_y += offset.y;
-}
-
 void sfml_game::process_events()
 {
 
@@ -215,21 +194,21 @@ void sfml_game::process_events()
 
 void sfml_game::confirm_move()
 {
-  if (m_movecam_r == true)
-    move_camera(sf::Vector2f(0.5, 0));
-  if (m_movecam_l == true)
-    move_camera(sf::Vector2f(-0.5, 0));
-  if (m_movecam_u == true)
-    move_camera(sf::Vector2f(0, -0.5));
-  if (m_movecam_d == true)
-    move_camera(sf::Vector2f(0, 0.5));
+  if (m_camera.movecam_r == true)
+    m_camera.move_camera(sf::Vector2f(0.5, 0));
+  if (m_camera.movecam_l == true)
+    m_camera.move_camera(sf::Vector2f(-0.5, 0));
+  if (m_camera.movecam_u == true)
+    m_camera.move_camera(sf::Vector2f(0, -0.5));
+  if (m_camera.movecam_d == true)
+    m_camera.move_camera(sf::Vector2f(0, 0.5));
 }
 
 void sfml_game::follow_tile()
 {
   const tile& t = getTileById(m_game.m_selected);
-  m_camera_x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
-  m_camera_y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
+  m_camera.x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
+  m_camera.y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
 }
 
 void sfml_game::manage_timer()
@@ -340,12 +319,12 @@ void sfml_game::move_selected_tile_randomly()
 
 void sfml_game::reset_input()
 {
-  m_camera_x = 0;
-  m_camera_y = 0;
-  m_movecam_r = false;
-  m_movecam_l = false;
-  m_movecam_u = false;
-  m_movecam_d = false;
+  m_camera.x = 0;
+  m_camera.y = 0;
+  m_camera.movecam_r = false;
+  m_camera.movecam_l = false;
+  m_camera.movecam_u = false;
+  m_camera.movecam_d = false;
 }
 
 void sfml_game::process_mouse_input(const sf::Event& event)
@@ -359,8 +338,8 @@ void sfml_game::process_mouse_input(const sf::Event& event)
     for (unsigned i = 0; i < game_tiles.size(); i++)
     {
       if (game_tiles.at(i).tile_contains(
-            sf::Mouse::getPosition(m_window).x + m_camera_x,
-            sf::Mouse::getPosition(m_window).y + m_camera_y))
+            sf::Mouse::getPosition(m_window).x + m_camera.x,
+            sf::Mouse::getPosition(m_window).y + m_camera.y))
       {
         m_temp_id.clear();
         m_temp_id.push_back(game_tiles.at(i).get_id());
@@ -398,13 +377,13 @@ void sfml_game::show_title()
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::D)
-    m_movecam_r = b;
+    m_camera.movecam_r = b;
   if (event.key.code == sf::Keyboard::A)
-    m_movecam_l = b;
+    m_camera.movecam_l = b;
   if (event.key.code == sf::Keyboard::W)
-    m_movecam_u = b;
+    m_camera.movecam_u = b;
   if (event.key.code == sf::Keyboard::S)
-    m_movecam_d = b;
+    m_camera.movecam_d = b;
 }
 
 void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
@@ -700,16 +679,86 @@ void sfml_game::setup_text()
     titleScreenText.getGlobalBounds().top
       + titleScreenText.getGlobalBounds().height /2.0f);
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
+}
 
+sf::Color get_fill_color(tile_type tile)
+{
+  if(tile == tile_type::grassland)
+  {
+    return sf::Color(0, 255, 0);
+  }
+  else if(tile == tile_type::mountains)
+  {
+    return sf::Color(120, 120, 120);
+  }
+  else if(tile == tile_type::ocean)
+  {
+    return sf::Color(0, 0, 255);
+  }
+  else if(tile == tile_type::savannah)
+  {
+    return sf::Color(245, 190, 0);
+  }
+  else if(tile == tile_type::swamp)
+  {
+    return sf::Color(130, 100, 15);
+  }
+  else if(tile == tile_type::arctic)
+  {
+    return sf::Color(50, 230, 255);
+  }
+  else if(tile == tile_type::desert)
+  {
+    return sf::Color(250, 210, 80);
+  }
+  else if(tile == tile_type::woods)
+  {
+    return sf::Color(34, 139, 34);
+  }
+  else
+  { //!OCLINT unnecessary else
+    return sf::Color(0, 0, 0);
+  }
+}
 
-
-  aboutScreenText.setFont(m_font);
-  aboutScreenText.setString("About Screen");
-  titleScreenText.setOrigin(aboutScreenText.getGlobalBounds().left
-      + aboutScreenText.getGlobalBounds().width / 2.0f,
-    aboutScreenText.getGlobalBounds().top
-      + aboutScreenText.getGlobalBounds().height / 2.0f);
-  aboutScreenText.setPosition(m_screen_center.x, m_screen_center.y);
+sf::Color get_outline_color(tile_type tile)
+{
+  if(tile == tile_type::grassland)
+  {
+    return sf::Color(0, 100, 0);
+  }
+  else if(tile == tile_type::mountains)
+  {
+    return sf::Color(50, 50, 50);
+  }
+  else if(tile == tile_type::ocean)
+  {
+    return sf::Color(0, 0, 100);
+  }
+  else if(tile == tile_type::savannah)
+  {
+    return sf::Color(245, 190, 0);
+  }
+  else if(tile == tile_type::swamp)
+  {
+    return sf::Color(100, 80, 15);
+  }
+  else if(tile == tile_type::arctic)
+  {
+    return sf::Color(10, 200, 255);
+  }
+  else if(tile == tile_type::desert)
+  {
+    return sf::Color(255, 180, 50);
+  }
+  else if(tile == tile_type::woods)
+  {
+    return sf::Color(0, 128, 0);
+  }
+  else
+  { //!OCLINT unnecessary else
+    return sf::Color(0, 0, 0);
+  }
 }
 
 void test_sfml_game() //!OCLINT tests may be long
@@ -722,10 +771,13 @@ void test_sfml_game() //!OCLINT tests may be long
       g.change_game_state();
     }
   }
+<<<<<<< HEAD
   //#define FIX_ISSUE_221
 
    return sf::Color(0, 0, 0);
 }
+=======
+>>>>>>> eb011a7d5963f29c6ec3aa106c5f082908db4101
   {
         int sf::Color get_fill_color(tile_type title) {
             if == (tile_type::grassland){
@@ -766,11 +818,16 @@ void test_sfml_game() //!OCLINT tests may be long
     assert(get_fill_color(tile_type::swamp) == sf::Color(130, 100, 15));
     assert(get_fill_color(tile_type::arctic) == sf::Color(50, 230, 255));
     assert(get_fill_color(tile_type::desert) == sf::Color(250, 210, 80));
+<<<<<<< HEAD
     assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));}
 
 
   //#define FIX_ISSUE_222
   #ifdef FIX_ISSUE_222
+=======
+    assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));
+  }
+>>>>>>> eb011a7d5963f29c6ec3aa106c5f082908db4101
   {
     //Get the outline/border color of a tile tipe
     assert(get_outline_color(tile_type::grassland) == sf::Color(0, 100, 0));
@@ -783,4 +840,8 @@ void test_sfml_game() //!OCLINT tests may be long
     assert(get_outline_color(tile_type::woods) == sf::Color(0, 128, 0));
     return (0, 0, 0);
   }
+<<<<<<< HEAD
   #endif // FIX_ISSUE_222
+=======
+}
+>>>>>>> eb011a7d5963f29c6ec3aa106c5f082908db4101

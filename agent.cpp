@@ -22,13 +22,8 @@ std::istream& operator>>(std::istream& is, agent& a)
 }
 
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
-    if (!(lhs.m_type == rhs.m_type))
-        return false;
-    if (!(lhs.m_x == rhs.m_x))
-        return false;
-    if (!(lhs.m_y == rhs.m_y))
-        return false;
-
+    if (!(lhs.m_type and rhs.m_type and lhs.m_x and rhs.m_x and lhs.m_y and rhs.m_y)))
+       return false;
     return true;
 }
 

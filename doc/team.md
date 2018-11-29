@@ -17,13 +17,16 @@ TH|Mart|`martje127`|Dev (junior), test
 TH|Rijk|`Rijk-van-Putten`|Dev (junior)
 FR|Anne|`annehinrichs22`|Dev (junior)
 FR|Elles|`EllyJet`|Dev (junior)
+FR|Fauve| `Fauve`|Dev (junior)
+FR|Giorgio|`azereuz`|Dev (junior)
+FR|Jana|`Jana17`|Dev (junior)
 FR|Jolien|`?`|Dev (junior)
 FR|Koen|`ko0n`|Dev (junior)
 FR|Rafayel|`RafayelGardishyan`|Dev (medior), `git`
 FR|Rob|`robkruger`|Dev (junior)
 FR|Same|`same-drenth`|Dev (junior), UX
 FR|Tom|`?`|Dev (junior)
-FR|Fauve| `Fauve`|Dev (junior)
+
 Role|Description
 ---|---
 CI|Maintain the Continuous Integration pipelines 

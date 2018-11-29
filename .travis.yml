@@ -47,6 +47,10 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script: 
+  # Show the about screen of Nature Zen
+  - qmake -qt=qt5 djog_unos_2018_about.pro
+  - make --silent debug
+  - ./djog_unos_2018_about
   # Show the version of SFML
   - qmake -qt=qt5 djog_unos_2018_version.pro
   - make --silent debug
