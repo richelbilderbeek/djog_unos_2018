@@ -35,6 +35,7 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 `rob`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=rob)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=rob)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=rob)
 `same`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=same)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=same)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=same)
 `tom`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=tom)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=tom)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=tom)
+`jan`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jan)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jan)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jan)
 
 Branch|AppVeyor status
 ---|---
