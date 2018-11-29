@@ -15,6 +15,7 @@ TH|Isis|`?`|Dev (junior)
 TH|Jorn|`JornPrengerFormeel`|Dev (junior), `git`
 TH|Mart|`martje127`|Dev (junior), test
 TH|Rijk|`Rijk-van-Putten`|Dev (junior)
+TH|Jan|`janderkkotlarski`|Dev (junior)
 FR|Anne|`annehinrichs22`|Dev (junior)
 FR|Elles|`EllyJet`|Dev (junior)
 FR|Fauve| `Fauve`|Dev (junior)
