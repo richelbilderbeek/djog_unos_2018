@@ -67,7 +67,7 @@ public:
 
   void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
   void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);
-  sf::Color outline;
+  sf::Color m_outline;
 
   void setup_text();
 
@@ -111,8 +111,8 @@ private:
 
   // Agent for testing
   // agent agent_test;
-  // Texture for test agent
-  Texture test_agent_tex;
+
+
 
   /// Sate of Game
   game_state m_game_state = game_state::playing;
