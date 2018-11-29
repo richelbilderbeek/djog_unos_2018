@@ -11,7 +11,7 @@ Day|Name|GitHub username|Role(s)
 TH,FR|Joshua|`Joshua260403`|Dev (medior), `git`, wiki, CI
 TH,FR|Richel|`richelbilderbeek`|Dev (senior), project manager, CI
 TH|Annabel|`annabelliard`|Dev (junior)
-TH|Isis|`?`|Dev (junior)
+TH|Isis|`isis-x05`|Dev (junior)
 TH|Jorn|`JornPrengerFormeel`|Dev (junior), `git`
 TH|Mart|`martje127`|Dev (junior), test
 TH|Rijk|`Rijk-van-Putten`|Dev (junior)
