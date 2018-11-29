@@ -3,12 +3,14 @@ name: Feature request 2
 about: Suggest an idea for this project
 
 ---
-<!!Please make sure to get your idea checked out by UX or a medior/senior dev!!>
+
+<Please make sure to get your idea checked out by UX or a medior/senior dev>
 
 **Goal**
 <Describe what you want to achieve and why>
 
 **Steps**
+
 <Note: there doesn't have to be multiple steps>
 1. <Do the thing that has to be done in order to be able to do that other thing>
 2. <Do that other thing>
