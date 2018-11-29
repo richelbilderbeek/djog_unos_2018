@@ -28,7 +28,8 @@ HEADERS += \
     $$PWD/sfml_resources.h \
     $$PWD/sfml_title_screen.h \
     $$PWD/tile.h \
-    $$PWD/tile_type.h
+    $$PWD/tile_type.h \
+    $$PWD/tile_id.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc
