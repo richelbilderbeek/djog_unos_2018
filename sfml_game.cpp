@@ -573,7 +573,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
   }
   else
   {
-    sfml_tile.setOutlineColor(outline);
+    sfml_tile.setOutlineColor(m_outline);
   }
 }
 
@@ -581,7 +581,7 @@ void sfml_game::color_shape(
   sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2)
 {
   sfml_tile.setFillColor(c1);
-  outline = sf::Color(c2);
+  m_outline = sf::Color(c2);
 }
 
 bool sfml_game::check_collision(double x, double y)
