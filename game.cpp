@@ -97,7 +97,7 @@ void game::merge_tiles() {
         assert(j >=0);
         assert(j < static_cast<int>(m_tiles.size()));
         const tile& other_tile = m_tiles[j];
-        if (have_same_position(focal_tile, other_tile))
+        if (have_same_position(focal_tile, other_tile)) //!OCLINT @Joshua260403
         {
           const tile_type merged_type = get_merge_type(
             focal_tile.get_type(),
