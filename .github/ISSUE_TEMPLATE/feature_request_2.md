@@ -3,6 +3,7 @@ name: Feature request 2
 about: Suggest an idea for this project
 
 ---
+
 <!!Please make sure to get your idea checked out by UX or a medior/senior dev!!>
 
 **Goal**
