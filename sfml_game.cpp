@@ -339,8 +339,7 @@ void sfml_game::process_mouse_input(const sf::Event& event)
     for (unsigned i = 0; i < game_tiles.size(); i++)
     {
       if (game_tiles.at(i).tile_contains(
-            sf::Mouse::getPosition(m_window).x + m_camera.x,
-            sf::Mouse::getPosition(m_window).y + m_camera.y))
+            ))
       {
         m_temp_id.clear();
         m_temp_id.push_back(game_tiles.at(i).get_id());
@@ -353,6 +352,11 @@ void sfml_game::process_mouse_input(const sf::Event& event)
     }
     clicked_tile = false;
   }
+}
+
+sf::Vector2f sfml_game::get_mouse_pos() {
+  return sf::Vector2f(sf::Mouse::getPosition(m_window).x + m_camera.x,
+                      sf::Mouse::getPosition(m_window).y + m_camera.y);
 }
 
 void sfml_game::select_random_tile()
