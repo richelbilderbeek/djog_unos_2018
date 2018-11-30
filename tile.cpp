@@ -207,8 +207,6 @@ void tile::lock_movement(bool b) { m_locked = b; }
 
 void test_tile() //!OCLINT testing function may be many lines
 {
-#define FIX_ISSUE_85_TEST_TILE
-#ifdef FIX_ISSUE_85_TEST_TILE
   // width cannot be negative
   {
     try {
@@ -227,7 +225,6 @@ void test_tile() //!OCLINT testing function may be many lines
       assert(std::string(e.what()) == "'height' cannot be negative");
     }
   }
-#endif // FIX_ISSUE_85_TEST_TILE
 
   // A tile starts from standstill
   {
