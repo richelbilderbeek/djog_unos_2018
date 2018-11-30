@@ -4,13 +4,13 @@
 #include <SFML/Graphics.hpp>
 
 class sfml_about_screen {
-public::
+private:
   sfml_about_screen(const int window_width = 1000, const int window_height = 600);
   void close();
   void exec();
-private:
-  sf::RenderWindow m_about_window;
-  sf::Text about_text;
-};
+ public:
+  sf::RenderWindow aboutwindow;
+  sf::Text abouttext;
+
 
 #endif // SFML_ABOUT_SCREEN_H
