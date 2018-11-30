@@ -229,8 +229,6 @@ void test_tile() //!OCLINT testing function may be many lines
   }
 #endif // FIX_ISSUE_85_TEST_TILE
 
-#define FIX_ISSUE_87_SET_TILE_SPEED
-#ifdef FIX_ISSUE_87_SET_TILE_SPEED
   // A tile starts from standstill
   {
     const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
@@ -260,7 +258,6 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_x() == dx);
     assert(t.get_y() == dy);
   }
-#endif // FIX_ISSUE_87_SET_TILE_SPEED
 
 #define FIX_ISSUE_116_TILE_CONTAINS
 #ifdef FIX_ISSUE_116_TILE_CONTAINS
