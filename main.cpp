@@ -53,10 +53,7 @@ int main(int argc, char **argv)
   assert(1 == 2);
 #endif
 
-  //#define FIX_ISSUE_248
-  #ifdef FIX_ISSUE_248
-  assert(1 + 1 == 3);
-  #endif
+  assert(1 + 1 != 3);
 
   const std::vector<std::string> args(argv, argv + argc);
 
