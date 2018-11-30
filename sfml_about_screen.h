@@ -11,6 +11,6 @@ private:
  public:
   sf::RenderWindow aboutwindow;
   sf::Text abouttext;
-};
+
 
 #endif // SFML_ABOUT_SCREEN_H
