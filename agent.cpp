@@ -35,6 +35,65 @@ void agent::move()
   }
 }
 
+std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
+{
+  std::vector<agent> agents;
+  {
+    agent a1(agent_type::cow);
+    move_agent_to_tile(a1, 0, 0);
+    agents.push_back(a1);
+    agent a2(agent_type::cow, 40, 70);
+    move_agent_to_tile(a2, 0, 0);
+    agents.push_back(a2);
+    agent a3(agent_type::grass, 70, 40);
+    move_agent_to_tile(a3, 0, 0);
+    agents.push_back(a3);
+  }
+  {
+    agent a1(agent_type::cow);
+    move_agent_to_tile(a1, 1, 0);
+    agents.push_back(a1);
+    agent a2(agent_type::cow, 90, 30);
+    move_agent_to_tile(a2, 1, 0);
+    agents.push_back(a2);
+    agent a3(agent_type::cow, 30, 90);
+    move_agent_to_tile(a3, 1, 0);
+    agents.push_back(a3);
+  }
+  {
+    agent a1(agent_type::crocodile, 30, 160);
+    move_agent_to_tile(a1, 0, 2);
+    agents.push_back(a1);
+  }
+  {
+    agent a1(agent_type::crocodile);
+    move_agent_to_tile(a1, 2, 1);
+    agents.push_back(a1);
+    agent a2(agent_type::grass);
+    move_agent_to_tile(a2, 2, 1);
+    agents.push_back(a2);
+  }
+  {
+    agent a1(agent_type::fish);
+    move_agent_to_tile(a1, 3, 2);
+    agents.push_back(a1);
+    agent a2(agent_type::fish, 10, 10);
+    move_agent_to_tile(a2, 3, 2);
+    agents.push_back(a2);
+  }
+  {
+    agent a1(agent_type::grass);
+    move_agent_to_tile(a1, 1, -1);
+    agents.push_back(a1);
+  }
+  return agents;
+}
+
+void move_agent_to_tile(agent &a, double tile_x, double tile_y) {
+  a.set_x(a.get_x()+(tile_x*115));
+  a.set_y(a.get_y()+(tile_y*115));
+}
+
 void test_agent() //!OCLINT testing functions may be long
 {
   // A default agent has coordinate (0,0)
@@ -71,10 +130,13 @@ void test_agent() //!OCLINT testing functions may be long
     for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
+<<<<<<< HEAD
   #endif // FIX_ISSUE_202
 
   //#define FIX_ISSUE_201
   #ifdef FIX_ISSUE_201
+=======
+>>>>>>> be4a9785279b7807e801203473416f9cccfb53ec
   // A fish moves
   {
     const double x{12.34};
@@ -92,5 +154,13 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
+  //#define FIX_ISSUE_245
+  #ifdef FIX_ISSUE_245
+  // Agents have health
+  {
+    const agent a(agent_type::cow);
+    assert(a.get_health() > 0.0);
+  }
+  #endif // FIX_ISSUE_245
 }
 

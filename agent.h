@@ -26,6 +26,9 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
+  void set_x(double x) noexcept { m_x = x; }
+  void set_y(double y) noexcept { m_y = y; }
+
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);
 
@@ -53,6 +56,9 @@ private:
 
 };
 
+std::vector<agent> create_default_agents() noexcept;
+
+void move_agent_to_tile(agent &a, double tile_x, double tile_y);
 
 /// Test the tile class
 void test_agent();

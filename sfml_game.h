@@ -69,7 +69,7 @@ public:
 
   void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
   void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);
-  sf::Color outline;
+  sf::Color m_outline;
 
   void setup_text();
 
@@ -112,15 +112,15 @@ public:
 private:
   // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);
-  void display_agent(const agent& a, double screen_x, double screen_y);
+  void display_agent(const agent& a);
 
   /// Background music file object
   sf::Music &m_background_music;
 
   // Agent for testing
   // agent agent_test;
-  // Texture for test agent
-  Texture test_agent_tex;
+
+
 
   /// Sate of Game
   game_state m_game_state = game_state::playing;

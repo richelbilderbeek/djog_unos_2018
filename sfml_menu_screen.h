@@ -8,11 +8,12 @@ public:
     sfml_menu_screen();
     void exec();
     sf::Color get_bg_color();
+    void process_red();
+    void process_green();
+    void process_blue();
 private:
     sf::RenderWindow m_window;
     sf::Font m_font;
-    sf::Text mainMenuScreenText;
-    sf::Sprite m_bg_sprite;
     int r = 181;
     bool rb = true;
     int g = 3;

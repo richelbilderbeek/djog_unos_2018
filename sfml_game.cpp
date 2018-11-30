@@ -59,6 +59,11 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     {
       sfml_game::display_tile(t);
     }
+    // Display all agents
+    for (const agent& a : m_game.get_agents())
+    {
+      sfml_game::display_agent(a);
+    }
     sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
 
@@ -87,20 +92,16 @@ void sfml_game::display_tile(const tile &t){
     sfml_tile.setPosition(screen_x, screen_y);
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
-    // Draw agents
-    for (const agent& a : t.get_agents())
-    {
-      sfml_game::display_agent(a, screen_x, screen_y);
-    }
 }
 
-void sfml_game::display_agent(const agent &a, double screen_x, double screen_y){
+void sfml_game::display_agent(const agent &a){
+    const double screen_x{ a.get_x() - m_camera.x };
+    const double screen_y{ a.get_y() - m_camera.y };
     sf::Sprite sprite;
     set_agent_sprite(a, sprite);
     assert(sprite.getTexture());
     sprite.setScale(0.2f, 0.2f);
-    sprite.setPosition(screen_x + static_cast<float>(a.get_x()),
-        screen_y + static_cast<float>(a.get_y()));
+    sprite.setPosition(screen_x, screen_y);
    m_window.draw(sprite);
 }
 
@@ -444,34 +445,18 @@ void sfml_game::switch_collide(tile& t, int direction)
   {
     confirm_tile_move(t, direction);
   }
-    if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
+  if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
-      {
-        confirm_tile_move(t, direction);
-        sf::Vector2f b = get_direction_pos(direction, t, 115);
-        if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
-        {
-          t.set_dx(t.get_dx() * 2);
-          t.set_dy(t.get_dy() * 2);
-        }
-//    tile& collide_tile = getTileById(get_collision_id(v.x, v.y));
-//    {
-//      tile new_t(collide_tile.get_x(),
-//        collide_tile.get_y(),
-//        collide_tile.get_z(),
-//        collide_tile.get_width(),
-//        collide_tile.get_height(),
-//        get_merge_type(t.get_type(), collide_tile.get_type()),
-//        new_id());
-//      added_tiles.push_back(new_t);
-//    }
-//    deleted_tiles.push_back(t);
-//    deleted_tiles.push_back(collide_tile);
-//    m_game.add_tiles(added_tiles);
-//    // TODO delete old tiles
-//    // m_game.delete_tiles(deleted_tiles);
+  {
+    confirm_tile_move(t, direction);
+    sf::Vector2f b = get_direction_pos(direction, t, 115);
+    if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
+    {
+      t.set_dx(t.get_dx() * 2);
+      t.set_dy(t.get_dy() * 2);
+    }
   }
 }
 
@@ -681,7 +666,7 @@ void sfml_game::setup_text()
   titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
 
-sf::Color get_fill_color(tile_type tile)
+sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
 {
   if(tile == tile_type::grassland)
   {
@@ -721,7 +706,7 @@ sf::Color get_fill_color(tile_type tile)
   }
 }
 
-sf::Color get_outline_color(tile_type tile)
+sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
 {
   if(tile == tile_type::grassland)
   {
@@ -771,46 +756,8 @@ void test_sfml_game() //!OCLINT tests may be long
       g.change_game_state();
     }
   }
-<<<<<<< HEAD
-  //#define FIX_ISSUE_221
-
-   return sf::Color(0, 0, 0);
-}
-=======
->>>>>>> eb011a7d5963f29c6ec3aa106c5f082908db4101
   {
-        int sf::Color get_fill_color(tile_type title) {
-            if == (tile_type::grassland){
-                return sf::Color(0, 255, 0) ;
-        }
-            else if(tile_type::mountains){
-                return sf::Color(120, 120, 120);
-            }
-                else if(tile_type::ocean){
-                    return sf::Color(0, 0, 255);
-            }
-                else if(tile_type:savannah){
-                                return sf::Color(245, 190, 0);
-            }
-                else if(tile_type::swamp){
-                return sf::Color(130, 100, 15);
-            }
-               else if(tile_type::arctic){
-               return sf::Color(50, 230, 255);
-            }
-               else if(tile_type::desert){
-               return sf::Color(250, 210, 80);
-            }
-              else if(tile_type::woods){
-              return sf::Color(34, 139, 34);
-            }
-            else{
-                return::Color(0, 0, 0);
-            }
-
-            }
-        void test_sfml_game()
-
+    //Get the fill color of a tile type
     assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
     assert(get_fill_color(tile_type::mountains) == sf::Color(120, 120, 120));
     assert(get_fill_color(tile_type::ocean) == sf::Color(0, 0, 255));
@@ -818,16 +765,8 @@ void test_sfml_game() //!OCLINT tests may be long
     assert(get_fill_color(tile_type::swamp) == sf::Color(130, 100, 15));
     assert(get_fill_color(tile_type::arctic) == sf::Color(50, 230, 255));
     assert(get_fill_color(tile_type::desert) == sf::Color(250, 210, 80));
-<<<<<<< HEAD
-    assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));}
-
-
-  //#define FIX_ISSUE_222
-  #ifdef FIX_ISSUE_222
-=======
     assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));
   }
->>>>>>> eb011a7d5963f29c6ec3aa106c5f082908db4101
   {
     //Get the outline/border color of a tile tipe
     assert(get_outline_color(tile_type::grassland) == sf::Color(0, 100, 0));
@@ -838,10 +777,5 @@ void test_sfml_game() //!OCLINT tests may be long
     assert(get_outline_color(tile_type::arctic) == sf::Color(10, 200, 255));
     assert(get_outline_color(tile_type::desert) == sf::Color(255, 180, 50));
     assert(get_outline_color(tile_type::woods) == sf::Color(0, 128, 0));
-    return (0, 0, 0);
   }
-<<<<<<< HEAD
-  #endif // FIX_ISSUE_222
-=======
 }
->>>>>>> eb011a7d5963f29c6ec3aa106c5f082908db4101

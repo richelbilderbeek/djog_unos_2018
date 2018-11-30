@@ -20,9 +20,6 @@ public:
        double width = 0.0, double height = 0.0,
        const tile_type type = tile_type::grassland, const int id = 0);
 
-  /// Read all agents
-  const std::vector<agent> &get_agents() const noexcept { return m_agents; }
-
   /// The height of the tile
   double get_height() const noexcept { return m_height; }
 
@@ -68,8 +65,6 @@ public:
   /// Move the tile by the movement coeficients
   void move();
 
-  void add_agent(agent a);
-
   /// Get the tile's id
   int get_id() const noexcept { return m_id; }
 
@@ -109,9 +104,6 @@ private:
 
   /// The movement coefficient on the z-axis
   double m_dz;
-
-  /// Agents list
-  std::vector<agent> m_agents;
 
   /// The tile's id
   int m_id;
