@@ -103,7 +103,11 @@ void game::process_events()
   {
     tile.process_events();
   }
-  ++m_n_tick;
+  ++m_n_ticks;
+}
+
+int game::get_n_ticks() const{
+    return m_n_ticks;
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -120,7 +124,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_score() == 0);
   }
 
-//#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
 #ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
   // A game starts with a zero number of game cycles
   {

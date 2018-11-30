@@ -39,7 +39,7 @@ public:
 
   /// Get how many times the sfml_game has been displayed on screen.
   /// Will be approximately 60 times per second.
-  int get_n_displayed() const noexcept { return m_n_displayed; }
+  int get_n_displayed() const noexcept { return m_game.get_n_ticks(); }
 
   /// Move a selected tile randomly. Will do nothing if no tile is selected.
   void move_selected_tile_randomly();
@@ -133,10 +133,6 @@ private:
 
   /// The game logic
   game m_game;
-
-  /// The number of times the sfml_game is displayed on screen
-  /// Should be approx 60 times per second
-  int m_n_displayed{0};
 
   /// The window the sfml_game is rendered to
   sf::RenderWindow m_window;

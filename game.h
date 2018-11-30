@@ -30,6 +30,10 @@ public:
   /// The selected tile
   std::vector<int> m_selected;
 
+  int m_n_ticks = 0;
+
+  int get_n_ticks() const;
+
 private:
 
   std::vector<tile> m_tiles;

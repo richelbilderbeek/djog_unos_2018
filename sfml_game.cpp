@@ -112,7 +112,7 @@ void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
       sprite.setTexture(sfml_resources::get().get_gras_texture());
       break;
     default:
-      sprite.setTexture(sfml_resources::get().get_bacteria_texture());
+      sprite.setTexture(sfml_resources::get().get_bacterium_texture());
       break;
   }
 }
@@ -209,7 +209,6 @@ void sfml_game::process_events()
   manage_timer();
 
   m_delegate.do_actions(*this);
-  ++m_n_displayed;
 }
 
 void sfml_game::confirm_move()
