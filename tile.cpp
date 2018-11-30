@@ -281,4 +281,24 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(!t.tile_contains(165, 165)); // D
   }
 #endif // FIX_ISSUE_116_TILE_CONTAINS
+
+  //#define FIX_ISSUE_246
+  #ifdef FIX_ISSUE_246
+  //
+  //
+  //   (0,0)------(100,0)
+  //     |           |
+  //     |     A     |     B
+  //     |           |
+  //   (0,100)-----(100,100)
+  //
+  //           C           D
+  {
+    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
+    assert(contains(t, 50, 50));   // A
+    assert(!contains(165, 50));  // B
+    assert(!contains(50, 165)); // C
+    assert(!contains(165, 165)); // D
+  }
+  #endif // FIX_ISSUE_246
 }
