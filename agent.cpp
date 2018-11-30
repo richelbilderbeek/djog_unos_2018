@@ -155,5 +155,13 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
+  //#define FIX_ISSUE_245
+  #ifdef FIX_ISSUE_245
+  // Agents have health
+  {
+    const agent a(agent_type::cow);
+    assert(a.get_health() > 0.0);
+  }
+  #endif // FIX_ISSUE_245
 }
 
