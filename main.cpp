@@ -53,8 +53,6 @@ int main(int argc, char **argv)
   assert(1 == 2);
 #endif
 
-  assert(1 + 1 != 3);
-
   const std::vector<std::string> args(argv, argv + argc);
 
   if (std::count(std::begin(args), std::end(args), "--title"))
