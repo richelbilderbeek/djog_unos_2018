@@ -24,7 +24,7 @@ public:
 
   sf::Texture &get_gras_texture() noexcept { return m_gras_texture; }
 
-  sf::Texture &get_bacterie_texture() noexcept { return m_bacterie_texture; }
+  sf::Texture &get_bacteriez_texture() noexcept { return m_bacterie_texture; }
 
   sf::Font& get_default_font() noexcept { return m_default_font; }
 

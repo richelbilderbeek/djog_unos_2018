@@ -112,7 +112,7 @@ void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
       sprite.setTexture(sfml_resources::get().get_gras_texture());
       break;
     default:
-      sprite.setTexture(sfml_resources::get().get_bacterie_texture());
+      sprite.setTexture(sfml_resources::get().get_bacteria_texture());
       break;
   }
 }
