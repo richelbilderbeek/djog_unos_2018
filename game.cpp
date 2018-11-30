@@ -198,9 +198,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
   }
-  {
-    game g;
-  }
 }
 
 game load(const std::string &filename) {
