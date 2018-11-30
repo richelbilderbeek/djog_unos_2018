@@ -1,5 +1,4 @@
 #include "sfml_button.h"
-#include "sfml_game.h"
 
 #include <cassert>
 

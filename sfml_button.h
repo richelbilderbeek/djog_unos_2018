@@ -1,7 +1,6 @@
 #ifndef SFML_BUTTON_H
 #define SFML_BUTTON_H
 
-#include "sfml_game.h"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
@@ -16,8 +15,6 @@ public:
   /// @param The heigth of the button
   sfml_button(const double x = 1.0, const double y = 1.0,
               const double height = 1.0, const double width = 1.0);
-
-  ~sfml_button();
 
   /// Is the button clicked?
   bool is_clicked(const sf::Event& event, const sf::RenderWindow& window,
