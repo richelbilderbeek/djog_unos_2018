@@ -1,6 +1,7 @@
 #ifndef SFML_BUTTON_H
 #define SFML_BUTTON_H
 
+#include "sfml_game.h"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
@@ -16,10 +17,13 @@ public:
   sfml_button(const double x = 1.0, const double y = 1.0,
               const double height = 1.0, const double width = 1.0);
 
-  /// Is the button clicked?
-  bool is_clicked(const sf::Event& event) const;
+  ~sfml_button();
 
-  sf::RectangleShape &get_shape() const noexcept { return m_shape; }
+  /// Is the button clicked?
+  bool is_clicked(const sf::Event& event, const sf::RenderWindow& window,
+                  double camera_x = 0.0, double camera_y = 0.0) const;
+
+  sf::RectangleShape &get_shape() noexcept { return m_shape; }
 
 private:
 

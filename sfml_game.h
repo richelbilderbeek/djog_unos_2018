@@ -109,8 +109,6 @@ public:
 
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
-  sf::Vector2f get_mouse_pos();
-
 private:
   // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);
