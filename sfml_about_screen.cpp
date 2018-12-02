@@ -39,7 +39,7 @@ void sfml_about_screen::exec()
     sfml_about_screen::m_about_text.setFillColor(sf::Color::Red);
     #else
     //Only relevant for Travis
-    sfml_about_screen::abouttext.setColor(sf::Color::Red);
+    m_about_text.setColor(sf::Color::Red);
     #endif
     m_about_window.draw(sfml_about_screen::m_about_text);
     m_about_window.display();
