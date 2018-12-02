@@ -84,11 +84,20 @@ unix:!macx {
 
 unix:macx {
   INCLUDEPATH += /Users/fauve/SFML/include
-  LIBS += -L/Users/fauve/SFML/lib
-  LIBS += -L/Users/fauve/SFML
+  #LIBS += -L/Users/fauve/SFML/lib
+  #LIBS += -L/Users/fauve/SFML
   LIBS += -L/usr/local
   LIBS += -L/usr/local/lib
-  LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+  QMAKE_LFLAGS += -F/Library/Frameworks/
+  LIBS += -framework SFML
+  LIBS += -framework sfml-graphics
+  LIBS += -framework sfml-window
+  LIBS += -framework sfml-system
+  LIBS += -framework sfml-audio
+  #LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+  #LIBS += -L/usr/local/Cellar/freetype/2.9.1/lib
+  #LIBS += -lfreetype
+  #DYLD_LIBRARY_PATH +=
 }
 
 win32{
