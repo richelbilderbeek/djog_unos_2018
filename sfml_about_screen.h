@@ -9,8 +9,8 @@ public:
   void close();
   void exec();
 private:
-  sf::RenderWindow aboutwindow;
-  sf::Text abouttext;
+  sf::RenderWindow m_about_window;
+  sf::Text m_about_text;
 };
 
 #endif // SFML_ABOUT_SCREEN_H
