@@ -1,7 +1,7 @@
 #ifndef SFML_GAME_DELEGATE_H
 #define SFML_GAME_DELEGATE_H
 
-struct sfml_game;
+class sfml_game;
 
 /// This class will modify the SFML game when needed.
 /// It will be called each game cycle once.

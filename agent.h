@@ -15,7 +15,7 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0, const double y = 0);
+  agent(const agent_type type, const double x = 0.0, const double y = 0.0);
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
