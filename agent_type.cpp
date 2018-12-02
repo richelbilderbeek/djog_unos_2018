@@ -119,6 +119,6 @@ std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
 
 bool operator==(agent_type lhs, agent_type rhs) noexcept
 {
-  if (to_str(lhs) == to_str(rhs)) return true; //!OCLINT redundant if statement
-  else return false; //!OCLINT unnecessary else statement
+  return to_str(lhs) == to_str(rhs) ;
+
 }
