@@ -8,22 +8,6 @@ All about `git`.
  * `develop`: development, merge of topic branches, should mostly pass
  * `[developer name]`: topic branch, for isolated development
 
-![Branching model](git_branches.png)
-
-## Branches
-
-Name|Branch name
----|---
-@annabelliard|`annabel`
-@annehinrichs22|`anne`
-@EllyJet |`?`
-@Joshua260403 |`joshua`
-@Martje127 |`mart`
-@RafayelGardishyan|`rafayel`
-@richelbilderbeek|`richel`
-@Rijk-van-Putten|`rijk`
-@Same-Drenth|`same`
-
 ## Clone this repository
 
 ```
@@ -44,25 +28,7 @@ git status
 
 This will show you which branch you are on, and which files you have changed.
 
-## Checkout the `develop` branch for the first time
-
-```
-git checkout -t origin/develop
-```
-
-Do this within the `djog_unos_2018` folder.
-
-## Checkout your branch for the first time
-
-If your branch is for example `richel`, do:
-
-```
-git checkout -t origin/richel
-```
-
-Do this within the `djog_unos_2018` folder.
-
-## Checkout the `develop` branch again
+## Checkout the `develop` branch
 
 ```
 git checkout develop
@@ -70,7 +36,10 @@ git checkout develop
 
 Do this within the `djog_unos_2018` folder.
 
-## Checkout your branch again
+ * Note: there was a time when using `git checkout -t origin/develop` was
+   recommended. This may have been unnecessarily complex
+
+## Checkout your branch
 
 If your branch is for example `richel`, do:
 
@@ -79,6 +48,9 @@ git checkout richel
 ```
 
 Do this within the `djog_unos_2018` folder.
+
+ * Note: there was a time when using `git checkout -t origin/richel` was
+   recommended. This may have been unnecessarily complex
 
 ## Update a branch
 
@@ -108,24 +80,26 @@ Tips:
 First update `develop`:
 
 ```
-git checkout -t origin/develop
+git checkout develop
 git pull
 ```
 
 Then merge it with yours:
 
 ```
-git checkout -t origin/richel
+git checkout richel
 git merge develop
 git push
 ```
 
 ## Merge your work with the other's
 
+ * :warning: Only mediors and seniors are allowed to do this!
+
 Go to `develop`:
 
 ```
-git checkout -t origin/develop
+git checkout develop
 git pull
 ```
 
@@ -137,3 +111,7 @@ If and only if `develop` was already up to date, merge it with yours:
 git merge richel
 git push
 ```
+
+## Branching model as a picture
+
+![Branching model](git_branches.png)
