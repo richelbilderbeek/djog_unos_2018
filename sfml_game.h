@@ -51,7 +51,7 @@ public:
   /// Stop the music
   void stop_music();
 
-  // Show to menu
+  /// Show the title screen
   void show_title();
 
   void arrows(bool b, const sf::Event &event);
