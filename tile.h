@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include "agent.h"
+#include "tile_id.h"
 #include "tile_type.h"
 #include <vector>
 
@@ -66,7 +67,7 @@ public:
   void move();
 
   /// Get the tile's id
-  int get_id() const noexcept { return m_id; }
+  int get_id() const noexcept { return m_id.get(); }
 
   void set_id(int tid);
 
@@ -106,7 +107,7 @@ private:
   double m_dz;
 
   /// The tile's id
-  int m_id;
+  tile_id m_id;
 
   bool m_locked = false;
 

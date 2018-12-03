@@ -23,9 +23,8 @@ std::istream& operator>>(std::istream& is, agent& a)
 
 /* FIXME this didn't work
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
-    if (!(lhs.m_type and rhs.m_type and lhs.m_x and rhs.m_x and lhs.m_y and rhs.m_y)))
-       return false;
-    return true;
+    return  lhs.m_type == rhs.m_type and lhs.m_x == rhs.m_x and lhs.m_y == rhs.m_y ;
+
 }
 */
 

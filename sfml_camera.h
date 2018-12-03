@@ -14,11 +14,11 @@ public:
     double y{-100.0};
     void move_camera(sf::Vector2f offset);
 
-    bool movecam_r = false;
-    bool movecam_l = false;
-    bool movecam_u = false;
-    bool movecam_d = false;
-    bool block_movement = false;
+    bool m_movecam_r = false;
+    bool m_movecam_l = false;
+    bool m_movecam_u = false;
+    bool m_movecam_d = false;
+    bool m_block_movement = false;
 
 };
 
