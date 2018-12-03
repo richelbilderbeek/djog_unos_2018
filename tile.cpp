@@ -207,8 +207,6 @@ void tile::lock_movement(bool b) { m_locked = b; }
 
 void test_tile() //!OCLINT testing function may be many lines
 {
-#define FIX_ISSUE_85_TEST_TILE
-#ifdef FIX_ISSUE_85_TEST_TILE
   // width cannot be negative
   {
     try {
@@ -227,10 +225,7 @@ void test_tile() //!OCLINT testing function may be many lines
       assert(std::string(e.what()) == "'height' cannot be negative");
     }
   }
-#endif // FIX_ISSUE_85_TEST_TILE
 
-#define FIX_ISSUE_87_SET_TILE_SPEED
-#ifdef FIX_ISSUE_87_SET_TILE_SPEED
   // A tile starts from standstill
   {
     const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
@@ -260,7 +255,6 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_x() == dx);
     assert(t.get_y() == dy);
   }
-#endif // FIX_ISSUE_87_SET_TILE_SPEED
 
 #define FIX_ISSUE_116_TILE_CONTAINS
 #ifdef FIX_ISSUE_116_TILE_CONTAINS
@@ -281,4 +275,24 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(!t.tile_contains(165, 165)); // D
   }
 #endif // FIX_ISSUE_116_TILE_CONTAINS
+
+  //#define FIX_ISSUE_246
+  #ifdef FIX_ISSUE_246
+  //
+  //
+  //   (0,0)------(100,0)
+  //     |           |
+  //     |     A     |     B
+  //     |           |
+  //   (0,100)-----(100,100)
+  //
+  //           C           D
+  {
+    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
+    assert(contains(t, 50, 50));   // A
+    assert(!contains(165, 50));  // B
+    assert(!contains(50, 165)); // C
+    assert(!contains(165, 165)); // D
+  }
+  #endif // FIX_ISSUE_246
 }

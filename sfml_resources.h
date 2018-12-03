@@ -50,7 +50,7 @@ private:
 
   sf::Texture m_none_texture;
 
-  sf::Texture m_bacterie_texture;
+  sf::Texture m_bacterium_texture;
 
   sf::Texture m_background_image;
 };

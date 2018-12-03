@@ -22,25 +22,14 @@ std::istream& operator>>(std::istream& is, agent& a)
 }
 
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
-    if (!(lhs.m_type == rhs.m_type))
-        return false;
-    if (!(lhs.m_x == rhs.m_x))
-        return false;
-    if (!(lhs.m_y == rhs.m_y))
-        return false;
-
+    if (!(lhs.m_type and rhs.m_type and lhs.m_x and rhs.m_x and lhs.m_y and rhs.m_y)))
+       return false;
     return true;
 }
 
 void agent::move()
 {
-  if (m_type == agent_type::cow ||
-      m_type == agent_type::fish ||
-      m_type == agent_type::crocodile) {
-    m_x += 0.1 * (-1 + (std::rand() % 3));
-    m_y += 0.1 * (-1 + (std::rand() % 3));
-  }
-  if (m_type == agent_type::crocodile) {
+  if (m_type == agent_type::cow) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
@@ -136,15 +125,24 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
+  //#define FIX_ISSUE_202
+  #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
-    std::srand(314);
+    std::srand(15);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
     for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
+<<<<<<< HEAD
+  #endif // FIX_ISSUE_202
+
+  //#define FIX_ISSUE_201
+  #ifdef FIX_ISSUE_201
+=======
+>>>>>>> be4a9785279b7807e801203473416f9cccfb53ec
   // A fish moves
   {
     const double x{12.34};
@@ -153,6 +151,7 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
+  #endif // FIX_ISSUE_201
   // Grass does not move
   {
     const double x{12.34};
@@ -161,5 +160,13 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
+  //#define FIX_ISSUE_245
+  #ifdef FIX_ISSUE_245
+  // Agents have health
+  {
+    const agent a(agent_type::cow);
+    assert(a.get_health() > 0.0);
+  }
+  #endif // FIX_ISSUE_245
 }
 
