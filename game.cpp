@@ -132,6 +132,8 @@ void test_game() //!OCLINT a testing function may be long
     const game g;
     assert(g.get_score() == 0);
   }
+  #define FIX_ISSUE_91
+  #ifdef FIX_ISSUE_91
   // A game starts with a zero number of game cycles
   {
     const game g;
@@ -143,6 +145,7 @@ void test_game() //!OCLINT a testing function may be long
     g.process_events();
     assert(g.get_n_ticks() == 1);
   }
+  #endif
   // A game can be saved
   {
     const game g;
