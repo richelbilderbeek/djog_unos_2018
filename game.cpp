@@ -79,42 +79,36 @@ void game::process_events()
 }
 
 void game::merge_tiles() {
-  // I use indices here, so it is more beginner-friendly
-  // one day, we'll use iterators
-  bool done = false;
-  while (!done)
+  // Only merge once.
+  // If two tile pairs need to merged (which should never happen),
+  // this function only merges one. The next tick (2 msecs later)
+  // will take care of the next tile
+  const int n = count_n_tiles(*this);
+  for (int i = 0; i < n; ++i)
   {
-    done = true;
-    const int n = count_n_tiles(*this);
-    for (int i = 0; i < n; ++i)
+    assert(i >=0);
+    assert(i < static_cast<int>(m_tiles.size()));
+    tile& focal_tile = m_tiles[i];
+    // j is the next tile in the vector
+    for (int j = i + 1; j < n; ++j)
     {
-      assert(i >=0);
-      assert(i < static_cast<int>(m_tiles.size()));
-      tile& focal_tile = m_tiles[i];
-      // j is the next tile in the vector
-      for (int j = i + 1; j < n; ++j)
-      {
-        assert(j >=0);
-        assert(j < static_cast<int>(m_tiles.size()));
-        const tile& other_tile = m_tiles[j];
-        if (!have_same_position(focal_tile, other_tile)) return;
-        const tile_type merged_type = get_merge_type(
-          focal_tile.get_type(),
-          other_tile.get_type()
-        );
-        //focal tile becomes merged type
-        focal_tile.set_type(merged_type);
-        //other tile is swapped to the back, then deleted
-        m_tiles[j] = m_tiles.back();
-        m_tiles.pop_back();
-        //change the selected tile
-        m_selected.clear();
-        assert(m_selected.empty());
-        //Redo
-        done = false;
-        i = n;
-        j = n;
-      }
+      assert(j >=0);
+      assert(j < static_cast<int>(m_tiles.size()));
+      const tile& other_tile = m_tiles[j];
+      if (!have_same_position(focal_tile, other_tile)) return;
+      const tile_type merged_type = get_merge_type(
+        focal_tile.get_type(),
+        other_tile.get_type()
+      );
+      //focal tile becomes merged type
+      focal_tile.set_type(merged_type);
+      //other tile is swapped to the back, then deleted
+      m_tiles[j] = m_tiles.back();
+      m_tiles.pop_back();
+      //change the selected tile
+      m_selected.clear();
+      assert(m_selected.empty());
+      return;
     }
   }
 }
@@ -132,7 +126,7 @@ void test_game() //!OCLINT a testing function may be long
     const game g;
     assert(g.get_score() == 0);
   }
-  #define FIX_ISSUE_91
+  //#define FIX_ISSUE_91
   #ifdef FIX_ISSUE_91
   // A game starts with a zero number of game cycles
   {

@@ -18,7 +18,7 @@ public:
   auto &get_tiles() noexcept { return m_tiles; }
 
   /// Read all agents
-  const auto &get_agents() const noexcept { return m_agents; }
+  const auto &get_agents  () const noexcept { return m_agents; }
   auto &get_agents() noexcept { return m_agents; }
 
   int get_score() const noexcept { return m_score; }
