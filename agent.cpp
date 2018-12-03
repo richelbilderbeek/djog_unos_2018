@@ -21,11 +21,13 @@ std::istream& operator>>(std::istream& is, agent& a)
   return is;
 }
 
+/* FIXME this didn't work
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
     if (!(lhs.m_type and rhs.m_type and lhs.m_x and rhs.m_x and lhs.m_y and rhs.m_y)))
        return false;
     return true;
 }
+*/
 
 void agent::move()
 {
@@ -87,7 +89,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agents.push_back(a1);
   }
   {
-    agent a1(agent_type::bacteria);
+    agent a1(agent_type::bacterium);
     move_agent_to_tile(a1, 0, 0);
     agents.push_back(a1);
 
@@ -136,13 +138,10 @@ void test_agent() //!OCLINT testing functions may be long
     for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
-<<<<<<< HEAD
   #endif // FIX_ISSUE_202
 
   //#define FIX_ISSUE_201
   #ifdef FIX_ISSUE_201
-=======
->>>>>>> be4a9785279b7807e801203473416f9cccfb53ec
   // A fish moves
   {
     const double x{12.34};
