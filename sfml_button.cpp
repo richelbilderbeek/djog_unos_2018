@@ -15,8 +15,8 @@ bool sfml_button::is_clicked(const sf::Event& event,
   double x = sf::Mouse::getPosition(window).x + camera_x;
   double y = sf::Mouse::getPosition(window).y + camera_y;
   if (event.type == sf::Event::MouseButtonPressed) {
-    return (x > m_x && x < m_x + m_width &&
-            y > m_y && y < m_y + m_height);
+    return x > m_x && x < m_x + m_width &&
+           y > m_y && y < m_y + m_height;
   }
   return false;
 }
