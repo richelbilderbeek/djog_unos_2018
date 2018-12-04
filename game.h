@@ -30,7 +30,7 @@ public:
 
   void add_agents(std::vector<agent> as);
 
-  void merge_tiles();
+
 
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
@@ -41,6 +41,7 @@ public:
 
 private:
 
+  void merge_tiles();
   /// Tiles list
   std::vector<tile> m_tiles;
 
