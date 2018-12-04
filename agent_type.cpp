@@ -48,7 +48,7 @@ void test_agent_type() //!OCLINT testing functions may be long
     #endif // FIX_ISSUE_188
   }
   {
-    //#define FIX_ISSUE_224
+    #define FIX_ISSUE_224
     #ifdef FIX_ISSUE_224
     static_assert(agent_type::cow != agent_type::bacterium, "bacterium must exist");
     #endif

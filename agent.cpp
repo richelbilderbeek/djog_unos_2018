@@ -125,7 +125,7 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  //#define FIX_ISSUE_202
+  #define FIX_ISSUE_202
   #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
