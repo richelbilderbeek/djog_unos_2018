@@ -36,8 +36,21 @@ Your topic branch is your personal version. It's personal. It's yours. People mu
 
 ### Exceptions 
 
-If you may do so, if you have been given permission on a GitHub Issue.
+One may do so, if he/she have been given permission on a GitHub Issue.
 
 ### Note
 
-You may merge other people's topic branches in `develop` without permission.
+Mediors and seniors may merge other people's topic branches in `develop` 
+without permission. This prevents future merge conflicts.
+
+## S.4. Juniors do not merge with `develop`
+
+### Reason
+
+We are a big team. Unexperienced juniors may randomly resolve merge conflicts,
+which can cause the loss of good code. 
+
+### Exceptions 
+
+One may do so, if he/she has been given permission on a GitHub Issue.
+

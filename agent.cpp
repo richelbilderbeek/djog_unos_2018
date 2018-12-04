@@ -21,10 +21,11 @@ std::istream& operator>>(std::istream& is, agent& a)
   return is;
 }
 
+/* FIXME this didn't work
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
     return  lhs.m_type == rhs.m_type and lhs.m_x == rhs.m_x and lhs.m_y == rhs.m_y ;
-
 }
+*/
 
 void agent::move()
 {
@@ -84,6 +85,12 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::grass);
     move_agent_to_tile(a1, 1, -1);
     agents.push_back(a1);
+  }
+  {
+    agent a1(agent_type::bacterium);
+    move_agent_to_tile(a1, 0, 0);
+    agents.push_back(a1);
+
   }
   return agents;
 }

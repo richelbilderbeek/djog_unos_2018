@@ -12,7 +12,8 @@ SOURCES += \
     $$PWD/sfml_resources.cpp \
     $$PWD/sfml_title_screen.cpp \
     $$PWD/tile.cpp \
-    $$PWD/tile_type.cpp
+    $$PWD/tile_type.cpp \
+    $$PWD/sfml_button.cpp
 
 HEADERS += \
     $$PWD/agent.h \
@@ -29,7 +30,7 @@ HEADERS += \
     $$PWD/sfml_title_screen.h \
     $$PWD/tile.h \
     $$PWD/tile_type.h \
-    $$PWD/tile_id.h
+    $$PWD/sfml_button.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc
