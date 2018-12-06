@@ -2,6 +2,7 @@
 #include "sfml_resources.h"
 #include "sfml_button.h"
 #include <iostream>
+#include <cassert>
 
 sfml_menu_screen::sfml_menu_screen()
     : m_window{sf::VideoMode(600, 600), "Nature Zen - Menu"},
@@ -16,9 +17,9 @@ sfml_menu_screen::sfml_menu_screen()
     m_main_text.setPosition(300, 100);
 
     sf::RectangleShape &b1_s = m_button1.get_shape();
-    b1_s.setSize(sf::Vector2f(50, 50));
-    b1_s.setPosition(sf::Vector2f(300, 300));
     b1_s.setFillColor(sf::Color(125, 5, 0));
+    m_button1.set_size(250, 100);
+    m_button1.set_pos(300, 300);
 }
 
 void sfml_menu_screen::exec()
@@ -49,6 +50,7 @@ void sfml_menu_screen::exec()
     }
     m_window.draw(m_main_text);
     m_window.draw(m_button1.get_shape());
+    m_window.draw(m_button1.get_text());
     m_window.display();
   }
 }
