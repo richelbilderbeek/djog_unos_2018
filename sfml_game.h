@@ -52,8 +52,6 @@ public:
   void stop_music();
 
   // Show to menu
-  void show_title();
-
   void arrows(bool b, const sf::Event &event);
 
   bool clicked_tile = false;

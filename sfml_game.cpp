@@ -369,12 +369,6 @@ void sfml_game::stop_music()
   m_background_music.stop();
 }
 
-// NOTE Changed it to show_title (was show_menu)
-void sfml_game::show_title()
-{
-  m_game_state = game_state::titlescreen;
-}
-
 void sfml_game::arrows(bool b, const sf::Event& event)
 {
   if (event.key.code == sf::Keyboard::D)
