@@ -78,7 +78,7 @@ void game::process_events()
   ++m_n_tick;
 }
 
-void game::merge_tiles() {
+void game::merge_tiles() { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
   const int n = count_n_tiles(*this);
