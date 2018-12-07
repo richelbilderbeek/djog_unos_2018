@@ -162,9 +162,9 @@ private:
   void process_mouse_input(const sf::Event &event);
 
   /// Draw Text
-  Text titleScreenText;
+  sf::Text titleScreenText;
   // Font
-  Font m_font;
+  sf::Font m_font;
 
   bool m_is_space_pressed = false;
 
