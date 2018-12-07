@@ -8,6 +8,8 @@
 
 class game {
 
+friend class sfml_game;
+
 public:
   /// Constructor
   game(const std::vector<tile>& tiles = create_default_tiles(),
@@ -26,6 +28,9 @@ public:
   void change_score_by(int delta_score);
 
   void add_tiles(std::vector<tile> ts);
+  void delete_tiles(std::vector<tile> ts);
+
+  void add_agents(std::vector<agent> as);
 
   int get_n_ticks() const;
 
@@ -34,6 +39,9 @@ public:
   void process_events();
 
 private:
+
+  /// The selected tile
+  std::vector<int> m_selected;
 
   void merge_tiles();
   /// Tiles list
@@ -70,9 +78,6 @@ void test_game();
 std::ostream& operator<<(std::ostream& os, const game& g);
 
 std::istream& operator>>(std::istream& os, game& g);
-
-/// The selected tile
-std::vector<int> m_selected;
 
 bool operator==(const game& lhs, const game& rhs) noexcept;
 
