@@ -13,8 +13,6 @@
 #include "game_state.h"
 #include "sfml_camera.h"
 
-using namespace sf;
-
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
 {
