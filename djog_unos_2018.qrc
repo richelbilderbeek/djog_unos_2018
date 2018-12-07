@@ -3,13 +3,15 @@
         <file>resources/background_music.ogg</file>
         <file>resources/title_music.ogg</file>
         <file>resources/font.ttf</file>
-        <file>resources/gras.png</file>
+        <file>resources/grass.png</file>
         <file>resources/cow.png</file>
         <file>resources/title_screen_background.png</file>
         <file>resources/fish.png</file>
         <file>resources/crocodile.png</file>
         <file>resources/zen_font.ttf</file>
         <file>resources/title_screen_background.jpg</file>
+        <file>resources/none_agent.png</file>
         <file>resources/bacterium.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

@@ -16,6 +16,8 @@ public:
 
     void change_game_state();
 
+    void animation();
+
 private:
 
     sf::Music &m_title_music;
@@ -23,6 +25,9 @@ private:
     sf::Font m_font;
     sf::Text title_text;
     sf::Sprite m_bg_sprite;
+
+    double i = 0;
+    bool b = true;
 
 };
 

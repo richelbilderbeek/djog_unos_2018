@@ -11,6 +11,7 @@
 #include "game.h"
 #include "sfml_game_delegate.h"
 #include "game_state.h"
+#include "sfml_camera.h"
 
 using namespace sf;
 
@@ -39,7 +40,7 @@ public:
 
   /// Get how many times the sfml_game has been displayed on screen.
   /// Will be approximately 60 times per second.
-  int get_n_displayed() const noexcept { return m_game.get_n_ticks(); }
+  int get_n_displayed() const noexcept { return m_n_displayed; }
 
   /// Move a selected tile randomly. Will do nothing if no tile is selected.
   void move_selected_tile_randomly();
@@ -51,8 +52,6 @@ public:
   void stop_music();
 
   // Show to menu
-  void show_title();
-
   void arrows(bool b, const sf::Event &event);
 
   bool clicked_tile = false;
@@ -68,7 +67,7 @@ public:
 
   void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
   void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);
-  sf::Color outline;
+  sf::Color m_outline;
 
   void setup_text();
 
@@ -109,24 +108,20 @@ public:
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
 private:
+  // Functions to display tiles and agents on the screen
+  void display_tile(const tile& t);
+  void display_agent(const agent& a);
+
   /// Background music file object
   sf::Music &m_background_music;
 
   // Agent for testing
   // agent agent_test;
-  // Texture for test agent
-  Texture test_agent_tex;
+
+
 
   /// Sate of Game
   game_state m_game_state = game_state::playing;
-
-  /// Camera position in the x direction
-  /// If positive, camera is moved right of the origin
-  double m_camera_x{-100.0};
-
-  /// Camera position in the y direction
-  /// If positive, camera is moved down of the origin
-  double m_camera_y{-100.0};
 
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
@@ -134,14 +129,15 @@ private:
   /// The game logic
   game m_game;
 
+  /// The number of times the sfml_game is displayed on screen
+  /// Should be approx 60 times per second
+  int m_n_displayed{0};
+
   /// The window the sfml_game is rendered to
   sf::RenderWindow m_window;
 
   /// Display all shapes on the window
   void display();
-
-  /// Moves the camera
-  void move_camera(sf::Vector2f offset);
 
   ///Process an SFML event
   void process_event(const sf::Event& event);
@@ -169,16 +165,12 @@ private:
 
   /// Draw Text
   Text titleScreenText;
-  Text aboutScreenText;
   // Font
   Font m_font;
 
-  bool m_movecam_r = false;
-  bool m_movecam_l = false;
-  bool m_movecam_u = false;
-  bool m_movecam_d = false;
-
   bool m_is_space_pressed = false;
+
+  sfml_camera m_camera;
 };
 
 ///Test the sfml_game class

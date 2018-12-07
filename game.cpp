@@ -7,8 +7,10 @@
 #include <cstdio>
 #include <QFile>
 
-game::game(const std::vector<tile>& tiles)
+game::game(const std::vector<tile>& tiles,
+           const std::vector<agent>& agents)
   : m_tiles{tiles},
+    m_agents{agents},
     m_score{0}
 {
 
@@ -20,21 +22,6 @@ void game::add_tiles(std::vector<tile> ts)
   {
     m_tiles.push_back(t);
   }
-}
-
-std::vector<tile_type> collect_tile_types(const game& g) noexcept
-{
-  std::vector<tile_type> types;
-  for (const tile& t: g.get_tiles())
-  {
-    types.push_back(t.get_type());
-  }
-  return types;
-}
-
-int count_n_tiles(const game& g) noexcept
-{
-  return g.get_tiles().size();
 }
 
 void game::delete_tiles(std::vector<tile> ts)
@@ -54,11 +41,46 @@ void game::delete_tiles(std::vector<tile> ts)
   }
 }
 
+void game::add_agents(std::vector<agent> as)
+{
+  for (agent& a : as)
+  {
+    m_agents.push_back(a);
+  }
+}
+
+std::vector<tile_type> collect_tile_types(const game& g) noexcept
+{
+  std::vector<tile_type> types;
+  for (const tile& t: g.get_tiles())
+  {
+    types.push_back(t.get_type());
+  }
+  return types;
+}
+
+int count_n_tiles(const game& g) noexcept
+{
+  return g.get_tiles().size();
+}
+
 void game::process_events()
 {
-  //Merge tiles
-  //(I use indices here, so it is more beginner-friendly)
-  //(one day, we'll use iterators)
+  for (auto& a: m_agents) {
+    a.move();
+  }
+  merge_tiles();
+  //Process the events happening on the tiles
+  for (auto& tile: m_tiles)
+  {
+    tile.process_events();
+  }
+  ++m_n_tick;
+}
+
+void game::merge_tiles() {
+  // I use indices here, so it is more beginner-friendly
+  // one day, we'll use iterators
   bool done = false;
   while (!done)
   {
@@ -75,39 +97,26 @@ void game::process_events()
         assert(j >=0);
         assert(j < static_cast<int>(m_tiles.size()));
         const tile& other_tile = m_tiles[j];
-        if (have_same_position(focal_tile, other_tile)) //!OCLINT must be simpler
-        {
-          const tile_type merged_type = get_merge_type(
-            focal_tile.get_type(),
-            other_tile.get_type()
-          );
-          //focal tile becomes merged type
-          focal_tile.set_type(merged_type);
-          //other tile is swapped to the back, then deleted
-          m_tiles[j] = m_tiles.back();
-          m_tiles.pop_back();
-          //change the selected tile
-          m_selected.clear();
-          assert(m_selected.empty());
-          //Redo
-          done = false;
-          i = n;
-          j = n;
-        }
+        if (!have_same_position(focal_tile, other_tile)) return;
+        const tile_type merged_type = get_merge_type(
+          focal_tile.get_type(),
+          other_tile.get_type()
+        );
+        //focal tile becomes merged type
+        focal_tile.set_type(merged_type);
+        //other tile is swapped to the back, then deleted
+        m_tiles[j] = m_tiles.back();
+        m_tiles.pop_back();
+        //change the selected tile
+        m_selected.clear();
+        assert(m_selected.empty());
+        //Redo
+        done = false;
+        i = n;
+        j = n;
       }
     }
   }
-
-  //Process the events happening on the tiles
-  for (auto& tile: m_tiles)
-  {
-    tile.process_events();
-  }
-  ++m_n_ticks;
-}
-
-int game::get_n_ticks() const{
-    return m_n_ticks;
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -124,7 +133,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_score() == 0);
   }
 
-#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
+//#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
 #ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
   // A game starts with a zero number of game cycles
   {
@@ -151,9 +160,12 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
   }
+
+  //#define FIX_ISSUE_RAFAYEL
+  #ifdef FIX_ISSUE_RAFAYEL
   // A game can be loaded
   {
-    const game g;
+    const game g(create_two_grass_tiles());
     const std::string filename{"tmp.sav"};
     if (QFile::exists(filename.c_str()))
     {
@@ -163,8 +175,9 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
     const game h = load(filename);
-    assert(g.get_score() == h.get_score());
+    assert(g == h);
   }
+  #endif // FIX_ISSUE_RAFAYEL
   {
     // Create a game with two grassland blocks on top of each other
     // +====+====+    +----+----+
@@ -172,7 +185,7 @@ void test_game() //!OCLINT a testing function may be long
     // +====+====+    +----+----+
     const std::vector<tile> tiles
     {
-      //   x    y    z   w    h    type                  ID
+      //   x    y    z   w    h    type         ID
       tile(1, 1, 1, 2, 1, tile_type::grassland, 0),
       tile(1, 1, 1, 2, 1, tile_type::grassland, 0)
     };
@@ -185,14 +198,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
   }
-  //#define FIX_ISSUE_218
-  #ifdef FIX_ISSUE_218
-  {
-    const game g;
-    const std::vector<agent> agents = collect_all_agents(g);
-    assert(!agents.empty());
-  }
-  #endif
 }
 
 game load(const std::string &filename) {
@@ -211,11 +216,13 @@ std::ostream& operator<<(std::ostream& os, const game& g)
 {
   //TODO: actually save the tile and agents
   os << g.m_n_tick << ' ' << g.m_score << ' '
-     << g.m_tiles.size() << ' ';
+     << g.m_tiles.size();
 
   for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
-      os << g.m_tiles[i];
+      os << ' ' <<g.m_tiles[i];
   }
+
+  os << ' ';
 
   return os;
 }
@@ -234,4 +241,16 @@ std::istream& operator>>(std::istream& is, game& g)
       g.m_tiles.emplace_back(t);
   }
   return is;
+}
+
+bool operator==(const game& lhs, const game& rhs) noexcept
+{
+  if (lhs.m_n_tick != rhs.m_n_tick)
+      return false;
+  if (lhs.m_score != rhs.m_score)
+      return false;
+  if (lhs.m_tiles != rhs.m_tiles)
+      return false;
+
+  return true;
 }

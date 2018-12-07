@@ -8,8 +8,9 @@ public:
   sfml_about_screen(const int window_width = 1000, const int window_height = 600);
   void close();
   void exec();
-  sf::RenderWindow aboutwindow;
-  sf::Text abouttext;
+private:
+  sf::RenderWindow m_about_window;
+  sf::Text m_about_text;
 };
 
 #endif // SFML_ABOUT_SCREEN_H

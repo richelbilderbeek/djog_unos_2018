@@ -1,5 +1,8 @@
 #include "tile_type.h"
-
+#include "string"
+#include <cassert>
+#include <iostream>
+#include <sstream>
 #include <cassert>
 #include <iostream>
 #include <string>
@@ -36,7 +39,7 @@ void test_tile_type()
     assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::mountains);
     assert(get_merge_type(tile_type::grassland, tile_type::desert) == tile_type::savannah);
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
-    //TODO: after Issue #187: test more combinationss
+    //TODO: after Issue #187: test more combinations
   }
   {
     //Uncomment if you want to run this test
@@ -56,7 +59,6 @@ void test_tile_type()
 std::vector<tile_type> get_all_tile_types() noexcept
 {
   std::vector<tile_type> v;
-  v.push_back(tile_type::none);
   v.push_back(tile_type::nonetile);
   v.push_back(tile_type::grassland);
   v.push_back(tile_type::mountains);
@@ -66,41 +68,34 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::desert);
   v.push_back(tile_type::swamp);
   return v;
-  //make function to get all types, stupid way!
 }
 
-std::string to_str(tile_type t)
+std::string to_str(tile_type t) //!OCLINT cannot be simpler
 {
   switch (t) {
     case tile_type::grassland:
       return "grassland";
-
     case tile_type::arctic:
       return "arctic";
-
     case tile_type::desert:
       return "desert";
-
     case tile_type::mountains:
       return "mountains";
-
     case tile_type::ocean:
       return "ocean";
-
     case tile_type::savannah:
       return "savannah";
-
     case tile_type::swamp:
       return "swamp";
-
-    case tile_type::nonetile:
-      return "nonetile";
-
+    case tile_type::woods:
+      return "woods";
     default:
-      return "none";
+      assert(t == tile_type::nonetile);
+      return "nonetile";
 
 
   }
+
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
@@ -112,18 +107,20 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
   if (str == "mountains") return tile_type::mountains;
   if (str == "ocean") return tile_type::ocean;
   if (str == "savannah") return tile_type::savannah;
-  if (str == "nonetile") return tile_type::nonetile;
-  return tile_type::none;
+  if (str == "woods") return tile_type::woods;
+  return tile_type::nonetile;
 }
 
-std::ostream& operator <<(std::ostream& os, const tile_type t) noexcept {
-    os << to_str(t);
-    return os;
+std::ostream& operator <<(std::ostream& os, const tile_type t) noexcept
+{
+  os << to_str(t);
+  return os;
 }
 
-std::istream& operator>>(std::istream& is, tile_type& t) noexcept {
-    std::string str;
-    is >> str;
-    t = to_tile(str); //!OCLINT indeed parameter reassignment, which is exactly the idea
-    return is;
+std::istream& operator>>(std::istream& is, tile_type& t) noexcept
+{
+  std::string str;
+  is >> str;
+  t = to_tile(str); //!OCLINT indeed parameter reassignment, which is exactly the idea
+  return is;
 }
