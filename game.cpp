@@ -41,14 +41,6 @@ void game::delete_tiles(std::vector<tile> ts)
   }
 }
 
-void game::add_agents(std::vector<agent> as)
-{
-  for (agent& a : as)
-  {
-    m_agents.push_back(a);
-  }
-}
-
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
 {
   std::vector<tile_type> types;
