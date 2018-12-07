@@ -119,6 +119,10 @@ void game::merge_tiles() {
   }
 }
 
+int game::get_n_ticks() const{
+    return m_n_tick;
+}
+
 void test_game() //!OCLINT a testing function may be long
 {
   // A game starts with one or more tiles
@@ -133,8 +137,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_score() == 0);
   }
 
-//#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
-#ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
   // A game starts with a zero number of game cycles
   {
     const game g;
@@ -146,7 +148,6 @@ void test_game() //!OCLINT a testing function may be long
     g.process_events();
     assert(g.get_n_ticks() == 1);
   }
-#endif // FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
 
   // A game can be saved
   {

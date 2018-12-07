@@ -30,7 +30,7 @@ public:
 
   void add_agents(std::vector<agent> as);
 
-
+  int get_n_ticks() const;
 
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
