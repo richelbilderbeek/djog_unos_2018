@@ -24,31 +24,6 @@ void game::add_tiles(std::vector<tile> ts)
   }
 }
 
-void game::delete_tiles(std::vector<tile> ts)
-{
-  for (tile& t : ts)
-  {
-    auto here = std::find_if(
-      std::begin(m_tiles),
-      std::end(m_tiles),
-      [t](const tile& u)
-      {
-        return u.get_id() == t.get_id();
-      }
-    );
-    std::swap(*here, m_tiles.back());
-    m_tiles.pop_back();
-  }
-}
-
-void game::add_agents(std::vector<agent> as)
-{
-  for (agent& a : as)
-  {
-    m_agents.push_back(a);
-  }
-}
-
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
 {
   std::vector<tile_type> types;
@@ -119,6 +94,10 @@ void game::merge_tiles() {
   }
 }
 
+int game::get_n_ticks() const{
+    return m_n_tick;
+}
+
 void test_game() //!OCLINT a testing function may be long
 {
   // A game starts with one or more tiles
@@ -133,8 +112,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_score() == 0);
   }
 
-//#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
-#ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
   // A game starts with a zero number of game cycles
   {
     const game g;
@@ -146,7 +123,6 @@ void test_game() //!OCLINT a testing function may be long
     g.process_events();
     assert(g.get_n_ticks() == 1);
   }
-#endif // FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
 
   // A game can be saved
   {
