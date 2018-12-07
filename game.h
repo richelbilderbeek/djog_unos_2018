@@ -36,9 +36,6 @@ public:
   /// Everything except user input.
   void process_events();
 
-  /// The selected tile
-  std::vector<int> m_selected;
-
 private:
 
   void merge_tiles();
@@ -76,6 +73,9 @@ void test_game();
 std::ostream& operator<<(std::ostream& os, const game& g);
 
 std::istream& operator>>(std::istream& os, game& g);
+
+/// The selected tile
+std::vector<int> m_selected;
 
 bool operator==(const game& lhs, const game& rhs) noexcept;
 
