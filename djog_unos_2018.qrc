@@ -12,6 +12,7 @@
         <file>resources/title_screen_background.jpg</file>
         <file>resources/none_agent.png</file>
         <file>resources/bacterium.png</file>
+        <file>resources/tree.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

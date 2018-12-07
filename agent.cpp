@@ -90,7 +90,11 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::bacterium);
     move_agent_to_tile(a1, 0, 0);
     agents.push_back(a1);
-
+  }
+  {
+    agent a1(agent_type::tree);
+    move_agent_to_tile(a1, 4, -1);
+    agents.push_back(a1);
   }
   return agents;
 }
