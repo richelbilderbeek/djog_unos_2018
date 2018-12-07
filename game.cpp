@@ -24,23 +24,6 @@ void game::add_tiles(std::vector<tile> ts)
   }
 }
 
-void game::delete_tiles(std::vector<tile> ts)
-{
-  for (tile& t : ts)
-  {
-    auto here = std::find_if(
-      std::begin(m_tiles),
-      std::end(m_tiles),
-      [t](const tile& u)
-      {
-        return u.get_id() == t.get_id();
-      }
-    );
-    std::swap(*here, m_tiles.back());
-    m_tiles.pop_back();
-  }
-}
-
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
 {
   std::vector<tile_type> types;
