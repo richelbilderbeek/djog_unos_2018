@@ -46,7 +46,7 @@ public:
   double get_dy() const noexcept { return m_dy; }
 
   /// The center of the tile
-  Vector2f get_center() const noexcept { return Vector2f(m_width / 2.0f, m_height / 2.0f); }
+  sf::Vector2f get_center() const noexcept { return sf::Vector2f(m_width / 2.0f, m_height / 2.0f); }
 
   ///Process events, for example, make the agents move
   void process_events();

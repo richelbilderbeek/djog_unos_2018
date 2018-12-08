@@ -12,6 +12,7 @@ std::vector<agent_type> collect_all_agent_types()
         agent_type::bacterium,
         agent_type::fish,
         agent_type::grass,
+        agent_type::tree,
         agent_type::none
   };
 }
@@ -75,6 +76,9 @@ std::string to_str(agent_type a)
     case agent_type::crocodile:
       return "crocodile";
 
+    case agent_type::tree:
+      return "tree";
+
     case agent_type::none:
       return "none";
   }
@@ -89,6 +93,7 @@ agent_type to_agent(std::string str)
   if (str == "grass") return agent_type::grass;
   if (str == "fish") return agent_type::fish;
   if (str == "crocodile") return agent_type::crocodile;
+  if (str == "tree") return agent_type::tree;
   if (str == "none") return agent_type::none;
   assert(!"Agent types aren't translated completely"); //!OCLINT accepted idiom
   return agent_type::none;

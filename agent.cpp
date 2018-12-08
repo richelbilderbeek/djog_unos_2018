@@ -21,17 +21,20 @@ std::istream& operator>>(std::istream& is, agent& a)
   return is;
 }
 
-/* FIXME this didn't work
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
     return  lhs.m_type == rhs.m_type and lhs.m_x == rhs.m_x and lhs.m_y == rhs.m_y ;
 }
-*/
+
 
 void agent::move()
 {
-  if (m_type == agent_type::cow) {
+  if (m_type == agent_type::cow || m_type == agent_type::crocodile) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
+  }
+  else if (m_type == agent_type::fish){
+    m_x += 0.1 * (-1 + (std::rand() % 3));
+    m_x += 0.1 * (-1 + (std::rand() % 3));
   }
 }
 
@@ -90,7 +93,11 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::bacterium);
     move_agent_to_tile(a1, 0, 0);
     agents.push_back(a1);
-
+  }
+  {
+    agent a1(agent_type::tree);
+    move_agent_to_tile(a1, 4, -1);
+    agents.push_back(a1);
   }
   return agents;
 }
@@ -108,7 +115,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(a.get_x() == 0.0);
     assert(a.get_y() == 0.0);
   }
-  // A agent has the right coordinats
+  // An agent has the right coordinats
   {
     const double x{12.34};
     const double y{56.78};
@@ -125,7 +132,7 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  //#define FIX_ISSUE_202
+  #define FIX_ISSUE_202
   #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
@@ -138,10 +145,11 @@ void test_agent() //!OCLINT testing functions may be long
   }
   #endif // FIX_ISSUE_202
 
-  //#define FIX_ISSUE_201
+  #define FIX_ISSUE_201
   #ifdef FIX_ISSUE_201
   // A fish moves
   {
+    std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::fish, x, y);
@@ -166,4 +174,3 @@ void test_agent() //!OCLINT testing functions may be long
   }
   #endif // FIX_ISSUE_245
 }
-

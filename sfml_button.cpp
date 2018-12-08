@@ -30,7 +30,7 @@ void sfml_button::set_size(double width, double height) {
   m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
 }
 
-void sfml_button::set_string(const String str) {
+void sfml_button::set_string(const std::string str) {
   m_text.setString(str);
   m_text.setOrigin(m_text.getGlobalBounds().left +
                    m_text.getGlobalBounds().width / 2.0f,

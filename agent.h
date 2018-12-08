@@ -6,8 +6,6 @@
 #include "SFML/Graphics.hpp"
 #include "agent_type.h"
 
-using namespace sf;
-
 /// Logic of an agent; something that moves on the tiles
 class agent {
 public:
