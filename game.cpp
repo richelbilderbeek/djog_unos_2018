@@ -106,6 +106,7 @@ void game::merge_tiles() { //!OCLINT must simplify
       //change the selected tile
       m_selected.clear();
       assert(m_selected.empty());
+      return;
     }
   }
 }
