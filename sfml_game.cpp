@@ -32,7 +32,7 @@ sfml_game::sfml_game(const int window_width,
     = static_cast<int>(sf::VideoMode::getDesktopMode().height / 2)
     - window_height / 2;
   m_window.setPosition(sf::Vector2i(window_x, window_y));
-  m_screen_center = Vector2i(window_width / 2, window_height / 2);
+  m_screen_center = sf::Vector2i(window_width / 2, window_height / 2);
 
   // Set up text
   setup_text();
@@ -69,7 +69,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 
   sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   text.setPosition(m_window.getSize().x - 80, 10);
-  text.setStyle(Text::Bold);
+  text.setStyle(sf::Text::Bold);
   m_window.draw(text);
 
   if (m_is_space_pressed)
