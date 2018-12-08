@@ -32,6 +32,10 @@ void agent::move()
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
+  else if (m_type == agent_type::fish){
+    m_x += 0.1 * (-1 + (std::rand() % 3));
+    m_x += 0.1 * (-1 + (std::rand() % 3));
+  }
 }
 
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
@@ -111,7 +115,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(a.get_x() == 0.0);
     assert(a.get_y() == 0.0);
   }
-  // A agent has the right coordinats
+  // An agent has the right coordinats
   {
     const double x{12.34};
     const double y{56.78};
@@ -141,10 +145,11 @@ void test_agent() //!OCLINT testing functions may be long
   }
   #endif // FIX_ISSUE_202
 
-  //#define FIX_ISSUE_201
+  #define FIX_ISSUE_201
   #ifdef FIX_ISSUE_201
   // A fish moves
   {
+    std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::fish, x, y);
@@ -169,4 +174,3 @@ void test_agent() //!OCLINT testing functions may be long
   }
   #endif // FIX_ISSUE_245
 }
-
