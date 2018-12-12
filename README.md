@@ -40,7 +40,7 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 Branch|AppVeyor status
 ---|---
 master|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/master?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog_unos_2018/branch/master)
-develop||[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/develop?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog_unos_2018/branch/develop)
+develop|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/develop?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog_unos_2018/branch/develop)
 
 ## Goal
 
