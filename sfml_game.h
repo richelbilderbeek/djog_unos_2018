@@ -79,7 +79,7 @@ public:
 
   void exec_tile_move(std::vector<int> selected);
 
-  std::vector<int> m_temp_id;
+//  std::vector<int> m_temp_id;
 
   void manage_timer();
 

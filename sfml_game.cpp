@@ -218,12 +218,6 @@ void sfml_game::manage_timer()
   {
     --m_timer;
   }
-  else
-  {
-    m_game.m_selected.clear();
-    if (!m_temp_id.empty())
-      m_game.m_selected.push_back(m_temp_id[0]);
-  }
 }
 
 void sfml_game::exec_tile_move(std::vector<int> selected)
@@ -342,14 +336,14 @@ void sfml_game::process_mouse_input(const sf::Event& event)
             sf::Mouse::getPosition(m_window).x + m_camera.x,
             sf::Mouse::getPosition(m_window).y + m_camera.y))
       {
-        m_temp_id.clear();
-        m_temp_id.push_back(game_tiles.at(i).get_id());
+        m_game.m_selected.clear();
+        m_game.m_selected.push_back(game_tiles.at(i).get_id());
         clicked_tile = true;
       }
     }
     if (clicked_tile == false)
     {
-      m_temp_id.clear();
+      m_game.m_selected.clear();
     }
     clicked_tile = false;
   }
