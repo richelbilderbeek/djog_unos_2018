@@ -24,31 +24,6 @@ void game::add_tiles(std::vector<tile> ts)
   }
 }
 
-void game::delete_tiles(std::vector<tile> ts)
-{
-  for (tile& t : ts)
-  {
-    auto here = std::find_if(
-      std::begin(m_tiles),
-      std::end(m_tiles),
-      [t](const tile& u)
-      {
-        return u.get_id() == t.get_id();
-      }
-    );
-    std::swap(*here, m_tiles.back());
-    m_tiles.pop_back();
-  }
-}
-
-void game::add_agents(std::vector<agent> as)
-{
-  for (agent& a : as)
-  {
-    m_agents.push_back(a);
-  }
-}
-
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
 {
   std::vector<tile_type> types;
@@ -78,11 +53,9 @@ void game::process_events()
   ++m_n_tick;
 }
 
-void game::merge_tiles() {
-  // Only merge once.
-  // If two tile pairs need to merged (which should never happen),
-  // this function only merges one. The next tick (2 msecs later)
-  // will take care of the next tile
+void game::merge_tiles() { //!OCLINT must simplify
+  // I use indices here, so it is more beginner-friendly
+  // one day, we'll use iterators
   const int n = count_n_tiles(*this);
   for (int i = 0; i < n; ++i)
   {
@@ -108,9 +81,13 @@ void game::merge_tiles() {
       //change the selected tile
       m_selected.clear();
       assert(m_selected.empty());
-      return;
+      return; //!OCLINT early return the only good option?
     }
   }
+}
+
+int game::get_n_ticks() const{
+    return m_n_tick;
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -126,8 +103,7 @@ void test_game() //!OCLINT a testing function may be long
     const game g;
     assert(g.get_score() == 0);
   }
-  //#define FIX_ISSUE_91
-  #ifdef FIX_ISSUE_91
+
   // A game starts with a zero number of game cycles
   {
     const game g;
@@ -139,7 +115,7 @@ void test_game() //!OCLINT a testing function may be long
     g.process_events();
     assert(g.get_n_ticks() == 1);
   }
-  #endif
+
   // A game can be saved
   {
     const game g;

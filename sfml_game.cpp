@@ -32,7 +32,7 @@ sfml_game::sfml_game(const int window_width,
     = static_cast<int>(sf::VideoMode::getDesktopMode().height / 2)
     - window_height / 2;
   m_window.setPosition(sf::Vector2i(window_x, window_y));
-  m_screen_center = Vector2i(window_width / 2, window_height / 2);
+  m_screen_center = sf::Vector2i(window_width / 2, window_height / 2);
 
   // Set up text
   setup_text();
@@ -69,7 +69,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 
   sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   text.setPosition(m_window.getSize().x - 80, 10);
-  text.setStyle(Text::Bold);
+  text.setStyle(sf::Text::Bold);
   m_window.draw(text);
 
   if (m_is_space_pressed)
@@ -218,12 +218,6 @@ void sfml_game::manage_timer()
   {
     --m_timer;
   }
-  else
-  {
-    m_game.m_selected.clear();
-    if (!m_temp_id.empty())
-      m_game.m_selected.push_back(m_temp_id[0]);
-  }
 }
 
 void sfml_game::exec_tile_move(std::vector<int> selected)
@@ -342,14 +336,14 @@ void sfml_game::process_mouse_input(const sf::Event& event)
             sf::Mouse::getPosition(m_window).x + m_camera.x,
             sf::Mouse::getPosition(m_window).y + m_camera.y))
       {
-        m_temp_id.clear();
-        m_temp_id.push_back(game_tiles.at(i).get_id());
+        m_game.m_selected.clear();
+        m_game.m_selected.push_back(game_tiles.at(i).get_id());
         clicked_tile = true;
       }
     }
     if (clicked_tile == false)
     {
-      m_temp_id.clear();
+      m_game.m_selected.clear();
     }
     clicked_tile = false;
   }
@@ -367,12 +361,6 @@ void sfml_game::select_random_tile()
 void sfml_game::stop_music()
 {
   m_background_music.stop();
-}
-
-// NOTE Changed it to show_title (was show_menu)
-void sfml_game::show_title()
-{
-  m_game_state = game_state::titlescreen;
 }
 
 void sfml_game::arrows(bool b, const sf::Event& event)

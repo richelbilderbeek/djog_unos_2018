@@ -13,8 +13,6 @@
 #include "game_state.h"
 #include "sfml_camera.h"
 
-using namespace sf;
-
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
 {
@@ -51,9 +49,7 @@ public:
   /// Stop the music
   void stop_music();
 
-  /// Show the title screen
-  void show_title();
-
+  // Show to menu
   void arrows(bool b, const sf::Event &event);
 
   bool clicked_tile = false;
@@ -83,7 +79,7 @@ public:
 
   void exec_tile_move(std::vector<int> selected);
 
-  std::vector<int> m_temp_id;
+//  std::vector<int> m_temp_id;
 
   void manage_timer();
 
@@ -166,9 +162,9 @@ private:
   void process_mouse_input(const sf::Event &event);
 
   /// Draw Text
-  Text titleScreenText;
+  sf::Text titleScreenText;
   // Font
-  Font m_font;
+  sf::Font m_font;
 
   bool m_is_space_pressed = false;
 

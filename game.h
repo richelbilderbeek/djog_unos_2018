@@ -8,6 +8,8 @@
 
 class game {
 
+friend class sfml_game;
+
 public:
   /// Constructor
   game(const std::vector<tile>& tiles = create_default_tiles(),
@@ -30,17 +32,18 @@ public:
 
   void add_agents(std::vector<agent> as);
 
-  void merge_tiles();
+  int get_n_ticks() const;
 
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
   void process_events();
 
+private:
+
   /// The selected tile
   std::vector<int> m_selected;
 
-private:
-
+  void merge_tiles();
   /// Tiles list
   std::vector<tile> m_tiles;
 
@@ -54,6 +57,7 @@ private:
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);
   friend std::istream& operator>>(std::istream& os, game& g);
+
   friend bool operator==(const game& lhs, const game& rhs) noexcept;
 };
 

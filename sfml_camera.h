@@ -5,8 +5,6 @@
 #include <iostream>
 #include <string>
 
-using namespace sf;
-
 class sfml_camera
 {
 public:
