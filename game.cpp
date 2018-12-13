@@ -53,43 +53,35 @@ void game::process_events()
   ++m_n_tick;
 }
 
-void game::merge_tiles() {
+void game::merge_tiles() { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
-  bool done = false;
-  while (!done)
+  const int n = count_n_tiles(*this);
+  for (int i = 0; i < n; ++i)
   {
-    done = true;
-    const int n = count_n_tiles(*this);
-    for (int i = 0; i < n; ++i)
+    assert(i >=0);
+    assert(i < static_cast<int>(m_tiles.size()));
+    tile& focal_tile = m_tiles[i];
+    // j is the next tile in the vector
+    for (int j = i + 1; j < n; ++j)
     {
-      assert(i >=0);
-      assert(i < static_cast<int>(m_tiles.size()));
-      tile& focal_tile = m_tiles[i];
-      // j is the next tile in the vector
-      for (int j = i + 1; j < n; ++j)
-      {
-        assert(j >=0);
-        assert(j < static_cast<int>(m_tiles.size()));
-        const tile& other_tile = m_tiles[j];
-        if (!have_same_position(focal_tile, other_tile)) return;
-        const tile_type merged_type = get_merge_type(
-          focal_tile.get_type(),
-          other_tile.get_type()
-        );
-        //focal tile becomes merged type
-        focal_tile.set_type(merged_type);
-        //other tile is swapped to the back, then deleted
-        m_tiles[j] = m_tiles.back();
-        m_tiles.pop_back();
-        //change the selected tile
-        m_selected.clear();
-        assert(m_selected.empty());
-        //Redo
-        done = false;
-        i = n;
-        j = n;
-      }
+      assert(j >=0);
+      assert(j < static_cast<int>(m_tiles.size()));
+      const tile& other_tile = m_tiles[j];
+      if (!have_same_position(focal_tile, other_tile)) return;
+      const tile_type merged_type = get_merge_type(
+        focal_tile.get_type(),
+        other_tile.get_type()
+      );
+      //focal tile becomes merged type
+      focal_tile.set_type(merged_type);
+      //other tile is swapped to the back, then deleted
+      m_tiles[j] = m_tiles.back();
+      m_tiles.pop_back();
+      //change the selected tile
+      m_selected.clear();
+      assert(m_selected.empty());
+      return; //!OCLINT early return the only good option?
     }
   }
 }
