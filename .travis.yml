@@ -58,7 +58,7 @@ script:
   # Build and run the game
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
-  - ./djog_unos_2018 --short
+  - ./djog_unos_2018 --short --version
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Get code coverage
