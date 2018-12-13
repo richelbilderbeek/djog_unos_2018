@@ -56,6 +56,7 @@ Collaboratively create a game, to be put on, for example, Steam.
   * [new members](doc/new_members.md)
   * [planning](doc/planning.md)
   * [social](doc/social.md)
+  * [suggest and vote](doc/ideas.md)
   * [team](doc/team.md)
   * [technical specs](doc/specs.md)
   * [todo](doc/todo.md)
