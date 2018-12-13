@@ -19,7 +19,7 @@ public:
   /// @param the tiles id
   tile(double x = 0.0, double y = 0.0, const double z = 0.0,
        double width = 0.0, double height = 0.0,
-       const tile_type type = tile_type::grassland, const int id = 0);
+       const tile_type type = tile_type::grassland, const tile_id id(0));
 
   /// The height of the tile
   double get_height() const noexcept { return m_height; }

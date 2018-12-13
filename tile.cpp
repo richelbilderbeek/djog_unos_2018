@@ -11,7 +11,7 @@
 #include <stdexcept>
 
 tile::tile(const double x, const double y, const double z, double const width,
-           const double height, const tile_type type, const int id)
+           const double height, const tile_type type, const tile_id id)
     : m_height{height}, m_type{type}, m_width{width}, m_x{x}, m_y{y}, m_z{z},
       m_dx{0}, m_dy{0}, m_dz{0}, m_id{id}
 {
