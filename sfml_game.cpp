@@ -64,14 +64,14 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     {
       sfml_game::display_agent(a);
     }
-    sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
+    //sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
-
+/* NOTE score display commented for appveyor
   sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   text.setPosition(m_window.getSize().x - 80, 10);
   text.setStyle(sf::Text::Bold);
   m_window.draw(text);
-
+*/
   if (m_is_space_pressed)
   {
     reset_input();
