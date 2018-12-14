@@ -11,5 +11,5 @@ build_script:
   - qmake djog_unos_2018.pro
   - mingw32-make
   - dir
-  - cd ..
+  - cd release
   - dir
