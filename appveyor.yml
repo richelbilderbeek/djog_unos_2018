@@ -13,4 +13,4 @@ build_script:
 
 test_script:
   - cd release
-  - djog_unos_2018.exe
+  - djog_unos_2018.exe --short
