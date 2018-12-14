@@ -10,6 +10,7 @@ install:
 build_script:
   - qmake djog_unos_2018.pro
   - mingw32-make
-  - dir
+
+test_script:
   - cd release
-  - dir
+  - djog_unos_2018.exe
