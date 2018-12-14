@@ -13,10 +13,12 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0.0, const double y = 0.0);
+  agent(const agent_type type, const double x = 0.0, const double y = 0.0, double health = 0.0);
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
+
+  double get_health() const noexcept { return m_health; }
 
   /// The x-coordinat of the top-left corner of the agent
   double get_x() const noexcept { return m_x; }
@@ -47,6 +49,9 @@ private:
 
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
+
+  /// The health of the agent
+  double m_health;
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);

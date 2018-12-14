@@ -4,8 +4,8 @@
 #include <iostream>
 #include <stdexcept>
 
-agent::agent(const agent_type type, const double x, const double y)
-    : m_type{type}, m_x{x}, m_y{y}{}
+agent::agent(const agent_type type, const double x, const double y, double health)
+    : m_type{type}, m_x{x}, m_y{y}, m_health{health}{}
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
@@ -182,12 +182,9 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
-  //#define FIX_ISSUE_245
-  #ifdef FIX_ISSUE_245
   // Agents have health
   {
-    const agent a(agent_type::cow);
+    const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
-  #endif // FIX_ISSUE_245
 }
