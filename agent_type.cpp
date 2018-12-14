@@ -64,6 +64,9 @@ std::string to_str(agent_type a)
     case agent_type::bacterium:
       return "bacterium";
 
+    case agent_type::spider:
+      return "spider";
+
     case agent_type::cow:
       return "cow";
 
