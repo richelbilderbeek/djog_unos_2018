@@ -28,13 +28,12 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
 
 void agent::move()
 {
-  if (m_type == agent_type::cow || m_type == agent_type::crocodile) {
+  if (m_type == agent_type::cow ||
+      m_type == agent_type::crocodile ||
+      m_type == agent_type::fish ||
+      m_type == agent_type::goat) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
-  }
-  else if (m_type == agent_type::fish){
-    m_x += 0.1 * (-1 + (std::rand() % 3));
-    m_x += 0.1 * (-1 + (std::rand() % 3));
   }
 }
 
@@ -98,6 +97,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::tree);
     move_agent_to_tile(a1, 4, -1);
     agents.push_back(a1);
+  }
+  {
+      agent a1(agent_type::goat, 190, 90);
+      move_agent_to_tile(a1, 1, 2);
+      agents.push_back(a1);
+      agent a2(agent_type::goat, 50, 80);
+      move_agent_to_tile(a2, 1, 2);
+      agents.push_back(a2);
   }
   return agents;
 }

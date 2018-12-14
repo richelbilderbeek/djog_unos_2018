@@ -42,10 +42,6 @@ tile::tile(const double x, const double y, const double z, double const width,
 //  }
 }
 
-
-
-
-
 std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function that is too long
 {
   std::vector<tile> tiles;

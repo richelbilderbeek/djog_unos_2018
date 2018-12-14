@@ -13,6 +13,7 @@ std::vector<agent_type> collect_all_agent_types()
         agent_type::fish,
         agent_type::grass,
         agent_type::tree,
+        agent_type::goat,
         agent_type::none
   };
 }
@@ -32,6 +33,8 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
     #endif
   }
@@ -54,6 +57,8 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
   }
 }
@@ -79,6 +84,9 @@ std::string to_str(agent_type a)
     case agent_type::tree:
       return "tree";
 
+    case agent_type::goat:
+      return "goat";
+
     case agent_type::none:
       return "none";
   }
@@ -94,6 +102,7 @@ agent_type to_agent(std::string str)
   if (str == "fish") return agent_type::fish;
   if (str == "crocodile") return agent_type::crocodile;
   if (str == "tree") return agent_type::tree;
+  if (str == "goat") return agent_type::goat;
   if (str == "none") return agent_type::none;
   assert(!"Agent types aren't translated completely"); //!OCLINT accepted idiom
   return agent_type::none;
