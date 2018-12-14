@@ -16,14 +16,6 @@ game::game(const std::vector<tile>& tiles,
 
 }
 
-void game::add_tiles(std::vector<tile> ts)
-{
-  for (tile& t : ts)
-  {
-    m_tiles.push_back(t);
-  }
-}
-
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
 {
   std::vector<tile_type> types;
