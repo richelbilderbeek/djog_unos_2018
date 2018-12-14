@@ -27,8 +27,8 @@ void sfml_about_screen::exec()
     }
 
     sf::Font font;
-    assert(QFile::exists("OpenSans.ttf"));
-    font.loadFromFile("OpenSans.ttf");
+    assert(QFile::exists("font.ttf"));
+    font.loadFromFile("font.ttf");
     m_about_window.clear(sf::Color::Green); // Clear the window with black color
     sfml_about_screen::m_about_text.setFont(font);
     sfml_about_screen::m_about_text.setString("About lalala..");
