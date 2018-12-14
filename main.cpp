@@ -44,7 +44,7 @@ int show_sfml_about_screen() {
     as.exec();
     return 0;
 }
-int main(int argc, char **argv)
+int main(int argc, char **argv) //!OCLINT WARNING main function too long
 {
 #ifndef NDEBUG
   test();
@@ -61,6 +61,14 @@ int main(int argc, char **argv)
     ts.exec();
     return 0;
   }
+  if (std::count(std::begin(args), std::end(args), "--menu"))
+  {
+    return show_sfml_menu_screen();
+  }
+  if (std::count(std::begin(args), std::end(args), "--about"))
+  {
+    return show_sfml_about_screen();
+  }
 
   int close_at{-1};
 
@@ -74,15 +82,6 @@ int main(int argc, char **argv)
   if (!std::count(std::begin(args), std::end(args), "--music"))
   {
     g.stop_music();
-  }
-
-  if (std::count(std::begin(args), std::end(args), "--menu"))
-  {
-    return show_sfml_menu_screen();
-  }
-  if (std::count(std::begin(args), std::end(args), "--about"))
-  {
-    return show_sfml_about_screen();
   }
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout

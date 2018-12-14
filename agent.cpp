@@ -22,22 +22,89 @@ std::istream& operator>>(std::istream& is, agent& a)
 }
 
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
-    if (!(lhs.m_type == rhs.m_type))
-        return false;
-    if (!(lhs.m_x == rhs.m_x))
-        return false;
-    if (!(lhs.m_y == rhs.m_y))
-        return false;
-
-    return true;
+    return  lhs.m_type == rhs.m_type and lhs.m_x == rhs.m_x and lhs.m_y == rhs.m_y ;
 }
+
 
 void agent::move()
 {
-  if (m_type == agent_type::cow) {
+  if (m_type == agent_type::cow || m_type == agent_type::crocodile) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
+  else if (m_type == agent_type::fish){
+    m_x += 0.1 * (-1 + (std::rand() % 3));
+    m_x += 0.1 * (-1 + (std::rand() % 3));
+  }
+}
+
+std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
+{
+  std::vector<agent> agents;
+  {
+    agent a1(agent_type::cow);
+    move_agent_to_tile(a1, 0, 0);
+    agents.push_back(a1);
+    agent a2(agent_type::cow, 40, 70);
+    move_agent_to_tile(a2, 0, 0);
+    agents.push_back(a2);
+    agent a3(agent_type::grass, 70, 40);
+    move_agent_to_tile(a3, 0, 0);
+    agents.push_back(a3);
+  }
+  {
+    agent a1(agent_type::cow);
+    move_agent_to_tile(a1, 1, 0);
+    agents.push_back(a1);
+    agent a2(agent_type::cow, 90, 30);
+    move_agent_to_tile(a2, 1, 0);
+    agents.push_back(a2);
+    agent a3(agent_type::cow, 30, 90);
+    move_agent_to_tile(a3, 1, 0);
+    agents.push_back(a3);
+  }
+  {
+    agent a1(agent_type::crocodile, 30, 160);
+    move_agent_to_tile(a1, 0, 2);
+    agents.push_back(a1);
+  }
+  {
+    agent a1(agent_type::crocodile);
+    move_agent_to_tile(a1, 2, 1);
+    agents.push_back(a1);
+    agent a2(agent_type::grass);
+    move_agent_to_tile(a2, 2, 1);
+    agents.push_back(a2);
+  }
+  {
+    agent a1(agent_type::fish);
+    move_agent_to_tile(a1, 3, 2);
+    agents.push_back(a1);
+    agent a2(agent_type::fish, 10, 10);
+    move_agent_to_tile(a2, 3, 2);
+    agents.push_back(a2);
+  }
+  {
+    agent a1(agent_type::grass);
+    move_agent_to_tile(a1, 1, -1);
+    agents.push_back(a1);
+  }
+  {
+    agent a1(agent_type::bacterium);
+    move_agent_to_tile(a1, 0, 0);
+    agents.push_back(a1);
+  }
+  {
+    agent a1(agent_type::tree);
+    move_agent_to_tile(a1, 4, -1);
+    agents.push_back(a1);
+  }
+  return agents;
+}
+
+void move_agent_to_tile(agent &a, double tile_x, double tile_y) {
+  a.set_x(a.get_x()+(tile_x*115));
+  a.set_y(a.get_y()+(tile_y*115));
 }
 
 void test_agent() //!OCLINT testing functions may be long
@@ -48,7 +115,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(a.get_x() == 0.0);
     assert(a.get_y() == 0.0);
   }
-  // A agent has the right coordinats
+  // An agent has the right coordinats
   {
     const double x{12.34};
     const double y{56.78};
@@ -65,7 +132,7 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  //#define FIX_ISSUE_202
+  #define FIX_ISSUE_202
   #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
@@ -78,10 +145,11 @@ void test_agent() //!OCLINT testing functions may be long
   }
   #endif // FIX_ISSUE_202
 
-  //#define FIX_ISSUE_201
+  #define FIX_ISSUE_201
   #ifdef FIX_ISSUE_201
   // A fish moves
   {
+    std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::fish, x, y);
@@ -97,5 +165,12 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
+  //#define FIX_ISSUE_245
+  #ifdef FIX_ISSUE_245
+  // Agents have health
+  {
+    const agent a(agent_type::cow);
+    assert(a.get_health() > 0.0);
+  }
+  #endif // FIX_ISSUE_245
 }
-

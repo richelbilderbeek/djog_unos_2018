@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include "agent.h"
+#include "tile_id.h"
 #include "tile_type.h"
 #include <vector>
 
@@ -19,9 +20,6 @@ public:
   tile(double x = 0.0, double y = 0.0, const double z = 0.0,
        double width = 0.0, double height = 0.0,
        const tile_type type = tile_type::grassland, const int id = 0);
-
-  /// Read all agents
-  const std::vector<agent> &get_agents() const noexcept { return m_agents; }
 
   /// The height of the tile
   double get_height() const noexcept { return m_height; }
@@ -48,7 +46,7 @@ public:
   double get_dy() const noexcept { return m_dy; }
 
   /// The center of the tile
-  Vector2f get_center() const noexcept { return Vector2f(m_width / 2.0f, m_height / 2.0f); }
+  sf::Vector2f get_center() const noexcept { return sf::Vector2f(m_width / 2.0f, m_height / 2.0f); }
 
   ///Process events, for example, make the agents move
   void process_events();
@@ -68,10 +66,8 @@ public:
   /// Move the tile by the movement coeficients
   void move();
 
-  void add_agent(agent a);
-
   /// Get the tile's id
-  int get_id() const noexcept { return m_id; }
+  int get_id() const noexcept { return m_id.get(); }
 
   void set_id(int tid);
 
@@ -110,11 +106,8 @@ private:
   /// The movement coefficient on the z-axis
   double m_dz;
 
-  /// Agents list
-  std::vector<agent> m_agents;
-
   /// The tile's id
-  int m_id;
+  tile_id m_id;
 
   bool m_locked = false;
 

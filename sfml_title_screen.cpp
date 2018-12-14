@@ -38,20 +38,8 @@ sfml_title_screen::sfml_title_screen()
 void sfml_title_screen::exec() //!OCLINT must be shorter
 {
     while(m_window.isOpen()) {
-        static int i = 0;
-        static bool b = true;
-        if (i < 50 && b) {
-          i++;
-        } else if (i == 50 && b) {
-          b = false;
-        }
-        if (i > 0 && !b) {
-          i--;
-        } else if (i == 0 && !b) {
-          b = true;
-        }
-        title_text.setPosition(400, 125+i);
-
+        title_text.setPosition(400, 110+i);
+        animation();
         sf::Event event;
         while (m_window.pollEvent(event))
         {
@@ -69,6 +57,21 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
         m_window.draw(title_text);
         m_window.display();
     }
+}
+
+void sfml_title_screen::animation() {
+  if (i < 70.0 && b) {
+    i += 0.05;
+  } else if (b) {
+    i -= 0.05;
+    b = false;
+  }
+  if (i > 0.0 && !b) {
+    i -= 0.05;
+  } else if (!b) {
+    i += 0.05;
+    b = true;
+  }
 }
 
 sfml_title_screen::~sfml_title_screen()

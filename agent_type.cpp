@@ -1,5 +1,4 @@
 #include "agent_type.h"
-#include "string"
 #include <algorithm>
 #include <cassert>
 #include <string>
@@ -10,9 +9,10 @@ std::vector<agent_type> collect_all_agent_types()
   {
         agent_type::cow,
         agent_type::crocodile,
-        agent_type::bacteria,
+        agent_type::bacterium,
         agent_type::fish,
         agent_type::grass,
+        agent_type::tree,
         agent_type::none
   };
 }
@@ -21,14 +21,11 @@ std::vector<agent_type> collect_all_agent_types()
 void test_agent_type() //!OCLINT testing functions may be long
 {
   {
-    //#define FIX_ISSUE_224
-    #ifdef FIX_ISSUE_224
     static_assert(agent_type::cow != agent_type::bacterium, "bacterium must exist");
-    #endif
   }
   //Collect all agent_types
   {
-    //#define FIX_ISSUE_204
+    #define FIX_ISSUE_204
     #ifdef FIX_ISSUE_204
     const std::vector<agent_type> v = collect_all_agent_types();
     assert(std::count(std::begin(v), std::end(v), agent_type::cow) == 1);
@@ -39,9 +36,6 @@ void test_agent_type() //!OCLINT testing functions may be long
     #endif
   }
   {
-    //Uncomment if you want to run this test
-    #define FIX_ISSUE_188
-    #ifdef FIX_ISSUE_188
     const std::vector<agent_type> v = collect_all_agent_types();
     for (const agent_type t : v)
     {
@@ -49,15 +43,26 @@ void test_agent_type() //!OCLINT testing functions may be long
       const agent_type u = to_agent(s);
       assert(t == u);
     }
-    #endif // FIX_ISSUE_188
+  }
+  {
+    static_assert(agent_type::cow != agent_type::bacterium, "bacterium must exist");
+  }
+  //Collect all agent_types
+  {
+    const std::vector<agent_type> v = collect_all_agent_types();
+    assert(std::count(std::begin(v), std::end(v), agent_type::cow) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
   }
 }
 
-std::string to_str(agent_type t)
+std::string to_str(agent_type a)
 {
-  switch (t) {
-    case agent_type::bacteria:
-      return "batteria";
+  switch (a) {
+    case agent_type::bacterium:
+      return "bacterium";
 
     case agent_type::cow:
       return "cow";
@@ -71,22 +76,26 @@ std::string to_str(agent_type t)
     case agent_type::crocodile:
       return "crocodile";
 
+    case agent_type::tree:
+      return "tree";
+
     case agent_type::none:
       return "none";
   }
-  assert(!"Agent types aren't translated completely");
+  assert(!"Agent types aren't translated completely"); //!OCLINT accepted idiom
   return "none";
 }
 
 agent_type to_agent(std::string str)
 {
   if (str == "cow") return agent_type::cow;
-  if (str == "batteria") return agent_type::bacteria;
+  if (str == "bacterium") return agent_type::bacterium;
   if (str == "grass") return agent_type::grass;
   if (str == "fish") return agent_type::fish;
   if (str == "crocodile") return agent_type::crocodile;
+  if (str == "tree") return agent_type::tree;
   if (str == "none") return agent_type::none;
-  assert(!"Agent types aren't translated completely");
+  assert(!"Agent types aren't translated completely"); //!OCLINT accepted idiom
   return agent_type::none;
 }
 
@@ -103,8 +112,8 @@ std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
 }
 
 
-bool operator==(agent_type lhs, agent_type rhs) noexcept{
-    if (to_str(lhs) == to_str(rhs)) return true;
-    else return false;
+bool operator==(agent_type lhs, agent_type rhs) noexcept
+{
+  return to_str(lhs) == to_str(rhs) ;
 
 }

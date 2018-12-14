@@ -11,8 +11,7 @@
 #include "game.h"
 #include "sfml_game_delegate.h"
 #include "game_state.h"
-
-using namespace sf;
+#include "sfml_camera.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
@@ -51,8 +50,6 @@ public:
   void stop_music();
 
   // Show to menu
-  void show_title();
-
   void arrows(bool b, const sf::Event &event);
 
   bool clicked_tile = false;
@@ -68,7 +65,7 @@ public:
 
   void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
   void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);
-  sf::Color outline;
+  sf::Color m_outline;
 
   void setup_text();
 
@@ -82,7 +79,7 @@ public:
 
   void exec_tile_move(std::vector<int> selected);
 
-  std::vector<int> m_temp_id;
+//  std::vector<int> m_temp_id;
 
   void manage_timer();
 
@@ -109,24 +106,20 @@ public:
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
 private:
+  // Functions to display tiles and agents on the screen
+  void display_tile(const tile& t);
+  void display_agent(const agent& a);
+
   /// Background music file object
   sf::Music &m_background_music;
 
   // Agent for testing
   // agent agent_test;
-  // Texture for test agent
-  Texture test_agent_tex;
+
+
 
   /// Sate of Game
   game_state m_game_state = game_state::playing;
-
-  /// Camera position in the x direction
-  /// If positive, camera is moved right of the origin
-  double m_camera_x{-100.0};
-
-  /// Camera position in the y direction
-  /// If positive, camera is moved down of the origin
-  double m_camera_y{-100.0};
 
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
@@ -143,9 +136,6 @@ private:
 
   /// Display all shapes on the window
   void display();
-
-  /// Moves the camera
-  void move_camera(sf::Vector2f offset);
 
   ///Process an SFML event
   void process_event(const sf::Event& event);
@@ -171,15 +161,14 @@ private:
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event &event);
 
+  /// Draw Text
+  sf::Text titleScreenText;
   // Font
-  Font m_font;
-
-  bool m_movecam_r = false;
-  bool m_movecam_l = false;
-  bool m_movecam_u = false;
-  bool m_movecam_d = false;
+  sf::Font m_font;
 
   bool m_is_space_pressed = false;
+
+  sfml_camera m_camera;
 };
 
 ///Test the sfml_game class

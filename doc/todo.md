@@ -24,5 +24,3 @@ and type your message on the same line.
 
 To view the todo's in the document click tab number 6 "To-Do entries" at the bottom of the IDE.
 Use the filter at the top of the To-Do tab to search for bugs or todo's or to choose if you want to search the entire project or just the document you are looking at.
-
-_**Try it out for yourself, there is an excercise in one of the documents**_

@@ -7,8 +7,10 @@
 #include <cstdio>
 #include <QFile>
 
-game::game(const std::vector<tile>& tiles)
+game::game(const std::vector<tile>& tiles,
+           const std::vector<agent>& agents)
   : m_tiles{tiles},
+    m_agents{agents},
     m_score{0}
 {
 
@@ -37,73 +39,55 @@ int count_n_tiles(const game& g) noexcept
   return g.get_tiles().size();
 }
 
-void game::delete_tiles(std::vector<tile> ts)
-{
-  for (tile& t : ts)
-  {
-    auto here = std::find_if(
-      std::begin(m_tiles),
-      std::end(m_tiles),
-      [t](const tile& u)
-      {
-        return u.get_id() == t.get_id();
-      }
-    );
-    std::swap(*here, m_tiles.back());
-    m_tiles.pop_back();
-  }
-}
-
 void game::process_events()
 {
-  //Merge tiles
-  //(I use indices here, so it is more beginner-friendly)
-  //(one day, we'll use iterators)
-  bool done = false;
-  while (!done)
-  {
-    done = true;
-    const int n = count_n_tiles(*this);
-    for (int i = 0; i < n; ++i)
-    {
-      assert(i >=0);
-      assert(i < static_cast<int>(m_tiles.size()));
-      tile& focal_tile = m_tiles[i];
-      // j is the next tile in the vector
-      for (int j = i + 1; j < n; ++j)
-      {
-        assert(j >=0);
-        assert(j < static_cast<int>(m_tiles.size()));
-        const tile& other_tile = m_tiles[j];
-        if (have_same_position(focal_tile, other_tile)) //!OCLINT must be simpler
-        {
-          const tile_type merged_type = get_merge_type(
-            focal_tile.get_type(),
-            other_tile.get_type()
-          );
-          //focal tile becomes merged type
-          focal_tile.set_type(merged_type);
-          //other tile is swapped to the back, then deleted
-          m_tiles[j] = m_tiles.back();
-          m_tiles.pop_back();
-          //change the selected tile
-          m_selected.clear();
-          assert(m_selected.empty());
-          //Redo
-          done = false;
-          i = n;
-          j = n;
-        }
-      }
-    }
+  for (auto& a: m_agents) {
+    a.move();
   }
-
+  merge_tiles();
   //Process the events happening on the tiles
   for (auto& tile: m_tiles)
   {
     tile.process_events();
   }
   ++m_n_tick;
+}
+
+void game::merge_tiles() { //!OCLINT must simplify
+  // I use indices here, so it is more beginner-friendly
+  // one day, we'll use iterators
+  const int n = count_n_tiles(*this);
+  for (int i = 0; i < n; ++i)
+  {
+    assert(i >=0);
+    assert(i < static_cast<int>(m_tiles.size()));
+    tile& focal_tile = m_tiles[i];
+    // j is the next tile in the vector
+    for (int j = i + 1; j < n; ++j)
+    {
+      assert(j >=0);
+      assert(j < static_cast<int>(m_tiles.size()));
+      const tile& other_tile = m_tiles[j];
+      if (!have_same_position(focal_tile, other_tile)) return;
+      const tile_type merged_type = get_merge_type(
+        focal_tile.get_type(),
+        other_tile.get_type()
+      );
+      //focal tile becomes merged type
+      focal_tile.set_type(merged_type);
+      //other tile is swapped to the back, then deleted
+      m_tiles[j] = m_tiles.back();
+      m_tiles.pop_back();
+      //change the selected tile
+      m_selected.clear();
+      assert(m_selected.empty());
+      return; //!OCLINT early return the only good option?
+    }
+  }
+}
+
+int game::get_n_ticks() const{
+    return m_n_tick;
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -120,8 +104,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_score() == 0);
   }
 
-//#define FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
-#ifdef FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
   // A game starts with a zero number of game cycles
   {
     const game g;
@@ -133,7 +115,6 @@ void test_game() //!OCLINT a testing function may be long
     g.process_events();
     assert(g.get_n_ticks() == 1);
   }
-#endif // FIX_ISSUE_91_GAME_TRACKS_THE_NUMBER_OF_TICKS
 
   // A game can be saved
   {
@@ -172,7 +153,7 @@ void test_game() //!OCLINT a testing function may be long
     // +====+====+    +----+----+
     const std::vector<tile> tiles
     {
-      //   x    y    z   w    h    type                  ID
+      //   x    y    z   w    h    type         ID
       tile(1, 1, 1, 2, 1, tile_type::grassland, 0),
       tile(1, 1, 1, 2, 1, tile_type::grassland, 0)
     };
@@ -185,14 +166,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
   }
-  //#define FIX_ISSUE_218
-  #ifdef FIX_ISSUE_218
-  {
-    const game g;
-    const std::vector<agent> agents = collect_all_agents(g);
-    assert(!agents.empty());
-  }
-  #endif
 }
 
 game load(const std::string &filename) {

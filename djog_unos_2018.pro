@@ -31,7 +31,11 @@ QMAKE_CXXFLAGS += -std=c++14
 
 # High warning levels
 # SFML goes bad with -Weffc++
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
+QMAKE_CXXFLAGS += -Wall -Wextra -Wnon-virtual-dtor -pedantic -Werror
+
+!macx{
+  QMAKE_CXXFLAGS += -Wshadow
+}
 
 unix:!macx {
   # Fix error: unrecognized option '--push-state--no-as-needed'
@@ -78,6 +82,24 @@ unix:!macx {
   LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 }
 
+unix:macx {
+  INCLUDEPATH += /Users/fauve/SFML/include
+  #LIBS += -L/Users/fauve/SFML/lib
+  #LIBS += -L/Users/fauve/SFML
+  LIBS += -L/usr/local
+  LIBS += -L/usr/local/lib
+  QMAKE_LFLAGS += -F/Library/Frameworks/
+  LIBS += -framework SFML
+  LIBS += -framework sfml-graphics
+  LIBS += -framework sfml-window
+  LIBS += -framework sfml-system
+  LIBS += -framework sfml-audio
+  #LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+  #LIBS += -L/usr/local/Cellar/freetype/2.9.1/lib
+  #LIBS += -lfreetype
+  #DYLD_LIBRARY_PATH +=
+}
+
 win32{
   # Some people use C:, others use D:, it does not hurt to put both here
   INCLUDEPATH += C:\Qt\sfml\include
@@ -115,7 +137,9 @@ QMAKE_CXXFLAGS += -Wno-unused-variable
 #/usr/include/boost/math/constants/constants.hpp:277: error: unable to find numeric literal operator 'operator""Q'
 #   BOOST_DEFINE_MATH_CONSTANT(half, 5.000000000000000000000000000000000000e-01, "5.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e-01")
 #   ^
-QMAKE_CXXFLAGS += -fext-numeric-literals
+!mac{
+  QMAKE_CXXFLAGS += -fext-numeric-literals
+}
 
 # Prevent Qt for failing with this error:
 # qrc_[*].cpp:400:44: error: ‘qInitResources_[*]__init_variable__’ defined but not used

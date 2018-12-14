@@ -1,0 +1,5 @@
+ignore:
+  - sfml_*.cpp # Will not be run
+  - sfml_*.h # Will not be run
+  - *_test.cpp # Do not care about tests, they run incomplete on Travis
+  - *_no_codecov.cpp # Code that cannot have Codecov tested on Travis, caused by popups

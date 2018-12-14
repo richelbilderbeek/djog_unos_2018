@@ -1,6 +1,7 @@
 #include "sfml_resources.h"
 
 #include "agent_type.h"
+#include "agent.h"
 
 #include <cassert>
 
@@ -26,20 +27,20 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find music file 'title_music.ogg'");
     }
   }
-  // bacterie texture
+  // bacterium texture
   {
-    QFile f(":/nature_zen/resources/bacterie.png");
-    f.copy("bacterie.png");
-    if (!m_bacterie_texture.loadFromFile("bacterie.png")) {
-      throw std::runtime_error("Cannot find image file 'bacterie.png'");
+    QFile f(":/nature_zen/resources/bacterium.png");
+    f.copy("bacterium.png");
+    if (!m_bacterium_texture.loadFromFile("bacterium.png")) {
+      throw std::runtime_error("Cannot find image file 'bacterium.png'");
     }
   }
-  // gras texture
+  // grass texture
   {
-    QFile f(":/nature_zen/resources/gras.png");
-    f.copy("gras.png");
-    if (!m_gras_texture.loadFromFile("gras.png"))
-      throw std::runtime_error("Cannot find image file 'gras.png'");
+    QFile f(":/nature_zen/resources/grass.png");
+    f.copy("grass.png");
+    if (!m_grass_texture.loadFromFile("grass.png"))
+      throw std::runtime_error("Cannot find image file 'grass.png'");
   }
   // cow texture
   {
@@ -61,6 +62,20 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     f.copy("crocodile.png");
     if (!m_crocodile_texture.loadFromFile("crocodile.png"))
       throw std::runtime_error("Cannot find image file crocodile.png");
+  }
+  // tree texture
+  {
+    QFile f(":/nature_zen/resources/tree.png");
+    f.copy("tree.png");
+    if (!m_tree_texture.loadFromFile("tree.png"))
+      throw std::runtime_error("Cannot find image file crocodile.png");
+  }
+  // None texture
+  {
+    QFile f(":/nature_zen/resources/none_agent.png");
+    f.copy("none_agent.png");
+    if (!m_none_texture.loadFromFile("none_agent.png"))
+      throw std::runtime_error("Cannot find image file 'none_agent.png'");
   }
   // Resources
   {
@@ -97,6 +112,25 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
+sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
+  switch (a.get_type()) {
+    case agent_type::bacterium:
+      return m_bacterium_texture;
+    case agent_type::cow:
+      return m_cow_texture;
+    case agent_type::crocodile:
+      return m_crocodile_texture;
+    case agent_type::fish:
+      return m_fish_texture;
+    case agent_type::grass:
+      return m_grass_texture;
+    case agent_type::tree:
+      return m_tree_texture;
+    default:
+      return m_none_texture;
+  }
+}
+
 void test_sfml_resources() //!OCLINT tests may be long
 {
   sfml_resources &resources = sfml_resources::get();
@@ -107,7 +141,7 @@ void test_sfml_resources() //!OCLINT tests may be long
   }
   // Music must have a length
   {
-    sf::Texture &texture = resources.get_cow_texture();
+    sf::Texture &texture = resources.get_agent_sprite(agent(agent_type::cow));
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
@@ -115,7 +149,7 @@ void test_sfml_resources() //!OCLINT tests may be long
   #ifdef FIX_ISSUE_225
   // Can get the sprite of an agent_type
   {
-    assert(resources.get_texture(agent_type::bacteria).getSize().x > 0);
+    assert(resources.get_texture(agent_type::bacterium).getSize().x > 0);
     assert(resources.get_texture(agent_type::cow).getSize().x > 0);
     assert(resources.get_texture(agent_type::crocodile).getSize().x > 0);
     assert(resources.get_texture(agent_type::fish).getSize().x > 0);
