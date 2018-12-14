@@ -34,6 +34,8 @@ public:
 
   int get_n_ticks() const;
 
+
+
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
   void process_events();
@@ -66,6 +68,9 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 
 /// Count the number of tiles a game has
 int count_n_tiles(const game& g) noexcept;
+
+bool is_on_tile(const game& g, const agent& a);
+bool is_on_tile(const game& g, const double x, const double y);
 
 /// Load a game from a file
 game load(const std::string &filename);
