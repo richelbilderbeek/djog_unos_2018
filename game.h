@@ -27,7 +27,6 @@ public:
 
   void change_score_by(int delta_score);
 
-  void add_tiles(std::vector<tile> ts);
   void delete_tiles(std::vector<tile> ts);
 
   void add_agents(std::vector<agent> as);
