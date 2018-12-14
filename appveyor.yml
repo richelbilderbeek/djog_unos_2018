@@ -8,7 +8,7 @@ install:
   - ren SFML-2.5.1 sfml
   - cd C:\projects\djog-unos-2018
   - set QTDIR=C:\Qt\5.11\mingw53_32
-  - dir C:\Qt\5.11\
+  - dir C:\Qt\5.10
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\sfml\bin
 
 build_script:
