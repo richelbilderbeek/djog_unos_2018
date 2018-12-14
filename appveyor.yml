@@ -1,5 +1,6 @@
 install:
-  - appveyor DownloadFile "https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip" - FileName "sf.zip"
+  - appveyor DownloadFile "https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip" -FileName "sf.zip"
+  - dir
   - 7z x sf.zip C:\Qt\sfml
   - set QTDIR=C:\Qt\5.11\mingw53_32
   - cd C:\Qt\
