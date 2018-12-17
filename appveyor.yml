@@ -6,6 +6,7 @@ install:
   - cd C:\projects\djog-unos-2018
   - set QTDIR=C:\Qt\5.11\mingw53_32
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\sfml\bin
+  - bash ./install_oclint
 
 build_script:
   - qmake djog_unos_2018.pro
@@ -14,3 +15,4 @@ build_script:
 test_script:
   - cd release
   - djog_unos_2018.exe --short
+  - bash ./do_oclint
