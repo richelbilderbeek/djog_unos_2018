@@ -6,8 +6,11 @@ install:
   - cd C:\projects\djog-unos-2018
   - set QTDIR=C:\Qt\5.11\mingw53_32
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\sfml\bin
-  - bash ./install_oclint
-
+  - echo install oclint
+  - appveyor DownloadFile "https://github.com/oclint/oclint/releases/download/v0.10.3/oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz" -FileName "oclint.tar.gz"
+  - 7z x oclint.tar.gz > nul
+  - dir
+  
 build_script:
   - qmake djog_unos_2018.pro
   - mingw32-make
@@ -15,4 +18,3 @@ build_script:
 test_script:
   - cd release
   - djog_unos_2018.exe --short
-  - bash ./do_oclint
