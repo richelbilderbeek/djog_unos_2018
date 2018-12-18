@@ -10,7 +10,7 @@ install:
   - echo install oclint
   - appveyor DownloadFile "https://github.com/oclint/oclint/releases/download/v0.10.3/oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz" -FileName "oclint.tar.gz"
   - 7z x oclint.tar.gz
-  - move dist\oclint.tar .
+  - dir
   - 7z x oclint.tar
   - rmdir dist
   - del oclint.tar oclint.tar.gz
