@@ -8,7 +8,8 @@ install:
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\sfml\bin
   - echo install oclint
   - appveyor DownloadFile "https://github.com/oclint/oclint/releases/download/v0.10.3/oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz" -FileName "oclint.tar.gz"
-  - 7z x oclint.tar.gz > nul
+  - tar oclint.tar.gz --strip-components=1
+  - del oclint.tar.gz
   - dir
   
 build_script:
@@ -18,3 +19,4 @@ build_script:
 test_script:
   - cd release
   - djog_unos_2018.exe --short
+  - bash ..\do_oclint
