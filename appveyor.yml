@@ -9,7 +9,11 @@ install:
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\sfml\bin
   - echo install oclint
   - appveyor DownloadFile "https://github.com/oclint/oclint/releases/download/v0.10.3/oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz" -FileName "oclint.tar.gz"
-  - tar x oclint.tar.gz > nul
+  - 7z x oclint.tar.gz
+  - move dist\oclint.tar .
+  - 7z x oclint.tar
+  - rmdir dist
+  - del oclint.tar oclint.tar.gz
   - dir
   
 build_script:
