@@ -1,4 +1,6 @@
 install:
+  - bash cowsay -f turtle appveyor, setup by DynCoder
+  - echo install
   - cd C:\Qt\
   - appveyor DownloadFile "https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip" -FileName "sf.zip"
   - 7z x sf.zip > nul
@@ -8,7 +10,7 @@ install:
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\sfml\bin
   - echo install oclint
   - appveyor DownloadFile "https://github.com/oclint/oclint/releases/download/v0.10.3/oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz" -FileName "oclint.tar.gz"
-  - tar xzf oclint.tar.gz --strip-components=1
+  - tar xzf oclint.tar.gz
   - del oclint.tar.gz
   - dir
   
