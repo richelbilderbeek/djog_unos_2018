@@ -1,5 +1,4 @@
 install:
-  - bash -c "cowsay -f turtle appveyor, setup by DynCoder"
   - echo install
   - cd C:\Qt\
   - appveyor DownloadFile "https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-32-bit.zip" -FileName "sf.zip"
