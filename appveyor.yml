@@ -1,3 +1,7 @@
+configuration:
+  - debug
+  - release
+
 install:
   - echo install
   - cd C:\Qt\
@@ -9,7 +13,6 @@ install:
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\sfml\bin
   
 build_script:
-  - configuration: Debug
   - qmake djog_unos_2018.pro
   - mingw32-make
 
