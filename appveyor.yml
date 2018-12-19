@@ -13,6 +13,6 @@ build_script:
   - mingw32-make
 
 test_script:
+  - cd debug
   - dir
-  - cd release
-  - djog_unos_2018.exe --short
+  - djog_unos_2018.exe --short --version
