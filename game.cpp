@@ -35,7 +35,7 @@ int count_n_tiles(const game& g) noexcept
 void game::process_events()
 {
   for (auto& a: m_agents) {
-    a.move();
+    a.move(*this);
   }
   merge_tiles();
   //Process the events happening on the tiles
@@ -90,12 +90,9 @@ bool is_on_tile(const game& , const double , const double )
 
 
 bool is_on_tile(const game& g, const agent& a){
-  if ( std::find(g.get_agents().begin(), g.get_agents().end(), a) != g.get_agents().end() ){
-    double x = a.get_x();
-    double y = a.get_y();
-    return is_on_tile(g, x, y);
-  }
-  return false;
+  double x = a.get_x();
+  double y = a.get_y();
+  return is_on_tile(g, x, y);
 }
 
 void test_game() //!OCLINT a testing function may be long
