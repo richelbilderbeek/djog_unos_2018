@@ -33,6 +33,7 @@ void test() {
   test_tile();
   test_agent();
   test_agent_type();
+  test_tile_id();
 }
 int show_sfml_menu_screen() {
     sfml_menu_screen ms;

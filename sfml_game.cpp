@@ -488,7 +488,7 @@ tile& sfml_game::getTileById(const std::vector<int>& tile_id)
 {
   assert(!tile_id.empty());
   const int id = tile_id[0];
-  if (id > get_old_id()) {
+  if (id > tile_id::get_old_tile_id()) {
     assert(!"Tile id has not been used yet"); //!OCLINT accepted idiom
     throw std::runtime_error("ID not found");
   }

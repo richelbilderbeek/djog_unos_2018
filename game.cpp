@@ -2,6 +2,7 @@
 // Always include the header of the unit first
 #include "id.h"
 #include "game.h"
+#include "tile_id.h"
 #include <cassert>
 #include <fstream>
 #include <cstdio>
@@ -169,8 +170,8 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<tile> tiles
     {
       //   x    y    z   w    h    type         ID
-      tile(1, 1, 1, 2, 1, tile_type::grassland, 0),
-      tile(1, 1, 1, 2, 1, tile_type::grassland, 0)
+      tile(1, 1, 1, 2, 1, tile_type::grassland, tile_id()),
+      tile(1, 1, 1, 2, 1, tile_type::grassland, tile_id())
     };
 
     game g(tiles);
@@ -219,7 +220,7 @@ std::istream& operator>>(std::istream& is, game& g)
   //TODO: the line below is a stub
   for (int i=0; i!=n_tiles; ++i)
   {
-      tile t(1, 1, 1, 1, 1, tile_type::grassland, new_id());
+      tile t(1, 1, 1, 1, 1, tile_type::grassland, tile_id());
       is >> t;
       g.m_tiles.emplace_back(t);
   }

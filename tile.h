@@ -19,7 +19,7 @@ public:
   /// @param the tiles id
   tile(double x = 0.0, double y = 0.0, const double z = 0.0,
        double width = 0.0, double height = 0.0,
-       const tile_type type = tile_type::grassland, const tile_id id(0));
+       const tile_type type = tile_type::grassland, const tile_id = tile_id());
 
   /// The height of the tile
   double get_height() const noexcept { return m_height; }
@@ -68,8 +68,6 @@ public:
 
   /// Get the tile's id
   int get_id() const noexcept { return m_id.get(); }
-
-  void set_id(int tid);
 
   /// Is this coordinate within the tile?
   bool tile_contains(double x, double y) const noexcept;
