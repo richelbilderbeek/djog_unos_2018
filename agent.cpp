@@ -203,4 +203,9 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  // Agents have stamina
+  {
+    const agent a(agent_type::cow, 0, 0, 10);
+    assert(a.get_stamina() > 0.0);
+  }
 }
