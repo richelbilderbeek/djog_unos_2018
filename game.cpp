@@ -6,6 +6,7 @@
 #include <fstream>
 #include <cstdio>
 #include <QFile>
+#include <algorithm>
 
 game::game(const std::vector<tile>& tiles,
            const std::vector<agent>& agents)
@@ -14,14 +15,6 @@ game::game(const std::vector<tile>& tiles,
     m_score{0}
 {
 
-}
-
-void game::add_tiles(std::vector<tile> ts)
-{
-  for (tile& t : ts)
-  {
-    m_tiles.push_back(t);
-  }
 }
 
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
@@ -87,7 +80,22 @@ void game::merge_tiles() { //!OCLINT must simplify
 }
 
 int game::get_n_ticks() const{
-    return m_n_tick;
+  return m_n_tick;
+}
+
+bool is_on_tile(const game& , const double , const double )
+{
+  return true; //STUB
+}
+
+
+bool is_on_tile(const game& g, const agent& a){
+  if ( std::find(g.get_agents().begin(), g.get_agents().end(), a) != g.get_agents().end() ){
+    double x = a.get_x();
+    double y = a.get_y();
+    return is_on_tile(g, x, y);
+  }
+  return false;
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -128,6 +136,16 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
   }
+
+  #define FIX_ISSUE_261
+  #ifdef FIX_ISSUE_261
+  {
+    const game g;
+    agent a(agent_type::cow, 0, 0);
+    assert(is_on_tile(g, a));
+    //assert(!is_on_tile_t(g, a));
+  }
+  #endif
 
   //#define FIX_ISSUE_RAFAYEL
   #ifdef FIX_ISSUE_RAFAYEL

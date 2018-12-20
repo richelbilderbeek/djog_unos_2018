@@ -161,11 +161,6 @@ private:
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event &event);
 
-  /// Draw Text
-  sf::Text titleScreenText;
-  // Font
-  sf::Font m_font;
-
   bool m_is_space_pressed = false;
 
   sfml_camera m_camera;

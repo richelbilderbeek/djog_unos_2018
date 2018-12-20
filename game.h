@@ -20,19 +20,20 @@ public:
   auto &get_tiles() noexcept { return m_tiles; }
 
   /// Read all agents
-  const auto &get_agents() const noexcept { return m_agents; }
+  const auto &get_agents  () const noexcept { return m_agents; }
   auto &get_agents() noexcept { return m_agents; }
 
   int get_score() const noexcept { return m_score; }
 
   void change_score_by(int delta_score);
 
-  void add_tiles(std::vector<tile> ts);
   void delete_tiles(std::vector<tile> ts);
 
   void add_agents(std::vector<agent> as);
 
   int get_n_ticks() const;
+
+
 
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
@@ -66,6 +67,9 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 
 /// Count the number of tiles a game has
 int count_n_tiles(const game& g) noexcept;
+
+bool is_on_tile(const game& g, const agent& a);
+bool is_on_tile(const game& g, const double x, const double y);
 
 /// Load a game from a file
 game load(const std::string &filename);

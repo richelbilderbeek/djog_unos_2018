@@ -19,8 +19,7 @@ sfml_game::sfml_game(const int window_width,
     m_delegate{ delegate },
     m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
                static_cast<unsigned int>(window_height)),
-      "Nature Zen", get_video_mode()),
-    m_font{ sfml_resources::get().get_default_font() }
+      "Nature Zen", get_video_mode())
 { // Set up music
   m_background_music.setLoop(true);
   m_background_music.play();
@@ -34,8 +33,6 @@ sfml_game::sfml_game(const int window_width,
   m_window.setPosition(sf::Vector2i(window_x, window_y));
   m_screen_center = sf::Vector2i(window_width / 2, window_height / 2);
 
-  // Set up text
-  setup_text();
 }
 
 sfml_game::~sfml_game()
@@ -64,14 +61,14 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     {
       sfml_game::display_agent(a);
     }
-    sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
+    //sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   }
-
+/* NOTE score display commented for appveyor
   sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
   text.setPosition(m_window.getSize().x - 80, 10);
   text.setStyle(sf::Text::Bold);
   m_window.draw(text);
-
+*/
   if (m_is_space_pressed)
   {
     reset_input();
@@ -124,7 +121,6 @@ void sfml_game::load_game_state()
   switch (m_game_state) //!OCLINT too few branches in if-statement, replace by if-else
   {
     case game_state::titlescreen:
-      m_window.draw(titleScreenText);
       return;
     case game_state::menuscreen:
       return;
@@ -450,11 +446,7 @@ void sfml_game::switch_collide(tile& t, int direction)
 
 bool sfml_game::check_merge(tile& t1, tile& t2)
 {
-  if (get_merge_type(t1.get_type(), t2.get_type()) == tile_type::nonetile)
-  {
-    return false;
-  }
-  return true;
+  return get_merge_type(t1.get_type(), t2.get_type()) != tile_type::nonetile;
 }
 
 sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
@@ -640,18 +632,6 @@ bool sfml_game::will_colide(int direction, tile& t)
       break;
   }
   return false;
-}
-
-void sfml_game::setup_text()
-{
-  // Set up text
-  titleScreenText.setFont(m_font);
-  titleScreenText.setString("Nature Zen");
-  titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left
-      + titleScreenText.getGlobalBounds().width / 2.0f,
-    titleScreenText.getGlobalBounds().top
-      + titleScreenText.getGlobalBounds().height /2.0f);
-  titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
 }
 
 sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter

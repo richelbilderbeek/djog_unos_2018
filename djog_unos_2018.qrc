@@ -14,6 +14,7 @@
         <file>resources/bacterium.png</file>
         <file>resources/tree.png</file>
         <file>resources/mountain_goat.jpg</file>
+        <file>resources/spider.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

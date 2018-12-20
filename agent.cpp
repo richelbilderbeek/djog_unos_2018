@@ -4,8 +4,8 @@
 #include <iostream>
 #include <stdexcept>
 
-agent::agent(const agent_type type, const double x, const double y)
-    : m_type{type}, m_x{x}, m_y{y}{}
+agent::agent(const agent_type type, const double x, const double y, double health)
+    : m_type{type}, m_x{x}, m_y{y}, m_health{health}{}
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
@@ -28,13 +28,12 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
 
 void agent::move()
 {
-  if (m_type == agent_type::cow || m_type == agent_type::crocodile) {
+  if (m_type == agent_type::cow ||
+      m_type == agent_type::crocodile ||
+      m_type == agent_type::spider ||
+      m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
-  }
-  else if (m_type == agent_type::fish){
-    m_x += 0.1 * (-1 + (std::rand() % 3));
-    m_x += 0.1 * (-1 + (std::rand() % 3));
   }
 }
 
@@ -95,9 +94,27 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agents.push_back(a1);
   }
   {
-    agent a1(agent_type::tree);
+    agent a1(agent_type::tree, 10, 20);
     move_agent_to_tile(a1, 4, -1);
     agents.push_back(a1);
+    agent a2(agent_type::tree, 40, 10);
+    move_agent_to_tile(a2, 4, -1);
+    agents.push_back(a2);
+    agent a3(agent_type::tree, 50, 35);
+    move_agent_to_tile(a3, 4, -1);
+    agents.push_back(a3);
+    agent a4(agent_type::tree, 60, 40);
+    move_agent_to_tile(a4, 4, -1);
+    agents.push_back(a4);
+    agent a5(agent_type::tree, 35, 65);
+    move_agent_to_tile(a5, 4, -1);
+    agents.push_back(a5);
+    agent a6(agent_type::tree);
+    move_agent_to_tile(a6, 4, -1);
+    agents.push_back(a6);
+    agent a7(agent_type::spider, 40, 40);
+    move_agent_to_tile(a7, 4, -1);
+    agents.push_back(a7);
   }
   return agents;
 }
@@ -165,12 +182,9 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
-  //#define FIX_ISSUE_245
-  #ifdef FIX_ISSUE_245
   // Agents have health
   {
-    const agent a(agent_type::cow);
+    const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
-  #endif // FIX_ISSUE_245
 }

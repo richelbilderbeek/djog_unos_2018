@@ -92,6 +92,14 @@ git merge develop
 git push
 ```
 
+If you get merge conflicts and just want to use the `develop` version, use:
+
+```
+git checkout richel
+git merge -X theirs develop
+git push
+```
+
 ## Merge your work with the other's
 
  * :warning: Only mediors and seniors are allowed to do this!

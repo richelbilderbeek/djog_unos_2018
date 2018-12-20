@@ -22,13 +22,15 @@ void sfml_about_screen::exec()
   {
     sf::Event event;
     while (m_about_window.pollEvent(event))
-    { //!OCLINT indeed an empty while statement
-      // Indeed empty
+    {
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+        sfml_about_screen::close();
+      }
     }
 
     sf::Font font;
-    assert(QFile::exists("OpenSans.ttf"));
-    font.loadFromFile("OpenSans.ttf");
+    assert(QFile::exists("font.ttf"));
+    font.loadFromFile("font.ttf");
     m_about_window.clear(sf::Color::Green); // Clear the window with black color
     sfml_about_screen::m_about_text.setFont(font);
     sfml_about_screen::m_about_text.setString("About lalala..");
