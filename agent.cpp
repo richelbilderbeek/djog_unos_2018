@@ -4,6 +4,8 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "game.h"
+
 agent::agent(const agent_type type, const double x, const double y, double health)
     : m_type{type}, m_x{x}, m_y{y}, m_health{health}{}
 
@@ -26,14 +28,21 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
 }
 
 
-void agent::move()
+void agent::move(const game& g)
 {
+  //Dead agents stay still
+  if (m_health <= 0.0) return;
+
   if (m_type == agent_type::cow ||
       m_type == agent_type::crocodile ||
       m_type == agent_type::spider ||
       m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
+  }
+  if (!is_on_tile(g, *this))
+  {
+    this->m_health = 0.0;
   }
 }
 
@@ -142,22 +151,25 @@ void test_agent() //!OCLINT testing functions may be long
   }
   // A cow moves
   {
+    game g;
     std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::cow, x, y);
-    a.move();
+    assert(is_on_tile(g, a));
+    a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
   #define FIX_ISSUE_202
   #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
+    game g;
     std::srand(15);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
-    for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
+    for (int i = 0; i != 10; ++i) a.move(g); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
   #endif // FIX_ISSUE_202
@@ -166,20 +178,24 @@ void test_agent() //!OCLINT testing functions may be long
   #ifdef FIX_ISSUE_201
   // A fish moves
   {
+    game g;
     std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::fish, x, y);
-    a.move();
+    assert(is_on_tile(g, a));
+    a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
   #endif // FIX_ISSUE_201
   // Grass does not move
   {
+    game g;
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::grass, x, y);
-    a.move();
+    assert(is_on_tile(g, a));
+    a.move(g);
     assert(a.get_x() == x && a.get_y() == y);
   }
   // Agents have health
