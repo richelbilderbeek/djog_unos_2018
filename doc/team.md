@@ -24,7 +24,6 @@ FR|Rafayel|`RafayelGardishyan`|Dev (medior), `git`
 FR|Rob|`robkruger`|Dev (junior)
 FR|Same|`same-drenth`|Dev (junior), UX
 FR|Tom|?`TomStuivinga`|Dev (junior)
-SA|Jorn|`JornPrengerFormeel`|Dev (junior), `git`
 
 Role|Description
 ---|---
