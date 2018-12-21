@@ -51,7 +51,8 @@ void game::merge_tiles() { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
   const int n = count_n_tiles(*this);
-  for (int i = 0; i < n; ++i)
+  for (int i = 0; i < n - 1; ++i)
+  // n - 1 because two elements
   {
     assert(i >=0);
     assert(i < static_cast<int>(m_tiles.size()));
