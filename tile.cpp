@@ -306,4 +306,20 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(!contains(165, 165)); // D
   }
   #endif // FIX_ISSUE_246
+  //operator==
+  {
+    const tile a;
+
+    // b with different dx
+    tile b = a;
+    assert(a == b);
+    b.set_dx(a.get_dx() + 1.0);
+    assert(a != b);
+
+    // b with different dx
+    tile b = a;
+    assert(a == b);
+    b.set_dy(a.get_dy() + 1.0);
+    assert(a != b);
+  }
 }
