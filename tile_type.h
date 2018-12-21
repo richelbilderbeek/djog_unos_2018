@@ -8,7 +8,7 @@ enum class tile_type {
   nonetile,
   grassland,
   mountains,
-  ocean,
+  water,
   savannah,
   arctic,
   desert,
