@@ -203,4 +203,17 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  //#define FIX_ISSUE_285
+  #ifdef FIX_ISSUE_285
+  //An agent must be removed if health is below zero
+  {
+    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    assert(!g.get_agents().empty());
+    // Wait until cow starves
+    while (!g.get_agents().empty())
+    {
+      g.process_events();
+    }
+  }
+  #endif
 }
