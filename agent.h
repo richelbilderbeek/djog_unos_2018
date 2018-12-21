@@ -23,6 +23,8 @@ public:
 
   double get_health() const noexcept { return m_health; }
 
+  double get_stamina() const noexcept { return m_stamina; }
+
   /// The x-coordinat of the top-left corner of the agent
   double get_x() const noexcept { return m_x; }
 
@@ -57,6 +59,8 @@ private:
 
   /// The health of the agent
   double m_health;
+  ///the stamina of the agent
+  double m_stamina;
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);

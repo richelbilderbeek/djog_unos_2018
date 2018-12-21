@@ -34,7 +34,7 @@ tile::tile(const double x, const double y, const double z, double const width,
   assert(m_width > 0.0);
   assert(m_height > 0.0);
 
-//  if (m_type == tile_type::ocean)
+//  if (m_type == tile_type::water)
 //  {
 //    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
 //  } else {
@@ -74,7 +74,11 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tiles.push_back(t);
   }
   {
+<<<<<<< HEAD
     tile t(3, 2, 6, 1, 2, 1, tile_type::ocean, tile_id());
+=======
+    tile t(3, 2, 6, 1, 2, tile_type::water, new_id());
+>>>>>>> origin/mart
     tiles.push_back(t);
   }
   {
