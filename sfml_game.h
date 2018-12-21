@@ -52,7 +52,7 @@ public:
   // Show to menu
   void arrows(bool b, const sf::Event &event);
 
-  bool clicked_tile = false;
+  bool m_clicked_tile = false;
 
   int m_timer = 0;
 
