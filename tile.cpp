@@ -74,11 +74,7 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tiles.push_back(t);
   }
   {
-<<<<<<< HEAD
-    tile t(3, 2, 6, 1, 2, 1, tile_type::ocean, tile_id());
-=======
     tile t(3, 2, 6, 1, 2, tile_type::water, new_id());
->>>>>>> origin/mart
     tiles.push_back(t);
   }
   {
