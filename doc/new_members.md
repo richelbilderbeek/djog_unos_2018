@@ -1,6 +1,10 @@
 # New members
 
-New team members are almost always welcome. 
+New team members are almost always welcome.
+
+To ensure the productive learning and working
+environment, there is a [new_members_procedure.md](new members procedure) 
+we follow.
 
 To work together with the [team](team.md) smoothly, these things must be done:
 
