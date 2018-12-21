@@ -11,9 +11,9 @@
 #include <stdexcept>
 
 tile::tile(const double x, const double y, const double z, double const width,
-           const double height, const tile_type type, const tile_id id)
+           const double height, const double depth, const tile_type type, const tile_id id)
     : m_height{height}, m_type{type}, m_width{width}, m_x{x}, m_y{y}, m_z{z},
-      m_dx{0}, m_dy{0}, m_dz{0}, m_id{id}
+      m_dx{0}, m_dy{0}, m_dz{0}, m_id{id}, m_depth{depth}
 {
 
   if (width <= 0.0)
@@ -34,7 +34,7 @@ tile::tile(const double x, const double y, const double z, double const width,
   assert(m_width > 0.0);
   assert(m_height > 0.0);
 
-//  if (m_type == tile_type::ocean)
+//  if (m_type == tile_type::water)
 //  {
 //    m_agents.emplace_back(agent(agent_type::fish, width / 2.0, height / 2.0));
 //  } else {
@@ -50,39 +50,43 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
 {
   std::vector<tile> tiles;
   {
-    tile t(0, 0, 0, 1, 2, tile_type::grassland, tile_id());
+    tile t(0, 0, 0, 1, 2, 0, tile_type::grassland, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(1, 0, 1, 1, 2, tile_type::grassland, tile_id());
+    tile t(1, 0, 1, 1, 2, 0, tile_type::grassland, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(0, 2, 2, 1, 2, tile_type::desert, tile_id());
+    tile t(0, 2, 2, 1, 2, 0, tile_type::desert, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(2, 1, 3, 2, 1, tile_type::swamp, tile_id());
+    tile t(2, 1, 3, 2, 1, 0, tile_type::swamp, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(1, 2, 4, 2, 1, tile_type::mountains, tile_id());
+    tile t(1, 2, 4, 2, 1, 0, tile_type::mountains, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 1, 5, 2, 1, tile_type::arctic, tile_id());
+    tile t(4, 1, 5, 2, 1, 0, tile_type::arctic, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(3, 2, 6, 1, 2, tile_type::ocean, tile_id());
+    tile t(3, 2, 6, 1, 2, tile_type::water, new_id());
     tiles.push_back(t);
   }
   {
-    tile t(1, -1, 7, 2, 1, tile_type::savannah, tile_id());
+    tile t(4, 2, 6, 1, 2, 10, tile_type::ocean, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, -1, 8, 1, 2, tile_type::woods, tile_id());
+    tile t(1, -1, 7, 2, 1, 0, tile_type::savannah, tile_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(4, -1, 8, 1, 2, 0, tile_type::woods, tile_id());
     tiles.push_back(t);
   }
   return tiles;
@@ -92,9 +96,9 @@ std::vector<tile> create_two_grass_tiles() noexcept
 {
   return
   {
-    //   x    y    z   w    h    type               ID
-    tile(1, 1, 1, 2, 1, tile_type::grassland, tile_id()),
-    tile(3, 1, 1, 2, 1, tile_type::grassland, tile_id())
+    //   x    y    z   w    h    d   type               ID
+    tile(1, 1, 1, 2, 1, 0, tile_type::grassland, tile_id()),
+    tile(3, 1, 1, 2, 1, 0, tile_type::grassland, tile_id())
   };
 }
 
@@ -208,7 +212,7 @@ void test_tile() //!OCLINT testing function may be many lines
   // width cannot be negative
   {
     try {
-      const tile t(0.0, 0.0, 0.0, -1, 1, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
+      const tile t(0.0, 0.0, 0.0, -1, 1, 0, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
       assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'width' cannot be negative");
@@ -217,7 +221,7 @@ void test_tile() //!OCLINT testing function may be many lines
   // height cannot be negative
   {
     try {
-      const tile t(0.0, 0.0, 0.0, 1, -1, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
+      const tile t(0.0, 0.0, 0.0, 1, -1, 0, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
       assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'height' cannot be negative");
@@ -226,13 +230,13 @@ void test_tile() //!OCLINT testing function may be many lines
 
   // A tile starts from standstill
   {
-    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, tile_id());
+    const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
     assert(t.get_dx() == 0.0);
     assert(t.get_dy() == 0.0);
   }
   // Speed is set correctly
   {
-    tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, tile_id());
+    tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
     const double dx{12.34};
     const double dy{56.78};
     t.set_dx(dx);
@@ -242,7 +246,7 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Tile responds to its speed
   {
-    tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, tile_id());
+    tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
     const double dx{12.34};
     const double dy{56.78};
     t.set_dx(dx);
@@ -252,6 +256,13 @@ void test_tile() //!OCLINT testing function may be many lines
     t.move();
     assert(t.get_x() == dx);
     assert(t.get_y() == dy);
+  }
+  // A tile has the correct depth
+  {
+    tile g(0.0, 0.0, 0.0, 1, 1, 0.0, tile_type::grassland, tile_id());
+    assert(g.get_depth() == 0.0);
+    tile o(0.0, 0.0, 0.0, 1, 1, 1.0, tile_type::ocean, tile_id());
+    assert(o.get_depth() > 0.0);
   }
 
 #define FIX_ISSUE_116_TILE_CONTAINS
@@ -266,7 +277,7 @@ void test_tile() //!OCLINT testing function may be many lines
   //
   //           C           D
   {
-    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, tile_id());
+    const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
     assert(t.tile_contains(50, 50));   // A
     assert(!t.tile_contains(165, 50));  // B
     assert(!t.tile_contains(50, 165)); // C

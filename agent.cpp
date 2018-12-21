@@ -93,6 +93,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agents.push_back(a2);
   }
   {
+    agent a1(agent_type::fish);
+    move_agent_to_tile(a1, 4, 2);
+    agents.push_back(a1);
+    agent a2(agent_type::fish, 10, 10);
+    move_agent_to_tile(a2, 4, 2);
+    agents.push_back(a2);
+  }
+  {
     agent a1(agent_type::grass);
     move_agent_to_tile(a1, 1, -1);
     agents.push_back(a1);
@@ -124,6 +132,9 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a7(agent_type::spider, 40, 40);
     move_agent_to_tile(a7, 4, -1);
     agents.push_back(a7);
+    agent a8(agent_type::bird, 45, 75);
+    move_agent_to_tile(a8, 4, -1);
+    agents.push_back(a8);
   }
   return agents;
 }
@@ -203,4 +214,61 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  //#define FIX_ISSUE_289
+  #ifdef FIX_ISSUE_289
+  //Agent can pass out of exhaustion
+  {
+    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    assert(!g.get_agents().empty());
+    const auto stamina_before = g.get_agents()[0].get_stamina();
+    // Exhaust one turn
+    g.process_events();
+    const auto stamina_after = g.get_agents()[0].get_stamina();
+    assert(stamina_after < stamina_before);
+  }
+  #endif
+  //#define FIX_ISSUE_287
+  #ifdef FIX_ISSUE_287
+  //A cow must starve if alone
+  {
+    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    assert(!g.get_agents().empty());
+    //Exhaust cow
+    while (g.get_agents()[0].get_stamina() > 0.0)
+    {
+      g.process_events();
+    }
+    const auto health_before = g.get_agents()[0].get_health();
+    // Starve one turn
+    g.process_events();
+    const auto health_after = g.get_agents()[0].get_health();
+    assert(health_after < health_before);
+  }
+  #endif
+  //#define FIX_ISSUE_285
+  #ifdef FIX_ISSUE_285
+  //An agent must be removed if health is below zero
+  {
+    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    assert(!g.get_agents().empty());
+    // Wait until cow starves
+    while (!g.get_agents().empty())
+    {
+      g.process_events();
+    }
+  }
+  #endif
+  //#define FIX_ISSUE_288
+  #ifdef FIX_ISSUE_288
+  //Grass grows
+  {
+    game g(create_default_tiles(), { agent(agent_type::grass) } );
+    assert(!g.get_agents().empty());
+    const auto health_before = g.get_agents()[0].get_health();
+    // Grow one turn
+    g.process_events();
+    const auto health_after = g.get_agents()[0].get_health();
+    assert(health_after > health_before);
+  }
+  #endif
 }
