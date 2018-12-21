@@ -203,8 +203,8 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
-  //#define FIX_ISSUE_286
-  #ifdef FIX_ISSUE_286
+  //#define FIX_ISSUE_287
+  #ifdef FIX_ISSUE_287
   //A cow must starve if alone
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
