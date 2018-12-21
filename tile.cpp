@@ -217,7 +217,6 @@ void test_tile() //!OCLINT testing function may be many lines
   {
     try {
       const tile t(0.0, 0.0, 0.0, -1, 1, 0, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
-      assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'width' cannot be negative");
     }
@@ -226,7 +225,6 @@ void test_tile() //!OCLINT testing function may be many lines
   {
     try {
       const tile t(0.0, 0.0, 0.0, 1, -1, 0, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
-      assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'height' cannot be negative");
     }
