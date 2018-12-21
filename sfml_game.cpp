@@ -516,7 +516,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
       break;
 
-    case tile_type::ocean:
+    case tile_type::water:
       color_shape(sfml_tile, sf::Color(0, 0, 255), sf::Color(0, 0, 100));
       break;
 
@@ -644,7 +644,7 @@ sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(120, 120, 120);
   }
-  else if(tile == tile_type::ocean)
+  else if(tile == tile_type::water)
   {
     return sf::Color(0, 0, 255);
   }
@@ -684,7 +684,7 @@ sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(50, 50, 50);
   }
-  else if(tile == tile_type::ocean)
+  else if(tile == tile_type::water)
   {
     return sf::Color(0, 0, 100);
   }
@@ -728,7 +728,7 @@ void test_sfml_game() //!OCLINT tests may be long
     //Get the fill color of a tile type
     assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
     assert(get_fill_color(tile_type::mountains) == sf::Color(120, 120, 120));
-    assert(get_fill_color(tile_type::ocean) == sf::Color(0, 0, 255));
+    assert(get_fill_color(tile_type::water) == sf::Color(0, 0, 255));
     assert(get_fill_color(tile_type::savannah) == sf::Color(245, 190, 0));
     assert(get_fill_color(tile_type::swamp) == sf::Color(130, 100, 15));
     assert(get_fill_color(tile_type::arctic) == sf::Color(50, 230, 255));
@@ -739,7 +739,7 @@ void test_sfml_game() //!OCLINT tests may be long
     //Get the outline/border color of a tile tipe
     assert(get_outline_color(tile_type::grassland) == sf::Color(0, 100, 0));
     assert(get_outline_color(tile_type::mountains) == sf::Color(50, 50, 50));
-    assert(get_outline_color(tile_type::ocean) == sf::Color(0, 0, 100));
+    assert(get_outline_color(tile_type::water) == sf::Color(0, 0, 100));
     assert(get_outline_color(tile_type::savannah) == sf::Color(245, 190, 0));
     assert(get_outline_color(tile_type::swamp) == sf::Color(100, 80, 15));
     assert(get_outline_color(tile_type::arctic) == sf::Color(10, 200, 255));
