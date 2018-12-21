@@ -44,6 +44,7 @@ void game::process_events()
   {
     tile.process_events();
   }
+  get_agents()[0].set_health(get_agents()[0].get_health() + 1);
   ++m_n_tick;
 }
 

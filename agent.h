@@ -31,6 +31,7 @@ public:
 
   void set_x(double x) noexcept { m_x = x; }
   void set_y(double y) noexcept { m_y = y; }
+  void set_health(double health) noexcept {m_health = health; }
 
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);
