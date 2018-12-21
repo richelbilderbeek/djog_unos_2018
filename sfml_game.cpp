@@ -506,6 +506,7 @@ tile& sfml_game::getTileById(const std::vector<int>& tile_id)
 void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) //!OCLINT no 32 statements
 {
   double d = t.get_depth();
+  int color = 255 - d * 20;
   switch (t.get_type())
   {
     case tile_type::grassland:
@@ -517,7 +518,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       break;
 
     case tile_type::ocean:
-      color_shape(sfml_tile, sf::Color(0, 0, 255), sf::Color(0, 0, 100));
+      color_shape(sfml_tile, sf::Color(0, 0, color), sf::Color(0, 0, 100));
       break;
 
     case tile_type::savannah:
