@@ -334,14 +334,14 @@ void sfml_game::process_mouse_input(const sf::Event& event)
       {
         m_game.m_selected.clear();
         m_game.m_selected.push_back(game_tiles.at(i).get_id());
-        clicked_tile = true;
+        m_clicked_tile = true;
       }
     }
-    if (clicked_tile == false)
+    if (m_clicked_tile == false)
     {
       m_game.m_selected.clear();
     }
-    clicked_tile = false;
+    m_clicked_tile = false;
   }
 }
 
