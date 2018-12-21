@@ -305,6 +305,7 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   #endif // FIX_ISSUE_246
   //operator==
+  #ifdef FIX_OPERATOR_IS_IS
   {
     const tile a;
 
@@ -320,4 +321,5 @@ void test_tile() //!OCLINT testing function may be many lines
     b.set_dy(a.get_dy() + 1.0);
     assert(!(a == b));
   }
+  #endif
 }
