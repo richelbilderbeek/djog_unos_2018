@@ -74,11 +74,11 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tiles.push_back(t);
   }
   {
-    tile t(3, 2, 6, 1, 2, tile_type::water, new_id());
+    tile t(3, 2, 6, 1, 2, 1, tile_type::water, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 2, 6, 1, 2, 10, tile_type::ocean, tile_id());
+    tile t(4, 2, 6, 1, 2, 10, tile_type::water, tile_id());
     tiles.push_back(t);
   }
   {
@@ -261,7 +261,7 @@ void test_tile() //!OCLINT testing function may be many lines
   {
     tile g(0.0, 0.0, 0.0, 1, 1, 0.0, tile_type::grassland, tile_id());
     assert(g.get_depth() == 0.0);
-    tile o(0.0, 0.0, 0.0, 1, 1, 1.0, tile_type::ocean, tile_id());
+    tile o(0.0, 0.0, 0.0, 1, 1, 1.0, tile_type::water, tile_id());
     assert(o.get_depth() > 0.0);
   }
 
@@ -304,4 +304,20 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(!contains(165, 165)); // D
   }
   #endif // FIX_ISSUE_246
+  //operator==
+  {
+    const tile a;
+
+    // b with different dx
+    tile b = a;
+    assert(a == b);
+    b.set_dx(a.get_dx() + 1.0);
+    assert(!(a == b));
+
+    // b with different dx
+    b = a;
+    assert(a == b);
+    b.set_dy(a.get_dy() + 1.0);
+    assert(!(a == b));
+  }
 }
