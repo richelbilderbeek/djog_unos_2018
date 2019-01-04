@@ -63,7 +63,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     }
     // Display the zen
     {
-      assert(1 == 2);
+      // Nothing yet
     }
   }
   if (m_is_space_pressed)
