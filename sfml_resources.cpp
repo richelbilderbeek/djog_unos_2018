@@ -27,6 +27,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find music file 'title_music.ogg'");
     }
   }
+  {
+    // Re-create resource at executable's location
+    QFile f(":/nature_zen/resources/ben_ik_een_spin.ogg");
+    f.copy("ben_ik_een_spin.ogg");
+    if (!m_benikeenspin.openFromFile("ben_ik_een_spin.ogg")) {
+      throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
+    }
+  }
   // bacterium texture
   {
     QFile f(":/nature_zen/resources/bacterium.png");

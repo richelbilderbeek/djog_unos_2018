@@ -17,6 +17,8 @@ public:
 
   sf::Music &get_title_music() noexcept { return m_title_music; }
 
+  sf::Music &get_benikeenspin() noexcept { return m_benikeenspin; }
+
   sf::Font& get_default_font() noexcept { return m_default_font; }
 
   sf::Font& get_title_font() noexcept { return m_title_font; }
@@ -39,6 +41,8 @@ private:
   sf::Music m_background_music;
 
   sf::Music m_title_music;
+
+  sf::Music m_benikeenspin;
 
   sf::Texture m_cow_texture;
 

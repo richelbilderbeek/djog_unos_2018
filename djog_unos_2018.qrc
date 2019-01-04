@@ -16,6 +16,7 @@
         <file>resources/mountain_goat.jpg</file>
         <file>resources/spider.png</file>
         <file>resources/flying-bird.jpg</file>
+        <file>resources/ben_ik_een_spin.ogg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

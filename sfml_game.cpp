@@ -62,21 +62,15 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
       sfml_game::display_agent(a);
     }
     // Display the zen
-    {
-<<<<<<< HEAD
-      // Nothing yet
-=======
-      //display zen bar and indicator
->>>>>>> 0d0baaf57a65d16b61c9ec4bc80dea7815b37cda
-    }
+    //{
+      // work in progress
+    //}
   }
   if (m_is_space_pressed)
   {
     reset_input();
   }
-
   load_game_state();
-  //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
 }
 
