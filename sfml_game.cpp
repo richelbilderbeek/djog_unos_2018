@@ -63,7 +63,11 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     }
     // Display the zen
     {
+<<<<<<< HEAD
       // Nothing yet
+=======
+      //display zen bar and indicator
+>>>>>>> 0d0baaf57a65d16b61c9ec4bc80dea7815b37cda
     }
   }
   if (m_is_space_pressed)

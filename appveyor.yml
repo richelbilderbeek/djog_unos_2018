@@ -1,6 +1,3 @@
-configuration:
-  - debug
-
 install:
   - echo install
   - cd C:\Qt\
@@ -13,9 +10,9 @@ install:
   
 build_script:
   - qmake djog_unos_2018.pro
-  - mingw32-make debug
+  - mingw32-make
 
 test_script:
-  - cd debug
+  - cd release
   - dir
   - djog_unos_2018.exe --short --version
