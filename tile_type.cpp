@@ -92,10 +92,7 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
     default:
       assert(t == tile_type::nonetile);
       return "nonetile";
-
-
   }
-
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
