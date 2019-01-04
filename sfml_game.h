@@ -23,8 +23,9 @@ public:
   /// @param window_height height of the game window in pixels
   /// @param delegate an object that can modify sfml_game at certain times
   sfml_game(const int window_width = 800, const int window_height = 600,
-            const sfml_game_delegate &delegate = sfml_game_delegate()
-
+            const sfml_game_delegate &delegate = sfml_game_delegate(),
+            const std::vector<tile>& tiles = create_default_tiles(),
+            const std::vector<agent>& agents = create_default_agents()
   );
 
   /// Destructor, is called when sfml_game is destroyed
@@ -105,6 +106,12 @@ public:
 
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
+  void ben_ik_een_spin();
+
+  void setup_spin_layout();
+
+  void start_music();
+
 private:
   // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);
@@ -113,12 +120,9 @@ private:
   /// Background music file object
   sf::Music &m_background_music;
 
-  // Agent for testing
-  // agent agent_test;
+  sf::Music &m_ben_ik_een_spin;
 
-
-
-  /// Sate of Game
+  /// State of Game
   game_state m_game_state = game_state::playing;
 
   /// an object that can modify sfml_game at certain times

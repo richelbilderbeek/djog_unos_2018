@@ -144,6 +144,14 @@ void move_agent_to_tile(agent &a, double tile_x, double tile_y) {
   a.set_y(a.get_y()+(tile_y*115));
 }
 
+bool agent::is_clicked(const double x, const double y,
+                       const sf::Texture& sprite) const noexcept {
+  return x > m_x - 5 &&
+         x < m_x + sprite.getSize().x * 0.2 + 5 &&
+         y > m_y - 5 &&
+         y < m_y + sprite.getSize().y * 0.2 + 5;
+}
+
 void test_agent() //!OCLINT testing functions may be long
 {
   // A default agent has coordinate (0,0)

@@ -33,8 +33,6 @@ public:
 
   int get_n_ticks() const;
 
-
-
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
   void process_events();

@@ -7,6 +7,7 @@
 #include "sfml_game_delegate.h"
 #include "sfml_resources.h"
 #include "tile.h"
+#include "tile_id.h"
 #include <QFile>
 #include <SFML/Graphics.hpp>
 #include <cassert>
@@ -15,10 +16,12 @@
 /// @param argc the number of arguments Nature Zen's executable is called
 ///   with by the operating system.
 /// Arguments are:
-///   * '--no-music': run without music
+///   * '--music': run with music
 ///   * '--short': only run for 10 seconds
-///   * '--menu': show the menu
-///   * '--about': access about screen
+///   * '--title': show the title screen
+///   * '--menu': show the menu screen
+///   * '--about': show the about screen
+///   * '--spin': that's a secret...
 /// @param argv the arguments (as words) Nature Zen's executable is called
 ///   with by the operating system
 
@@ -78,7 +81,23 @@ int main(int argc, char **argv) //!OCLINT WARNING main function too long
     close_at = 600;
   }
 
-  sfml_game g(800, 600, sfml_game_delegate(close_at));
+  std::vector<tile> tiles;
+  std::vector<agent> agents;
+
+  if (std::count(std::begin(args), std::end(args), "--spin"))
+  {
+    tiles.push_back(tile(2,-1,0,4,6,0,tile_type::mountains));
+    tiles.push_back(tile(0,-1,0,2,6,0,tile_type::grassland));
+    tiles.push_back(tile(-2.2,-1,0,0.2,1,0,tile_type::nonetile));
+    tiles.push_back(tile(-2.2,1,0,0.2,1,0,tile_type::nonetile));
+    tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::nonetile));
+    agents.push_back(agent(agent_type::spider,50));
+  } else {
+    tiles = create_default_tiles();
+    agents = create_default_agents();
+  }
+
+  sfml_game g(800, 600, sfml_game_delegate(close_at), tiles, agents);
 
   if (!std::count(std::begin(args), std::end(args), "--music"))
   {

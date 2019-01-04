@@ -14,15 +14,20 @@
 
 sfml_game::sfml_game(const int window_width,
   const int window_height,
-  const sfml_game_delegate& delegate)
+  const sfml_game_delegate& delegate,
+  const std::vector<tile>& tiles,
+  const std::vector<agent>& agents)
   : m_background_music{ sfml_resources::get().get_background_music() },
+    m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
     m_delegate{ delegate },
+    m_game{ game(tiles, agents) },
     m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
                static_cast<unsigned int>(window_height)),
       "Nature Zen", get_video_mode())
 { // Set up music
   m_background_music.setLoop(true);
-  m_background_music.play();
+  m_ben_ik_een_spin.setLoop(true);
+  start_music();
   // Set up window, start location to the center
   const int window_x
     = static_cast<int>(sf::VideoMode::getDesktopMode().width / 2)
@@ -32,17 +37,21 @@ sfml_game::sfml_game(const int window_width,
     - window_height / 2;
   m_window.setPosition(sf::Vector2i(window_x, window_y));
   m_screen_center = sf::Vector2i(window_width / 2, window_height / 2);
-
 }
 
 sfml_game::~sfml_game()
 {
-  m_background_music.stop();
+  stop_music();
 }
 
 void sfml_game::close()
 {
   m_window.close();
+}
+
+void sfml_game::start_music() {
+  stop_music();
+  m_background_music.play();
 }
 
 // WARNING function is long
@@ -54,16 +63,16 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     // Display all tiles
     for (const tile& t : m_game.get_tiles())
     {
-      sfml_game::display_tile(t);
+      display_tile(t);
     }
     // Display all agents
     for (const agent& a : m_game.get_agents())
     {
-      sfml_game::display_agent(a);
+      display_agent(a);
     }
     // Display the zen
     //{
-      // work in progress
+
     //}
   }
   if (m_is_space_pressed)
@@ -87,14 +96,14 @@ void sfml_game::display_tile(const tile &t){
 }
 
 void sfml_game::display_agent(const agent &a){
-    const double screen_x{ a.get_x() - m_camera.x };
-    const double screen_y{ a.get_y() - m_camera.y };
-    sf::Sprite sprite;
-    set_agent_sprite(a, sprite);
-    assert(sprite.getTexture());
-    sprite.setScale(0.2f, 0.2f);
-    sprite.setPosition(screen_x, screen_y);
-   m_window.draw(sprite);
+  const double screen_x{ a.get_x() - m_camera.x };
+  const double screen_y{ a.get_y() - m_camera.y };
+  sf::Sprite sprite;
+  set_agent_sprite(a, sprite);
+  assert(sprite.getTexture());
+  sprite.setScale(0.2f, 0.2f);
+  sprite.setPosition(screen_x, screen_y);
+  m_window.draw(sprite);
 }
 
 void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
@@ -337,6 +346,24 @@ void sfml_game::process_mouse_input(const sf::Event& event)
       m_game.m_selected.clear();
     }
     m_clicked_tile = false;
+    if (m_game.get_agents().size() == 1 &&
+        m_game.get_tiles().size() > 0)
+      ben_ik_een_spin();
+  }
+}
+
+void sfml_game::ben_ik_een_spin() {
+  assert(m_game.get_agents().size() == 1);
+  assert(m_game.get_tiles().size() > 0);
+  agent& spin = m_game.get_agents()[0];
+  if (spin.get_type() == agent_type::spider &&
+      spin.is_clicked(sf::Mouse::getPosition(m_window).x + m_camera.x,
+                      sf::Mouse::getPosition(m_window).y + m_camera.y,
+                      sfml_resources::get().get_agent_sprite(spin)) &&
+      m_ben_ik_een_spin.getStatus() != sf::Music::Playing)
+  {
+    stop_music();
+    m_ben_ik_een_spin.play();
   }
 }
 
@@ -351,7 +378,10 @@ void sfml_game::select_random_tile()
 
 void sfml_game::stop_music()
 {
-  m_background_music.stop();
+  if (m_background_music.getStatus() != sf::Music::Stopped)
+    m_background_music.stop();
+  if (m_ben_ik_een_spin.getStatus() != sf::Music::Stopped)
+    m_ben_ik_een_spin.stop();
 }
 
 void sfml_game::arrows(bool b, const sf::Event& event)
