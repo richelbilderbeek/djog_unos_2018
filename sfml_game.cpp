@@ -541,7 +541,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       break;
 
     case tile_type::water:
-      color_shape(sfml_tile, sf::Color(0, 0, color), sf::Color(0, 0, 100));
+      color_shape(sfml_tile, sf::Color(0, 0, 255-t.get_depth()), sf::Color(0, 0, 100));
       break;
 
     case tile_type::savannah:
