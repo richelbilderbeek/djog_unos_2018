@@ -506,8 +506,6 @@ tile& sfml_game::getTileById(const std::vector<int>& tile_id)
 
 void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) //!OCLINT no 32 statements
 {
-  double d = t.get_depth();
-  int color = 255 - d * 20;
   switch (t.get_type())
   {
     case tile_type::grassland:

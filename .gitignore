@@ -42,3 +42,4 @@ release/
 \.qmake\.stash
 Makefile.Debug
 Makefile.Release
+*.pro.user.*
