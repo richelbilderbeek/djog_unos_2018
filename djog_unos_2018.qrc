@@ -17,6 +17,8 @@
         <file>resources/spider.png</file>
         <file>resources/ben_ik_een_spin.ogg</file>
         <file>resources/flying_bird.png</file>
+        <file>resources/zen_bar.png</file>
+        <file>resources/zen_indicator.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

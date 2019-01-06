@@ -23,7 +23,7 @@ public:
   const auto &get_agents  () const noexcept { return m_agents; }
   auto &get_agents() noexcept { return m_agents; }
 
-  int get_score() const noexcept { return m_score; }
+  double get_score() const noexcept { return m_score; }
 
   void change_score_by(int delta_score);
 
@@ -51,7 +51,7 @@ private:
 
   int m_n_tick = 0;
 
-  int m_score;
+  double m_score;
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);

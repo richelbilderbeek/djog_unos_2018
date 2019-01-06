@@ -124,6 +124,22 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file title_screen_background.jpg");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/zen_bar.png");
+    f.copy("zen_bar.png");
+    // Set up font
+    if (!m_zen_bar_texture.loadFromFile("zen_bar.png")) {
+      throw std::runtime_error("Cannot find image file zen_bar.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/zen_indicator.png");
+    f.copy("zen_indicator.png");
+    // Set up font
+    if (!m_zen_ind_texture.loadFromFile("zen_indicator.png")) {
+      throw std::runtime_error("Cannot find image file zen_indicator.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {

@@ -166,6 +166,12 @@ private:
   bool m_is_space_pressed = false;
 
   sfml_camera m_camera;
+
+  sf::RectangleShape m_zen_bar;
+  sf::RectangleShape m_zen_ind;
+
+  void setup_display_score();
+
 };
 
 ///Test the sfml_game class

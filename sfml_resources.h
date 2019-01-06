@@ -27,6 +27,10 @@ public:
 
   sf::Texture &get_agent_sprite(const agent& a) noexcept;
 
+  sf::Texture &get_zen_bar() noexcept { return m_zen_bar_texture; }
+
+  sf::Texture &get_zen_ind() noexcept { return m_zen_ind_texture; }
+
 private:
   /// Do not construct a sfml_resources,
   /// use sfml_resources::get() instead
@@ -63,6 +67,11 @@ private:
   sf::Texture m_background_image;
 
   sf::Texture m_bird_texture;
+
+  sf::Texture m_zen_ind_texture;
+
+  sf::Texture m_zen_bar_texture;
+
 };
 
 /// Test the sfml_resources class

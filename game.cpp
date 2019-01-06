@@ -45,6 +45,24 @@ void game::process_events()
     tile.process_events();
   }
   get_agents()[0].set_health(get_agents()[0].get_health() + 1);
+
+  {
+    // Testing the score display
+    static bool b = true;
+    if (m_score < 150.0 && b) {
+      m_score += 0.05;
+    } else if (b) {
+      m_score -= 0.05;
+      b = false;
+    }
+    if (m_score > -150.0 && !b) {
+      m_score -= 0.05;
+    } else if (!b) {
+      m_score += 0.05;
+      b = true;
+    }
+  }
+
   ++m_n_tick;
 }
 
