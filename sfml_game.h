@@ -108,8 +108,6 @@ public:
 
   void ben_ik_een_spin();
 
-  void setup_spin_layout();
-
   void start_music();
 
 private:

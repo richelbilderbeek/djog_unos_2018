@@ -17,7 +17,7 @@
 ///   with by the operating system.
 /// Arguments are:
 ///   * '--music': run with music
-///   * '--short': only run for 10 seconds
+///   * '--short': only run for a couple of seconds
 ///   * '--title': show the title screen
 ///   * '--menu': show the menu screen
 ///   * '--about': show the about screen
@@ -37,6 +37,11 @@ void test() {
   test_agent();
   test_agent_type();
   test_tile_id();
+}
+int show_sfml_title_screen() {
+    sfml_title_screen ts;
+    ts.exec();
+    return 0;
 }
 int show_sfml_menu_screen() {
     sfml_menu_screen ms;
@@ -61,9 +66,7 @@ int main(int argc, char **argv) //!OCLINT WARNING main function too long
 
   if (std::count(std::begin(args), std::end(args), "--title"))
   {
-    sfml_title_screen ts;
-    ts.exec();
-    return 0;
+    return show_sfml_title_screen();
   }
   if (std::count(std::begin(args), std::end(args), "--menu"))
   {
