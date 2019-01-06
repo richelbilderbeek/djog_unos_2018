@@ -87,10 +87,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   }
   // bird texture
   {
-    QFile f(":/nature_zen/resources/flying-bird.jpg");
-    f.copy("flying-bird.jpg");
-    if (!m_bird_texture.loadFromFile("flying-bird.jpg"))
-      throw std::runtime_error("Cannot find image file flying-bird.jpg");
+    QFile f(":/nature_zen/resources/flying_bird.png");
+    f.copy("flying_bird.png");
+    if (!m_bird_texture.loadFromFile("flying_bird.png"))
+      throw std::runtime_error("Cannot find image file flying_bird.png");
   }
   // None texture
   {
