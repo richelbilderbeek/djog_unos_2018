@@ -3,7 +3,6 @@ SOURCES += \
     $$PWD/agent_type.cpp \
     $$PWD/game.cpp \
     $$PWD/game_state.cpp \
-    $$PWD/id.cpp \
     $$PWD/sfml_about_screen.cpp \
     $$PWD/sfml_camera.cpp \
     $$PWD/sfml_game.cpp \
@@ -21,7 +20,6 @@ HEADERS += \
     $$PWD/agent_type.h \
     $$PWD/game.h \
     $$PWD/game_state.h \
-    $$PWD/id.h \
     $$PWD/sfml_about_screen.h \
     $$PWD/sfml_camera.h \
     $$PWD/sfml_game_delegate.h \

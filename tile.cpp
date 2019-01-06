@@ -1,6 +1,6 @@
 #include "tile.h"
 #include "agent.h"
-#include "id.h"
+#include "tile_id.h"
 #include "tile_type.h"
 #include "agent_type.h"
 #include "sfml_game.h"
@@ -252,6 +252,14 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(g.get_depth() == 0.0);
     tile o(0.0, 0.0, 0.0, 1, 1, 1.0, tile_type::water, tile_id());
     assert(o.get_depth() > 0.0);
+  }
+  // Test the == operator
+  {
+    tile a(0.0, 0.0, 0.0, 1, 2, 0.0, tile_type::grassland, tile_id());
+    tile b(0.0, 0.0, 0.0, 1, 1, 0.0, tile_type::grassland, tile_id());
+    tile c(0.0, 0.0, 0.0, 1, 1, 0.0, tile_type::grassland, tile_id());
+    assert(!(a == b));
+    assert(b == c);
   }
 
 #define FIX_ISSUE_116_TILE_CONTAINS

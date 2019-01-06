@@ -1,6 +1,5 @@
 
 // Always include the header of the unit first
-#include "id.h"
 #include "game.h"
 #include "tile_id.h"
 #include <cassert>

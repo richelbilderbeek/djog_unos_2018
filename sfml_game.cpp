@@ -3,7 +3,7 @@
 #include "agent.h"
 #include "agent_type.h"
 #include "game_state.h"
-#include "id.h"
+#include "tile_id.h"
 #include "sfml_resources.h"
 #include <QFile>
 #include <algorithm>
@@ -40,19 +40,6 @@ sfml_game::sfml_game(const int window_width,
   setup_display_score();
 }
 
-void sfml_game::setup_display_score() {
-  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
-  m_zen_bar.setPosition(sf::Vector2f(
-                          (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
-                          15));
-  m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
-
-  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
-  m_zen_ind.setPosition(sf::Vector2f(
-                          (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
-                          15+(m_zen_bar.getSize().y/2.0f)));
-  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
-}
 
 sfml_game::~sfml_game()
 {
@@ -67,6 +54,20 @@ void sfml_game::close()
 void sfml_game::start_music() {
   stop_music();
   m_background_music.play();
+}
+
+void sfml_game::setup_display_score() {
+  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
+  m_zen_bar.setPosition(sf::Vector2f(
+                          (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
+                          15));
+  m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
+
+  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
+  m_zen_ind.setPosition(sf::Vector2f(
+                          (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
+                          15+(m_zen_bar.getSize().y/2.0f)));
+  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
 }
 
 // WARNING function is long
