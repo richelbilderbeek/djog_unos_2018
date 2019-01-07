@@ -40,10 +40,10 @@ void test_agent_type() //!OCLINT testing functions may be long
   }
   {
     const std::vector<agent_type> v = collect_all_agent_types();
-    for (const agent_type t : v)
+    for (agent_type t : v)
     {
-       const std::string s = to_str(t);
-      const agent_type u = to_agent(s);
+      std::string s = to_str(t);
+      agent_type u = to_agent(s);
       assert(t == u);
     }
   }
@@ -63,20 +63,20 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
   switch (a) {
     case agent_type::bacterium:
       return "bacterium";
-    case agent_type::spider:
-      return "spider";
+    case agent_type::bird:
+      return "bird";
     case agent_type::cow:
       return "cow";
+    case agent_type::crocodile:
+      return "crocodile";
     case agent_type::grass:
       return "grass";
     case agent_type::fish:
       return "fish";
-    case agent_type::crocodile:
-      return "crocodile";
     case agent_type::tree:
       return "tree";
-    case agent_type::bird:
-      return "bird";
+    case agent_type::spider:
+      return "spider";
     case agent_type::none:
       return "none";
   }
@@ -114,6 +114,5 @@ std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
 
 bool operator==(agent_type lhs, agent_type rhs) noexcept
 {
-  return to_str(lhs) == to_str(rhs) ;
-
+  return to_str(lhs) == to_str(rhs);
 }

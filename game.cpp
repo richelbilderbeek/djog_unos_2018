@@ -3,6 +3,7 @@
 #include "game.h"
 #include "tile_id.h"
 #include <cassert>
+#include <iostream>
 #include <fstream>
 #include <cstdio>
 #include <QFile>
@@ -148,11 +149,13 @@ void test_game() //!OCLINT a testing function may be long
   }
   #endif
 
-  //#define FIX_ISSUE_RAFAYEL
+  #define FIX_ISSUE_RAFAYEL
   #ifdef FIX_ISSUE_RAFAYEL
   // A game can be loaded
   {
-    const game g(create_two_grass_tiles());
+    const game g(create_two_grass_tiles(),
+                 {agent(agent_type::cow, 0, 0, 100)}
+                );
     const std::string filename{"tmp.sav"};
     if (QFile::exists(filename.c_str()))
     {
@@ -162,7 +165,9 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
     const game h = load(filename);
-    assert(g == h);
+    assert(g.get_tiles() == h.get_tiles());
+    assert(g.get_agents() == h.get_agents());
+    std::cout << g << "\n_____\n" << h << "\n";
   }
   #endif // FIX_ISSUE_RAFAYEL
   {
@@ -201,12 +206,15 @@ void save(const game &g, const std::string &filename) {
 
 std::ostream& operator<<(std::ostream& os, const game& g)
 {
-  //TODO: actually save the tile and agents
   os << g.m_n_tick << ' ' << g.m_score << ' '
-     << g.m_tiles.size();
+     << g.m_tiles.size() << ' '
+     << g.m_agents.size();
 
   for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
-      os << ' ' <<g.m_tiles[i];
+      os << ' ' << g.m_tiles[i];
+  }
+  for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
+      os << ' ' << g.m_agents[i];
   }
 
   os << ' ';
@@ -216,16 +224,24 @@ std::ostream& operator<<(std::ostream& os, const game& g)
 
 std::istream& operator>>(std::istream& is, game& g)
 {
-  //TODO: actually save the tile and agents
+  // TODO this isn't working
   is >> g.m_n_tick >> g.m_score;
   int n_tiles = 0;
   is >> n_tiles;
-  //TODO: the line below is a stub
-  for (int i=0; i!=n_tiles; ++i)
+  int n_agents = 0;
+  g.m_tiles.clear();
+  for (int i = 0; i < n_tiles; ++i)
   {
-      tile t(1, 1, 1, 1, 1, 0, tile_type::grassland, tile_id());
-      is >> t;
-      g.m_tiles.emplace_back(t);
+    tile t(1, 1, 1, 1, 1, 0, tile_type::grassland, tile_id());
+    is >> t;
+    g.m_tiles.emplace_back(t);
+  }
+  g.m_agents.clear();
+  for (int i = 0; i < n_agents; ++i)
+  {
+    agent a(agent_type::cow, 0, 0, 1);
+    is >> a;
+    g.m_agents.emplace_back(a);
   }
   return is;
 }
@@ -233,11 +249,13 @@ std::istream& operator>>(std::istream& is, game& g)
 bool operator==(const game& lhs, const game& rhs) noexcept
 {
   if (lhs.m_n_tick != rhs.m_n_tick)
-      return false;
+    return false;
   if (lhs.m_score != rhs.m_score)
-      return false;
+    return false;
   if (lhs.m_tiles != rhs.m_tiles)
-      return false;
+    return false;
+  if (lhs.m_agents != rhs.m_agents)
+    return false;
 
   return true;
 }

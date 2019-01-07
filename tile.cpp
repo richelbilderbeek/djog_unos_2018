@@ -136,15 +136,8 @@ std::ostream& operator<<(std::ostream& os, const tile& t)
   os << t.m_x << ' ' << t.m_y << ' '
      << t.m_height << ' ' << t.m_width << ' '
      << t.m_locked << ' ' << t.m_type << ' '
-     << t.m_dx << ' ' << t.m_dy << ' ';
-// WARNING agents have been moved to 'game', commented everything affected by the move
-//   << t.m_agents.size();
-//
-//  for (int i=0; i < static_cast<int>(t.m_agents.size()); i++){
-//      os << ' ' << t.m_agents[i];
-//  }
-
-  os << ' ';
+     << t.m_dx << ' ' << t.m_dy << ' '
+     << t.m_depth << ' ';
 
   return os;
 }
@@ -156,17 +149,7 @@ std::istream& operator>>(std::istream& is, tile& t)
   is >> t.m_height >> t.m_width;
   is >> t.m_locked >> t.m_type;
   is >> t.m_dx >> t.m_dy;
-  int n_agents = 20;
-  is >> n_agents;
-  //TODO: the line below is a stub
-  for (int i=0; i!=n_agents; ++i)
-  {
-    agent a(agent_type::none, 0, 0);
-    is >> a;
-//    t.m_agents.emplace_back(
-//      a
-//    );
-  }
+  is >> t.m_depth;
   return is;
 }
 

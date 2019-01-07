@@ -12,19 +12,20 @@ agent::agent(const agent_type type, const double x, const double y, double healt
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
   //TODO: actually save the tile and agents
-  os << a.m_type << ' ' << a.m_x << ' ' << a.m_y;
+  os << a.m_type << ' ' << a.m_x << ' ' << a.m_y << ' '
+     << a.m_health << ' ' << a.m_stamina << ' ';
   return os;
 }
 
 std::istream& operator>>(std::istream& is, agent& a)
 {
   //TODO: actually save the tile and agents
-  is >> a.m_type >> a.m_x >> a.m_y;
+  is >> a.m_type >> a.m_x >> a.m_y >> a.m_health >> a.m_stamina;
   return is;
 }
 
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
-    return  lhs.m_type == rhs.m_type and lhs.m_x == rhs.m_x and lhs.m_y == rhs.m_y ;
+    return lhs.m_type == rhs.m_type and lhs.m_x == rhs.m_x and lhs.m_y == rhs.m_y;
 }
 
 
