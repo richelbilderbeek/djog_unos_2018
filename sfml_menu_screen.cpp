@@ -4,9 +4,10 @@
 #include <iostream>
 #include <cassert>
 
-sfml_menu_screen::sfml_menu_screen()
+sfml_menu_screen::sfml_menu_screen(const int close_at)
     : m_window{sf::VideoMode(600, 600), "Nature Zen - Menu"},
-      m_font{ sfml_resources::get().get_default_font() }
+      m_font{ sfml_resources::get().get_default_font() },
+      m_close_at{close_at}
 {
     m_main_text.setFont(m_font);
     m_main_text.setString("MAIN MENU");
@@ -24,6 +25,7 @@ sfml_menu_screen::sfml_menu_screen()
 
 void sfml_menu_screen::exec()
 {
+  if (m_close_at >= 0) m_window.close();
   while(m_window.isOpen())
   {
     static int i = 0;

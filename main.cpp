@@ -38,18 +38,19 @@ void test() {
   test_agent_type();
   test_tile_id();
 }
-int show_sfml_title_screen() {
-    sfml_title_screen ts;
+int show_sfml_title_screen(int ca, bool music) {
+    sfml_title_screen ts(ca);
+    if (!music) ts.stop_music();
     ts.exec();
     return 0;
 }
-int show_sfml_menu_screen() {
-    sfml_menu_screen ms;
+int show_sfml_menu_screen(int ca) {
+    sfml_menu_screen ms(ca);
     ms.exec();
     return 0;
 }
-int show_sfml_about_screen() {
-    sfml_about_screen as;
+int show_sfml_about_screen(int ca) {
+    sfml_about_screen as(ca);
     as.exec();
     return 0;
 }
@@ -64,17 +65,11 @@ int main(int argc, char **argv) //!OCLINT WARNING main function too long
 
   const std::vector<std::string> args(argv, argv + argc);
 
-  if (std::count(std::begin(args), std::end(args), "--title"))
+  bool music = false;
+
+  if (std::count(std::begin(args), std::end(args), "--music"))
   {
-    return show_sfml_title_screen();
-  }
-  if (std::count(std::begin(args), std::end(args), "--menu"))
-  {
-    return show_sfml_menu_screen();
-  }
-  if (std::count(std::begin(args), std::end(args), "--about"))
-  {
-    return show_sfml_about_screen();
+    music = true;
   }
 
   int close_at{-1};
@@ -82,6 +77,25 @@ int main(int argc, char **argv) //!OCLINT WARNING main function too long
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
+  }
+
+  if (std::count(std::begin(args), std::end(args), "--title"))
+  {
+    std::cout << "title screen returned "
+              << show_sfml_title_screen(close_at, music)
+              << std::endl;
+  }
+  if (std::count(std::begin(args), std::end(args), "--menu"))
+  {
+    std::cout << "menu screen returned "
+              << show_sfml_menu_screen(close_at)
+              << std::endl;
+  }
+  if (std::count(std::begin(args), std::end(args), "--about"))
+  {
+    std::cout << "about screen returned "
+              << show_sfml_about_screen(close_at)
+              << std::endl;
   }
 
   std::vector<tile> tiles;
@@ -102,10 +116,8 @@ int main(int argc, char **argv) //!OCLINT WARNING main function too long
 
   sfml_game g(800, 600, sfml_game_delegate(close_at), tiles, agents);
 
-  if (!std::count(std::begin(args), std::end(args), "--music"))
-  {
-    g.stop_music();
-  }
+  if (!music) g.stop_music();
+
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR
