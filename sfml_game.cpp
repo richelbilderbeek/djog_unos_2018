@@ -70,7 +70,6 @@ void sfml_game::setup_display_score() {
   m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
 }
 
-// WARNING function is long
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color

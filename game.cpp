@@ -155,8 +155,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_agents().size() == 1);
     assert(g.get_tiles().size() == 1);
   }
-  #define FIX_SAVE_LOAD
-  #ifdef FIX_SAVE_LOAD
   // A game can be loaded
   {
     const game g(create_default_tiles(),
@@ -173,7 +171,6 @@ void test_game() //!OCLINT a testing function may be long
     const game h = load(filename);
     assert(g == h);
   }
-  #endif // FIX_SAVE_LOAD
   {
     // Create a game with two grassland blocks on top of each other
     // +====+====+    +----+----+

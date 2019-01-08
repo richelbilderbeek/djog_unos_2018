@@ -104,7 +104,6 @@ std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
 std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
   std::string s;
   is >> s;
-  std::cout << s << "\n";
   a = to_agent(s); //!OCLINT correct idiom in this context
   return is;
 }
