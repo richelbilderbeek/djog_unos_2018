@@ -11,15 +11,13 @@ agent::agent(const agent_type type, const double x, const double y, double healt
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
-  //TODO: actually save the tile and agents
   os << a.m_type << ' ' << a.m_x << ' ' << a.m_y << ' '
-     << a.m_health << ' ' << a.m_stamina << ' ';
+     << a.m_health << ' ' << a.m_stamina;
   return os;
 }
 
 std::istream& operator>>(std::istream& is, agent& a)
 {
-  //TODO: actually save the tile and agents
   is >> a.m_type >> a.m_x >> a.m_y >> a.m_health >> a.m_stamina;
   return is;
 }

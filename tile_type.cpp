@@ -118,6 +118,7 @@ std::istream& operator>>(std::istream& is, tile_type& t) noexcept
 {
   std::string str;
   is >> str;
+  std::cout << str << "\n";
   t = to_tile(str); //!OCLINT indeed parameter reassignment, which is exactly the idea
   return is;
 }

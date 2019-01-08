@@ -94,8 +94,7 @@ std::vector<tile> create_two_grass_tiles() noexcept
 bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 {
   return lhs.get_x() == rhs.get_x()
-    && lhs.get_y() == rhs.get_y()
-  ;
+    && lhs.get_y() == rhs.get_y();
 }
 
 void tile::process_events()
@@ -132,30 +131,27 @@ void tile::move() {
 
 std::ostream& operator<<(std::ostream& os, const tile& t)
 {
-  //TODO: actually save the tile and agents
   os << t.m_x << ' ' << t.m_y << ' '
      << t.m_height << ' ' << t.m_width << ' '
      << t.m_locked << ' ' << t.m_type << ' '
      << t.m_dx << ' ' << t.m_dy << ' '
-     << t.m_depth << ' ';
+     << t.m_depth;
 
   return os;
 }
 
 std::istream& operator>>(std::istream& is, tile& t)
 {
-  //TODO: actually save the tile and agents
   is >> t.m_x >> t.m_y;
   is >> t.m_height >> t.m_width;
-  is >> t.m_locked >> t.m_type;
+  is >> t.m_locked;
+  is >> t.m_type;
   is >> t.m_dx >> t.m_dy;
   is >> t.m_depth;
   return is;
 }
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept{
-//    if (!(lhs.m_agents == rhs.m_agents))
-//        return false;
     if (!(lhs.m_dx == rhs.m_dx))
         return false;
     if (!(lhs.m_dy == rhs.m_dy))

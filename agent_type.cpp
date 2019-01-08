@@ -77,16 +77,14 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "tree";
     case agent_type::spider:
       return "spider";
-    case agent_type::none:
+    default:
+      assert(a == agent_type::none); //!OCLINT accepted idiom
       return "none";
   }
-  assert(!"Agent types aren't translated completely"); //!OCLINT accepted idiom
-  return "none";
 }
 
 agent_type to_agent(std::string str) //!OCLINT cannot be simpler
 {
-  std::cout << "------------------\n" << str << "\n";
   if (str == "cow") return agent_type::cow;
   if (str == "bacterium") return agent_type::bacterium;
   if (str == "grass") return agent_type::grass;
@@ -95,8 +93,6 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "tree") return agent_type::tree;
   if (str == "bird") return agent_type::bird;
   if (str == "spider") return agent_type::spider;
-  if (str == "none") return agent_type::none;
-  assert(!"Agent types aren't translated completely or the type doesn't exist"); //!OCLINT accepted idiom
   return agent_type::none;
 }
 
@@ -108,6 +104,7 @@ std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
 std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
     std::string s;
     is >> s;
+    std::cout << s << "\n";
     a = to_agent(s); //!OCLINT correct idiom in this context
     return is;
 }

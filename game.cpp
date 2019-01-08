@@ -148,13 +148,19 @@ void test_game() //!OCLINT a testing function may be long
     //assert(!is_on_tile_t(g, a));
   }
   #endif
-
-  #define FIX_ISSUE_RAFAYEL
-  #ifdef FIX_ISSUE_RAFAYEL
+  {
+    const game g(std::vector<tile>{tile(0, 0, 0, 1, 1, 0, tile_type::grassland)},
+                 std::vector<agent>{agent(agent_type::cow, 0, 0, 100)}
+                );
+    assert(g.get_agents().size() == 1);
+    assert(g.get_tiles().size() == 1);
+  }
+  #define FIX_SAVE_LOAD
+  #ifdef FIX_SAVE_LOAD
   // A game can be loaded
   {
-    const game g(create_two_grass_tiles(),
-                 {agent(agent_type::cow, 0, 0, 100)}
+    const game g(create_default_tiles(),
+                 std::vector<agent>{agent(agent_type::spider, 0, 0, 100)}
                 );
     const std::string filename{"tmp.sav"};
     if (QFile::exists(filename.c_str()))
@@ -167,9 +173,8 @@ void test_game() //!OCLINT a testing function may be long
     const game h = load(filename);
     assert(g.get_tiles() == h.get_tiles());
     assert(g.get_agents() == h.get_agents());
-    std::cout << g << "\n_____\n" << h << "\n";
   }
-  #endif // FIX_ISSUE_RAFAYEL
+  #endif // FIX_SAVE_LOAD
   {
     // Create a game with two grassland blocks on top of each other
     // +====+====+    +----+----+
@@ -209,26 +214,25 @@ std::ostream& operator<<(std::ostream& os, const game& g)
   os << g.m_n_tick << ' ' << g.m_score << ' '
      << g.m_tiles.size() << ' '
      << g.m_agents.size();
-
   for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
       os << ' ' << g.m_tiles[i];
   }
-  for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
+  for (int i=0; i < static_cast<int>(g.m_agents.size()); i++){
       os << ' ' << g.m_agents[i];
   }
 
-  //os << ' ';
+  os << ' ';
 
   return os;
 }
 
 std::istream& operator>>(std::istream& is, game& g)
 {
-  // TODO this isn't working
   is >> g.m_n_tick >> g.m_score;
   int n_tiles = 0;
   is >> n_tiles;
   int n_agents = 0;
+  is >> n_agents;
   g.m_tiles.clear();
   for (int i = 0; i < n_tiles; ++i)
   {

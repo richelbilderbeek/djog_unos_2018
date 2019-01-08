@@ -20,7 +20,7 @@ public:
   auto &get_tiles() noexcept { return m_tiles; }
 
   /// Read all agents
-  const auto &get_agents  () const noexcept { return m_agents; }
+  const auto &get_agents() const noexcept { return m_agents; }
   auto &get_agents() noexcept { return m_agents; }
 
   double get_score() const noexcept { return m_score; }
@@ -43,6 +43,7 @@ private:
   std::vector<int> m_selected;
 
   void merge_tiles();
+
   /// Tiles list
   std::vector<tile> m_tiles;
 
