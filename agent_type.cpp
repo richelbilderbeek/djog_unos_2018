@@ -86,6 +86,7 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
 
 agent_type to_agent(std::string str) //!OCLINT cannot be simpler
 {
+  std::cout << "------------------\n" << str << "\n";
   if (str == "cow") return agent_type::cow;
   if (str == "bacterium") return agent_type::bacterium;
   if (str == "grass") return agent_type::grass;
