@@ -217,7 +217,7 @@ std::ostream& operator<<(std::ostream& os, const game& g)
       os << ' ' << g.m_agents[i];
   }
 
-  os << ' ';
+  //os << ' ';
 
   return os;
 }
