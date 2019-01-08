@@ -17,6 +17,5 @@ void test_agent_type();
 
 std::ostream& operator<<(std::ostream& os, const agent_type a) noexcept;
 std::istream& operator>>(std::istream& is, agent_type& a) noexcept;
-bool operator==(agent_type lhs, agent_type rhs) noexcept;
 
 #endif // TILE_TYPE_H

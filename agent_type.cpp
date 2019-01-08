@@ -97,20 +97,14 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
 }
 
 std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
-    os << to_str(a);
-    return os;
+  os << to_str(a);
+  return os;
 }
 
 std::istream& operator>>(std::istream& is, agent_type& a) noexcept {
-    std::string s;
-    is >> s;
-    std::cout << s << "\n";
-    a = to_agent(s); //!OCLINT correct idiom in this context
-    return is;
-}
-
-
-bool operator==(agent_type lhs, agent_type rhs) noexcept
-{
-  return to_str(lhs) == to_str(rhs);
+  std::string s;
+  is >> s;
+  std::cout << s << "\n";
+  a = to_agent(s); //!OCLINT correct idiom in this context
+  return is;
 }

@@ -151,7 +151,7 @@ std::istream& operator>>(std::istream& is, tile& t)
   return is;
 }
 
-bool operator==(const tile& lhs, const tile& rhs) noexcept{
+bool operator==(const tile& lhs, const tile& rhs) noexcept {
     if (!(lhs.m_dx == rhs.m_dx))
         return false;
     if (!(lhs.m_dy == rhs.m_dy))

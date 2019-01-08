@@ -171,8 +171,7 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
     const game h = load(filename);
-    assert(g.get_tiles() == h.get_tiles());
-    assert(g.get_agents() == h.get_agents());
+    assert(g == h);
   }
   #endif // FIX_SAVE_LOAD
   {
