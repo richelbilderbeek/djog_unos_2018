@@ -13,5 +13,4 @@ De hond heette dirk.
 
 en ze leefden nog lang en gelukkig.
 
-
 En toen kwam er een olifant met een hele lange snuit, en die blies....phheuuwt.. het verhaaltje uit.
