@@ -146,20 +146,18 @@ std::istream& operator>>(std::istream& is, tile& t)
 }
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept {
-    if (!(lhs.m_dx == rhs.m_dx))
-        return false;
-    if (!(lhs.m_dy == rhs.m_dy))
-        return false;
-    if (!(lhs.m_height == rhs.m_height))
-        return false;
-    if (!(lhs.m_width == rhs.m_width))
-        return false;
-    if (!(lhs.m_locked == rhs.m_locked))
-        return false;
-    if (!(lhs.m_type == rhs.m_type))
-        return false;
-
-    return true;
+  if (//lhs.m_x != rhs.m_x ||
+      //lhs.m_y != rhs.m_y ||
+      //lhs.m_z != rhs.m_z ||
+      lhs.m_dx != rhs.m_dx ||
+      lhs.m_dy != rhs.m_dy ||
+      lhs.m_depth != rhs.m_depth ||
+      lhs.m_width != rhs.m_width ||
+      lhs.m_height != rhs.m_height ||
+      lhs.m_locked != rhs.m_locked ||
+      lhs.m_type != rhs.m_type)
+    return false;
+  return true;
 }
 
 bool tile::tile_contains(double x, double y) const noexcept {

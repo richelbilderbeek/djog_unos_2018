@@ -169,6 +169,7 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
     const game h = load(filename);
+    std::cout << g << "\n------\n" << h << "\n";
     assert(g == h);
   }
   {
@@ -248,14 +249,10 @@ std::istream& operator>>(std::istream& is, game& g)
 
 bool operator==(const game& lhs, const game& rhs) noexcept
 {
-  if (lhs.m_n_tick != rhs.m_n_tick)
+  if (lhs.m_n_tick != rhs.m_n_tick ||
+      lhs.m_score != rhs.m_score ||
+      lhs.m_tiles != rhs.m_tiles ||
+      lhs.m_agents != rhs.m_agents)
     return false;
-  if (lhs.m_score != rhs.m_score)
-    return false;
-  if (lhs.m_tiles != rhs.m_tiles)
-    return false;
-  if (lhs.m_agents != rhs.m_agents)
-    return false;
-
   return true;
 }

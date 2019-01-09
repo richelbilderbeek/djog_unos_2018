@@ -39,6 +39,8 @@ void test_tile_type()
     assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::mountains);
     assert(get_merge_type(tile_type::grassland, tile_type::desert) == tile_type::savannah);
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
+    assert(get_merge_type(tile_type::grassland, tile_type::water) == tile_type::swamp);
+    assert(get_merge_type(tile_type::water, tile_type::grassland) == tile_type::swamp);
     //TODO: after Issue #187: test more combinations
   }
   {
