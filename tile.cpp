@@ -202,21 +202,34 @@ void test_tile() //!OCLINT testing function may be many lines
       b = true;
     }
     if (!b)
-      assert(false);
+      assert(!"Should never get here!"); //!OCLINT accepted idiom
   }
   // height cannot be negative
   {
+    bool b = false;
     try {
       const tile t(0.0, 0.0, 0.0, 1, -1, 0, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
-      assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'height' cannot be negative");
+      b = true;
     }
+    if (!b)
+      assert(!"Should never get here!"); //!OCLINT accepted idiom
   }
 
   // A tile starts from standstill
   {
     const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
+    assert(t.get_dx() == 0.0);
+    assert(t.get_dy() == 0.0);
+  }
+  {
+    const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
+    t.lock_movement(true);
+    const double dx{12.34};
+    const double dy{56.78};
+    t.set_dx(dx);
+    t.set_dy(dy);
     assert(t.get_dx() == 0.0);
     assert(t.get_dy() == 0.0);
   }
