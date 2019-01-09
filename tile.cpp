@@ -201,6 +201,7 @@ void test_tile() //!OCLINT testing function may be many lines
       assert(std::string(e.what()) == "'width' cannot be negative");
       b = true;
     }
+    std::cout << b << " "; // use b
     assert(b);
   }
   // height cannot be negative
@@ -212,6 +213,7 @@ void test_tile() //!OCLINT testing function may be many lines
       assert(std::string(e.what()) == "'height' cannot be negative");
       b = true;
     }
+    std::cout << b << "\n"; // use b
     assert(b);
   }
   // A tile starts from standstill
