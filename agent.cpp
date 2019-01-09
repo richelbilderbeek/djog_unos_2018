@@ -31,7 +31,7 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
 }
 
 
-void agent::move(const game& g)
+void agent::move(/*const game& g*/)
 {
   //Dead agents stay still
   if (m_health <= 0.0) return;
@@ -43,7 +43,6 @@ void agent::move(const game& g)
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
-  std::cout << g << "\n"; // use g
   //TODO after fixing issue 261 uncomment this
   //if (!is_on_tile(g, *this))
   //{

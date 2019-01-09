@@ -38,15 +38,12 @@ public:
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);
 
-  /// Make the agent move (movement depends on agent type and surroundings)
-  void action();
-
   bool can_eat(agent &a);
   bool run_away(agent &a);
 
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
-  void move(const game& g);
+  void move(/*const game& g*/);
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 

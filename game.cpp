@@ -169,7 +169,6 @@ void test_game() //!OCLINT a testing function may be long
     save(g, filename);
     assert(QFile::exists(filename.c_str()));
     const game h = load(filename);
-    std::cout << g << "\n------\n" << h << "\n";
     assert(g == h);
   }
   {
