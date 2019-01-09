@@ -201,7 +201,8 @@ void test_tile() //!OCLINT testing function may be many lines
       assert(std::string(e.what()) == "'width' cannot be negative");
       b = true;
     }
-    assert(b == true);
+    if (!b)
+      assert(false);
   }
   // height cannot be negative
   {
