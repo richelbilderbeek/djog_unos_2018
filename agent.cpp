@@ -43,6 +43,7 @@ void agent::move(const game& g)
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
+  std::cout << g << "\n"; // use g
   //TODO after fixing issue 261 uncomment this
   //if (!is_on_tile(g, *this))
   //{
