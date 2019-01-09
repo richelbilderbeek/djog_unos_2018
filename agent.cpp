@@ -31,7 +31,7 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
 }
 
 
-void agent::move(/*const game& g*/)
+void agent::move(const game& g)
 {
   //Dead agents stay still
   if (m_health <= 0.0) return;
@@ -48,6 +48,7 @@ void agent::move(/*const game& g*/)
   //{
   //  this->m_health = 0.0;
   //}
+  if (is_on_tile(g, *this)) assert(is_on_tile(g, *this)); // use g, remove after above works
 }
 
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
