@@ -36,6 +36,7 @@ void test_tile_type()
 {
   {
     // merging of types
+    assert(get_merge_type(tile_type::nonetile, tile_type::grassland) == tile_type::nonetile);
     assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::mountains);
     assert(get_merge_type(tile_type::grassland, tile_type::desert) == tile_type::savannah);
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);

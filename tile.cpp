@@ -303,4 +303,7 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(!(a == b));
   }
   #endif
+  {
+    assert(create_two_grass_tiles().size() == 2);
+  }
 }
