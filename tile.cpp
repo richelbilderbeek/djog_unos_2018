@@ -112,16 +112,10 @@ void tile::set_dy(double dy) {
     m_dy = dy;
 }
 
-void tile::set_dz(double dz) {
-  if(!m_locked)
-    m_dz = dz;
-}
-
 void tile::set_type(const tile_type t) noexcept
 {
   m_type = t;
 }
-
 
 void tile::move() {
   m_x += m_dx;
@@ -184,7 +178,7 @@ void test_tile() //!OCLINT testing function may be many lines
       const tile t(0.0, 0.0, 0.0, -1, 1, 0, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'width' cannot be negative");
-      b = true
+      b = true;
     }
     assert(b == true);
   }
