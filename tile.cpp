@@ -201,8 +201,7 @@ void test_tile() //!OCLINT testing function may be many lines
       assert(std::string(e.what()) == "'width' cannot be negative");
       b = true;
     }
-    if (!b)
-      assert(!"Should never get here!"); //!OCLINT accepted idiom
+    assert(b);
   }
   // height cannot be negative
   {
@@ -213,10 +212,8 @@ void test_tile() //!OCLINT testing function may be many lines
       assert(std::string(e.what()) == "'height' cannot be negative");
       b = true;
     }
-    if (!b)
-      assert(!"Should never get here!"); //!OCLINT accepted idiom
+    assert(b);
   }
-
   // A tile starts from standstill
   {
     const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
@@ -224,12 +221,10 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_dy() == 0.0);
   }
   {
-    const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
+    tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
     t.lock_movement(true);
-    const double dx{12.34};
-    const double dy{56.78};
-    t.set_dx(dx);
-    t.set_dy(dy);
+    t.set_dx(12.34);
+    t.set_dy(56.78);
     assert(t.get_dx() == 0.0);
     assert(t.get_dy() == 0.0);
   }
