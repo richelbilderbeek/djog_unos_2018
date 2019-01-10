@@ -27,9 +27,42 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
          lhs.m_x == rhs.m_x and
          lhs.m_y == rhs.m_y and
          lhs.m_health == rhs.m_health;
-  // Stamina isn't precise enough to compare
+  // TODO Stamina wasn't precise enough to compare, try again
 }
 
+// WARNING test this (line 256)
+std::vector<agent_type> can_eat(const agent_type type) {
+  switch (type) {//TODO finish this
+    case agent_type::crocodile:
+      return {agent_type::cow};
+    case agent_type::bird:
+      return {agent_type::spider,
+              agent_type::fish};
+    case agent_type::cow:
+      return {agent_type::grass};
+    default:
+      return {};
+  }
+}
+
+// WARNING test this
+void agent::eat(const game& g) {
+  std::vector<agent_type> food = can_eat(m_type);
+  //Is agent_type a in food?
+  for (agent a : g.get_agents()) {
+    if (a.get_x() > m_x - 50 &&
+        a.get_x() < m_x + 60 &&
+        a.get_y() > m_y - 50 &&
+        a.get_y() < m_y + 55 &&
+        std::count(std::begin(food), std::end(food), a.get_type()))
+    {
+      a.kill();
+      m_stamina += 60;
+    } else {
+      m_stamina -= 1;
+    }
+  }
+}
 
 void agent::move(const game& g)
 {
@@ -220,6 +253,13 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  //#define FIX_ISSUE_287
+  #ifdef FIX_ISSUE_287
+  // Test can_eat
+  {
+    for (agent_type a : )
+  }
+  #endif
   //#define FIX_ISSUE_289
   #ifdef FIX_ISSUE_289
   //Agent can pass out of exhaustion
