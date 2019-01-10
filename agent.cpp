@@ -23,7 +23,11 @@ std::istream& operator>>(std::istream& is, agent& a)
 }
 
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
-    return lhs.m_type == rhs.m_type and lhs.m_x == rhs.m_x and lhs.m_y == rhs.m_y;
+  return lhs.m_type == rhs.m_type and
+         lhs.m_x == rhs.m_x and
+         lhs.m_y == rhs.m_y and
+         lhs.m_health == rhs.m_health;
+  // Stamina isn't precise enough to compare
 }
 
 
@@ -39,10 +43,12 @@ void agent::move(const game& g)
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
-  if (!is_on_tile(g, *this))
-  {
-    this->m_health = 0.0;
-  }
+  //TODO after fixing issue 261 uncomment this
+  //if (!is_on_tile(g, *this))
+  //{
+  //  this->m_health = 0.0;
+  //}
+  if (is_on_tile(g, *this)) assert(is_on_tile(g, *this)); // use g, remove after above works
 }
 
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
@@ -178,8 +184,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #define FIX_ISSUE_202
-  #ifdef FIX_ISSUE_202
   // A crocodile moves
   {
     game g;
@@ -190,10 +194,6 @@ void test_agent() //!OCLINT testing functions may be long
     for (int i = 0; i != 10; ++i) a.move(g); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #endif // FIX_ISSUE_202
-
-  #define FIX_ISSUE_201
-  #ifdef FIX_ISSUE_201
   // A fish moves
   {
     game g;
@@ -205,7 +205,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #endif // FIX_ISSUE_201
   // Grass does not move
   {
     game g;
@@ -275,4 +274,14 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
+  //#define FIX_ISSUE_261
+  #ifdef FIX_ISSUE_261
+  //Agents fall off
+  {
+    game g(create_two_grass_tiles(), { agent(agent_type::crocodile, -100, -100, 100)});
+    agent& a = g.get_agents()[0];
+    a.move(g);
+    assert(a.get_health() == 0); //!OCLINT accepted idiom
+  }
+  #endif
 }

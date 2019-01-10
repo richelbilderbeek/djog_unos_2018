@@ -248,14 +248,8 @@ std::istream& operator>>(std::istream& is, game& g)
 
 bool operator==(const game& lhs, const game& rhs) noexcept
 {
-  if (lhs.m_n_tick != rhs.m_n_tick)
-    return false;
-  if (lhs.m_score != rhs.m_score)
-    return false;
-  if (lhs.m_tiles != rhs.m_tiles)
-    return false;
-  if (lhs.m_agents != rhs.m_agents)
-    return false;
-
-  return true;
+  return lhs.m_n_tick == rhs.m_n_tick &&
+         lhs.m_score == rhs.m_score &&
+         lhs.m_tiles == rhs.m_tiles &&
+         lhs.m_agents == rhs.m_agents;
 }

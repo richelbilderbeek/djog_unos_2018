@@ -38,9 +38,6 @@ public:
   /// Check if the agent wants to move to position
   bool checkout(double x, double y);
 
-  /// Make the agent move (movement depends on agent type and surroundings)
-  void action();
-
   bool can_eat(agent &a);
   bool run_away(agent &a);
 

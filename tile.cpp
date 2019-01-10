@@ -112,16 +112,10 @@ void tile::set_dy(double dy) {
     m_dy = dy;
 }
 
-void tile::set_dz(double dz) {
-  if(!m_locked)
-    m_dz = dz;
-}
-
 void tile::set_type(const tile_type t) noexcept
 {
   m_type = t;
 }
-
 
 void tile::move() {
   m_x += m_dx;
@@ -152,20 +146,18 @@ std::istream& operator>>(std::istream& is, tile& t)
 }
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept {
-    if (!(lhs.m_dx == rhs.m_dx))
-        return false;
-    if (!(lhs.m_dy == rhs.m_dy))
-        return false;
-    if (!(lhs.m_height == rhs.m_height))
-        return false;
-    if (!(lhs.m_width == rhs.m_width))
-        return false;
-    if (!(lhs.m_locked == rhs.m_locked))
-        return false;
-    if (!(lhs.m_type == rhs.m_type))
-        return false;
-
-    return true;
+  if (//lhs.m_x != rhs.m_x ||
+      //lhs.m_y != rhs.m_y ||
+      //lhs.m_z != rhs.m_z ||
+      lhs.m_dx != rhs.m_dx ||
+      lhs.m_dy != rhs.m_dy ||
+      lhs.m_depth != rhs.m_depth ||
+      lhs.m_width != rhs.m_width ||
+      lhs.m_height != rhs.m_height ||
+      lhs.m_locked != rhs.m_locked ||
+      lhs.m_type != rhs.m_type)
+    return false;
+  return true;
 }
 
 bool tile::tile_contains(double x, double y) const noexcept {
@@ -179,26 +171,39 @@ void test_tile() //!OCLINT testing function may be many lines
 {
   // width cannot be negative
   {
+    bool b = false;
     try {
       const tile t(0.0, 0.0, 0.0, -1, 1, 0, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
-      assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'width' cannot be negative");
+      b = true;
     }
+    std::cout << b << " "; // use b
+    assert(b);
   }
   // height cannot be negative
   {
+    bool b = false;
     try {
       const tile t(0.0, 0.0, 0.0, 1, -1, 0, tile_type::grassland, tile_id()); //!OCLINT indeed t is unused
-      assert(!"This should not be executed"); //!OCLINT accepted idiom
     } catch (const std::invalid_argument &e) {
       assert(std::string(e.what()) == "'height' cannot be negative");
+      b = true;
     }
+    std::cout << b << "\n"; // use b
+    assert(b);
   }
-
   // A tile starts from standstill
   {
     const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
+    assert(t.get_dx() == 0.0);
+    assert(t.get_dy() == 0.0);
+  }
+  {
+    tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
+    t.lock_movement(true);
+    t.set_dx(12.34);
+    t.set_dy(56.78);
     assert(t.get_dx() == 0.0);
     assert(t.get_dy() == 0.0);
   }
@@ -298,4 +303,7 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(!(a == b));
   }
   #endif
+  {
+    assert(create_two_grass_tiles().size() == 2);
+  }
 }
