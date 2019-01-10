@@ -7,7 +7,7 @@
 #include "game.h"
 
 agent::agent(const agent_type type, const double x, const double y, double health)
-    : m_type{type}, m_x{x}, m_y{y}, m_health{health}{}
+    : m_type{type}, m_x{x}, m_y{y}, m_health{health}, m_stamina{100}{}
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
@@ -35,6 +35,7 @@ void agent::move(const game& g)
 {
   //Dead agents stay still
   if (m_health <= 0.0) return;
+  if (m_stamina <= 0.0) return;
 
   if (m_type == agent_type::cow ||
       m_type == agent_type::crocodile ||
@@ -49,6 +50,9 @@ void agent::move(const game& g)
   //  this->m_health = 0.0;
   //}
   if (is_on_tile(g, *this)) assert(is_on_tile(g, *this)); // use g, remove after above works
+
+    // Stanimia goes down every frame by 0.01
+    m_stamina -= 0.01;
 }
 
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
