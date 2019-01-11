@@ -274,15 +274,15 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
-  //#define FIX_ISSUE_261
+  #define FIX_ISSUE_261
   #ifdef FIX_ISSUE_261
-  //Agents fall off
+  //Agents that fall off get zero health
   {
     const std::vector<tile> no_tiles;
     game g(no_tiles, { agent(agent_type::crocodile, -100, -100, 100)});
-    agent& a = g.get_agents()[0];
-    a.move(g);
-    assert(a.get_health() <= 0.0); //!OCLINT accepted idiom
+    assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
+    g.get_agents()[0].move(g);
+    assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
   #endif
   //#define FIX_ISSUE_300
