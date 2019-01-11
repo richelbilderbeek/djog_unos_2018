@@ -139,13 +139,19 @@ void test_game() //!OCLINT a testing function may be long
     assert(QFile::exists(filename.c_str()));
   }
 
-  #define FIX_ISSUE_261
+  //#define FIX_ISSUE_261
   #ifdef FIX_ISSUE_261
+  //'is_in_tile' should detect if there is a tile at a certain coordinat
+  //positive control
   {
-    const game g;
-    agent a(agent_type::cow, 0, 0);
-    assert(is_on_tile(g, a));
-    //assert(!is_on_tile_t(g, a));
+    //Tile at (0.0, 0.0, 0.0) with width and height of 10.0
+    const std::vector<tile> tiles = { tile(0.0, 0.0, 0.0, 10.0, 10.0) };
+    const std::vector<agent> no_agents;
+    const game g(tiles, no_agents);
+    //Coordinat (1.0, 1.0) is on a tile
+    assert(is_on_tile(g, 1.0, 1.0));
+    //Coordinat (-100.0, -100.0) is not on a tile
+    assert(!is_on_tile(g, -100.0, -100.0));
   }
   #endif
   {
@@ -171,6 +177,7 @@ void test_game() //!OCLINT a testing function may be long
     const game h = load(filename);
     assert(g == h);
   }
+  //Two grasses should merge to one mountain
   {
     // Create a game with two grassland blocks on top of each other
     // +====+====+    +----+----+
@@ -191,6 +198,24 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
   }
+  //#define FIX_ISSUE_302
+  #ifdef FIX_ISSUE_302
+  //When an agent dies, score must decrease
+  //Depends on #285
+  {
+    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    assert(!g.get_agents().empty());
+    double prev_score = g.get_score();
+    // Wait until cow starves
+    while (!g.get_agents().empty())
+    {
+      g.process_events();
+      prev_score = g.get_score();
+    }
+    const double new_score = g.get_score();
+    assert(new_score < prev_score);
+  }
+  #endif //FIX_ISSUE_302
 }
 
 game load(const std::string &filename) {
