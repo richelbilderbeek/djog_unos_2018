@@ -77,6 +77,7 @@ void agent::move(const game& g)
   if (m_type == agent_type::cow ||
       m_type == agent_type::crocodile ||
       m_type == agent_type::spider ||
+      m_type == agent_type::goat ||
       m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
@@ -181,6 +182,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a8(agent_type::bird, 45, 75);
     move_agent_to_tile(a8, 4, -1);
     agents.push_back(a8);
+  }
+  {
+      agent a1(agent_type::goat, 190, 90);
+      move_agent_to_tile(a1, 1, 2);
+      agents.push_back(a1);
+      agent a2(agent_type::goat, 50, 80);
+      move_agent_to_tile(a2, 1, 2);
+      agents.push_back(a2);
   }
   return agents;
 }
@@ -321,14 +330,74 @@ void test_agent() //!OCLINT testing functions may be long
     assert(health_after > health_before);
   }
   #endif
-  //#define FIX_ISSUE_261
-  #ifdef FIX_ISSUE_261
-  //Agents fall off
+
+  //#define FIX_ISSUE_305
+  #ifdef FIX_ISSUE_305
+  //Trees grow
   {
-    game g(create_two_grass_tiles(), { agent(agent_type::crocodile, -100, -100, 100)});
-    agent& a = g.get_agents()[0];
-    a.move(g);
-    assert(a.get_health() == 0); //!OCLINT accepted idiom
+    game g(create_default_tiles(), { agent(agent_type::tree) } );
+    assert(!g.get_agents().empty());
+    const auto health_before = g.get_agents()[0].get_health();
+    // Grow one turn
+    g.process_events();
+    const auto health_after = g.get_agents()[0].get_health();
+    assert(health_after > health_before);
   }
-  #endif
+  #endif // FIX_ISSUE_305
+
+  //#define FIX_ISSUE_303
+  #ifdef FIX_ISSUE_303
+  //Sessile agents that move on nothing get zero health
+  {
+    const std::vector<tile> no_tiles;
+    game g(no_tiles, { agent(agent_type::crocodile, -100, -100, 100)});
+    assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
+    g.get_agents()[0].move(g);
+    assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
+  }
+  #endif // FIX_ISSUE_303
+  //#define FIX_ISSUE_300
+  #ifdef FIX_ISSUE_300
+  //Grass creates new grasses
+  {
+    game g(create_default_tiles(), { agent(agent_type::grass) } );
+    assert(g.get_agents().size() == 1);
+    while (g.get_agents().size() == 1) //Wait until grass procreates
+    {
+      g.process_events();
+    }
+    assert(g.get_agents()[0].get_type() == agent_type::grass);
+    assert(g.get_agents()[1].get_type() == agent_type::grass);
+  }
+  #endif //FIX_ISSUE_300
+  //Flying agent can fly over nothing without problems
+  {
+    const std::vector<tile> no_tiles;
+    game g(no_tiles, { agent(agent_type::bird, -100, -100, 100)});
+    assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
+    g.get_agents()[0].move(g);
+    assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
+  }
+  //#define FIX_ISSUE_301
+  #ifdef FIX_ISSUE_301
+  //Cows eat grass
+  {
+    const double cow_health{10.0};
+    const double grass_health{5.0};
+    game g(
+      create_default_tiles(),
+      {
+        agent(agent_type::grass, 0.0, 0.0, grass_health),
+        agent(agent_type::cow  , 0.0, 0.0, cow_health)
+      }
+    );
+    assert(g.get_agents()[0].get_health() == grass_health);
+    assert(g.get_agents()[1].get_health() == cow_health);
+    g.process_events();
+    //Grass is eaten ...
+    assert(g.get_agents()[0].get_health() < grass_health);
+    //Cow is fed ...
+    assert(g.get_agents()[1].get_health() > cow_health);
+  }
+  #endif //FIX_ISSUE_301
 }

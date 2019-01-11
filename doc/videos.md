@@ -6,6 +6,8 @@ Most recent at the top
 
 Date|YouTube|MP4
 ---|---|---
+2019-01-09|[here](https://youtu.be/6E9TekKk0eI)|[here](http://www.richelbilderbeek.nl/nature_zen_20190109.ogv)
+2018-12-31|[here](https://youtu.be/BjPuTsBj21I)|[here](http://www.richelbilderbeek.nl/nature_zen_20181231.ogv)
 2018-11-25|[here](https://youtu.be/KZdfXuhqTAM)|[here](http://www.richelbilderbeek.nl/nature_zen_20181125.ogv)
 2018-11-10|[here](https://youtu.be/iBzrC0pLaPE)|[here](http://www.richelbilderbeek.nl/nature_zen_20181110.ogv)
 2018-11-03|[here](https://youtu.be/ZAkvK3CWLFM)|[here](http://www.richelbilderbeek.nl/nature_zen_20181103.ogv)|
