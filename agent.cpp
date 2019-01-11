@@ -307,4 +307,26 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].move(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
+  //#define FIX_ISSUE_301
+  #ifdef FIX_ISSUE_301
+  //Cows eat grass
+  {
+    const double cow_health{10.0};
+    const double grass_health{5.0};
+    game g(
+      create_default_tiles(),
+      {
+        agent(agent_type::grass, 0.0, 0.0, grass_health),
+        agent(agent_type::cow  , 0.0, 0.0, cow_health)
+      }
+    );
+    assert(g.get_agents()[0].get_health() == grass_health);
+    assert(g.get_agents()[1].get_health() == cow_health);
+    g.process_events();
+    //Grass is eaten ...
+    assert(g.get_agents()[0].get_health() < grass_health);
+    //Cow is fed ...
+    assert(g.get_agents()[1].get_health() > cow_health);
+  }
+  #endif //FIX_ISSUE_301
 }
