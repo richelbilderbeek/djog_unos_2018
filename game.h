@@ -13,21 +13,21 @@ friend class sfml_game;
 public:
   /// Constructor
   game(const std::vector<tile>& tiles = create_default_tiles(),
-       const std::vector<agent>& agents = create_default_agents());
+       const std::vector<agent>& agents = create_default_agents(),
+       const int starting_tick = 0);
 
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
   auto &get_tiles() noexcept { return m_tiles; }
 
   /// Read all agents
-  const auto &get_agents  () const noexcept { return m_agents; }
+  const auto &get_agents() const noexcept { return m_agents; }
   auto &get_agents() noexcept { return m_agents; }
 
-  int get_score() const noexcept { return m_score; }
+  double get_score() const noexcept { return m_score; }
 
   void change_score_by(int delta_score);
 
-  void add_tiles(std::vector<tile> ts);
   void delete_tiles(std::vector<tile> ts);
 
   void add_agents(std::vector<agent> as);
@@ -44,6 +44,7 @@ private:
   std::vector<int> m_selected;
 
   void merge_tiles();
+
   /// Tiles list
   std::vector<tile> m_tiles;
 
@@ -52,7 +53,7 @@ private:
 
   int m_n_tick = 0;
 
-  int m_score;
+  double m_score;
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);
@@ -66,6 +67,12 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 
 /// Count the number of tiles a game has
 int count_n_tiles(const game& g) noexcept;
+
+/// Determine if an agent is on a tile
+bool is_on_tile(const game& g, const agent& a);
+
+/// Determine if there is a tile at the given coordinat
+bool is_on_tile(const game& g, const double x, const double y);
 
 /// Load a game from a file
 game load(const std::string &filename);

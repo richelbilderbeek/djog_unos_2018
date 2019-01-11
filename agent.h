@@ -6,6 +6,9 @@
 #include "SFML/Graphics.hpp"
 #include "agent_type.h"
 
+//Forward declaration
+class game;
+
 /// Logic of an agent; something that moves on the tiles
 class agent {
 public:
@@ -13,10 +16,14 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0.0, const double y = 0.0);
+  agent(const agent_type type, const double x = 0.0, const double y = 0.0, double health = 1.0);
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
+
+  double get_health() const noexcept { return m_health; }
+
+  double get_stamina() const noexcept { return m_stamina; }
 
   /// The x-coordinat of the top-left corner of the agent
   double get_x() const noexcept { return m_x; }
@@ -26,17 +33,17 @@ public:
 
   void set_x(double x) noexcept { m_x = x; }
   void set_y(double y) noexcept { m_y = y; }
+  void set_health(double health) noexcept {m_health = health; }
 
-  /// Check if the agent wants to move to position
-  bool checkout(double x, double y);
+  /// Moves an agent. It can read the game, containing
+  /// agents and tiles for its movement
+  void move(const game& g);
 
-  /// Make the agent move (movement depends on agent type and surroundings)
-  void action();
+  bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
-  bool can_eat(agent &a);
-  bool run_away(agent &a);
+  void eat(const game& g);
 
-  void move();
+  void kill() { m_health = 0; }
 
 private:
   /// The type the tile
@@ -48,11 +55,18 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
+  /// The health of the agent
+  double m_health;
+  ///the stamina of the agent
+  double m_stamina;
+
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);
   friend bool operator==(const agent& lhs, const agent& rhs) noexcept;
 
 };
+
+std::vector<agent_type> can_eat(const agent_type type);
 
 std::vector<agent> create_default_agents() noexcept;
 

@@ -3,7 +3,7 @@
 #include "agent.h"
 #include "agent_type.h"
 #include "game_state.h"
-#include "id.h"
+#include "tile_id.h"
 #include "sfml_resources.h"
 #include <QFile>
 #include <algorithm>
@@ -14,16 +14,20 @@
 
 sfml_game::sfml_game(const int window_width,
   const int window_height,
-  const sfml_game_delegate& delegate)
+  const sfml_game_delegate& delegate,
+  const std::vector<tile>& tiles,
+  const std::vector<agent>& agents)
   : m_background_music{ sfml_resources::get().get_background_music() },
+    m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
     m_delegate{ delegate },
+    m_game{ game(tiles, agents) },
     m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
                static_cast<unsigned int>(window_height)),
-      "Nature Zen", get_video_mode()),
-    m_font{ sfml_resources::get().get_default_font() }
+      "Nature Zen", get_video_mode())
 { // Set up music
   m_background_music.setLoop(true);
-  m_background_music.play();
+  m_ben_ik_een_spin.setLoop(true);
+  start_music();
   // Set up window, start location to the center
   const int window_x
     = static_cast<int>(sf::VideoMode::getDesktopMode().width / 2)
@@ -33,14 +37,13 @@ sfml_game::sfml_game(const int window_width,
     - window_height / 2;
   m_window.setPosition(sf::Vector2i(window_x, window_y));
   m_screen_center = sf::Vector2i(window_width / 2, window_height / 2);
-
-  // Set up text
-  setup_text();
+  setup_display_score();
 }
+
 
 sfml_game::~sfml_game()
 {
-  m_background_music.stop();
+  stop_music();
 }
 
 void sfml_game::close()
@@ -48,7 +51,25 @@ void sfml_game::close()
   m_window.close();
 }
 
-// WARNING function is long
+void sfml_game::start_music() {
+  stop_music();
+  m_background_music.play();
+}
+
+void sfml_game::setup_display_score() {
+  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
+  m_zen_bar.setPosition(sf::Vector2f(
+                          (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
+                          15));
+  m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
+
+  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
+  m_zen_ind.setPosition(sf::Vector2f(
+                          (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
+                          15+(m_zen_bar.getSize().y/2.0f)));
+  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
+}
+
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color
@@ -57,28 +78,32 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     // Display all tiles
     for (const tile& t : m_game.get_tiles())
     {
-      sfml_game::display_tile(t);
+      display_tile(t);
     }
     // Display all agents
     for (const agent& a : m_game.get_agents())
     {
-      sfml_game::display_agent(a);
+      display_agent(a);
     }
-    //sf::Text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
+    // Display the zen
+    {
+      m_window.draw(m_zen_bar);
+
+      m_zen_ind.setPosition(sf::Vector2f(
+                              (m_window.getSize().x/2.0f)-
+                              (m_zen_ind.getSize().x/2.0f)+
+                              m_game.get_score(),
+                              15+(m_zen_bar.getSize().y/2.0f)-
+                              (m_zen_ind.getSize().x/2.0f))
+                            );
+      m_window.draw(m_zen_ind);
+    }
   }
-/* NOTE score display commented for appveyor
-  sf::Text text(sf::String(std::to_string(m_game.get_score())), m_font, 30);
-  text.setPosition(m_window.getSize().x - 80, 10);
-  text.setStyle(sf::Text::Bold);
-  m_window.draw(text);
-*/
   if (m_is_space_pressed)
   {
     reset_input();
   }
-
   load_game_state();
-  //  m_window.draw(text);
   m_window.display(); // Put everything on the screen
 }
 
@@ -95,14 +120,14 @@ void sfml_game::display_tile(const tile &t){
 }
 
 void sfml_game::display_agent(const agent &a){
-    const double screen_x{ a.get_x() - m_camera.x };
-    const double screen_y{ a.get_y() - m_camera.y };
-    sf::Sprite sprite;
-    set_agent_sprite(a, sprite);
-    assert(sprite.getTexture());
-    sprite.setScale(0.2f, 0.2f);
-    sprite.setPosition(screen_x, screen_y);
-   m_window.draw(sprite);
+  const double screen_x{ a.get_x() - m_camera.x };
+  const double screen_y{ a.get_y() - m_camera.y };
+  sf::Sprite sprite;
+  set_agent_sprite(a, sprite);
+  assert(sprite.getTexture());
+  sprite.setScale(0.2f, 0.2f);
+  sprite.setPosition(screen_x, screen_y);
+  m_window.draw(sprite);
 }
 
 void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
@@ -124,7 +149,6 @@ void sfml_game::load_game_state()
   switch (m_game_state) //!OCLINT too few branches in if-statement, replace by if-else
   {
     case game_state::titlescreen:
-      m_window.draw(titleScreenText);
       return;
     case game_state::menuscreen:
       return;
@@ -338,14 +362,32 @@ void sfml_game::process_mouse_input(const sf::Event& event)
       {
         m_game.m_selected.clear();
         m_game.m_selected.push_back(game_tiles.at(i).get_id());
-        clicked_tile = true;
+        m_clicked_tile = true;
       }
     }
-    if (clicked_tile == false)
+    if (m_clicked_tile == false)
     {
       m_game.m_selected.clear();
     }
-    clicked_tile = false;
+    m_clicked_tile = false;
+    if (m_game.get_agents().size() == 1 &&
+        m_game.get_tiles().size() > 0)
+      ben_ik_een_spin();
+  }
+}
+
+void sfml_game::ben_ik_een_spin() {
+  assert(m_game.get_agents().size() == 1);
+  assert(m_game.get_tiles().size() > 0);
+  agent& spin = m_game.get_agents()[0];
+  if (spin.get_type() == agent_type::spider &&
+      spin.is_clicked(sf::Mouse::getPosition(m_window).x + m_camera.x,
+                      sf::Mouse::getPosition(m_window).y + m_camera.y,
+                      sfml_resources::get().get_agent_sprite(spin)) &&
+      m_ben_ik_een_spin.getStatus() != sf::Music::Playing)
+  {
+    stop_music();
+    m_ben_ik_een_spin.play();
   }
 }
 
@@ -360,7 +402,10 @@ void sfml_game::select_random_tile()
 
 void sfml_game::stop_music()
 {
-  m_background_music.stop();
+  if (m_background_music.getStatus() != sf::Music::Stopped)
+    m_background_music.stop();
+  if (m_ben_ik_een_spin.getStatus() != sf::Music::Stopped)
+    m_ben_ik_een_spin.stop();
 }
 
 void sfml_game::arrows(bool b, const sf::Event& event)
@@ -492,7 +537,7 @@ tile& sfml_game::getTileById(const std::vector<int>& tile_id)
 {
   assert(!tile_id.empty());
   const int id = tile_id[0];
-  if (id > get_old_id()) {
+  if (id > tile_id::get_old_tile_id()) {
     assert(!"Tile id has not been used yet"); //!OCLINT accepted idiom
     throw std::runtime_error("ID not found");
   }
@@ -511,7 +556,6 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
 {
   switch (t.get_type())
   {
-
     case tile_type::grassland:
       color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
       break;
@@ -520,8 +564,8 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
       break;
 
-    case tile_type::ocean:
-      color_shape(sfml_tile, sf::Color(0, 0, 255), sf::Color(0, 0, 100));
+    case tile_type::water:
+      color_shape(sfml_tile, sf::Color(0, 0, 255-t.get_depth()), sf::Color(0, 0, 100));
       break;
 
     case tile_type::savannah:
@@ -638,18 +682,6 @@ bool sfml_game::will_colide(int direction, tile& t)
   return false;
 }
 
-void sfml_game::setup_text()
-{
-  // Set up text
-  titleScreenText.setFont(m_font);
-  titleScreenText.setString("Nature Zen");
-  titleScreenText.setOrigin(titleScreenText.getGlobalBounds().left
-      + titleScreenText.getGlobalBounds().width / 2.0f,
-    titleScreenText.getGlobalBounds().top
-      + titleScreenText.getGlobalBounds().height /2.0f);
-  titleScreenText.setPosition(m_screen_center.x, m_screen_center.y);
-}
-
 sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
 {
   if(tile == tile_type::grassland)
@@ -660,7 +692,7 @@ sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(120, 120, 120);
   }
-  else if(tile == tile_type::ocean)
+  else if(tile == tile_type::water)
   {
     return sf::Color(0, 0, 255);
   }
@@ -700,7 +732,7 @@ sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(50, 50, 50);
   }
-  else if(tile == tile_type::ocean)
+  else if(tile == tile_type::water)
   {
     return sf::Color(0, 0, 100);
   }
@@ -740,11 +772,18 @@ void test_sfml_game() //!OCLINT tests may be long
       g.change_game_state();
     }
   }
+  //test is_clicked here because resource is needed
+  {
+    const agent a(agent_type::tree);
+    sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
+    assert(a.is_clicked(1,1,sprite) == true);
+    assert(a.is_clicked(-100,-100,sprite) == false);
+  }
   {
     //Get the fill color of a tile type
     assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
     assert(get_fill_color(tile_type::mountains) == sf::Color(120, 120, 120));
-    assert(get_fill_color(tile_type::ocean) == sf::Color(0, 0, 255));
+    assert(get_fill_color(tile_type::water) == sf::Color(0, 0, 255));
     assert(get_fill_color(tile_type::savannah) == sf::Color(245, 190, 0));
     assert(get_fill_color(tile_type::swamp) == sf::Color(130, 100, 15));
     assert(get_fill_color(tile_type::arctic) == sf::Color(50, 230, 255));
@@ -755,7 +794,7 @@ void test_sfml_game() //!OCLINT tests may be long
     //Get the outline/border color of a tile tipe
     assert(get_outline_color(tile_type::grassland) == sf::Color(0, 100, 0));
     assert(get_outline_color(tile_type::mountains) == sf::Color(50, 50, 50));
-    assert(get_outline_color(tile_type::ocean) == sf::Color(0, 0, 100));
+    assert(get_outline_color(tile_type::water) == sf::Color(0, 0, 100));
     assert(get_outline_color(tile_type::savannah) == sf::Color(245, 190, 0));
     assert(get_outline_color(tile_type::swamp) == sf::Color(100, 80, 15));
     assert(get_outline_color(tile_type::arctic) == sf::Color(10, 200, 255));

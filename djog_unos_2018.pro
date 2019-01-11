@@ -42,6 +42,8 @@ unix:!macx {
   QMAKE_LFLAGS += -fuse-ld=gold
 }
 
+CONFIG += resources_big
+
 # Debug and release settings
 CONFIG += debug_and_release
 CONFIG(release, debug|release) {

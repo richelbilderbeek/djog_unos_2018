@@ -3,7 +3,6 @@
 
 ## S.1. Follow [the code of conduct](../code_of_conduct.md)
 
-
 ### Reason
 
 [The code of conduct](../code_of_conduct.md) helps us having a healthy team dynamics.
@@ -54,3 +53,4 @@ which can cause the loss of good code.
 
 One may do so, if he/she has been given permission on a GitHub Issue.
 
+## S.5. New 

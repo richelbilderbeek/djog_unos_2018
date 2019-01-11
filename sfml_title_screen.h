@@ -9,10 +9,12 @@ class sfml_title_screen
 
 public:
 
-    sfml_title_screen();
+    sfml_title_screen(const int close_at);
     ~sfml_title_screen();
 
     void exec();
+
+    void stop_music();
 
     void change_game_state();
 
@@ -28,6 +30,8 @@ private:
 
     double i = 0;
     bool b = true;
+
+    int m_close_at;
 
 };
 

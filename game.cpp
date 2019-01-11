@@ -1,27 +1,23 @@
 
 // Always include the header of the unit first
-#include "id.h"
 #include "game.h"
+#include "tile_id.h"
 #include <cassert>
+#include <iostream>
 #include <fstream>
 #include <cstdio>
 #include <QFile>
+#include <algorithm>
 
 game::game(const std::vector<tile>& tiles,
-           const std::vector<agent>& agents)
+           const std::vector<agent>& agents,
+           const int starting_tick)
   : m_tiles{tiles},
     m_agents{agents},
+    m_n_tick{starting_tick},
     m_score{0}
 {
 
-}
-
-void game::add_tiles(std::vector<tile> ts)
-{
-  for (tile& t : ts)
-  {
-    m_tiles.push_back(t);
-  }
 }
 
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
@@ -42,7 +38,7 @@ int count_n_tiles(const game& g) noexcept
 void game::process_events()
 {
   for (auto& a: m_agents) {
-    a.move();
+    a.move(*this);
   }
   merge_tiles();
   //Process the events happening on the tiles
@@ -50,6 +46,10 @@ void game::process_events()
   {
     tile.process_events();
   }
+
+  //TODO grass can grow (this is incorrect and broke other things)
+  //get_agents()[0].set_health(get_agents()[0].get_health() + 1);
+
   ++m_n_tick;
 }
 
@@ -57,7 +57,8 @@ void game::merge_tiles() { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
   const int n = count_n_tiles(*this);
-  for (int i = 0; i < n; ++i)
+  for (int i = 0; i < n - 1; ++i)
+  // n - 1 because two elements
   {
     assert(i >=0);
     assert(i < static_cast<int>(m_tiles.size()));
@@ -87,7 +88,19 @@ void game::merge_tiles() { //!OCLINT must simplify
 }
 
 int game::get_n_ticks() const{
-    return m_n_tick;
+  return m_n_tick;
+}
+
+bool is_on_tile(const game& , const double , const double )
+{
+  return true; //STUB
+}
+
+
+bool is_on_tile(const game& g, const agent& a){
+  double x = a.get_x();
+  double y = a.get_y();
+  return is_on_tile(g, x, y);
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -129,11 +142,33 @@ void test_game() //!OCLINT a testing function may be long
     assert(QFile::exists(filename.c_str()));
   }
 
-  //#define FIX_ISSUE_RAFAYEL
-  #ifdef FIX_ISSUE_RAFAYEL
+  //#define FIX_ISSUE_261
+  #ifdef FIX_ISSUE_261
+  //'is_in_tile' should detect if there is a tile at a certain coordinat
+  //positive control
+  {
+    //Tile at (0.0, 0.0, 0.0) with width and height of 10.0
+    const std::vector<tile> tiles = { tile(0.0, 0.0, 0.0, 10.0, 10.0) };
+    const std::vector<agent> no_agents;
+    const game g(tiles, no_agents);
+    //Coordinat (1.0, 1.0) is on a tile
+    assert(is_on_tile(g, 1.0, 1.0));
+    //Coordinat (-100.0, -100.0) is not on a tile
+    assert(!is_on_tile(g, -100.0, -100.0));
+  }
+  #endif
+  {
+    const game g(std::vector<tile>{tile(0, 0, 0, 1, 1, 0, tile_type::grassland)},
+                 std::vector<agent>{agent(agent_type::cow, 0, 0, 100)}
+                );
+    assert(g.get_agents().size() == 1);
+    assert(g.get_tiles().size() == 1);
+  }
   // A game can be loaded
   {
-    const game g(create_two_grass_tiles());
+    const game g(create_default_tiles(),
+                 std::vector<agent>{agent(agent_type::spider, 0, 0, 100)}
+                );
     const std::string filename{"tmp.sav"};
     if (QFile::exists(filename.c_str()))
     {
@@ -145,7 +180,7 @@ void test_game() //!OCLINT a testing function may be long
     const game h = load(filename);
     assert(g == h);
   }
-  #endif // FIX_ISSUE_RAFAYEL
+  //Two grasses should merge to one mountain
   {
     // Create a game with two grassland blocks on top of each other
     // +====+====+    +----+----+
@@ -154,8 +189,8 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<tile> tiles
     {
       //   x    y    z   w    h    type         ID
-      tile(1, 1, 1, 2, 1, tile_type::grassland, 0),
-      tile(1, 1, 1, 2, 1, tile_type::grassland, 0)
+      tile(1.0, 1.0, 1.0, 2.0, 1.0, 0.0, tile_type::grassland, tile_id()),
+      tile(1.0, 1.0, 1.0, 2.0, 1.0, 0.0, tile_type::grassland, tile_id())
     };
 
     game g(tiles);
@@ -166,6 +201,44 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::mountains);
   }
+  //#define FIX_ISSUE_302
+  #ifdef FIX_ISSUE_302
+  //When an agent dies, score must decrease
+  //Depends on #285
+  {
+    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    assert(!g.get_agents().empty());
+    double prev_score = g.get_score();
+    // Wait until cow starves
+    while (!g.get_agents().empty())
+    {
+      g.process_events();
+      prev_score = g.get_score();
+    }
+    const double new_score = g.get_score();
+    assert(new_score < prev_score);
+  }
+  #endif //FIX_ISSUE_302
+  //#define FIX_ISSUE_304
+  #ifdef FIX_ISSUE_304
+  //Agents must follow the movement of the tile they are on
+  {
+    //Put a cow on a grass tile, then move tile down and rightwards
+    const double start_cow_x = 1.0;
+    const double start_cow_y = 1.0;
+    game g(
+      { tile(0.0, 0.0, 0.0, 10.0, 10.0) },
+      { agent(agent_type::cow, start_cow_x, start_cow_y) }
+    );
+    tile& tile = g.get_tiles()[0];
+    tile.set_dx(1.0);
+    tile.set_dy(1.0);
+    g.process_events();
+    assert(g.get_agents()[0].get_x() > start_cow_x);
+    assert(g.get_agents()[0].get_y() > start_cow_y);
+  }
+  #endif //FIX_ISSUE_304
+
 }
 
 game load(const std::string &filename) {
@@ -182,12 +255,14 @@ void save(const game &g, const std::string &filename) {
 
 std::ostream& operator<<(std::ostream& os, const game& g)
 {
-  //TODO: actually save the tile and agents
   os << g.m_n_tick << ' ' << g.m_score << ' '
-     << g.m_tiles.size();
-
+     << g.m_tiles.size() << ' '
+     << g.m_agents.size();
   for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
-      os << ' ' <<g.m_tiles[i];
+      os << ' ' << g.m_tiles[i];
+  }
+  for (int i=0; i < static_cast<int>(g.m_agents.size()); i++){
+      os << ' ' << g.m_agents[i];
   }
 
   os << ' ';
@@ -197,28 +272,32 @@ std::ostream& operator<<(std::ostream& os, const game& g)
 
 std::istream& operator>>(std::istream& is, game& g)
 {
-  //TODO: actually save the tile and agents
   is >> g.m_n_tick >> g.m_score;
   int n_tiles = 0;
   is >> n_tiles;
-  //TODO: the line below is a stub
-  for (int i=0; i!=n_tiles; ++i)
+  int n_agents = 0;
+  is >> n_agents;
+  g.m_tiles.clear();
+  for (int i = 0; i < n_tiles; ++i)
   {
-      tile t(1, 1, 1, 1, 1, tile_type::grassland, new_id());
-      is >> t;
-      g.m_tiles.emplace_back(t);
+    tile t(1, 1, 1, 1, 1, 0, tile_type::grassland, tile_id());
+    is >> t;
+    g.m_tiles.emplace_back(t);
+  }
+  g.m_agents.clear();
+  for (int i = 0; i < n_agents; ++i)
+  {
+    agent a(agent_type::cow, 0, 0, 1);
+    is >> a;
+    g.m_agents.emplace_back(a);
   }
   return is;
 }
 
 bool operator==(const game& lhs, const game& rhs) noexcept
 {
-  if (lhs.m_n_tick != rhs.m_n_tick)
-      return false;
-  if (lhs.m_score != rhs.m_score)
-      return false;
-  if (lhs.m_tiles != rhs.m_tiles)
-      return false;
-
-  return true;
+  return lhs.m_n_tick == rhs.m_n_tick &&
+         lhs.m_score == rhs.m_score &&
+         lhs.m_tiles == rhs.m_tiles &&
+         lhs.m_agents == rhs.m_agents;
 }

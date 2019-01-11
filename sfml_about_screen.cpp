@@ -4,10 +4,12 @@
 #include <QFile>
 #include <cassert>
 
-sfml_about_screen::sfml_about_screen(const int window_width, const int window_height)
+sfml_about_screen::sfml_about_screen(const int close_at,
+                                     const int window_width,
+                                     const int window_height)
     : m_about_window(sf::VideoMode(static_cast<unsigned int>(window_width),
-                                static_cast<unsigned int>(window_height)),
-                  "About") {
+                                   static_cast<unsigned int>(window_height)),
+                  "Nature Zen - About"), m_close_at{close_at} {
   // Haha done everything already :-)
 }
 
@@ -18,30 +20,40 @@ void sfml_about_screen::close()
 
 void sfml_about_screen::exec()
 {
+  if (m_close_at >= 0) close();
   while (m_about_window.isOpen())
   {
     sf::Event event;
     while (m_about_window.pollEvent(event))
-    { //!OCLINT indeed an empty while statement
-      // Indeed empty
+    {
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+        close();
+      }
+      switch (event.type) //!OCLINT too few branches, please fix
+      {
+        case sf::Event::Closed:
+            close();
+            break;
+        default:
+            break;
+      }
     }
-
     sf::Font font;
-    assert(QFile::exists("OpenSans.ttf"));
-    font.loadFromFile("OpenSans.ttf");
-    m_about_window.clear(sf::Color::Green); // Clear the window with black color
-    sfml_about_screen::m_about_text.setFont(font);
-    sfml_about_screen::m_about_text.setString("About lalala..");
-    sfml_about_screen::m_about_text.setCharacterSize(24); // in pixels, not points!
+    assert(QFile::exists("font.ttf"));
+    font.loadFromFile("font.ttf");
+    m_about_window.clear(sf::Color::Green); // Clear the window with green color
+    m_about_text.setFont(font);
+    m_about_text.setString("About lalala..");
+    m_about_text.setCharacterSize(24); // in pixels, not points!
 
     // set the color
     #if(SFML_VERSION_MINOR > 1)
-    sfml_about_screen::m_about_text.setFillColor(sf::Color::Red);
+    m_about_text.setFillColor(sf::Color::Red);
     #else
     //Only relevant for Travis
     m_about_text.setColor(sf::Color::Red);
     #endif
-    m_about_window.draw(sfml_about_screen::m_about_text);
+    m_about_window.draw(m_about_text);
     m_about_window.display();
   }
 }

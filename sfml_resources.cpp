@@ -27,6 +27,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find music file 'title_music.ogg'");
     }
   }
+  {
+    // Re-create resource at executable's location
+    QFile f(":/nature_zen/resources/ben_ik_een_spin.ogg");
+    f.copy("ben_ik_een_spin.ogg");
+    if (!m_benikeenspin.openFromFile("ben_ik_een_spin.ogg")) {
+      throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
+    }
+  }
   // bacterium texture
   {
     QFile f(":/nature_zen/resources/bacterium.png");
@@ -41,6 +49,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     f.copy("grass.png");
     if (!m_grass_texture.loadFromFile("grass.png"))
       throw std::runtime_error("Cannot find image file 'grass.png'");
+  }
+  // spider texture
+  {
+    QFile f(":/nature_zen/resources/spider.png");
+    f.copy("spider.png");
+    if (!m_spider_texture.loadFromFile("spider.png"))
+      throw std::runtime_error("Cannot find image file 'spider.png'");
   }
   // cow texture
   {
@@ -75,7 +90,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     QFile f(":/nature_zen/resources/tree.png");
     f.copy("tree.png");
     if (!m_tree_texture.loadFromFile("tree.png"))
-      throw std::runtime_error("Cannot find image file crocodile.png");
+      throw std::runtime_error("Cannot find image file tree.png");
+  }
+  // bird texture
+  {
+    QFile f(":/nature_zen/resources/flying_bird.png");
+    f.copy("flying_bird.png");
+    if (!m_bird_texture.loadFromFile("flying_bird.png"))
+      throw std::runtime_error("Cannot find image file flying_bird.png");
   }
   // None texture
   {
@@ -109,6 +131,22 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file title_screen_background.jpg");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/zen_bar.png");
+    f.copy("zen_bar.png");
+    // Set up font
+    if (!m_zen_bar_texture.loadFromFile("zen_bar.png")) {
+      throw std::runtime_error("Cannot find image file zen_bar.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/zen_indicator.png");
+    f.copy("zen_indicator.png");
+    // Set up font
+    if (!m_zen_ind_texture.loadFromFile("zen_indicator.png")) {
+      throw std::runtime_error("Cannot find image file zen_indicator.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -135,6 +173,10 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
       return m_tree_texture;
     case agent_type::goat:
       return m_goat_texture;
+    case agent_type::spider:
+      return m_spider_texture;
+    case agent_type::bird:
+      return m_bird_texture;
     default:
       return m_none_texture;
   }

@@ -23,8 +23,9 @@ public:
   /// @param window_height height of the game window in pixels
   /// @param delegate an object that can modify sfml_game at certain times
   sfml_game(const int window_width = 800, const int window_height = 600,
-            const sfml_game_delegate &delegate = sfml_game_delegate()
-
+            const sfml_game_delegate &delegate = sfml_game_delegate(),
+            const std::vector<tile>& tiles = create_default_tiles(),
+            const std::vector<agent>& agents = create_default_agents()
   );
 
   /// Destructor, is called when sfml_game is destroyed
@@ -52,7 +53,7 @@ public:
   // Show to menu
   void arrows(bool b, const sf::Event &event);
 
-  bool clicked_tile = false;
+  bool m_clicked_tile = false;
 
   int m_timer = 0;
 
@@ -105,6 +106,10 @@ public:
 
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
+  void ben_ik_een_spin();
+
+  void start_music();
+
 private:
   // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);
@@ -113,12 +118,9 @@ private:
   /// Background music file object
   sf::Music &m_background_music;
 
-  // Agent for testing
-  // agent agent_test;
+  sf::Music &m_ben_ik_een_spin;
 
-
-
-  /// Sate of Game
+  /// State of Game
   game_state m_game_state = game_state::playing;
 
   /// an object that can modify sfml_game at certain times
@@ -161,14 +163,15 @@ private:
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event &event);
 
-  /// Draw Text
-  sf::Text titleScreenText;
-  // Font
-  sf::Font m_font;
-
   bool m_is_space_pressed = false;
 
   sfml_camera m_camera;
+
+  sf::RectangleShape m_zen_bar;
+  sf::RectangleShape m_zen_ind;
+
+  void setup_display_score();
+
 };
 
 ///Test the sfml_game class
