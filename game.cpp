@@ -60,11 +60,15 @@ void game::process_events()
 
 bool is_in_tile(game g, double x, double y){
   for (tile& t: g.get_tiles()){
-      if(t.get_dx() == x && t.get_dy() == y){
+      if(x >= t.get_x()
+        && x <= t.get_x() + t.get_width()
+        && y >= t.get_y()
+        && y <= t.get_y() + t.get_height())
+      {
           return true;
       }
-      return false;
   }
+  return false;
 }
 
 void game::merge_tiles() { //!OCLINT must simplify
@@ -156,8 +160,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(QFile::exists(filename.c_str()));
   }
 
-  //#define FIX_ISSUE_261
-  #ifdef FIX_ISSUE_261
   //'is_in_tile' should detect if there is a tile at a certain coordinat
   //positive control
   {
@@ -166,11 +168,10 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<agent> no_agents;
     const game g(tiles, no_agents);
     //Coordinat (1.0, 1.0) is on a tile
-    assert(is_on_tile(g, 1.0, 1.0));
+    assert(is_in_tile(g, 1.0, 1.0));
     //Coordinat (-100.0, -100.0) is not on a tile
-    assert(!is_on_tile(g, -100.0, -100.0));
+    assert(!is_in_tile(g, -100.0, -100.0));
   }
-  #endif
   {
     const game g(std::vector<tile>{tile(0, 0, 0, 1, 1, 0, tile_type::grassland)},
                  std::vector<agent>{agent(agent_type::cow, 0, 0, 100)}
