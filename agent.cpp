@@ -32,7 +32,7 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
 
 // WARNING test this (line 256)
 std::vector<agent_type> can_eat(const agent_type type) {
-  switch (type) {//TODO finish this
+  switch (type) {
     case agent_type::crocodile:
       return {agent_type::cow};
     case agent_type::bird:
@@ -59,7 +59,7 @@ void agent::eat(const game& g) {
       a.kill();
       m_stamina += 60;
     } else {
-      m_stamina -= 1;
+      m_stamina -= 0.05;
     }
   }
 }
@@ -68,7 +68,11 @@ void agent::move(const game& g)
 {
   //Dead agents stay still
   if (m_health <= 0.0) return;
-  if (m_stamina <= 0.0) return;
+  if (m_stamina <= 0.0) {
+    m_health += (m_stamina - 1) * 0.2;
+    eat(g);
+    return;
+  }
 
   if (m_type == agent_type::cow ||
       m_type == agent_type::crocodile ||
@@ -77,15 +81,15 @@ void agent::move(const game& g)
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
+
+  if (g.get_n_ticks() % 100 == 0)
+    eat(g);
+
   //TODO after fixing issue 261 uncomment this
   //if (!is_on_tile(g, *this))
   //{
   //  this->m_health = 0.0;
   //}
-  if (is_on_tile(g, *this)) assert(is_on_tile(g, *this)); // use g, remove after above works
-
-    // Stanimia goes down every frame by 0.01
-    m_stamina -= 0.01;
 }
 
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
@@ -257,13 +261,12 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
-  //#define FIX_ISSUE_287
-  #ifdef FIX_ISSUE_287
   // Test can_eat
   {
-    for (agent_type a : )
+    for (agent_type a : collect_all_agent_types()) {
+      can_eat(a);
+    }
   }
-  #endif
   //#define FIX_ISSUE_289
   #ifdef FIX_ISSUE_289
   //Agent can pass out of exhaustion
@@ -277,8 +280,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(stamina_after < stamina_before);
   }
   #endif
-  //#define FIX_ISSUE_287
-  #ifdef FIX_ISSUE_287
   //A cow must starve if alone
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
@@ -294,7 +295,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after < health_before);
   }
-  #endif
   //#define FIX_ISSUE_285
   #ifdef FIX_ISSUE_285
   //An agent must be removed if health is below zero
@@ -308,6 +308,8 @@ void test_agent() //!OCLINT testing functions may be long
     }
   }
   #endif
+  //#define FIX_ISSUE_288
+  #ifdef FIX_ISSUE_288
   //Grass grows
   {
     game g(create_default_tiles(), { agent(agent_type::grass) } );
@@ -318,6 +320,7 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
+  #endif
   //#define FIX_ISSUE_261
   #ifdef FIX_ISSUE_261
   //Agents fall off

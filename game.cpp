@@ -10,9 +10,11 @@
 #include <algorithm>
 
 game::game(const std::vector<tile>& tiles,
-           const std::vector<agent>& agents)
+           const std::vector<agent>& agents,
+           const int starting_tick)
   : m_tiles{tiles},
     m_agents{agents},
+    m_n_tick{starting_tick},
     m_score{0}
 {
 
@@ -45,7 +47,8 @@ void game::process_events()
     tile.process_events();
   }
 
-  get_agents()[0].set_health(get_agents()[0].get_health() + 1);
+  //TODO grass can grow (this is incorrect and broke other things)
+  //get_agents()[0].set_health(get_agents()[0].get_health() + 1);
 
   ++m_n_tick;
 }
