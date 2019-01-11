@@ -216,6 +216,26 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
+  //#define FIX_ISSUE_304
+  #ifdef FIX_ISSUE_304
+  //Agents must follow the movement of the tile they are on
+  {
+    //Put a cow on a grass tile, then move tile down and rightwards
+    const double start_cow_x = 1.0;
+    const double start_cow_y = 1.0;
+    game g(
+      { tile(0.0, 0.0, 0.0, 10.0, 10.0) },
+      { agent(agent_type::cow, start_cow_x, start_cow_y) }
+    );
+    tile& tile = g.get_tiles()[0];
+    tile.set_dx(1.0);
+    tile.set_dy(1.0);
+    g.process_events();
+    assert(g.get_agents()[0].get_x() > start_cow_x);
+    assert(g.get_agents()[0].get_y() > start_cow_y);
+  }
+  #endif //FIX_ISSUE_304
+
 }
 
 game load(const std::string &filename) {
