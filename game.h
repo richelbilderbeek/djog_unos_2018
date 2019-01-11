@@ -13,7 +13,8 @@ friend class sfml_game;
 public:
   /// Constructor
   game(const std::vector<tile>& tiles = create_default_tiles(),
-       const std::vector<agent>& agents = create_default_agents());
+       const std::vector<agent>& agents = create_default_agents(),
+       const int starting_tick = 0);
 
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }

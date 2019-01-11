@@ -7,7 +7,7 @@
 #include "game.h"
 
 agent::agent(const agent_type type, const double x, const double y, double health)
-    : m_type{type}, m_x{x}, m_y{y}, m_health{health}{}
+    : m_type{type}, m_x{x}, m_y{y}, m_health{health}, m_stamina{100}{}
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
@@ -27,14 +27,52 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
          lhs.m_x == rhs.m_x and
          lhs.m_y == rhs.m_y and
          lhs.m_health == rhs.m_health;
-  // Stamina isn't precise enough to compare
+  // TODO Stamina wasn't precise enough to compare, try again
 }
 
+// WARNING test this (line 256)
+std::vector<agent_type> can_eat(const agent_type type) {
+  switch (type) {
+    case agent_type::crocodile:
+      return {agent_type::cow};
+    case agent_type::bird:
+      return {agent_type::spider,
+              agent_type::fish};
+    case agent_type::cow:
+      return {agent_type::grass};
+    default:
+      return {};
+  }
+}
+
+// WARNING test this
+void agent::eat(const game& g) {
+  std::vector<agent_type> food = can_eat(m_type);
+  //Is agent_type a in food?
+  for (agent a : g.get_agents()) {
+    if (a.get_x() > m_x - 50 &&
+        a.get_x() < m_x + 60 &&
+        a.get_y() > m_y - 50 &&
+        a.get_y() < m_y + 55 &&
+        std::count(std::begin(food), std::end(food), a.get_type()))
+    {
+      a.kill();
+      m_stamina += 60;
+    } else {
+      m_stamina -= 0.05;
+    }
+  }
+}
 
 void agent::move(const game& g)
 {
   //Dead agents stay still
   if (m_health <= 0.0) return;
+  if (m_stamina <= 0.0) {
+    m_health += (m_stamina - 1) * 0.2;
+    eat(g);
+    return;
+  }
 
   if (m_type == agent_type::cow ||
       m_type == agent_type::crocodile ||
@@ -43,12 +81,15 @@ void agent::move(const game& g)
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
+
+  if (g.get_n_ticks() % 100 == 0)
+    eat(g);
+
   //TODO after fixing issue 261 uncomment this
   //if (!is_on_tile(g, *this))
   //{
   //  this->m_health = 0.0;
   //}
-  if (is_on_tile(g, *this)) assert(is_on_tile(g, *this)); // use g, remove after above works
 }
 
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
@@ -220,6 +261,12 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  // Test can_eat
+  {
+    for (agent_type a : collect_all_agent_types()) {
+      can_eat(a);
+    }
+  }
   //#define FIX_ISSUE_289
   #ifdef FIX_ISSUE_289
   //Agent can pass out of exhaustion
@@ -233,8 +280,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(stamina_after < stamina_before);
   }
   #endif
-  //#define FIX_ISSUE_287
-  #ifdef FIX_ISSUE_287
   //A cow must starve if alone
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
@@ -250,7 +295,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after < health_before);
   }
-  #endif
   //#define FIX_ISSUE_285
   #ifdef FIX_ISSUE_285
   //An agent must be removed if health is below zero
@@ -264,6 +308,8 @@ void test_agent() //!OCLINT testing functions may be long
     }
   }
   #endif
+  //#define FIX_ISSUE_288
+  #ifdef FIX_ISSUE_288
   //Grass grows
   {
     game g(create_default_tiles(), { agent(agent_type::grass) } );
@@ -274,6 +320,10 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
+  #endif
+
+  //#define FIX_ISSUE_305
+  #ifdef FIX_ISSUE_305
   //Trees grow
   {
     game g(create_default_tiles(), { agent(agent_type::tree) } );
@@ -284,6 +334,8 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
+  #endif // FIX_ISSUE_399
+
   //#define FIX_ISSUE_303
   #ifdef FIX_ISSUE_303
   //Sessile agents that move on nothing get zero health

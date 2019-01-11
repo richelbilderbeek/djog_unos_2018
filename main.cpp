@@ -54,7 +54,7 @@ int show_sfml_about_screen(int ca) {
     as.exec();
     return 0;
 }
-int main(int argc, char **argv) //!OCLINT WARNING main too long
+int main(int argc, char **argv) //!OCLINT main too long
 {
 #ifndef NDEBUG
   test();
