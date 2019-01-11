@@ -284,4 +284,18 @@ void test_agent() //!OCLINT testing functions may be long
     assert(a.get_health() == 0); //!OCLINT accepted idiom
   }
   #endif
+  //#define FIX_ISSUE_300
+  #ifdef FIX_ISSUE_300
+  //Grass creates new grasses
+  {
+    game g(create_default_tiles(), { agent(agent_type::grass) } );
+    assert(g.get_agents().size() == 1);
+    while (g.get_agents().size() == 1) //Wait until grass procreates
+    {
+      g.process_events();
+    }
+    assert(g.get_agents()[0].get_type() == agent_type::grass);
+    assert(g.get_agents()[1].get_type() == agent_type::grass);
+  }
+  #endif //FIX_ISSUE_300
 }
