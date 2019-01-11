@@ -334,7 +334,7 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
-  #endif // FIX_ISSUE_399
+  #endif // FIX_ISSUE_305
 
   //#define FIX_ISSUE_303
   #ifdef FIX_ISSUE_303
