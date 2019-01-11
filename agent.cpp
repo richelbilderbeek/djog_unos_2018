@@ -308,8 +308,6 @@ void test_agent() //!OCLINT testing functions may be long
     }
   }
   #endif
-  //#define FIX_ISSUE_288
-  #ifdef FIX_ISSUE_288
   //Grass grows
   {
     game g(create_default_tiles(), { agent(agent_type::grass) } );
@@ -320,7 +318,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
-  #endif
 
   //#define FIX_ISSUE_305
   #ifdef FIX_ISSUE_305

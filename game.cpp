@@ -47,10 +47,24 @@ void game::process_events()
     tile.process_events();
   }
 
-  //TODO grass can grow (this is incorrect and broke other things)
-  //get_agents()[0].set_health(get_agents()[0].get_health() + 1);
+  for (agent& a: get_agents())
+  {
+    // Agent a can be used
+    if(a.get_type() == agent_type::grass){
+        a.set_health(a.get_health() + 1);
+    }
+  }
 
   ++m_n_tick;
+}
+
+bool is_in_tile(game g, double x, double y){
+  for (tile& t: g.get_tiles()){
+      if(t.get_dx() == x && t.get_dy() == y){
+          return true;
+      }
+      return false;
+  }
 }
 
 void game::merge_tiles() { //!OCLINT must simplify
