@@ -276,7 +276,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //#define FIX_ISSUE_261
   #ifdef FIX_ISSUE_261
-  //Agents that fall off get zero health
+  //Walking agents that move on nothing get zero health
   {
     const std::vector<tile> no_tiles;
     game g(no_tiles, { agent(agent_type::crocodile, -100, -100, 100)});
