@@ -274,6 +274,16 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
+  //Trees grow
+  {
+    game g(create_default_tiles(), { agent(agent_type::tree) } );
+    assert(!g.get_agents().empty());
+    const auto health_before = g.get_agents()[0].get_health();
+    // Grow one turn
+    g.process_events();
+    const auto health_after = g.get_agents()[0].get_health();
+    assert(health_after > health_before);
+  }
   //#define FIX_ISSUE_303
   #ifdef FIX_ISSUE_303
   //Sessile agents that move on nothing get zero health
