@@ -109,9 +109,9 @@ int game::get_n_ticks() const{
   return m_n_tick;
 }
 
-bool is_on_tile(const game& , const double , const double )
+bool is_on_tile(const game& g, const double x, const double y)
 {
-  return true; //STUB
+  return is_in_tile(g, x, y);
 }
 
 
