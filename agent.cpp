@@ -274,9 +274,9 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
-  //#define FIX_ISSUE_261
-  #ifdef FIX_ISSUE_261
-  //Walking agents that move on nothing get zero health
+  //#define FIX_ISSUE_303
+  #ifdef FIX_ISSUE_303
+  //Sessile agents that move on nothing get zero health
   {
     const std::vector<tile> no_tiles;
     game g(no_tiles, { agent(agent_type::crocodile, -100, -100, 100)});
@@ -284,7 +284,7 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].move(g);
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
-  #endif
+  #endif // FIX_ISSUE_303
   //#define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
