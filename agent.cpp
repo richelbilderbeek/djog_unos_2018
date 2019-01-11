@@ -299,4 +299,12 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
   #endif //FIX_ISSUE_300
+  //Flying agent can fly over nothing without problems
+  {
+    const std::vector<tile> no_tiles;
+    game g(no_tiles, { agent(agent_type::bird, -100, -100, 100)});
+    assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
+    g.get_agents()[0].move(g);
+    assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
+  }
 }
