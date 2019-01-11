@@ -8,10 +8,10 @@ sfml_window_manager::sfml_window_manager()
 
 }
 
-sfml_window_manager &sfml_window_manager::get() {
+sf::RenderWindow &sfml_window_manager::get() {
   if (!m_instance) {
     m_instance = new sfml_window_manager();
   }
   assert(m_instance);
-  return *m_instance;
+  return m_instance->m_window;
 }

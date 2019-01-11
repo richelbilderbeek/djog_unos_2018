@@ -7,7 +7,7 @@ class sfml_window_manager
 {
 public:
 
-  sfml_window_manager& get();
+  sf::RenderWindow& get();
 
 private:
 
