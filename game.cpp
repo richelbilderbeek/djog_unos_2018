@@ -58,19 +58,6 @@ void game::process_events()
   ++m_n_tick;
 }
 
-bool is_in_tile(game g, double x, double y){
-  for (tile& t: g.get_tiles()){
-      if(x >= t.get_x()
-        && x <= t.get_x() + t.get_width()
-        && y >= t.get_y()
-        && y <= t.get_y() + t.get_height())
-      {
-          return true;
-      }
-  }
-  return false;
-}
-
 void game::merge_tiles() { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
@@ -111,7 +98,16 @@ int game::get_n_ticks() const{
 
 bool is_on_tile(const game& g, const double x, const double y)
 {
-  return is_in_tile(g, x, y);
+    for (tile t: g.get_tiles()){
+        if(x >= t.get_x()
+          && x <= t.get_x() + t.get_width()
+          && y >= t.get_y()
+          && y <= t.get_y() + t.get_height())
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 
@@ -160,7 +156,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(QFile::exists(filename.c_str()));
   }
 
-  //'is_in_tile' should detect if there is a tile at a certain coordinat
+  //'is_on_tile' should detect if there is a tile at a certain coordinat
   //positive control
   {
     //Tile at (0.0, 0.0, 0.0) with width and height of 10.0
@@ -168,9 +164,9 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<agent> no_agents;
     const game g(tiles, no_agents);
     //Coordinat (1.0, 1.0) is on a tile
-    assert(is_in_tile(g, 1.0, 1.0));
+    assert(is_on_tile(g, 1.0, 1.0));
     //Coordinat (-100.0, -100.0) is not on a tile
-    assert(!is_in_tile(g, -100.0, -100.0));
+    assert(!is_on_tile(g, -100.0, -100.0));
   }
   {
     const game g(std::vector<tile>{tile(0, 0, 0, 1, 1, 0, tile_type::grassland)},
