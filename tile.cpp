@@ -99,7 +99,8 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 
 void tile::process_events()
 {
-
+  //#304
+  //move_with_tile(g, *this);
 }
 
 void tile::set_dx(double dx) {

@@ -8,6 +8,7 @@
 
 //Forward declaration
 class game;
+class tile;
 
 /// Logic of an agent; something that moves on the tiles
 class agent {
@@ -71,6 +72,9 @@ std::vector<agent_type> can_eat(const agent_type type);
 std::vector<agent> create_default_agents() noexcept;
 
 void move_agent_to_tile(agent &a, double tile_x, double tile_y);
+
+//#304
+//void move_with_tile(game g, tile t);
 
 /// Test the tile class
 void test_agent();
