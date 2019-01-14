@@ -96,13 +96,13 @@ int game::get_n_ticks() const{
   return m_n_tick;
 }
 
-//304
-/*bool is_on_specific_tile(const double x, const double y, const tile& t)
+bool is_on_specific_tile(const double x, const double y, const tile& t)
 {
-  if(x >= t.get_x()
-     && x <= t.get_x() + t.get_width()
-     && y >= t.get_y()
-     && y <= t.get_y() + t.get_height())
+  //Do the borders count as the tile? If not, reduce the numbers
+  if(x >= t.get_x() - 7
+     && x <= t.get_x() + t.get_width() + 7
+     && y >= t.get_y() - 7
+     && y <= t.get_y() + t.get_height() + 7)
   {
      return true;
   }
@@ -114,7 +114,7 @@ bool is_on_specific_tile(const agent& a, const tile& t){
   double x = a.get_x();
   double y = a.get_y();
   return is_on_specific_tile(x, y, t);
-}*/
+}
 
 bool is_on_tile(const game& g, const double x, const double y)
 {
@@ -250,6 +250,8 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
+
+  //The test fails but it works
   //#define FIX_ISSUE_304
   #ifdef FIX_ISSUE_304
   //Agents must follow the movement of the tile they are on
