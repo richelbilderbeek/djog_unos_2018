@@ -94,26 +94,6 @@ void agent::move(const game& g)
   //}
 }
 
-//#304
-/*void move_with_tile(game g, tile t){
-    if(t.get_dx() != 0 || t.get_dy() != 0){
-      for(agent a: g.get_agents()){
-        if(a.get_x() >= t.get_x()
-          && a.get_x() <= t.get_x() + t.get_width()
-          && a.get_y() >= t.get_y()
-          && a.get_y() <= t.get_y() + t.get_height())
-        {
-          double x = a.get_x();
-          x += t.get_dx() * 115;
-          a.set_x(x);
-          double y = a.get_y();
-          y += t.get_dy() * 115;
-          a.set_y(y);
-        }
-      }
-    }
-}*/
-
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
 {
   std::vector<agent> agents;

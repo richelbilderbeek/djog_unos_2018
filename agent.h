@@ -73,9 +73,6 @@ std::vector<agent> create_default_agents() noexcept;
 
 void move_agent_to_tile(agent &a, double tile_x, double tile_y);
 
-//#304
-//void move_with_tile(game g, tile t);
-
 /// Test the tile class
 void test_agent();
 

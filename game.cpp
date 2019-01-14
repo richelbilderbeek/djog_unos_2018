@@ -96,6 +96,26 @@ int game::get_n_ticks() const{
   return m_n_tick;
 }
 
+//304
+/*bool is_on_specific_tile(const double x, const double y, const tile& t)
+{
+  if(x >= t.get_x()
+     && x <= t.get_x() + t.get_width()
+     && y >= t.get_y()
+     && y <= t.get_y() + t.get_height())
+  {
+     return true;
+  }
+  return false;
+}
+
+
+bool is_on_specific_tile(const agent& a, const tile& t){
+  double x = a.get_x();
+  double y = a.get_y();
+  return is_on_specific_tile(x, y, t);
+}*/
+
 bool is_on_tile(const game& g, const double x, const double y)
 {
     for (tile t: g.get_tiles()){

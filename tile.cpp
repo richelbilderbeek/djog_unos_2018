@@ -99,8 +99,7 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 
 void tile::process_events()
 {
-  //#304
-  //move_with_tile(g, *this);
+
 }
 
 void tile::set_dx(double dx) {
@@ -122,6 +121,17 @@ void tile::move() {
   m_x += m_dx;
   m_y += m_dy;
   m_z += m_dz;
+  //304
+  /*for(agent a: g.get_agents()){
+      if(is_on_specific_tile(a, *this)){
+          double x = a.get_x();
+          x += m_dx;
+          double y = a.get_y();
+          y += m_dy;
+          a.set_x(x);
+          a.set_y(y);
+      }
+  }*/
 }
 
 std::ostream& operator<<(std::ostream& os, const tile& t)
