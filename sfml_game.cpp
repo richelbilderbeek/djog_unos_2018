@@ -12,8 +12,7 @@
 #include <iostream>
 #include <string>
 
-sfml_game::sfml_game(const int window_width,
-  const int window_height,
+sfml_game::sfml_game(
   const sfml_game_delegate& delegate,
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents)
@@ -21,22 +20,11 @@ sfml_game::sfml_game(const int window_width,
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
-    m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
-               static_cast<unsigned int>(window_height)),
-      "Nature Zen", get_video_mode())
+    m_window{ sfml_window_manager::get().get_window() }
 { // Set up music
   m_background_music.setLoop(true);
   m_ben_ik_een_spin.setLoop(true);
   start_music();
-  // Set up window, start location to the center
-  const int window_x
-    = static_cast<int>(sf::VideoMode::getDesktopMode().width / 2)
-    - window_width / 2;
-  const int window_y
-    = static_cast<int>(sf::VideoMode::getDesktopMode().height / 2)
-    - window_height / 2;
-  m_window.setPosition(sf::Vector2i(window_x, window_y));
-  m_screen_center = sf::Vector2i(window_width / 2, window_height / 2);
   setup_display_score();
 }
 
@@ -73,37 +61,28 @@ void sfml_game::setup_display_score() {
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color
-  if (m_game_state == game_state::playing)
+  // Display all tiles
+  for (const tile& t : m_game.get_tiles())
   {
-    // Display all tiles
-    for (const tile& t : m_game.get_tiles())
-    {
-      display_tile(t);
-    }
-    // Display all agents
-    for (const agent& a : m_game.get_agents())
-    {
-      display_agent(a);
-    }
-    // Display the zen
-    {
-      m_window.draw(m_zen_bar);
-
-      m_zen_ind.setPosition(sf::Vector2f(
+    display_tile(t);
+  }
+  // Display all agents
+  for (const agent& a : m_game.get_agents())
+  {
+    display_agent(a);
+  }
+  // Display the zen
+  {
+    m_window.draw(m_zen_bar);
+    m_zen_ind.setPosition(sf::Vector2f(
                               (m_window.getSize().x/2.0f)-
                               (m_zen_ind.getSize().x/2.0f)+
                               m_game.get_score(),
                               15+(m_zen_bar.getSize().y/2.0f)-
                               (m_zen_ind.getSize().x/2.0f))
                             );
-      m_window.draw(m_zen_ind);
-    }
+    m_window.draw(m_zen_ind);
   }
-  if (m_is_space_pressed)
-  {
-    reset_input();
-  }
-  load_game_state();
   m_window.display(); // Put everything on the screen
 }
 
@@ -132,50 +111,6 @@ void sfml_game::display_agent(const agent &a){
 
 void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
   sprite.setTexture(sfml_resources::get().get_agent_sprite(a));
-}
-
-int get_video_mode()
-{
-  int s = sf::Style::Default; //!OCLINT local variable redundant
-//  if (std::getenv("TRAVIS"))
-//  {
-//    s = Style::Default;
-//  }
-  return s;
-}
-
-void sfml_game::load_game_state()
-{
-  switch (m_game_state) //!OCLINT too few branches in if-statement, replace by if-else
-  {
-    case game_state::titlescreen:
-      return;
-    case game_state::menuscreen:
-      return;
-    default:
-      return;
-  }
-}
-
-void sfml_game::change_game_state()
-{
-  switch (m_game_state)
-  {
-    case game_state::titlescreen:
-      reset_input();
-      m_game_state = game_state::menuscreen;
-      return;
-    case game_state::menuscreen:
-      reset_input();
-      m_game_state = game_state::aboutscreen;
-      return;
-    case game_state::aboutscreen:
-      reset_input();
-      m_game_state = game_state::playing;
-      return;
-    default:
-      return;
-  }
 }
 
 void sfml_game::exec()
@@ -231,9 +166,10 @@ void sfml_game::confirm_move()
 
 void sfml_game::follow_tile()
 {
+  sf::Vector2i screen_center = sfml_window_manager::get().get_window_center();
   const tile& t = getTileById(m_game.m_selected);
-  m_camera.x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
-  m_camera.y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
+  m_camera.x = t.get_x() + (t.get_width() / 2) - screen_center.x;
+  m_camera.y = t.get_y() + (t.get_height() / 2) - screen_center.y;
 }
 
 void sfml_game::manage_timer()
@@ -298,7 +234,7 @@ void sfml_game::process_input()
   }
 }
 
-void sfml_game::process_keyboard_input(const sf::Event& event)
+void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexity accepted for now
 {
   // Only keyboard events
   assert(event.type == sf::Event::KeyPressed
@@ -306,26 +242,19 @@ void sfml_game::process_keyboard_input(const sf::Event& event)
 
   if (event.type == sf::Event::KeyPressed)
   {
-    check_change_game_state(event);
     arrows(true, event);
     if (!m_game.m_selected.empty())
       tile_movement(true, event, getTileById(m_game.m_selected));
     if (m_timer > 0)
       tile_movement(false, event, getTileById(m_game.m_selected));
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+      close();
+    }
   }
   else
   {
     arrows(false, event);
   }
-}
-
-void sfml_game::check_change_game_state(const sf::Event& event)
-{
-  if (event.key.code == sf::Keyboard::Space)
-    change_game_state();
-  if (m_game_state == game_state::playing
-    && event.key.code == sf::Keyboard::Escape)
-    m_game_state = game_state::menuscreen;
 }
 
 void sfml_game::move_selected_tile_randomly()
@@ -559,35 +488,29 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::grassland:
       color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
       break;
-
     case tile_type::mountains:
       color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
       break;
-
     case tile_type::water:
-      color_shape(sfml_tile, sf::Color(0, 0, 255-t.get_depth() * 20), sf::Color(0, 0, 100-t.get_depth() * 2)); //!OCLINT cant shorter
+      color_shape(sfml_tile,
+                  sf::Color(0, 0, 255-t.get_depth() * 2),
+                  sf::Color(0, 0, 100-t.get_depth()));
       break;
-
     case tile_type::savannah:
       color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
       break;
-
     case tile_type::swamp:
       color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
       break;
-
     case tile_type::arctic:
       color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
       break;
-
     case tile_type::desert:
       color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
       break;
-
     case tile_type::woods:
       color_shape(sfml_tile, sf::Color(34, 139, 34), sf::Color(0, 128, 0));
       break;
-
     default:
       color_shape(
         sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
@@ -764,14 +687,6 @@ sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
 
 void test_sfml_game() //!OCLINT tests may be long
 {
-  {
-    //A game can change state
-    sfml_game g;
-    for (int i = 0; i < 3; i++)
-    {
-      g.change_game_state();
-    }
-  }
   //test is_clicked here because resource is needed
   {
     const agent a(agent_type::tree);

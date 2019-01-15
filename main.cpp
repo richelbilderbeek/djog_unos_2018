@@ -6,6 +6,7 @@
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
 #include "sfml_resources.h"
+#include "sfml_window_manager.h"
 #include "tile.h"
 #include "tile_id.h"
 #include <QFile>
@@ -37,6 +38,7 @@ void test() {
   test_agent();
   test_agent_type();
   test_tile_id();
+  //test_sfml_window_manager();
 }
 int show_sfml_title_screen(int ca, bool music) {
     sfml_title_screen ts(ca);
@@ -114,7 +116,7 @@ int main(int argc, char **argv) //!OCLINT main too long
     agents = create_default_agents();
   }
 
-  sfml_game g(800, 600, sfml_game_delegate(close_at), tiles, agents);
+  sfml_game g(sfml_game_delegate(close_at), tiles, agents);
 
   if (!music) g.stop_music();
 
