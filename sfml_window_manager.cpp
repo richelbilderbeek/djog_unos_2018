@@ -25,12 +25,9 @@ sfml_window_manager &sfml_window_manager::get() {
 
 int get_video_mode()
 {
-  int s = sf::Style::Fullscreen; //!OCLINT local variable redundant
-//  if (std::getenv("TRAVIS"))
-//  {
-//    s = Style::Default;
-//  }
-  return s;
+  if (std::getenv("TRAVIS"))
+    return Style::Default;
+  return sf::Style::Fullscreen;
 }
 
 /*
