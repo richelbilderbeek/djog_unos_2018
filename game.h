@@ -72,7 +72,13 @@ int count_n_tiles(const game& g) noexcept;
 bool is_on_tile(const game& g, const agent& a);
 
 /// Determine if there is a tile at the given coordinat
-bool is_on_tile(const game& g, const double x, const double y);
+bool is_on_tile(const game& g, double x, double y);
+
+/// Determine if an agent is on a specific tile
+bool is_on_specific_tile(const agent& a, const tile& t);
+
+/// Determine if there is a specific tile at the given coordinat
+bool is_on_specific_tile(double x, double y, const tile& t);
 
 /// Load a game from a file
 game load(const std::string &filename);

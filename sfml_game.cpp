@@ -251,7 +251,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
     tile& temp_tile = getTileById(selected);
     if (m_timer > 0)
     {
-      temp_tile.move();
+      temp_tile.move(m_game);
     }
     else
     {
@@ -565,7 +565,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       break;
 
     case tile_type::water:
-      color_shape(sfml_tile, sf::Color(0, 0, 255-t.get_depth()), sf::Color(0, 0, 100));
+      color_shape(sfml_tile, sf::Color(0, 0, 255-t.get_depth() * 20), sf::Color(0, 0, 100-t.get_depth() * 2)); //!OCLINT cant shorter
       break;
 
     case tile_type::savannah:

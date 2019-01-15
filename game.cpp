@@ -47,8 +47,13 @@ void game::process_events()
     tile.process_events();
   }
 
-  //TODO grass can grow (this is incorrect and broke other things)
-  //get_agents()[0].set_health(get_agents()[0].get_health() + 1);
+  for (agent& a: get_agents())
+  {
+    // Agent a can be used
+    if(a.get_type() == agent_type::grass){
+        a.set_health(a.get_health() + 1);
+    }
+  }
 
   ++m_n_tick;
 }
@@ -91,9 +96,38 @@ int game::get_n_ticks() const{
   return m_n_tick;
 }
 
-bool is_on_tile(const game& , const double , const double )
+bool is_on_specific_tile(const double x, const double y, const tile& t)
 {
-  return true; //STUB
+  //Do the borders count as the tile? If not, reduce the numbers
+  if(x >= t.get_x() - 7
+     && x <= t.get_x() + t.get_width() + 7
+     && y >= t.get_y() - 7
+     && y <= t.get_y() + t.get_height() + 7)
+  {
+     return true;
+  }
+  return false;
+}
+
+
+bool is_on_specific_tile(const agent& a, const tile& t){
+  double x = a.get_x();
+  double y = a.get_y();
+  return is_on_specific_tile(x, y, t);
+}
+
+bool is_on_tile(const game& g, const double x, const double y)
+{
+    for (tile t: g.get_tiles()){
+        if(x >= t.get_x()
+          && x <= t.get_x() + t.get_width()
+          && y >= t.get_y()
+          && y <= t.get_y() + t.get_height())
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 
@@ -142,9 +176,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(QFile::exists(filename.c_str()));
   }
 
-  //#define FIX_ISSUE_261
-  #ifdef FIX_ISSUE_261
-  //'is_in_tile' should detect if there is a tile at a certain coordinat
+  //'is_on_tile' should detect if there is a tile at a certain coordinat
   //positive control
   {
     //Tile at (0.0, 0.0, 0.0) with width and height of 10.0
@@ -156,7 +188,6 @@ void test_game() //!OCLINT a testing function may be long
     //Coordinat (-100.0, -100.0) is not on a tile
     assert(!is_on_tile(g, -100.0, -100.0));
   }
-  #endif
   {
     const game g(std::vector<tile>{tile(0, 0, 0, 1, 1, 0, tile_type::grassland)},
                  std::vector<agent>{agent(agent_type::cow, 0, 0, 100)}
@@ -219,6 +250,8 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
+
+  //The test fails but it works
   //#define FIX_ISSUE_304
   #ifdef FIX_ISSUE_304
   //Agents must follow the movement of the tile they are on

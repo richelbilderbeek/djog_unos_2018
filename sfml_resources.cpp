@@ -71,6 +71,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_fish_texture.loadFromFile("fish.png"))
       throw std::runtime_error("Cannot find image file 'fish.png'");
   }
+    // Goat texture
+    {
+      QFile f(":/nature_zen/resources/mountain_goat.jpg");
+      f.copy("mountain_goat.jpg");
+      if (!m_goat_texture.loadFromFile("mountain_goat.jpg"))
+        throw std::runtime_error("Cannot find image file 'mountain_goat.jpg'");
+    }
   // crocodile texture
   {
     QFile f(":/nature_zen/resources/crocodile.png");
@@ -164,6 +171,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
       return m_grass_texture;
     case agent_type::tree:
       return m_tree_texture;
+    case agent_type::goat:
+      return m_goat_texture;
     case agent_type::spider:
       return m_spider_texture;
     case agent_type::bird:
@@ -196,6 +205,8 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(resources.get_texture(agent_type::crocodile).getSize().x > 0);
     assert(resources.get_texture(agent_type::fish).getSize().x > 0);
     assert(resources.get_texture(agent_type::grass).getSize().x > 0);
+    assert(resources.get_texture(agent_type::tree).getSize().x > 0);
+    assert(resources.get_texture(agent_type::goat).getSize().x > 0);
   }
   #endif // FIX_ISSUE_225
 }

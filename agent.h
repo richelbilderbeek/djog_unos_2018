@@ -8,6 +8,7 @@
 
 //Forward declaration
 class game;
+class tile;
 
 /// Logic of an agent; something that moves on the tiles
 class agent {
