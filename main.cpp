@@ -10,6 +10,7 @@
 #include "tile.h"
 #include "tile_id.h"
 #include <QFile>
+#include <typeinfo>
 #include <SFML/Graphics.hpp>
 #include <cassert>
 
