@@ -66,8 +66,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   assert(1 == 2);
 #endif
 
-  std::cout << typeid(std::getenv("TRAVIS")).name() << "\n";
-  std::cout << std::getenv("TRAVIS") << "\n";
+  std::cout << get_video_mode() << "\n";
   
   const std::vector<std::string> args(argv, argv + argc);
 
