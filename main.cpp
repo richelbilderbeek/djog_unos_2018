@@ -65,8 +65,6 @@ int main(int argc, char **argv) //!OCLINT main too long
   // In release mode, all asserts are removed from the code
   assert(1 == 2);
 #endif
-
-  std::cout << get_video_mode() << "\n";
   
   const std::vector<std::string> args(argv, argv + argc);
 
