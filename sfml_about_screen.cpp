@@ -34,7 +34,7 @@ void sfml_about_screen::exec()
           close();
           break;
         case sf::Event::KeyPressed:
-          if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+          if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             close();
           break;
         default:
