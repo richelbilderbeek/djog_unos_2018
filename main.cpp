@@ -65,6 +65,8 @@ int main(int argc, char **argv) //!OCLINT main too long
   assert(1 == 2);
 #endif
 
+  std::cout << typeid(std::getenv("TRAVIS")).name() << "\n";
+  
   const std::vector<std::string> args(argv, argv + argc);
 
   bool music = false;
