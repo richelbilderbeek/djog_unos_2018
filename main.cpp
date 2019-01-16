@@ -67,6 +67,7 @@ int main(int argc, char **argv) //!OCLINT main too long
 #endif
 
   std::cout << typeid(std::getenv("TRAVIS")).name() << "\n";
+  std::cout << std::getenv("TRAVIS") << "\n";
   
   const std::vector<std::string> args(argv, argv + argc);
 
