@@ -73,6 +73,10 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   }
   // Display the zen
   {
+    m_zen_bar.setPosition(sf::Vector2f(
+                            (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
+                            15));
+    m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
     m_window.draw(m_zen_bar);
     m_zen_ind.setPosition(sf::Vector2f(
                               (m_window.getSize().x/2.0f)-
@@ -81,6 +85,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
                               15+(m_zen_bar.getSize().y/2.0f)-
                               (m_zen_ind.getSize().x/2.0f))
                             );
+    m_zen_ind.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_ind.getPosition())));
     m_window.draw(m_zen_ind);
   }
   m_window.display(); // Put everything on the screen
@@ -94,6 +99,7 @@ void sfml_game::display_tile(const tile &t){
     const double screen_x{ t.get_x() - m_camera.x };
     const double screen_y{ t.get_y() - m_camera.y };
     sfml_tile.setPosition(screen_x, screen_y);
+    sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
 }
@@ -106,6 +112,7 @@ void sfml_game::display_agent(const agent &a){
   assert(sprite.getTexture());
   sprite.setScale(0.2f, 0.2f);
   sprite.setPosition(screen_x, screen_y);
+  sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
   m_window.draw(sprite);
 }
 
@@ -168,8 +175,11 @@ void sfml_game::follow_tile()
 {
   sf::Vector2i screen_center = sfml_window_manager::get().get_window_center();
   const tile& t = getTileById(m_game.m_selected);
-  m_camera.x = t.get_x() + (t.get_width() / 2) - screen_center.x;
-  m_camera.y = t.get_y() + (t.get_height() / 2) - screen_center.y;
+  m_camera.x = 0;
+  m_camera.y = 0;
+  sf::Vector2f new_coords = sf::Vector2f(t.get_x() + (t.get_width() / 2) - screen_center.x,
+                                         t.get_y() + (t.get_height() / 2) - screen_center.y);
+  m_camera.move_camera(new_coords);
 }
 
 void sfml_game::manage_timer()
@@ -199,6 +209,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
 
 void sfml_game::process_event(const sf::Event& event)
 {
+  sf::View view = m_window.getDefaultView();
   switch (event.type)
   {
     case sf::Event::Closed:
@@ -215,6 +226,12 @@ void sfml_game::process_event(const sf::Event& event)
 
     case sf::Event::KeyReleased:
       process_keyboard_input(event);
+      break;
+
+    case sf::Event::Resized:
+      view.setSize(static_cast<float>(event.size.width),
+                   static_cast<float>(event.size.height));
+      m_window.setView(view);
       break;
 
     default:

@@ -54,6 +54,7 @@ void agent::eat(const game& g) {
         a.get_x() < m_x + 60 &&
         a.get_y() > m_y - 50 &&
         a.get_y() < m_y + 55 &&
+        a.get_health() > 0 &&
         std::count(std::begin(food), std::end(food), a.get_type()))
     {
       a.kill();

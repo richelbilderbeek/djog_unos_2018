@@ -39,20 +39,16 @@ void game::process_events()
 {
   for (auto& a: m_agents) {
     a.move(*this);
+    if(a.get_type() == agent_type::grass)
+      a.set_health(a.get_health() + 1);
   }
+
   merge_tiles();
+
   //Process the events happening on the tiles
   for (auto& tile: m_tiles)
   {
     tile.process_events();
-  }
-
-  for (agent& a: get_agents())
-  {
-    // Agent a can be used
-    if(a.get_type() == agent_type::grass){
-        a.set_health(a.get_health() + 1);
-    }
   }
 
   ++m_n_tick;
@@ -109,7 +105,6 @@ bool is_on_specific_tile(const double x, const double y, const tile& t)
   return false;
 }
 
-
 bool is_on_specific_tile(const agent& a, const tile& t){
   double x = a.get_x();
   double y = a.get_y();
@@ -119,13 +114,11 @@ bool is_on_specific_tile(const agent& a, const tile& t){
 bool is_on_tile(const game& g, const double x, const double y)
 {
     for (tile t: g.get_tiles()){
-        if(x >= t.get_x()
-          && x <= t.get_x() + t.get_width()
-          && y >= t.get_y()
-          && y <= t.get_y() + t.get_height())
-        {
-            return true;
-        }
+      if(x >= t.get_x() &&
+         x <= t.get_x() + t.get_width() &&
+         y >= t.get_y() &&
+         y <= t.get_y() + t.get_height())
+        return true;
     }
     return false;
 }

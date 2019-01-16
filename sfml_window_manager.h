@@ -15,6 +15,8 @@ public:
 
   void close() { m_window.close(); }
 
+  void update_center();
+
 private:
 
   sfml_window_manager();

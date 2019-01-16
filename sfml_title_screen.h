@@ -14,6 +14,8 @@ public:
 
     void exec();
 
+    void close();
+
     void stop_music();
 
     void change_game_state();
@@ -23,7 +25,7 @@ public:
 private:
 
     sf::Music &m_title_music;
-    sf::RenderWindow m_window;
+    sf::RenderWindow &m_window;
     sf::Font m_font;
     sf::Text title_text;
     sf::Sprite m_bg_sprite;

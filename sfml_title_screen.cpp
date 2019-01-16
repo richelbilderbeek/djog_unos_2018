@@ -1,10 +1,12 @@
 #include "sfml_title_screen.h"
+#include "sfml_window_manager.h"
 #include "sfml_resources.h"
+#include <cassert>
 #include <iostream>
 
 sfml_title_screen::sfml_title_screen(const int close_at)
   : m_title_music{ sfml_resources::get().get_title_music() },
-    m_window{sf::VideoMode(800, 600), "Nature Zen - Title"},
+    m_window{ sfml_window_manager::get().get_window() },
     m_font{ sfml_resources::get().get_title_font() },
     m_close_at{close_at}
 {
@@ -38,27 +40,44 @@ sfml_title_screen::sfml_title_screen(const int close_at)
 
 void sfml_title_screen::exec() //!OCLINT must be shorter
 {
-    if (m_close_at >= 0) m_window.close();
+    if (m_close_at >= 0) close();
     while(m_window.isOpen()) {
-        title_text.setPosition(400, 110+i);
         animation();
         sf::Event event;
         while (m_window.pollEvent(event))
         {
-            switch (event.type) //!OCLINT too few branches, please fix
+            sf::View view = m_window.getDefaultView();
+            switch (event.type) //!OCLINT TODO too few branches, please fix
             {
                 case sf::Event::Closed:
-                    m_window.close();
+                    close();
                     break;
+                case sf::Event::Resized:
+                    if (event.size.height < 568)
+                      m_window.setSize(sf::Vector2u(m_window.getSize().x,568));
+                    view.setSize(static_cast<float>(event.size.width),
+                                 static_cast<float>(m_window.getSize().y));
+                    assert(event.size.width == m_window.getSize().x);
+                    m_window.setView(view);
                 default:
                     break;
             }
         }
+        title_text.setPosition(m_window.getSize().x/2,
+                               m_window.getView().getCenter().y-(m_window.getSize().y/2)+
+                               std::ceil(m_window.getSize().y/568)*110+i);
+        title_text.setPosition(m_window.mapPixelToCoords(
+                                 sf::Vector2i(title_text.getPosition())));
+        //TODO Resize background image
         m_window.clear();
         m_window.draw(m_bg_sprite);
         m_window.draw(title_text);
         m_window.display();
     }
+}
+
+void sfml_title_screen::close() {
+  m_window.close();
 }
 
 void sfml_title_screen::stop_music() {

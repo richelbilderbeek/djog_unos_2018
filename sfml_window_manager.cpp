@@ -3,17 +3,31 @@
 
 sfml_window_manager *sfml_window_manager::m_instance = nullptr; //!OCLINT static accepted singleton
 
+#if(SFML_VERSION_MINOR > 1)
 sfml_window_manager::sfml_window_manager()
   : m_window(sf::VideoMode(
-               static_cast<unsigned int>(sf::VideoMode::getDesktopMode().width),
-               static_cast<unsigned int>(sf::VideoMode::getDesktopMode().height)),
+               static_cast<unsigned int>(sf::VideoMode::getDesktopMode().width - 200),
+               static_cast<unsigned int>(sf::VideoMode::getDesktopMode().height - 200)),
              "Nature Zen", static_cast<unsigned int>(get_video_mode()))
 {
   // Set up window, start location to the center
-  m_window.setPosition(sf::Vector2i(0, 0));
-  m_screen_center = sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2,
-                                 sf::VideoMode::getDesktopMode().height / 2);
+  m_window.setPosition(sf::Vector2i(100, 50));
+  m_screen_center = sf::Vector2i(m_window.getSize().x / 2,
+                                 m_window.getSize().y / 2);
 }
+#else
+sfml_window_manager::sfml_window_manager()
+  : m_window(sf::VideoMode(
+               static_cast<unsigned int>(1000),
+               static_cast<unsigned int>(1000)),
+             "Nature Zen")
+{
+  // Set up window, start location to the center
+  m_window.setPosition(sf::Vector2i(0, 0));
+  m_screen_center = sf::Vector2i(m_window.getSize().x / 2,
+                                 m_window.getSize().y / 2);
+}
+#endif
 
 sfml_window_manager &sfml_window_manager::get() {
   if (!m_instance) {
@@ -23,11 +37,17 @@ sfml_window_manager &sfml_window_manager::get() {
   return *m_instance;
 }
 
-int get_video_mode()
-{
-  //if (std::getenv("TRAVIS"))
-  //  return sf::Style::Default;
+void sfml_window_manager::update_center() {
+  m_screen_center = sf::Vector2i(m_window.getView().getSize().x / 2,
+                                 m_window.getView().getSize().y / 2);
+}
+
+int get_video_mode() {
+#ifndef NDEBUG
+  return sf::Style::Default;
+#else
   return sf::Style::Fullscreen;
+#endif
 }
 
 /*
