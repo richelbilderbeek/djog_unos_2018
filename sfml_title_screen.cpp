@@ -65,7 +65,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
         }
         title_text.setPosition(m_window.getSize().x/2,
                                m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-                               std::ceil(m_window.getSize().y/568)*110+i);
+                               (m_window.getSize().y/568)*110+i);
         title_text.setPosition(m_window.mapPixelToCoords(
                                  sf::Vector2i(title_text.getPosition())));
         //TODO Resize background image
