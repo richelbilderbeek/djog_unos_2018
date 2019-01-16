@@ -25,8 +25,8 @@ sfml_window_manager &sfml_window_manager::get() {
 
 int get_video_mode()
 {
-  if (std::getenv("TRAVIS"))
-    return sf::Style::Default;
+  //if (std::getenv("TRAVIS"))
+  //  return sf::Style::Default;
   return sf::Style::Fullscreen;
 }
 
