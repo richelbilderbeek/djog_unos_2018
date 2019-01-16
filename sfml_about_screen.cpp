@@ -28,7 +28,6 @@ void sfml_about_screen::exec()
     sf::Event event;
     while (m_window.pollEvent(event))
     {
-      }
       switch (event.type) //!OCLINT too few branches, please fix
       {
         case sf::Event::Closed:
