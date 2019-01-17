@@ -1,6 +1,7 @@
 #ifndef SFML_TITLE_SCREEN_H
 #define SFML_TITLE_SCREEN_H
 
+#include "game_state.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -14,6 +15,10 @@ public:
 
     void exec();
 
+    ///@param game state to change to
+    void close(game_state s);
+
+    ///Close the game
     void close();
 
     void stop_music();

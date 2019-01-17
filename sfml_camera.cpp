@@ -19,5 +19,5 @@ void sfml_camera::move_camera(sf::Vector2f offset)
   y += offset.y;
   view.setCenter(sf::Vector2f(x, y));
   m_window.setView(view);
-  sfml_window_manager::get().update_center();
+  sfml_window_manager::get().update();
 }

@@ -34,6 +34,10 @@ sfml_game::~sfml_game()
   stop_music();
 }
 
+void sfml_game::close(game_state s) {
+  sfml_window_manager::get().set_state(s);
+}
+
 void sfml_game::close()
 {
   m_window.close();
@@ -122,7 +126,7 @@ void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
 
 void sfml_game::exec()
 {
-  while (m_window.isOpen())
+  while (active(game_state::playing))
   {
     process_input();
     process_events();
@@ -229,13 +233,14 @@ void sfml_game::process_event(const sf::Event& event)
       break;
 
     case sf::Event::Resized:
+      sfml_window_manager::get().update();
       view.setSize(static_cast<float>(event.size.width),
                    static_cast<float>(event.size.height));
       m_window.setView(view);
       break;
 
     default:
-      // Do nothing by default
+      sfml_window_manager::get().process();
       break;
   }
 }
@@ -265,7 +270,7 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
     if (m_timer > 0)
       tile_movement(false, event, getTileById(m_game.m_selected));
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-      close();
+      close(game_state::menuscreen);
     }
   }
   else

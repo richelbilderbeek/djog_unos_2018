@@ -40,40 +40,42 @@ sfml_title_screen::sfml_title_screen(const int close_at)
 
 void sfml_title_screen::exec() //!OCLINT must be shorter
 {
-    if (m_close_at >= 0) close();
-    while(m_window.isOpen()) {
-        animation();
-        sf::Event event;
-        while (m_window.pollEvent(event))
-        {
-            sf::View view = m_window.getDefaultView();
-            switch (event.type) //!OCLINT TODO too few branches, please fix
-            {
-                case sf::Event::Closed:
-                    close(); //TODO change all of these to m_window.close()
-                    break;
-                case sf::Event::Resized:
-                    if (event.size.height < 568)
-                      m_window.setSize(sf::Vector2u(m_window.getSize().x,568));
-                    view.setSize(static_cast<float>(event.size.width),
-                                 static_cast<float>(m_window.getSize().y));
-                    assert(event.size.width == m_window.getSize().x);
-                    m_window.setView(view);
-                default:
-                    break;
-            }
-        }
-        title_text.setPosition(m_window.getSize().x/2,
-                               m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-                               (m_window.getSize().y/568)*110+i);
-        title_text.setPosition(m_window.mapPixelToCoords(
-                                 sf::Vector2i(title_text.getPosition())));
-        //TODO Resize background image
-        m_window.clear();
-        m_window.draw(m_bg_sprite);
-        m_window.draw(title_text);
-        m_window.display();
+  while(active(game_state::titlescreen)) {
+    if (m_close_at >= 0) close(game_state::menuscreen);
+    animation();
+    sf::Event event;
+    while (m_window.pollEvent(event))
+    {
+      sf::View view = m_window.getDefaultView();
+      switch (event.type) //!OCLINT TODO too few branches, please fix
+      {
+        case sf::Event::Closed:
+          close();
+          break;
+        case sf::Event::Resized:
+          sfml_window_manager::get().update();
+          view.setSize(static_cast<float>(m_window.getSize().x),
+                       static_cast<float>(m_window.getSize().y));
+          m_window.setView(view);
+        default:
+          sfml_window_manager::get().process();
+          break;
+      }
     }
+    title_text.setPosition(m_window.getSize().x/2,
+                           m_window.getView().getCenter().y-(m_window.getSize().y/2)+
+                           (m_window.getSize().y/568)*110+i);
+    title_text.setPosition(m_window.mapPixelToCoords(
+                           sf::Vector2i(title_text.getPosition())));
+    m_window.clear();
+    m_window.draw(m_bg_sprite);
+    m_window.draw(title_text);
+    m_window.display();
+  }
+}
+
+void sfml_title_screen::close(game_state s) {
+  sfml_window_manager::get().set_state(s);
 }
 
 void sfml_title_screen::close() {

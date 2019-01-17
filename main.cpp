@@ -41,21 +41,29 @@ void test() {
   test_tile_id();
   //test_sfml_window_manager();
 }
+int start_sfml_game(int ca, bool music,
+                    std::vector<tile> tiles,
+                    std::vector<agent> agents) {
+  sfml_game g(sfml_game_delegate(ca), tiles, agents);
+  if (!music) g.stop_music();
+  g.exec();
+  return 0;
+}
 int show_sfml_title_screen(int ca, bool music) {
-    sfml_title_screen ts(ca);
-    if (!music) ts.stop_music();
-    ts.exec();
-    return 0;
+  sfml_title_screen ts(ca);
+  if (!music) ts.stop_music();
+  ts.exec();
+  return 0;
 }
 int show_sfml_menu_screen(int ca) {
-    sfml_menu_screen ms(ca);
-    ms.exec();
-    return 0;
+  sfml_menu_screen ms(ca);
+  ms.exec();
+  return 0;
 }
 int show_sfml_about_screen(int ca) {
-    sfml_about_screen as(ca);
-    as.exec();
-    return 0;
+  sfml_about_screen as(ca);
+  as.exec();
+  return 0;
 }
 int main(int argc, char **argv) //!OCLINT main too long
 {
@@ -77,28 +85,27 @@ int main(int argc, char **argv) //!OCLINT main too long
 
   int close_at{-1};
 
+  //Not realy to show settings, but to use the variables
+  std::cout << "\nSettings\n"
+            << "Close at : " << close_at << "\n"
+            << "Music    : " << music << "\n";
+
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
+    sfml_window_manager::get().set_state(game_state::titlescreen);
   }
-
-  if (std::count(std::begin(args), std::end(args), "--title"))
+  else if (std::count(std::begin(args), std::end(args), "--title"))
   {
-    std::cout << "title screen returned "
-              << show_sfml_title_screen(close_at, music)
-              << std::endl;
+    sfml_window_manager::get().set_state(game_state::titlescreen);
   }
-  if (std::count(std::begin(args), std::end(args), "--menu"))
+  else if (std::count(std::begin(args), std::end(args), "--menu"))
   {
-    std::cout << "menu screen returned "
-              << show_sfml_menu_screen(close_at)
-              << std::endl;
+    sfml_window_manager::get().set_state(game_state::menuscreen);
   }
-  if (std::count(std::begin(args), std::end(args), "--about"))
+  else if (std::count(std::begin(args), std::end(args), "--about"))
   {
-    std::cout << "about screen returned "
-              << show_sfml_about_screen(close_at)
-              << std::endl;
+    sfml_window_manager::get().set_state(game_state::aboutscreen);
   }
 
   std::vector<tile> tiles;
@@ -117,10 +124,6 @@ int main(int argc, char **argv) //!OCLINT main too long
     agents = create_default_agents();
   }
 
-  sfml_game g(sfml_game_delegate(close_at), tiles, agents);
-
-  if (!music) g.stop_music();
-
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
       << 'v' << SFML_VERSION_MAJOR
@@ -130,5 +133,20 @@ int main(int argc, char **argv) //!OCLINT main too long
       #endif
     ;
   }
-  g.exec();
+
+  while (sfml_window_manager::get().get_window().isOpen()) {
+    switch (sfml_window_manager::get().get_state()) {
+      case game_state::titlescreen:
+        show_sfml_title_screen(close_at, music);
+        break;
+      case game_state::menuscreen:
+        show_sfml_menu_screen(close_at);
+        break;
+      case game_state::aboutscreen:
+        show_sfml_about_screen(close_at);
+        break;
+      case game_state::playing:
+        start_sfml_game(close_at, music, tiles, agents);
+    }
+  }
 }

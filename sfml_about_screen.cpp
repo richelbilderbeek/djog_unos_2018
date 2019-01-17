@@ -15,6 +15,10 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   m_text.setCharacterSize(24); // in pixels, not points!
 }
 
+void sfml_about_screen::close(game_state s) {
+  sfml_window_manager::get().set_state(s);
+}
+
 void sfml_about_screen::close()
 {
   m_window.close();
@@ -22,22 +26,29 @@ void sfml_about_screen::close()
 
 void sfml_about_screen::exec()
 {
-  if (m_close_at >= 0) close();
-  while (m_window.isOpen())
+  if (m_close_at >= 0) close(game_state::playing);
+  while (active(game_state::aboutscreen))
   {
     sf::Event event;
     while (m_window.pollEvent(event))
     {
+      sf::View view = m_window.getDefaultView();
       switch (event.type) //!OCLINT too few branches, please fix
       {
         case sf::Event::Closed:
           close();
           break;
+        case sf::Event::Resized:
+          sfml_window_manager::get().update();
+          view.setSize(static_cast<float>(m_window.getSize().x),
+                       static_cast<float>(m_window.getSize().y));
+          m_window.setView(view);
         case sf::Event::KeyPressed:
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            close();
+            close(game_state::menuscreen);
           break;
         default:
+          sfml_window_manager::get().process();
           break;
       }
     }

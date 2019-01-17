@@ -31,7 +31,10 @@ public:
   /// Destructor, is called when sfml_game is destroyed
   ~sfml_game();
 
-  /// Close the game
+  ///@param game state to change to
+  void close(game_state s);
+
+  ///Close the game
   void close();
 
   /// Run the game until it is closed in any way.

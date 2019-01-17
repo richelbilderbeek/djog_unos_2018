@@ -1,6 +1,7 @@
 #ifndef SFML_WINDOW_MANAGER_H
 #define SFML_WINDOW_MANAGER_H
 
+#include "game_state.h"
 #include <SFML/Graphics.hpp>
 
 class sfml_window_manager
@@ -15,7 +16,13 @@ public:
 
   void close() { m_window.close(); }
 
-  void update_center();
+  void update();
+
+  game_state get_state() const noexcept { return m_state; }
+
+  void set_state(game_state s) { m_state = s; }
+
+  void process();
 
 private:
 
@@ -27,7 +34,13 @@ private:
 
   sf::Vector2i m_screen_center;
 
+  sf::Vector2i m_window_pos;
+
+  game_state m_state;
+
 };
+
+bool active(game_state s);
 
 //void test_sfml_window_manager();
 
