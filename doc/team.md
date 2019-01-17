@@ -10,22 +10,21 @@ Day|Name|GitHub username|Role(s)
 ---|---|---|---
 TH,FR|Joshua|`Joshua260403`|Dev (medior), `git`, wiki, CI
 TH,FR|Richel|`richelbilderbeek`|Dev (senior), project manager, CI
-TH|Annabel|`annabelliard`|Dev (junior)
-TH|Isis|`isis-x05`|Dev (junior)
-TH|Jorn|`JornPrengerFormeel`|Dev (junior), `git`
+TH|Isis|`isis-x5`|Dev (junior)
 TH|Mart|`martje127`|Dev (junior), test
 TH|Rijk|`Rijk-van-Putten`|Dev (junior)
+TH|Jan|`janderkkotlarski`|Dev (junior)
 FR|Anne|`annehinrichs22`|Dev (junior)
 FR|Elles|`EllyJet`|Dev (junior)
-FR|Fauve| `Fauve`|Dev (junior)
+FR|Enzo|`Enzo9`|Dev (junior)
 FR|Giorgio|`azereuz`|Dev (junior)
 FR|Jana|`Jana17`|Dev (junior)
-FR|Jolien|`?`|Dev (junior)
+FR|Jolien|?`JolienGay`|Dev (junior)
 FR|Koen|`ko0n`|Dev (junior)
 FR|Rafayel|`RafayelGardishyan`|Dev (medior), `git`
 FR|Rob|`robkruger`|Dev (junior)
 FR|Same|`same-drenth`|Dev (junior), UX
-FR|Tom|`?`|Dev (junior)
+FR|Tom|?`TomStuivinga`|Dev (junior)
 
 Role|Description
 ---|---

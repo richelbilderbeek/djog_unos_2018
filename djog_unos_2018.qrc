@@ -3,7 +3,6 @@
         <file>resources/background_music.ogg</file>
         <file>resources/title_music.ogg</file>
         <file>resources/font.ttf</file>
-        <file>resources/bacterie.png</file>
         <file>resources/grass.png</file>
         <file>resources/cow.png</file>
         <file>resources/title_screen_background.png</file>
@@ -12,6 +11,14 @@
         <file>resources/zen_font.ttf</file>
         <file>resources/title_screen_background.jpg</file>
         <file>resources/none_agent.png</file>
+        <file>resources/bacterium.png</file>
+        <file>resources/tree.png</file>
+        <file>resources/mountain_goat.jpg</file>
+        <file>resources/spider.png</file>
+        <file>resources/ben_ik_een_spin.ogg</file>
+        <file>resources/flying_bird.png</file>
+        <file>resources/zen_bar.png</file>
+        <file>resources/zen_indicator.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

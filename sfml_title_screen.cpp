@@ -2,10 +2,11 @@
 #include "sfml_resources.h"
 #include <iostream>
 
-sfml_title_screen::sfml_title_screen()
+sfml_title_screen::sfml_title_screen(const int close_at)
   : m_title_music{ sfml_resources::get().get_title_music() },
     m_window{sf::VideoMode(800, 600), "Nature Zen - Title"},
-    m_font{ sfml_resources::get().get_title_font() }
+    m_font{ sfml_resources::get().get_title_font() },
+    m_close_at{close_at}
 {
   m_title_music.setLoop(true);
   m_title_music.play();
@@ -37,6 +38,7 @@ sfml_title_screen::sfml_title_screen()
 
 void sfml_title_screen::exec() //!OCLINT must be shorter
 {
+    if (m_close_at >= 0) m_window.close();
     while(m_window.isOpen()) {
         title_text.setPosition(400, 110+i);
         animation();
@@ -59,6 +61,10 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     }
 }
 
+void sfml_title_screen::stop_music() {
+  m_title_music.stop();
+}
+
 void sfml_title_screen::animation() {
   if (i < 70.0 && b) {
     i += 0.05;
@@ -76,5 +82,5 @@ void sfml_title_screen::animation() {
 
 sfml_title_screen::~sfml_title_screen()
 {
-  m_title_music.stop();
+  stop_music();
 }

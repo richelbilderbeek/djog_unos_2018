@@ -1,30 +1,8 @@
-# Builds the entire project
-
-################################################################################
-# Files
-################################################################################
-# Source code of the project
 include(djog_unos_2018.pri)
-# Entry point for this project
+
+# Entry point for user
 SOURCES += main.cpp
 
-################################################################################
-# Personal build
-###########################r#####################################################
-# Do things that depend on which you computer is used
-# I (RJCB) do not think this is relevant, but would
-# you need it, here you go
-message($$QMAKE_HOST.name)
-contains(QMAKE_HOST.name, "lubuntu"):{
-  message("Welcome back Richel")
-}
-contains(QMAKE_HOST.name, "fwnbiol"):{
-  message("Welcome back at the university")
-}
-
-################################################################################
-# Compiling, linking and tools
-################################################################################
 # C++14
 CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
@@ -34,8 +12,8 @@ QMAKE_CXXFLAGS += -std=c++14
 QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
 
 unix:!macx {
-  # Fix error: unrecognized option '--push-state--no-as-needed'
-  QMAKE_LFLAGS += -fuse-ld=gold
+# Fix error: unrecognized option '--push-state--no-as-needed'
+QMAKE_LFLAGS += -fuse-ld=gold
 }
 
 # Debug and release settings
@@ -51,6 +29,8 @@ CONFIG(release, debug|release) {
     QMAKE_LFLAGS += -pg
   }
 }
+
+
 
 CONFIG(debug, debug|release) {
 
@@ -70,42 +50,67 @@ CONFIG(debug, debug|release) {
   }
 }
 
-################################################################################
+# High warning level, warnings are errors
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
+QMAKE_CXXFLAGS += -Werror
+
 # SFML
-################################################################################
 # GNU/Linux
 unix:!macx {
   LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+  #LIBS += -L"/home/rafayel/SFML/lib"
+  #INCLUDEPATH += "/home/rafayel/SFML/include"
+  #DEPENDPATH += "/home/rafayel/SFML/include"
 }
 
 win32{
-  # Some people use C:, others use D:, it does not hurt to put both here
-  INCLUDEPATH += C:\Qt\sfml\include
-  INCLUDEPATH += D:\Qt\sfml\include
-  LIBS += -LC:\Qt\sfml\lib
-  LIBS += -LD:\Qt\sfml\lib
-
+  INCLUDEPATH += C:/Qt/sfml/include
+  LIBS += -LC:/Qt/sfml/lib
   CONFIG(release, debug|release):
   {
-    LIBS += -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+    #Audio Related Libs
+    LIBS += -lsfml-audio
+    LIBS += -lopenal32              #Dependency
+    #SFML-Graphics Libs
+    LIBS += -lsfml-graphics
+    LIBS += -lfreetype              #Dependency
+
+    #SFML-Window Libs
+    LIBS += -lsfml-window
+    LIBS += -lopengl32              #Dependency
+    LIBS += -lgdi32                 #Dependency
+
+    #SFML-System Libs
+    LIBS += -lsfml-system
+    LIBS += -lwinmm                 #Dependency
   }
 
+  #Debug Configuration
   CONFIG(debug, debug|release):
   {
-    LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-window-d -lsfml-system-d
-  }
+    #Audio Related Libs
+    LIBS += -lsfml-audio-d
+    LIBS += -lopenal32              #Dependency
 
-  LIBS += -lopenal32
-  LIBS += -lfreetype
-  LIBS += -lopengl32
-  LIBS += -lgdi32
-  LIBS += -lwinmm
+    #SFML-Graphics Libs
+    LIBS += -lsfml-graphics-d
+    LIBS += -lfreetype              #Dependency
+    #LIBS += -ljpeg                  #Dependency
+
+
+    #SFML-Window Libs
+    LIBS += -lsfml-window-d
+    LIBS += -lopengl32              #Dependency
+    LIBS += -lgdi32                 #Dependency
+
+    #SFML-System Libs
+    LIBS += -lsfml-system-d
+    LIBS += -lwinmm                 #Dependency
+  }
 }
 
-
-################################################################################
 # Qt5
-################################################################################
 QT += core gui
 
 # QResources give this error
@@ -118,6 +123,6 @@ QMAKE_CXXFLAGS += -Wno-unused-variable
 QMAKE_CXXFLAGS += -fext-numeric-literals
 
 # Prevent Qt for failing with this error:
-# qrc_[*].cpp:400:44: error: ‘qInitResources_[*]__init_variable__’ defined but not used
+# qrc_[*].cpp:400:44: error: 'qInitResources_[*]__init_variable__' defined but not used
 # [*]: the resource filename
 QMAKE_CXXFLAGS += -Wno-unused-variable

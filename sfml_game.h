@@ -13,8 +13,6 @@
 #include "game_state.h"
 #include "sfml_camera.h"
 
-using namespace sf;
-
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
 {
@@ -25,8 +23,9 @@ public:
   /// @param window_height height of the game window in pixels
   /// @param delegate an object that can modify sfml_game at certain times
   sfml_game(const int window_width = 800, const int window_height = 600,
-            const sfml_game_delegate &delegate = sfml_game_delegate()
-
+            const sfml_game_delegate &delegate = sfml_game_delegate(),
+            const std::vector<tile>& tiles = create_default_tiles(),
+            const std::vector<agent>& agents = create_default_agents()
   );
 
   /// Destructor, is called when sfml_game is destroyed
@@ -52,8 +51,6 @@ public:
   void stop_music();
 
   // Show to menu
-  void show_title();
-
   void arrows(bool b, const sf::Event &event);
 
   bool m_clicked_tile = false;
@@ -69,7 +66,7 @@ public:
 
   void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
   void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);
-  sf::Color outline;
+  sf::Color m_outline;
 
   void setup_text();
 
@@ -83,7 +80,7 @@ public:
 
   void exec_tile_move(std::vector<int> selected);
 
-  std::vector<int> m_temp_id;
+//  std::vector<int> m_temp_id;
 
   void manage_timer();
 
@@ -109,6 +106,10 @@ public:
 
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
+  void ben_ik_een_spin();
+
+  void start_music();
+
 private:
   // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);
@@ -117,12 +118,9 @@ private:
   /// Background music file object
   sf::Music &m_background_music;
 
-  // Agent for testing
-  // agent agent_test;
-  // Texture for test agent
-  Texture test_agent_tex;
+  sf::Music &m_ben_ik_een_spin;
 
-  /// Sate of Game
+  /// State of Game
   game_state m_game_state = game_state::playing;
 
   /// an object that can modify sfml_game at certain times
@@ -165,14 +163,15 @@ private:
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event &event);
 
-  /// Draw Text
-  Text titleScreenText;
-  // Font
-  Font m_font;
-
   bool m_is_space_pressed = false;
 
   sfml_camera m_camera;
+
+  sf::RectangleShape m_zen_bar;
+  sf::RectangleShape m_zen_ind;
+
+  void setup_display_score();
+
 };
 
 ///Test the sfml_game class

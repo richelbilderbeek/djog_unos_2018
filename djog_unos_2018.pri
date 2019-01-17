@@ -3,7 +3,6 @@ SOURCES += \
     $$PWD/agent_type.cpp \
     $$PWD/game.cpp \
     $$PWD/game_state.cpp \
-    $$PWD/id.cpp \
     $$PWD/sfml_about_screen.cpp \
     $$PWD/sfml_camera.cpp \
     $$PWD/sfml_game.cpp \
@@ -12,14 +11,15 @@ SOURCES += \
     $$PWD/sfml_resources.cpp \
     $$PWD/sfml_title_screen.cpp \
     $$PWD/tile.cpp \
-    $$PWD/tile_type.cpp
+    $$PWD/tile_type.cpp \
+    $$PWD/sfml_button.cpp \
+    $$PWD/tile_id.cpp
 
 HEADERS += \
     $$PWD/agent.h \
     $$PWD/agent_type.h \
     $$PWD/game.h \
     $$PWD/game_state.h \
-    $$PWD/id.h \
     $$PWD/sfml_about_screen.h \
     $$PWD/sfml_camera.h \
     $$PWD/sfml_game_delegate.h \
@@ -28,7 +28,9 @@ HEADERS += \
     $$PWD/sfml_resources.h \
     $$PWD/sfml_title_screen.h \
     $$PWD/tile.h \
-    $$PWD/tile_type.h
+    $$PWD/tile_type.h \
+    $$PWD/sfml_button.h \
+    $$PWD/tile_id.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc

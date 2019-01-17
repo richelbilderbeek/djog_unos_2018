@@ -23,8 +23,8 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT mu
     return tile_type::savannah;
   }
   else if (
-       (type1 == tile_type::grassland && type2 == tile_type::ocean)
-    || (type1 == tile_type::ocean && type2 == tile_type::grassland)
+       (type1 == tile_type::grassland && type2 == tile_type::water)
+    || (type1 == tile_type::water && type2 == tile_type::grassland)
   )
   {
     return tile_type::swamp;
@@ -36,9 +36,12 @@ void test_tile_type()
 {
   {
     // merging of types
+    assert(get_merge_type(tile_type::nonetile, tile_type::grassland) == tile_type::nonetile);
     assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::mountains);
     assert(get_merge_type(tile_type::grassland, tile_type::desert) == tile_type::savannah);
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
+    assert(get_merge_type(tile_type::grassland, tile_type::water) == tile_type::swamp);
+    assert(get_merge_type(tile_type::water, tile_type::grassland) == tile_type::swamp);
     //TODO: after Issue #187: test more combinations
   }
   {
@@ -62,11 +65,12 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::nonetile);
   v.push_back(tile_type::grassland);
   v.push_back(tile_type::mountains);
-  v.push_back(tile_type::ocean);
+  v.push_back(tile_type::water);
   v.push_back(tile_type::savannah);
   v.push_back(tile_type::arctic);
   v.push_back(tile_type::desert);
   v.push_back(tile_type::swamp);
+  v.push_back(tile_type::beach);
   return v;
 }
 
@@ -81,21 +85,20 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
       return "desert";
     case tile_type::mountains:
       return "mountains";
-    case tile_type::ocean:
-      return "ocean";
+    case tile_type::water:
+      return "water";
     case tile_type::savannah:
       return "savannah";
     case tile_type::swamp:
       return "swamp";
     case tile_type::woods:
       return "woods";
+    case tile_type::beach:
+      return "beach";
     default:
       assert(t == tile_type::nonetile);
       return "nonetile";
-
-
   }
-
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
@@ -105,9 +108,10 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
   if (str == "desert") return tile_type::desert;
   if (str == "swamp") return tile_type::swamp;
   if (str == "mountains") return tile_type::mountains;
-  if (str == "ocean") return tile_type::ocean;
+  if (str == "water") return tile_type::water;
   if (str == "savannah") return tile_type::savannah;
   if (str == "woods") return tile_type::woods;
+  if (str == "beach") return tile_type::beach;
   return tile_type::nonetile;
 }
 

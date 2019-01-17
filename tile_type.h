@@ -8,12 +8,13 @@ enum class tile_type {
   nonetile,
   grassland,
   mountains,
-  ocean,
+  water,
   savannah,
   arctic,
   desert,
   swamp,
-  woods
+  woods,
+  beach
 };
 
 ///Get the merged type of two type names,

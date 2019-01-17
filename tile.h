@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include "agent.h"
+#include "tile_id.h"
 #include "tile_type.h"
 #include <vector>
 
@@ -14,11 +15,12 @@ public:
   /// @param z the z-coordinate of the top-left corner of the tile
   /// @param width the width of the tile
   /// @param height the height of the tile
+  /// @param depth the depth of the tile
   /// @param type the type the tile
   /// @param the tiles id
   tile(double x = 0.0, double y = 0.0, const double z = 0.0,
-       double width = 0.0, double height = 0.0,
-       const tile_type type = tile_type::grassland, const int id = 0);
+       double width = 0.0, double height = 0.0, double depth = 0.0,
+       const tile_type type = tile_type::grassland, const tile_id = tile_id());
 
   /// The height of the tile
   double get_height() const noexcept { return m_height; }
@@ -44,8 +46,11 @@ public:
   /// The movement coeficient on the y-axis
   double get_dy() const noexcept { return m_dy; }
 
+  /// The tile's depth
+  double get_depth() const noexcept { return m_depth; }
+
   /// The center of the tile
-  Vector2f get_center() const noexcept { return Vector2f(m_width / 2.0f, m_height / 2.0f); }
+  sf::Vector2f get_center() const noexcept { return sf::Vector2f(m_width / 2.0f, m_height / 2.0f); }
 
   ///Process events, for example, make the agents move
   void process_events();
@@ -63,12 +68,10 @@ public:
   void set_type(const tile_type t) noexcept;
 
   /// Move the tile by the movement coeficients
-  void move();
+  void move(game& g);
 
   /// Get the tile's id
-  int get_id() const noexcept { return m_id; }
-
-  void set_id(int tid);
+  int get_id() const noexcept { return m_id.get(); }
 
   /// Is this coordinate within the tile?
   bool tile_contains(double x, double y) const noexcept;
@@ -106,15 +109,18 @@ private:
   double m_dz;
 
   /// The tile's id
-  int m_id;
+  tile_id m_id;
+
+  /// The tile's depth
+  double m_depth;
 
   bool m_locked = false;
-
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const tile& t);
   friend std::istream& operator>>(std::istream& os, tile& t);
   friend bool operator==(const tile& lhs, const tile& rhs) noexcept;
+
 };
 
 /// Create the default collection of tiles
