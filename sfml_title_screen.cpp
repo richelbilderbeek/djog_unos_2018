@@ -13,7 +13,7 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   m_title_music.setLoop(true);
   m_title_music.play();
   title_text.setFont(m_font);
-  title_text.setString("Nature Zen");
+  title_text.setString("NATURE ZEN");
   title_text.setOrigin(title_text.getGlobalBounds().left
       + title_text.getGlobalBounds().width / 2.0f,
     title_text.getGlobalBounds().top
@@ -30,12 +30,7 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   title_text.setPosition(400, 200);
 
   m_bg_sprite.setTexture(sfml_resources::get().get_background_image());
-  m_bg_sprite.setOrigin(m_bg_sprite.getGlobalBounds().left
-                        + m_bg_sprite.getGlobalBounds().width / 2.0f,
-                        m_bg_sprite.getGlobalBounds().top
-                        + m_bg_sprite.getGlobalBounds().height / 2.0f);
-  m_bg_sprite.setPosition(400, 300);
-  m_bg_sprite.setScale(4,4);
+  stretch_bg();
 }
 
 void sfml_title_screen::exec() //!OCLINT must be shorter
@@ -57,6 +52,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
           view.setSize(static_cast<float>(m_window.getSize().x),
                        static_cast<float>(m_window.getSize().y));
           m_window.setView(view);
+          stretch_bg();
         default:
           sfml_window_manager::get().process();
           break;
@@ -67,6 +63,15 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
                            (m_window.getSize().y/568)*110+i);
     title_text.setPosition(m_window.mapPixelToCoords(
                            sf::Vector2i(title_text.getPosition())));
+
+    //m_bg_sprite.setPosition(sf::Vector2f(m_window.getView().getCenter().x -
+    //                                     m_bg_sprite.getTexture()->getSize().x,
+    //                                     m_window.getView().getCenter().y -
+    //                                     m_bg_sprite.getTexture()->getSize().y));
+    m_bg_sprite.setPosition(0, 0);
+    m_bg_sprite.setPosition(m_window.mapPixelToCoords(
+                               sf::Vector2i(m_bg_sprite.getPosition())));
+
     m_window.clear();
     m_window.draw(m_bg_sprite);
     m_window.draw(title_text);
@@ -84,6 +89,13 @@ void sfml_title_screen::close() {
 
 void sfml_title_screen::stop_music() {
   m_title_music.stop();
+}
+
+void sfml_title_screen::stretch_bg() {
+  sf::Vector2f size = sf::Vector2f(m_bg_sprite.getTexture()->getSize());
+  float scale_x = m_window.getSize().x/size.x;
+  float scale_y = m_window.getSize().y/size.y;
+  m_bg_sprite.setScale(scale_x, scale_y);
 }
 
 void sfml_title_screen::animation() {

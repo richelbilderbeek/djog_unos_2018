@@ -9,18 +9,21 @@
 sfml_about_screen::sfml_about_screen(const int close_at)
     : m_window{ sfml_window_manager::get().get_window() },
       m_close_at{ close_at },
-      m_font{ sfml_resources::get().get_default_font() }
+      m_font{ sfml_resources::get().get_default_font() },
+      m_zen_font{ sfml_resources::get().get_title_font() }
 {
-  m_text.setFont(m_font);
-  m_text.setCharacterSize(24); // in pixels, not points!
+  m_header.setFont(m_zen_font);
+  m_header.setCharacterSize(36); // in pixels, not points!
   // set the color
   #if(SFML_VERSION_MINOR > 1)
-  m_text.setFillColor(sf::Color::Green);
+  m_header.setFillColor(sf::Color::Magenta);
+  m_header.setOutlineColor(sf::Color::Green);
+  m_header.setOutlineThickness(3);
   #else
   //Only relevant for Travis
   m_text.setColor(sf::Color::Green);
   #endif
-  m_text.setString("Team Octane");
+  m_header.setString("TEAM OCTANE");
 }
 
 void sfml_about_screen::close(game_state s) {
@@ -63,10 +66,12 @@ void sfml_about_screen::exec()
 
     m_window.clear(sf::Color::Black); // Clear the window with black color
 
-    m_text.setPosition(m_window.mapPixelToCoords(
-                         sf::Vector2i(m_text.getPosition())));
+    m_header.setPosition(25, 25);
 
-    m_window.draw(m_text);
+    m_header.setPosition(m_window.mapPixelToCoords(
+                         sf::Vector2i(m_header.getPosition())));
+
+    m_window.draw(m_header);
 
     m_window.display();
   }

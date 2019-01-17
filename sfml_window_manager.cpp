@@ -73,8 +73,3 @@ void test_sfml_window_manager() //!OCLINT tests may be long
   sfml_window_manager &window_manager = sfml_window_manager::get();
 }
 */
-
-/* /TODO LIST FOR WINDOW MANAGER:
- * RESIZE TITLE SCREEN BACKGROUND
- * CORRECT VIEW IN ABOUT SCREEN
-*/

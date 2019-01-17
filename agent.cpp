@@ -58,7 +58,7 @@ void agent::eat(const game& g) {
         std::count(std::begin(food), std::end(food), a.get_type()))
     {
       a.kill();
-      m_stamina += 60;
+      m_stamina += 2;
     } else {
       m_stamina -= 0.05;
     }

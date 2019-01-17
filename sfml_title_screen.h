@@ -27,6 +27,8 @@ public:
 
     void animation();
 
+    void stretch_bg();
+
 private:
 
     sf::Music &m_title_music;

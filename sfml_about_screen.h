@@ -26,6 +26,8 @@ private:
 
   sf::Font m_font;
 
+  sf::Font m_zen_font;
+
 };
 
 #endif // SFML_ABOUT_SCREEN_H
