@@ -50,7 +50,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
             switch (event.type) //!OCLINT TODO too few branches, please fix
             {
                 case sf::Event::Closed:
-                    close();
+                    close(); //TODO change all of these to m_window.close()
                     break;
                 case sf::Event::Resized:
                     if (event.size.height < 568)
