@@ -13,7 +13,8 @@ enum class tile_type {
   arctic,
   desert,
   swamp,
-  woods
+  woods,
+  Dunes
 };
 
 ///Get the merged type of two type names,
