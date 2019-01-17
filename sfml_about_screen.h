@@ -20,7 +20,7 @@ private:
 
   sf::RenderWindow& m_window;
 
-  sf::Text m_text;
+  sf::Text m_header;
 
   int m_close_at;
 

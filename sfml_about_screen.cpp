@@ -13,6 +13,14 @@ sfml_about_screen::sfml_about_screen(const int close_at)
 {
   m_text.setFont(m_font);
   m_text.setCharacterSize(24); // in pixels, not points!
+  // set the color
+  #if(SFML_VERSION_MINOR > 1)
+  m_text.setFillColor(sf::Color::Green);
+  #else
+  //Only relevant for Travis
+  m_text.setColor(sf::Color::Green);
+  #endif
+  m_text.setString("Team Octane");
 }
 
 void sfml_about_screen::close(game_state s) {
@@ -55,15 +63,8 @@ void sfml_about_screen::exec()
 
     m_window.clear(sf::Color::Black); // Clear the window with black color
 
-    m_text.setString("About lalala..");
-
-    // set the color
-    #if(SFML_VERSION_MINOR > 1)
-    m_text.setFillColor(sf::Color::Magenta);
-    #else
-    //Only relevant for Travis
-    m_text.setColor(sf::Color::Magenta);
-    #endif
+    m_text.setPosition(m_window.mapPixelToCoords(
+                         sf::Vector2i(m_text.getPosition())));
 
     m_window.draw(m_text);
 

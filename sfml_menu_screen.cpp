@@ -18,8 +18,8 @@ sfml_menu_screen::sfml_menu_screen(const int close_at)
         + m_main_text.getGlobalBounds().height / 2.0f);
 
     sf::RectangleShape &b1_s = m_button1.get_shape();
-    b1_s.setFillColor(sf::Color(125, 5, 0));
-    m_button1.set_size(250, 100);
+    b1_s.setFillColor(sf::Color::Yellow);
+    m_button1.set_size(250, 75);
     m_button1.set_string("Continue");
 }
 
@@ -29,8 +29,6 @@ void sfml_menu_screen::exec()
   while(active(game_state::menuscreen))
   {
     sf::Event event;
-    if (m_button1.is_clicked(event, m_window))
-      sfml_window_manager::get().set_state(game_state::playing);
     while (m_window.pollEvent(event))
     {
       sf::View view = m_window.getDefaultView();
@@ -44,6 +42,9 @@ void sfml_menu_screen::exec()
           view.setSize(static_cast<float>(m_window.getSize().x),
                        static_cast<float>(m_window.getSize().y));
           m_window.setView(view);
+        case sf::Event::MouseButtonPressed:
+          if (m_button1.is_clicked(event, m_window))
+            sfml_window_manager::get().set_state(game_state::playing);
         default:
           sfml_window_manager::get().process();
           break;
@@ -52,10 +53,15 @@ void sfml_menu_screen::exec()
 
     m_window.clear(sf::Color::Cyan);
 
-    m_main_text.setPosition(300, 100); //TODO change this to be responsive
-    // TODO map this correctly
+    m_main_text.setPosition(m_window.getSize().x/2,
+                            m_window.getView().getCenter().y-(m_window.getSize().y/2)+
+                            (m_window.getSize().y/568)*110);
+    m_main_text.setPosition(m_window.mapPixelToCoords(
+                              sf::Vector2i(m_main_text.getPosition())));
 
-    m_button1.set_pos(300, 300); //TODO change this to be responsive
+    m_button1.set_pos(m_window.getSize().x/2,
+                      m_window.getView().getCenter().y-(m_window.getSize().y/2)+
+                      (m_window.getSize().y/568)*250);
     m_button1.get_shape().setPosition(m_window.mapPixelToCoords(
                                         sf::Vector2i(m_button1.get_shape().getPosition())));
     m_button1.get_text().setPosition(m_window.mapPixelToCoords(
