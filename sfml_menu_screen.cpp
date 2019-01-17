@@ -50,28 +50,31 @@ void sfml_menu_screen::exec()
           break;
       }
     }
-
     m_window.clear(sf::Color::Cyan);
-
-    m_main_text.setPosition(m_window.getSize().x/2,
-                            m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-                            (m_window.getSize().y/568)*110);
-    m_main_text.setPosition(m_window.mapPixelToCoords(
-                              sf::Vector2i(m_main_text.getPosition())));
-
-    m_button1.set_pos(m_window.getSize().x/2,
-                      m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-                      (m_window.getSize().y/568)*250);
-    m_button1.get_shape().setPosition(m_window.mapPixelToCoords(
-                                        sf::Vector2i(m_button1.get_shape().getPosition())));
-    m_button1.get_text().setPosition(m_window.mapPixelToCoords(
-                                        sf::Vector2i(m_button1.get_text().getPosition())));
-
     m_window.draw(m_main_text);
     m_window.draw(m_button1.get_shape());
     m_window.draw(m_button1.get_text());
     m_window.display();
   }
+}
+
+void sfml_menu_screen::set_positions() {
+  //Header
+  m_main_text.setPosition(m_window.getSize().x/2,
+                          m_window.getView().getCenter().y-(m_window.getSize().y/2)+
+                          (m_window.getSize().y/568)*110);
+  m_main_text.setPosition(m_window.mapPixelToCoords(
+                            sf::Vector2i(m_main_text.getPosition())));
+
+  //Button 1
+  m_button1.set_pos(m_window.getSize().x/2,
+                    m_window.getView().getCenter().y-(m_window.getSize().y/2)+
+                    (m_window.getSize().y/568)*250);
+  m_button1.get_shape().setPosition(m_window.mapPixelToCoords(
+                                      sf::Vector2i(m_button1.get_shape().getPosition())));
+  m_button1.get_text().setPosition(m_window.mapPixelToCoords(
+                                      sf::Vector2i(m_button1.get_text().getPosition())));
+
 }
 
 void sfml_menu_screen::close(game_state s) {

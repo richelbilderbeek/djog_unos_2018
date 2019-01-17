@@ -30,7 +30,6 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
   // TODO Stamina wasn't precise enough to compare, try again
 }
 
-// WARNING test this (line 256)
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::crocodile:
@@ -45,7 +44,7 @@ std::vector<agent_type> can_eat(const agent_type type) {
   }
 }
 
-// WARNING test this
+// TODO test this
 void agent::eat(const game& g) {
   std::vector<agent_type> food = can_eat(m_type);
   //Is agent_type a in food?
@@ -87,12 +86,12 @@ void agent::move(const game& g)
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
 
-  //TODO after fixing issue 261 uncomment this
-  //Uncommenting this results in a crash...
-  //if (!is_on_tile(g, *this))
-  //{
-  //  this->m_health = 0.0;
-  //}
+  /* BUG this makes the program freeze
+  if (!is_on_tile(g, *this))
+  {
+    this->m_health = 0;
+  }
+  */
 }
 
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
@@ -278,6 +277,7 @@ void test_agent() //!OCLINT testing functions may be long
       can_eat(a);
     }
   }
+  //BUG this test isn't running
   //#define FIX_ISSUE_289
   #ifdef FIX_ISSUE_289
   //Agent can pass out of exhaustion
@@ -377,7 +377,7 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].move(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
-  //#define FIX_ISSUE_301
+  #define FIX_ISSUE_301 //WARNING
   #ifdef FIX_ISSUE_301
   //Cows eat grass
   {

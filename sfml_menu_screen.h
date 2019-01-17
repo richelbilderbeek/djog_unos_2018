@@ -19,6 +19,8 @@ public:
     ///Close the game
     void close();
 
+    void set_positions();
+
 private:
 
     sf::RenderWindow& m_window;
