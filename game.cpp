@@ -75,8 +75,6 @@ void game::merge_tiles() { //!OCLINT must simplify
       assert(j < static_cast<int>(m_tiles.size()));
       const tile& other_tile = m_tiles[j];
       if (have_same_position(focal_tile, other_tile))
-      // If the tiles are on the same exact position, then do the following.
-      // The inverse of the previous.
       {
         const tile_type merged_type = get_merge_type(
           focal_tile.get_type(),
