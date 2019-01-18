@@ -40,6 +40,10 @@ public:
   /// Run the game until it is closed in any way.
   void exec();
 
+  /// Get tile color and outline functions
+  sf::Color get_fill_color(tile_type tile);
+  sf::Color get_outline_color(tile_type tile);
+
   /// Get how many times the sfml_game has been displayed on screen.
   /// Will be approximately 60 times per second.
   int get_n_displayed() const noexcept { return m_n_displayed; }
