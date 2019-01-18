@@ -63,11 +63,11 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tiles.push_back(t);
   }
   {
-    tile t(3, 2, 6, 1, 2, 1, tile_type::water, tile_id());
+    tile t(3, 2, 6, 1, 2, 20, tile_type::water, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 2, 6, 1, 2, 10, tile_type::water, tile_id());
+    tile t(4, 2, 6, 1, 2, 85, tile_type::water, tile_id());
     tiles.push_back(t);
   }
   {
@@ -121,7 +121,7 @@ void tile::move(game& g) {
   m_x += m_dx;
   m_y += m_dy;
   m_z += m_dz;
-  for (agent& a: g.get_agents()){
+  for (agent& a : g.get_agents()){
     if(is_on_specific_tile(a, *this)){
       double x = a.get_x();
       x += m_dx;
