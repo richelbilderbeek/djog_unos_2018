@@ -103,16 +103,12 @@ void agent::move(const game& g)
   }
 }
 
-void agent::move(double dx, double dy) {
-  m_x += dx;
-  m_y += dy;
-}
-
 void agent::process_events(const game& g) {
   move(g);
 
-  if(m_type == agent_type::grass)
+  if(m_type == agent_type::grass) {
     m_health += 0.01;
+  }
 
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
