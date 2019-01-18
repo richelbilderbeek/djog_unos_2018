@@ -2,6 +2,7 @@
 // Always include the header of the unit first
 #include "game.h"
 #include "tile_id.h"
+#include "sfml_resources.h" //NOTE Until we have hitboxes
 #include <cassert>
 #include <iostream>
 #include <fstream>
@@ -38,9 +39,7 @@ int count_n_tiles(const game& g) noexcept
 void game::process_events()
 {
   for (auto& a: m_agents) {
-    a.move(*this);
-    if(a.get_type() == agent_type::grass)
-      a.set_health(a.get_health() + 1);
+    a.process_events(*this);
   }
 
   merge_tiles();
@@ -94,40 +93,33 @@ int game::get_n_ticks() const{
 
 bool is_on_specific_tile(const double x, const double y, const tile& t)
 {
-  //Do the borders count as the tile? If not, reduce the numbers
-  if(x >= t.get_x() - 7
-     && x <= t.get_x() + t.get_width() + 7
-     && y >= t.get_y() - 7
-     && y <= t.get_y() + t.get_height() + 7)
-  {
-     return true;
-  }
-  return false;
+  return x >= t.get_x() - 5 &&
+         x <= t.get_x() + t.get_width() + 5 &&
+         y >= t.get_y() - 5 &&
+         y <= t.get_y() + t.get_height() + 5;
 }
 
-bool is_on_specific_tile(const agent& a, const tile& t){
-  double x = a.get_x();
-  double y = a.get_y();
-  return is_on_specific_tile(x, y, t);
+bool is_on_specific_tile(const agent& a, const tile& t) {
+  sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
+  return is_on_specific_tile(center.x, center.y, t);
 }
 
 bool is_on_tile(const game& g, const double x, const double y)
 {
-    for (tile t: g.get_tiles()){
-      if(x >= t.get_x() &&
-         x <= t.get_x() + t.get_width() &&
-         y >= t.get_y() &&
-         y <= t.get_y() + t.get_height())
-        return true;
-    }
-    return false;
+  for (tile t: g.get_tiles()){
+    if(x >= t.get_x() - 5 &&
+       x <= t.get_x() + t.get_width() + 5 &&
+       y >= t.get_y() - 5 &&
+       y <= t.get_y() + t.get_height() + 5)
+      return true;
+  }
+  return false;
 }
 
 
-bool is_on_tile(const game& g, const agent& a){
-  double x = a.get_x();
-  double y = a.get_y();
-  return is_on_tile(g, x, y);
+bool is_on_tile(const game& g, const agent& a) {
+  sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
+  return is_on_tile(g, center.x, center.y);
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -243,10 +235,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
-
-  //The test fails but it works
-  //#define FIX_ISSUE_304
-  #ifdef FIX_ISSUE_304
+  /* NOTE Tile movement happens in sfml_game.process_events()
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards
@@ -257,14 +246,20 @@ void test_game() //!OCLINT a testing function may be long
       { agent(agent_type::cow, start_cow_x, start_cow_y) }
     );
     tile& tile = g.get_tiles()[0];
-    tile.set_dx(1.0);
-    tile.set_dy(1.0);
+    tile.set_dx(5.0);
+    g.process_events();
+    tile.set_dy(5.0);
     g.process_events();
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
   }
-  #endif //FIX_ISSUE_304
-
+  */
+  {
+    const agent a(agent_type::tree);
+    sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
+    assert(a.is_clicked(1,1,sprite) == true);
+    assert(a.is_clicked(-100,-100,sprite) == false);
+  }
 }
 
 game load(const std::string &filename) {

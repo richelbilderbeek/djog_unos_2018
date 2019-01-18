@@ -21,7 +21,7 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   m_header.setOutlineThickness(3);
   #else
   //Only relevant for Travis
-  m_text.setColor(sf::Color::Green);
+  m_header.setColor(sf::Color::Green);
   #endif
   m_header.setString("TEAM OCTANE");
 }

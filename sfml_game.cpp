@@ -709,13 +709,6 @@ sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
 
 void test_sfml_game() //!OCLINT tests may be long
 {
-  //test is_clicked here because resource is needed
-  {
-    const agent a(agent_type::tree);
-    sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
-    assert(a.is_clicked(1,1,sprite) == true);
-    assert(a.is_clicked(-100,-100,sprite) == false);
-  }
   {
     //Get the fill color of a tile type
     assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
