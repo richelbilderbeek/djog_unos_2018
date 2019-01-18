@@ -36,10 +36,16 @@ int count_n_tiles(const game& g) noexcept
   return g.get_tiles().size();
 }
 
+int count_n_agents(const game& g) noexcept
+{
+  return g.get_agents().size();
+}
+
 void game::process_events()
 {
   for (auto& a: m_agents) {
     a.process_events(*this);
+    kill_agents(a);
   }
 
   merge_tiles();
@@ -83,6 +89,16 @@ void game::merge_tiles() { //!OCLINT must simplify
       m_selected.clear();
       assert(m_selected.empty());
       return; //!OCLINT early return the only good option?
+    }
+  }
+}
+
+void game::kill_agents(agent& a) {
+  const int n = count_n_agents(*this);
+  for (int i = 0; i < n - 1; ++i) {
+    if (a.get_health() <= 0) {
+      m_agents[n] = m_agents.back();
+      m_agents.pop_back();
     }
   }
 }
