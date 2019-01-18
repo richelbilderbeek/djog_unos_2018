@@ -47,10 +47,10 @@ void sfml_about_screen::exec()
     m_about_text.setCharacterSize(24); // in pixels, not points!
 
     // set the color
-    #if(SFML_VERSION_MINOR > 1)
+    #if(SFML_VERSION_MINOR > 3)
     m_about_text.setFillColor(sf::Color::Red);
     #else
-    //Only relevant for Travis
+    //Only relevant for Travis and RuG
     m_about_text.setColor(sf::Color::Red);
     #endif
     m_about_window.draw(m_about_text);

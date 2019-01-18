@@ -67,6 +67,8 @@ int main(int argc, char **argv) //!OCLINT main too long
 
   //Things with early exits
   if (std::count(std::begin(args), std::end(args), "--version")) {
+    // Travis: 2.1
+    // RuG: 2.3.2
     std::cout
       << "SFML version: " << SFML_VERSION_MAJOR
       << "." << SFML_VERSION_MINOR
