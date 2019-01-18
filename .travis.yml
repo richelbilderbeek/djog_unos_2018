@@ -51,6 +51,7 @@ script:
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
   - ./djog_unos_2018 --short --version --spin --title
+  - ./djog_unos_2018 --version
   # Build and run the game
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
