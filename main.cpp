@@ -99,12 +99,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   int close_at{-1};
-
-  //Not realy to show settings, but to use the variables
-  std::cout << "\nSettings\n"
-            << "Close at : " << close_at << "\n"
-            << "Music    : " << music << "\n";
-
+  
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
@@ -122,6 +117,11 @@ int main(int argc, char **argv) //!OCLINT main too long
   {
     sfml_window_manager::get().set_state(game_state::aboutscreen);
   }
+
+  //Not realy to show settings, but to use the variables
+  std::cout << "\nSettings\n"
+            << "Close at : " << close_at << "\n"
+            << "Music    : " << music << "\n";
 
   std::vector<tile> tiles;
   std::vector<agent> agents;
