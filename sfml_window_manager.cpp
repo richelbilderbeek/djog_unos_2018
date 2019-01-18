@@ -39,12 +39,14 @@ sfml_window_manager &sfml_window_manager::get() {
 }
 
 void sfml_window_manager::update() {
-  if (m_window.getSize().y < 568)
+  if (m_window.getSize().y < 568) {
     m_window.setSize(sf::Vector2u(m_window.getSize().x,568));
     m_window.setPosition(m_window_pos);
-  if (m_window.getSize().x < 852)
+  }
+  if (m_window.getSize().x < 852) {
     m_window.setSize(sf::Vector2u(852,m_window.getSize().y));
     m_window.setPosition(m_window_pos);
+  }
 
   m_screen_center = sf::Vector2i(m_window.getView().getSize().x / 2,
                                  m_window.getView().getSize().y / 2);
