@@ -68,11 +68,12 @@ int main(int argc, char **argv) //!OCLINT main too long
   //Things with early exits
   if (std::count(std::begin(args), std::end(args), "--version")) {
     std::cout
-      << 'v' << SFML_VERSION_MAJOR
+      << "SFML version: " << SFML_VERSION_MAJOR
       << "." << SFML_VERSION_MINOR
       #if(SFML_VERSION_MINOR > 1)
       << "." << SFML_VERSION_PATCH
       #endif
+      << '\n'
     ;
     return 0; // 0: everything went OK
   }
