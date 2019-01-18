@@ -53,6 +53,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
                        static_cast<float>(m_window.getSize().y));
           m_window.setView(view);
           stretch_bg();
+          break;
         default:
           sfml_window_manager::get().process();
           break;
