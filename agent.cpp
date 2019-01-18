@@ -48,10 +48,10 @@ void agent::eat(const game& g) {
   std::vector<agent_type> food = can_eat(m_type);
   //Is agent_type a in food?
   for (agent a : g.get_agents()) {
-    if (a.get_x() > m_x - 50 &&
-        a.get_x() < m_x + 50 &&
-        a.get_y() > m_y - 50 &&
-        a.get_y() < m_y + 50 &&
+    // NOTE not calculated from the center of the agent
+    if (is_in_range(a.get_x(),
+                    a.get_y(),
+                    50.0) &&
         a.get_health() > 0 &&
         std::count(std::begin(food), std::end(food), a.get_type()))
     {
@@ -61,10 +61,10 @@ void agent::eat(const game& g) {
       m_stamina -= 0.05;
     }
     std::vector<agent_type> a_food = can_eat(a.get_type());
-    if (a.get_x() > m_x - 50 &&
-        a.get_x() < m_x + 50 &&
-        a.get_y() > m_y - 50 &&
-        a.get_y() < m_y + 50 &&
+    // NOTE not calculated from the center of the agent
+    if (is_in_range(a.get_x(),
+                    a.get_y(),
+                    50.0) &&
         m_health > 0 &&
         std::count(std::begin(a_food), std::end(a_food), m_type))
     {
@@ -72,6 +72,15 @@ void agent::eat(const game& g) {
       m_health -= 0.1;
     }
   }
+}
+
+bool agent::is_in_range(double x, double y, double range) {
+  // NOTE not calculated from the center of the agent
+  // sfml_resources::get().get_agent_sprite(*this).getSize() / 2
+  return x > m_x - range &&
+         x < m_x + range &&
+         y > m_y - range &&
+         y < m_y + range;
 }
 
 void agent::move(const game& g)

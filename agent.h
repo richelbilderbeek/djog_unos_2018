@@ -49,6 +49,8 @@ public:
 
   void eat(const game& g);
 
+  bool is_in_range(double x, double y, double range);
+
 private:
   /// The type the tile
   agent_type m_type;
