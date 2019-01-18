@@ -50,11 +50,11 @@ script:
   # Show the version of SFML and test the secret command
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
-  - ./djog_unos_2018 --short --version --spin --title
+  - ./djog_unos_2018 --short --version --spin
   # Build and run the game
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
-  - ./djog_unos_2018 --short --music --title --menu --about
+  - ./djog_unos_2018 --short --music
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Get code coverage

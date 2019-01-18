@@ -8,6 +8,7 @@
 
 //Forward declaration
 class game;
+class tile;
 
 /// Logic of an agent; something that moves on the tiles
 class agent {
@@ -17,6 +18,8 @@ public:
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
   agent(const agent_type type, const double x = 0.0, const double y = 0.0, double health = 1.0);
+
+  void process_events(const game& g);
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
@@ -33,17 +36,20 @@ public:
 
   void set_x(double x) noexcept { m_x = x; }
   void set_y(double y) noexcept { m_y = y; }
-  void set_health(double health) noexcept {m_health = health; }
+  void set_health(double health) noexcept { m_health = health; }
+
+  sf::Vector2f get_center(const sf::Texture& sprite) const;
 
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
   void move(const game& g);
+  void move(double dx, double dy);
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
   void eat(const game& g);
 
-  void kill() { m_health = 0; }
+  bool is_in_range(double x, double y, double range);
 
 private:
   /// The type the tile
