@@ -65,6 +65,19 @@ int main(int argc, char **argv) //!OCLINT main too long
 
   const std::vector<std::string> args(argv, argv + argc);
 
+  //Things with early exits
+  if (std::count(std::begin(args), std::end(args), "--version")) {
+    std::cout
+      << 'v' << SFML_VERSION_MAJOR
+      << "." << SFML_VERSION_MINOR
+      #if(SFML_VERSION_MINOR > 1)
+      << "." << SFML_VERSION_PATCH
+      #endif
+    ;
+    return 0; // 0: everything went OK
+  }
+
+
   bool music = false;
 
   if (std::count(std::begin(args), std::end(args), "--music"))
@@ -117,15 +130,5 @@ int main(int argc, char **argv) //!OCLINT main too long
   sfml_game g(800, 600, sfml_game_delegate(close_at), tiles, agents);
 
   if (!music) g.stop_music();
-
-  if (std::count(std::begin(args), std::end(args), "--version")) {
-    std::cout
-      << 'v' << SFML_VERSION_MAJOR
-      << "." << SFML_VERSION_MINOR
-      #if(SFML_VERSION_MINOR > 1)
-      << "." << SFML_VERSION_PATCH
-      #endif
-    ;
-  }
   g.exec();
 }
