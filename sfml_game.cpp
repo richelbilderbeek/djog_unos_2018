@@ -533,6 +533,15 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::woods:
       color_shape(sfml_tile, sf::Color(34, 139, 34), sf::Color(0, 128, 0));
       break;
+    case tile_type::tundra:
+      color_shape(sfml_tile, sf::Color(178, 58, 5), sf::Color(185, 175, 173));
+      break;
+    case tile_type::hills_of_rafayel:
+      color_shape(sfml_tile, sf::Color(145, 156, 48), sf::Color(148, 145, 44));
+      break;
+    case tile_type::rainforest:
+      color_shape(sfml_tile, sf::Color(41,47,13), sf::Color(33,19,4));
+      break;
     default:
       color_shape(
         sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
@@ -661,6 +670,18 @@ sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(34, 139, 34);
   }
+  else if(tile == tile_type::rainforest)
+  {
+    return sf::Color(41,47,13);
+  }
+  else if(tile == tile_type::tundra)
+  {
+    return sf::Color(178, 58, 5);
+  }
+  else if(tile == tile_type::hills_of_rafayel)
+  {
+    return sf::Color(145, 156, 48);
+  }
   else
   { //!OCLINT unnecessary else
     return sf::Color(0, 0, 0);
@@ -700,6 +721,18 @@ sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
   else if(tile == tile_type::woods)
   {
     return sf::Color(0, 128, 0);
+  }
+  else if(tile == tile_type::rainforest)
+  {
+    return sf::Color(33,19,4);
+  }
+  else if(tile == tile_type::tundra)
+  {
+    return sf::Color(185, 175, 173);
+  }
+  else if(tile == tile_type::hills_of_rafayel)
+  {
+    return sf::Color(148, 145, 44);
   }
   else
   { //!OCLINT unnecessary else

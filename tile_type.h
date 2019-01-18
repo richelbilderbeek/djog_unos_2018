@@ -14,7 +14,10 @@ enum class tile_type {
   desert,
   swamp,
   woods,
-  beach
+  beach,
+  tundra,
+  rainforest,
+  hills_of_rafayel
 };
 
 ///Get the merged type of two type names,
