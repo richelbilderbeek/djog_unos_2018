@@ -15,7 +15,7 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   m_header.setFont(m_zen_font);
   m_header.setCharacterSize(36); // in pixels, not points!
   // set the color
-  #if(SFML_VERSION_MINOR > 1)
+  #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color::Magenta);
   m_header.setOutlineColor(sf::Color::Green);
   m_header.setOutlineThickness(3);

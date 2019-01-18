@@ -3,7 +3,7 @@
 
 sfml_window_manager *sfml_window_manager::m_instance = nullptr; //!OCLINT static accepted singleton
 
-#if(SFML_VERSION_MINOR > 1)
+#if(SFML_VERSION_MINOR > 3)
 sfml_window_manager::sfml_window_manager()
   : m_window(sf::VideoMode(
                static_cast<unsigned int>(sf::VideoMode::getDesktopMode().width - 200),
@@ -11,7 +11,6 @@ sfml_window_manager::sfml_window_manager()
              "Nature Zen", static_cast<unsigned int>(get_video_mode())),
     m_state{ game_state::playing }
 {
-  // Set up window, start location to the center
   m_window.setPosition(sf::Vector2i(100, 50));
   m_screen_center = sf::Vector2i(m_window.getSize().x / 2,
                                  m_window.getSize().y / 2);

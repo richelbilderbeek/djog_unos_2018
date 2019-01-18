@@ -76,6 +76,21 @@ int main(int argc, char **argv) //!OCLINT main too long
   
   const std::vector<std::string> args(argv, argv + argc);
 
+  //Things with early exits
+  if (std::count(std::begin(args), std::end(args), "--version")) {
+    // Travis: 2.1
+    // RuG: 2.3.2
+    std::cout
+      << "SFML version: " << SFML_VERSION_MAJOR
+      << "." << SFML_VERSION_MINOR
+      #if(SFML_VERSION_MINOR > 1)
+      << "." << SFML_VERSION_PATCH
+      #endif
+      << '\n'
+    ;
+    //return 0; // 0: everything went OK // NOTE Is this necessary?
+  }
+
   bool music = false;
 
   if (std::count(std::begin(args), std::end(args), "--music"))
@@ -122,16 +137,6 @@ int main(int argc, char **argv) //!OCLINT main too long
   } else {
     tiles = create_default_tiles();
     agents = create_default_agents();
-  }
-
-  if (std::count(std::begin(args), std::end(args), "--version")) {
-    std::cout
-      << 'v' << SFML_VERSION_MAJOR
-      << "." << SFML_VERSION_MINOR
-      #if(SFML_VERSION_MINOR > 1)
-      << "." << SFML_VERSION_PATCH
-      #endif
-    ;
   }
 
   while (sfml_window_manager::get().get_window().isOpen()) {
