@@ -218,12 +218,6 @@ void sfml_game::manage_timer()
   {
     --m_timer;
   }
-  else
-  {
-//    m_game.m_selected.clear();
-//    if (!m_temp_id.empty())
-//      m_game.m_selected.push_back(m_temp_id[0]); //#239 Suspect
-  }
 }
 
 void sfml_game::exec_tile_move(std::vector<int> selected)
