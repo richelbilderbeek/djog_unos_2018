@@ -42,9 +42,11 @@ void sfml_menu_screen::exec()
           view.setSize(static_cast<float>(m_window.getSize().x),
                        static_cast<float>(m_window.getSize().y));
           m_window.setView(view);
+          break;
         case sf::Event::MouseButtonPressed:
           if (m_button1.is_clicked(event, m_window))
             sfml_window_manager::get().set_state(game_state::playing);
+          break;
         default:
           sfml_window_manager::get().process();
           break;

@@ -71,6 +71,10 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::desert);
   v.push_back(tile_type::swamp);
   v.push_back(tile_type::beach);
+  v.push_back(tile_type::rainforest);
+  v.push_back(tile_type::hills_of_rafayel);
+  v.push_back(tile_type::tundra);
+
   return v;
 }
 
@@ -95,6 +99,12 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
       return "woods";
     case tile_type::beach:
       return "beach";
+    case tile_type::hills_of_rafayel:
+      return "hills";
+    case tile_type::rainforest:
+      return "rainforest";
+    case tile_type::tundra:
+      return "tundra";
     default:
       assert(t == tile_type::nonetile);
       return "nonetile";
@@ -112,6 +122,9 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
   if (str == "savannah") return tile_type::savannah;
   if (str == "woods") return tile_type::woods;
   if (str == "beach") return tile_type::beach;
+  if (str == "hills") return tile_type::hills_of_rafayel;
+  if (str == "tundra") return tile_type::tundra;
+  if (str == "rainforest") return tile_type::rainforest;
   return tile_type::nonetile;
 }
 
