@@ -29,6 +29,13 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT mu
   {
     return tile_type::swamp;
   }
+  else if (
+       (type1 == tile_type::mountains&& type2 == tile_type::water)
+    || (type1 == tile_type::water && type2 == tile_type::mountains)
+  )
+  {
+    return tile_type::arctic;
+  }
   return tile_type::nonetile;
 }
 
@@ -37,7 +44,7 @@ void test_tile_type()
   {
     // merging of types
     assert(get_merge_type(tile_type::nonetile, tile_type::grassland) == tile_type::nonetile);
-    //assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::hills);
+    assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::hills);
     //assert(get_merge_type(tile_type::hills, tile_type::hills) == tile_type::mountains);
     assert(get_merge_type(tile_type::grassland, tile_type::desert) == tile_type::savannah);
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
