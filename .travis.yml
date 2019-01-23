@@ -47,14 +47,15 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script: 
-  # Show the version of SFML and test the secret command
+  # Build the project, then:
+  # 1) Show the version of SFML, then quit
+  # 2) Run the game for a short time, then quit
+  # 3) Test the secret command, then quit
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
-  - ./djog_unos_2018 --short --version --spin
-  # Build and run the game
-  - qmake -qt=qt5 djog_unos_2018.pro
-  - make --silent debug
+  - ./djog_unos_2018 --version
   - ./djog_unos_2018 --short --music
+  - ./djog_unos_2018 --short --version --spin
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Get code coverage

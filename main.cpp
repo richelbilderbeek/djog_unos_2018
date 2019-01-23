@@ -23,6 +23,7 @@
 ///   * '--title': show the title screen
 ///   * '--menu': show the menu screen
 ///   * '--about': show the about screen
+///   * '--version': show the SFML version and quit
 ///   * '--spin': that's a secret...
 /// @param argv the arguments (as words) Nature Zen's executable is called
 ///   with by the operating system
@@ -76,7 +77,10 @@ int main(int argc, char **argv) //!OCLINT main too long
   
   const std::vector<std::string> args(argv, argv + argc);
 
+  //----------------------------------------------------------------------------
   //Things with early exits
+  //----------------------------------------------------------------------------
+  //Show the SFML version and quit
   if (std::count(std::begin(args), std::end(args), "--version")) {
     // Travis: 2.1
     // RuG: 2.3.2
@@ -88,7 +92,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       #endif
       << '\n'
     ;
-    //return 0; // 0: everything went OK // NOTE Is this necessary?
+    return 0; // 0: everything went OK
   }
 
   bool music = false;
