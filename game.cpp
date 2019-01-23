@@ -235,7 +235,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
-  /* NOTE Tile movement happens in sfml_game.process_events()
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards
@@ -253,7 +252,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
   }
-  */
   {
     const agent a(agent_type::tree);
     sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
