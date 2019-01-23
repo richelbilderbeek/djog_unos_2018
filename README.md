@@ -56,6 +56,8 @@ Collaboratively create a game, to be put on, for example, Steam.
 
 Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
 
+![](pics/20190123.png)
+
 ![](pics/20190109.png)
 
 ![](pics/20181231.png)
