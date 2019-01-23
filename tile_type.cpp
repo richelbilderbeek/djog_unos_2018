@@ -13,7 +13,7 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT mu
 {
   if (type1 == tile_type::grassland && type2 == tile_type::grassland)
   {
-    return tile_type::mountains;
+    return tile_type::hills;
   }
   else if (
        (type1 == tile_type::grassland && type2 == tile_type::desert)
@@ -88,7 +88,7 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::swamp);
   v.push_back(tile_type::beach);
   v.push_back(tile_type::rainforest);
-  v.push_back(tile_type::hills_of_rafayel);
+  v.push_back(tile_type::hills);
   v.push_back(tile_type::tundra);
 
   return v;
@@ -115,7 +115,7 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
       return "woods";
     case tile_type::beach:
       return "beach";
-    case tile_type::hills_of_rafayel:
+    case tile_type::hills:
       return "hills";
     case tile_type::rainforest:
       return "rainforest";
@@ -138,7 +138,7 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
   if (str == "savannah") return tile_type::savannah;
   if (str == "woods") return tile_type::woods;
   if (str == "beach") return tile_type::beach;
-  if (str == "hills") return tile_type::hills_of_rafayel;
+  if (str == "hills") return tile_type::hills;
   if (str == "tundra") return tile_type::tundra;
   if (str == "rainforest") return tile_type::rainforest;
   return tile_type::nonetile;
