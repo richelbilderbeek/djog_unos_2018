@@ -17,7 +17,7 @@ enum class tile_type {
   beach,
   tundra,
   rainforest,
-  hills_of_rafayel
+  hills
 };
 
 ///Get the merged type of two type names,

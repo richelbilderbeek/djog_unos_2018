@@ -536,7 +536,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::tundra:
       color_shape(sfml_tile, sf::Color(178, 58, 5), sf::Color(185, 175, 173));
       break;
-    case tile_type::hills_of_rafayel:
+    case tile_type::hills:
       color_shape(sfml_tile, sf::Color(145, 156, 48), sf::Color(148, 145, 44));
       break;
     case tile_type::rainforest:
@@ -678,7 +678,7 @@ sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(178, 58, 5);
   }
-  else if(tile == tile_type::hills_of_rafayel)
+  else if(tile == tile_type::hills)
   {
     return sf::Color(145, 156, 48);
   }
@@ -730,7 +730,7 @@ sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(185, 175, 173);
   }
-  else if(tile == tile_type::hills_of_rafayel)
+  else if(tile == tile_type::hills)
   {
     return sf::Color(148, 145, 44);
   }

@@ -215,7 +215,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(collect_tile_types(g)[1] == tile_type::grassland);
     g.process_events();
     assert(count_n_tiles(g) == 1);
-    assert(collect_tile_types(g)[0] == tile_type::mountains);
+    assert(collect_tile_types(g)[0] == tile_type::hills);
   }
   //#define FIX_ISSUE_302
   #ifdef FIX_ISSUE_302
