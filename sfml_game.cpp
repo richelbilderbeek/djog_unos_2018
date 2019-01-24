@@ -304,22 +304,7 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 
   if (event.mouseButton.button == sf::Mouse::Left)
   {
-    std::vector<tile> game_tiles = m_game.get_tiles();
-    for (unsigned i = 0; i < game_tiles.size(); i++)
-    {
-      if (game_tiles.at(i).tile_contains(
-            sf::Mouse::getPosition(m_window).x + m_camera.x,
-            sf::Mouse::getPosition(m_window).y + m_camera.y))
-      {
-        m_game.m_selected.clear();
-        m_game.m_selected.push_back(game_tiles.at(i).get_id());
-        m_clicked_tile = true;
-      }
-    }
-    if (m_clicked_tile == false)
-    {
-      m_game.m_selected.clear();
-    }
+    m_game.move_tiles(m_window, m_camera);
     m_clicked_tile = false;
     if (m_game.get_agents().size() == 1 &&
         m_game.get_tiles().size() > 0)
