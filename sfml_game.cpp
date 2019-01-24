@@ -576,6 +576,10 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
       break;
 
+    case tile_type::mangrove:
+      color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
+      break;
+
     case tile_type::arctic:
       color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
       break;
