@@ -3,12 +3,14 @@
 #include "game.h"
 #include "tile_id.h"
 #include "sfml_resources.h" //NOTE Until we have hitboxes
+#include "sfml_camera.h"
 #include <cassert>
 #include <iostream>
 #include <fstream>
 #include <cstdio>
 #include <QFile>
 #include <algorithm>
+
 
 game::game(const std::vector<tile>& tiles,
            const std::vector<agent>& agents,
@@ -50,7 +52,55 @@ void game::process_events()
     tile.process_events();
   }
 
+  for (agent& a: get_agents())
+  {
+    // Agent a can be used
+    if(a.get_type() == agent_type::grass){
+        a.set_health(a.get_health() + 1);
+    }
+    if(a.get_type() == agent_type::tree){
+        a.set_health(a.get_health() + 1);
+    }
+  }
+
   ++m_n_tick;
+}
+
+void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
+  bool clicked_tile = false;
+  for (unsigned i = 0; i < m_tiles.size(); i++)
+  {
+    if (m_tiles.at(i).tile_contains(
+          sf::Mouse::getPosition(window).x + camera.x,
+          sf::Mouse::getPosition(window).y + camera.y))
+    {
+      bool moving = false;
+      for (unsigned j = 0; j < m_tiles.size(); j++)
+      {
+        if (m_tiles.at(j).get_dx() != 0 || m_tiles.at(j).get_dy() != 0){
+          moving = true;
+        }
+      }
+      if (!moving){
+        tile s_tile = m_tiles.at(i);
+        m_selected.clear();
+        m_selected.push_back(s_tile.get_id());
+        clicked_tile = true;
+      }
+    }
+  }
+  if (clicked_tile == false)
+  {
+    bool moving = false;
+    for (unsigned i = 0; i < m_tiles.size(); i++)
+    {
+      if (m_tiles.at(i).get_dx() != 0 || m_tiles.at(i).get_dy() != 0){
+        moving = true;
+      }
+    }
+    if (!moving)
+      m_selected.clear();
+  }
 }
 
 void game::merge_tiles() { //!OCLINT must simplify

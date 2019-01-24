@@ -5,6 +5,7 @@
 
 #include "tile.h"
 #include "agent.h"
+#include "sfml_camera.h"
 
 class game {
 
@@ -33,6 +34,8 @@ public:
   void add_agents(std::vector<agent> as);
 
   int get_n_ticks() const;
+
+  void move_tiles(sf::RenderWindow& window, sfml_camera& camera);
 
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
