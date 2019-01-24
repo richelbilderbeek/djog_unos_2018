@@ -432,4 +432,5 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
 #endif
+
 }
