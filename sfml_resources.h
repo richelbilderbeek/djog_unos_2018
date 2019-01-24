@@ -13,23 +13,23 @@ public:
   /// Access the resources
   static sfml_resources &get();
 
-  sf::Music &get_background_music() noexcept { return m_background_music; }
+  Music &get_background_music() noexcept { return m_background_music; }
 
-  sf::Music &get_title_music() noexcept { return m_title_music; }
+  Music &get_title_music() noexcept { return m_title_music; }
 
-  sf::Music &get_benikeenspin() noexcept { return m_benikeenspin; }
+  Music &get_benikeenspin() noexcept { return m_benikeenspin; }
 
-  sf::Font& get_default_font() noexcept { return m_default_font; }
+  Font& get_default_font() noexcept { return m_default_font; }
 
-  sf::Font& get_title_font() noexcept { return m_title_font; }
+  Font& get_title_font() noexcept { return m_title_font; }
 
-  sf::Texture &get_background_image() noexcept { return m_background_image; }
+  Texture &get_background_image() noexcept { return m_background_image; }
 
-  sf::Texture &get_agent_sprite(const agent& a) noexcept;
+  Texture &get_agent_sprite(const agent& a) noexcept;
 
-  sf::Texture &get_zen_bar() noexcept { return m_zen_bar_texture; }
+  Texture &get_zen_bar() noexcept { return m_zen_bar_texture; }
 
-  sf::Texture &get_zen_ind() noexcept { return m_zen_ind_texture; }
+  Texture &get_zen_ind() noexcept { return m_zen_ind_texture; }
 
 private:
   /// Do not construct a sfml_resources,
@@ -38,41 +38,41 @@ private:
 
   static sfml_resources *m_instance; //!OCLINT accepted for now
 
-  sf::Font m_default_font;
+  Font m_default_font;
 
-  sf::Font m_title_font;
+  Font m_title_font;
 
-  sf::Music m_background_music;
+  Music m_background_music;
 
-  sf::Music m_title_music;
+  Music m_title_music;
 
-  sf::Music m_benikeenspin;
+  Music m_benikeenspin;
 
-  sf::Texture m_cow_texture;
+  Texture m_cow_texture;
 
-  sf::Texture m_fish_texture;
+  Texture m_fish_texture;
 
-  sf::Texture m_crocodile_texture;
+  Texture m_crocodile_texture;
 
-  sf::Texture m_tree_texture;
+  Texture m_tree_texture;
 
-  sf::Texture m_grass_texture;
+  Texture m_grass_texture;
 
   sf::Texture m_goat_texture;
 
   sf::Texture m_none_texture;
 
-  sf::Texture m_spider_texture;
+  Texture m_spider_texture;
 
-  sf::Texture m_bacterium_texture;
+  Texture m_bacterium_texture;
 
-  sf::Texture m_background_image;
+  Texture m_background_image;
 
-  sf::Texture m_bird_texture;
+  Texture m_bird_texture;
 
-  sf::Texture m_zen_ind_texture;
+  Texture m_zen_ind_texture;
 
-  sf::Texture m_zen_bar_texture;
+  Texture m_zen_bar_texture;
 
 };
 

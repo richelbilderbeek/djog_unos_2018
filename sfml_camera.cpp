@@ -9,7 +9,7 @@ sfml_camera::sfml_camera()
   m_window.setView(view);
 }
 
-void sfml_camera::move_camera(sf::Vector2f offset)
+void sfml_camera::move_camera(Vector2f offset)
 {
   // Dont move the camera in the menu
   if (m_block_movement)

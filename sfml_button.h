@@ -15,13 +15,13 @@ public:
               const double height = 100.0, const double width = 100.0);
 
   /// Is the button clicked?
-  bool is_clicked(const sf::Event& event, const sf::RenderWindow& window);
+  bool is_clicked(const Event& event, const RenderWindow& window);
 
-  sf::RectangleShape &get_shape() noexcept { return m_shape; }
-  sf::Text &get_text() noexcept { return m_text; }
+  RectangleShape &get_shape() noexcept { return m_shape; }
+  Text &get_text() noexcept { return m_text; }
 
-  sf::Vector2f get_pos() noexcept { return sf::Vector2f(m_x, m_y); }
-  sf::Vector2f get_size() noexcept { return sf::Vector2f(m_width, m_height); }
+  Vector2f get_pos() noexcept { return Vector2f(m_x, m_y); }
+  Vector2f get_size() noexcept { return Vector2f(m_width, m_height); }
 
   void set_string(const std::string str);
 
@@ -30,8 +30,8 @@ public:
 
 private:
 
-  sf::RectangleShape m_shape;
-  sf::Text m_text;
+  RectangleShape m_shape;
+  Text m_text;
 
   double m_x;
   double m_y;

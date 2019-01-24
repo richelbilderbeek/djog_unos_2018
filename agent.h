@@ -45,7 +45,7 @@ public:
   void move(const game& g);
   void move(double dx, double dy);
 
-  bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
+  bool is_clicked(const double x, const double y, const Texture& sprite) const noexcept;
 
   void eat(const game& g);
 
