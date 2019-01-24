@@ -46,7 +46,7 @@ void test_tile_type()
   }
   {
     //Uncomment if you want to run this test
-    #define FIX_ISSUE_188
+    //#define FIX_ISSUE_188 // TODO complete the function so this works again
     #ifdef FIX_ISSUE_188
     const std::vector<tile_type> v = get_all_tile_types();
     for (const tile_type t : v)
