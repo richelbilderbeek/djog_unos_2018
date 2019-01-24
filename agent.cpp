@@ -108,11 +108,20 @@ void agent::move(double dx, double dy) {
   m_y += dy;
 }
 
-void agent::process_events(const game& g) {
+void agent::process_events(game& g) {
   move(g);
 
   if(m_type == agent_type::grass)
+  {
     m_health += 0.01;
+
+    if (m_health > 1.0)
+    {
+      const agent grassy(agent_type::grass);
+      const std::vector<agent> agents { grassy };
+      g.add_agents(agents);
+    }
+  }
 
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
@@ -383,7 +392,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
   #endif // FIX_ISSUE_303
-  //#define FIX_ISSUE_300
+  #define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
   {

@@ -19,7 +19,7 @@ public:
   /// @param type the type the tile
   agent(const agent_type type, const double x = 0.0, const double y = 0.0, double health = 1.0);
 
-  void process_events(const game& g);
+  void process_events(game &g);
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
