@@ -2,6 +2,10 @@
 
 All about `git`.
 
+## General workflow
+
+![General git worflow](git.png)
+
 ## Branching model
 
  * `master`: stable, should always pass
@@ -27,6 +31,8 @@ git status
 ```
 
 This will show you which branch you are on, and which files you have changed.
+
+Do this within the `djog_unos_2018` folder.
 
 ## Checkout the `develop` branch
 

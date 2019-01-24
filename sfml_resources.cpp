@@ -157,7 +157,7 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
-sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
+Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
   switch (a.get_type()) {
     case agent_type::bacterium:
       return m_bacterium_texture;
@@ -187,12 +187,12 @@ void test_sfml_resources() //!OCLINT tests may be long
   sfml_resources &resources = sfml_resources::get();
   // Music must have a length
   {
-    sf::Music &music = resources.get_background_music();
+    Music &music = resources.get_background_music();
     assert(music.getDuration().asMilliseconds() > 0.0);
   }
   // Music must have a length
   {
-    sf::Texture &texture = resources.get_agent_sprite(agent(agent_type::cow));
+    Texture &texture = resources.get_agent_sprite(agent(agent_type::cow));
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }

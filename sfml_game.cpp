@@ -12,8 +12,7 @@
 #include <iostream>
 #include <string>
 
-sfml_game::sfml_game(const int window_width,
-  const int window_height,
+sfml_game::sfml_game(
   const sfml_game_delegate& delegate,
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents)
@@ -21,22 +20,11 @@ sfml_game::sfml_game(const int window_width,
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
-    m_window(sf::VideoMode(static_cast<unsigned int>(window_width),
-               static_cast<unsigned int>(window_height)),
-      "Nature Zen", get_video_mode())
+    m_window{ sfml_window_manager::get().get_window() }
 { // Set up music
   m_background_music.setLoop(true);
   m_ben_ik_een_spin.setLoop(true);
   start_music();
-  // Set up window, start location to the center
-  const int window_x
-    = static_cast<int>(sf::VideoMode::getDesktopMode().width / 2)
-    - window_width / 2;
-  const int window_y
-    = static_cast<int>(sf::VideoMode::getDesktopMode().height / 2)
-    - window_height / 2;
-  m_window.setPosition(sf::Vector2i(window_x, window_y));
-  m_screen_center = sf::Vector2i(window_width / 2, window_height / 2);
   setup_display_score();
 }
 
@@ -44,6 +32,10 @@ sfml_game::sfml_game(const int window_width,
 sfml_game::~sfml_game()
 {
   stop_music();
+}
+
+void sfml_game::close(game_state s) {
+  sfml_window_manager::get().set_state(s);
 }
 
 void sfml_game::close()
@@ -57,14 +49,14 @@ void sfml_game::start_music() {
 }
 
 void sfml_game::setup_display_score() {
-  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
-  m_zen_bar.setPosition(sf::Vector2f(
+  m_zen_bar.setSize(Vector2f(sfml_resources::get().get_zen_bar().getSize()));
+  m_zen_bar.setPosition(Vector2f(
                           (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
                           15));
   m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
 
-  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
-  m_zen_ind.setPosition(sf::Vector2f(
+  m_zen_ind.setSize(Vector2f(sfml_resources::get().get_zen_ind().getSize()));
+  m_zen_ind.setPosition(Vector2f(
                           (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
                           15+(m_zen_bar.getSize().y/2.0f)));
   m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
@@ -73,48 +65,45 @@ void sfml_game::setup_display_score() {
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color
-  if (m_game_state == game_state::playing)
+  // Display all tiles
+  for (const tile& t : m_game.get_tiles())
   {
-    // Display all tiles
-    for (const tile& t : m_game.get_tiles())
-    {
-      display_tile(t);
-    }
-    // Display all agents
-    for (const agent& a : m_game.get_agents())
-    {
-      display_agent(a);
-    }
-    // Display the zen
-    {
-      m_window.draw(m_zen_bar);
-
-      m_zen_ind.setPosition(sf::Vector2f(
+    display_tile(t);
+  }
+  // Display all agents
+  for (const agent& a : m_game.get_agents())
+  {
+    display_agent(a);
+  }
+  // Display the zen
+  {
+    m_zen_bar.setPosition(sf::Vector2f(
+                            (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
+                            15));
+    m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
+    m_window.draw(m_zen_bar);
+    m_zen_ind.setPosition(sf::Vector2f(
                               (m_window.getSize().x/2.0f)-
                               (m_zen_ind.getSize().x/2.0f)+
                               m_game.get_score(),
                               15+(m_zen_bar.getSize().y/2.0f)-
                               (m_zen_ind.getSize().x/2.0f))
                             );
-      m_window.draw(m_zen_ind);
-    }
+    m_zen_ind.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_ind.getPosition())));
+    m_window.draw(m_zen_ind);
   }
-  if (m_is_space_pressed)
-  {
-    reset_input();
-  }
-  load_game_state();
   m_window.display(); // Put everything on the screen
 }
 
 void sfml_game::display_tile(const tile &t){
-    sf::RectangleShape sfml_tile(sf::Vector2f(
+    RectangleShape sfml_tile(Vector2f(
       static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
     const double screen_x{ t.get_x() - m_camera.x };
     const double screen_y{ t.get_y() - m_camera.y };
     sfml_tile.setPosition(screen_x, screen_y);
+    sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
 }
@@ -122,65 +111,22 @@ void sfml_game::display_tile(const tile &t){
 void sfml_game::display_agent(const agent &a){
   const double screen_x{ a.get_x() - m_camera.x };
   const double screen_y{ a.get_y() - m_camera.y };
-  sf::Sprite sprite;
+  Sprite sprite;
   set_agent_sprite(a, sprite);
   assert(sprite.getTexture());
   sprite.setScale(0.2f, 0.2f);
   sprite.setPosition(screen_x, screen_y);
+  sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
   m_window.draw(sprite);
 }
 
-void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
+void sfml_game::set_agent_sprite(const agent& a, Sprite& sprite) {
   sprite.setTexture(sfml_resources::get().get_agent_sprite(a));
-}
-
-int get_video_mode()
-{
-  int s = sf::Style::Default; //!OCLINT local variable redundant
-//  if (std::getenv("TRAVIS"))
-//  {
-//    s = Style::Default;
-//  }
-  return s;
-}
-
-void sfml_game::load_game_state()
-{
-  switch (m_game_state) //!OCLINT too few branches in if-statement, replace by if-else
-  {
-    case game_state::titlescreen:
-      return;
-    case game_state::menuscreen:
-      return;
-    default:
-      return;
-  }
-}
-
-void sfml_game::change_game_state()
-{
-  switch (m_game_state)
-  {
-    case game_state::titlescreen:
-      reset_input();
-      m_game_state = game_state::menuscreen;
-      return;
-    case game_state::menuscreen:
-      reset_input();
-      m_game_state = game_state::aboutscreen;
-      return;
-    case game_state::aboutscreen:
-      reset_input();
-      m_game_state = game_state::playing;
-      return;
-    default:
-      return;
-  }
 }
 
 void sfml_game::exec()
 {
-  while (m_window.isOpen())
+  while (active(game_state::playing))
   {
     process_input();
     process_events();
@@ -220,20 +166,24 @@ void sfml_game::process_events()
 void sfml_game::confirm_move()
 {
   if (m_camera.m_movecam_r == true)
-    m_camera.move_camera(sf::Vector2f(0.5, 0));
+    m_camera.move_camera(Vector2f(0.5, 0));
   if (m_camera.m_movecam_l == true)
-    m_camera.move_camera(sf::Vector2f(-0.5, 0));
+    m_camera.move_camera(Vector2f(-0.5, 0));
   if (m_camera.m_movecam_u == true)
-    m_camera.move_camera(sf::Vector2f(0, -0.5));
+    m_camera.move_camera(Vector2f(0, -0.5));
   if (m_camera.m_movecam_d == true)
-    m_camera.move_camera(sf::Vector2f(0, 0.5));
+    m_camera.move_camera(Vector2f(0, 0.5));
 }
 
 void sfml_game::follow_tile()
 {
+  sf::Vector2i screen_center = sfml_window_manager::get().get_window_center();
   const tile& t = getTileById(m_game.m_selected);
-  m_camera.x = t.get_x() + (t.get_width() / 2) - m_screen_center.x;
-  m_camera.y = t.get_y() + (t.get_height() / 2) - m_screen_center.y;
+  m_camera.x = 0;
+  m_camera.y = 0;
+  sf::Vector2f new_coords = sf::Vector2f(t.get_x() + (t.get_width() / 2) - screen_center.x,
+                                         t.get_y() + (t.get_height() / 2) - screen_center.y);
+  m_camera.move_camera(new_coords);
 }
 
 void sfml_game::manage_timer()
@@ -261,28 +211,36 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
   }
 }
 
-void sfml_game::process_event(const sf::Event& event)
+void sfml_game::process_event(const Event& event)
 {
+  sf::View view = m_window.getDefaultView();
   switch (event.type)
   {
-    case sf::Event::Closed:
+    case Event::Closed:
       close();
       break;
 
-    case sf::Event::KeyPressed:
+    case Event::KeyPressed:
       process_keyboard_input(event);
       break;
 
-    case sf::Event::MouseButtonPressed:
+    case Event::MouseButtonPressed:
       process_mouse_input(event);
       break;
 
-    case sf::Event::KeyReleased:
+    case Event::KeyReleased:
       process_keyboard_input(event);
       break;
 
+    case sf::Event::Resized:
+      sfml_window_manager::get().update();
+      view.setSize(static_cast<float>(event.size.width),
+                   static_cast<float>(event.size.height));
+      m_window.setView(view);
+      break;
+
     default:
-      // Do nothing by default
+      sfml_window_manager::get().process();
       break;
   }
 }
@@ -291,41 +249,34 @@ void sfml_game::process_input()
 {
   // check all the window's events that were triggered since the last iteration
   // of the loop
-  sf::Event event;
+  Event event;
   while (m_window.pollEvent(event))
   {
     process_event(event);
   }
 }
 
-void sfml_game::process_keyboard_input(const sf::Event& event)
+void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexity accepted for now
 {
   // Only keyboard events
-  assert(event.type == sf::Event::KeyPressed
-    || event.type == sf::Event::KeyReleased);
+  assert(event.type == Event::KeyPressed
+    || event.type == Event::KeyReleased);
 
-  if (event.type == sf::Event::KeyPressed)
+  if (event.type == Event::KeyPressed)
   {
-    check_change_game_state(event);
     arrows(true, event);
     if (!m_game.m_selected.empty())
       tile_movement(true, event, getTileById(m_game.m_selected));
     if (m_timer > 0)
       tile_movement(false, event, getTileById(m_game.m_selected));
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+      close(game_state::menuscreen);
+    }
   }
   else
   {
     arrows(false, event);
   }
-}
-
-void sfml_game::check_change_game_state(const sf::Event& event)
-{
-  if (event.key.code == sf::Keyboard::Space)
-    change_game_state();
-  if (m_game_state == game_state::playing
-    && event.key.code == sf::Keyboard::Escape)
-    m_game_state = game_state::menuscreen;
 }
 
 void sfml_game::move_selected_tile_randomly()
@@ -346,19 +297,19 @@ void sfml_game::reset_input()
   m_camera.m_movecam_d = false;
 }
 
-void sfml_game::process_mouse_input(const sf::Event& event)
+void sfml_game::process_mouse_input(const Event& event)
 {
   // Only mouse input
-  assert(event.type == sf::Event::MouseButtonPressed);
+  assert(event.type == Event::MouseButtonPressed);
 
-  if (event.mouseButton.button == sf::Mouse::Left)
+  if (event.mouseButton.button == Mouse::Left)
   {
     std::vector<tile> game_tiles = m_game.get_tiles();
     for (unsigned i = 0; i < game_tiles.size(); i++)
     {
       if (game_tiles.at(i).tile_contains(
-            sf::Mouse::getPosition(m_window).x + m_camera.x,
-            sf::Mouse::getPosition(m_window).y + m_camera.y))
+            Mouse::getPosition(m_window).x + m_camera.x,
+            Mouse::getPosition(m_window).y + m_camera.y))
       {
         m_game.m_selected.clear();
         m_game.m_selected.push_back(game_tiles.at(i).get_id());
@@ -381,10 +332,10 @@ void sfml_game::ben_ik_een_spin() {
   assert(m_game.get_tiles().size() > 0);
   agent& spin = m_game.get_agents()[0];
   if (spin.get_type() == agent_type::spider &&
-      spin.is_clicked(sf::Mouse::getPosition(m_window).x + m_camera.x,
-                      sf::Mouse::getPosition(m_window).y + m_camera.y,
+      spin.is_clicked(Mouse::getPosition(m_window).x + m_camera.x,
+                      Mouse::getPosition(m_window).y + m_camera.y,
                       sfml_resources::get().get_agent_sprite(spin)) &&
-      m_ben_ik_een_spin.getStatus() != sf::Music::Playing)
+      m_ben_ik_een_spin.getStatus() != Music::Playing)
   {
     stop_music();
     m_ben_ik_een_spin.play();
@@ -402,25 +353,25 @@ void sfml_game::select_random_tile()
 
 void sfml_game::stop_music()
 {
-  if (m_background_music.getStatus() != sf::Music::Stopped)
+  if (m_background_music.getStatus() != Music::Stopped)
     m_background_music.stop();
-  if (m_ben_ik_een_spin.getStatus() != sf::Music::Stopped)
+  if (m_ben_ik_een_spin.getStatus() != Music::Stopped)
     m_ben_ik_een_spin.stop();
 }
 
-void sfml_game::arrows(bool b, const sf::Event& event)
+void sfml_game::arrows(bool b, const Event& event)
 {
-  if (event.key.code == sf::Keyboard::D)
+  if (event.key.code == Keyboard::D)
     m_camera.m_movecam_r = b;
-  if (event.key.code == sf::Keyboard::A)
+  if (event.key.code == Keyboard::A)
     m_camera.m_movecam_l = b;
-  if (event.key.code == sf::Keyboard::W)
+  if (event.key.code == Keyboard::W)
     m_camera.m_movecam_u = b;
-  if (event.key.code == sf::Keyboard::S)
+  if (event.key.code == Keyboard::S)
     m_camera.m_movecam_d = b;
 }
 
-void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
+void sfml_game::tile_movement(bool b, const Event& event, tile& t)
 {
   if (m_timer == 0)
   {
@@ -437,15 +388,15 @@ void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
   }
 }
 
-void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
+void sfml_game::tile_move_ctrl(const Event& event, tile& t)
 {
-  if (event.key.code == sf::Keyboard::D)
+  if (event.key.code == Keyboard::D)
     switch_collide(t, 2);
-  if (event.key.code == sf::Keyboard::A)
+  if (event.key.code == Keyboard::A)
     switch_collide(t, 4);
-  if (event.key.code == sf::Keyboard::W)
+  if (event.key.code == Keyboard::W)
     switch_collide(t, 1);
-  if (event.key.code == sf::Keyboard::S)
+  if (event.key.code == Keyboard::S)
     switch_collide(t, 3);
 }
 
@@ -472,7 +423,7 @@ void sfml_game::confirm_tile_move(tile& t, int direction)
 
 void sfml_game::switch_collide(tile& t, int direction)
 {
-  sf::Vector2f v = get_direction_pos(direction, t, 0);
+  Vector2f v = get_direction_pos(direction, t, 0);
   //std::vector<tile> added_tiles;
   if (!will_colide(direction, t))
   {
@@ -484,7 +435,7 @@ void sfml_game::switch_collide(tile& t, int direction)
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
     confirm_tile_move(t, direction);
-    sf::Vector2f b = get_direction_pos(direction, t, 115);
+    Vector2f b = get_direction_pos(direction, t, 115);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {
       t.set_dx(t.get_dx() * 2);
@@ -498,26 +449,26 @@ bool sfml_game::check_merge(tile& t1, tile& t2)
   return get_merge_type(t1.get_type(), t2.get_type()) != tile_type::nonetile;
 }
 
-sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
+Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
 {
   switch (direction)
   {
     case 1:
-      return sf::Vector2f(t.get_x() + (t.get_width() / 2),
+      return Vector2f(t.get_x() + (t.get_width() / 2),
         t.get_y() - (t.get_height() / 2) - plus);
     case 2:
-      return sf::Vector2f(t.get_x() + (t.get_width() * 1.5) + plus,
+      return Vector2f(t.get_x() + (t.get_width() * 1.5) + plus,
         t.get_y() + (t.get_height() / 2));
     case 3:
-      return sf::Vector2f(t.get_x() + (t.get_width() / 2),
+      return Vector2f(t.get_x() + (t.get_width() / 2),
         t.get_y() + (t.get_height() * 1.5) + plus);
     case 4:
-      return sf::Vector2f(t.get_x() - (t.get_width() / 2) - plus,
+      return Vector2f(t.get_x() - (t.get_width() / 2) - plus,
         t.get_y() + (t.get_height() / 2));
     default:
-      return sf::Vector2f(0, 0);
+      return Vector2f(0, 0);
   }
-  return sf::Vector2f(0, 0);
+  return Vector2f(0, 0);
 }
 
 int vectortoint(std::vector<int> v)
@@ -552,52 +503,58 @@ tile& sfml_game::getTileById(const std::vector<int>& tile_id)
   throw std::runtime_error("ID not found");
 }
 
-void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) //!OCLINT no 32 statements
+void sfml_game::color_tile_shape(RectangleShape& sfml_tile, const tile& t) //!OCLINT no 32 statements
 {
   switch (t.get_type())
   {
     case tile_type::grassland:
-      color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
+      color_shape(sfml_tile, Color(0, 255, 0), Color(0, 100, 0));
       break;
-
     case tile_type::mountains:
-      color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
+      color_shape(sfml_tile, Color(120, 120, 120), Color(50, 50, 50));
       break;
-
     case tile_type::water:
-      color_shape(sfml_tile, sf::Color(0, 0, 255-t.get_depth() * 20), sf::Color(0, 0, 100-t.get_depth() * 2)); //!OCLINT cant shorter
+      color_shape(sfml_tile,
+                  sf::Color(0, 0, 255-t.get_depth() * 2),
+                  sf::Color(0, 0, 100-t.get_depth()));
       break;
-
     case tile_type::savannah:
-      color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
+      color_shape(sfml_tile, Color(245, 190, 0), Color(235, 170, 0));
       break;
-
     case tile_type::swamp:
-      color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
+      color_shape(sfml_tile, Color(130, 100, 15), Color(100, 80, 15));
       break;
-
     case tile_type::arctic:
-      color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
+      color_shape(sfml_tile, Color(50, 230, 255), Color(10, 200, 255));
       break;
-
     case tile_type::desert:
-      color_shape(sfml_tile, sf::Color(250, 210, 80), sf::Color(255, 180, 50));
+      color_shape(sfml_tile, Color(250, 210, 80), Color(255, 180, 50));
       break;
-
     case tile_type::woods:
-      color_shape(sfml_tile, sf::Color(34, 139, 34), sf::Color(0, 128, 0));
+      color_shape(sfml_tile, Color(34, 139, 34), Color(0, 128, 0));
       break;
-
+    case tile_type:: Dunes:
+      color_shape(sfml_tile, sf::Color(220, 180, 40), sf::Color(255, 180, 50));
+      break;
+    case tile_type::tundra:
+      color_shape(sfml_tile, sf::Color(178, 58, 5), sf::Color(185, 175, 173));
+      break;
+    case tile_type::hills:
+      color_shape(sfml_tile, sf::Color(145, 156, 48), sf::Color(148, 145, 44));
+      break;
+    case tile_type::rainforest:
+      color_shape(sfml_tile, sf::Color(41,47,13), sf::Color(33,19,4));
+      break;
     default:
       color_shape(
-        sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
+        sfml_tile, Color(205, 205, 205), Color(255, 255, 255));
       break;
   }
   sfml_tile.setOutlineThickness(5);
   auto selected = vectortoint(m_game.m_selected);
   if (t.get_id() == selected)
   {
-    sfml_tile.setOutlineColor(sf::Color(255, 255, 255));
+    sfml_tile.setOutlineColor(Color(255, 255, 255));
   }
   else
   {
@@ -606,10 +563,10 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
 }
 
 void sfml_game::color_shape(
-  sf::RectangleShape& sfml_tile, sf::Color c1, sf::Color c2)
+  RectangleShape& sfml_tile, Color c1, Color c2)
 {
   sfml_tile.setFillColor(c1);
-  m_outline = sf::Color(c2);
+  m_outline = Color(c2);
 }
 
 bool sfml_game::check_collision(double x, double y)
@@ -682,123 +639,132 @@ bool sfml_game::will_colide(int direction, tile& t)
   return false;
 }
 
-sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
+Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
 {
   if(tile == tile_type::grassland)
   {
-    return sf::Color(0, 255, 0);
+    return Color(0, 255, 0);
   }
   else if(tile == tile_type::mountains)
   {
-    return sf::Color(120, 120, 120);
+    return Color(120, 120, 120);
   }
   else if(tile == tile_type::water)
   {
-    return sf::Color(0, 0, 255);
+    return Color(0, 0, 255);
   }
   else if(tile == tile_type::savannah)
   {
-    return sf::Color(245, 190, 0);
+    return Color(245, 190, 0);
   }
   else if(tile == tile_type::swamp)
   {
-    return sf::Color(130, 100, 15);
+    return Color(130, 100, 15);
   }
   else if(tile == tile_type::arctic)
   {
-    return sf::Color(50, 230, 255);
+    return Color(50, 230, 255);
   }
   else if(tile == tile_type::desert)
   {
-    return sf::Color(250, 210, 80);
+    return Color(250, 210, 80);
   }
   else if(tile == tile_type::woods)
   {
-    return sf::Color(34, 139, 34);
+    return Color(34, 139, 34);
+  }
+  else if(tile == tile_type::rainforest)
+  {
+    return sf::Color(41,47,13);
+  }
+  else if(tile == tile_type::tundra)
+  {
+    return sf::Color(178, 58, 5);
+  }
+  else if(tile == tile_type::hills)
+  {
+    return sf::Color(145, 156, 48);
   }
   else
   { //!OCLINT unnecessary else
-    return sf::Color(0, 0, 0);
+    return Color(0, 0, 0);
   }
 }
 
-sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
+Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
 {
   if(tile == tile_type::grassland)
   {
-    return sf::Color(0, 100, 0);
+    return Color(0, 100, 0);
   }
   else if(tile == tile_type::mountains)
   {
-    return sf::Color(50, 50, 50);
+    return Color(50, 50, 50);
   }
   else if(tile == tile_type::water)
   {
-    return sf::Color(0, 0, 100);
+    return Color(0, 0, 100);
   }
   else if(tile == tile_type::savannah)
   {
-    return sf::Color(245, 190, 0);
+    return Color(245, 190, 0);
   }
   else if(tile == tile_type::swamp)
   {
-    return sf::Color(100, 80, 15);
+    return Color(100, 80, 15);
   }
   else if(tile == tile_type::arctic)
   {
-    return sf::Color(10, 200, 255);
+    return Color(10, 200, 255);
   }
   else if(tile == tile_type::desert)
   {
-    return sf::Color(255, 180, 50);
+    return Color(255, 180, 50);
   }
   else if(tile == tile_type::woods)
   {
-    return sf::Color(0, 128, 0);
+    return Color(0, 128, 0);
+  }
+  else if(tile == tile_type::rainforest)
+  {
+    return sf::Color(33,19,4);
+  }
+  else if(tile == tile_type::tundra)
+  {
+    return sf::Color(185, 175, 173);
+  }
+  else if(tile == tile_type::hills)
+  {
+    return sf::Color(148, 145, 44);
   }
   else
   { //!OCLINT unnecessary else
-    return sf::Color(0, 0, 0);
+    return Color(0, 0, 0);
   }
 }
 
 void test_sfml_game() //!OCLINT tests may be long
 {
   {
-    //A game can change state
-    sfml_game g;
-    for (int i = 0; i < 3; i++)
-    {
-      g.change_game_state();
-    }
-  }
-  //test is_clicked here because resource is needed
-  {
-    const agent a(agent_type::tree);
-    sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
-    assert(a.is_clicked(1,1,sprite) == true);
-    assert(a.is_clicked(-100,-100,sprite) == false);
-  }
-  {
     //Get the fill color of a tile type
-    assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
-    assert(get_fill_color(tile_type::mountains) == sf::Color(120, 120, 120));
-    assert(get_fill_color(tile_type::water) == sf::Color(0, 0, 255));
-    assert(get_fill_color(tile_type::savannah) == sf::Color(245, 190, 0));
-    assert(get_fill_color(tile_type::swamp) == sf::Color(130, 100, 15));
-    assert(get_fill_color(tile_type::arctic) == sf::Color(50, 230, 255));
-    assert(get_fill_color(tile_type::desert) == sf::Color(250, 210, 80));
-    assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));
+    assert(get_fill_color(tile_type::grassland) == Color(0, 255, 0));
+    assert(get_fill_color(tile_type::mountains) == Color(120, 120, 120));
+    assert(get_fill_color(tile_type::water) == Color(0, 0, 255));
+    assert(get_fill_color(tile_type::savannah) == Color(245, 190, 0));
+    assert(get_fill_color(tile_type::swamp) == Color(130, 100, 15));
+    assert(get_fill_color(tile_type::arctic) == Color(50, 230, 255));
+    assert(get_fill_color(tile_type::desert) == Color(250, 210, 80));
+    assert(get_fill_color(tile_type::woods) == Color(34, 139, 34));
   }
   {
     //Get the outline/border color of a tile tipe
-    assert(get_outline_color(tile_type::grassland) == sf::Color(0, 100, 0));
-    assert(get_outline_color(tile_type::mountains) == sf::Color(50, 50, 50));
-    assert(get_outline_color(tile_type::water) == sf::Color(0, 0, 100));
-    assert(get_outline_color(tile_type::savannah) == sf::Color(245, 190, 0));
-    assert(get_outline_color(tile_type::swamp) == sf::Color(100, 80, 15));
-    assert(get_outline_color(tile_type::arctic) == sf::Color(10, 200, 255));
-    assert(get_outline_color(tile_type::desert) == sf::Color(255, 180, 50));
-    assert(get_outline_color(tile_type::woods) == sf::Color(0, 128, 0));
+    assert(get_outline_color(tile_type::grassland) == Color(0, 100, 0));
+    assert(get_outline_color(tile_type::mountains) == Color(50, 50, 50));
+    assert(get_outline_color(tile_type::water) == Color(0, 0, 100));
+    assert(get_outline_color(tile_type::savannah) == Color(245, 190, 0));
+    assert(get_outline_color(tile_type::swamp) == Color(100, 80, 15));
+    assert(get_outline_color(tile_type::arctic) == Color(10, 200, 255));
+    assert(get_outline_color(tile_type::desert) == Color(255, 180, 50));
+    assert(get_outline_color(tile_type::woods) == Color(0, 128, 0));
   }
 }
