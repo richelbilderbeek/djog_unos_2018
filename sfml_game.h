@@ -12,6 +12,7 @@
 #include "sfml_game_delegate.h"
 #include "game_state.h"
 #include "sfml_camera.h"
+#include "sfml_window_manager.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
@@ -22,8 +23,7 @@ public:
   /// @param window_width width of the game window in pixels
   /// @param window_height height of the game window in pixels
   /// @param delegate an object that can modify sfml_game at certain times
-  sfml_game(const int window_width = 800, const int window_height = 600,
-            const sfml_game_delegate &delegate = sfml_game_delegate(),
+  sfml_game(const sfml_game_delegate &delegate = sfml_game_delegate(),
             const std::vector<tile>& tiles = create_default_tiles(),
             const std::vector<agent>& agents = create_default_agents()
   );
@@ -31,11 +31,18 @@ public:
   /// Destructor, is called when sfml_game is destroyed
   ~sfml_game();
 
-  /// Close the game
+  ///@param game state to change to
+  void close(game_state s);
+
+  ///Close the game
   void close();
 
   /// Run the game until it is closed in any way.
   void exec();
+
+  /// Get tile color and outline functions
+  sf::Color get_fill_color(tile_type tile);
+  sf::Color get_outline_color(tile_type tile);
 
   /// Get how many times the sfml_game has been displayed on screen.
   /// Will be approximately 60 times per second.
@@ -50,7 +57,6 @@ public:
   /// Stop the music
   void stop_music();
 
-  // Show to menu
   void arrows(bool b, const sf::Event &event);
 
   bool m_clicked_tile = false;
@@ -87,14 +93,6 @@ public:
   void confirm_move();
   void follow_tile();
 
-  sf::Vector2i m_screen_center;
-
-  void change_game_state();
-
-  void load_game_state();
-
-  void check_change_game_state(const sf::Event &event);
-
   bool check_merge(tile &t1, tile &t2);
 
   void switch_collide(tile& t, int direction);
@@ -120,9 +118,6 @@ private:
 
   sf::Music &m_ben_ik_een_spin;
 
-  /// State of Game
-  game_state m_game_state = game_state::playing;
-
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
 
@@ -134,7 +129,7 @@ private:
   int m_n_displayed{0};
 
   /// The window the sfml_game is rendered to
-  sf::RenderWindow m_window;
+  sf::RenderWindow& m_window;
 
   /// Display all shapes on the window
   void display();
@@ -163,8 +158,6 @@ private:
   ///@param event the SFML mouse event that needs to be processed
   void process_mouse_input(const sf::Event &event);
 
-  bool m_is_space_pressed = false;
-
   sfml_camera m_camera;
 
   sf::RectangleShape m_zen_bar;
@@ -178,9 +171,5 @@ private:
 void test_sfml_game();
 
 int vectortoint(std::vector<int> v);
-
-///Get the video mode, which is full-screen
-///by default, except on Travis CI
-int get_video_mode();
 
 #endif // SFML_sfml_game_H
