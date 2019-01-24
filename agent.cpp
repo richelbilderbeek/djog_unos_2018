@@ -329,7 +329,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(health_after > health_before);
   }
 
-  //#define FIX_ISSUE_305
+  #define FIX_ISSUE_305
   #ifdef FIX_ISSUE_305
   //Trees grow
   {

@@ -53,6 +53,9 @@ void game::process_events()
     if(a.get_type() == agent_type::grass){
         a.set_health(a.get_health() + 1);
     }
+    if(a.get_type() == agent_type::tree){
+        a.set_health(a.get_health() + 1);
+    }
   }
 
   ++m_n_tick;
