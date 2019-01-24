@@ -65,14 +65,14 @@ public:
 
   tile &getTileById(const std::vector<int> &tile_id);
 
-  void tile_movement(bool b, const Event &event, tile &t);
-  void tile_move_ctrl(const Event &event, tile &t);
+  void tile_movement(bool b, const sf::Event &event, tile &t);
+  void tile_move_ctrl(const sf::Event &event, tile &t);
 
   double m_tile_speed = 1; // 115/tile_speed must be a whole number!
 
-  void color_tile_shape(RectangleShape &sfml_tile, const tile &t);
-  void color_shape(RectangleShape &sfml_tile, Color c1, Color c2);
-  Color m_outline;
+  void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
+  void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);
+  sf::Color m_outline;
 
   void setup_text();
 
@@ -98,11 +98,11 @@ public:
   void switch_collide(tile& t, int direction);
 
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-  Vector2f get_direction_pos(int direction, tile& t, double plus);
+  sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
 
   void confirm_tile_move(tile& t, int direction);
 
-  void set_agent_sprite(const agent& a, Sprite& sprite);
+  void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
   void ben_ik_een_spin();
 
@@ -114,9 +114,9 @@ private:
   void display_agent(const agent& a);
 
   /// Background music file object
-  Music &m_background_music;
+  sf::Music &m_background_music;
 
-  Music &m_ben_ik_een_spin;
+  sf::Music &m_ben_ik_een_spin;
 
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
@@ -135,7 +135,7 @@ private:
   void display();
 
   ///Process an SFML event
-  void process_event(const Event& event);
+  void process_event(const sf::Event& event);
 
   /// Handle all events each game frame, for example,
   /// game logic, keyboard and mouse input and the actions
@@ -152,16 +152,16 @@ private:
 
   /// Process keyboard input from the user
   ///@param event the SFML keyboard event that needs to be processed
-  void process_keyboard_input(const Event &event);
+  void process_keyboard_input(const sf::Event &event);
 
   /// Process mouse input from the user
   ///@param event the SFML mouse event that needs to be processed
-  void process_mouse_input(const Event &event);
+  void process_mouse_input(const sf::Event &event);
 
   sfml_camera m_camera;
 
-  RectangleShape m_zen_bar;
-  RectangleShape m_zen_ind;
+  sf::RectangleShape m_zen_bar;
+  sf::RectangleShape m_zen_ind;
 
   void setup_display_score();
 
