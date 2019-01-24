@@ -22,11 +22,11 @@ public:
 
 private:
 
-    sf::Music &m_title_music;
-    sf::RenderWindow m_window;
-    sf::Font m_font;
-    sf::Text title_text;
-    sf::Sprite m_bg_sprite;
+    Music &m_title_music;
+    RenderWindow m_window;
+    Font m_font;
+    Text title_text;
+    Sprite m_bg_sprite;
 
     double i = 0;
     bool b = true;

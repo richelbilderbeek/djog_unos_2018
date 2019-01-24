@@ -50,7 +50,7 @@ public:
   double get_depth() const noexcept { return m_depth; }
 
   /// The center of the tile
-  sf::Vector2f get_center() const noexcept { return sf::Vector2f(m_width / 2.0f, m_height / 2.0f); }
+  Vector2f get_center() const noexcept { return Vector2f(m_width / 2.0f, m_height / 2.0f); }
 
   ///Process events, for example, make the agents move
   void process_events();

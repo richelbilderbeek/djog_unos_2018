@@ -11,8 +11,8 @@ public:
   void close();
   void exec();
 private:
-  sf::RenderWindow m_about_window;
-  sf::Text m_about_text;
+  RenderWindow m_about_window;
+  Text m_about_text;
   int m_close_at;
 };
 

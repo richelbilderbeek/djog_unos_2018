@@ -154,7 +154,7 @@ void move_agent_to_tile(agent &a, double tile_x, double tile_y) {
 }
 
 bool agent::is_clicked(const double x, const double y,
-                       const sf::Texture& sprite) const noexcept {
+                       const Texture& sprite) const noexcept {
   return x > m_x - 5 &&
          x < m_x + sprite.getSize().x * 0.2 + 5 &&
          y > m_y - 5 &&

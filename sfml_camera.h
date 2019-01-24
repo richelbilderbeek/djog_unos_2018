@@ -10,7 +10,7 @@ class sfml_camera
 public:
     double x{-100.0};
     double y{-100.0};
-    void move_camera(sf::Vector2f offset);
+    void move_camera(Vector2f offset);
 
     bool m_movecam_r = false;
     bool m_movecam_l = false;

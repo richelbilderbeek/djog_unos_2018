@@ -4,7 +4,7 @@
 
 sfml_title_screen::sfml_title_screen(const int close_at)
   : m_title_music{ sfml_resources::get().get_title_music() },
-    m_window{sf::VideoMode(800, 600), "Nature Zen - Title"},
+    m_window{VideoMode(800, 600), "Nature Zen - Title"},
     m_font{ sfml_resources::get().get_title_font() },
     m_close_at{close_at}
 {
@@ -18,12 +18,12 @@ sfml_title_screen::sfml_title_screen(const int close_at)
       + title_text.getGlobalBounds().height / 2.0f);
   title_text.setScale(2,2);
   #if(SFML_VERSION_MINOR > 1)
-  title_text.setOutlineColor(sf::Color(36, 211, 16));
-  title_text.setFillColor(sf::Color(155, 40, 0));
+  title_text.setOutlineColor(Color(36, 211, 16));
+  title_text.setFillColor(Color(155, 40, 0));
   title_text.setOutlineThickness(1);
   #else
   //Only relevant for Travis
-  title_text.setColor(sf::Color(36, 211, 16));
+  title_text.setColor(Color(36, 211, 16));
   #endif
   title_text.setPosition(400, 200);
 
@@ -42,12 +42,12 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     while(m_window.isOpen()) {
         title_text.setPosition(400, 110+i);
         animation();
-        sf::Event event;
+        Event event;
         while (m_window.pollEvent(event))
         {
             switch (event.type) //!OCLINT too few branches, please fix
             {
-                case sf::Event::Closed:
+                case Event::Closed:
                     m_window.close();
                     break;
                 default:

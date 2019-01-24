@@ -10,9 +10,9 @@ public:
     sfml_menu_screen(const int close_at);
     void exec();
 private:
-    sf::RenderWindow m_window;
-    sf::Font m_font;
-    sf::Text m_main_text;
+    RenderWindow m_window;
+    Font m_font;
+    Text m_main_text;
     sfml_button m_button1;
 
     int m_close_at;

@@ -45,7 +45,7 @@ public:
   /// agents and tiles for its movement
   void move(const game& g);
 
-  bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
+  bool is_clicked(const double x, const double y, const Texture& sprite) const noexcept;
 
 private:
   /// The type the tile

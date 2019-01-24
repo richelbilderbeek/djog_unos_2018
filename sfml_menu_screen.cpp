@@ -5,7 +5,7 @@
 #include <cassert>
 
 sfml_menu_screen::sfml_menu_screen(const int close_at)
-    : m_window{sf::VideoMode(600, 600), "Nature Zen - Menu"},
+    : m_window{VideoMode(600, 600), "Nature Zen - Menu"},
       m_font{ sfml_resources::get().get_default_font() },
       m_close_at{close_at}
 {
@@ -17,8 +17,8 @@ sfml_menu_screen::sfml_menu_screen(const int close_at)
         + m_main_text.getGlobalBounds().height / 2.0f);
     m_main_text.setPosition(300, 100);
 
-    sf::RectangleShape &b1_s = m_button1.get_shape();
-    b1_s.setFillColor(sf::Color(125, 5, 0));
+    RectangleShape &b1_s = m_button1.get_shape();
+    b1_s.setFillColor(Color(125, 5, 0));
     m_button1.set_size(250, 100);
     m_button1.set_pos(300, 300);
 }
@@ -29,21 +29,21 @@ void sfml_menu_screen::exec()
   while(m_window.isOpen())
   {
     static int i = 0;
-    sf::Event event;
+    Event event;
     if (m_button1.is_clicked(event, m_window)) {
-      m_window.clear(sf::Color(0, 250, 255));
+      m_window.clear(Color(0, 250, 255));
       i = 250;
     } else if (i > 0) {
-      m_window.clear(sf::Color(0, i, i + 5));
+      m_window.clear(Color(0, i, i + 5));
       i--;
     } else {
-      m_window.clear(sf::Color(255, 0, 0));
+      m_window.clear(Color(255, 0, 0));
     }
     while (m_window.pollEvent(event))
     {
       switch (event.type) //!OCLINT too few branches, please fix
       {
-        case sf::Event::Closed:
+        case Event::Closed:
             m_window.close();
             break;
         default:
