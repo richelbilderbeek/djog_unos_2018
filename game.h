@@ -46,6 +46,8 @@ private:
   /// The selected tile
   std::vector<int> m_selected;
 
+  void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
+
   void merge_tiles();
 
   /// Tiles list
