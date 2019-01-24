@@ -71,7 +71,6 @@ void game::process_events()
   ++m_n_tick;
 }
 
-<<<<<<< HEAD
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
   // Merge attempt with this function
   const tile_type merged_type = get_merge_type(
@@ -86,7 +85,8 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   //change the selected tile
   m_selected.clear();
   assert(m_selected.empty());
-=======
+}
+
 void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
   bool clicked_tile = false;
   for (unsigned i = 0; i < m_tiles.size(); i++)
@@ -122,7 +122,6 @@ void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
     if (!moving)
       m_selected.clear();
   }
->>>>>>> develop
 }
 
 void game::merge_tiles() { //!OCLINT must simplify
