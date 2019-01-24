@@ -1,6 +1,7 @@
 #ifndef SFML_TITLE_SCREEN_H
 #define SFML_TITLE_SCREEN_H
 
+#include "game_state.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -14,19 +15,27 @@ public:
 
     void exec();
 
+    ///@param game state to change to
+    void close(game_state s);
+
+    ///Close the game
+    void close();
+
     void stop_music();
 
     void change_game_state();
 
     void animation();
 
+    void stretch_bg();
+
 private:
 
-    Music &m_title_music;
-    RenderWindow m_window;
-    Font m_font;
-    Text title_text;
-    Sprite m_bg_sprite;
+    sf::Music &m_title_music;
+    sf::RenderWindow &m_window;
+    sf::Font m_font;
+    sf::Text title_text;
+    sf::Sprite m_bg_sprite;
 
     double i = 0;
     bool b = true;

@@ -63,11 +63,11 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tiles.push_back(t);
   }
   {
-    tile t(3, 2, 6, 1, 2, 1, tile_type::water, tile_id());
+    tile t(3, 2, 6, 1, 2, 20, tile_type::water, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 2, 6, 1, 2, 10, tile_type::water, tile_id());
+    tile t(4, 2, 6, 1, 2, 85, tile_type::water, tile_id());
     tiles.push_back(t);
   }
   {
@@ -76,6 +76,18 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
   }
   {
     tile t(4, -1, 8, 1, 2, 0, tile_type::woods, tile_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(-3, 0, 8, 1, 2, 0, tile_type::rainforest, tile_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(-5, 0, 8, 1, 2, 0, tile_type::tundra, tile_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(-4, 0, 8, 1, 2, 0, tile_type::hills, tile_id());
     tiles.push_back(t);
   }
   return tiles;
@@ -117,10 +129,20 @@ void tile::set_type(const tile_type t) noexcept
   m_type = t;
 }
 
-void tile::move() {
+void tile::move(game& g) {
   m_x += m_dx;
   m_y += m_dy;
   m_z += m_dz;
+  for (agent& a : g.get_agents()){
+    if(is_on_specific_tile(a, *this)){
+      double x = a.get_x();
+      x += m_dx;
+      double y = a.get_y();
+      y += m_dy;
+      a.set_x(x);
+      a.set_y(y);
+    }
+  }
 }
 
 std::ostream& operator<<(std::ostream& os, const tile& t)
@@ -219,6 +241,7 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Tile responds to its speed
   {
+    game g;
     tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
     const double dx{12.34};
     const double dy{56.78};
@@ -226,7 +249,7 @@ void test_tile() //!OCLINT testing function may be many lines
     t.set_dy(dy);
     assert(t.get_x() != dx);
     assert(t.get_y() != dy);
-    t.move();
+    t.move(g);
     assert(t.get_x() == dx);
     assert(t.get_y() == dy);
   }

@@ -58,7 +58,9 @@ private:
 
   Texture m_grass_texture;
 
-  Texture m_none_texture;
+  sf::Texture m_goat_texture;
+
+  sf::Texture m_none_texture;
 
   Texture m_spider_texture;
 

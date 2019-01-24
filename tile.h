@@ -68,7 +68,7 @@ public:
   void set_type(const tile_type t) noexcept;
 
   /// Move the tile by the movement coeficients
-  void move();
+  void move(game& g);
 
   /// Get the tile's id
   int get_id() const noexcept { return m_id.get(); }

@@ -13,7 +13,8 @@ friend class sfml_game;
 public:
   /// Constructor
   game(const std::vector<tile>& tiles = create_default_tiles(),
-       const std::vector<agent>& agents = create_default_agents());
+       const std::vector<agent>& agents = create_default_agents(),
+       const int starting_tick = 0);
 
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
@@ -67,8 +68,17 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 /// Count the number of tiles a game has
 int count_n_tiles(const game& g) noexcept;
 
+/// Determine if an agent is on a tile
 bool is_on_tile(const game& g, const agent& a);
-bool is_on_tile(const game& g, const double x, const double y);
+
+/// Determine if there is a tile at the given coordinat
+bool is_on_tile(const game& g, double x, double y);
+
+/// Determine if an agent is on a specific tile
+bool is_on_specific_tile(const agent& a, const tile& t);
+
+/// Determine if there is a specific tile at the given coordinat
+bool is_on_specific_tile(double x, double y, const tile& t);
 
 /// Load a game from a file
 game load(const std::string &filename);

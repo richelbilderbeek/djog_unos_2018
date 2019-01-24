@@ -1,19 +1,33 @@
 #ifndef SFML_ABOUT_SCREEN_H
 #define SFML_ABOUT_SCREEN_H
 
+#include "game_state.h"
 #include <SFML/Graphics.hpp>
 
 class sfml_about_screen {
 public:
-  sfml_about_screen(const int close_at = -1,
-                    const int window_width = 1000,
-                    const int window_height = 600);
-  void close();
+  sfml_about_screen(const int close_at = -1);
+
   void exec();
+
+  ///@param game state to change to
+  void close(game_state s);
+
+  ///Close the game
+  void close();
+
 private:
-  RenderWindow m_about_window;
-  Text m_about_text;
+
+  sf::RenderWindow& m_window;
+
+  sf::Text m_header;
+
   int m_close_at;
+
+  sf::Font m_font;
+
+  sf::Font m_zen_font;
+
 };
 
 #endif // SFML_ABOUT_SCREEN_H
