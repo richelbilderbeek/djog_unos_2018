@@ -58,6 +58,22 @@ void game::process_events()
   ++m_n_tick;
 }
 
+void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
+  // Merge attempt with this function
+  const tile_type merged_type = get_merge_type(
+    focal_tile.get_type(),
+    other_tile.get_type()
+  );
+  //focal tile becomes merged type
+  focal_tile.set_type(merged_type);
+  //other tile is swapped to the back, then deleted
+  m_tiles[other_pos] = m_tiles.back();
+  m_tiles.pop_back();
+  //change the selected tile
+  m_selected.clear();
+  assert(m_selected.empty());
+}
+
 void game::merge_tiles() { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
@@ -76,18 +92,7 @@ void game::merge_tiles() { //!OCLINT must simplify
       const tile& other_tile = m_tiles[j];
       if (have_same_position(focal_tile, other_tile))
       {
-        const tile_type merged_type = get_merge_type(
-          focal_tile.get_type(),
-          other_tile.get_type()
-        );
-        //focal tile becomes merged type
-        focal_tile.set_type(merged_type);
-        //other tile is swapped to the back, then deleted
-        m_tiles[j] = m_tiles.back();
-        m_tiles.pop_back();
-        //change the selected tile
-        m_selected.clear();
-        assert(m_selected.empty());
+        tile_merge(focal_tile, other_tile, j);
         return;
       }
     }
