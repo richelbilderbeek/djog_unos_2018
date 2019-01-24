@@ -54,6 +54,7 @@ void sfml_about_screen::exec()
           view.setSize(static_cast<float>(m_window.getSize().x),
                        static_cast<float>(m_window.getSize().y));
           m_window.setView(view);
+          break;
         case sf::Event::KeyPressed:
           if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             close(game_state::menuscreen);

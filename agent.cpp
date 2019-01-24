@@ -103,12 +103,16 @@ void agent::move(const game& g)
   }
 }
 
+void agent::move(double dx, double dy) {
+  m_x += dx;
+  m_y += dy;
+}
+
 void agent::process_events(const game& g) {
   move(g);
 
-  if(m_type == agent_type::grass) {
+  if(m_type == agent_type::grass)
     m_health += 0.01;
-  }
 
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
@@ -307,9 +311,6 @@ void test_agent() //!OCLINT testing functions may be long
       can_eat(a);
     }
   }
-  //WARNING this test isn't running
-  //#define FIX_ISSUE_289
-  #ifdef FIX_ISSUE_289
   //Agent can pass out of exhaustion
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
@@ -320,7 +321,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto stamina_after = g.get_agents()[0].get_stamina();
     assert(stamina_after < stamina_before);
   }
-  #endif
   //A cow must starve if alone
   {
     game g({ tile(-1, -1, 0, 2, 2) }, { agent(agent_type::cow) } );
@@ -409,8 +409,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
   #endif
-  #define FIX_ISSUE_301
-  #ifdef FIX_ISSUE_301
   //Cows eat grass
   {
     const double grass_health{5.0};
@@ -431,5 +429,4 @@ void test_agent() //!OCLINT testing functions may be long
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
-  #endif //FIX_ISSUE_301
 }

@@ -33,6 +33,7 @@ Done!
 ## Windows
 
 ### Download and install Qt Creator
+ * Do not install the newer versions (Qt 5.12.0 or higher) if you are using a 32-bit SFML. 
 
 ![Pick these Qt Creator items](install_qt_creator.png)
 

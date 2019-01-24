@@ -215,7 +215,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(collect_tile_types(g)[1] == tile_type::grassland);
     g.process_events();
     assert(count_n_tiles(g) == 1);
-    assert(collect_tile_types(g)[0] == tile_type::mountains);
+    assert(collect_tile_types(g)[0] == tile_type::hills);
   }
   //#define FIX_ISSUE_302
   #ifdef FIX_ISSUE_302
@@ -235,7 +235,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
-  /* NOTE Tile movement happens in sfml_game.process_events()
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards
@@ -253,12 +252,34 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
   }
-  */
   {
     const agent a(agent_type::tree);
     sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
     assert(a.is_clicked(1,1,sprite) == true);
     assert(a.is_clicked(-100,-100,sprite) == false);
+  }
+  //Agents must not be pushed off their tile, #317
+  {
+    //Put a grass agent on a grass tile,
+    //then move another tile on it
+    const double start_grass_x = 1.0;
+    const double start_grass_y = 1.0;
+    game g(
+      {
+        tile(-10.0, -10.0, 0.0, 10.0, 10.0), // Left tile that will move to right
+        tile(  0.0,   0.0, 0.0, 10.0, 10.0)  // Right tile with cow
+      },
+      { agent(agent_type::grass, start_grass_x, start_grass_y) }
+    );
+    tile& tile = g.get_tiles()[0];
+    tile.set_dx(1.0);
+    tile.set_dy(1.0);
+    for (int i=0; i != 10; ++i)
+    {
+      g.process_events();
+    }
+    assert(g.get_agents()[0].get_x() == start_grass_x);
+    assert(g.get_agents()[0].get_y() == start_grass_y);
   }
 }
 

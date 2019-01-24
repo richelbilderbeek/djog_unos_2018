@@ -40,6 +40,10 @@ public:
   /// Run the game until it is closed in any way.
   void exec();
 
+  /// Get tile color and outline functions
+  sf::Color get_fill_color(tile_type tile);
+  sf::Color get_outline_color(tile_type tile);
+
   /// Get how many times the sfml_game has been displayed on screen.
   /// Will be approximately 60 times per second.
   int get_n_displayed() const noexcept { return m_n_displayed; }
@@ -57,11 +61,14 @@ public:
 
   bool m_clicked_tile = false;
 
+  int m_timer = 0;
+
   tile &getTileById(const std::vector<int> &tile_id);
 
+  void tile_movement(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
 
-  void confirm_move();
+  double m_tile_speed = 1; // 115/tile_speed must be a whole number!
 
   void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
   void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);
@@ -69,12 +76,31 @@ public:
 
   void setup_text();
 
+  bool check_collision(double x, double y);
+  std::vector<int> get_collision_id(double x, double y) const;
+
+  /// Check if the tile will colide with another tile if it moves in given
+  /// direction
+  /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
+  bool will_colide(int direction, tile &t);
+
+  void exec_tile_move(std::vector<int> selected);
+
+//  std::vector<int> m_temp_id;
+
+  void manage_timer();
+
+  void confirm_move();
   void follow_tile();
 
   bool check_merge(tile &t1, tile &t2);
 
+  void switch_collide(tile& t, int direction);
+
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
+
+  void confirm_tile_move(tile& t, int direction);
 
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
 
