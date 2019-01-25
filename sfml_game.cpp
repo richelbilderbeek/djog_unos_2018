@@ -533,15 +533,6 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::rainforest:
       color_shape(sfml_tile, sf::Color(41,47,13), sf::Color(33,19,4));
       break;
-    case tile_type::tundra:
-      color_shape(sfml_tile, sf::Color(178, 58, 5), sf::Color(185, 175, 173));
-      break;
-    case tile_type::hills:
-      color_shape(sfml_tile, sf::Color(145, 156, 48), sf::Color(148, 145, 44));
-      break;
-    case tile_type::rainforest:
-      color_shape(sfml_tile, sf::Color(41,47,13), sf::Color(33,19,4));
-      break;
     default:
       color_shape(
         sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
