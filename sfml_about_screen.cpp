@@ -37,7 +37,7 @@ void sfml_about_screen::close()
 
 void sfml_about_screen::exec()
 {
-  if (m_close_at >= 0) close(game_state::playing);
+  if (m_close_at >= 0) close(game_state::gameover);
   while (active(game_state::aboutscreen))
   {
     sf::Event event;

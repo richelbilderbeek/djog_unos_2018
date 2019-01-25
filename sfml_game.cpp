@@ -269,9 +269,6 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
       tile_movement(true, event, getTileById(m_game.m_selected));
     if (m_timer > 0)
       tile_movement(false, event, getTileById(m_game.m_selected));
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-      close(game_state::menuscreen);
-    }
   }
   else
   {
