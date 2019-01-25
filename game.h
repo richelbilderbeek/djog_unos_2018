@@ -37,6 +37,8 @@ public:
 
   void move_tiles(sf::RenderWindow& window, sfml_camera& camera);
 
+  void confirm_tile_move(tile& t, int direction, int tile_speed);
+
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
   void process_events();

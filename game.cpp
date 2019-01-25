@@ -148,10 +148,14 @@ void game::merge_tiles() { //!OCLINT must simplify
     {
       assert(j >=0);
       assert(j < static_cast<int>(m_tiles.size()));
-      const tile& other_tile = m_tiles[j];
+      tile& other_tile = m_tiles[j];
       if (have_same_position(focal_tile, other_tile))
       {
         tile_merge(focal_tile, other_tile, j);
+        focal_tile.set_dx(0);
+        focal_tile.set_dy(0);
+        other_tile.set_dx(0);
+        other_tile.set_dy(0);
         return;
       }
     }
@@ -201,6 +205,46 @@ bool is_on_tile(const game& g, const double x, const double y)
 bool is_on_tile(const game& g, const agent& a) {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
   return is_on_tile(g, center.x, center.y);
+}
+
+void game::confirm_tile_move(tile& t, int direction, int tile_speed){
+  switch (direction)
+  {
+    case 1:
+      t.set_dy(-tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dy(-tile_speed);
+        }
+      }
+      return;
+    case 2:
+      t.set_dx(tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dx(tile_speed);
+        }
+      }
+      return;
+    case 3:
+      t.set_dy(tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dy(tile_speed);
+        }
+      }
+      return;
+    case 4:
+      t.set_dx(-tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dx(-tile_speed);
+        }
+      }
+      return;
+    default:
+      return;
+  }
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -374,7 +418,7 @@ void test_game() //!OCLINT a testing function may be long
     tile& tile = g.get_tiles()[0];
     tile.set_dx(1.0);
     tile.set_dy(1.0);
-    for (int i=0; i != 10; ++i)
+    for (int i=0; i != 100; ++i)
     {
       g.process_events();
     }

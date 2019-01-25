@@ -111,6 +111,11 @@ void agent::move(double dx, double dy) {
   m_y += dy;
 }
 
+void agent::move_with_tile(){
+  m_x += m_dx;
+  m_y += m_dy;
+}
+
 void agent::process_events(game& g) {
   move(g);
 
@@ -138,6 +143,10 @@ void agent::process_events(game& g) {
   if (!is_on_tile(g, *this))
   {
     m_health = 0;
+  }
+
+  if(m_dx != 0 || m_dy != 0){
+    move_with_tile();
   }
 }
 
