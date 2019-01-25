@@ -50,6 +50,8 @@ private:
 
   void merge_tiles();
 
+  //void kill_agents();
+
   /// Tiles list
   std::vector<tile> m_tiles;
 
@@ -72,6 +74,8 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 
 /// Count the number of tiles a game has
 int count_n_tiles(const game& g) noexcept;
+
+int count_n_agents(const game& g) noexcept;
 
 /// Determine if an agent is on a tile
 bool is_on_tile(const game& g, const agent& a);
