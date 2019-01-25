@@ -673,6 +673,18 @@ sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(145, 156, 48);
   }
+  else if(tile == tile_type::rainforest)
+  {
+    return sf::Color(41,47,13);
+  }
+  else if(tile == tile_type::tundra)
+  {
+    return sf::Color(178, 58, 5);
+  }
+  else if(tile == tile_type::hills)
+  {
+    return sf::Color(145, 156, 48);
+  }
   else
   { //!OCLINT unnecessary else
     return sf::Color(0, 0, 0);
@@ -712,6 +724,18 @@ sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
   else if(tile == tile_type::woods)
   {
     return sf::Color(0, 128, 0);
+  }
+  else if(tile == tile_type::rainforest)
+  {
+    return sf::Color(33,19,4);
+  }
+  else if(tile == tile_type::tundra)
+  {
+    return sf::Color(185, 175, 173);
+  }
+  else if(tile == tile_type::hills)
+  {
+    return sf::Color(148, 145, 44);
   }
   else if(tile == tile_type::rainforest)
   {
