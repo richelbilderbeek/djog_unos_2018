@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "agent_type.h"
 #include "game.h"
 
 using namespace sf;
@@ -115,13 +116,19 @@ void agent::process_events(game& g) {
 
   if(m_type == agent_type::grass)
   {
-    m_health += 0.01;
+    m_health += 0.00001;
 
-    if (m_health > 1.0)
+    if (m_health > 1000000.0)
     {
-      const agent grassy(agent_type::grass);
-      const std::vector<agent> agents { grassy };
+      const agent new_grass(
+        agent_type::grass,
+        m_x - 1.0 + static_cast<double>(std::rand() % 3),
+        m_y - 1.0 + static_cast<double>(std::rand() % 3),
+        m_health / 2.0
+      );
+      const std::vector<agent> agents( { new_grass } );
       g.add_agents(agents);
+      m_health = m_health / 2.0;
     }
   }
 

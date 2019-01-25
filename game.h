@@ -31,7 +31,7 @@ public:
 
   void delete_tiles(std::vector<tile> ts);
 
-  void add_agents(std::vector<agent> as);
+  void add_agents(const std::vector<agent>& as);
 
   int get_n_ticks() const;
 
