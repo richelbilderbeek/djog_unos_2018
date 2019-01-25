@@ -289,7 +289,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   // A crocodile moves
   {
-    game g;
+    //game g; // TODO add assert is on tile
     std::srand(15);
     const double x{12.34};
     const double y{56.78};
