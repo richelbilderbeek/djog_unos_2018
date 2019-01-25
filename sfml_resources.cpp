@@ -73,10 +73,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   }
     // Goat texture
     {
-      QFile f(":/nature_zen/resources/mountain_goat.jpg");
-      f.copy("mountain_goat.jpg");
-      if (!m_goat_texture.loadFromFile("mountain_goat.jpg"))
-        throw std::runtime_error("Cannot find image file 'mountain_goat.jpg'");
+      QFile f(":/nature_zen/resources/mountain_goat.png");
+      f.copy("mountain_goat.png");
+      if (!m_goat_texture.loadFromFile("mountain_goat.png"))
+        throw std::runtime_error("Cannot find image file 'mountain_goat.png'");
     }
   // crocodile texture
   {

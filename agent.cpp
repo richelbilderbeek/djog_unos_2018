@@ -323,6 +323,20 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  //#define FIX_ISSUE_325
+  #ifdef FIX_ISSUE_325
+  // Agents have a direction, that can be read
+  {
+    const agent a(agent_type::cow); //Must be const
+    assert(a.get_direction() == 0.0);
+  }
+  // Agents have a direction, that can be set
+  {
+    agent a(agent_type::cow);
+    a.set_direction(3.14);
+    assert(a.get_direction() == 3.14);
+  }
+  #endif // FIX_ISSUE_325
   // Test can_eat
   {
     for (agent_type a : collect_all_agent_types()) {
@@ -412,9 +426,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
   #endif //FIX_ISSUE_300
-  // TODO Create this issue:
-  //define FIX_ISSUE_XXX
-  #ifdef FIX_ISSUE_XXX
   //Flying agent can fly over nothing without problems
   {
     const std::vector<tile> no_tiles;
@@ -423,10 +434,8 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].move(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
-  #endif
-  // TODO Joshua fix this
-  //#define FIX_EAT
-  #ifdef FIX_EAT
+  //#define FIX_ISSUE_301
+  #ifdef FIX_ISSUE_301
   //Cows eat grass
   {
     const double grass_health{5.0};
@@ -447,6 +456,6 @@ void test_agent() //!OCLINT testing functions may be long
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
-#endif
+  #endif //FIX_ISSUE_301
 
 }
