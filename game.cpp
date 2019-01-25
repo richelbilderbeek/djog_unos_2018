@@ -315,8 +315,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
-  //#define FIX_ISSUE_331
-  #ifdef FIX_ISSUE_331
   //A game event should move tiles
   {
     const std::vector<agent> no_agents;
@@ -332,7 +330,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(x_before != x_after);
     assert(y_before != y_after);
   }
-  #endif //FIX_ISSUE_331
   //#define FIX_ISSUE_304
   #ifdef FIX_ISSUE_304
   //Agents must follow the movement of the tile they are on
