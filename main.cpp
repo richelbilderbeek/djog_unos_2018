@@ -37,7 +37,7 @@ void test() {
   test_sfml_game_delegate();
   test_tile_type();
   test_tile();
-  //test_agent();
+  test_agent();
   test_agent_type();
   test_tile_id();
   //test_sfml_window_manager();
