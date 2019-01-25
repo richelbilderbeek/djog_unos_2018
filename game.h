@@ -31,7 +31,7 @@ public:
 
   void delete_tiles(std::vector<tile> ts);
 
-  void add_agents(std::vector<agent> as);
+  void add_agents(const std::vector<agent>& as);
 
   int get_n_ticks() const;
 
@@ -45,6 +45,8 @@ private:
 
   /// The selected tile
   std::vector<int> m_selected;
+
+  void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
 
   void merge_tiles();
 

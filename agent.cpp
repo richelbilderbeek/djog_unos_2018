@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "agent_type.h"
 #include "game.h"
 
 using namespace sf;
@@ -110,11 +111,26 @@ void agent::move(double dx, double dy) {
   m_y += dy;
 }
 
-void agent::process_events(const game& g) {
+void agent::process_events(game& g) {
   move(g);
 
   if(m_type == agent_type::grass)
-    m_health += 0.01;
+  {
+    m_health += 0.00001;
+
+    if (m_health > 1000000.0)
+    {
+      const agent new_grass(
+        agent_type::grass,
+        m_x - 1.0 + static_cast<double>(std::rand() % 3),
+        m_y - 1.0 + static_cast<double>(std::rand() % 3),
+        m_health / 2.0
+      );
+      const std::vector<agent> agents( { new_grass } );
+      g.add_agents(agents);
+      m_health = m_health / 2.0;
+    }
+  }
 
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
@@ -307,6 +323,20 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  //#define FIX_ISSUE_325
+  #ifdef FIX_ISSUE_325
+  // Agents have a direction, that can be read
+  {
+    const agent a(agent_type::cow); //Must be const
+    assert(a.get_direction() == 0.0);
+  }
+  // Agents have a direction, that can be set
+  {
+    agent a(agent_type::cow);
+    a.set_direction(3.14);
+    assert(a.get_direction() == 3.14);
+  }
+  #endif // FIX_ISSUE_325
   // Test can_eat
   {
     for (agent_type a : collect_all_agent_types()) {
@@ -382,7 +412,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
   #endif // FIX_ISSUE_303
-  //#define FIX_ISSUE_300
+  #define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
   {
@@ -396,9 +426,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
   #endif //FIX_ISSUE_300
-  // TODO Create this issue:
-  //define FIX_ISSUE_XXX
-  #ifdef FIX_ISSUE_XXX
   //Flying agent can fly over nothing without problems
   {
     const std::vector<tile> no_tiles;
@@ -407,7 +434,8 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].move(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
-  #endif
+  //#define FIX_ISSUE_301
+  #ifdef FIX_ISSUE_301
   //Cows eat grass
   {
     const double grass_health{5.0};
@@ -428,4 +456,6 @@ void test_agent() //!OCLINT testing functions may be long
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
+  #endif //FIX_ISSUE_301
+
 }
