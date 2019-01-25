@@ -434,9 +434,8 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].move(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
-  // TODO Joshua fix this
-  //#define FIX_EAT
-  #ifdef FIX_EAT
+  //#define FIX_ISSUE_301
+  #ifdef FIX_ISSUE_301
   //Cows eat grass
   {
     const double grass_health{5.0};
@@ -457,6 +456,6 @@ void test_agent() //!OCLINT testing functions may be long
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
-#endif
+  #endif //FIX_ISSUE_301
 
 }
