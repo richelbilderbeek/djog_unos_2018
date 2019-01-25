@@ -412,7 +412,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
   #endif // FIX_ISSUE_303
-  #define FIX_ISSUE_300
+  //#define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
   {
