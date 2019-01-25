@@ -368,7 +368,7 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after < health_before);
   }
-  #define FIX_ISSUE_285
+  //#define FIX_ISSUE_285
   #ifdef FIX_ISSUE_285
   //An agent must be removed if health is below zero
   {
