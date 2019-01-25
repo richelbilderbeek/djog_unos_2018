@@ -50,7 +50,7 @@ private:
 
   void merge_tiles();
 
-  void kill_agents(agent& a);
+  //void kill_agents();
 
   /// Tiles list
   std::vector<tile> m_tiles;

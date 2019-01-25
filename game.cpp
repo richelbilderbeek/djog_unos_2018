@@ -56,7 +56,7 @@ void game::process_events()
 {
   for (auto& a: m_agents) {
     a.process_events(*this);
-    kill_agents(a);
+    //kill_agents();
   }
 
   merge_tiles();
@@ -64,6 +64,9 @@ void game::process_events()
   //Process the events happening on the tiles
   for (auto& tile: m_tiles)
   {
+    if(tile.get_dx() != 0 || tile.get_dy() != 0){
+      tile.move(*this);
+    }
     tile.process_events();
   }
 
@@ -154,15 +157,15 @@ void game::merge_tiles() { //!OCLINT must simplify
   }
 }
 
-void game::kill_agents(agent& a) {
+/*void game::kill_agents() {
   const int n = count_n_agents(*this);
   for (int i = 0; i < n - 1; ++i) {
-    if (a.get_health() <= 0) {
-      m_agents[n] = m_agents.back();
+    if (m_agents[i].get_health() <= 0) {
+      m_agents[i] = m_agents.back();
       m_agents.pop_back();
     }
   }
-}
+}*/
 
 int game::get_n_ticks() const{
   return m_n_tick;
@@ -312,6 +315,26 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
+  //#define FIX_ISSUE_331
+  #ifdef FIX_ISSUE_331
+  //A game event should move tiles
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0) }, no_agents);
+    tile& tile = g.get_tiles()[0];
+    const auto x_before = tile.get_x();
+    const auto y_before = tile.get_y();
+    tile.set_dx(5.0);
+    tile.set_dy(5.0);
+    g.process_events();
+    const auto x_after = tile.get_x();
+    const auto y_after = tile.get_y();
+    assert(x_before != x_after);
+    assert(y_before != y_after);
+  }
+  #endif //FIX_ISSUE_331
+  //#define FIX_ISSUE_304
+  #ifdef FIX_ISSUE_304
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards
@@ -322,13 +345,18 @@ void test_game() //!OCLINT a testing function may be long
       { agent(agent_type::cow, start_cow_x, start_cow_y) }
     );
     tile& tile = g.get_tiles()[0];
+    const auto x_before = tile.get_x();
     tile.set_dx(5.0);
     g.process_events();
+    const auto x_after = tile.get_x();
+    assert(x_before != x_after);
     tile.set_dy(5.0);
     g.process_events();
+
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
   }
+  #endif //FIX_ISSUE_304
   {
     const agent a(agent_type::tree);
     sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
