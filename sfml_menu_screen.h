@@ -20,6 +20,8 @@ public:
     void close();
 
     void set_positions();
+    
+    void draw_objects();
 
 private:
 

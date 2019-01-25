@@ -72,17 +72,21 @@ void sfml_menu_screen::exec()
           break;
       }
     }
-    m_window.clear(sf::Color::Black);
     set_positions();
-    m_window.draw(m_header);
-    m_window.draw(m_button1.get_shape());
-    m_window.draw(m_button1.get_text());
-    m_window.draw(m_button2.get_shape());
-    m_window.draw(m_button2.get_text());
-    m_window.draw(m_button3.get_shape());
-    m_window.draw(m_button3.get_text());
-    m_window.display();
+    draw_objects();
   }
+}
+
+void sfml_menu_screen::draw_objects() {
+  m_window.clear(sf::Color::Black);
+  m_window.draw(m_header);
+  m_window.draw(m_button1.get_shape());
+  m_window.draw(m_button1.get_text());
+  m_window.draw(m_button2.get_shape());
+  m_window.draw(m_button2.get_text());
+  m_window.draw(m_button3.get_shape());
+  m_window.draw(m_button3.get_text());
+  m_window.display();
 }
 
 void sfml_menu_screen::set_positions() {
