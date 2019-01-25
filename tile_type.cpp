@@ -69,7 +69,7 @@ void test_tile_type()
   }
   {
     //Uncomment if you want to run this test
-    #define FIX_ISSUE_188
+    //#define FIX_ISSUE_188 // TODO complete the function so this works again
     #ifdef FIX_ISSUE_188
     const std::vector<tile_type> v = get_all_tile_types();
     for (const tile_type t : v)
@@ -94,6 +94,7 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::desert);
   v.push_back(tile_type::swamp);
   v.push_back(tile_type::Dunes);
+  v.push_back(tile_type::mangrove);
   v.push_back(tile_type::beach);
   v.push_back(tile_type::rainforest);
   v.push_back(tile_type::hills);
@@ -122,6 +123,8 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
       return "woods";
   case tile_type::Dunes:
     return "Dunes";
+  case tile_type::mangrove:
+    return "mangrove";
     case tile_type::beach:
       return "beach";
     case tile_type::hills:
@@ -147,6 +150,7 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
   if (str == "savannah") return tile_type::savannah;
   if (str == "woods") return tile_type::woods;
   if (str == "Dunes") return tile_type::Dunes;
+  if (str == "mangrove") return tile_type::mangrove;
   if (str == "beach") return tile_type::beach;
   if (str == "hills") return tile_type::hills;
   if (str == "tundra") return tile_type::tundra;
