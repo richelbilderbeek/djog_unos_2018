@@ -56,7 +56,7 @@ void game::process_events()
 {
   for (auto& a: m_agents) {
     a.process_events(*this);
-    //kill_agents();
+    kill_agents();
   }
 
   merge_tiles();
@@ -157,7 +157,7 @@ void game::merge_tiles() { //!OCLINT must simplify
   }
 }
 
-/*void game::kill_agents() {
+void game::kill_agents() {
   const int n = count_n_agents(*this);
   for (int i = 0; i < n - 1; ++i) {
     if (m_agents[i].get_health() <= 0) {
@@ -165,7 +165,7 @@ void game::merge_tiles() { //!OCLINT must simplify
       m_agents.pop_back();
     }
   }
-}*/
+}
 
 int game::get_n_ticks() const{
   return m_n_tick;
