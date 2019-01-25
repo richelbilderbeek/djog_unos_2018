@@ -330,8 +330,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(x_before != x_after);
     assert(y_before != y_after);
   }
-  //#define FIX_ISSUE_304
-  #ifdef FIX_ISSUE_304
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards
@@ -353,7 +351,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
   }
-  #endif //FIX_ISSUE_304
   {
     const agent a(agent_type::tree);
     sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
