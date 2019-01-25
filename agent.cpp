@@ -323,6 +323,20 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  //#define FIX_ISSUE_325
+  #ifdef FIX_ISSUE_325
+  // Agents have a direction, that can be read
+  {
+    const agent a(agent_type::cow); //Must be const
+    assert(a.get_direction() == 0.0);
+  }
+  // Agents have a direction, that can be set
+  {
+    agent a(agent_type::cow);
+    a.set_direction(3.14);
+    assert(a.get_direction() == 3.14);
+  }
+  #endif // FIX_ISSUE_325
   // Test can_eat
   {
     for (agent_type a : collect_all_agent_types()) {
