@@ -304,22 +304,7 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 
   if (event.mouseButton.button == sf::Mouse::Left)
   {
-    std::vector<tile> game_tiles = m_game.get_tiles();
-    for (unsigned i = 0; i < game_tiles.size(); i++)
-    {
-      if (game_tiles.at(i).tile_contains(
-            sf::Mouse::getPosition(m_window).x + m_camera.x,
-            sf::Mouse::getPosition(m_window).y + m_camera.y))
-      {
-        m_game.m_selected.clear();
-        m_game.m_selected.push_back(game_tiles.at(i).get_id());
-        m_clicked_tile = true;
-      }
-    }
-    if (m_clicked_tile == false)
-    {
-      m_game.m_selected.clear();
-    }
+    m_game.move_tiles(m_window, m_camera);
     m_clicked_tile = false;
     if (m_game.get_agents().size() == 1 &&
         m_game.get_tiles().size() > 0)
@@ -524,6 +509,9 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::swamp:
       color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
       break;
+    case tile_type::mangrove:
+      color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
+      break;
     case tile_type::arctic:
       color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
       break;
@@ -533,10 +521,13 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::woods:
       color_shape(sfml_tile, sf::Color(34, 139, 34), sf::Color(0, 128, 0));
       break;
+    case tile_type:: Dunes:
+      color_shape(sfml_tile, sf::Color(220, 180, 40), sf::Color(255, 180, 50));
+      break;
     case tile_type::tundra:
       color_shape(sfml_tile, sf::Color(178, 58, 5), sf::Color(185, 175, 173));
       break;
-    case tile_type::hills_of_rafayel:
+    case tile_type::hills:
       color_shape(sfml_tile, sf::Color(145, 156, 48), sf::Color(148, 145, 44));
       break;
     case tile_type::rainforest:
@@ -678,7 +669,7 @@ sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(178, 58, 5);
   }
-  else if(tile == tile_type::hills_of_rafayel)
+  else if(tile == tile_type::hills)
   {
     return sf::Color(145, 156, 48);
   }
@@ -730,7 +721,7 @@ sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
   {
     return sf::Color(185, 175, 173);
   }
-  else if(tile == tile_type::hills_of_rafayel)
+  else if(tile == tile_type::hills)
   {
     return sf::Color(148, 145, 44);
   }

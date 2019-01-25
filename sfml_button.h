@@ -20,8 +20,8 @@ public:
   sf::RectangleShape &get_shape() noexcept { return m_shape; }
   sf::Text &get_text() noexcept { return m_text; }
 
-  sf::Vector2f get_pos() noexcept { return sf::Vector2f(m_x, m_y); }
-  sf::Vector2f get_size() noexcept { return sf::Vector2f(m_width, m_height); }
+ sf::Vector2f get_pos() noexcept { return sf::Vector2f(m_x, m_y); }
+ sf::Vector2f get_size() noexcept { return sf::Vector2f(m_width, m_height); }
 
   void set_string(const std::string str);
 

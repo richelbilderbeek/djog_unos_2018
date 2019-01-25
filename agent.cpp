@@ -4,7 +4,10 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "agent_type.h"
 #include "game.h"
+
+using namespace sf;
 
 agent::agent(const agent_type type, const double x, const double y, double health)
     : m_type{type}, m_x{x}, m_y{y}, m_health{health}, m_stamina{100}{}
@@ -108,11 +111,26 @@ void agent::move(double dx, double dy) {
   m_y += dy;
 }
 
-void agent::process_events(const game& g) {
+void agent::process_events(game& g) {
   move(g);
 
   if(m_type == agent_type::grass)
-    m_health += 0.01;
+  {
+    m_health += 0.00001;
+
+    if (m_health > 1000000.0)
+    {
+      const agent new_grass(
+        agent_type::grass,
+        m_x - 1.0 + static_cast<double>(std::rand() % 3),
+        m_y - 1.0 + static_cast<double>(std::rand() % 3),
+        m_health / 2.0
+      );
+      const std::vector<agent> agents( { new_grass } );
+      g.add_agents(agents);
+      m_health = m_health / 2.0;
+    }
+  }
 
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
@@ -230,7 +248,7 @@ void move_agent_to_tile(agent &a, double tile_x, double tile_y) {
 }
 
 bool agent::is_clicked(const double x, const double y,
-                       const sf::Texture& sprite) const noexcept {
+                       const Texture& sprite) const noexcept {
   return x > m_x - 5 &&
          x < m_x + sprite.getSize().x * 0.2 + 5 &&
          y > m_y - 5 &&
@@ -305,15 +323,26 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  //#define FIX_ISSUE_325
+  #ifdef FIX_ISSUE_325
+  // Agents have a direction, that can be read
+  {
+    const agent a(agent_type::cow); //Must be const
+    assert(a.get_direction() == 0.0);
+  }
+  // Agents have a direction, that can be set
+  {
+    agent a(agent_type::cow);
+    a.set_direction(3.14);
+    assert(a.get_direction() == 3.14);
+  }
+  #endif // FIX_ISSUE_325
   // Test can_eat
   {
     for (agent_type a : collect_all_agent_types()) {
       can_eat(a);
     }
   }
-  //WARNING this test isn't running
-  //#define FIX_ISSUE_289
-  #ifdef FIX_ISSUE_289
   //Agent can pass out of exhaustion
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
@@ -324,7 +353,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto stamina_after = g.get_agents()[0].get_stamina();
     assert(stamina_after < stamina_before);
   }
-  #endif
   //A cow must starve if alone
   {
     game g({ tile(-1, -1, 0, 2, 2) }, { agent(agent_type::cow) } );
@@ -363,8 +391,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
-  //#define FIX_ISSUE_305
-  #ifdef FIX_ISSUE_305
   //Trees grow
   {
     game g(create_default_tiles(), { agent(agent_type::tree) } );
@@ -375,7 +401,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
-  #endif // FIX_ISSUE_305
   #define FIX_ISSUE_303
   #ifdef FIX_ISSUE_303
   //Sessile agents that move on nothing get zero health
@@ -401,9 +426,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
   #endif //FIX_ISSUE_300
-  // TODO Create this issue:
-  //define FIX_ISSUE_XXX
-  #ifdef FIX_ISSUE_XXX
   //Flying agent can fly over nothing without problems
   {
     const std::vector<tile> no_tiles;
@@ -412,8 +434,7 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].move(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
-  #endif
-  #define FIX_ISSUE_301
+  //#define FIX_ISSUE_301
   #ifdef FIX_ISSUE_301
   //Cows eat grass
   {
@@ -436,4 +457,5 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
   #endif //FIX_ISSUE_301
+
 }
