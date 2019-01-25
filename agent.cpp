@@ -401,8 +401,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
-  #define FIX_ISSUE_303
-  #ifdef FIX_ISSUE_303
   //Sessile agents that move on nothing get zero health
   {
     const std::vector<tile> no_tiles;
@@ -411,7 +409,6 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
-  #endif // FIX_ISSUE_303
   //#define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
@@ -426,7 +423,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
   #endif //FIX_ISSUE_300
-  //#define FIX_FLYING //TODO Make this an issue
+  //#define FIX_FLYING
   #ifdef FIX_FLYING
   //Flying agent can fly over nothing without problems
   {
@@ -437,8 +434,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
   #endif
-  #define FIX_ISSUE_301
-  #ifdef FIX_ISSUE_301
   //Cows eat grass
   {
     const double grass_health{5.0};
@@ -461,5 +456,4 @@ void test_agent() //!OCLINT testing functions may be long
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
-  #endif //FIX_ISSUE_301
 }
