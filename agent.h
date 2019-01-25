@@ -42,7 +42,7 @@ public:
 
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
-  void move(const game& g);
+  void move();
   void move(double dx, double dy);
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
