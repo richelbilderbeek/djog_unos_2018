@@ -140,9 +140,12 @@ void agent::process_events(game& g) {
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
 
-  if (!is_on_tile(g, *this))
+  if(m_type != agent_type::bird)
   {
-    m_health = 0;
+    if (!is_on_tile(g, *this))
+    {
+      m_health = 0;
+    }
   }
 
   if(m_dx != 0 || m_dy != 0){
@@ -429,8 +432,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
   #endif //FIX_ISSUE_300
-  //#define FIX_FLYING
-  #ifdef FIX_FLYING
   //Flying agent can fly over nothing without problems
   {
     const std::vector<tile> no_tiles;
@@ -439,7 +440,6 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].process_events(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
-  #endif
   //Cows eat grass
   {
     const double grass_health{5.0};
