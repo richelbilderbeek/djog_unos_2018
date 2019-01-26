@@ -167,7 +167,6 @@ void game::merge_tiles() { //!OCLINT must simplify
           a.set_dy(0);
         }
       }
-      return;
     }
   }
 }
