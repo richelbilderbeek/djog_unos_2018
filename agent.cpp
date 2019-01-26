@@ -362,8 +362,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto stamina_after = g.get_agents()[0].get_stamina();
     assert(stamina_after < stamina_before);
   }
-  //#define FIX_ISSUE_287
-  #ifdef FIX_ISSUE_287
   //A cow must starve if alone
   {
     game g({ tile(-1, -1, 0, 2, 2) }, { agent(agent_type::cow) } );
@@ -379,7 +377,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after < health_before);
   }
-  #endif //FIX_ISSUE_287
   //An agent must be removed if health is below zero
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
