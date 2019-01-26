@@ -56,8 +56,9 @@ void game::process_events()
 {
   for (auto& a: m_agents) {
     a.process_events(*this);
-    //kill_agents();
   }
+
+  kill_agents();
 
   merge_tiles();
 
@@ -65,7 +66,7 @@ void game::process_events()
   for (auto& tile: m_tiles)
   {
     if(tile.get_dx() != 0 || tile.get_dy() != 0){
-      tile.move(*this);
+      tile.move();
     }
     tile.process_events();
   }
@@ -138,25 +139,38 @@ void game::merge_tiles() { //!OCLINT must simplify
     {
       assert(j >=0);
       assert(j < static_cast<int>(m_tiles.size()));
-      const tile& other_tile = m_tiles[j];
-      if (have_same_position(focal_tile, other_tile))
-      {
-        tile_merge(focal_tile, other_tile, j);
-        return;
+      tile& other_tile = m_tiles[j];
+      if (!have_same_position(focal_tile, other_tile)) { return; }
+      tile_merge(focal_tile, other_tile, j);
+      focal_tile.set_dx(0);
+      focal_tile.set_dy(0);
+      other_tile.set_dx(0);
+      other_tile.set_dy(0);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, focal_tile)){
+          a.set_dx(0);
+          a.set_dy(0);
+        }
+      }
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, other_tile)){
+          a.set_dx(0);
+          a.set_dy(0);
+        }
       }
     }
   }
 }
 
-/*void game::kill_agents() {
+void game::kill_agents() {
   const int n = count_n_agents(*this);
-  for (int i = 0; i < n - 1; ++i) {
+  for (int i = 0; i < n; ++i) {
     if (m_agents[i].get_health() <= 0) {
       m_agents[i] = m_agents.back();
       m_agents.pop_back();
     }
   }
-}*/
+}
 
 int game::get_n_ticks() const{
   return m_n_tick;
@@ -191,6 +205,46 @@ bool is_on_tile(const game& g, const double x, const double y)
 bool is_on_tile(const game& g, const agent& a) {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
   return is_on_tile(g, center.x, center.y);
+}
+
+void game::confirm_tile_move(tile& t, int direction, int tile_speed){
+  switch (direction)
+  {
+    case 1:
+      t.set_dy(-tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dy(-tile_speed);
+        }
+      }
+      return;
+    case 2:
+      t.set_dx(tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dx(tile_speed);
+        }
+      }
+      return;
+    case 3:
+      t.set_dy(tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dy(tile_speed);
+        }
+      }
+      return;
+    case 4:
+      t.set_dx(-tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dx(-tile_speed);
+        }
+      }
+      return;
+    default:
+      return;
+  }
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -306,8 +360,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
-  //#define FIX_ISSUE_331
-  #ifdef FIX_ISSUE_331
   //A game event should move tiles
   {
     const std::vector<agent> no_agents;
@@ -323,9 +375,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(x_before != x_after);
     assert(y_before != y_after);
   }
-  #endif //FIX_ISSUE_331
-  //#define FIX_ISSUE_304
-  #ifdef FIX_ISSUE_304
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards
@@ -336,18 +385,19 @@ void test_game() //!OCLINT a testing function may be long
       { agent(agent_type::cow, start_cow_x, start_cow_y) }
     );
     tile& tile = g.get_tiles()[0];
+    agent& agent = g.get_agents()[0];
     const auto x_before = tile.get_x();
     tile.set_dx(5.0);
+    agent.set_dx(5.0);
     g.process_events();
     const auto x_after = tile.get_x();
     assert(x_before != x_after);
     tile.set_dy(5.0);
+    agent.set_dy(5.0);
     g.process_events();
-
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
   }
-  #endif //FIX_ISSUE_304
   {
     const agent a(agent_type::tree);
     sf::Texture &sprite = sfml_resources::get().get_agent_sprite(a);
@@ -370,7 +420,7 @@ void test_game() //!OCLINT a testing function may be long
     tile& tile = g.get_tiles()[0];
     tile.set_dx(1.0);
     tile.set_dy(1.0);
-    for (int i=0; i != 10; ++i)
+    for (int i=0; i != 100; ++i)
     {
       g.process_events();
     }

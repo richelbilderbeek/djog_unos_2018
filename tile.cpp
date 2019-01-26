@@ -137,11 +137,11 @@ void tile::set_type(const tile_type t) noexcept
   m_type = t;
 }
 
-void tile::move(game& g) {
+void tile::move() {
   m_x += m_dx;
   m_y += m_dy;
   m_z += m_dz;
-  for (agent& a : g.get_agents()){
+  /*for (agent& a : g.get_agents()){
     if(is_on_specific_tile(a, *this)){
       double x = a.get_x();
       x += m_dx;
@@ -150,7 +150,7 @@ void tile::move(game& g) {
       a.set_x(x);
       a.set_y(y);
     }
-  }
+  }*/
 }
 
 std::ostream& operator<<(std::ostream& os, const tile& t)
@@ -249,7 +249,6 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Tile responds to its speed
   {
-    game g;
     tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
     const double dx{12.34};
     const double dy{56.78};
@@ -257,7 +256,7 @@ void test_tile() //!OCLINT testing function may be many lines
     t.set_dy(dy);
     assert(t.get_x() != dx);
     assert(t.get_y() != dy);
-    t.move(g);
+    t.move();
     assert(t.get_x() == dx);
     assert(t.get_y() == dy);
   }

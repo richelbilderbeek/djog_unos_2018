@@ -210,14 +210,16 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
   if (!selected.empty())
   {
     tile& temp_tile = getTileById(selected);
-    if (m_timer > 0)
-    {
-      temp_tile.move(m_game);
-    }
-    else
+    if (m_timer <= 0)
     {
       temp_tile.set_dx(0);
       temp_tile.set_dy(0);
+      for(agent& a: m_game.get_agents()){
+        if(is_on_specific_tile(a, temp_tile)){
+          a.set_dx(0);
+          a.set_dy(0);
+        }
+      }
     }
   }
 }
@@ -277,9 +279,9 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
   {
     arrows(true, event);
     if (!m_game.m_selected.empty())
-      tile_movement(true, event, getTileById(m_game.m_selected));
+      control_tile(true, event, getTileById(m_game.m_selected));
     if (m_timer > 0)
-      tile_movement(false, event, getTileById(m_game.m_selected));
+      control_tile(false, event, getTileById(m_game.m_selected));
   }
   else
   {
@@ -364,7 +366,7 @@ void sfml_game::arrows(bool b, const sf::Event& event)
     m_camera.m_movecam_d = b;
 }
 
-void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
+void sfml_game::control_tile(bool b, const sf::Event& event, tile& t)
 {
   if (m_timer == 0)
   {
@@ -377,6 +379,12 @@ void sfml_game::tile_movement(bool b, const sf::Event& event, tile& t)
     {
       t.set_dx(0);
       t.set_dy(0);
+      for(agent& a: m_game.get_agents()){
+        if(is_on_specific_tile(a, t)){
+          a.set_dx(0);
+          a.set_dy(0);
+        }
+      }
     }
   }
 }
@@ -420,14 +428,16 @@ void sfml_game::switch_collide(tile& t, int direction)
   //std::vector<tile> added_tiles;
   if (!will_colide(direction, t))
   {
-    confirm_tile_move(t, direction);
+    //confirm_tile_move(t, direction);
+    m_game.confirm_tile_move(t, direction, m_tile_speed);
   }
   if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
-    confirm_tile_move(t, direction);
+    //confirm_tile_move(t, direction);
+    m_game.confirm_tile_move(t, direction, m_tile_speed);
     sf::Vector2f b = get_direction_pos(direction, t, 115);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {
