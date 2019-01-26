@@ -455,11 +455,7 @@ void test_agent() //!OCLINT testing functions may be long
     );
     assert(g.get_agents()[0].get_health() == grass_health);
     double cow_stamina = g.get_agents()[1].get_stamina();
-    for (int i = 0; i < 101; ++i) {
-      std::cout << g.get_agents()[0].get_health() << "\n";
-      g.process_events();
-    }
-    std::cout << g.get_agents()[0].get_health() << "\n";
+    g.process_events();
     //Grass is eaten ...
     assert(g.get_agents()[0].get_health() < grass_health);
     //Cow is fed ...

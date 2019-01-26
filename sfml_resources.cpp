@@ -198,16 +198,15 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
   }
 }
 
-sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept { //!OCLINT is going to be to complex
-  switch (t.get_type()) {
+sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept {
+  switch (t.get_type()) { //!OCLINT too few branches for now
     case tile_type::tundra:
       if (t.get_width() > 100) {
         assert(t.get_height() == 100.0);
         return m_tundra_laying;
-      } else {
-        assert(t.get_width() == 100.0);
-        return m_tundra_standing;
       }
+      assert(t.get_width() == 100.0);
+      return m_tundra_standing;
     default:
       return m_empty_tile;
   }

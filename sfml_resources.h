@@ -8,7 +8,7 @@
 
 /// Singleton class to access all resources
 //TODO: make this a member variable of sfml_game
-class sfml_resources {
+class sfml_resources { //!OCLINT ignore too many fields for now
 public:
   /// Access the resources
   static sfml_resources &get();
