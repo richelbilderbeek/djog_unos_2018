@@ -66,7 +66,7 @@ void game::process_events()
   for (auto& tile: m_tiles)
   {
     if(tile.get_dx() != 0 || tile.get_dy() != 0){
-      tile.move(*this);
+      tile.move();
     }
     tile.process_events();
   }
@@ -156,6 +156,18 @@ void game::merge_tiles() { //!OCLINT must simplify
         focal_tile.set_dy(0);
         other_tile.set_dx(0);
         other_tile.set_dy(0);
+        for(agent& a: m_agents){
+          if(is_on_specific_tile(a, focal_tile)){
+            a.set_dx(0);
+            a.set_dy(0);
+          }
+        }
+        for(agent& a: m_agents){
+          if(is_on_specific_tile(a, other_tile)){
+            a.set_dx(0);
+            a.set_dy(0);
+          }
+        }
         return;
       }
     }
@@ -164,12 +176,12 @@ void game::merge_tiles() { //!OCLINT must simplify
 
 void game::kill_agents() {
   const int n = count_n_agents(*this);
-  for (int i = 0; i < n; ++i) {
+  /*for (int i = 0; i < n; ++i) {
     if (m_agents[i].get_health() <= 0) {
       m_agents[i] = m_agents.back();
       m_agents.pop_back();
     }
-  }
+  }*/
 }
 
 int game::get_n_ticks() const{
@@ -385,14 +397,16 @@ void test_game() //!OCLINT a testing function may be long
       { agent(agent_type::cow, start_cow_x, start_cow_y) }
     );
     tile& tile = g.get_tiles()[0];
+    agent& agent = g.get_agents()[0];
     const auto x_before = tile.get_x();
     tile.set_dx(5.0);
+    agent.set_dx(5.0);
     g.process_events();
     const auto x_after = tile.get_x();
     assert(x_before != x_after);
     tile.set_dy(5.0);
+    agent.set_dy(5.0);
     g.process_events();
-
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
   }

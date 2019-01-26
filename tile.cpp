@@ -137,7 +137,7 @@ void tile::set_type(const tile_type t) noexcept
   m_type = t;
 }
 
-void tile::move(game& g) {
+void tile::move() {
   m_x += m_dx;
   m_y += m_dy;
   m_z += m_dz;
@@ -257,7 +257,7 @@ void test_tile() //!OCLINT testing function may be many lines
     t.set_dy(dy);
     assert(t.get_x() != dx);
     assert(t.get_y() != dy);
-    t.move(g);
+    t.move();
     assert(t.get_x() == dx);
     assert(t.get_y() == dy);
   }

@@ -208,6 +208,12 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
     {
       temp_tile.set_dx(0);
       temp_tile.set_dy(0);
+      for(agent& a: m_game.get_agents()){
+        if(is_on_specific_tile(a, temp_tile)){
+          a.set_dx(0);
+          a.set_dy(0);
+        }
+      }
     }
   }
 }
@@ -427,7 +433,8 @@ void sfml_game::switch_collide(tile& t, int direction)
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
-    confirm_tile_move(t, direction);
+    //confirm_tile_move(t, direction);
+    m_game.confirm_tile_move(t, direction, m_tile_speed);
     sf::Vector2f b = get_direction_pos(direction, t, 115);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {

@@ -42,8 +42,8 @@ public:
 
   void set_x(double x) noexcept { m_x = x; }
   void set_y(double y) noexcept { m_y = y; }
-  void set_dx(double dx);
-  void set_dy(double dy);
+  void set_dx(double dx) noexcept { m_dx = dx; }
+  void set_dy(double dy) noexcept { m_dy = dy; }
   void set_health(double health) noexcept { m_health = health; }
 
   sf::Vector2f get_center(const sf::Texture& sprite) const;
@@ -72,10 +72,11 @@ private:
   double m_y;
 
   /// The movement coefficient on the x-axis
-  double m_dx;
+  //Setting it to zero is needed for some reason because a random tree would move if it wasn't set
+  double m_dx = 0;
 
   /// The movement coefficient on the y-axis
-  double m_dy;
+  double m_dy = 0;
 
   /// The health of the agent
   double m_health;
