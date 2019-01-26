@@ -249,7 +249,6 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Tile responds to its speed
   {
-    game g;
     tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
     const double dx{12.34};
     const double dy{56.78};

@@ -199,12 +199,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
   if (!selected.empty())
   {
     tile& temp_tile = getTileById(selected);
-    if (m_timer > 0)
-    {
-      //Not needed anymore
-      //temp_tile.move(m_game);
-    }
-    else
+    if (m_timer <= 0)
     {
       temp_tile.set_dx(0);
       temp_tile.set_dy(0);
