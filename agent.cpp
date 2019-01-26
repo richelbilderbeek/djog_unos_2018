@@ -380,7 +380,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(health_after < health_before);
   }
   #endif //FIX_ISSUE_287
-  /*An agent must be removed if health is below zero
+  //An agent must be removed if health is below zero
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
     assert(!g.get_agents().empty());
@@ -389,7 +389,7 @@ void test_agent() //!OCLINT testing functions may be long
     {
       g.process_events();
     }
-  }*/
+  }
   //Grass grows
   {
     game g(create_default_tiles(), { agent(agent_type::grass) } );

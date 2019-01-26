@@ -176,12 +176,12 @@ void game::merge_tiles() { //!OCLINT must simplify
 
 void game::kill_agents() {
   const int n = count_n_agents(*this);
-  /*for (int i = 0; i < n; ++i) {
+  for (int i = 0; i < n; ++i) {
     if (m_agents[i].get_health() <= 0) {
       m_agents[i] = m_agents.back();
       m_agents.pop_back();
     }
-  }*/
+  }
 }
 
 int game::get_n_ticks() const{
