@@ -103,6 +103,7 @@ public:
   void confirm_tile_move(tile& t, int direction);
 
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
+  void set_tile_sprite(const tile &t, sf::Sprite &sprite);
 
   void ben_ik_een_spin();
 

@@ -106,6 +106,13 @@ void sfml_game::display_tile(const tile &t){
     sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
+    // Texture
+    sf::Sprite sprite;
+    set_tile_sprite(t, sprite);
+    assert(sprite.getTexture());
+    sprite.setPosition(screen_x, screen_y);
+    sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
+    m_window.draw(sprite);
 }
 
 void sfml_game::display_agent(const agent &a){
@@ -122,6 +129,10 @@ void sfml_game::display_agent(const agent &a){
 
 void sfml_game::set_agent_sprite(const agent& a, sf::Sprite& sprite) {
   sprite.setTexture(sfml_resources::get().get_agent_sprite(a));
+}
+
+void sfml_game::set_tile_sprite(const tile &t, sf::Sprite &sprite) {
+  sprite.setTexture(sfml_resources::get().get_tile_sprite(t));
 }
 
 void sfml_game::exec()

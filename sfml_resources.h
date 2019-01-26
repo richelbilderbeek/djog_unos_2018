@@ -31,6 +31,8 @@ public:
 
   sf::Texture &get_zen_ind() noexcept { return m_zen_ind_texture; }
 
+  sf::Texture &get_tile_sprite(const tile& t) noexcept;
+
 private:
   /// Do not construct a sfml_resources,
   /// use sfml_resources::get() instead
@@ -73,6 +75,11 @@ private:
   sf::Texture m_zen_ind_texture;
 
   sf::Texture m_zen_bar_texture;
+
+  sf::Texture m_empty_tile;
+
+  sf::Texture m_tundra_laying;
+  sf::Texture m_tundra_standing;
 
 };
 

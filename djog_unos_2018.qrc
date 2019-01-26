@@ -19,6 +19,9 @@
         <file>resources/flying_bird.png</file>
         <file>resources/zen_bar.png</file>
         <file>resources/zen_indicator.png</file>
+        <file>resources/none_tile.png</file>
+        <file>resources/tundra_laying.png</file>
+        <file>resources/tundra_standing.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
