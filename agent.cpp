@@ -140,12 +140,9 @@ void agent::process_events(game& g) {
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
 
-  if(m_type != agent_type::bird)
+  if(m_type != agent_type::bird && !is_on_tile(g, *this))
   {
-    if (!is_on_tile(g, *this))
-    {
-      m_health = 0;
-    }
+    m_health = 0;
   }
 
   if(m_dx != 0 || m_dy != 0){
