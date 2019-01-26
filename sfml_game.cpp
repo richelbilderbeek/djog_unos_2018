@@ -506,6 +506,7 @@ tile& sfml_game::getTileById(const std::vector<int>& tile_id)
   throw std::runtime_error("ID not found");
 }
 
+// First color: Fill  |  Second color: Outline
 void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) //!OCLINT no 32 statements
 {
   switch (t.get_type())
@@ -525,11 +526,11 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       color_shape(sfml_tile, sf::Color(245, 190, 0), sf::Color(235, 170, 0));
       break;
     case tile_type::swamp:
-      color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
+      color_shape(sfml_tile, sf::Color(82, 104, 27), sf::Color(67, 84, 26));
       break;
     case tile_type::mangrove:
-      color_shape(sfml_tile, sf::Color(130, 100, 15), sf::Color(100, 80, 15));
-      break;
+      color_shape(sfml_tile, sf::Color(61, 39, 26), sf::Color(33, 23, 17));
+      break;// TODO improve tile colors \/
     case tile_type::arctic:
       color_shape(sfml_tile, sf::Color(50, 230, 255), sf::Color(10, 200, 255));
       break;
@@ -645,156 +646,7 @@ bool sfml_game::will_colide(int direction, tile& t)
   return false;
 }
 
-sf::Color get_fill_color(tile_type tile) //!OCLINT FIXME has to be shorter
-{
-  if(tile == tile_type::grassland)
-  {
-    return sf::Color(0, 255, 0);
-  }
-  else if(tile == tile_type::mountains)
-  {
-    return sf::Color(120, 120, 120);
-  }
-  else if(tile == tile_type::water)
-  {
-    return sf::Color(0, 0, 255);
-  }
-  else if(tile == tile_type::savannah)
-  {
-    return sf::Color(245, 190, 0);
-  }
-  else if(tile == tile_type::swamp)
-  {
-    return sf::Color(130, 100, 15);
-  }
-  else if(tile == tile_type::arctic)
-  {
-    return sf::Color(50, 230, 255);
-  }
-  else if(tile == tile_type::desert)
-  {
-    return sf::Color(250, 210, 80);
-  }
-  else if(tile == tile_type::woods)
-  {
-    return sf::Color(34, 139, 34);
-  }
-  else if(tile == tile_type::rainforest)
-  {
-    return sf::Color(41,47,13);
-  }
-  else if(tile == tile_type::tundra)
-  {
-    return sf::Color(178, 58, 5);
-  }
-  else if(tile == tile_type::hills)
-  {
-    return sf::Color(145, 156, 48);
-  }
-  else if(tile == tile_type::rainforest)
-  {
-    return sf::Color(41,47,13);
-  }
-  else if(tile == tile_type::tundra)
-  {
-    return sf::Color(178, 58, 5);
-  }
-  else if(tile == tile_type::hills)
-  {
-    return sf::Color(145, 156, 48);
-  }
-  else
-  { //!OCLINT unnecessary else
-    return sf::Color(0, 0, 0);
-  }
-}
-
-sf::Color get_outline_color(tile_type tile) //!OCLINT FIXME has to be shorter
-{
-  if(tile == tile_type::grassland)
-  {
-    return sf::Color(0, 100, 0);
-  }
-  else if(tile == tile_type::mountains)
-  {
-    return sf::Color(50, 50, 50);
-  }
-  else if(tile == tile_type::water)
-  {
-    return sf::Color(0, 0, 100);
-  }
-  else if(tile == tile_type::savannah)
-  {
-    return sf::Color(245, 190, 0);
-  }
-  else if(tile == tile_type::swamp)
-  {
-    return sf::Color(100, 80, 15);
-  }
-  else if(tile == tile_type::arctic)
-  {
-    return sf::Color(10, 200, 255);
-  }
-  else if(tile == tile_type::desert)
-  {
-    return sf::Color(255, 180, 50);
-  }
-  else if(tile == tile_type::woods)
-  {
-    return sf::Color(0, 128, 0);
-  }
-  else if(tile == tile_type::rainforest)
-  {
-    return sf::Color(33,19,4);
-  }
-  else if(tile == tile_type::tundra)
-  {
-    return sf::Color(185, 175, 173);
-  }
-  else if(tile == tile_type::hills)
-  {
-    return sf::Color(148, 145, 44);
-  }
-  else if(tile == tile_type::rainforest)
-  {
-    return sf::Color(33,19,4);
-  }
-  else if(tile == tile_type::tundra)
-  {
-    return sf::Color(185, 175, 173);
-  }
-  else if(tile == tile_type::hills)
-  {
-    return sf::Color(148, 145, 44);
-  }
-  else
-  { //!OCLINT unnecessary else
-    return sf::Color(0, 0, 0);
-  }
-}
-
 void test_sfml_game() //!OCLINT tests may be long
 {
-  {
-    //Get the fill color of a tile type
-    assert(get_fill_color(tile_type::grassland) == sf::Color(0, 255, 0));
-    assert(get_fill_color(tile_type::mountains) == sf::Color(120, 120, 120));
-    assert(get_fill_color(tile_type::water) == sf::Color(0, 0, 255));
-    assert(get_fill_color(tile_type::savannah) == sf::Color(245, 190, 0));
-    assert(get_fill_color(tile_type::swamp) == sf::Color(130, 100, 15));
-    assert(get_fill_color(tile_type::arctic) == sf::Color(50, 230, 255));
-    assert(get_fill_color(tile_type::desert) == sf::Color(250, 210, 80));
-    assert(get_fill_color(tile_type::woods) == sf::Color(34, 139, 34));
-  }
-  {
-    //Get the outline/border color of a tile tipe
-    assert(get_outline_color(tile_type::grassland) == sf::Color(0, 100, 0));
-    assert(get_outline_color(tile_type::mountains) == sf::Color(50, 50, 50));
-    assert(get_outline_color(tile_type::water) == sf::Color(0, 0, 100));
-    assert(get_outline_color(tile_type::savannah) == sf::Color(245, 190, 0));
-    assert(get_outline_color(tile_type::swamp) == sf::Color(100, 80, 15));
-    assert(get_outline_color(tile_type::arctic) == sf::Color(10, 200, 255));
-    assert(get_outline_color(tile_type::desert) == sf::Color(255, 180, 50));
-    assert(get_outline_color(tile_type::woods) == sf::Color(0, 128, 0));
-  }
+  return; // STUB
 }
