@@ -140,7 +140,7 @@ void agent::process_events(game& g) {
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
 
-  if (!is_on_tile(g, *this))
+  if(m_type != agent_type::bird && !is_on_tile(g, *this))
   {
     m_health = 0;
   }
@@ -362,8 +362,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto stamina_after = g.get_agents()[0].get_stamina();
     assert(stamina_after < stamina_before);
   }
-  //#define FIX_ISSUE_287
-  #ifdef FIX_ISSUE_287
   //A cow must starve if alone
   {
     game g({ tile(-1, -1, 0, 2, 2) }, { agent(agent_type::cow) } );
@@ -379,7 +377,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after < health_before);
   }
-  #endif //FIX_ISSUE_287
   //An agent must be removed if health is below zero
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
@@ -432,8 +429,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
   #endif //FIX_ISSUE_300
-  //#define FIX_FLYING
-  #ifdef FIX_FLYING
   //Flying agent can fly over nothing without problems
   {
     const std::vector<tile> no_tiles;
@@ -442,7 +437,6 @@ void test_agent() //!OCLINT testing functions may be long
     g.get_agents()[0].process_events(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
-  #endif
   //Cows eat grass
   {
     const double grass_health{5.0};
