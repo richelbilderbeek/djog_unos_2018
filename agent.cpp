@@ -137,6 +137,11 @@ void agent::process_events(game& g) {
     }
   }
 
+  //TODO is depth suitable for agent
+  if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
+    m_stamina -= 0.2;
+  }
+
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
 
@@ -267,6 +272,27 @@ bool agent::is_clicked(const double x, const double y,
 sf::Vector2f agent::get_center(const sf::Texture &sprite) const {
   return sf::Vector2f(m_x + sprite.getSize().x * 0.2 / 2.0f,
                       m_y + sprite.getSize().y * 0.2 / 2.0f);
+}
+
+bool will_drown(agent_type a) {
+  switch (a) {
+    case agent_type::bacterium:
+      return false;
+    case agent_type::bird:
+      return false;
+    case agent_type::cow:
+      return true;
+    case agent_type::crocodile:
+      return false;
+    case agent_type::fish:
+      return false;
+    case agent_type::goat:
+      return true;
+    case agent_type::spider:
+      return true;
+    default:
+      return true;
+  }
 }
 
 void test_agent() //!OCLINT testing functions may be long
@@ -454,5 +480,17 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[0].get_health() < grass_health);
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
+  }
+  // Agents drown
+  {
+    game g({tile(0,0,0,3,3,10,tile_type::water)},
+           {agent(agent_type::cow, 10, 10),
+            agent(agent_type::fish, 10, 10)});
+    double cow_before = g.get_agents()[0].get_stamina();
+    double fish_before = g.get_agents()[1].get_stamina();
+    g.process_events();
+    double delta_cow = cow_before - g.get_agents()[0].get_stamina();
+    double delta_fish = fish_before - g.get_agents()[1].get_stamina();
+    assert(delta_fish < delta_cow);
   }
 }

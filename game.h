@@ -85,6 +85,8 @@ bool is_on_tile(const game& g, const agent& a);
 /// Determine if there is a tile at the given coordinat
 bool is_on_tile(const game& g, double x, double y);
 
+tile_type get_on_tile_type(const game& g, const agent& a);
+
 /// Determine if an agent is on a specific tile
 bool is_on_specific_tile(const agent& a, const tile& t);
 
