@@ -166,6 +166,9 @@ private:
 
   void setup_display_score();
 
+  void setup_tickcounter_text();
+  sf::Font m_debug_font;
+  sf::Text m_tickcounter_text;
 };
 
 ///Test the sfml_game class
