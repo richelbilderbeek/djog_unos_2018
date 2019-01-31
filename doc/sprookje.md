@@ -10,8 +10,7 @@ Deze hond hield van katten.
 Omdat haar beste vrienden katten zijn.
 Haar vriend heette Gerard en haar vriendin heette Joline.
 Het was een siamese tweeling. (Get it?)
-De hond heette dirk. Hij was zwart en heel klein. 
-
+De hond heette Sophie, ze was wit en klein.
 
 
 en ze leefden nog lang en gelukkig.
