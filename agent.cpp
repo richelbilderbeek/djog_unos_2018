@@ -125,7 +125,7 @@ void agent::process_events(game& g) {
 
     if (m_health > 10.0)
     {
-      const int max_distance{ 16 };
+      const int max_distance{ 64 };
 
       const agent new_grass(
         agent_type::grass,
