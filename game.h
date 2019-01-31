@@ -5,6 +5,7 @@
 
 #include "tile.h"
 #include "agent.h"
+#include "sfml_camera.h"
 
 class game {
 
@@ -30,9 +31,13 @@ public:
 
   void delete_tiles(std::vector<tile> ts);
 
-  void add_agents(std::vector<agent> as);
+  void add_agents(const std::vector<agent>& as);
 
   int get_n_ticks() const;
+
+  void move_tiles(sf::RenderWindow& window, sfml_camera& camera);
+
+  void confirm_tile_move(tile& t, int direction, int tile_speed);
 
   /// Timer, physics, bullets moving, etc.
   /// Everything except user input.
@@ -43,7 +48,11 @@ private:
   /// The selected tile
   std::vector<int> m_selected;
 
+  void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
+
   void merge_tiles();
+
+  void kill_agents();
 
   /// Tiles list
   std::vector<tile> m_tiles;
@@ -67,6 +76,8 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 
 /// Count the number of tiles a game has
 int count_n_tiles(const game& g) noexcept;
+
+int count_n_agents(const game& g) noexcept;
 
 /// Determine if an agent is on a tile
 bool is_on_tile(const game& g, const agent& a);

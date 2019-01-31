@@ -65,7 +65,7 @@ public:
 
   tile &getTileById(const std::vector<int> &tile_id);
 
-  void tile_movement(bool b, const sf::Event &event, tile &t);
+  void control_tile(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
 
   double m_tile_speed = 1; // 115/tile_speed must be a whole number!
@@ -103,6 +103,7 @@ public:
   void confirm_tile_move(tile& t, int direction);
 
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
+  void set_tile_sprite(const tile &t, sf::Sprite &sprite);
 
   void ben_ik_een_spin();
 

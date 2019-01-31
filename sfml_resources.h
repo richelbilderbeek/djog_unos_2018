@@ -8,7 +8,7 @@
 
 /// Singleton class to access all resources
 //TODO: make this a member variable of sfml_game
-class sfml_resources {
+class sfml_resources { //!OCLINT ignore too many fields for now
 public:
   /// Access the resources
   static sfml_resources &get();
@@ -30,6 +30,8 @@ public:
   sf::Texture &get_zen_bar() noexcept { return m_zen_bar_texture; }
 
   sf::Texture &get_zen_ind() noexcept { return m_zen_ind_texture; }
+
+  sf::Texture &get_tile_sprite(const tile& t) noexcept;
 
 private:
   /// Do not construct a sfml_resources,
@@ -73,6 +75,11 @@ private:
   sf::Texture m_zen_ind_texture;
 
   sf::Texture m_zen_bar_texture;
+
+  sf::Texture m_empty_tile;
+
+  sf::Texture m_tundra_laying;
+  sf::Texture m_tundra_standing;
 
 };
 

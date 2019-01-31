@@ -16,39 +16,29 @@ sfml_button::sfml_button(const double x, const double y,
   set_string("Click me!");
 }
 
+
 void sfml_button::set_pos(double x, double y) {
   m_x = x - (m_width / 2);
   m_y = y - (m_height / 2);
   m_shape.setPosition(m_x, m_y);
 
-  //m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
-
-  m_text.setPosition((m_x + (m_width / 2))-(m_text.getGlobalBounds().width / 2.0f),
-                     (m_y + (m_height / 2))-(m_text.getGlobalBounds().height/* / 2.0f */));
+  m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
 }
 
 void sfml_button::set_size(double width, double height) {
   m_width = width;
   m_height = height;
-  m_shape.setSize(sf::Vector2f(m_width,m_height));
+  m_shape.setSize(sf::Vector2f(m_width, m_height));
 
-  //m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
-
-  m_text.setPosition((m_x + (m_width / 2))-(m_text.getGlobalBounds().width / 2.0f),
-                     (m_y + (m_height / 2))-(m_text.getGlobalBounds().height / 2.0f));
+  m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
 }
 
 void sfml_button::set_string(const std::string str) {
   m_text.setString(str);
-  /*
-  m_text.setOrigin(m_text.getGlobalBounds().left +
-                   (m_text.getGlobalBounds().width / 2.0f),
-                   m_text.getGlobalBounds().top +
-                   (m_text.getGlobalBounds().height / 2.0f));
+  sf::FloatRect bounds = m_text.getLocalBounds();
+  m_text.setOrigin(bounds.left + bounds.width/2.0f,
+                   bounds.top  + bounds.height/2.0f);
   m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
-  */
-  m_text.setPosition((m_x + (m_width / 2))-(m_text.getGlobalBounds().width / 2.0f),
-                     (m_y + (m_height / 2))-(m_text.getGlobalBounds().height / 2.0f));
 }
 
 bool sfml_button::is_clicked(const sf::Event& event,

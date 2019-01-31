@@ -19,7 +19,7 @@ public:
   /// @param type the type the tile
   agent(const agent_type type, const double x = 0.0, const double y = 0.0, double health = 1.0);
 
-  void process_events(const game& g);
+  void process_events(game &g);
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
@@ -34,16 +34,26 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
+  /// The movement coeficient on the x-axis
+  double get_dx() const noexcept { return m_dx; }
+
+  /// The movement coeficient on the y-axis
+  double get_dy() const noexcept { return m_dy; }
+
   void set_x(double x) noexcept { m_x = x; }
   void set_y(double y) noexcept { m_y = y; }
+  void set_dx(double dx) noexcept { m_dx = dx; }
+  void set_dy(double dy) noexcept { m_dy = dy; }
   void set_health(double health) noexcept { m_health = health; }
 
   sf::Vector2f get_center(const sf::Texture& sprite) const;
 
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
-  void move(const game& g);
+  void move();
   void move(double dx, double dy);
+
+  void move_with_tile();
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
@@ -60,6 +70,13 @@ private:
 
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
+
+  /// The movement coefficient on the x-axis
+  //Setting it to zero is needed for some reason because a random tree would move if it wasn't set
+  double m_dx = 0;
+
+  /// The movement coefficient on the y-axis
+  double m_dy = 0;
 
   /// The health of the agent
   double m_health;

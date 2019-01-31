@@ -2,6 +2,8 @@
 
 #include "agent_type.h"
 #include "agent.h"
+#include "tile_type.h"
+#include "tile.h"
 
 #include <cassert>
 
@@ -71,13 +73,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_fish_texture.loadFromFile("fish.png"))
       throw std::runtime_error("Cannot find image file 'fish.png'");
   }
-    // Goat texture
-    {
-      QFile f(":/nature_zen/resources/mountain_goat.jpg");
-      f.copy("mountain_goat.jpg");
-      if (!m_goat_texture.loadFromFile("mountain_goat.jpg"))
-        throw std::runtime_error("Cannot find image file 'mountain_goat.jpg'");
-    }
+  // Goat texture
+  {
+    QFile f(":/nature_zen/resources/mountain_goat.png");
+    f.copy("mountain_goat.png");
+    if (!m_goat_texture.loadFromFile("mountain_goat.png"))
+      throw std::runtime_error("Cannot find image file 'mountain_goat.png'");
+  }
   // crocodile texture
   {
     QFile f(":/nature_zen/resources/crocodile.png");
@@ -110,7 +112,6 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   {
     QFile f(":/nature_zen/resources/font.ttf");
     f.copy("font.ttf");
-    // Set up font
     if (!m_default_font.loadFromFile("font.ttf")) {
       throw std::runtime_error("Cannot find font file font.ttf");
     }
@@ -118,7 +119,6 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   {
     QFile f(":/nature_zen/resources/zen_font.ttf");
     f.copy("zen_font.ttf");
-    // Set up font
     if (!m_title_font.loadFromFile("zen_font.ttf")) {
       throw std::runtime_error("Cannot find font file zen_font.ttf");
     }
@@ -126,7 +126,6 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   {
     QFile f(":/nature_zen/resources/title_screen_background.jpg");
     f.copy("title_screen_background.jpg");
-    // Set up font
     if (!m_background_image.loadFromFile("title_screen_background.jpg")) {
       throw std::runtime_error("Cannot find image file title_screen_background.jpg");
     }
@@ -134,7 +133,6 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   {
     QFile f(":/nature_zen/resources/zen_bar.png");
     f.copy("zen_bar.png");
-    // Set up font
     if (!m_zen_bar_texture.loadFromFile("zen_bar.png")) {
       throw std::runtime_error("Cannot find image file zen_bar.png");
     }
@@ -142,9 +140,27 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   {
     QFile f(":/nature_zen/resources/zen_indicator.png");
     f.copy("zen_indicator.png");
-    // Set up font
     if (!m_zen_ind_texture.loadFromFile("zen_indicator.png")) {
       throw std::runtime_error("Cannot find image file zen_indicator.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/none_tile.png");
+    f.copy("none_tile.png");
+    if (!m_empty_tile.loadFromFile("none_tile.png")) {
+      throw std::runtime_error("Cannot find image file none_tile.png");
+    }
+  }
+  {
+    QFile fl(":/nature_zen/resources/tundra_laying.png");
+    fl.copy("tundra_laying.png");
+    if (!m_tundra_laying.loadFromFile("tundra_laying.png")) {
+      throw std::runtime_error("Texture 'tundra_laying.png' not found");
+    }
+    QFile fs(":/nature_zen/resources/tundra_standing.png");
+    fs.copy("tundra_standing.png");
+    if (!m_tundra_standing.loadFromFile("tundra_standing.png")) {
+      throw std::runtime_error("Texture 'tundra_standing.png' not found");
     }
   }
 }
@@ -179,6 +195,20 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
       return m_bird_texture;
     default:
       return m_none_texture;
+  }
+}
+
+sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept {
+  switch (t.get_type()) { //!OCLINT too few branches for now
+    case tile_type::tundra:
+      if (t.get_width() > 100) {
+        assert(t.get_height() == 100.0);
+        return m_tundra_laying;
+      }
+      assert(t.get_width() == 100.0);
+      return m_tundra_standing;
+    default:
+      return m_empty_tile;
   }
 }
 

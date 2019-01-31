@@ -1,5 +1,7 @@
 #include "sfml_camera.h"
 #include "sfml_window_manager.h"
+using namespace sf;
+
 
 sfml_camera::sfml_camera()
   :m_window{ sfml_window_manager::get().get_window() }
@@ -9,7 +11,7 @@ sfml_camera::sfml_camera()
   m_window.setView(view);
 }
 
-void sfml_camera::move_camera(sf::Vector2f offset)
+void sfml_camera::move_camera(Vector2f offset)
 {
   // Dont move the camera in the menu
   if (m_block_movement)

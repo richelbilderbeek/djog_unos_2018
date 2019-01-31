@@ -1,15 +1,15 @@
-#ifndef SFML_MENU_SCREEN_H
-#define SFML_MENU_SCREEN_H
+#ifndef SFML_GAMEOVER_SCREEN_H
+#define SFML_GAMEOVER_SCREEN_H
 
 #include "sfml_button.h"
 #include "game_state.h"
 #include <SFML/Graphics.hpp>
 
-class sfml_menu_screen
+class sfml_gameover_screen
 {
 public:
 
-    sfml_menu_screen(const int close_at);
+    sfml_gameover_screen(const int close_at);
 
     void exec();
 
@@ -20,8 +20,6 @@ public:
     void close();
 
     void set_positions();
-    
-    void draw_objects();
 
 private:
 
@@ -32,11 +30,9 @@ private:
     sf::Text m_header;
 
     sfml_button m_button1;
-    sfml_button m_button2;
-    sfml_button m_button3;
 
     int m_close_at;
 
 };
 
-#endif // SFML_MENU_SCREEN_H
+#endif // SFML_GAMEOVER_SCREEN_H
