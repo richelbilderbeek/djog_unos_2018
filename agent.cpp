@@ -121,14 +121,16 @@ void agent::process_events(game& g) {
   if(m_type == agent_type::grass ||
      m_type == agent_type::tree)
   {
-    m_health += 0.001;
+    m_health += 0.01;
 
-    if (m_health > 1000000.0)
+    if (m_health > 10.0)
     {
+      const int max_distance{ 16 };
+
       const agent new_grass(
         agent_type::grass,
-        m_x - 1.0 + static_cast<double>(std::rand() % 3),
-        m_y - 1.0 + static_cast<double>(std::rand() % 3),
+        m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
+        m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
         m_health / 2.0
       );
       const std::vector<agent> agents( { new_grass } );
@@ -415,7 +417,8 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
-  //#define FIX_ISSUE_300
+
+  #define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
   {
