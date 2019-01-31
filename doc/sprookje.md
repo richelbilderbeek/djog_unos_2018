@@ -3,13 +3,15 @@
 Er was eens een hond, en ze woonde in Stieletch.
 Stieletch is een plaats waar veel honden wonen.
 Iedereen weet: honden houden niet van katten!
+Best wel veel honden wel hoor!
 Behalve deze hond.
 Deze hond was anders.
 Deze hond hield van katten.
 Omdat haar beste vrienden katten zijn.
 Haar vriend heette Gerard en haar vriendin heette Joline.
 Het was een siamese tweeling. (Get it?)
-De hond heette dirk. Hij was zwart en heel klein.
+De hond heette dirk. Hij was zwart en heel klein. 
+
 
 
 en ze leefden nog lang en gelukkig.
