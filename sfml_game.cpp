@@ -48,12 +48,13 @@ void sfml_game::start_music() {
   stop_music();
   m_background_music.play();
 }
+
 void sfml_game::setup_tickcounter_text() {
     m_debug_font.loadFromFile("font.ttf");
     m_tickcounter_text.setFont(m_debug_font);
-    m_tickcounter_text.setCharacterSize(16);
-    m_tickcounter_text.setFillColor(sf::Color::White);
+    m_tickcounter_text.setCharacterSize(20);
 }
+
 void sfml_game::setup_display_score() {
   m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
   m_zen_bar.setPosition(sf::Vector2f(
