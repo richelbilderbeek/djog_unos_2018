@@ -317,6 +317,20 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
+  //#define FIX_ISSUE_343
+  #ifdef FIX_ISSUE_343
+  // A bird moves
+  {
+    game g;
+    std::srand(314);
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::bird, x, y);
+    assert(is_on_tile(g, a));
+    a.move();
+    assert(a.get_x() != x || a.get_y() != y);
+  }
+  #endif
   // Grass does not move
   {
     game g;
