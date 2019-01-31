@@ -3,12 +3,14 @@
 #include "game.h"
 #include "tile_id.h"
 #include "sfml_resources.h" //NOTE Until we have hitboxes
+#include "sfml_camera.h"
 #include <cassert>
 #include <iostream>
 #include <fstream>
 #include <cstdio>
 #include <QFile>
 #include <algorithm>
+
 
 game::game(const std::vector<tile>& tiles,
            const std::vector<agent>& agents,
@@ -19,6 +21,15 @@ game::game(const std::vector<tile>& tiles,
     m_score{0}
 {
 
+}
+
+void game::add_agents(const std::vector<agent>& as)
+{
+  std::copy(
+    std::begin(as),
+    std::end(as),
+    std::back_inserter(m_agents)
+  );
 }
 
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
@@ -36,32 +47,81 @@ int count_n_tiles(const game& g) noexcept
   return g.get_tiles().size();
 }
 
+int count_n_agents(const game& g) noexcept
+{
+  return g.get_agents().size();
+}
+
 void game::process_events()
 {
   for (auto& a: m_agents) {
     a.process_events(*this);
   }
 
+  kill_agents();
+
   merge_tiles();
 
   //Process the events happening on the tiles
   for (auto& tile: m_tiles)
   {
+    if(tile.get_dx() != 0 || tile.get_dy() != 0){
+      tile.move();
+    }
     tile.process_events();
   }
 
-  for (agent& a: get_agents())
-  {
-    // Agent a can be used
-    if(a.get_type() == agent_type::grass){
-        a.set_health(a.get_health() + 1);
-    }
-    if(a.get_type() == agent_type::tree){
-        a.set_health(a.get_health() + 1);
-    }
-  }
+  // DO NOT DO FOR AGENT IN GET_AGENTS HERE
 
   ++m_n_tick;
+}
+
+void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
+  // Merge attempt with this function
+  const tile_type merged_type = get_merge_type(
+    focal_tile.get_type(),
+    other_tile.get_type()
+  );
+  //focal tile becomes merged type
+  focal_tile.set_type(merged_type);
+  //other tile is swapped to the back, then deleted
+  m_tiles[other_pos] = m_tiles.back();
+  m_tiles.pop_back();
+  //change the selected tile
+  m_selected.clear();
+  assert(m_selected.empty());
+}
+
+void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
+  bool clicked_tile = false;
+  for (unsigned i = 0; i < m_tiles.size(); i++)
+  {
+    if (m_tiles.at(i).tile_contains(
+          sf::Mouse::getPosition(window).x + camera.x,
+          sf::Mouse::getPosition(window).y + camera.y))
+    {
+      for (unsigned j = 0; j < m_tiles.size(); j++)
+      {
+        if (m_tiles.at(j).get_dx() != 0 || m_tiles.at(j).get_dy() != 0){
+          return;
+        }
+      }
+      tile s_tile = m_tiles.at(i);
+      m_selected.clear();
+      m_selected.push_back(s_tile.get_id());
+      clicked_tile = true;
+    }
+  }
+  if (clicked_tile == false)
+  {
+    for (unsigned i = 0; i < m_tiles.size(); i++)
+    {
+      if (m_tiles.at(i).get_dx() != 0 || m_tiles.at(i).get_dy() != 0){
+        return;
+      }
+    }
+    m_selected.clear();
+  }
 }
 
 void game::merge_tiles() { //!OCLINT must simplify
@@ -79,21 +139,35 @@ void game::merge_tiles() { //!OCLINT must simplify
     {
       assert(j >=0);
       assert(j < static_cast<int>(m_tiles.size()));
-      const tile& other_tile = m_tiles[j];
-      if (!have_same_position(focal_tile, other_tile)) return;
-      const tile_type merged_type = get_merge_type(
-        focal_tile.get_type(),
-        other_tile.get_type()
-      );
-      //focal tile becomes merged type
-      focal_tile.set_type(merged_type);
-      //other tile is swapped to the back, then deleted
-      m_tiles[j] = m_tiles.back();
-      m_tiles.pop_back();
-      //change the selected tile
-      m_selected.clear();
-      assert(m_selected.empty());
-      return; //!OCLINT early return the only good option?
+      tile& other_tile = m_tiles[j];
+      if (!have_same_position(focal_tile, other_tile)) { return; }
+      tile_merge(focal_tile, other_tile, j);
+      focal_tile.set_dx(0);
+      focal_tile.set_dy(0);
+      other_tile.set_dx(0);
+      other_tile.set_dy(0);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, focal_tile)){
+          a.set_dx(0);
+          a.set_dy(0);
+        }
+      }
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, other_tile)){
+          a.set_dx(0);
+          a.set_dy(0);
+        }
+      }
+    }
+  }
+}
+
+void game::kill_agents() {
+  const int n = count_n_agents(*this);
+  for (int i = 0; i < n; ++i) {
+    if (m_agents[i].get_health() <= 0) {
+      m_agents[i] = m_agents.back();
+      m_agents.pop_back();
     }
   }
 }
@@ -131,6 +205,46 @@ bool is_on_tile(const game& g, const double x, const double y)
 bool is_on_tile(const game& g, const agent& a) {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
   return is_on_tile(g, center.x, center.y);
+}
+
+void game::confirm_tile_move(tile& t, int direction, int tile_speed){
+  switch (direction)
+  {
+    case 1:
+      t.set_dy(-tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dy(-tile_speed);
+        }
+      }
+      return;
+    case 2:
+      t.set_dx(tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dx(tile_speed);
+        }
+      }
+      return;
+    case 3:
+      t.set_dy(tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dy(tile_speed);
+        }
+      }
+      return;
+    case 4:
+      t.set_dx(-tile_speed);
+      for(agent& a: m_agents){
+        if(is_on_specific_tile(a, t)){
+          a.set_dx(-tile_speed);
+        }
+      }
+      return;
+    default:
+      return;
+  }
 }
 
 void test_game() //!OCLINT a testing function may be long
@@ -246,6 +360,21 @@ void test_game() //!OCLINT a testing function may be long
     assert(new_score < prev_score);
   }
   #endif //FIX_ISSUE_302
+  //A game event should move tiles
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0) }, no_agents);
+    tile& tile = g.get_tiles()[0];
+    const auto x_before = tile.get_x();
+    const auto y_before = tile.get_y();
+    tile.set_dx(5.0);
+    tile.set_dy(5.0);
+    g.process_events();
+    const auto x_after = tile.get_x();
+    const auto y_after = tile.get_y();
+    assert(x_before != x_after);
+    assert(y_before != y_after);
+  }
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards
@@ -256,9 +385,15 @@ void test_game() //!OCLINT a testing function may be long
       { agent(agent_type::cow, start_cow_x, start_cow_y) }
     );
     tile& tile = g.get_tiles()[0];
+    agent& agent = g.get_agents()[0];
+    const auto x_before = tile.get_x();
     tile.set_dx(5.0);
+    agent.set_dx(5.0);
     g.process_events();
+    const auto x_after = tile.get_x();
+    assert(x_before != x_after);
     tile.set_dy(5.0);
+    agent.set_dy(5.0);
     g.process_events();
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
@@ -285,7 +420,7 @@ void test_game() //!OCLINT a testing function may be long
     tile& tile = g.get_tiles()[0];
     tile.set_dx(1.0);
     tile.set_dy(1.0);
-    for (int i=0; i != 10; ++i)
+    for (int i=0; i != 100; ++i)
     {
       g.process_events();
     }

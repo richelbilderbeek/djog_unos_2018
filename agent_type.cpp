@@ -29,8 +29,6 @@ void test_agent_type() //!OCLINT testing functions may be long
   }
   //Collect all agent_types
   {
-    #define FIX_ISSUE_204
-    #ifdef FIX_ISSUE_204
     const std::vector<agent_type> v = collect_all_agent_types();
     assert(std::count(std::begin(v), std::end(v), agent_type::cow) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
@@ -39,7 +37,6 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
-    #endif
   }
   {
     const std::vector<agent_type> v = collect_all_agent_types();

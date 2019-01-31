@@ -3,6 +3,7 @@
 #include "game.h"
 #include "sfml_title_screen.h"
 #include "sfml_about_screen.h"
+#include "sfml_gameover_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
 #include "sfml_resources.h"
@@ -66,6 +67,11 @@ int show_sfml_about_screen(int ca) {
   as.exec();
   return 0;
 }
+int show_sfml_gameover_screen(int ca) {
+  sfml_gameover_screen gos(ca);
+  gos.exec();
+  return 0;
+}
 int main(int argc, char **argv) //!OCLINT main too long
 {
 #ifndef NDEBUG
@@ -121,6 +127,10 @@ int main(int argc, char **argv) //!OCLINT main too long
   {
     sfml_window_manager::get().set_state(game_state::aboutscreen);
   }
+  else if (std::count(std::begin(args), std::end(args), "--game-over") ||
+           std::count(std::begin(args), std::end(args), "--gameover")) {
+    sfml_window_manager::get().set_state(game_state::gameover);
+  }
 
   //Not realy to show settings, but to use the variables
   std::cout << "\nSettings\n"
@@ -156,6 +166,9 @@ int main(int argc, char **argv) //!OCLINT main too long
         break;
       case game_state::playing:
         start_sfml_game(close_at, music, tiles, agents);
+        break;
+      case game_state::gameover:
+        show_sfml_gameover_screen(close_at);
         break;
     }
   }

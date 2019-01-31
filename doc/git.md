@@ -76,9 +76,10 @@ git push
 
 Do this within the `djog_unos_2018` folder.
 
-Tips:
+Tips and examples:
 
- * Use `fix #123` in the commit message if it fixed Issue 123
+ * Use `progress #123` in the commit message if you worked on/finished Issue 123
+ * Please do not use `fix #XXX`instead of `progress #XXX` in your commit message, this will prevent the issue from getting closed before being tested
  * Use `[skip ci]` at the end of the commit message if Travis does not need to check it
 
 ## Merge the other's work with yours

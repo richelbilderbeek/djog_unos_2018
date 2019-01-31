@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "agent_type.h"
 #include "game.h"
 
 using namespace sf;
@@ -85,13 +86,12 @@ bool agent::is_in_range(double x, double y, double range) {
          y < m_y + range;
 }
 
-void agent::move(const game& g)
+void agent::move()
 {
   //Dead agents stay still
   if (m_health <= 0.0) return;
   if (m_stamina <= 0.0) {
     m_health += (m_stamina - 1) * 0.2;
-    eat(g);
     return;
   }
 
@@ -110,18 +110,43 @@ void agent::move(double dx, double dy) {
   m_y += dy;
 }
 
-void agent::process_events(const game& g) {
-  move(g);
+void agent::move_with_tile(){
+  m_x += m_dx;
+  m_y += m_dy;
+}
 
-  if(m_type == agent_type::grass)
-    m_health += 0.01;
+void agent::process_events(game& g) {
+  move();
+
+  if(m_type == agent_type::grass ||
+     m_type == agent_type::tree)
+  {
+    m_health += 0.001;
+
+    if (m_health > 1000000.0)
+    {
+      const agent new_grass(
+        agent_type::grass,
+        m_x - 1.0 + static_cast<double>(std::rand() % 3),
+        m_y - 1.0 + static_cast<double>(std::rand() % 3),
+        m_health / 2.0
+      );
+      const std::vector<agent> agents( { new_grass } );
+      g.add_agents(agents);
+      m_health = m_health / 2.0;
+    }
+  }
 
   if (g.get_n_ticks() % 100 == 0)
     eat(g);
 
-  if (!is_on_tile(g, *this))
+  if(m_type != agent_type::bird && !is_on_tile(g, *this))
   {
     m_health = 0;
+  }
+
+  if(m_dx != 0 || m_dy != 0){
+    move_with_tile();
   }
 }
 
@@ -216,12 +241,12 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agents.push_back(a8);
   }
   {
-      agent a1(agent_type::goat, 190, 90);
-      move_agent_to_tile(a1, 1, 2);
-      agents.push_back(a1);
-      agent a2(agent_type::goat, 50, 80);
-      move_agent_to_tile(a2, 1, 2);
-      agents.push_back(a2);
+    agent a1(agent_type::goat, 190, 90);
+    move_agent_to_tile(a1, 1, 2);
+    agents.push_back(a1);
+    agent a2(agent_type::goat, 50, 80);
+    move_agent_to_tile(a2, 1, 2);
+    agents.push_back(a2);
   }
   return agents;
 }
@@ -268,17 +293,17 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::cow, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A crocodile moves
   {
-    game g;
+    //game g; // TODO add assert is on tile
     std::srand(15);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
-    for (int i = 0; i != 10; ++i) a.move(g); //To make surer x or y is changed
+    for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A fish moves
@@ -289,7 +314,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::fish, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
   // Grass does not move
@@ -299,7 +324,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::grass, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
   // Agents have health
@@ -307,6 +332,20 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
+  //#define FIX_ISSUE_325
+  #ifdef FIX_ISSUE_325
+  // Agents have a direction, that can be read
+  {
+    const agent a(agent_type::cow); //Must be const
+    assert(a.get_direction() == 0.0);
+  }
+  // Agents have a direction, that can be set
+  {
+    agent a(agent_type::cow);
+    a.set_direction(3.14);
+    assert(a.get_direction() == 3.14);
+  }
+  #endif // FIX_ISSUE_325
   // Test can_eat
   {
     for (agent_type a : collect_all_agent_types()) {
@@ -331,15 +370,13 @@ void test_agent() //!OCLINT testing functions may be long
     //Exhaust cow
     while (g.get_agents()[0].get_stamina() > 0.0)
     {
-      g.process_events();
+      g.get_agents()[0].eat(g);
     }
     // Starve one turn
     g.process_events();
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after < health_before);
   }
-  //#define FIX_ISSUE_285
-  #ifdef FIX_ISSUE_285
   //An agent must be removed if health is below zero
   {
     game g(create_default_tiles(), { agent(agent_type::cow) } );
@@ -350,7 +387,6 @@ void test_agent() //!OCLINT testing functions may be long
       g.process_events();
     }
   }
-  #endif
   //Grass grows
   {
     game g(create_default_tiles(), { agent(agent_type::grass) } );
@@ -371,8 +407,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after > health_before);
   }
-  #define FIX_ISSUE_303
-  #ifdef FIX_ISSUE_303
   //Sessile agents that move on nothing get zero health
   {
     const std::vector<tile> no_tiles;
@@ -381,7 +415,6 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
-  #endif // FIX_ISSUE_303
   //#define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
@@ -396,18 +429,14 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
   #endif //FIX_ISSUE_300
-  // TODO Create this issue:
-  //define FIX_ISSUE_XXX
-  #ifdef FIX_ISSUE_XXX
   //Flying agent can fly over nothing without problems
   {
     const std::vector<tile> no_tiles;
     game g(no_tiles, { agent(agent_type::bird, -100, -100, 100)});
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
-    g.get_agents()[0].move(g);
+    g.get_agents()[0].process_events(g);
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
   }
-  #endif
   //Cows eat grass
   {
     const double grass_health{5.0};
@@ -420,9 +449,7 @@ void test_agent() //!OCLINT testing functions may be long
     );
     assert(g.get_agents()[0].get_health() == grass_health);
     double cow_stamina = g.get_agents()[1].get_stamina();
-    for (int i = 0; i < 1; ++i) {
-      g.process_events();
-    }
+    g.process_events();
     //Grass is eaten ...
     assert(g.get_agents()[0].get_health() < grass_health);
     //Cow is fed ...
