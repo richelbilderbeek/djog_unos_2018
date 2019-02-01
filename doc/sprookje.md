@@ -14,4 +14,4 @@ De hond heette Sophie, ze was wit en klein.
 Maar onder dat schattige snuitje, schuilde een groot geheim.
 
 En ze leefde nog lang en gelukkig.
-Einde verhaal
+Einde
