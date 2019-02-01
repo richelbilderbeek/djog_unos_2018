@@ -147,6 +147,14 @@ void agent::process_events(game& g) {
     m_health = 0;
   }
 
+  if(m_type == agent_type::fish ){
+    for(tile& t: g.get_tiles()){
+      if(is_on_specific_tile(*this, t) && t.get_type() != tile_type::water){
+        m_health -= 0.01;
+      }
+    }
+  }
+
   if(m_dx != 0 || m_dy != 0){
     move_with_tile();
   }
@@ -470,5 +478,16 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[0].get_health() < grass_health);
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
+  }
+  //Fish die when on land
+  {
+    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::fish) } );
+    assert(!g.get_agents().empty());
+    //Choke fish
+    while (g.get_agents()[0].get_health() > 0)
+    {
+      g.process_events();
+    }
+    assert(g.get_agents().empty());
   }
 }
