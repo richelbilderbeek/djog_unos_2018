@@ -90,7 +90,7 @@ std::vector<tile_type> get_all_tile_types() noexcept
   v.push_back(tile_type::arctic);
   v.push_back(tile_type::desert);
   v.push_back(tile_type::swamp);
-  v.push_back(tile_type::Dunes);
+  v.push_back(tile_type::dunes);
   v.push_back(tile_type::mangrove);
   v.push_back(tile_type::beach);
   v.push_back(tile_type::rainforest);
@@ -118,8 +118,8 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
       return "swamp";
     case tile_type::woods:
       return "woods";
-  case tile_type::Dunes:
-    return "Dunes";
+  case tile_type::dunes:
+    return "dunes";
   case tile_type::mangrove:
     return "mangrove";
     case tile_type::beach:
@@ -146,7 +146,7 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
   if (str == "water") return tile_type::water;
   if (str == "savannah") return tile_type::savannah;
   if (str == "woods") return tile_type::woods;
-  if (str == "Dunes") return tile_type::Dunes;
+  if (str == "dunes") return tile_type::dunes;
   if (str == "mangrove") return tile_type::mangrove;
   if (str == "beach") return tile_type::beach;
   if (str == "hills") return tile_type::hills;
