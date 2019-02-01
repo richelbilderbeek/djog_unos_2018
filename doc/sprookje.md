@@ -11,6 +11,7 @@ Omdat haar beste vrienden katten zijn.
 Haar vriend heette Gerard en haar vriendin heette Joline.
 Het was een siamese tweeling. (Get it?)
 De hond heette Sophie, ze was wit en klein.
+Maar onder dat schattige snuitje, schuilde een groot geheim.
 
 En ze leefde nog lang en gelukkig.
 Einde verhaal
