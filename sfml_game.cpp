@@ -321,6 +321,9 @@ void sfml_game::process_mouse_input(const sf::Event& event)
         m_game.get_tiles().size() > 0)
       ben_ik_een_spin();
   }
+  else if (event.mouseButton.button == sf::Mouse::Right){
+    m_game.remove_tile(m_window, m_camera);
+  }
 }
 
 void sfml_game::ben_ik_een_spin() {

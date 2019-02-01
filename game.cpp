@@ -1,4 +1,3 @@
-
 // Always include the header of the unit first
 #include "game.h"
 #include "tile_id.h"
@@ -168,6 +167,19 @@ void game::kill_agents() {
     if (m_agents[i].get_health() <= 0) {
       m_agents[i] = m_agents.back();
       m_agents.pop_back();
+    }
+  }
+}
+
+void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
+  for (unsigned i = 0; i < m_tiles.size(); ++i) {
+    //assert(i >= 0 && i < static_cast<int>(m_tiles.size()));
+    if (contains(m_tiles.at(i),
+       sf::Mouse::getPosition(window).x + camera.x,
+       sf::Mouse::getPosition(window).y + camera.y))
+    {
+       m_tiles[i] = m_tiles.back();
+       m_tiles.pop_back();
     }
   }
 }
