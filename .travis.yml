@@ -67,6 +67,8 @@ script:
   #   remove OCLint and .git, otherwise it will be counted as well
   - rm -rf oclint-0.10.3 oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz oclint.log
   - rm -rf .git
+  - rm -rf debug
+  - rm -rf debug
   - cd ..; sloccount --overhead 1 --personcost 22614 djog_unos_2018; cd djog_unos_2018
   # clang-tidy
   #- ./do_clang-tidy
