@@ -167,6 +167,7 @@ void game::kill_agents() {
     if (m_agents[i].get_health() <= 0) {
       m_agents[i] = m_agents.back();
       m_agents.pop_back();
+      --m_score;
     }
   }
 }
@@ -354,8 +355,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::hills);
   }
-  //#define FIX_ISSUE_302
-  #ifdef FIX_ISSUE_302
   //When an agent dies, score must decrease
   //Depends on #285
   {
@@ -365,13 +364,12 @@ void test_game() //!OCLINT a testing function may be long
     // Wait until cow starves
     while (!g.get_agents().empty())
     {
-      g.process_events();
       prev_score = g.get_score();
+      g.process_events();
     }
     const double new_score = g.get_score();
     assert(new_score < prev_score);
   }
-  #endif //FIX_ISSUE_302
   //A game event should move tiles
   {
     const std::vector<agent> no_agents;
