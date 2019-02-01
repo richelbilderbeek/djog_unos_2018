@@ -81,22 +81,22 @@ void test_tile_type()
 
 std::vector<tile_type> get_all_tile_types() noexcept
 {
-  std::vector<tile_type> v;
-  v.push_back(tile_type::nonetile);
-  v.push_back(tile_type::grassland);
-  v.push_back(tile_type::mountains);
-  v.push_back(tile_type::water);
-  v.push_back(tile_type::savannah);
-  v.push_back(tile_type::arctic);
-  v.push_back(tile_type::desert);
-  v.push_back(tile_type::swamp);
-  v.push_back(tile_type::dunes);
-  v.push_back(tile_type::mangrove);
-  v.push_back(tile_type::beach);
-  v.push_back(tile_type::rainforest);
-  v.push_back(tile_type::hills);
-  v.push_back(tile_type::tundra);
-  return v;
+  return{
+  tile_type::nonetile,
+  tile_type::grassland,
+  tile_type::mountains,
+  tile_type::water,
+  tile_type::savannah,
+  tile_type::arctic,
+  tile_type::desert,
+  tile_type::swamp,
+  tile_type::dunes,
+  tile_type::mangrove,
+  tile_type::beach,
+  tile_type::rainforest,
+  tile_type::hills,
+  tile_type::tundra,
+  };
 }
 
 std::string to_str(tile_type t) //!OCLINT cannot be simpler
