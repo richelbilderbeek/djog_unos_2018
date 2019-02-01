@@ -541,7 +541,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::woods:
       color_shape(sfml_tile, sf::Color(34, 139, 34), sf::Color(0, 128, 0));
       break;
-    case tile_type:: Dunes:
+    case tile_type:: dunes:
       color_shape(sfml_tile, sf::Color(220, 180, 40), sf::Color(255, 180, 50));
       break;
     case tile_type::tundra:
