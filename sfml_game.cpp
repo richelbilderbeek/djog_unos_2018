@@ -12,6 +12,7 @@
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <sstream>
 
 sfml_game::sfml_game(
   const sfml_game_delegate& delegate,
@@ -85,9 +86,11 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   }
   // Display & Update Tickcounter
   {
-      m_tickcounter_text.setString("TICK COUNT: " + std::to_string(m_game.get_n_ticks()));
-      m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
-      m_window.draw(m_tickcounter_text);
+    std::stringstream s;
+    s << "TICK COUNT: " << m_game.get_n_ticks();
+    m_tickcounter_text.setString(s.str());
+    m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
+    m_window.draw(m_tickcounter_text);
   }
   // Display the zen
   {

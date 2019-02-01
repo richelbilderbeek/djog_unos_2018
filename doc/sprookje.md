@@ -13,3 +13,4 @@ Het was een siamese tweeling. (Get it?)
 De hond heette Sophie, ze was wit en klein.
 
 En ze leefde nog lang en gelukkig.
+Einde verhaal
