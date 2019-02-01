@@ -9,8 +9,8 @@
 
 using namespace sf;
 
-agent::agent(const agent_type type, const double x, const double y, double health)
-    : m_type{type}, m_x{x}, m_y{y}, m_health{health}, m_stamina{100}{}
+agent::agent(const agent_type type, const double x, const double y, const double health, const double direction)
+    : m_type{type}, m_x{x}, m_y{y}, m_direction{direction}, m_health{health}, m_stamina{100}{}
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
@@ -123,14 +123,16 @@ void agent::process_events(game& g) {
   if(m_type == agent_type::grass ||
      m_type == agent_type::tree)
   {
-    m_health += 0.001;
+    m_health += 0.01;
 
-    if (m_health > 1000000.0)
+    if (m_health > 10.0)
     {
+      const int max_distance{ 64 };
+
       const agent new_grass(
         agent_type::grass,
-        m_x - 1.0 + static_cast<double>(std::rand() % 3),
-        m_y - 1.0 + static_cast<double>(std::rand() % 3),
+        m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
+        m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
         m_health / 2.0
       );
       const std::vector<agent> agents( { new_grass } );
@@ -374,8 +376,7 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
-  //#define FIX_ISSUE_325
-  #ifdef FIX_ISSUE_325
+
   // Agents have a direction, that can be read
   {
     const agent a(agent_type::cow); //Must be const
@@ -387,7 +388,7 @@ void test_agent() //!OCLINT testing functions may be long
     a.set_direction(3.14);
     assert(a.get_direction() == 3.14);
   }
-  #endif // FIX_ISSUE_325
+
   // Test can_eat
   {
     for (agent_type a : collect_all_agent_types()) {
@@ -457,7 +458,8 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
-  //#define FIX_ISSUE_300
+
+  #define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
   {
