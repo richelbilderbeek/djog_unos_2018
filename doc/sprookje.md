@@ -12,5 +12,7 @@ Haar vriend heette Gerard en haar vriendin heette Joline.
 Het was een siamese tweeling. (Get it?)
 De hond heette Sophie, ze was wit en klein.
 
+Dat liep dodelijk af...
+
 En ze leefde nog lang en gelukkig.
 Einde verhaal
