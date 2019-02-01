@@ -72,9 +72,26 @@ int show_sfml_gameover_screen(int ca) {
   gos.exec();
   return 0;
 }
+
+#include <functional>
+
+void test_ref()
+{
+  int a = 1;
+  std::vector<std::reference_wrapper<int>> v;
+  v.push_back(std::ref(a));
+  v.push_back(std::ref(a));
+  assert(v[0] == v[1]);
+  ++v[0];
+  assert(v[0] == v[1]);
+  ++v[1];
+  assert(v[0] == v[1]);
+}
+
 int main(int argc, char **argv) //!OCLINT main too long
 {
 #ifndef NDEBUG
+  test_ref();
   test();
 #else
   // In release mode, all asserts are removed from the code
@@ -173,3 +190,4 @@ int main(int argc, char **argv) //!OCLINT main too long
     }
   }
 }
+
