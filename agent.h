@@ -17,7 +17,8 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0.0, const double y = 0.0, const double health = 1.0,  const double direction = 0.0);
+  agent(const agent_type type, const double x = 0.0, const double y = 0.0,
+        const double health = 1.0,  const double direction = 0.0);
 
   void process_events(game &g);
 
@@ -76,20 +77,22 @@ private:
   double m_y;
 
   /// The movement coefficient on the x-axis
-  //Setting it to zero is needed for some reason because a random tree would move if it wasn't set
   double m_dx = 0;
 
   /// The movement coefficient on the y-axis
   double m_dy = 0;
 
-  /// The direction angle of the agent, which is a radial angle with 0 for left to right direction,
-  /// pi/2 for top to down direction, pi for right to left direction and -pi/2 for down to top direction.
+  /// The direction angle of the agent, which is a radial angle with 0 for
+  /// left to right direction, pi/2 for top to down direction,
+  /// pi for right to left direction and -pi/2 for down to top direction.
   double m_direction;
 
   /// The health of the agent
   double m_health;
   ///the stamina of the agent
   double m_stamina;
+
+  void plant_actions(game& g);
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);

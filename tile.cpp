@@ -38,8 +38,6 @@ tile::tile(const double x, const double y, const double z, double const width,
 std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function that is too long
 {
   std::vector<tile> tiles;
-
-  // ARRANGED ON MERGE TYPE
   {
     tile t(0, 0, 0, 1, 2, 0, tile_type::grassland, tile_id());
     tiles.push_back(t);
@@ -48,88 +46,56 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tile t(1, 0, 1, 1, 2, 0, tile_type::grassland, tile_id());
     tiles.push_back(t);
   }
-
   {
-    tile t(3, 0, 0, 1, 2, 0, tile_type::desert, tile_id());
+    tile t(0, 2, 2, 1, 2, 0, tile_type::desert, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 0, 0, 1, 2, 0, tile_type::grassland, tile_id());
-    tiles.push_back(t);
-  }
-
-  {
-    tile t(6, 0, 0, 1, 2, 0, tile_type::grassland, tile_id());
+    tile t(2, 1, 3, 2, 1, 0, tile_type::swamp, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(7, 0, 6, 1, 2, 0, tile_type::water, tile_id());
-    tiles.push_back(t);
-  }
-
-  {
-    tile t(9, 0, 6, 1, 2, 0, tile_type::mountains, tile_id());
+    tile t(4, 4, 5, 2, 1, 0, tile_type::Dunes, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(10, 0, 6, 1, 2, 0, tile_type::water, tile_id());
-    tiles.push_back(t);
-  }
-  // END ARRANGED ON MERGE TYPE
-  {
-    tile t(0, 7, 2, 1, 2, 0, tile_type::desert, tile_id());
+    tile t(1, 2, 4, 2, 1, 0, tile_type::mountains, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(2, 6, 3, 2, 1, 0, tile_type::swamp, tile_id());
+    tile t(4, 1, 5, 2, 1, 0, tile_type::arctic, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 9, 6, 2, 1, 0, tile_type::Dunes, tile_id());
+    tile t(3, 2, 6, 1, 2, 20, tile_type::water, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(1, 7, 4, 2, 1, 0, tile_type::mountains, tile_id());
+    tile t(4, 2, 6, 1, 2, 85, tile_type::water, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 6, 5, 2, 1, 0, tile_type::arctic, tile_id());
+    tile t(1, -1, 7, 2, 1, 0, tile_type::savannah, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(0, 5, 0, 1, 2, 0, tile_type::grassland, tile_id());
+    tile t(4, -1, 8, 1, 2, 0, tile_type::woods, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(3, 8, 6, 1, 2, 20, tile_type::water, tile_id());
+    tile t(6, -3, 8, 1, 2, 0, tile_type::mangrove, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 8, 6, 1, 2, 85, tile_type::water, tile_id());
+    tile t(-3, 0, 8, 1, 2, 0, tile_type::rainforest, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(1, 5, 7, 2, 1, 0, tile_type::savannah, tile_id());
+    tile t(-5, 0, 8, 1, 2, 0, tile_type::tundra, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(4, 4, 8, 1, 2, 0, tile_type::woods, tile_id());
-    tiles.push_back(t);
-  }
-  {
-    tile t(5, 4, 8, 1, 2, 0, tile_type::mangrove, tile_id());
-    tiles.push_back(t);
-  }
-  {
-    tile t(-3, 5, 8, 1, 2, 0, tile_type::rainforest, tile_id());
-    tiles.push_back(t);
-  }
-  {
-    tile t(-5, 5, 8, 1, 2, 0, tile_type::tundra, tile_id());
-    tiles.push_back(t);
-  }
-  {
-    tile t(-4, 5, 8, 1, 2, 0, tile_type::hills, tile_id());
+    tile t(-4, 0, 8, 1, 2, 0, tile_type::hills, tile_id());
     tiles.push_back(t);
   }
   return tiles;
