@@ -175,16 +175,6 @@ void tile::move() {
   m_x += m_dx;
   m_y += m_dy;
   m_z += m_dz;
-  /*for (agent& a : g.get_agents()){
-    if(is_on_specific_tile(a, *this)){
-      double x = a.get_x();
-      x += m_dx;
-      double y = a.get_y();
-      y += m_dy;
-      a.set_x(x);
-      a.set_y(y);
-    }
-  }*/
 }
 
 std::ostream& operator<<(std::ostream& os, const tile& t)
@@ -224,9 +214,9 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
   return true;
 }
 
-bool tile::tile_contains(double x, double y) const noexcept {
-  return x > m_x - 5 && x < m_x + m_width + 5 && y > m_y - 5 &&
-         y < m_y + m_height + 5;
+bool contains(const tile& t, double x, double y) noexcept {
+  return x > t.get_x() - 5 && x < t.get_x() + t.get_width() + 5 && y > t.get_y() - 5 &&
+         y < t.get_y() + t.get_height() + 5;
 }
 
 void tile::lock_movement(bool b) { m_locked = b; }
@@ -323,10 +313,10 @@ void test_tile() //!OCLINT testing function may be many lines
   //           C           D
   {
     const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
-    assert(t.tile_contains(50, 50));   // A
-    assert(!t.tile_contains(165, 50));  // B
-    assert(!t.tile_contains(50, 165)); // C
-    assert(!t.tile_contains(165, 165)); // D
+    assert(contains(t, 50, 50));   // A
+    assert(!contains(t, 165, 50));  // B
+    assert(!contains(t, 50, 165)); // C
+    assert(!contains(t, 165, 165)); // D
   }
 #endif // FIX_ISSUE_116_TILE_CONTAINS
 

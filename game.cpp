@@ -96,7 +96,7 @@ void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
   bool clicked_tile = false;
   for (unsigned i = 0; i < m_tiles.size(); i++)
   {
-    if (m_tiles.at(i).tile_contains(
+    if (contains(m_tiles.at(i),
           sf::Mouse::getPosition(window).x + camera.x,
           sf::Mouse::getPosition(window).y + camera.y))
     {

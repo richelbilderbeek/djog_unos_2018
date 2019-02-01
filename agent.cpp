@@ -26,11 +26,13 @@ std::istream& operator>>(std::istream& is, agent& a)
 }
 
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
-  return lhs.m_type == rhs.m_type and
-         lhs.m_x == rhs.m_x and
-         lhs.m_y == rhs.m_y and
-         lhs.m_health == rhs.m_health;
-  // TODO Stamina wasn't precise enough to compare, try again
+  return
+    lhs.m_type == rhs.m_type and
+    lhs.m_x == rhs.m_x and
+    lhs.m_y == rhs.m_y and
+    lhs.m_health == rhs.m_health and
+    lhs.m_stamina == rhs.m_stamina
+  ;
 }
 
 std::vector<agent_type> can_eat(const agent_type type) {
@@ -343,6 +345,20 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
+  //#define FIX_ISSUE_343
+  #ifdef FIX_ISSUE_343
+  // A bird moves
+  {
+    game g;
+    std::srand(314);
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::bird, x, y);
+    assert(is_on_tile(g, a));
+    a.move();
+    assert(a.get_x() != x || a.get_y() != y);
+  }
+  #endif
   // Grass does not move
   {
     game g;

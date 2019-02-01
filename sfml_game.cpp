@@ -5,6 +5,7 @@
 #include "game_state.h"
 #include "tile_id.h"
 #include "sfml_resources.h"
+#include "tile.h"
 #include <QFile>
 #include <algorithm>
 #include <cassert>
@@ -600,7 +601,7 @@ bool sfml_game::check_collision(double x, double y)
     // |   B |
     // |_____|
     //
-    if (t.tile_contains(x + 15, y + 15) || t.tile_contains(x - 15, y - 15))
+    if (contains(t, x + 15, y + 15) || contains(t, x - 15, y - 15))
     {
       return true;
     }
@@ -612,7 +613,7 @@ std::vector<int> sfml_game::get_collision_id(double x, double y) const
 {
   for (const tile& t : m_game.get_tiles())
   {
-    if (t.tile_contains(x, y))
+    if (contains(t, x, y))
     {
       return { t.get_id() };
     }
