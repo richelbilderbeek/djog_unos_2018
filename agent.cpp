@@ -26,11 +26,13 @@ std::istream& operator>>(std::istream& is, agent& a)
 }
 
 bool operator==(const agent& lhs, const agent& rhs) noexcept{
-  return lhs.m_type == rhs.m_type and
-         lhs.m_x == rhs.m_x and
-         lhs.m_y == rhs.m_y and
-         lhs.m_health == rhs.m_health;
-  // TODO Stamina wasn't precise enough to compare, try again
+  return
+    lhs.m_type == rhs.m_type and
+    lhs.m_x == rhs.m_x and
+    lhs.m_y == rhs.m_y and
+    lhs.m_health == rhs.m_health and
+    lhs.m_stamina == rhs.m_stamina
+  ;
 }
 
 std::vector<agent_type> can_eat(const agent_type type) {
