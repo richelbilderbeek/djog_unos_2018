@@ -141,16 +141,6 @@ void tile::move() {
   m_x += m_dx;
   m_y += m_dy;
   m_z += m_dz;
-  /*for (agent& a : g.get_agents()){
-    if(is_on_specific_tile(a, *this)){
-      double x = a.get_x();
-      x += m_dx;
-      double y = a.get_y();
-      y += m_dy;
-      a.set_x(x);
-      a.set_y(y);
-    }
-  }*/
 }
 
 std::ostream& operator<<(std::ostream& os, const tile& t)
