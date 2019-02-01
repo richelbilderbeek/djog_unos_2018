@@ -67,10 +67,8 @@ void test_tile_type()
     //assert(get_merge_type(tile_type::arctic, tile_type::savannah) == tile_type::tundra);
     //TODO: after Issue #187: test more combinations
   }
+  // Convert all tile types to string and back
   {
-    //Uncomment if you want to run this test
-    //#define FIX_ISSUE_188 // TODO complete the function so this works again
-    #ifdef FIX_ISSUE_188
     const std::vector<tile_type> v = get_all_tile_types();
     for (const tile_type t : v)
     {
@@ -78,7 +76,6 @@ void test_tile_type()
       const tile_type u = to_tile(s);
       assert(t == u);
     }
-    #endif // FIX_ISSUE_188
   }
 }
 
