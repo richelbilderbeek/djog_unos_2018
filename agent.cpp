@@ -119,29 +119,10 @@ void agent::move_with_tile(){
   m_y += m_dy;
 }
 
-void agent::process_events(game& g) {
+void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move();
 
-  if(m_type == agent_type::grass ||
-     m_type == agent_type::tree)
-  {
-    m_health += 0.01;
-
-    if (m_health > 10.0)
-    {
-      const int max_distance{ 64 };
-
-      const agent new_grass(
-        agent_type::grass,
-        m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-        m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-        m_health / 2.0
-      );
-      const std::vector<agent> agents( { new_grass } );
-      g.add_agents(agents);
-      m_health = m_health / 2.0;
-    }
-  }
+  if(m_type == agent_type::grass || m_type == agent_type::tree) plant_actions(g);
 
   //TODO is depth suitable for agent
   if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
@@ -158,6 +139,27 @@ void agent::process_events(game& g) {
 
   if(m_dx != 0 || m_dy != 0){
     move_with_tile();
+  }
+}
+
+void agent::plant_actions(game& g) {
+
+  // Grow
+  m_health += 0.01;
+
+  if (m_health > 100.0)
+  {
+    const int max_distance{ 64 };
+
+    const agent new_grass(
+      agent_type::grass,
+      m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
+      m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
+      m_health / 2.0
+    );
+    const std::vector<agent> agents( { new_grass } );
+    g.add_agents(agents);
+    m_health = m_health / 2.0;
   }
 }
 
@@ -218,11 +220,6 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
   {
     agent a1(agent_type::grass);
     move_agent_to_tile(a1, 1, -1);
-    agents.push_back(a1);
-  }
-  {
-    agent a1(agent_type::bacterium);
-    move_agent_to_tile(a1, 0, 0);
     agents.push_back(a1);
   }
   {
