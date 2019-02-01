@@ -14,7 +14,7 @@ enum class tile_type {
   desert,
   swamp,
   woods,
-  Dunes,
+  dunes,
   mangrove,
   beach,
   tundra,
