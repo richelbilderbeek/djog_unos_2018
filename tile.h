@@ -73,8 +73,6 @@ public:
   /// Get the tile's id
   int get_id() const noexcept { return m_id.get(); }
 
-  /// Is this coordinate within the tile?
-  bool tile_contains(double x, double y) const noexcept;
 
   void lock_movement(bool b);
 
@@ -134,6 +132,9 @@ std::vector<tile> create_two_grass_tiles() noexcept;
 
 /// Do these tiles have the same position?
 bool have_same_position(const tile& lhs, const tile& rhs) noexcept;
+
+/// Is this coordinate within the tile?
+bool contains(const tile& t, double x, double y) noexcept;
 
 std::ostream& operator<<(std::ostream& os, const tile& t);
 
