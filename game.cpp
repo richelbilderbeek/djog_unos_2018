@@ -201,6 +201,17 @@ bool is_on_tile(const game& g, const double x, const double y)
   return false;
 }
 
+tile_type get_on_tile_type(const game& g, const agent& a)
+{
+  for (tile t: g.get_tiles()){
+    if(a.get_x() >= t.get_x() - 5 &&
+       a.get_x() <= t.get_x() + t.get_width() + 5 &&
+       a.get_y() >= t.get_y() - 5 &&
+       a.get_y() <= t.get_y() + t.get_height() + 5)
+      return t.get_type();
+  }
+  return tile_type::nonetile;
+}
 
 bool is_on_tile(const game& g, const agent& a) {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));

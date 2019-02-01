@@ -27,6 +27,7 @@ sfml_game::sfml_game(
   m_ben_ik_een_spin.setLoop(true);
   start_music();
   setup_display_score();
+  setup_tickcounter_text();
 }
 
 
@@ -47,6 +48,12 @@ void sfml_game::close()
 void sfml_game::start_music() {
   stop_music();
   m_background_music.play();
+}
+
+void sfml_game::setup_tickcounter_text() {
+    m_debug_font.loadFromFile("font.ttf");
+    m_tickcounter_text.setFont(m_debug_font);
+    m_tickcounter_text.setCharacterSize(20);
 }
 
 void sfml_game::setup_display_score() {
@@ -75,6 +82,12 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   for (const agent& a : m_game.get_agents())
   {
     display_agent(a);
+  }
+  // Display & Update Tickcounter
+  {
+      m_tickcounter_text.setString("TICK COUNT: " + std::to_string(m_game.get_n_ticks()));
+      m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
+      m_window.draw(m_tickcounter_text);
   }
   // Display the zen
   {

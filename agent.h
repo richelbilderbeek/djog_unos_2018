@@ -17,7 +17,7 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0.0, const double y = 0.0, double health = 1.0);
+  agent(const agent_type type, const double x = 0.0, const double y = 0.0, const double health = 1.0,  const double direction = 0.0);
 
   void process_events(game &g);
 
@@ -40,10 +40,14 @@ public:
   /// The movement coeficient on the y-axis
   double get_dy() const noexcept { return m_dy; }
 
+  /// The direction angle of the agent
+  double get_direction() const noexcept { return m_direction; }
+
   void set_x(double x) noexcept { m_x = x; }
   void set_y(double y) noexcept { m_y = y; }
   void set_dx(double dx) noexcept { m_dx = dx; }
   void set_dy(double dy) noexcept { m_dy = dy; }
+  void set_direction(double direction) noexcept { m_direction = direction; }
   void set_health(double health) noexcept { m_health = health; }
 
   sf::Vector2f get_center(const sf::Texture& sprite) const;
@@ -78,6 +82,10 @@ private:
   /// The movement coefficient on the y-axis
   double m_dy = 0;
 
+  /// The direction angle of the agent, which is a radial angle with 0 for left to right direction,
+  /// pi/2 for top to down direction, pi for right to left direction and -pi/2 for down to top direction.
+  double m_direction;
+
   /// The health of the agent
   double m_health;
   ///the stamina of the agent
@@ -94,6 +102,8 @@ std::vector<agent_type> can_eat(const agent_type type);
 std::vector<agent> create_default_agents() noexcept;
 
 void move_agent_to_tile(agent &a, double tile_x, double tile_y);
+
+bool will_drown(agent_type a);
 
 /// Test the tile class
 void test_agent();
