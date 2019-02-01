@@ -9,7 +9,9 @@
 
 using namespace sf;
 
-agent::agent(const agent_type type, const double x, const double y, const double health, const double direction)
+agent::agent(const agent_type type, const double x,
+             const double y, const double health,
+             const double direction)
     : m_type{type}, m_x{x}, m_y{y}, m_direction{direction}, m_health{health}, m_stamina{100}{}
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
