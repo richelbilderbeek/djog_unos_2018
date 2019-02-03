@@ -160,8 +160,8 @@ void agent::plant_actions(game& g) {
 
   if (m_health > 100.0)
   {
-    double rand_multiplier_first = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
-    rand_multiplier_first = rand_multiplier_first / 10;
+    double multiplier_first = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
+    multiplier_first = multiplier_first / 10;
     const int max_distance{ 64 };
 
     const agent new_grass(
@@ -172,9 +172,9 @@ void agent::plant_actions(game& g) {
     );
     const std::vector<agent> agents( { new_grass } );
     g.add_agents(agents);
-    double rand_multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
-    rand_multiplier_first = rand_multiplier_second / 10;
-    m_health = m_health / rand_multiplier_second;
+    double multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
+    multiplier_first = multiplier_second / 10;
+    m_health = m_health / multiplier_second;
   }
 }
 
