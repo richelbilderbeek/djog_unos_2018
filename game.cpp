@@ -377,7 +377,6 @@ void test_game() //!OCLINT a testing function may be long
     // Wait until cow starves
     while (!g.get_agents().empty())
     {
-      prev_score = g.get_score();
       g.process_events();
     }
     const double new_score = g.get_score();
