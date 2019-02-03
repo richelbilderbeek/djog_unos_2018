@@ -152,22 +152,29 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
 void agent::plant_actions(game& g) {
 
+  double rand = std::rand() % 10 + 6;
+  rand = rand / 1000;
+
   // Grow
-  m_health += 0.01;
+  m_health += rand;
 
   if (m_health > 100.0)
   {
+    double rand_multiplier_first = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
+    rand_multiplier_first = rand_multiplier_first / 10;
     const int max_distance{ 64 };
 
     const agent new_grass(
       agent_type::grass,
       m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-      m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-      m_health / 2.0
+      m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance))
+      //m_health / rand_multiplier_first
     );
     const std::vector<agent> agents( { new_grass } );
     g.add_agents(agents);
-    m_health = m_health / 2.0;
+    double rand_multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
+    rand_multiplier_first = rand_multiplier_second / 10;
+    m_health = m_health / rand_multiplier_second;
   }
 }
 
@@ -181,7 +188,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a2(agent_type::cow, 40, 70);
     move_agent_to_tile(a2, 0, 0);
     agents.push_back(a2);
-    agent a3(agent_type::grass, 70, 40);
+    agent a3(agent_type::grass, 70, 40, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a3, 0, 0);
     agents.push_back(a3);
   }
@@ -205,7 +212,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::crocodile);
     move_agent_to_tile(a1, 2, 1);
     agents.push_back(a1);
-    agent a2(agent_type::grass);
+    agent a2(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a2, 2, 1);
     agents.push_back(a2);
   }
@@ -226,7 +233,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agents.push_back(a2);
   }
   {
-    agent a1(agent_type::grass);
+    agent a1(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a1, 1, -1);
     agents.push_back(a1);
   }
@@ -528,5 +535,31 @@ void test_agent() //!OCLINT testing functions may be long
     double delta_cow = cow_before - g.get_agents()[0].get_stamina();
     double delta_fish = fish_before - g.get_agents()[1].get_stamina();
     assert(delta_fish < delta_cow);
+  }
+  //grass grows gradually
+  {
+    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+           {agent(agent_type::grass, 10, 10),
+            agent(agent_type::grass, 20, 20)});
+    const auto prev_grass_health1 = g.get_agents()[0].get_health();
+    const auto prev_grass_health2 = g.get_agents()[1].get_health();
+    g.process_events();
+    const auto after_grass_health1 = g.get_agents()[0].get_health();
+    const auto after_grass_health2 = g.get_agents()[1].get_health();
+    const auto grass1_delta = after_grass_health1 - prev_grass_health1;
+    const auto grass2_delta = after_grass_health2 - prev_grass_health2;
+    assert(grass1_delta != grass2_delta);
+  }
+  //grass has different health when its duplicated
+  {
+    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+           {agent(agent_type::grass, 10, 10, 100)});
+    const auto prev_health = g.get_agents()[0].get_health();
+    g.process_events();
+    assert(g.get_agents().size() == 2);
+    const auto after_health = g.get_agents()[0].get_health();
+    const auto second_grass_health = g.get_agents()[1].get_health();
+    assert(prev_health != after_health);
+    assert(after_health != second_grass_health);
   }
 }
