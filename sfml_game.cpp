@@ -393,7 +393,7 @@ void sfml_game::control_tile(bool b, const sf::Event& event, tile& t)
     if (b == true)
     {
       tile_move_ctrl(event, t);
-      m_timer += (1 / m_tile_speed) * 115;
+      m_timer += (1 / m_tile_speed) * 114;
     }
     else
     {
