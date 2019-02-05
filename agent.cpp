@@ -610,4 +610,28 @@ void test_agent() //!OCLINT testing functions may be long
     assert(prev_health != after_health);
     assert(after_health != second_grass_health);
   }
+  //a cow walks to grass when its close
+  {
+    game g(create_default_tiles(),
+           {agent(agent_type::cow, 0, 0, 100),
+            agent(agent_type::grass, 100, 100, 100)});
+    double cow_prev_posX = g.get_agents()[0].get_x();
+    double cow_prev_posY = g.get_agents()[0].get_y();
+    double distanceX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
+    double distanceY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
+    //move the cow 100 times
+    for(int i = 0; i < 100; i++){
+      g.process_events();
+    }
+    double cow_aft_posX = g.get_agents()[0].get_x();
+    double cow_aft_posY = g.get_agents()[0].get_y();
+    double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
+    double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
+    assert(distanceX > distance_afterX);
+    assert(distanceY > distance_afterY);
+    assert(g.get_agents()[0].get_x() > 0);
+    assert(g.get_agents()[0].get_y() > 0);
+    assert(cow_prev_posX < cow_aft_posX);
+    assert(cow_prev_posY < cow_aft_posY);
+  }
 }
