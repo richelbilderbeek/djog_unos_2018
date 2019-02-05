@@ -97,10 +97,10 @@ agent agent::nearest_agent(game& g, agent& a, agent_type type){
   agent near_agent(type);
   for(agent& ag: g.get_agents()){
     if(ag.get_type() == type){
-      double agentX = fabs(ag.get_x());
-      double distanceX = fabs(agentX - a.get_x());
-      double agentY = fabs(ag.get_y());
-      double distanceY = fabs(agentY - a.get_y());
+      double agentX = std::fabs(ag.get_x());
+      double distanceX = std::fabs(agentX - a.get_x());
+      double agentY = std::fabs(ag.get_y());
+      double distanceY = std::fabs(agentY - a.get_y());
       if(distanceX < minX){
         minX = distanceX;
         near_agent = ag;
@@ -135,7 +135,7 @@ void agent::move(game& g)
   if(m_type == agent_type::cow){
     for(agent& a: g.get_agents()){
       if(a == nearest_agent(g, *this, agent_type::grass)){
-        if(is_in_range(a.get_x(), a.get_y(), 200)){
+        if(is_in_range(a.get_x(), a.get_y(), 400)){
           double x = -(0.0005 * (m_x - a.get_x()));
           if(x > 0.02){
             x = 0.02;
