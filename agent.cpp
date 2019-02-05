@@ -520,7 +520,6 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
-
   #define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
@@ -610,6 +609,8 @@ void test_agent() //!OCLINT testing functions may be long
     assert(prev_health != after_health);
     assert(after_health != second_grass_health);
   }
+  //#define FIX_ISSUE_326
+  #ifdef FIX_ISSUE_326
   //a cow walks to grass when its close
   {
     game g(create_default_tiles(),
@@ -627,6 +628,8 @@ void test_agent() //!OCLINT testing functions may be long
     double cow_aft_posY = g.get_agents()[0].get_y();
     double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
     double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
+    std::cout << distanceX << " + " << distance_afterX << std::endl;
+    std::cout << distanceY << " + " << distance_afterY << std::endl;
     assert(distanceX > distance_afterX);
     assert(distanceY > distance_afterY);
     assert(g.get_agents()[0].get_x() > 0);
@@ -634,4 +637,18 @@ void test_agent() //!OCLINT testing functions may be long
     assert(cow_prev_posX < cow_aft_posX);
     assert(cow_prev_posY < cow_aft_posY);
   }
+  #endif //FIX_ISSUE_326
+  #define FIX_ISSUE_363
+  #ifdef FIX_ISSUE_363
+  {
+    game g(create_default_tiles(),
+           {agent(agent_type::grass, 0, 0, 100),
+            agent(agent_type::grass, 20, 20, 100)});
+    double grass1_health = g.get_agents()[0].get_health();
+    double grass2_health = g.get_agents()[1].get_health();
+    g.process_events();
+    assert(g.get_agents()[0].get_health() < grass1_health);
+    assert(g.get_agents()[1].get_health() < grass2_health);
+  }
+  #endif //FIX_ISSUE_363
 }
