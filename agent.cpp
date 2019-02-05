@@ -638,7 +638,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(cow_prev_posY < cow_aft_posY);
   }
   #endif //FIX_ISSUE_326
-  #define FIX_ISSUE_363
+  //#define FIX_ISSUE_363
   #ifdef FIX_ISSUE_363
   {
     game g(create_default_tiles(),
