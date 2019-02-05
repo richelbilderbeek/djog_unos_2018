@@ -115,7 +115,7 @@ agent agent::nearest_agent(game& g, agent& a, agent_type type){
   return near_agent;
 }
 
-void agent::move(game& g)
+void agent::move(game& g) //!OCLINT NPath complexity too high
 {
   //Dead agents stay still
   if (m_health <= 0.0) return;
@@ -135,25 +135,23 @@ void agent::move(game& g)
 
   if(m_type == agent_type::cow){
     for(agent& a: g.get_agents()){
-      if(a == nearest_agent(g, *this, agent_type::grass)){
-        if(is_in_range(a.get_x(), a.get_y(), 400)){
-          double x = -(0.0005 * (m_x - a.get_x()));
-          if(x > 0.02){
-            x = 0.02;
-          }
-          else if(x < -0.02){
-            x = -0.02;
-          }
-          m_x += x;
-          double y = -(0.0005 * (m_y - a.get_y()));
-          if(y > 0.02){
-            y = 0.02;
-          }
-          else if(y < -0.02){
-            y = -0.02;
-          }
-          m_y += y;
+      if(a == nearest_agent(g, *this, agent_type::grass) && is_in_range(a.get_x(), a.get_y(), 400)){
+        double x = -(0.0005 * (m_x - a.get_x()));
+        if(x > 0.02){
+          x = 0.02;
         }
+        else if(x < -0.02){
+          x = -0.02;
+        }
+        m_x += x;
+        double y = -(0.0005 * (m_y - a.get_y()));
+        if(y > 0.02){
+          y = 0.02;
+        }
+        else if(y < -0.02){
+          y = -0.02;
+        }
+        m_y += y;
       }
     }
   }
