@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
+#include <math.h>
 
 #include "agent_type.h"
 #include "game.h"
@@ -97,10 +98,10 @@ agent agent::nearest_agent(game& g, agent& a, agent_type type){
   agent near_agent(type);
   for(agent& ag: g.get_agents()){
     if(ag.get_type() == type){
-      double agentX = std::fabs(ag.get_x());
-      double distanceX = std::fabs(agentX - a.get_x());
-      double agentY = std::fabs(ag.get_y());
-      double distanceY = std::fabs(agentY - a.get_y());
+      double agentX = fabs(ag.get_x());
+      double distanceX = fabs(agentX - a.get_x());
+      double agentY = fabs(ag.get_y());
+      double distanceY = fabs(agentY - a.get_y());
       if(distanceX < minX){
         minX = distanceX;
         near_agent = ag;
