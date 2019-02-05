@@ -55,7 +55,7 @@ public:
 
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
-  void move();
+  void move(game& g);
   void move(double dx, double dy);
 
   void move_with_tile();
@@ -65,6 +65,8 @@ public:
   void eat(const game& g);
 
   bool is_in_range(double x, double y, double range);
+
+  agent nearest_agent(game& g, agent& a, agent_type type);
 
 private:
   /// The type the tile
