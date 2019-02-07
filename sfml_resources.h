@@ -72,6 +72,8 @@ private:
 
   sf::Texture m_bird_texture;
 
+  sf::Texture m_whale_texture;
+
   sf::Texture m_zen_ind_texture;
 
   sf::Texture m_zen_bar_texture;
