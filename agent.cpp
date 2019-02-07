@@ -127,6 +127,7 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
       m_type == agent_type::crocodile ||
       m_type == agent_type::spider ||
       m_type == agent_type::goat ||
+      m_type == agent_type::octopus ||
       m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
@@ -268,6 +269,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     move_agent_to_tile(a1, 3, 2);
     agents.push_back(a1);
     agent a2(agent_type::fish, 10, 10);
+    move_agent_to_tile(a2, 3, 2);
+    agents.push_back(a2);
+  }
+  {
+    agent a1(agent_type::octopus);
+    move_agent_to_tile(a1, 3, 2);
+    agents.push_back(a1);
+    agent a2(agent_type::octopus, 10, 10);
     move_agent_to_tile(a2, 3, 2);
     agents.push_back(a2);
   }
@@ -570,6 +579,17 @@ void test_agent() //!OCLINT testing functions may be long
     }
     assert(g.get_agents().empty());
   }
+  //octopus die when on land
+{
+  game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::octopus) } );
+  assert(!g.get_agents().empty());
+  //Choke octopus
+  while (g.get_agents()[0].get_health() > 0)
+  {
+    g.process_events();
+  }
+  assert(g.get_agents().empty());
+}
   // Agents drown
   {
     game g({tile(0,0,0,3,3,10,tile_type::water)},
