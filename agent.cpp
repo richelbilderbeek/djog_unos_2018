@@ -215,8 +215,8 @@ void agent::plant_actions(game& g) {
     const agent new_grass(
       agent_type::grass,
       m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-      m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance))
-      //m_health / rand_multiplier_first
+      m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
+      m_health / multiplier_first
     );
     const std::vector<agent> agents( { new_grass } );
     g.add_agents(agents);
@@ -638,17 +638,4 @@ void test_agent() //!OCLINT testing functions may be long
     assert(cow_prev_posY < cow_aft_posY);
   }
   #endif //FIX_ISSUE_326
-  //#define FIX_ISSUE_363
-  #ifdef FIX_ISSUE_363
-  {
-    game g(create_default_tiles(),
-           {agent(agent_type::grass, 0, 0, 100),
-            agent(agent_type::grass, 20, 20, 100)});
-    double grass1_health = g.get_agents()[0].get_health();
-    double grass2_health = g.get_agents()[1].get_health();
-    g.process_events();
-    assert(g.get_agents()[0].get_health() < grass1_health);
-    assert(g.get_agents()[1].get_health() < grass2_health);
-  }
-  #endif //FIX_ISSUE_363
 }
