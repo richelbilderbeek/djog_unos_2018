@@ -154,6 +154,28 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
       }
     }
   }
+  else if(m_type == agent_type::crocodile){
+    for(agent& a: g.get_agents()){
+      if(a == nearest_agent(g, *this, agent_type::cow) && is_in_range(a.get_x(), a.get_y(), 400)){
+        double x = -(0.0005 * (m_x - a.get_x()));
+        if(x > 0.05){
+          x = 0.05;
+        }
+        else if(x < -0.02){
+          x = -0.05;
+        }
+        m_x += x;
+        double y = -(0.0005 * (m_y - a.get_y()));
+        if(y > 0.05){
+          y = 0.05;
+        }
+        else if(y < -0.05){
+          y = -0.05;
+        }
+        m_y += y;
+      }
+    }
+  }
 }
 
 void agent::move(double dx, double dy) {
@@ -254,6 +276,12 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::crocodile, 30, 160);
     move_agent_to_tile(a1, 0, 2);
     agents.push_back(a1);
+    agent a2(agent_type::crocodile, 50, 160);
+    move_agent_to_tile(a2, 0, 2);
+    agents.push_back(a2);
+    agent a3(agent_type::cow, 40, 100, 3);
+    move_agent_to_tile(a3, 0, 2);
+    agents.push_back(a3);
   }
   {
     agent a1(agent_type::crocodile);
@@ -559,6 +587,24 @@ void test_agent() //!OCLINT testing functions may be long
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
+//Crocodiles eat cows
+{
+  const double cow_health{5.0};
+  game g(
+    create_default_tiles(),
+    {
+      agent(agent_type::cow, 0.0, 0.0, cow_health),
+      agent(agent_type::crocodile  , 0.0, 0.0, 10.0)
+    }
+  );
+  assert(g.get_agents()[0].get_health() == cow_health);
+  double crocodile_stamina = g.get_agents()[1].get_stamina();
+  g.process_events();
+  //Grass is eaten ...
+  assert(g.get_agents()[0].get_health() < cow_health);
+  //Cow is fed ...
+  assert(g.get_agents()[1].get_stamina() > crocodile_stamina);
+}
   //Fish die when on land
   {
     game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::fish) } );
