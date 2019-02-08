@@ -273,6 +273,16 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
   }
 }
 
+int count(const game& g, const agent_type t){
+  int count = 0;
+  for(agent a: g.get_agents()){
+    if(a.get_type() == t){
+      count++;
+    }
+  }
+  return count;
+}
+
 void test_game() //!OCLINT a testing function may be long
 {
   // A game starts with one or more tiles
@@ -448,6 +458,17 @@ void test_game() //!OCLINT a testing function may be long
     }
     assert(g.get_agents()[0].get_x() == start_grass_x);
     assert(g.get_agents()[0].get_y() == start_grass_y);
+  }
+  //Count the agents of a type
+  {
+    game g(create_default_tiles(),
+           {agent(agent_type::cow),
+           agent(agent_type::cow),
+           agent(agent_type::grass)});
+    int cows = count(g, agent_type::cow);
+    assert(cows == 2);
+    int grass = count(g, agent_type::grass);
+    assert(grass == 1);
   }
 }
 
