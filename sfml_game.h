@@ -3,6 +3,7 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -171,6 +172,9 @@ private:
   sf::Font m_debug_font;
 
   sf::Text m_tickcounter_text;
+
+  sf::Vector2i m_prev_mouse_pos;
+  double m_mouse_speed;
 
 };
 
