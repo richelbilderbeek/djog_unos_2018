@@ -504,8 +504,29 @@ void test_agent() //!OCLINT testing functions may be long
 
   // Test can_eat
   {
-    for (agent_type a : collect_all_agent_types()) {
-      can_eat(a);
+    game g(create_default_tiles(),
+           create_default_agents());
+    for (agent& a : g.get_agents()) {
+      if(a.get_type() == agent_type::cow){
+        agent_type grass_type = agent_type::grass;
+        std::vector<agent_type> return_food;
+        return_food.push_back(grass_type);
+        assert(can_eat(a.get_type()) == return_food);
+      }
+      else if(a.get_type() == agent_type::crocodile){
+        agent_type cow_type = agent_type::cow;
+        std::vector<agent_type> return_food;
+        return_food.push_back(cow_type);
+        assert(can_eat(a.get_type()) == return_food);
+      }
+      else if(a.get_type() == agent_type::bird){
+        agent_type spider_type = agent_type::spider;
+        agent_type fish_type = agent_type::fish;
+        std::vector<agent_type> return_food;
+        return_food.push_back(spider_type);
+        return_food.push_back(fish_type);
+        assert(can_eat(a.get_type()) == return_food);
+      }
     }
   }
   //Agent can pass out of exhaustion
