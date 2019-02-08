@@ -45,3 +45,6 @@ Makefile.Release
 *.pro.user.*
 object_script.djog_unos_2018.Debug
 object_script.djog_unos_2018.Release
+
+# Nature Zen Savefiles
+*.sav
