@@ -363,7 +363,7 @@ sf::Vector2f agent::get_center(const sf::Texture &sprite) const {
 
 bool will_drown(agent_type a) {
   switch (a) {
-    case agent_type::bacterium:
+    case agent_type::plankton:
       return false;
     case agent_type::bird:
       return false;
