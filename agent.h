@@ -96,6 +96,8 @@ private:
 
   void plant_actions(game& g);
 
+  void reproduce_cows(game& g);
+
   void damage_near_grass(game &g);
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;

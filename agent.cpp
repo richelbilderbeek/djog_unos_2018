@@ -173,6 +173,8 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
   if (m_type == agent_type::grass) damage_near_grass(g);
 
+  if (m_type == agent_type::cow) reproduce_cows(g);
+
   //TODO is depth suitable for agent
   if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
     m_stamina -= 0.2;
@@ -205,7 +207,7 @@ void agent::plant_actions(game& g) {
   rand = rand / 1000;
 
   // Grow
-  m_health += rand; 
+  m_health += rand;
 
   if (m_health > 100.0)
   {
@@ -220,6 +222,27 @@ void agent::plant_actions(game& g) {
       m_health / multiplier_first
     );
     const std::vector<agent> agents( { new_grass } );
+    g.add_agents(agents);
+    double multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
+    multiplier_first = multiplier_second / 10;
+    m_health = m_health / multiplier_second;
+  }
+}
+
+void agent::reproduce_cows(game &g){
+  if (m_health > 100.0)
+  {
+    double multiplier_first = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
+    multiplier_first = multiplier_first / 10;
+    const int max_distance{ 64 };
+
+    const agent new_cow(
+      agent_type::cow,
+      m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
+      m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
+      m_health / multiplier_first
+    );
+    const std::vector<agent> agents( { new_cow } );
     g.add_agents(agents);
     double multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
     multiplier_first = multiplier_second / 10;
@@ -249,8 +272,6 @@ void agent::damage_near_grass(game &g)
       if(damage == NAN || damage == INFINITY){
         damage = 0.02;
       }
-      if(distance != 0){
-      std::cout << "damage: " << damage << " distance: " << distance << std::endl;}
       m_health -= damage;
     }
   }
@@ -550,8 +571,6 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
-  #define FIX_ISSUE_300
-  #ifdef FIX_ISSUE_300
   //Grass creates new grassesget_agents
   {
     game g(create_default_tiles(), { agent(agent_type::grass) } );
@@ -563,7 +582,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(g.get_agents()[0].get_type() == agent_type::grass);
     assert(g.get_agents()[1].get_type() == agent_type::grass);
   }
-  #endif //FIX_ISSUE_300
   //Flying agent can fly over nothing without problems
   {
     const std::vector<tile> no_tiles;
@@ -694,4 +712,12 @@ void test_agent() //!OCLINT testing functions may be long
     // See whether damage hath happened.
   }
   #endif //FIX_ISSUE_363
+  //Cow reproduces
+  {
+    game g(create_default_tiles(), { agent(agent_type::cow, 0, 0, 150) } );
+    assert(g.get_agents().size() == 1);
+    g.process_events();
+    assert(g.get_agents()[0].get_type() == agent_type::cow);
+    assert(g.get_agents()[1].get_type() == agent_type::cow);
+  }
 }
