@@ -43,6 +43,8 @@ public:
   /// Everything except user input.
   void process_events();
 
+  void remove_tile(sf::RenderWindow& window, sfml_camera& camera);
+
 private:
 
   /// The selected tile

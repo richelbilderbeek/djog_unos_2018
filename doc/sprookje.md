@@ -13,5 +13,7 @@ Het was een siamese tweeling.
 De hond heette Sophie, ze was wit en klein.
 Maar onder dat schattige snuitje, schuilde een groot geheim.
 
+Dat liep dodelijk af...
+
 En ze leefde nog lang en gelukkig.
 Einde

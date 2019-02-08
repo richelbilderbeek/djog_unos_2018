@@ -1,4 +1,3 @@
-
 // Always include the header of the unit first
 #include "game.h"
 #include "tile_id.h"
@@ -168,6 +167,22 @@ void game::kill_agents() {
     if (m_agents[i].get_health() <= 0) {
       m_agents[i] = m_agents.back();
       m_agents.pop_back();
+      --m_score;
+    }
+  }
+}
+
+void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
+  for (unsigned i = 0; i < m_tiles.size(); ++i) {
+    if (contains(m_tiles.at(i),
+       sf::Mouse::getPosition(window).x + camera.x,
+       sf::Mouse::getPosition(window).y + camera.y))
+    {
+       if(m_tiles[i].get_id() == m_selected[0]){
+          m_selected.pop_back();
+       }
+       m_tiles[i] = m_tiles.back();
+       m_tiles.pop_back();
     }
   }
 }
@@ -353,8 +368,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::hills);
   }
-  //#define FIX_ISSUE_302
-  #ifdef FIX_ISSUE_302
   //When an agent dies, score must decrease
   //Depends on #285
   {
@@ -365,12 +378,10 @@ void test_game() //!OCLINT a testing function may be long
     while (!g.get_agents().empty())
     {
       g.process_events();
-      prev_score = g.get_score();
     }
     const double new_score = g.get_score();
     assert(new_score < prev_score);
   }
-  #endif //FIX_ISSUE_302
   //A game event should move tiles
   {
     const std::vector<agent> no_agents;
