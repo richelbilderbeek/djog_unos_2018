@@ -231,17 +231,26 @@ void agent::damage_near_grass(game &g)
 {
   const double max_distance { 32.0 };
 
-  const double damage { 20.0/1000.0 };
+  double damage { 20.0/1000.0 };
 
   std::vector <agent> all_agents{ g.get_agents() };
 
   for (agent& current_agent : all_agents)
   {
+    double distanceX = fabs(current_agent.get_x() - m_x);
+    double distanceY = fabs(current_agent.get_y() - m_y);
+    double distance = distanceX + distanceY;
 
     if (current_agent.get_type() == agent_type::grass &&
-        abs(current_agent.get_x() - m_x) <= max_distance &&
-        abs(current_agent.get_y() - m_y) <= max_distance)
+        distanceX <= max_distance &&
+        distanceY <= max_distance)
     {
+      damage = 0.2 / (distance / 2);
+      if(damage == NAN || damage == INFINITY){
+        damage = 0.02;
+      }
+      if(distance != 0){
+      std::cout << "damage: " << damage << " distance: " << distance << std::endl;}
       m_health -= damage;
     }
   }
