@@ -13,6 +13,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <SFML/Window.hpp>
 
 sfml_game::sfml_game(
   const sfml_game_delegate& delegate,
@@ -87,7 +88,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   // Display & Update Tickcounter
   {
     std::stringstream s;
-    s << "TICK COUNT: " << m_game.get_n_ticks();
+    s << "TICK COUNT: " << m_game.get_n_ticks() << "\n" << "MOUSE SPEED: " << m_mouse_speed;
     m_tickcounter_text.setString(s.str());
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
@@ -166,6 +167,11 @@ void sfml_game::process_events()
 {
 
   m_game.process_events();
+
+  sf::Vector2i current_mouse = sf::Mouse::getPosition();
+  sf::Vector2i mouse_delta = current_mouse - m_prev_mouse_pos;
+  m_mouse_speed = sqrt(mouse_delta.x * mouse_delta.x + mouse_delta.y * mouse_delta.y);
+  m_prev_mouse_pos = current_mouse;
 
   if ((115.0 / m_tile_speed != std::abs(std::floor(115.0 / m_tile_speed))
         || 115.0 / m_tile_speed != std::abs(std::ceil(115.0 / m_tile_speed)))
