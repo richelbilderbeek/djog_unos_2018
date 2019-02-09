@@ -127,7 +127,8 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
       m_type == agent_type::crocodile ||
       m_type == agent_type::spider ||
       m_type == agent_type::goat ||
-      m_type == agent_type::fish) {
+      m_type == agent_type::fish ||
+      m_type == agent_type::bird) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
@@ -460,8 +461,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
-  //#define FIX_ISSUE_343
-  #ifdef FIX_ISSUE_343
   // A bird moves
   {
     game g;
@@ -473,7 +472,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #endif
   // Grass does not move
   {
     game g;
