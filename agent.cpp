@@ -216,7 +216,9 @@ void agent::move_with_tile(){
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move(g);
 
-  if(m_type == agent_type::grass || m_type == agent_type::tree) plant_actions(g);
+  if (m_type == agent_type::grass || m_type == agent_type::tree) plant_actions(g);
+
+  if (m_type == agent_type::grass) damage_near_grass(g);
 
   //TODO is depth suitable for agent
   if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
@@ -246,11 +248,11 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
 void agent::plant_actions(game& g) {
 
-  double rand = std::rand() % 10 + 6;
+  double rand = std::rand() % 10 + 26; // 20 extra for the grass self-damage
   rand = rand / 1000;
 
   // Grow
-  m_health += rand;
+  m_health += rand; 
 
   if (m_health > 100.0)
   {
@@ -269,6 +271,26 @@ void agent::plant_actions(game& g) {
     double multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
     multiplier_first = multiplier_second / 10;
     m_health = m_health / multiplier_second;
+  }
+}
+
+void agent::damage_near_grass(game &g)
+{
+  const double max_distance { 32.0 };
+
+  const double damage { 20.0/1000.0 };
+
+  std::vector <agent> all_agents{ g.get_agents() };
+
+  for (agent& current_agent : all_agents)
+  {
+
+    if (current_agent.get_type() == agent_type::grass &&
+        abs(current_agent.get_x() - m_x) <= max_distance &&
+        abs(current_agent.get_y() - m_y) <= max_distance)
+    {
+      m_health -= damage;
+    }
   }
 }
 
@@ -362,7 +384,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a7(agent_type::spider, 40, 40);
     move_agent_to_tile(a7, 4, -1);
     agents.push_back(a7);
-    agent a8(agent_type::bird, 45, 75);
+    agent a8(agent_type::bird, 75, 150);
     move_agent_to_tile(a8, 4, -1);
     agents.push_back(a8);
   }
@@ -397,7 +419,7 @@ sf::Vector2f agent::get_center(const sf::Texture &sprite) const {
 
 bool will_drown(agent_type a) {
   switch (a) {
-    case agent_type::bacterium:
+    case agent_type::plankton:
       return false;
     case agent_type::bird:
       return false;
@@ -590,7 +612,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   #define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
-  //Grass creates new grasses
+  //Grass creates new grassesget_agents
   {
     game g(create_default_tiles(), { agent(agent_type::grass) } );
     assert(g.get_agents().size() == 1);
@@ -725,4 +747,30 @@ void test_agent() //!OCLINT testing functions may be long
     assert(cow_prev_posY < cow_aft_posY);
   }
   #endif //FIX_ISSUE_326
+  #define FIX_ISSUE_363
+  #ifdef FIX_ISSUE_363
+  //Grass damages nearby grasses
+  {
+    //agent(const agent_type type, const double x = 0.0, const double y = 0.0,
+    //      const double health = 1.0,  const double direction = 0.0);
+    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+           {agent(agent_type::grass, 10, 10, 10),
+            agent(agent_type::grass, 10, 10, 10)});
+    // Make two grass patches near each other.
+    const double prev_grass_health1 = g.get_agents()[0].get_health();
+    const double prev_grass_health2 = g.get_agents()[1].get_health();
+    // Check their current health.
+
+    g.process_events();
+    // Damage time.
+
+    const double after_grass_health1 = g.get_agents()[0].get_health();
+    const double after_grass_health2 = g.get_agents()[1].get_health();
+    // Check their health now.
+
+    assert(after_grass_health1 < prev_grass_health1);
+    assert(after_grass_health2 < prev_grass_health2);
+    // See whether damage hath happened.
+  }
+  #endif //FIX_ISSUE_363
 }

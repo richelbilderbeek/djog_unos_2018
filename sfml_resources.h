@@ -66,7 +66,7 @@ private:
 
   sf::Texture m_spider_texture;
 
-  sf::Texture m_bacterium_texture;
+  sf::Texture m_plankton_texture;
 
   sf::Texture m_background_image;
 
