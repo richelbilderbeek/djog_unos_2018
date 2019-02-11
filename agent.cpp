@@ -157,14 +157,19 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
   }
 }
 
-void agent::move(double dx, double dy) {
-  m_x += dx;
-  m_y += dy;
-}
-
-void agent::move_with_tile(){
-  m_x += m_dx;
-  m_y += m_dy;
+void agent::move() {
+  double x = std::sin(m_direction * 3.14/180);
+  double y;
+  //The y-axis is flipped or something?
+  if(m_direction == 180 || m_direction == 0)
+  {
+    y = std::cos(m_direction * 3.14/180);
+  }
+  else{
+    y = -(std::cos(m_direction * 3.14/180));
+  }
+  m_x += x;
+  m_y += y;
 }
 
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
@@ -197,8 +202,8 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
     }
   }
 
-  if(m_dx != 0 || m_dy != 0){
-    move_with_tile();
+  if(m_direction >= 0 && m_direction <= 360){
+    move();
   }
 }
 
@@ -359,7 +364,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a7(agent_type::spider, 40, 40);
     move_agent_to_tile(a7, 4, -1);
     agents.push_back(a7);
-    agent a8(agent_type::bird, 45, 75);
+    agent a8(agent_type::bird, 75, 150);
     move_agent_to_tile(a8, 4, -1);
     agents.push_back(a8);
   }
@@ -490,8 +495,8 @@ void test_agent() //!OCLINT testing functions may be long
 
   // Agents have a direction, that can be read
   {
-    const agent a(agent_type::cow); //Must be const
-    assert(a.get_direction() == 0.0);
+    const agent a(agent_type::cow, 0, 0, 100, 0); //Must be const
+    assert(a.get_direction() == 0);
   }
   // Agents have a direction, that can be set
   {

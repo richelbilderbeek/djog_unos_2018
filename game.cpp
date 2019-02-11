@@ -147,14 +147,12 @@ void game::merge_tiles() { //!OCLINT must simplify
       other_tile.set_dy(0);
       for(agent& a: m_agents){
         if(is_on_specific_tile(a, focal_tile)){
-          a.set_dx(0);
-          a.set_dy(0);
+          a.set_direction(NAN);
         }
       }
       for(agent& a: m_agents){
         if(is_on_specific_tile(a, other_tile)){
-          a.set_dx(0);
-          a.set_dy(0);
+          a.set_direction(NAN);
         }
       }
     }
@@ -240,7 +238,7 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
       t.set_dy(-tile_speed);
       for(agent& a: m_agents){
         if(is_on_specific_tile(a, t)){
-          a.set_dy(-tile_speed);
+          a.set_direction(180);
         }
       }
       return;
@@ -248,7 +246,7 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
       t.set_dx(tile_speed);
       for(agent& a: m_agents){
         if(is_on_specific_tile(a, t)){
-          a.set_dx(tile_speed);
+          a.set_direction(90);
         }
       }
       return;
@@ -256,7 +254,7 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
       t.set_dy(tile_speed);
       for(agent& a: m_agents){
         if(is_on_specific_tile(a, t)){
-          a.set_dy(tile_speed);
+          a.set_direction(0);
         }
       }
       return;
@@ -264,7 +262,7 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
       t.set_dx(-tile_speed);
       for(agent& a: m_agents){
         if(is_on_specific_tile(a, t)){
-          a.set_dx(-tile_speed);
+          a.set_direction(270);
         }
       }
       return;
@@ -420,12 +418,12 @@ void test_game() //!OCLINT a testing function may be long
     agent& agent = g.get_agents()[0];
     const auto x_before = tile.get_x();
     tile.set_dx(5.0);
-    agent.set_dx(5.0);
+    agent.set_direction(90);
     g.process_events();
     const auto x_after = tile.get_x();
     assert(x_before != x_after);
     tile.set_dy(5.0);
-    agent.set_dy(5.0);
+    agent.set_direction(0);
     g.process_events();
     assert(g.get_agents()[0].get_x() > start_cow_x);
     assert(g.get_agents()[0].get_y() > start_cow_y);
