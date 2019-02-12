@@ -32,7 +32,7 @@
 
 /// All tests are called from here, only in debug mode
 void test() {
-  /*test_sfml_resources();
+  test_sfml_resources();
   test_game();
   test_sfml_game();
   test_sfml_game_delegate();
@@ -41,7 +41,7 @@ void test() {
   test_agent();
   test_agent_type();
   test_tile_id();
-  //test_sfml_window_manager();*/
+  //test_sfml_window_manager();
 }
 int start_sfml_game(int ca, bool music,
                     std::vector<tile> tiles,

@@ -18,7 +18,7 @@ public:
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
   agent(const agent_type type, const double x = 0.0, const double y = 0.0,
-        const double health = 1.0,  const double direction = NAN);
+        const double health = 1.0,  const double direction = INFINITY);
 
   void process_events(game &g);
 
