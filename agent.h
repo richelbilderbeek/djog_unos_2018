@@ -2,6 +2,7 @@
 #define AGENT_H
 
 #include <vector>
+#include <math.h>
 
 #include "SFML/Graphics.hpp"
 #include "agent_type.h"
@@ -18,7 +19,7 @@ public:
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
   agent(const agent_type type, const double x = 0.0, const double y = 0.0,
-        const double health = 1.0,  const double direction = INFINITY);
+        const double health = 1.0,  const double direction = NAN);
 
   void process_events(game &g);
 
