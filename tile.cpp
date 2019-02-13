@@ -113,8 +113,30 @@ std::vector<tile> create_two_grass_tiles() noexcept
 
 bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 {
-  return lhs.get_x() == rhs.get_x()
-    && lhs.get_y() == rhs.get_y();
+  if(lhs.get_x() >= 0 && rhs.get_x() >= 0
+     && lhs.get_y() >= 0 && rhs.get_y() >= 0){
+    return static_cast<int>(lhs.get_x() + 0.5) == static_cast<int>(rhs.get_x() + 0.5)
+    && static_cast<int>(lhs.get_y() + 0.5) == static_cast<int>(rhs.get_y() + 0.5);
+  }
+  else if(lhs.get_x() <= 0 && rhs.get_x() >= 0
+     && lhs.get_y() >= 0 && rhs.get_y() >= 0){
+    return static_cast<int>(lhs.get_x() - 0.5) == static_cast<int>(rhs.get_x() + 0.5)
+    && static_cast<int>(lhs.get_y() + 0.5) == static_cast<int>(rhs.get_y() + 0.5);
+  }
+  else if(lhs.get_x() <= 0 && rhs.get_x() <= 0
+     && lhs.get_y() >= 0 && rhs.get_y() >= 0){
+    return static_cast<int>(lhs.get_x() - 0.5) == static_cast<int>(rhs.get_x() - 0.5)
+    && static_cast<int>(lhs.get_y() + 0.5) == static_cast<int>(rhs.get_y() + 0.5);
+  }
+  else if(lhs.get_x() <= 0 && rhs.get_x() <= 0
+     && lhs.get_y() <= 0 && rhs.get_y() >= 0){
+    return static_cast<int>(lhs.get_x() - 0.5) == static_cast<int>(rhs.get_x() - 0.5)
+    && static_cast<int>(lhs.get_y() - 0.5) == static_cast<int>(rhs.get_y() + 0.5);
+  }
+  else{
+    return static_cast<int>(lhs.get_x() - 0.5) == static_cast<int>(rhs.get_x() - 0.5)
+    && static_cast<int>(lhs.get_y() - 0.5) == static_cast<int>(rhs.get_y() - 0.5);
+  }
 }
 
 void tile::process_events()

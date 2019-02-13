@@ -139,22 +139,21 @@ void game::merge_tiles() { //!OCLINT must simplify
       assert(j >=0);
       assert(j < static_cast<int>(m_tiles.size()));
       tile& other_tile = m_tiles[j];
-      if (!have_same_position(focal_tile, other_tile)) { return; }
+      //using continue because return stops the loop resulting in the loop only going trough
+      //the first 2 tiles
+      if (!have_same_position(focal_tile, other_tile)) { continue; }
       tile_merge(focal_tile, other_tile, j);
       focal_tile.set_dx(0);
       focal_tile.set_dy(0);
       other_tile.set_dx(0);
       other_tile.set_dy(0);
       for(agent& a: m_agents){
-        if(is_on_specific_tile(a, focal_tile)){
+        if(is_on_specific_tile(a, focal_tile) ||
+           is_on_specific_tile(a, other_tile)){
           a.set_direction(NAN);
         }
       }
-      for(agent& a: m_agents){
-        if(is_on_specific_tile(a, other_tile)){
-          a.set_direction(NAN);
-        }
-      }
+      return;
     }
   }
 }
