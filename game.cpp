@@ -153,7 +153,7 @@ void game::merge_tiles() { //!OCLINT must simplify
           a.set_direction(NAN);
         }
       }
-      return;
+      return; //!OCLINT can't be removed as far as I know
     }
   }
 }

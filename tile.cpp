@@ -111,7 +111,7 @@ std::vector<tile> create_two_grass_tiles() noexcept
   };
 }
 
-bool have_same_position(const tile& lhs, const tile& rhs) noexcept
+bool have_same_position(const tile& lhs, const tile& rhs) noexcept //!OCLINT can't be simpler
 {
   if(lhs.get_x() >= 0 && rhs.get_x() >= 0
      && lhs.get_y() >= 0 && rhs.get_y() >= 0){

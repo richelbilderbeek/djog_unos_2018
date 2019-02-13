@@ -69,7 +69,7 @@ tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT mu
   return tile_type::nonetile;
 }
 
-void test_tile_type()
+void test_tile_type() //!OCLINT can't be simpler
 {
   {
     // merging of types
