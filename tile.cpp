@@ -133,10 +133,8 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept //!OCLINT can
     return static_cast<int>(lhs.get_x() - 0.5) == static_cast<int>(rhs.get_x() - 0.5)
     && static_cast<int>(lhs.get_y() - 0.5) == static_cast<int>(rhs.get_y() + 0.5);
   }
-  else{
-    return static_cast<int>(lhs.get_x() - 0.5) == static_cast<int>(rhs.get_x() - 0.5)
-    && static_cast<int>(lhs.get_y() - 0.5) == static_cast<int>(rhs.get_y() - 0.5);
-  }
+  return static_cast<int>(lhs.get_x() - 0.5) == static_cast<int>(rhs.get_x() - 0.5)
+  && static_cast<int>(lhs.get_y() - 0.5) == static_cast<int>(rhs.get_y() - 0.5);
 }
 
 void tile::process_events()
