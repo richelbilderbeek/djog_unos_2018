@@ -68,6 +68,8 @@ private:
 
   sf::Texture m_plankton_texture;
 
+  sf::Texture m_worm_texture;
+
   sf::Texture m_octopus_texture;
 
   sf::Texture m_background_image;
