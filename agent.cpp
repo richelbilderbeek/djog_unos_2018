@@ -42,8 +42,6 @@ std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::crocodile:
       return {agent_type::cow};
-    case agent_type::whale:
-      return {agent_type::fish};
     case agent_type::bird:
       return {agent_type::spider,
               agent_type::fish};
@@ -178,29 +176,7 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
         m_y += y;
       }
     }
-  } // Whales eats fish
-  else if(m_type == agent_type::whale){
-      for(agent& a: g.get_agents()){
-        if(a == nearest_agent(g, *this, agent_type::fish) && is_in_range(a.get_x(), a.get_y(), 400)){
-          double x = -(0.0005 * (m_x - a.get_x()));
-          if(x > 0.03){
-            x = 0.03;
-          }
-          else if(x < -0.03){
-            x = -0.03;
-          }
-          m_x += x;
-          double y = -(0.0005 * (m_y - a.get_y()));
-          if(y > 0.03){
-            y = 0.03;
-          }
-          else if(y < -0.03){
-            y = -0.03;
-          }
-          m_y += y;
-        }
-      }
-    }
+  }
 }
 
 void agent::move(double dx, double dy) {
@@ -545,6 +521,14 @@ void test_agent() //!OCLINT testing functions may be long
   {
     for (agent_type a : collect_all_agent_types()) {
       can_eat(a);
+    }
+    {   // Cow can eat grass
+        std::vector<agent_type> vec = can_eat(agent_type::cow);
+        assert(vec.at(0) == agent_type::grass);
+    }
+    {   // Crocodile can eat cows
+        std::vector<agent_type> vec = can_eat(agent_type::crocodile);
+        assert(vec.at(0) == agent_type::cow);
     }
   }
   //Agent can pass out of exhaustion
