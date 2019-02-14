@@ -127,6 +127,8 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
       m_type == agent_type::crocodile ||
       m_type == agent_type::spider ||
       m_type == agent_type::goat ||
+      m_type == agent_type::octopus ||
+      m_type == agent_type::bird ||
       m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
@@ -294,6 +296,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agents.push_back(a2);
   }
   {
+    agent a1(agent_type::octopus);
+    move_agent_to_tile(a1, 3, 2);
+    agents.push_back(a1);
+    agent a2(agent_type::octopus, 10, 10);
+    move_agent_to_tile(a2, 3, 2);
+    agents.push_back(a2);
+  }
+  {
     agent a1(agent_type::fish);
     move_agent_to_tile(a1, 4, 2);
     agents.push_back(a1);
@@ -328,7 +338,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a7(agent_type::spider, 40, 40);
     move_agent_to_tile(a7, 4, -1);
     agents.push_back(a7);
-    agent a8(agent_type::bird, 45, 75);
+    agent a8(agent_type::bird, 75, 150);
     move_agent_to_tile(a8, 4, -1);
     agents.push_back(a8);
   }
@@ -363,7 +373,7 @@ sf::Vector2f agent::get_center(const sf::Texture &sprite) const {
 
 bool will_drown(agent_type a) {
   switch (a) {
-    case agent_type::bacterium:
+    case agent_type::plankton:
       return false;
     case agent_type::bird:
       return false;
@@ -430,7 +440,7 @@ void test_agent() //!OCLINT testing functions may be long
     a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
-  //#define FIX_ISSUE_343
+  #define FIX_ISSUE_343
   #ifdef FIX_ISSUE_343
   // A bird moves
   {
@@ -592,6 +602,17 @@ void test_agent() //!OCLINT testing functions may be long
     }
     assert(g.get_agents().empty());
   }
+  //octopus die when on land
+{
+  game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::octopus) } );
+  assert(!g.get_agents().empty());
+  //Choke octopus
+  while (g.get_agents()[0].get_health() > 0)
+  {
+    g.process_events();
+  }
+  assert(g.get_agents().empty());
+}
   // Agents drown
   {
     game g({tile(0,0,0,3,3,10,tile_type::water)},
