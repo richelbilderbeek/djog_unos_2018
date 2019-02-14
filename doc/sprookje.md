@@ -12,6 +12,7 @@ Haar vriend heette Gerard en haar vriendin heette Joline.
 Het was een siamese tweeling.
 De hond heette Sophie, ze was wit en klein.
 Maar onder dat schattige snuitje, schuilde een groot geheim.
+elke avond,
 
 Dat liep dodelijk af...
 
