@@ -18,7 +18,7 @@ FR|Elles|`EllyJet`|Dev (junior)
 FR|Enzo|`Enzo9`|Dev (junior)
 FR|Jana|`Jana17`|Dev (junior)
 FR|Jolien|`JolienGay`|Dev (junior)
-FR|Rafayel|`RafayelGardishyan`|Dev (medior), `git`
+TH,FR|Rafayel|`RafayelGardishyan`|Dev (medior), `git`
 FR|Rob|`robkruger`|Dev (junior)
 FR|Same|`same-drenth`|Dev (junior), UX
 FR|Tom|`Tomstuivenga`|Dev (junior)
