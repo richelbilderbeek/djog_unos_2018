@@ -22,6 +22,7 @@
         <file>resources/tundra_laying.png</file>
         <file>resources/tundra_standing.png</file>
         <file>resources/plankton.png</file>
+        <file>resources/octopus.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
