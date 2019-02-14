@@ -188,9 +188,8 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
-sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
+sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLINT Can't be simpler (High Complexity)
   switch (a.get_type()) {
-
     case agent_type::plankton:
       return m_plankton_texture;
     case agent_type::worm:
