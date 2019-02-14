@@ -44,7 +44,8 @@ std::vector<agent_type> can_eat(const agent_type type) {
       return {agent_type::cow};
     case agent_type::bird:
       return {agent_type::spider,
-              agent_type::fish};
+              agent_type::fish,
+              agent_type::worm};
     case agent_type::cow:
       return {agent_type::grass};
     default:
