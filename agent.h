@@ -2,6 +2,7 @@
 #define AGENT_H
 
 #include <vector>
+#include <math.h>
 
 #include "SFML/Graphics.hpp"
 #include "agent_type.h"
@@ -18,7 +19,7 @@ public:
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
   agent(const agent_type type, const double x = 0.0, const double y = 0.0,
-        const double health = 1.0,  const double direction = 0.0);
+        const double health = 1.0,  const double direction = NAN);
 
   void process_events(game &g);
 
@@ -35,19 +36,11 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
-  /// The movement coeficient on the x-axis
-  double get_dx() const noexcept { return m_dx; }
-
-  /// The movement coeficient on the y-axis
-  double get_dy() const noexcept { return m_dy; }
-
   /// The direction angle of the agent
   double get_direction() const noexcept { return m_direction; }
 
   void set_x(double x) noexcept { m_x = x; }
   void set_y(double y) noexcept { m_y = y; }
-  void set_dx(double dx) noexcept { m_dx = dx; }
-  void set_dy(double dy) noexcept { m_dy = dy; }
   void set_direction(double direction) noexcept { m_direction = direction; }
   void set_health(double health) noexcept { m_health = health; }
 
@@ -56,7 +49,7 @@ public:
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
   void move(game& g);
-  void move(double dx, double dy);
+  void move();
 
   void move_with_tile();
 
@@ -78,15 +71,7 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
-  /// The movement coefficient on the x-axis
-  double m_dx = 0;
-
-  /// The movement coefficient on the y-axis
-  double m_dy = 0;
-
-  /// The direction angle of the agent, which is a radial angle with 0 for
-  /// left to right direction, pi/2 for top to down direction,
-  /// pi for right to left direction and -pi/2 for down to top direction.
+  /// The direction angle of the agent
   double m_direction;
 
   /// The health of the agent
@@ -95,6 +80,8 @@ private:
   double m_stamina;
 
   void plant_actions(game& g);
+
+  void reproduce_cows(game& g);
 
   void damage_near_grass(game &g);
 

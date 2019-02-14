@@ -239,9 +239,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
       temp_tile.set_dy(0);
       for(agent& a: m_game.get_agents()){
         if(is_on_specific_tile(a, temp_tile)){
-          a.set_dx(0);
-          a.set_dy(0);
-        }
+          a.set_direction(NAN);        }
       }
     }
   }
@@ -407,8 +405,7 @@ void sfml_game::control_tile(bool b, const sf::Event& event, tile& t)
       t.set_dy(0);
       for(agent& a: m_game.get_agents()){
         if(is_on_specific_tile(a, t)){
-          a.set_dx(0);
-          a.set_dy(0);
+          a.set_direction(NAN);
         }
       }
     }
