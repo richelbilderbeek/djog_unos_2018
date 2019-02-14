@@ -43,12 +43,12 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
 
 int count_n_tiles(const game& g) noexcept
 {
-  return g.get_tiles().size();
+  return static_cast<int>(g.get_tiles().size());
 }
 
 int count_n_agents(const game& g) noexcept
 {
-  return g.get_agents().size();
+  return static_cast<int>(g.get_agents().size());
 }
 
 void game::process_events()
@@ -64,7 +64,7 @@ void game::process_events()
   //Process the events happening on the tiles
   for (auto& tile: m_tiles)
   {
-    if(tile.get_dx() != 0 || tile.get_dy() != 0){
+    if(static_cast<int>(tile.get_dx()) != 0 || static_cast<int>(tile.get_dy()) != 0){
       tile.move();
     }
     tile.process_events();
@@ -84,7 +84,7 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   //focal tile becomes merged type
   focal_tile.set_type(merged_type);
   //other tile is swapped to the back, then deleted
-  m_tiles[other_pos] = m_tiles.back();
+  m_tiles[static_cast<unsigned int>(other_pos)] = m_tiles.back();
   m_tiles.pop_back();
   //change the selected tile
   m_selected.clear();
@@ -101,7 +101,8 @@ void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
     {
       for (unsigned j = 0; j < m_tiles.size(); j++)
       {
-        if (m_tiles.at(j).get_dx() != 0 || m_tiles.at(j).get_dy() != 0){
+        if (static_cast<int>(m_tiles.at(j).get_dx()) != 0
+            || static_cast<int>(m_tiles.at(j).get_dy()) != 0){
           return;
         }
       }
@@ -115,7 +116,8 @@ void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
   {
     for (unsigned i = 0; i < m_tiles.size(); i++)
     {
-      if (m_tiles.at(i).get_dx() != 0 || m_tiles.at(i).get_dy() != 0){
+      if (static_cast<int>(m_tiles.at(i).get_dx()) != 0
+          || static_cast<int>(m_tiles.at(i).get_dy()) != 0){
         return;
       }
     }
@@ -132,13 +134,13 @@ void game::merge_tiles() { //!OCLINT must simplify
   {
     assert(i >=0);
     assert(i < static_cast<int>(m_tiles.size()));
-    tile& focal_tile = m_tiles[i];
+    tile& focal_tile = m_tiles[static_cast<unsigned int>(i)];
     // j is the next tile in the vector
     for (int j = i + 1; j < n; ++j)
     {
       assert(j >=0);
       assert(j < static_cast<int>(m_tiles.size()));
-      tile& other_tile = m_tiles[j];
+      tile& other_tile = m_tiles[static_cast<unsigned int>(j)];
       //using continue because return stops the loop resulting in the loop only going trough
       //the first 2 tiles
       if (!have_same_position(focal_tile, other_tile)) { continue; }
@@ -159,8 +161,8 @@ void game::merge_tiles() { //!OCLINT must simplify
 }
 
 void game::kill_agents() {
-  const int n = count_n_agents(*this);
-  for (int i = 0; i < n; ++i) {
+  const unsigned int n = static_cast<unsigned int>(count_n_agents(*this));
+  for (unsigned int i = 0; i < n; ++i) {
     if (m_agents[i].get_health() <= 0) {
       m_agents[i] = m_agents.back();
       m_agents.pop_back();
@@ -198,7 +200,7 @@ bool is_on_specific_tile(const double x, const double y, const tile& t)
 
 bool is_on_specific_tile(const agent& a, const tile& t) {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
-  return is_on_specific_tile(center.x, center.y, t);
+  return is_on_specific_tile(static_cast<double>(center.x), static_cast<double>(center.y), t);
 }
 
 bool is_on_tile(const game& g, const double x, const double y)
@@ -227,7 +229,7 @@ tile_type get_on_tile_type(const game& g, const agent& a)
 
 bool is_on_tile(const game& g, const agent& a) {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
-  return is_on_tile(g, center.x, center.y);
+  return is_on_tile(g, static_cast<double>(center.x), static_cast<double>(center.y));
 }
 
 void game::confirm_tile_move(tile& t, int direction, int tile_speed){
@@ -291,7 +293,7 @@ void test_game() //!OCLINT a testing function may be long
   // A game starts with a score of zero
   {
     const game g;
-    assert(g.get_score() == 0);
+    assert(static_cast<int>(g.get_score()) == 0);
   }
 
   // A game starts with a zero number of game cycles
@@ -394,13 +396,13 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<agent> no_agents;
     game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0) }, no_agents);
     tile& tile = g.get_tiles()[0];
-    const auto x_before = tile.get_x();
-    const auto y_before = tile.get_y();
+    const auto x_before = static_cast<int>(tile.get_x());
+    const auto y_before = static_cast<int>(tile.get_y());
     tile.set_dx(5.0);
     tile.set_dy(5.0);
     g.process_events();
-    const auto x_after = tile.get_x();
-    const auto y_after = tile.get_y();
+    const auto x_after = static_cast<int>(tile.get_x());
+    const auto y_after = static_cast<int>(tile.get_y());
     assert(x_before != x_after);
     assert(y_before != y_after);
   }
@@ -415,11 +417,11 @@ void test_game() //!OCLINT a testing function may be long
     );
     tile& tile = g.get_tiles()[0];
     agent& agent = g.get_agents()[0];
-    const auto x_before = tile.get_x();
+    const auto x_before = static_cast<int>(tile.get_x());
     tile.set_dx(5.0);
     agent.set_direction(90);
     g.process_events();
-    const auto x_after = tile.get_x();
+    const auto x_after = static_cast<int>(tile.get_x());
     assert(x_before != x_after);
     tile.set_dy(5.0);
     agent.set_direction(0);
@@ -437,8 +439,8 @@ void test_game() //!OCLINT a testing function may be long
   {
     //Put a grass agent on a grass tile,
     //then move another tile on it
-    const double start_grass_x = 1.0;
-    const double start_grass_y = 1.0;
+    const int start_grass_x = 1;
+    const int start_grass_y = 1;
     game g(
       {
         tile(-10.0, -10.0, 0.0, 10.0, 10.0), // Left tile that will move to right
@@ -453,8 +455,8 @@ void test_game() //!OCLINT a testing function may be long
     {
       g.process_events();
     }
-    assert(g.get_agents()[0].get_x() == start_grass_x);
-    assert(g.get_agents()[0].get_y() == start_grass_y);
+    assert(static_cast<int>(g.get_agents()[0].get_x()) == start_grass_x);
+    assert(static_cast<int>(g.get_agents()[0].get_y()) == start_grass_y);
   }
   //Count the agents of a type
   {
@@ -486,10 +488,10 @@ std::ostream& operator<<(std::ostream& os, const game& g)
   os << g.m_n_tick << ' ' << g.m_score << ' '
      << g.m_tiles.size() << ' '
      << g.m_agents.size();
-  for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
+  for (unsigned int i=0; i < g.m_tiles.size(); i++){
       os << ' ' << g.m_tiles[i];
   }
-  for (int i=0; i < static_cast<int>(g.m_agents.size()); i++){
+  for (unsigned int i=0; i < g.m_agents.size(); i++){
       os << ' ' << g.m_agents[i];
   }
 
@@ -525,7 +527,7 @@ std::istream& operator>>(std::istream& is, game& g)
 bool operator==(const game& lhs, const game& rhs) noexcept
 {
   return lhs.m_n_tick == rhs.m_n_tick &&
-         lhs.m_score == rhs.m_score &&
+         static_cast<int>(lhs.m_score) == static_cast<int>(rhs.m_score) &&
          lhs.m_tiles == rhs.m_tiles &&
          lhs.m_agents == rhs.m_agents;
 }
