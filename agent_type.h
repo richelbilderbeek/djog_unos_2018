@@ -6,7 +6,7 @@
 
 /// The type a tile can be
 
-enum class agent_type { none, plankton, cow, grass, fish, crocodile, tree, goat, bird, spider, octopus };
+enum class agent_type { none, plankton, cow, grass, fish, crocodile, tree, goat, bird, spider, octopus,worm };
 
 /// Get all the agent types in a std::vector
 std::vector<agent_type> collect_all_agent_types();
