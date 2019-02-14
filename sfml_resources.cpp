@@ -45,6 +45,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file 'plankton.png'");
     }
   }
+  // worm texture
+    {
+      QFile f(":/nature_zen/resources/worm.png");
+      f.copy("worm.png");
+      if (!m_worm_texture.loadFromFile("worm.png")) {
+        throw std::runtime_error("Cannot find image file 'worm.png'");
+      }
+    }
   // grass texture
   {
     QFile f(":/nature_zen/resources/grass.png");
@@ -185,6 +193,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
 
     case agent_type::plankton:
       return m_plankton_texture;
+    case agent_type::worm:
+      return m_worm_texture;
     case agent_type::cow:
       return m_cow_texture;
     case agent_type::crocodile:

@@ -11,6 +11,7 @@ std::vector<agent_type> collect_all_agent_types()
     agent_type::cow,
     agent_type::crocodile,
     agent_type::plankton,
+    agent_type::worm,
     agent_type::fish,
     agent_type::grass,
     agent_type::tree,
@@ -67,6 +68,8 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
   switch (a) {
     case agent_type::plankton:
       return "plankton";
+    case agent_type::worm:
+      return "worm";
     case agent_type::bird:
       return "bird";
     case agent_type::cow:
@@ -94,6 +97,7 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
 agent_type to_agent(std::string str) //!OCLINT cannot be simpler
 {
   if (str == "cow") return agent_type::cow;
+  if (str == "worm") return agent_type::worm;
   if (str == "plankton") return agent_type::plankton;
   if (str == "grass") return agent_type::grass;
   if (str == "fish") return agent_type::fish;

@@ -129,6 +129,7 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
       m_type == agent_type::goat ||
       m_type == agent_type::octopus ||
       m_type == agent_type::bird ||
+      m_type == agent_type::worm ||
       m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
@@ -273,6 +274,9 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::cow, 30, 90);
     move_agent_to_tile(a3, 1, 0);
     agents.push_back(a3);
+    agent a4(agent_type::worm, 50, 130);
+    move_agent_to_tile(a4, 1, 0);
+    agents.push_back(a4);
   }
   {
     agent a1(agent_type::crocodile, 30, 160);
@@ -310,6 +314,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a2(agent_type::fish, 10, 10);
     move_agent_to_tile(a2, 4, 2);
     agents.push_back(a2);
+
   }
   {
     agent a1(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
@@ -375,6 +380,8 @@ bool will_drown(agent_type a) {
   switch (a) {
     case agent_type::plankton:
       return false;
+  case agent_type::worm:
+    return false;
     case agent_type::bird:
       return false;
     case agent_type::cow:
