@@ -4,8 +4,7 @@
 #include <iosfwd>
 #include <vector>
 
-/// The type a tile can be
-
+/// The type an agent can be
 enum class agent_type {
     none,
     plankton,
@@ -19,7 +18,8 @@ enum class agent_type {
     bird,
     spider,
     octopus,
-    worm
+    worm,
+    whale
 };
 
 /// Get all the agent types in a std::vector

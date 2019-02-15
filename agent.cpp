@@ -131,6 +131,7 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
       m_type == agent_type::octopus ||
       m_type == agent_type::bird ||
       m_type == agent_type::worm ||
+      m_type == agent_type::whale ||
       m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
@@ -209,7 +210,7 @@ void agent::plant_actions(game& g) {
   rand = rand / 1000;
 
   // Grow
-  m_health += rand; 
+  m_health += rand;
 
   if ((m_type == agent_type::grass && m_health > 100.0) ||
       (m_type == agent_type::tree && m_health > 500.0))
@@ -306,6 +307,11 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::octopus, 50, 70);
     move_agent_to_tile(a3, 3, 2);
     agents.push_back(a3);
+  }
+  {
+    agent a1(agent_type::whale);
+    move_agent_to_tile(a1, 3, 2);
+    agents.push_back(a1);
   }
   {
     agent a1(agent_type::fish);

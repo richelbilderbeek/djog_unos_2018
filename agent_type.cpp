@@ -12,6 +12,7 @@ std::vector<agent_type> collect_all_agent_types()
     agent_type::crocodile,
     agent_type::plankton,
     agent_type::worm,
+    agent_type::whale,
     agent_type::fish,
     agent_type::grass,
     agent_type::tree,
@@ -36,6 +37,7 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::cow) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::whale) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
@@ -57,6 +59,7 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::cow) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::whale) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
@@ -83,6 +86,8 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "fish";
     case agent_type::octopus:
       return "octopus";
+    case agent_type::whale:
+      return "whale";
     case agent_type::tree:
       return "tree";
     case agent_type::goat:
@@ -104,6 +109,7 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "plankton") return agent_type::plankton;
   if (str == "grass") return agent_type::grass;
   if (str == "fish") return agent_type::fish;
+  if (str == "whale") return agent_type::whale;
   if (str == "crocodile") return agent_type::crocodile;
   if (str == "snake") return agent_type::snake;
   if (str == "tree") return agent_type::tree;
