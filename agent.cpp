@@ -203,7 +203,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   }
 }
 
-void agent::plant_actions(game& g) {
+void agent::plant_actions(game& g) { //!OCLINT indeed to complex, but get this merged first :-)
 
   double rand = std::rand() % 10 + 26; // 20 extra for the grass self-damage
   rand = rand / 1000;
@@ -213,7 +213,6 @@ void agent::plant_actions(game& g) {
 
   if (m_health > 100.0)
   {
-
     //Random fractions, from 0.0 to 1.0
     const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
     const double f_kid{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
@@ -229,7 +228,6 @@ void agent::plant_actions(game& g) {
     assert(p_kid >= 0.1 && p_kid < 0.3);
 
     //Convert to new healths
-    const double health_parent_before{m_health};
     const double health_parent{p_parent * m_health};
     const double health_kid{p_kid * m_health};
 
