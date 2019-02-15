@@ -22,6 +22,6 @@
         <file>resources/none_tile.png</file>
         <file>resources/tundra_laying.png</file>
         <file>resources/tundra_standing.png</file>
+        <file>resources/whale.png</file>
     </qresource>
-    <qresource prefix="/"/>
 </RCC>

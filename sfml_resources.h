@@ -60,6 +60,8 @@ private:
 
   sf::Texture m_grass_texture;
 
+  sf::Texture m_whale_texture;
+
   sf::Texture m_goat_texture;
 
   sf::Texture m_none_texture;

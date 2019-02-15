@@ -101,6 +101,7 @@ void agent::move()
       m_type == agent_type::crocodile ||
       m_type == agent_type::spider ||
       m_type == agent_type::goat ||
+      m_type == agent_type::whale ||
       m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
@@ -197,6 +198,11 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a2(agent_type::fish, 10, 10);
     move_agent_to_tile(a2, 3, 2);
     agents.push_back(a2);
+  }
+  {
+    agent a1(agent_type::whale);
+    move_agent_to_tile(a1, 3, 2);
+    agents.push_back(a1);
   }
   {
     agent a1(agent_type::fish);
