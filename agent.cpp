@@ -213,13 +213,13 @@ void agent::plant_actions(game& g) {
     multiplier_first = multiplier_first / 10;
     const int max_distance{ 64 };
 
-    const agent new_grass(
-      agent_type::grass,
+    const agent new_agent(
+      m_type,
       m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
       m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
       m_health / multiplier_first
     );
-    const std::vector<agent> agents( { new_grass } );
+    const std::vector<agent> agents( { new_agent } );
     g.add_agents(agents);
     double multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
     multiplier_first = multiplier_second / 10;
