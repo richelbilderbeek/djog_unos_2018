@@ -380,8 +380,8 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
 }
 
 void move_agent_to_tile(agent &a, double tile_x, double tile_y) {
-  a.set_x(a.get_x()+(tile_x*115));
-  a.set_y(a.get_y()+(tile_y*115));
+  a.set_x(a.get_x()+(tile_x*112));
+  a.set_y(a.get_y()+(tile_y*112));
 }
 
 bool agent::is_clicked(const double x, const double y,
