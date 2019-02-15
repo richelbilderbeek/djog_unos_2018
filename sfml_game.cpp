@@ -173,9 +173,9 @@ void sfml_game::process_events()
   m_mouse_speed = sqrt(mouse_delta.x * mouse_delta.x + mouse_delta.y * mouse_delta.y);
   m_prev_mouse_pos = current_mouse;
 
-  if ((115.0 / m_tile_speed != std::abs(std::floor(115.0 / m_tile_speed))
-        || 115.0 / m_tile_speed != std::abs(std::ceil(115.0 / m_tile_speed)))
-    || m_tile_speed > 115.0)
+  if ((112.0 / m_tile_speed != std::abs(std::floor(112.0 / m_tile_speed))
+        || 112.0 / m_tile_speed != std::abs(std::ceil(112.0 / m_tile_speed)))
+    || m_tile_speed > 112.0)
   {
     throw std::runtime_error("The set tile speed is not usable");
   }
@@ -464,7 +464,7 @@ void sfml_game::switch_collide(tile& t, int direction)
   {
     //confirm_tile_move(t, direction);
     m_game.confirm_tile_move(t, direction, m_tile_speed);
-    sf::Vector2f b = get_direction_pos(direction, t, 115);
+    sf::Vector2f b = get_direction_pos(direction, t, 112);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {
       t.set_dx(t.get_dx() * 2);
