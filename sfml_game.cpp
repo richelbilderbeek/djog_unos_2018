@@ -39,6 +39,9 @@ sfml_game::~sfml_game()
 }
 
 void sfml_game::close(game_state s) {
+  m_camera.reset();
+  sf::View old_view = sfml_window_manager::get().get_window().getDefaultView();
+  sfml_window_manager::get().get_window().setView(old_view);
   sfml_window_manager::get().set_state(s);
 }
 
@@ -88,7 +91,9 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   // Display & Update Tickcounter
   {
     std::stringstream s;
-    s << "TICK COUNT: " << m_game.get_n_ticks() << "\n" << "MOUSE SPEED: " << m_mouse_speed;
+    s << "TICK COUNT: " << m_game.get_n_ticks() << "\n"
+      << "MOUSE SPEED: " << m_mouse_speed << "\n"
+      << "SCORE: " << m_game.get_score();
     m_tickcounter_text.setString(s.str());
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
@@ -190,6 +195,10 @@ void sfml_game::process_events()
   }
 
   exec_tile_move(m_game.m_selected);
+
+  if (m_game.get_score() >= 112 || m_game.get_score() <= -112) {
+    close(game_state::gameover);
+  }
 
   manage_timer();
 

@@ -14,6 +14,9 @@ public:
   double y{-100.0};
   void move_camera(sf::Vector2f offset);
 
+  sf::Vector2f origin;
+  void reset();
+
   bool m_movecam_r = false;
   bool m_movecam_l = false;
   bool m_movecam_u = false;
@@ -21,7 +24,9 @@ public:
   bool m_block_movement = false;
 
 private:
+
   sf::RenderWindow& m_window;
+
 };
 
 #endif // SFML_CAMERA_H
