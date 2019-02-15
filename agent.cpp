@@ -284,6 +284,9 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::crocodile, 30, 160);
     move_agent_to_tile(a1, 0, 2);
     agents.push_back(a1);
+    agent a2(agent_type::snake, 50, 15);
+    move_agent_to_tile(a2, 0, 2);
+    agents.push_back(a2);
   }
   {
     agent a1(agent_type::crocodile);
@@ -393,6 +396,8 @@ bool will_drown(agent_type a) {
       return true;
     case agent_type::octopus:
       return false;
+    case agent_type::snake:
+      return true;
     default:
       return true;
   }

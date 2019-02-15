@@ -116,6 +116,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_bird_texture.loadFromFile("flying_bird.png"))
       throw std::runtime_error("Cannot find image file flying_bird.png");
   }
+  // snake texture
+  {
+    QFile f(":/nature_zen/resources/snake.png");
+    f.copy("snake.png");
+    if (!m_snake_texture.loadFromFile("snake.png"))
+      throw std::runtime_error("Cannot find image file snake.png");
+  }
   // None texture
   {
     QFile f(":/nature_zen/resources/none_agent.png");
@@ -206,6 +213,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_tree_texture;
     case agent_type::goat:
       return m_goat_texture;
+    case agent_type::snake:
+      return m_snake_texture;
     case agent_type::spider:
       return m_spider_texture;
     case agent_type::bird:
