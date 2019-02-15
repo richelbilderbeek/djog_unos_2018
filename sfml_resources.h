@@ -72,6 +72,8 @@ private:
 
   sf::Texture m_octopus_texture;
 
+  sf::Texture m_snake_texture;
+
   sf::Texture m_background_image;
 
   sf::Texture m_bird_texture;
