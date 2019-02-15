@@ -244,7 +244,6 @@ void agent::plant_actions(game& g) {
 
     const agent new_grass(agent_type::grass, new_x, new_y, health_kid);
     g.add_agents( { new_grass } );
-    std::clog << health_parent_before << " -> " << health_kid << " and " << health_parent << '\n'; //DEBUG
     m_health = health_parent;
   }
 }
