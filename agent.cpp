@@ -216,18 +216,21 @@ void agent::plant_actions(game& g) {
     double multiplier_first = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
     multiplier_first = multiplier_first / 10;
     const int max_distance{ 64 };
-
+    const double health_parent_before{m_health};
+    const double health_kid{m_health / multiplier_first};
     const agent new_grass(
       agent_type::grass,
       m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
       m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-      m_health / multiplier_first
+      health_kid
     );
     const std::vector<agent> agents( { new_grass } );
     g.add_agents(agents);
     double multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
     multiplier_first = multiplier_second / 10;
-    m_health = m_health / multiplier_second;
+    const double health_after{m_health / multiplier_second};
+    std::clog << health_parent_before << " -> " << health_kid << " and " << health_after << '\n'; //DEBUG
+    m_health = health_after;
   }
 }
 
