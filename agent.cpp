@@ -213,24 +213,39 @@ void agent::plant_actions(game& g) {
 
   if (m_health > 100.0)
   {
-    double multiplier_first = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
-    multiplier_first = multiplier_first / 10;
-    const int max_distance{ 64 };
+
+    //Random fractions, from 0.0 to 1.0
+    const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    const double f_kid{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    assert(f_parent >= 0.0 && f_parent < 1.0);
+    assert(f_kid >= 0.0 && f_kid < 1.0);
+
+    //Converted to proportions
+    //Parent agent will get 0.4-0.6 of health
+    //Kid    agent will get 0.1-0.3 of health
+    const double p_parent{0.4 + (0.2 * f_parent)};
+    const double p_kid{0.1 + (0.2 * f_parent)};
+    assert(p_parent >= 0.4 && p_parent < 0.6);
+    assert(p_kid >= 0.1 && p_kid < 0.3);
+
+    //Convert to new healths
     const double health_parent_before{m_health};
-    const double health_kid{m_health / multiplier_first};
-    const agent new_grass(
-      agent_type::grass,
-      m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-      m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-      health_kid
-    );
-    const std::vector<agent> agents( { new_grass } );
-    g.add_agents(agents);
-    double multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
-    multiplier_first = multiplier_second / 10;
-    const double health_after{m_health / multiplier_second};
-    std::clog << health_parent_before << " -> " << health_kid << " and " << health_after << '\n'; //DEBUG
-    m_health = health_after;
+    const double health_parent{p_parent * m_health};
+    const double health_kid{p_kid * m_health};
+
+    //Kids grow at new spot
+    const double max_distance{64.0};
+    const double f_x{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    const double f_y{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    assert(f_x >= 0.0 && f_x < 1.0);
+    assert(f_y >= 0.0 && f_y < 1.0);
+    const double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance)};
+    const double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
+
+    const agent new_grass(agent_type::grass, new_x, new_y, health_kid);
+    g.add_agents( { new_grass } );
+    std::clog << health_parent_before << " -> " << health_kid << " and " << health_parent << '\n'; //DEBUG
+    m_health = health_parent;
   }
 }
 
