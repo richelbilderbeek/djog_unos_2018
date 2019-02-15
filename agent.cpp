@@ -376,7 +376,7 @@ sf::Vector2f agent::get_center(const sf::Texture &sprite) const {
                       m_y + sprite.getSize().y * 0.2 / 2.0f);
 }
 
-bool will_drown(agent_type a) {
+bool will_drown(agent_type a) { //!OCLINT can't be simpler
   switch (a) {
     case agent_type::plankton:
       return false;
