@@ -207,7 +207,8 @@ void agent::plant_actions(game& g) {
   // Grow
   m_health += rand; 
 
-  if (m_health > 100.0)
+  if ((m_type == agent_type::grass && m_health > 100.0) ||
+      (m_type == agent_type::tree && m_health > 500.0))
   {
     double multiplier_first = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
     multiplier_first = multiplier_first / 10;
