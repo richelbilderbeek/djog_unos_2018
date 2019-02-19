@@ -234,12 +234,8 @@ bool is_on_tile(const game& g, const agent& a) {
 }
 
 tile get_current_tile(game& g, const agent& a){
-  for(tile t: g.get_tiles()){
-    if(is_on_specific_tile(a, t)){
-      return t;
-    }
-  }
-  return tile(0, 0, 0, 10, 10, 0, tile_type::nonetile);
+  sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
+  return get_current_tile(g, center.x, center.y);
 }
 
 tile get_current_tile(game& g, double x, double y){
