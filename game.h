@@ -95,6 +95,10 @@ bool is_on_specific_tile(const agent& a, const tile& t);
 /// Determine if there is a specific tile at the given coordinat
 bool is_on_specific_tile(double x, double y, const tile& t);
 
+tile get_current_tile(game& g, const agent& a);
+
+tile get_current_tile(game& g, double x, double y);
+
 /// Load a game from a file
 game load(const std::string &filename);
 
