@@ -135,15 +135,7 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
     return;
   }
 
-  if (m_type == agent_type::cow ||
-      m_type == agent_type::crocodile ||
-      m_type == agent_type::spider ||
-      m_type == agent_type::goat ||
-      m_type == agent_type::octopus ||
-      m_type == agent_type::bird ||
-      m_type == agent_type::worm ||
-      m_type == agent_type::whale ||
-      m_type == agent_type::fish) {
+  if (!is_plant(m_type)) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
