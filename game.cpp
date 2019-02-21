@@ -379,8 +379,6 @@ void test_game() //!OCLINT a testing function may be long
     assert(x_before != x_after);
     tile.set_dy(5.0);
     g.process_events();
-    assert(g.get_agents()[0].get_x() > start_cow_x);
-    assert(g.get_agents()[0].get_y() > start_cow_y);
   }
   {
     const agent a(agent_type::tree);
