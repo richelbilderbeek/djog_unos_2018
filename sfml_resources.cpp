@@ -64,9 +64,9 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     {
         QFile f(":/nature_zen/resources/lion.png");
         f.copy("lion.png");
-        if (!m_giraffe_texture.loadFromFile("lion.png")) {
+        if (!m_lion_texture.loadFromFile("lion.png")) {
           throw std::runtime_error("Cannot find image file 'lion.png'");
-        }
+    }
     }
   // grass texture
   {
@@ -243,6 +243,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_spider_texture;
     case agent_type::bird:
       return m_bird_texture;
+    case agent_type::lion:
+        return m_lion_texture;
     case agent_type::giraffe:
       return m_giraffe_texture;
     default:
