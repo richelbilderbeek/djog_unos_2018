@@ -53,6 +53,17 @@ std::vector<agent_type> can_eat(const agent_type type) {
   }
 }
 
+bool is_plant(const agent_type type) {
+    if (type == agent_type::plankton || type == agent_type::grass || type == agent_type::tree)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void agent::eat(const game& g) {
   std::vector<agent_type> food = can_eat(m_type);
   //Is agent_type a in food?
