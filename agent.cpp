@@ -46,7 +46,8 @@ std::vector<agent_type> can_eat(const agent_type type) {
       return {agent_type::fish};
     case agent_type::bird:
       return {agent_type::spider,
-              agent_type::fish};
+              agent_type::fish,
+              agent_type::worm};
     case agent_type::cow:
       return {agent_type::grass};
     default:
@@ -129,8 +130,11 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
       m_type == agent_type::crocodile ||
       m_type == agent_type::spider ||
       m_type == agent_type::goat ||
-      m_type == agent_type::fish ||
-      m_type == agent_type::whale) {
+      m_type == agent_type::octopus ||
+      m_type == agent_type::bird ||
+      m_type == agent_type::worm ||
+      m_type == agent_type::whale ||
+      m_type == agent_type::fish) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
@@ -246,31 +250,47 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   }
 }
 
-void agent::plant_actions(game& g) {
+void agent::plant_actions(game& g) { //!OCLINT indeed to complex, but get this merged first :-)
 
   double rand = std::rand() % 10 + 26; // 20 extra for the grass self-damage
   rand = rand / 1000;
 
   // Grow
-  m_health += rand; 
+  m_health += rand;
 
-  if (m_health > 100.0)
+  if ((m_type == agent_type::grass && m_health > 100.0) ||
+      (m_type == agent_type::tree && m_health > 500.0))
   {
-    double multiplier_first = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
-    multiplier_first = multiplier_first / 10;
-    const int max_distance{ 64 };
+    //Random fractions, from 0.0 to 1.0
+    const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    const double f_kid{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    assert(f_parent >= 0.0 && f_parent < 1.0);
+    assert(f_kid >= 0.0 && f_kid < 1.0);
 
-    const agent new_grass(
-      agent_type::grass,
-      m_x - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-      m_y - 1.0*max_distance + static_cast<double>(std::rand() % (2*max_distance)),
-      m_health / multiplier_first
-    );
-    const std::vector<agent> agents( { new_grass } );
-    g.add_agents(agents);
-    double multiplier_second = 20 + std::rand() / (RAND_MAX / (25 - 20 + 1) + 1);
-    multiplier_first = multiplier_second / 10;
-    m_health = m_health / multiplier_second;
+    //Converted to proportions
+    //Parent agent will get 0.4-0.6 of health
+    //Kid    agent will get 0.1-0.3 of health
+    const double p_parent{0.4 + (0.2 * f_parent)};
+    const double p_kid{0.1 + (0.2 * f_parent)};
+    assert(p_parent >= 0.4 && p_parent < 0.6);
+    assert(p_kid >= 0.1 && p_kid < 0.3);
+
+    //Convert to new healths
+    const double health_parent{p_parent * m_health};
+    const double health_kid{p_kid * m_health};
+
+    //Kids grow at new spot
+    const double max_distance{64.0};
+    const double f_x{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    const double f_y{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    assert(f_x >= 0.0 && f_x < 1.0);
+    assert(f_y >= 0.0 && f_y < 1.0);
+    const double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance)};
+    const double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
+
+    const agent new_grass(agent_type::grass, new_x, new_y, health_kid);
+    g.add_agents( { new_grass } );
+    m_health = health_parent;
   }
 }
 
@@ -318,17 +338,17 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::cow, 30, 90);
     move_agent_to_tile(a3, 1, 0);
     agents.push_back(a3);
+    agent a4(agent_type::worm, 50, 130);
+    move_agent_to_tile(a4, 1, 0);
+    agents.push_back(a4);
   }
   {
     agent a1(agent_type::crocodile, 30, 160);
     move_agent_to_tile(a1, 0, 2);
     agents.push_back(a1);
-    agent a2(agent_type::crocodile, 50, 160);
+    agent a2(agent_type::snake, 50, 15);
     move_agent_to_tile(a2, 0, 2);
     agents.push_back(a2);
-    agent a3(agent_type::cow, 40, 100, 3);
-    move_agent_to_tile(a3, 0, 2);
-    agents.push_back(a3);
   }
   {
     agent a1(agent_type::crocodile);
@@ -345,6 +365,19 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a2(agent_type::fish, 10, 10);
     move_agent_to_tile(a2, 3, 2);
     agents.push_back(a2);
+    agent a3(agent_type::octopus, 50, 70);
+    move_agent_to_tile(a3, 3, 2);
+    agents.push_back(a3);
+  }
+  {
+    agent a1(agent_type::whale);
+    move_agent_to_tile(a1, 3, 2);
+    agents.push_back(a1);
+  }
+  {
+    agent a1(agent_type::whale);
+    move_agent_to_tile(a1, 3, 2);
+    agents.push_back(a1);
   }
   {
     agent a1(agent_type::fish);
@@ -353,9 +386,6 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a2(agent_type::fish, 10, 10);
     move_agent_to_tile(a2, 4, 2);
     agents.push_back(a2);
-    agent a3(agent_type::whale, 10, 100);
-    move_agent_to_tile(a3, 4, 2);
-    agents.push_back(a3);
   }
   {
     agent a1(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
@@ -400,8 +430,8 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
 }
 
 void move_agent_to_tile(agent &a, double tile_x, double tile_y) {
-  a.set_x(a.get_x()+(tile_x*115));
-  a.set_y(a.get_y()+(tile_y*115));
+  a.set_x(a.get_x()+(tile_x*112));
+  a.set_y(a.get_y()+(tile_y*112));
 }
 
 bool agent::is_clicked(const double x, const double y,
@@ -417,10 +447,12 @@ sf::Vector2f agent::get_center(const sf::Texture &sprite) const {
                       m_y + sprite.getSize().y * 0.2 / 2.0f);
 }
 
-bool will_drown(agent_type a) {
+bool will_drown(agent_type a) { //!OCLINT can't be simpler
   switch (a) {
     case agent_type::plankton:
       return false;
+  case agent_type::worm:
+    return false;
     case agent_type::bird:
       return false;
     case agent_type::cow:
@@ -434,6 +466,10 @@ bool will_drown(agent_type a) {
     case agent_type::goat:
       return true;
     case agent_type::spider:
+      return true;
+    case agent_type::octopus:
+      return false;
+    case agent_type::snake:
       return true;
     default:
       return true;
@@ -488,18 +524,8 @@ void test_agent() //!OCLINT testing functions may be long
     a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
-    // A whale moves
-    {
-        game g;
-        std::srand(314);
-        const double x{12.34};
-        const double y{56.78};
-        agent a(agent_type::fish, x, y);
-        assert(is_on_tile(g, a));
-        a.move(g);
-        assert(a.get_x() != x || a.get_y() != y);
-    }
-  //#define FIX_ISSUE_343
+
+  #define FIX_ISSUE_343
   #ifdef FIX_ISSUE_343
   // A bird moves
   {
@@ -679,7 +705,17 @@ void test_agent() //!OCLINT testing functions may be long
     }
     assert(g.get_agents().empty());
   }
-
+  //octopus die when on land
+{
+  game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::octopus) } );
+  assert(!g.get_agents().empty());
+  //Choke octopus
+  while (g.get_agents()[0].get_health() > 0)
+  {
+    g.process_events();
+  }
+  assert(g.get_agents().empty());
+}
   // Agents drown
   {
     game g({tile(0,0,0,3,3,10,tile_type::water)},

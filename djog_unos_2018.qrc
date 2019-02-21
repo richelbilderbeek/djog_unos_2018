@@ -23,6 +23,9 @@
         <file>resources/tundra_standing.png</file>
         <file>resources/whale.png</file>
         <file>resources/plankton.png</file>
+        <file>resources/octopus.png</file>
+        <file>resources/worm.png</file>
+        <file>resources/snake.png</file>
+        <file>resources/whale.png</file>
     </qresource>
-    <qresource prefix="/"/>
 </RCC>

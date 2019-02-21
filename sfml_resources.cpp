@@ -1,5 +1,4 @@
 #include "sfml_resources.h"
-
 #include "agent_type.h"
 #include "agent.h"
 #include "tile_type.h"
@@ -45,6 +44,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file 'plankton.png'");
     }
   }
+  // worm texture
+    {
+      QFile f(":/nature_zen/resources/worm.png");
+      f.copy("worm.png");
+      if (!m_worm_texture.loadFromFile("worm.png")) {
+        throw std::runtime_error("Cannot find image file 'worm.png'");
+      }
+    }
   // grass texture
   {
     QFile f(":/nature_zen/resources/grass.png");
@@ -73,6 +80,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_fish_texture.loadFromFile("fish.png"))
       throw std::runtime_error("Cannot find image file 'fish.png'");
   }
+<<<<<<< HEAD
     // Whale texture
     {
       QFile f(":/nature_zen/resources/whale.png");
@@ -80,6 +88,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       if (!m_whale_texture.loadFromFile("whale.png"))
         throw std::runtime_error("Cannot find image file 'whale.png'");
     }
+ // octopus texture
+  {
+      QFile f(":/nature_zen/resources/octopus.png");
+      f.copy("octopus.png");
+      if (!m_octopus_texture.loadFromFile("octopus.png"))
+        throw std::runtime_error("Cannot find image file 'octopus.png'");
+  }
   // Goat texture
   {
     QFile f(":/nature_zen/resources/mountain_goat.png");
@@ -107,6 +122,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     f.copy("flying_bird.png");
     if (!m_bird_texture.loadFromFile("flying_bird.png"))
       throw std::runtime_error("Cannot find image file flying_bird.png");
+  }
+  // snake texture
+  {
+    QFile f(":/nature_zen/resources/snake.png");
+    f.copy("snake.png");
+    if (!m_snake_texture.loadFromFile("snake.png"))
+      throw std::runtime_error("Cannot find image file snake.png");
   }
   // None texture
   {
@@ -180,10 +202,12 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
-sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
+sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLINT Can't be simpler (High Complexity)
   switch (a.get_type()) {
     case agent_type::plankton:
       return m_plankton_texture;
+    case agent_type::worm:
+      return m_worm_texture;
     case agent_type::cow:
       return m_cow_texture;
     case agent_type::crocodile:
@@ -198,6 +222,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept {
       return m_tree_texture;
     case agent_type::goat:
       return m_goat_texture;
+    case agent_type::snake:
+      return m_snake_texture;
     case agent_type::spider:
       return m_spider_texture;
     case agent_type::bird:

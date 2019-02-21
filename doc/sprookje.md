@@ -12,6 +12,9 @@ Haar vriend heette Gerard en haar vriendin heette Joline.
 Het was een siamese tweeling.
 De hond heette Sophie, ze was wit en klein.
 Maar onder dat schattige snuitje, schuilde een groot geheim.
+Ze had eigenlijk stiekem graag een kat willen zijn.
+Gerard kwam elke avond langs om haar te vertellen
+hoe je het best de eekhoorn in de tuin kan kwellen
 
 Dat liep dodelijk af...
 

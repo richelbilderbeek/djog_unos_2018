@@ -60,6 +60,8 @@ private:
 
   sf::Texture m_grass_texture;
 
+  sf::Texture m_whale_texture;
+
   sf::Texture m_goat_texture;
 
   sf::Texture m_none_texture;
@@ -68,11 +70,15 @@ private:
 
   sf::Texture m_plankton_texture;
 
+  sf::Texture m_worm_texture;
+
+  sf::Texture m_octopus_texture;
+
+  sf::Texture m_snake_texture;
+
   sf::Texture m_background_image;
 
   sf::Texture m_bird_texture;
-
-  sf::Texture m_whale_texture;
 
   sf::Texture m_zen_ind_texture;
 
