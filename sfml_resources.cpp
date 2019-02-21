@@ -80,7 +80,6 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_fish_texture.loadFromFile("fish.png"))
       throw std::runtime_error("Cannot find image file 'fish.png'");
   }
-<<<<<<< HEAD
     // Whale texture
     {
       QFile f(":/nature_zen/resources/whale.png");
