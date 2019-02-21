@@ -371,7 +371,6 @@ void test_game() //!OCLINT a testing function may be long
       { agent(agent_type::cow, start_cow_x, start_cow_y) }
     );
     tile& tile = g.get_tiles()[0];
-    agent& agent = g.get_agents()[0];
     const auto x_before = tile.get_x();
     tile.set_dx(5.0);
     g.process_events();
