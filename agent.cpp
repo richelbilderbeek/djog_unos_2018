@@ -188,16 +188,6 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
   }
 }
 
-void agent::move(double dx, double dy) {
-  m_x += dx;
-  m_y += dy;
-}
-
-void agent::move_with_tile(){
-  m_x += m_dx;
-  m_y += m_dy;
-}
-
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move(g);
 
@@ -224,10 +214,6 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
         m_health -= 0.01;
       }
     }
-  }
-
-  if(m_dx != 0 || m_dy != 0){
-    move_with_tile();
   }
 }
 
