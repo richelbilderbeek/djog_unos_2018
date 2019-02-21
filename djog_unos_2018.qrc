@@ -27,5 +27,6 @@
         <file>resources/worm.png</file>
         <file>resources/snake.png</file>
         <file>resources/whale.png</file>
+        <file>resources/giraffe.png</file>
     </qresource>
 </RCC>

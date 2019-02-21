@@ -52,6 +52,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
         throw std::runtime_error("Cannot find image file 'worm.png'");
       }
     }
+    // giraffe texture
+      {
+        QFile f(":/nature_zen/resources/giraffe.png");
+        f.copy("giraffe.png");
+        if (!m_giraffe_texture.loadFromFile("giraffe.png")) {
+          throw std::runtime_error("Cannot find image file 'giraffe.png'");
+        }
+      }
   // grass texture
   {
     QFile f(":/nature_zen/resources/grass.png");
@@ -227,6 +235,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_spider_texture;
     case agent_type::bird:
       return m_bird_texture;
+    case agent_type::giraffe:
+      return m_giraffe_texture;
     default:
       return m_none_texture;
   }

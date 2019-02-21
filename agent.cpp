@@ -48,6 +48,8 @@ std::vector<agent_type> can_eat(const agent_type type) {
               agent_type::worm};
     case agent_type::cow:
       return {agent_type::grass};
+    case agent_type::giraffe:
+      return {agent_type::tree};
     default:
       return {};
   }
@@ -370,6 +372,9 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a1, 1, -1);
     agents.push_back(a1);
+    agent a2(agent_type::giraffe, 0, 0);
+    move_agent_to_tile(a2, 1, -1);
+    agents.push_back(a2);
   }
   {
     agent a1(agent_type::tree, 10, 20);
@@ -435,6 +440,8 @@ bool will_drown(agent_type a) { //!OCLINT can't be simpler
     case agent_type::bird:
       return false;
     case agent_type::cow:
+      return true;
+    case agent_type::giraffe:
       return true;
     case agent_type::crocodile:
       return false;
