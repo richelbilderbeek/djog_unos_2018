@@ -1,4 +1,4 @@
-SOURCES += \
+    SOURCES += \
     $$PWD/agent.cpp \
     $$PWD/agent_type.cpp \
     $$PWD/game.cpp \

@@ -20,6 +20,7 @@ enum class agent_type {
     octopus,
     worm,
     whale,
+    lion,
     giraffe
 };
 

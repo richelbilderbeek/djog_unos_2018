@@ -41,7 +41,7 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::crocodile:
-      return {agent_type::cow};
+      return {agent_type::cow, agent_type::giraffe};
     case agent_type::bird:
       return {agent_type::spider,
               agent_type::fish,
@@ -372,9 +372,12 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a1, 1, -1);
     agents.push_back(a1);
-    agent a2(agent_type::giraffe, 0, 0);
+    agent a2(agent_type::giraffe, 10, 20);
     move_agent_to_tile(a2, 1, -1);
     agents.push_back(a2);
+    agent a4(agent_type::crocodile, 180, 20);
+    move_agent_to_tile(a4, 1, -1);
+    agents.push_back(a4);
   }
   {
     agent a1(agent_type::tree, 10, 20);

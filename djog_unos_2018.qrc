@@ -28,5 +28,6 @@
         <file>resources/snake.png</file>
         <file>resources/whale.png</file>
         <file>resources/giraffe.png</file>
+        <file>resources/lion.png</file>
     </qresource>
 </RCC>

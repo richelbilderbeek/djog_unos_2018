@@ -53,13 +53,21 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       }
     }
     // giraffe texture
-      {
+    {
         QFile f(":/nature_zen/resources/giraffe.png");
         f.copy("giraffe.png");
         if (!m_giraffe_texture.loadFromFile("giraffe.png")) {
           throw std::runtime_error("Cannot find image file 'giraffe.png'");
         }
-      }
+    }
+    // lion texture
+    {
+        QFile f(":/nature_zen/resources/lion.png");
+        f.copy("lion.png");
+        if (!m_giraffe_texture.loadFromFile("lion.png")) {
+          throw std::runtime_error("Cannot find image file 'lion.png'");
+        }
+    }
   // grass texture
   {
     QFile f(":/nature_zen/resources/grass.png");
