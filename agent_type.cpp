@@ -14,7 +14,6 @@ std::vector<agent_type> collect_all_agent_types()
     agent_type::worm,
     agent_type::whale,
     agent_type::fish,
-    agent_type::whale,
     agent_type::grass,
     agent_type::tree,
     agent_type::bird,
@@ -22,6 +21,8 @@ std::vector<agent_type> collect_all_agent_types()
     agent_type::goat,
     agent_type::snake,
     agent_type::octopus,
+    agent_type::lion,
+    agent_type::giraffe,
     agent_type::none
   };
 }
@@ -38,8 +39,9 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::cow) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::whale) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::giraffe) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::lion) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
-    assert(std::count(std::begin(v), std::end(v), agent_type::whale) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
@@ -62,6 +64,8 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::crocodile) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::whale) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::lion) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::giraffe) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::whale) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
@@ -99,6 +103,10 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "snake";
     case agent_type::spider:
       return "spider";
+  case agent_type::lion:
+    return "lion";
+    case agent_type::giraffe:
+      return "giraffe";
     default:
       assert(a == agent_type::none); //!OCLINT accepted idiom
       return "none";
@@ -120,6 +128,8 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "bird") return agent_type::bird;
   if (str == "octopus") return agent_type::octopus;
   if (str == "spider") return agent_type::spider;
+  if (str == "lion") return agent_type::lion;
+  if (str == "giraffe") return agent_type::giraffe;
   return agent_type::none;
 }
 

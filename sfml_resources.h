@@ -72,6 +72,10 @@ private:
 
   sf::Texture m_worm_texture;
 
+  sf::Texture m_giraffe_texture;
+
+  sf::Texture m_lion_texture;
+
   sf::Texture m_octopus_texture;
 
   sf::Texture m_snake_texture;
