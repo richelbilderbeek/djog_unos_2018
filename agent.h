@@ -67,6 +67,7 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
+
   /// The direction angle of the agent, which is a radial angle with 0 for
   /// left to right direction, pi/2 for top to down direction,
   /// pi for right to left direction and -pi/2 for down to top direction.
@@ -94,6 +95,8 @@ std::vector<agent> create_default_agents() noexcept;
 void move_agent_to_tile(agent &a, double tile_x, double tile_y);
 
 bool will_drown(agent_type a);
+
+bool is_aquatic(agent_type a);
 
 /// Test the tile class
 void test_agent();
