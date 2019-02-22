@@ -42,9 +42,14 @@ std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::crocodile:
       return {agent_type::cow};
+    case agent_type::squirrel:
+      return {agent_type::tree};
+    case agent_type::snake:
+      return {agent_type::squirrel};
     case agent_type::bird:
       return {agent_type::spider,
               agent_type::fish,
+              agent_type::snake,
               agent_type::worm};
     case agent_type::cow:
       return {agent_type::grass};
@@ -346,6 +351,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a8(agent_type::bird, 75, 150);
     move_agent_to_tile(a8, 4, -1);
     agents.push_back(a8);
+  }
+  {
+    agent a1(agent_type::tree, 90, 170);
+    move_agent_to_tile(a1, 0, -2);
+    agents.push_back(a1);
+    agent a2(agent_type::squirrel, 90, 150);
+    move_agent_to_tile(a2, 0, -2);
+    agents.push_back(a2);
   }
   {
     agent a1(agent_type::goat, 190, 90);

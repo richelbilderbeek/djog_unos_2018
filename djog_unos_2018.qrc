@@ -25,6 +25,7 @@
         <file>resources/octopus.png</file>
         <file>resources/worm.png</file>
         <file>resources/snake.png</file>
+        <file>resources/squirrel.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
