@@ -58,6 +58,8 @@ private:
 
   sf::Texture m_tree_texture;
 
+  sf::Texture m_squirrel_texture;
+
   sf::Texture m_grass_texture;
 
   sf::Texture m_whale_texture;

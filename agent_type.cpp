@@ -99,6 +99,8 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "tree";
     case agent_type::goat:
       return "goat";
+    case agent_type::squirrel:
+      return "squirrel";
     case agent_type::snake:
       return "snake";
     case agent_type::spider:
