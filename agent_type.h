@@ -19,7 +19,9 @@ enum class agent_type {
     spider,
     octopus,
     worm,
-    whale
+    whale,
+    lion,
+    giraffe
 };
 
 /// Get all the agent types in a std::vector

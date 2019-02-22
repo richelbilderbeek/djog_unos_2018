@@ -3,7 +3,7 @@
 [![DJOG logo](pics/Djog.png)](https://www.djog.nl/)
 
 ![Octane logo](pics/octane_black.png)
-
+ 
 [![IRC Network](https://img.shields.io/badge/irc-%23nature_zen_devs-blue.svg "IRC Freenode")](https://webchat.freenode.net/?channels=nature_zen_devs)
 
 Main branches:
@@ -55,6 +55,8 @@ Collaboratively create a game, to be put on, for example, Steam.
 ## Progress
 
 Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
+
+![](pics/20190222.png)
 
 ![](pics/20190123.png)
 
