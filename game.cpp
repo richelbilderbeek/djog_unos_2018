@@ -87,8 +87,8 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   m_tiles[other_pos] = m_tiles.back();
   m_tiles.pop_back();
   //change the selected tile
-  m_selected.clear();
-  assert(m_selected.empty());
+//  m_selected.clear();
+//  assert(!m_selected.empty());
 }
 
 void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
@@ -174,6 +174,18 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
 
 int game::get_n_ticks() const{
   return m_n_tick;
+}
+
+int game::get_agent_count(agent_type type){
+    int count = 0;
+    for (unsigned int i=0; i<m_agents.size(); i++) {
+        agent a = m_agents.at(i);
+        if (a.get_type() == type){
+            ++count;
+        }
+    }
+
+    return count;
 }
 
 bool is_on_specific_tile(const double x, const double y, const tile& t)
@@ -423,6 +435,18 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_agents()[0].get_x() == start_grass_x);
     assert(g.get_agents()[0].get_y() == start_grass_y);
   }
+
+  //Get agent count function test (Issue: #373)
+    {
+        game g(create_default_tiles(), { agent(agent_type::cow),
+                                         agent(agent_type::cow),
+                                         agent(agent_type::cow),
+                                         agent(agent_type::cow),
+                                         agent(agent_type::cow),
+                                         agent(agent_type::plankton) } );
+        // There are now 5 agents of type cow
+        assert(g.get_agent_count(agent_type::cow) == 5);
+    }
 }
 
 game load(const std::string &filename) {

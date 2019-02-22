@@ -279,22 +279,28 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
   }
 }
 
+double pythagoras(double x_length, double y_length){
+    return sqrt((x_length * x_length) + (y_length * y_length));
+}
+
 void agent::damage_near_grass(game &g)
 {
-  const double max_distance { 32.0 };
+  const double max_distance { pythagoras(32.0, 32.0) };
 
-  const double damage { 20.0/1000.0 };
+  const double max_damage { 20.0/1000.0 };
 
   std::vector <agent> all_agents{ g.get_agents() };
 
   for (agent& current_agent : all_agents)
   {
-
+    double delta = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
     if (current_agent.get_type() == agent_type::grass &&
-        abs(current_agent.get_x() - m_x) <= max_distance &&
-        abs(current_agent.get_y() - m_y) <= max_distance)
+         delta <= max_distance
+       )
     {
-      m_health -= damage;
+        double rate = 1 - delta / max_distance;
+        double damage = max_damage * rate;
+        m_health -= damage;
     }
   }
 }
@@ -467,6 +473,52 @@ bool will_drown(agent_type a) { //!OCLINT can't be simpler
     default:
       return true;
   }
+}
+
+bool is_auqatic(agent_type a){
+    return a == agent_type::fish ||
+           a == agent_type::whale ||
+           a == agent_type::octopus ||
+           a == agent_type::plankton ||
+           a == agent_type::crocodile;
+}
+
+int get_min_depth(agent_type a){
+    switch (a) {
+        case agent_type::fish:
+            return 0;
+        case agent_type::whale:
+            return 50;
+        case agent_type::octopus:
+            return 25;
+        case agent_type::plankton:
+            return 25;
+        case agent_type::crocodile:
+            return 0;
+        default:
+            return 0;
+    }
+}
+
+int get_max_depth(agent_type a){
+    switch (a) {
+        case agent_type::fish:
+            return 50;
+        case agent_type::whale:
+            return 100;
+        case agent_type::octopus:
+            return 75;
+        case agent_type::plankton:
+            return 75;
+        case agent_type::crocodile:
+            return 25;
+        default:
+            return 0;
+    }
+}
+
+sf::Vector2i get_depth(agent_type a){
+    return sf::Vector2i(get_min_depth(a), get_max_depth(a));
 }
 
 void test_agent() //!OCLINT testing functions may be long
@@ -757,6 +809,11 @@ void test_agent() //!OCLINT testing functions may be long
     assert(prev_health != after_health);
     assert(after_health != second_grass_health);
   }
+
+    {
+        //get depth test
+        assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
+    }
   //#define FIX_ISSUE_326
   #ifdef FIX_ISSUE_326
   //a cow walks to grass when its close

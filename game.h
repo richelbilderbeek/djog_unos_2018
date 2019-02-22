@@ -45,6 +45,8 @@ public:
 
   void remove_tile(sf::RenderWindow& window, sfml_camera& camera);
 
+  int get_agent_count(agent_type type);
+
 private:
 
   /// The selected tile
