@@ -481,6 +481,44 @@ bool is_auqatic(agent_type a){
            a == agent_type::crocodile;
 }
 
+int get_min_depth(agent_type a){
+    switch (a) {
+        case agent_type::fish:
+            return 0;
+        case agent_type::whale:
+            return 50;
+        case agent_type::octopus:
+            return 25;
+        case agent_type::plankton:
+            return 25;
+        case agent_type::crocodile:
+            return 0;
+        default:
+            return 0;
+    }
+}
+
+int get_max_depth(agent_type a){
+    switch (a) {
+        case agent_type::fish:
+            return 50;
+        case agent_type::whale:
+            return 100;
+        case agent_type::octopus:
+            return 75;
+        case agent_type::plankton:
+            return 75;
+        case agent_type::crocodile:
+            return 25;
+        default:
+            return 0;
+    }
+}
+
+sf::Vector2i get_depth(agent_type a){
+    return sf::Vector2i(get_min_depth(a), get_max_depth(a));
+}
+
 void test_agent() //!OCLINT testing functions may be long
 {
   // A default agent has coordinate (0,0)
@@ -769,6 +807,11 @@ void test_agent() //!OCLINT testing functions may be long
     assert(prev_health != after_health);
     assert(after_health != second_grass_health);
   }
+
+    {
+        //get depth test
+        assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
+    }
   //#define FIX_ISSUE_326
   #ifdef FIX_ISSUE_326
   //a cow walks to grass when its close
