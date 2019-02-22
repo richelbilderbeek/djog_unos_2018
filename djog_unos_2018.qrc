@@ -28,6 +28,5 @@
         <file>resources/snake.png</file>
         <file>resources/giraffe.png</file>
         <file>resources/lion.png</file>
-        <file>resources/zen_title.png</file>
     </qresource>
 </RCC>
