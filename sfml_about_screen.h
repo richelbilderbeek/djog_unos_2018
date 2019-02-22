@@ -32,4 +32,8 @@ private:
 
 };
 
+std::vector<std::string> get_team_names() noexcept;
+
+std::string get_team_name_string();
+
 #endif // SFML_ABOUT_SCREEN_H
