@@ -28,7 +28,9 @@ private:
 
   sf::Font m_font;
 
-  sf::Font m_zen_font;
+  sf::Font m_zen_font;  
+  sf::RectangleShape m_zen_bar;
+  sf::RectangleShape m_zen_ind;
 
 };
 
