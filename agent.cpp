@@ -248,14 +248,30 @@ void agent::plant_actions(game& g) { //!OCLINT indeed to complex, but get this m
 
     //Kids grow at new spot
     const double max_distance{64.0};
-    const double f_x{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
-    const double f_y{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    double f_x{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+    double f_y{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
     assert(f_x >= 0.0 && f_x < 1.0);
     assert(f_y >= 0.0 && f_y < 1.0);
-    const double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance)};
-    const double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
+    double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance)};
+    double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
 
-    const agent new_grass(agent_type::grass, new_x, new_y, health_kid);
+    agent new_grass(agent_type::grass, new_x, new_y, health_kid);
+    tile t = get_current_tile(g, new_grass);
+    while(!is_on_tile(g, new_grass) || get_on_tile_type(g, new_grass) == tile_type::water
+          || !is_on_specific_tile(new_grass.get_x() - 6, new_grass.get_y() - 6, t)
+          || !is_on_specific_tile(new_grass.get_x() + 18, new_grass.get_y() + 18, t)){
+      f_x = static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX);
+      f_y = static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX);
+      assert(f_x >= 0.0 && f_x < 1.0);
+      assert(f_y >= 0.0 && f_y < 1.0);
+      new_x = m_x + (((f_x * 2.0) - 1.0) * max_distance);
+      new_y = m_y + (((f_y * 2.0) - 1.0) * max_distance);
+      new_grass.set_x(new_x);
+      new_grass.set_y(new_y);
+      if(is_on_tile(g, new_grass)){
+        t = get_current_tile(g, new_grass);
+      }
+    }
     g.add_agents( { new_grass } );
     m_health = health_parent;
   }
@@ -715,10 +731,12 @@ void test_agent() //!OCLINT testing functions may be long
   {
     game g({tile(0,0,0,3,3,10,tile_type::grassland)},
            {agent(agent_type::grass, 10, 10),
-            agent(agent_type::grass, 20, 20)});
+            agent(agent_type::grass, 200, 200)});
     const auto prev_grass_health1 = g.get_agents()[0].get_health();
     const auto prev_grass_health2 = g.get_agents()[1].get_health();
-    g.process_events();
+    for(int i = 0; i < 10; i++){
+      g.process_events();
+    }
     const auto after_grass_health1 = g.get_agents()[0].get_health();
     const auto after_grass_health2 = g.get_agents()[1].get_health();
     const auto grass1_delta = after_grass_health1 - prev_grass_health1;
