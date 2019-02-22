@@ -402,7 +402,7 @@ void sfml_game::control_tile(bool b, const sf::Event& event, tile& t)
     if (b == true)
     {
       tile_move_ctrl(event, t);
-      m_timer += (1 / m_tile_speed) * 114;
+      m_timer += (1 / m_tile_speed) * 111;
     }
     else
     {
@@ -610,7 +610,7 @@ bool sfml_game::check_collision(double x, double y)
     // |   B |
     // |_____|
     //
-    if (contains(t, x + 15, y + 15) || contains(t, x - 15, y - 15))
+    if (contains(t, x + 12, y + 12) || contains(t, x - 12, y - 12))
     {
       return true;
     }
