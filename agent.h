@@ -98,6 +98,10 @@ bool will_drown(agent_type a);
 
 bool is_aquatic(agent_type a);
 
+bool get_min_depth(agent_type a);
+
+bool get_max_depth(agent_type a);
+
 /// Test the tile class
 void test_agent();
 

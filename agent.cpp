@@ -478,7 +478,7 @@ bool is_auqatic(agent_type a){
            a == agent_type::whale ||
            a == agent_type::octopus ||
            a == agent_type::plankton ||
-           a == agent_type::crocodile
+           a == agent_type::crocodile;
 }
 
 void test_agent() //!OCLINT testing functions may be long
