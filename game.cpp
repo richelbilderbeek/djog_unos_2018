@@ -141,7 +141,7 @@ void game::merge_tiles() { //!OCLINT must simplify
       tile& other_tile = m_tiles[j];
       if (!have_same_position(focal_tile, other_tile)) { continue; }
       tile_merge(focal_tile, other_tile, j);
-      return;
+      return; //!OCLINT I don't know an alternative;
     }
   }
 }
