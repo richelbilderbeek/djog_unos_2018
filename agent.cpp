@@ -261,22 +261,28 @@ void agent::plant_actions(game& g) { //!OCLINT indeed to complex, but get this m
   }
 }
 
+double pythagoras(double x_length, double y_length){
+    return sqrt((x_length * x_length) + (y_length * y_length));
+}
+
 void agent::damage_near_grass(game &g)
 {
-  const double max_distance { 32.0 };
+  const double max_distance { pythagoras(32.0, 32.0) };
 
-  const double damage { 20.0/1000.0 };
+  const double max_damage { 20.0/1000.0 };
 
   std::vector <agent> all_agents{ g.get_agents() };
 
   for (agent& current_agent : all_agents)
   {
-
+    double delta = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
     if (current_agent.get_type() == agent_type::grass &&
-        abs(current_agent.get_x() - m_x) <= max_distance &&
-        abs(current_agent.get_y() - m_y) <= max_distance)
+         delta <= max_distance
+       )
     {
-      m_health -= damage;
+        double rate = 1 - delta / max_distance;
+        double damage = max_damage * rate;
+        m_health -= damage;
     }
   }
 }

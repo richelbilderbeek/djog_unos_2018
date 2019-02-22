@@ -423,7 +423,12 @@ void test_game() //!OCLINT a testing function may be long
 
   //Get agent count function test (Issue: #373)
     {
-        game g(create_default_tiles(), { agent(agent_type::cow), agent(agent_type::cow), agent(agent_type::cow), agent(agent_type::cow), agent(agent_type::cow), agent(agent_type::plankton) } );
+        game g(create_default_tiles(), { agent(agent_type::cow),
+                                         agent(agent_type::cow),
+                                         agent(agent_type::cow),
+                                         agent(agent_type::cow),
+                                         agent(agent_type::cow),
+                                         agent(agent_type::plankton) } );
         // There are now 5 agents of type cow
         assert(g.get_agent_count(agent_type::cow) == 5);
     }
