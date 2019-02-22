@@ -77,7 +77,7 @@ private:
   ///the stamina of the agent
   double m_stamina;
 
-  void plant_actions(game& g);
+  void reproduce_agents(game& g, agent_type type);
 
   void damage_near_grass(game &g);
 

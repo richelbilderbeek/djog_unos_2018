@@ -191,7 +191,8 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move(g);
 
-  if (m_type == agent_type::grass || m_type == agent_type::tree) plant_actions(g);
+  if (m_type == agent_type::grass || m_type == agent_type::tree
+      || m_type == agent_type::cow) reproduce_agents(g, m_type);
 
   if (m_type == agent_type::grass) damage_near_grass(g);
 
@@ -217,16 +218,19 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   }
 }
 
-void agent::plant_actions(game& g) { //!OCLINT indeed to complex, but get this merged first :-)
+void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
 
-  double rand = std::rand() % 10 + 26; // 20 extra for the grass self-damage
-  rand = rand / 1000;
+  if(is_plant(type)){
+    double rand = std::rand() % 10 + 26; // 20 extra for the grass self-damage
+    rand = rand / 1000;
 
-  // Grow
-  m_health += rand;
+    // Grow
+    m_health += rand;
+  }
 
   if ((m_type == agent_type::grass && m_health > 100.0) ||
-      (m_type == agent_type::tree && m_health > 500.0))
+      (m_type == agent_type::tree && m_health > 500.0) ||
+      (m_type == agent_type::cow && m_health > 100.0))
   {
     //Random fractions, from 0.0 to 1.0
     const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
@@ -255,24 +259,24 @@ void agent::plant_actions(game& g) { //!OCLINT indeed to complex, but get this m
     double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance)};
     double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
 
-    agent new_grass(agent_type::grass, new_x, new_y, health_kid);
-    tile t = get_current_tile(g, new_grass);
-    while(!is_on_tile(g, new_grass) || get_on_tile_type(g, new_grass) == tile_type::water
-          || !is_on_specific_tile(new_grass.get_x() - 6, new_grass.get_y() - 6, t)
-          || !is_on_specific_tile(new_grass.get_x() + 18, new_grass.get_y() + 18, t)){
+    agent new_agent(type, new_x, new_y, health_kid);
+    tile t = get_current_tile(g, new_agent);
+    while(!is_on_tile(g, new_agent) || get_on_tile_type(g, new_agent) == tile_type::water
+          || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
+          || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t)){
       f_x = static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX);
       f_y = static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX);
       assert(f_x >= 0.0 && f_x < 1.0);
       assert(f_y >= 0.0 && f_y < 1.0);
       new_x = m_x + (((f_x * 2.0) - 1.0) * max_distance);
       new_y = m_y + (((f_y * 2.0) - 1.0) * max_distance);
-      new_grass.set_x(new_x);
-      new_grass.set_y(new_y);
-      if(is_on_tile(g, new_grass)){
-        t = get_current_tile(g, new_grass);
+      new_agent.set_x(new_x);
+      new_agent.set_y(new_y);
+      if(is_on_tile(g, new_agent)){
+        t = get_current_tile(g, new_agent);
       }
     }
-    g.add_agents( { new_grass } );
+    g.add_agents( { new_agent } );
     m_health = health_parent;
   }
 }
@@ -808,6 +812,14 @@ void test_agent() //!OCLINT testing functions may be long
     assert(after_grass_health1 < prev_grass_health1);
     assert(after_grass_health2 < prev_grass_health2);
     // See whether damage hath happened.
+  }
+  //Cows reproduce
+  {
+    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+           {agent(agent_type::cow, 10, 10, 150)});
+    assert(g.get_agents().size() == 1);
+    g.process_events();
+    assert(g.get_agents().size() >= 2);
   }
   #endif //FIX_ISSUE_363
 }
