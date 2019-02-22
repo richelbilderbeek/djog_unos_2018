@@ -87,8 +87,8 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   m_tiles[other_pos] = m_tiles.back();
   m_tiles.pop_back();
   //change the selected tile
-  m_selected.clear();
-  assert(m_selected.empty());
+//  m_selected.clear();
+//  assert(!m_selected.empty());
 }
 
 void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
