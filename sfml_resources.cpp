@@ -207,6 +207,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Texture 'tundra_standing.png' not found");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/zen_title.png");
+    f.copy("zen_title.png");
+    if (!m_zen_title.loadFromFile("zen_title.png")) {
+      throw std::runtime_error("Cannot find image file zen_title.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {

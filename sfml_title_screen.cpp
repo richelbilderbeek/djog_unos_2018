@@ -1,6 +1,7 @@
 #include "sfml_title_screen.h"
 #include "sfml_window_manager.h"
 #include "sfml_resources.h"
+#include "sfml_button.h"
 #include <cassert>
 #include <iostream>
 
@@ -8,6 +9,7 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   : m_title_music{ sfml_resources::get().get_title_music() },
     m_window{ sfml_window_manager::get().get_window() },
     m_font{ sfml_resources::get().get_title_font() },
+    m_default_font{ sfml_resources::get().get_default_font() },
     m_close_at{close_at}
 {
   m_title_music.setLoop(true);
@@ -28,6 +30,22 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   title_text.setColor(sf::Color(36, 211, 16));
   #endif
   title_text.setPosition(400, 200);
+
+  copyright_text.setFont(m_default_font);
+  copyright_text.setOutlineColor(sf::Color::Black);
+  copyright_text.setFillColor(sf::Color::Black);
+  copyright_text.setString("(C) 2018 Team Octane");
+  copyright_text.setPosition(10, 840);
+
+  m_zen_title.setTexture(sfml_resources::get().get_zen_title());
+  m_zen_title.setScale(2,2);
+  m_zen_title.setPosition(730, 300);
+
+  sf::RectangleShape &b1_s = start_button.get_shape();
+  b1_s.setFillColor(sf::Color(0,128,0));
+  start_button.set_size(325, 100);
+  start_button.set_string("Start Game");
+  start_button.set_pos(870, 650);
 
   m_bg_sprite.setTexture(sfml_resources::get().get_background_image());
   stretch_bg();
@@ -54,6 +72,10 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
           m_window.setView(view);
           stretch_bg();
           break;
+        case sf::Event::MouseButtonPressed:
+          if (start_button.is_clicked(event, m_window))
+            sfml_window_manager::get().set_state(game_state::playing);
+          break;
         default:
           sfml_window_manager::get().process();
           break;
@@ -76,6 +98,10 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     m_window.clear();
     m_window.draw(m_bg_sprite);
     m_window.draw(title_text);
+    m_window.draw(copyright_text);
+    m_window.draw(m_zen_title);
+    m_window.draw(start_button.get_shape());
+    m_window.draw(start_button.get_text());
     m_window.display();
   }
 }
