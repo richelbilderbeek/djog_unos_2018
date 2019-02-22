@@ -111,10 +111,8 @@ agent agent::nearest_agent(game& g, agent& a, agent_type type){
   agent near_agent(type);
   for(agent& ag: g.get_agents()){
     if(ag.get_type() == type){
-      double agentX = fabs(ag.get_x());
-      double distanceX = fabs(agentX - a.get_x());
-      double agentY = fabs(ag.get_y());
-      double distanceY = fabs(agentY - a.get_y());
+      double distanceX = fabs(ag.get_x() - a.get_x());
+      double distanceY = fabs(ag.get_y() - a.get_y());
       if(distanceX < minX){
         minX = distanceX;
         near_agent = ag;
@@ -171,7 +169,7 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
         if(x > 0.05){
           x = 0.05;
         }
-        else if(x < -0.02){
+        else if(x < -0.05){
           x = -0.05;
         }
         m_x += x;
