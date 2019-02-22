@@ -24,6 +24,19 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   m_header.setColor(sf::Color::Green);
   #endif
   m_header.setString("TEAM OCTANE");
+
+  m_text.setFont(m_zen_font);
+  m_text.setCharacterSize(12); // in pixels, not points!
+  // set the color
+  #if(SFML_VERSION_MINOR > 3)
+  m_text.setFillColor(sf::Color::Magenta);
+  m_text.setOutlineColor(sf::Color::Green);
+  m_text.setOutlineThickness(1);
+  #else
+  //Only relevant for Travis
+  m_text.setColor(sf::Color::Green);
+  #endif
+  m_text.setString("Rafayel Gardishyan");
 }
 
 void sfml_about_screen::close(game_state s) {
@@ -72,7 +85,13 @@ void sfml_about_screen::exec()
     m_header.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_header.getPosition())));
 
+    m_text.setPosition(25, 75);
+
+    m_text.setPosition(m_window.mapPixelToCoords(
+                         sf::Vector2i(m_text.getPosition())));
+
     m_window.draw(m_header);
+    m_window.draw(m_text);
 
     m_window.display();
   }

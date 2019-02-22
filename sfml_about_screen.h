@@ -22,6 +22,8 @@ private:
 
   sf::Text m_header;
 
+  sf::Text m_text;
+
   int m_close_at;
 
   sf::Font m_font;
