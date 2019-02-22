@@ -13,17 +13,55 @@ sfml_about_screen::sfml_about_screen(const int close_at)
       m_zen_font{ sfml_resources::get().get_title_font() }
 {
   m_header.setFont(m_zen_font);
-  m_header.setCharacterSize(36); // in pixels, not points!
+  m_header.setCharacterSize(48); // in pixels, not points!
   // set the color
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color::Magenta);
   m_header.setOutlineColor(sf::Color::Green);
-  m_header.setOutlineThickness(3);
+  m_header.setOutlineThickness(5);
   #else
   //Only relevant for Travis
   m_header.setColor(sf::Color::Green);
   #endif
   m_header.setString("TEAM OCTANE");
+
+  m_text.setFont(m_font);
+  m_text.setCharacterSize(25); // in pixels, not points!
+  // set the color
+  #if(SFML_VERSION_MINOR > 3)
+  m_text.setFillColor(sf::Color::White);
+  m_text.setOutlineColor(sf::Color::Magenta);
+  m_text.setOutlineThickness(1);
+  #else
+  //Only relevant for Travis
+  m_text.setColor(sf::Color::Green);
+  #endif
+  m_text.setString(get_team_name_string());
+}
+
+std::string get_team_name_string(){
+    std::string names = "";
+
+    for (unsigned int i=0; i<get_team_names().size(); i++) {
+        names += get_team_names().at(i);
+        names += "\n";
+    }
+    return names;
+}
+
+std::vector<std::string> get_team_names() noexcept
+{
+  return
+  {
+    "Rafayel Gardishyan",
+    "Joshua van Waardenberg",
+    "Rob Kruger",
+    "Richel Bilderbeek",
+    "Enzo de Haas",
+    "Rijk van Putten",
+    "Mart nogwat",
+    "Isis"
+  };
 }
 
 void sfml_about_screen::close(game_state s) {
@@ -72,7 +110,13 @@ void sfml_about_screen::exec()
     m_header.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_header.getPosition())));
 
+    m_text.setPosition(25, 90);
+
+    m_text.setPosition(m_window.mapPixelToCoords(
+                         sf::Vector2i(m_text.getPosition())));
+
     m_window.draw(m_header);
+    m_window.draw(m_text);
 
     m_window.display();
   }
