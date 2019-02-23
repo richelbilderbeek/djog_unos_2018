@@ -12,6 +12,7 @@ enum class agent_type {
     grass,
     fish,
     crocodile,
+    squirrel,
     tree,
     goat,
     snake,
