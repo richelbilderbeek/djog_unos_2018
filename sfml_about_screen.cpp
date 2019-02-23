@@ -115,25 +115,13 @@ void sfml_about_screen::exec()
     m_text.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_text.getPosition())));
 
-    m_zen_bar.setPosition(sf::Vector2f(
-                            (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
-                            15));
-    m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
-    m_window.draw(m_zen_bar);
-    m_zen_ind.setPosition(sf::Vector2f(
-                              (m_window.getSize().x/2.0f)-
-                              (m_zen_ind.getSize().x/2.0f),
-                              15+(m_zen_bar.getSize().y/2.0f)-
-                              (m_zen_ind.getSize().x/2.0f))
-                            );
-    m_zen_ind.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_ind.getPosition())));
-
+    display_assets();
   }
+    
 }
 
 void sfml_about_screen::display_assets()
 {
-    m_window.draw(m_zen_ind);
     m_window.draw(m_header);
     m_window.draw(m_text);
 
