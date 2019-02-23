@@ -115,11 +115,14 @@ void sfml_about_screen::exec()
     m_text.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_text.getPosition())));
 
-    display_assets();
+    m_window.draw(m_header);
+    m_window.draw(m_text);
+
+    m_window.display();
   }
     
 }
-
+/*
 void sfml_about_screen::display_assets()
 {
     m_window.draw(m_header);
@@ -127,3 +130,4 @@ void sfml_about_screen::display_assets()
 
     m_window.display();
 }
+*/
