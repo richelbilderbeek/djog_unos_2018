@@ -44,17 +44,17 @@ sfml_title_screen::sfml_title_screen(const int close_at)
 
   m_zen_title.setTexture(sfml_resources::get().get_zen_title());
   m_zen_title.setScale(2,2);
-  m_zen_title.setPosition(730, 300);
+  m_zen_title.setPosition(710, 300);
 
   m_zen_bar.setTexture(sfml_resources::get().get_zen_bar());
   m_zen_bar.setScale(2,1.25);
-  m_zen_bar.setPosition(580, 350);
+  m_zen_bar.setPosition(540, 350);
 
   sf::RectangleShape &b1_s = start_button.get_shape();
   b1_s.setFillColor(sf::Color(0,128,0));
   start_button.set_size(325, 100);
   start_button.set_string("Start Game");
-  start_button.set_pos(860, 650);
+  start_button.set_pos(840, 650);
 
   m_bg_sprite.setTexture(sfml_resources::get().get_background_image());
   stretch_bg();

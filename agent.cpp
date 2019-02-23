@@ -41,15 +41,11 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::crocodile:
-<<<<<<< HEAD
       return {agent_type::cow, agent_type::giraffe};
-=======
-      return {agent_type::cow};
     case agent_type::squirrel:
       return {agent_type::tree};
     case agent_type::snake:
       return {agent_type::squirrel};
->>>>>>> enzo
     case agent_type::bird:
       return {agent_type::spider,
               agent_type::fish,
