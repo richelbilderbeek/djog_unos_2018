@@ -127,10 +127,15 @@ void sfml_about_screen::exec()
                               (m_zen_ind.getSize().x/2.0f))
                             );
     m_zen_ind.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_ind.getPosition())));
+
+  }
+}
+
+void sfml_about_screen::display_assets()
+{
     m_window.draw(m_zen_ind);
     m_window.draw(m_header);
     m_window.draw(m_text);
 
     m_window.display();
-  }
 }
