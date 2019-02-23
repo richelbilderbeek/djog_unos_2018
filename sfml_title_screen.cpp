@@ -32,9 +32,14 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   title_text.setPosition(400, 200);
 
   copyright_text.setFont(m_default_font);
+  copyright_text.setString("(C) 2018 Team Octane");
+  #if(SFML_VERSION_MINOR > 3)
   copyright_text.setOutlineColor(sf::Color::Black);
   copyright_text.setFillColor(sf::Color::Black);
-  copyright_text.setString("(C) 2018 Team Octane");
+  #else
+  //Only relevant for Travis and RuG
+  copyright_text.setColor(sf::Color::Black);
+  #endif
   copyright_text.setPosition(10, 840);
 
   m_zen_title.setTexture(sfml_resources::get().get_zen_title());
