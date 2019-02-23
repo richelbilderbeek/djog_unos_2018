@@ -73,6 +73,30 @@ void sfml_about_screen::close()
   m_window.close();
 }
 
+void sfml_about_screen::display_assets()
+{
+    m_window.draw(m_header);
+    m_window.draw(m_text);
+
+    m_window.display();
+}
+
+void sfml_about_screen::prepare_assets()
+{
+    m_window.clear(sf::Color::Black); // Clear the window with black color
+
+    m_header.setPosition(25, 25);
+
+    m_header.setPosition(m_window.mapPixelToCoords(
+                         sf::Vector2i(m_header.getPosition())));
+
+    m_text.setPosition(25, 90);
+
+    m_text.setPosition(m_window.mapPixelToCoords(
+                         sf::Vector2i(m_text.getPosition())));
+
+}
+
 void sfml_about_screen::exec()
 {
   if (m_close_at >= 0) close(game_state::gameover);
@@ -103,21 +127,9 @@ void sfml_about_screen::exec()
       }
     }
 
-    m_window.clear(sf::Color::Black); // Clear the window with black color
-
-    m_header.setPosition(25, 25);
-
-    m_header.setPosition(m_window.mapPixelToCoords(
-                         sf::Vector2i(m_header.getPosition())));
-
-    m_text.setPosition(25, 90);
-
-    m_text.setPosition(m_window.mapPixelToCoords(
-                         sf::Vector2i(m_text.getPosition())));
-
-    m_window.draw(m_header);
-    m_window.draw(m_text);
-
-    m_window.display();
+    prepare_assets();
+    display_assets();
   }
+    
 }
+
