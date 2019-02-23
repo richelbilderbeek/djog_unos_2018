@@ -32,7 +32,8 @@ private:
   sf::RectangleShape m_zen_bar;
   sf::RectangleShape m_zen_ind;
   
-//   void sfml_about_screen::display_assets();
+  void display_assets();
+  void prepare_assets();
 
 };
 
