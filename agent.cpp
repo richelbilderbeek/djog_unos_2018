@@ -149,20 +149,10 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
     for(agent& a: g.get_agents()){
       if(a == nearest_agent(g, *this, agent_type::grass) && is_in_range(a.get_x(), a.get_y(), 400)){
         double x = -(0.0005 * (m_x - a.get_x()));
-        if(x > 0.02){
-          x = 0.02;
-        }
-        else if(x < -0.02){
-          x = -0.02;
-        }
+        x = std::max(-0.02, std::min(x, 0.02));
         m_x += x;
         double y = -(0.0005 * (m_y - a.get_y()));
-        if(y > 0.02){
-          y = 0.02;
-        }
-        else if(y < -0.02){
-          y = -0.02;
-        }
+        y = std::max(-0.02, std::min(y, 0.02));
         m_y += y;
       }
     }
@@ -171,20 +161,11 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
     for(agent& a: g.get_agents()){
       if(a == nearest_agent(g, *this, agent_type::cow) && is_in_range(a.get_x(), a.get_y(), 400)){
         double x = -(0.0005 * (m_x - a.get_x()));
-        if(x > 0.05){
-          x = 0.05;
-        }
-        else if(x < -0.05){
-          x = -0.05;
-        }
+        x = std::max(-0.05, std::min(x, 0.05));
+        std::cout << x << std::endl;
         m_x += x;
         double y = -(0.0005 * (m_y - a.get_y()));
-        if(y > 0.05){
-          y = 0.05;
-        }
-        else if(y < -0.05){
-          y = -0.05;
-        }
+        y = std::max(-0.05, std::min(y, 0.05));
         m_y += y;
       }
     }
