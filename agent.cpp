@@ -162,7 +162,6 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
       if(a == nearest_agent(g, *this, agent_type::cow) && is_in_range(a.get_x(), a.get_y(), 400)){
         double x = -(0.0005 * (m_x - a.get_x()));
         x = std::max(-0.05, std::min(x, 0.05));
-        std::cout << x << std::endl;
         m_x += x;
         double y = -(0.0005 * (m_y - a.get_y()));
         y = std::max(-0.05, std::min(y, 0.05));
