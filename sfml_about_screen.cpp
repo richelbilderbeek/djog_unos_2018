@@ -53,9 +53,11 @@ std::vector<std::string> get_team_names() noexcept
 {
   return
   {
-    "Richel Bilderbeek -> Senior developer (Project Leader / Software Architect)",
+    "Richel Bilderbeek -> "
+    "Senior developer (Project Leader / Software Architect)",
     "Rafayel Gardishyan -> Medior developer (Software Architect)",
-    "Joshua van Waardenberg -> Medior developer (Lead Game Design & Developement / Debugging)",
+    "Joshua van Waardenberg -> "
+    "Medior developer (Lead Game Design & Developement / Debugging)",
     "Rob Kruger -> Medior developer",
     "Same Drenth -> Junior developer (Lead graphics)"
     "Enzo de Haas -> Junior developer",
