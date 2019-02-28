@@ -53,16 +53,17 @@ std::vector<std::string> get_team_names() noexcept
 {
   return
   {
-    "Rafayel Gardishyan",
-    "Richel Bilderbeek",
-    "Joshua van Waardenberg",
-    "Rob Kruger",
-    "Richel Bilderbeek",
-    "Enzo de Haas",
-    "Rijk van Putten",
-    "Mart nogwat",
-    "Isis",
-    "Jan Derk Kotlarski"
+    "Richel Bilderbeek -> Senior developer (Project Leader / Software Architect)",
+    "Rafayel Gardishyan -> Medior developer (Software Architect)",
+    "Joshua van Waardenberg -> Medior developer (Lead Game Design & Developement / Debugging)",
+    "Rob Kruger -> Medior developer",
+    "Same Drenth -> Junior developer (Lead graphics)"
+    "Enzo de Haas -> Junior developer",
+    "Rijk van Putten -> Junior developer",
+    "Mart Prenger -> Junior developer (Lead testing)",
+    "Isis Reinders -> Junior developer",
+    "Jan Derk Kotlarski -> Junior developer"
+    "Anne Hinrichs -> Junior developer"
   };
 }
 
@@ -79,7 +80,8 @@ void sfml_about_screen::display_assets()
 {
     m_window.draw(m_header);
     m_window.draw(m_text);
-
+    m_window.draw(m_zen_bar);
+    m_window.draw(m_zen_icon);
     m_window.display();
 }
 
@@ -92,10 +94,26 @@ void sfml_about_screen::prepare_assets()
     m_header.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_header.getPosition())));
 
-    m_text.setPosition(25, 90);
+    m_text.setPosition(25, 175);
 
     m_text.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_text.getPosition())));
+
+    m_zen_bar.setTexture(sfml_resources::get().get_zen_bar());
+    m_zen_icon.setTexture(sfml_resources::get().get_zen_ind());
+
+    float zenbar_y = 100;
+
+    m_zen_bar.setPosition(sf::Vector2f(
+                            5,
+                            zenbar_y));
+    m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
+
+    m_zen_icon.setPosition(sf::Vector2f(
+                            5 + (m_zen_bar.getTextureRect().width/2.0f) - (m_zen_icon.getTextureRect().width/2.0f),
+                            zenbar_y - 10));
+    m_zen_icon.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_icon.getPosition())));
+
 
 }
 

@@ -29,6 +29,9 @@ private:
 
     sf::Text m_header;
 
+    sf::Sprite m_zen_bar;
+    sf::Sprite m_zen_icon;
+
     sfml_button m_button1;
 
     int m_close_at;

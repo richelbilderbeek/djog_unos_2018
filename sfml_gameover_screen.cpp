@@ -17,6 +17,14 @@ sfml_gameover_screen::sfml_gameover_screen(const int close_at)
     b1_s.setFillColor(sf::Color::Red);
     m_button1.set_size(325, 100);
     m_button1.set_string("Back to menu");
+
+    m_zen_bar.setTexture(sfml_resources::get().get_zen_bar());
+    m_zen_icon.setTexture(sfml_resources::get().get_zen_ind());
+
+    m_zen_bar.setPosition(sf::Vector2f(
+                            (m_window.getSize().x/2.0f)-(m_zen_bar.getTextureRect().width/2.0f),
+                            15));
+    m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
 }
 
 void sfml_gameover_screen::exec()
