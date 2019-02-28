@@ -54,6 +54,7 @@ std::vector<std::string> get_team_names() noexcept
   return
   {
     "Rafayel Gardishyan",
+    "Richel Bilderbeek",
     "Joshua van Waardenberg",
     "Rob Kruger",
     "Richel Bilderbeek",
