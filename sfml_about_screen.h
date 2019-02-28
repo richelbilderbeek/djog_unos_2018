@@ -22,12 +22,23 @@ private:
 
   sf::Text m_header;
 
+  sf::Text m_text;
+
   int m_close_at;
 
   sf::Font m_font;
 
-  sf::Font m_zen_font;
+  sf::Font m_zen_font;  
+  sf::RectangleShape m_zen_bar;
+  sf::RectangleShape m_zen_ind;
+  
+  void display_assets();
+  void prepare_assets();
 
 };
+
+std::vector<std::string> get_team_names() noexcept;
+
+std::string get_team_name_string();
 
 #endif // SFML_ABOUT_SCREEN_H

@@ -21,9 +21,14 @@
         <file>resources/none_tile.png</file>
         <file>resources/tundra_laying.png</file>
         <file>resources/tundra_standing.png</file>
+        <file>resources/whale.png</file>
         <file>resources/plankton.png</file>
         <file>resources/octopus.png</file>
         <file>resources/worm.png</file>
+        <file>resources/snake.png</file>
+        <file>resources/giraffe.png</file>
+        <file>resources/lion.png</file>
+        <file>resources/zen_title.png</file>
+        <file>resources/squirrel.png</file>
     </qresource>
-    <qresource prefix="/"/>
 </RCC>

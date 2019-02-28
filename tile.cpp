@@ -26,10 +26,10 @@ tile::tile(const double x, const double y, const double z, double const width,
     throw std::invalid_argument("'height' cannot be negative");
   }
 
-  m_x *= 115;
-  m_y *= 115;
-  m_width = (width * 100) + ((width - 1) * 15);
-  m_height = (height * 100) + ((height - 1) * 15);
+  m_x *= 112;
+  m_y *= 112;
+  m_width = (width * 100) + ((width - 1) * 12);
+  m_height = (height * 100) + ((height - 1) * 12);
 
   assert(m_width > 0.0);
   assert(m_height > 0.0);
@@ -80,6 +80,10 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
   }
   {
     tile t(4, -1, 8, 1, 2, 0, tile_type::woods, tile_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(0, -2, 8, 1, 2, 0, tile_type::woods, tile_id());
     tiles.push_back(t);
   }
   {
