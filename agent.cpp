@@ -42,9 +42,14 @@ std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::crocodile:
       return {agent_type::cow, agent_type::giraffe};
+    case agent_type::squirrel:
+      return {agent_type::tree};
+    case agent_type::snake:
+      return {agent_type::squirrel};
     case agent_type::bird:
       return {agent_type::spider,
               agent_type::fish,
+              agent_type::snake,
               agent_type::worm};
     case agent_type::cow:
       return {agent_type::grass};
@@ -111,10 +116,8 @@ agent agent::nearest_agent(game& g, agent& a, agent_type type){
   agent near_agent(type);
   for(agent& ag: g.get_agents()){
     if(ag.get_type() == type){
-      double agentX = fabs(ag.get_x());
-      double distanceX = fabs(agentX - a.get_x());
-      double agentY = fabs(ag.get_y());
-      double distanceY = fabs(agentY - a.get_y());
+      double distanceX = fabs(ag.get_x() - a.get_x());
+      double distanceY = fabs(ag.get_y() - a.get_y());
       if(distanceX < minX){
         minX = distanceX;
         near_agent = ag;
@@ -146,20 +149,10 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
     for(agent& a: g.get_agents()){
       if(a == nearest_agent(g, *this, agent_type::grass) && is_in_range(a.get_x(), a.get_y(), 400)){
         double x = -(0.0005 * (m_x - a.get_x()));
-        if(x > 0.02){
-          x = 0.02;
-        }
-        else if(x < -0.02){
-          x = -0.02;
-        }
+        x = std::max(-0.02, std::min(x, 0.02));
         m_x += x;
         double y = -(0.0005 * (m_y - a.get_y()));
-        if(y > 0.02){
-          y = 0.02;
-        }
-        else if(y < -0.02){
-          y = -0.02;
-        }
+        y = std::max(-0.02, std::min(y, 0.02));
         m_y += y;
       }
     }
@@ -168,20 +161,10 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
     for(agent& a: g.get_agents()){
       if(a == nearest_agent(g, *this, agent_type::cow) && is_in_range(a.get_x(), a.get_y(), 400)){
         double x = -(0.0005 * (m_x - a.get_x()));
-        if(x > 0.05){
-          x = 0.05;
-        }
-        else if(x < -0.02){
-          x = -0.05;
-        }
+        x = std::max(-0.05, std::min(x, 0.05));
         m_x += x;
         double y = -(0.0005 * (m_y - a.get_y()));
-        if(y > 0.05){
-          y = 0.05;
-        }
-        else if(y < -0.05){
-          y = -0.05;
-        }
+        y = std::max(-0.05, std::min(y, 0.05));
         m_y += y;
       }
     }
@@ -416,6 +399,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a8(agent_type::bird, 75, 150);
     move_agent_to_tile(a8, 4, -1);
     agents.push_back(a8);
+  }
+  {
+    agent a1(agent_type::tree, 90, 170);
+    move_agent_to_tile(a1, 0, -2);
+    agents.push_back(a1);
+    agent a2(agent_type::squirrel, 90, 150);
+    move_agent_to_tile(a2, 0, -2);
+    agents.push_back(a2);
   }
   {
     agent a1(agent_type::goat, 190, 90);
@@ -816,7 +807,7 @@ void test_agent() //!OCLINT testing functions may be long
         //get depth test
         assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
     }
-  //#define FIX_ISSUE_326
+  #define FIX_ISSUE_326
   #ifdef FIX_ISSUE_326
   //a cow walks to grass when its close
   {
@@ -835,8 +826,8 @@ void test_agent() //!OCLINT testing functions may be long
     double cow_aft_posY = g.get_agents()[0].get_y();
     double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
     double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    std::cout << distanceX << " + " << distance_afterX << std::endl;
-    std::cout << distanceY << " + " << distance_afterY << std::endl;
+//    std::cout << distanceX << " + " << distance_afterX << std::endl;
+//    std::cout << distanceY << " + " << distance_afterY << std::endl;
     assert(distanceX > distance_afterX);
     assert(distanceY > distance_afterY);
     assert(g.get_agents()[0].get_x() > 0);

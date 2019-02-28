@@ -104,6 +104,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
         throw std::runtime_error("Cannot find image file 'whale.png'");
     }
  // octopus texture
+
   {
       QFile f(":/nature_zen/resources/octopus.png");
       f.copy("octopus.png");
@@ -144,6 +145,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     f.copy("snake.png");
     if (!m_snake_texture.loadFromFile("snake.png"))
       throw std::runtime_error("Cannot find image file snake.png");
+  }
+  // squirrel texture
+  {
+    QFile f(":/nature_zen/resources/squirrel.png");
+    f.copy("squirrel.png");
+    if (!m_squirrel_texture.loadFromFile("squirrel.png"))
+      throw std::runtime_error("Cannot find image file squirrel.png");
   }
   // None texture
   {
@@ -207,6 +215,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Texture 'tundra_standing.png' not found");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/zen_title.png");
+    f.copy("zen_title.png");
+    if (!m_zen_title.loadFromFile("zen_title.png")) {
+      throw std::runtime_error("Cannot find image file zen_title.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -241,6 +256,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_snake_texture;
     case agent_type::spider:
       return m_spider_texture;
+    case agent_type::squirrel:
+      return m_squirrel_texture;
     case agent_type::bird:
       return m_bird_texture;
     case agent_type::giraffe:
