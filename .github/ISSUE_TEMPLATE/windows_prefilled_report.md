@@ -1,6 +1,9 @@
 ---
 name: Windows_prefilled_report
 about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
