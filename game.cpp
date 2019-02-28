@@ -388,6 +388,40 @@ void test_game() //!OCLINT a testing function may be long
     assert(x_before != x_after);
     assert(y_before != y_after);
   }
+
+
+  //#define FIX_ISSUE_415
+  #ifdef FIX_ISSUE_415
+  {
+    // Create a game with two grassland blocks, one with a cow,
+    // one with a grass agent
+    //
+    //     0             x               40
+    //  +--+-------------|----------------+------
+    //  |
+    // 0+  +=============================+
+    //  |  |grassland witC cow agent     |
+    //10+  +=============================+
+    //  |  | grassland wiGh grass agent  |
+    //20+  +=============================+
+    // The cow will move towards the grass and should cross the chasm
+    // between the tiles
+    game g(
+      { //   x     y    z    w     h
+        tile(0.0,  0.0, 0.0, 40.0, 10.0),
+        tile(0.0, 10.0, 0.0, 40.0, 10.0)
+      },
+      {
+        agent(agent_type::cow  , 20.0,  5.0),
+        agent(agent_type::grass, 20.0, 15.0),
+      }
+    );
+    //Will freeze
+    while (g.get_agents()[0].get_y() < 11.0) {
+      g.process_events();
+    }
+  }
+  #endif //
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards
