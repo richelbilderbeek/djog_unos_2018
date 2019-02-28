@@ -1,6 +1,9 @@
 ---
 name: Custom Issue
 about: Describe your issue/idea/feature/bug
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
