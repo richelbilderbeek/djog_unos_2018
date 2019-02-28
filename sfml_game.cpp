@@ -245,13 +245,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
     if (m_timer <= 0)
     {
       temp_tile.set_dx(0);
-      temp_tile.set_dy(0);
-      for(agent& a: m_game.get_agents()){
-        if(is_on_specific_tile(a, temp_tile)){
-          a.set_dx(0);
-          a.set_dy(0);
-        }
-      }
+      temp_tile.set_dy(0);      
     }
   }
 }
@@ -408,18 +402,12 @@ void sfml_game::control_tile(bool b, const sf::Event& event, tile& t)
     if (b == true)
     {
       tile_move_ctrl(event, t);
-      m_timer += (1 / m_tile_speed) * 114;
+      m_timer += (1 / m_tile_speed) * 111;
     }
     else
     {
       t.set_dx(0);
-      t.set_dy(0);
-      for(agent& a: m_game.get_agents()){
-        if(is_on_specific_tile(a, t)){
-          a.set_dx(0);
-          a.set_dy(0);
-        }
-      }
+      t.set_dy(0);      
     }
   }
 }
@@ -622,7 +610,7 @@ bool sfml_game::check_collision(double x, double y)
     // |   B |
     // |_____|
     //
-    if (contains(t, x + 15, y + 15) || contains(t, x - 15, y - 15))
+    if (contains(t, x + 12, y + 12) || contains(t, x - 12, y - 12))
     {
       return true;
     }
