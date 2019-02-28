@@ -79,7 +79,8 @@ void sfml_about_screen::display_assets()
 {
     m_window.draw(m_header);
     m_window.draw(m_text);
-
+    m_window.draw(m_zen_bar);
+    m_window.draw(m_zen_icon);
     m_window.display();
 }
 
@@ -92,10 +93,26 @@ void sfml_about_screen::prepare_assets()
     m_header.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_header.getPosition())));
 
-    m_text.setPosition(25, 90);
+    m_text.setPosition(25, 150);
 
     m_text.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_text.getPosition())));
+
+    m_zen_bar.setTexture(sfml_resources::get().get_zen_bar());
+    m_zen_icon.setTexture(sfml_resources::get().get_zen_ind());
+
+    float zenbar_y = 100;
+
+    m_zen_bar.setPosition(sf::Vector2f(
+                            (/*0)-(m_zen_bar.getTextureRect().width/2.0f),*/ 5),
+                            zenbar_y));
+    m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
+
+    m_zen_icon.setPosition(sf::Vector2f(
+                            5 + (m_zen_bar.getTextureRect().width/2.0f) - (m_zen_icon.getTextureRect().width/2.0f),
+                            zenbar_y - 10));
+    m_zen_icon.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_icon.getPosition())));
+
 
 }
 
