@@ -63,7 +63,9 @@ std::vector<std::string> get_team_names() noexcept
     "Mart Prenger -> Junior developer (Lead testing)",
     "Isis Reinders -> Junior developer",
     "Jan Derk Kotlarski -> Junior developer",
-    "Anne Hinrichs -> Junior developer"
+    "Anne Hinrichs -> Junior developer",
+    "Jolien Gay -> Junior developer",
+    "Tom Stuivenga -> Junior developer"
   };
 }
 
