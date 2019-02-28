@@ -807,7 +807,7 @@ void test_agent() //!OCLINT testing functions may be long
         //get depth test
         assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
     }
-  //#define FIX_ISSUE_326
+  #define FIX_ISSUE_326
   #ifdef FIX_ISSUE_326
   //a cow walks to grass when its close
   {
@@ -826,8 +826,8 @@ void test_agent() //!OCLINT testing functions may be long
     double cow_aft_posY = g.get_agents()[0].get_y();
     double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
     double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    std::cout << distanceX << " + " << distance_afterX << std::endl;
-    std::cout << distanceY << " + " << distance_afterY << std::endl;
+//    std::cout << distanceX << " + " << distance_afterX << std::endl;
+//    std::cout << distanceY << " + " << distance_afterY << std::endl;
     assert(distanceX > distance_afterX);
     assert(distanceY > distance_afterY);
     assert(g.get_agents()[0].get_x() > 0);

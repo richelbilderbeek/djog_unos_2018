@@ -54,13 +54,15 @@ std::vector<std::string> get_team_names() noexcept
   return
   {
     "Rafayel Gardishyan",
+    "Richel Bilderbeek",
     "Joshua van Waardenberg",
     "Rob Kruger",
     "Richel Bilderbeek",
     "Enzo de Haas",
     "Rijk van Putten",
     "Mart nogwat",
-    "Isis"
+    "Isis",
+    "Jan Derk Kotlarski"
   };
 }
 
