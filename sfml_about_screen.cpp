@@ -108,13 +108,12 @@ void sfml_about_screen::prepare_assets()
 
     float zenbar_y = 100;
 
-    m_zen_bar.setPosition(sf::Vector2f(
-                            5,
-                            zenbar_y));
+    m_zen_bar.setPosition(sf::Vector2f(5, zenbar_y));
     m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
 
     m_zen_icon.setPosition(sf::Vector2f(
-                            5 + (m_zen_bar.getTextureRect().width/2.0f) - (m_zen_icon.getTextureRect().width/2.0f),
+                            5 + (m_zen_bar.getTextureRect().width/2.0f) -
+                               (m_zen_icon.getTextureRect().width/2.0f),
                             zenbar_y - 10));
     m_zen_icon.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_icon.getPosition())));
 
