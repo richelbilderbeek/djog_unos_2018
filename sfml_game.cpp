@@ -35,7 +35,6 @@ sfml_game::sfml_game(
   m_window.setFramerateLimit(60);
 }
 
-
 sfml_game::~sfml_game()
 {
   stop_music();
@@ -163,8 +162,8 @@ void sfml_game::set_tile_sprite(const tile &t, sf::Sprite &sprite) {
 
 void sfml_game::exec()
 {
-  while (active(game_state::playing))
-  {
+  while (active(game_state::playing) || active(game_state::paused))
+  {//TODO if not paused do this else display this and pause screen
     process_input();
     process_events();
     display();
