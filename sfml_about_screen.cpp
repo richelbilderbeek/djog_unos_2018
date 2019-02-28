@@ -60,7 +60,8 @@ std::vector<std::string> get_team_names() noexcept
     "Enzo de Haas",
     "Rijk van Putten",
     "Mart nogwat",
-    "Isis"
+    "Isis",
+    "Jan Derk Kotlarski"
   };
 }
 
