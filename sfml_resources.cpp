@@ -44,6 +44,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file 'plankton.png'");
     }
   }
+  // foxgloves texture
+  {
+    QFile f(":/nature_zen/resources/foxgloves.png");
+    f.copy("foxgloves.png");
+    if (!m_foxgloves_texture.loadFromFile("foxgloves.png")) {
+      throw std::runtime_error("Cannot find image file 'foxgloves.png'");
+    }
+  }
   // worm texture
     {
       QFile f(":/nature_zen/resources/worm.png");
@@ -264,6 +272,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
         return m_lion_texture;
     case agent_type::giraffe:
       return m_giraffe_texture;
+    case agent_type::foxgloves:
+      return m_foxgloves_texture;
     default:
       return m_none_texture;
   }

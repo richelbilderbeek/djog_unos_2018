@@ -63,7 +63,8 @@ std::vector<agent_type> can_eat(const agent_type type) {
 }
 
 bool is_plant(const agent_type type) {
-    if (type == agent_type::plankton || type == agent_type::grass || type == agent_type::tree) //!OCLINT TODO: redundant if statement
+    if (type == agent_type::plankton || type == agent_type::grass || type == agent_type::tree
+        || type == agent_type::foxgloves) //!OCLINT TODO: redundant if statement
     {
         return true;
     }
@@ -85,8 +86,7 @@ void agent::eat(const game& g) {
         std::count(std::begin(food), std::end(food), a.get_type()))
     {
       m_stamina += 1;
-    } else if (!(m_type == agent_type::grass ||
-                 m_type == agent_type::tree)){
+    } else if (!is_plant(m_type)){
       m_stamina -= 0.05;
     }
     std::vector<agent_type> a_food = can_eat(a.get_type());
@@ -298,6 +298,9 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::grass, 70, 40, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a3, 0, 0);
     agents.push_back(a3);
+    agent a4(agent_type::foxgloves, 60, 70);
+    move_agent_to_tile(a4, 0, 0);
+    agents.push_back(a4);
   }
   {
     agent a1(agent_type::cow);
