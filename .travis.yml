@@ -59,8 +59,8 @@ script:
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Get code coverage
-  - ./get_code_cov
   - cp debug/*.* .
+  - ./get_code_cov
   - codecov
   # Call OCLint
   - ./do_oclint
