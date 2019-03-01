@@ -133,7 +133,7 @@ agent agent::nearest_agent(game& g, agent& a, agent_type type){
   return near_agent;
 }
 
-void agent::move(game& g) //!OCLINT NPath complexity too high
+void agent::move() //!OCLINT NPath complexity too high
 {
   //Dead agents stay still
   if (m_health <= 0.0) return;
@@ -146,35 +146,28 @@ void agent::move(game& g) //!OCLINT NPath complexity too high
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
+}
 
-  if(m_type == agent_type::cow){
-    for(agent& a: g.get_agents()){
-      if(a == nearest_agent(g, *this, agent_type::grass) && is_in_range(a.get_x(), a.get_y(), 400)){
-        double x = -(0.0005 * (m_x - a.get_x()));
-        x = std::max(-0.02, std::min(x, 0.02));
-        m_x += x;
-        double y = -(0.0005 * (m_y - a.get_y()));
-        y = std::max(-0.02, std::min(y, 0.02));
-        m_y += y;
-      }
-    }
-  } // Crocodile eats cows
-  else if(m_type == agent_type::crocodile){
-    for(agent& a: g.get_agents()){
-      if(a == nearest_agent(g, *this, agent_type::cow) && is_in_range(a.get_x(), a.get_y(), 400)){
+void agent::move_to_food(game &g){
+  for(agent a: g.get_agents()){
+    for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
+      if(a.get_type() == can_eat(m_type)[i] && a == nearest_agent(g, a, can_eat(m_type)[i])){
         double x = -(0.0005 * (m_x - a.get_x()));
         x = std::max(-0.05, std::min(x, 0.05));
         m_x += x;
         double y = -(0.0005 * (m_y - a.get_y()));
         y = std::max(-0.05, std::min(y, 0.05));
         m_y += y;
+        return;
       }
     }
   }
 }
 
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
-  move(g);
+  move();
+
+  move_to_food(g);
 
   if (m_type == agent_type::grass || m_type == agent_type::tree
       || m_type == agent_type::cow) reproduce_agents(g, m_type);
@@ -543,7 +536,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::cow, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A crocodile moves
@@ -553,7 +546,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
-    for (int i = 0; i != 10; ++i) a.move(g); //To make surer x or y is changed
+    for (int i = 0; i != 10; ++i) a.move(); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A fish moves
@@ -564,7 +557,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::fish, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
 
@@ -578,7 +571,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::bird, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
   #endif
@@ -589,7 +582,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::grass, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
   // Agents have health
@@ -831,8 +824,6 @@ void test_agent() //!OCLINT testing functions may be long
     double cow_aft_posY = g.get_agents()[0].get_y();
     double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
     double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    std::cout << distanceX << " + " << distance_afterX << std::endl;
-    std::cout << distanceY << " + " << distance_afterY << std::endl;
     assert(distanceX > distance_afterX);
     assert(distanceY > distance_afterY);
     assert(g.get_agents()[0].get_x() > 0);
@@ -863,8 +854,6 @@ void test_agent() //!OCLINT testing functions may be long
     const double after_grass_health1 = g.get_agents()[0].get_health();
     const double after_grass_health2 = g.get_agents()[1].get_health();
     // Check their health now.
-
-    std::cout << after_grass_health1 << std::endl;
 
     assert(after_grass_health1 < prev_grass_health1);
     assert(after_grass_health2 < prev_grass_health2);
