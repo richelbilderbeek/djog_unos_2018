@@ -274,7 +274,7 @@ void agent::damage_near_grass(game &g)
 {
   const double max_distance { pythagoras(32.0, 32.0) };
 
-  const double max_damage { 20.0/1000.0 };
+  const double max_damage { 10.0/1000.0 };
 
   std::vector <agent> all_agents{ g.get_agents() };
 
