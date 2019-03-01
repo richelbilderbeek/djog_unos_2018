@@ -31,6 +31,8 @@ public:
 
   sf::Texture &get_zen_ind() noexcept { return m_zen_ind_texture; }
 
+  sf::Texture &get_zen_title() noexcept { return m_zen_title; }
+
   sf::Texture &get_tile_sprite(const tile& t) noexcept;
 
 private:
@@ -62,6 +64,8 @@ private:
 
   sf::Texture m_grass_texture;
 
+  sf::Texture m_whale_texture;
+
   sf::Texture m_goat_texture;
 
   sf::Texture m_none_texture;
@@ -71,6 +75,10 @@ private:
   sf::Texture m_plankton_texture;
 
   sf::Texture m_worm_texture;
+
+  sf::Texture m_giraffe_texture;
+
+  sf::Texture m_lion_texture;
 
   sf::Texture m_octopus_texture;
 
@@ -85,6 +93,8 @@ private:
   sf::Texture m_zen_bar_texture;
 
   sf::Texture m_empty_tile;
+
+  sf::Texture m_zen_title;
 
   sf::Texture m_tundra_laying;
   sf::Texture m_tundra_standing;

@@ -9,6 +9,12 @@ sfml_camera::sfml_camera()
   sf::View view = m_window.getDefaultView();
   view.setCenter(m_window.mapPixelToCoords(sf::Vector2i(x, y)));
   m_window.setView(view);
+  origin = sf::Vector2f(x, y);
+}
+
+void sfml_camera::reset() {
+  x = origin.x;
+  y = origin.y;
 }
 
 void sfml_camera::move_camera(Vector2f offset)

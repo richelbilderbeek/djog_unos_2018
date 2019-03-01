@@ -69,7 +69,7 @@ public:
   void control_tile(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
 
-  double m_tile_speed = 1; // 115/tile_speed must be a whole number!
+  double m_tile_speed = 1; // 112/tile_speed must be a whole number!
 
   void color_tile_shape(sf::RectangleShape &sfml_tile, const tile &t);
   void color_shape(sf::RectangleShape &sfml_tile, sf::Color c1, sf::Color c2);

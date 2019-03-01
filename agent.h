@@ -35,19 +35,11 @@ public:
   /// The y-coordinat of the top-left corner of the agent
   double get_y() const noexcept { return m_y; }
 
-  /// The movement coeficient on the x-axis
-  double get_dx() const noexcept { return m_dx; }
-
-  /// The movement coeficient on the y-axis
-  double get_dy() const noexcept { return m_dy; }
-
   /// The direction angle of the agent
   double get_direction() const noexcept { return m_direction; }
 
   void set_x(double x) noexcept { m_x = x; }
   void set_y(double y) noexcept { m_y = y; }
-  void set_dx(double dx) noexcept { m_dx = dx; }
-  void set_dy(double dy) noexcept { m_dy = dy; }
   void set_direction(double direction) noexcept { m_direction = direction; }
   void set_health(double health) noexcept { m_health = health; }
 
@@ -56,9 +48,6 @@ public:
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
   void move(game& g);
-  void move(double dx, double dy);
-
-  void move_with_tile();
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
@@ -78,11 +67,6 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
-  /// The movement coefficient on the x-axis
-  double m_dx = 0;
-
-  /// The movement coefficient on the y-axis
-  double m_dy = 0;
 
   /// The direction angle of the agent, which is a radial angle with 0 for
   /// left to right direction, pi/2 for top to down direction,
@@ -94,7 +78,7 @@ private:
   ///the stamina of the agent
   double m_stamina;
 
-  void plant_actions(game& g);
+  void reproduce_agents(game& g, agent_type type);
 
   void damage_near_grass(game &g);
 
@@ -111,6 +95,14 @@ std::vector<agent> create_default_agents() noexcept;
 void move_agent_to_tile(agent &a, double tile_x, double tile_y);
 
 bool will_drown(agent_type a);
+
+bool is_aquatic(agent_type a);
+
+int get_min_depth(agent_type a);
+
+int get_max_depth(agent_type a);
+
+sf::Vector2i get_depth(agent_type a);
 
 /// Test the tile class
 void test_agent();

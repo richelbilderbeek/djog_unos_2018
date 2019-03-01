@@ -30,6 +30,9 @@ sfml_game::sfml_game(
   start_music();
   setup_display_score();
   setup_tickcounter_text();
+
+  // Set up framerate
+  m_window.setFramerateLimit(200);
 }
 
 
@@ -39,6 +42,9 @@ sfml_game::~sfml_game()
 }
 
 void sfml_game::close(game_state s) {
+  m_camera.reset();
+  sf::View old_view = sfml_window_manager::get().get_window().getDefaultView();
+  sfml_window_manager::get().get_window().setView(old_view);
   sfml_window_manager::get().set_state(s);
 }
 
@@ -88,7 +94,9 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   // Display & Update Tickcounter
   {
     std::stringstream s;
-    s << "TICK COUNT: " << m_game.get_n_ticks() << "\n" << "MOUSE SPEED: " << m_mouse_speed;
+    s << "TICK COUNT: " << m_game.get_n_ticks() << "\n"
+      << "MOUSE SPEED: " << m_mouse_speed << "\n"
+      << "SCORE: " << m_game.get_score();
     m_tickcounter_text.setString(s.str());
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
@@ -173,9 +181,9 @@ void sfml_game::process_events()
   m_mouse_speed = sqrt(mouse_delta.x * mouse_delta.x + mouse_delta.y * mouse_delta.y);
   m_prev_mouse_pos = current_mouse;
 
-  if ((115.0 / m_tile_speed != std::abs(std::floor(115.0 / m_tile_speed))
-        || 115.0 / m_tile_speed != std::abs(std::ceil(115.0 / m_tile_speed)))
-    || m_tile_speed > 115.0)
+  if ((112.0 / m_tile_speed != std::abs(std::floor(112.0 / m_tile_speed))
+        || 112.0 / m_tile_speed != std::abs(std::ceil(112.0 / m_tile_speed)))
+    || m_tile_speed > 112.0)
   {
     throw std::runtime_error("The set tile speed is not usable");
   }
@@ -190,6 +198,10 @@ void sfml_game::process_events()
   }
 
   exec_tile_move(m_game.m_selected);
+
+  if (m_game.get_score() >= 112 || m_game.get_score() <= -112) {
+    close(game_state::gameover);
+  }
 
   manage_timer();
 
@@ -236,13 +248,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
     if (m_timer <= 0)
     {
       temp_tile.set_dx(0);
-      temp_tile.set_dy(0);
-      for(agent& a: m_game.get_agents()){
-        if(is_on_specific_tile(a, temp_tile)){
-          a.set_dx(0);
-          a.set_dy(0);
-        }
-      }
+      temp_tile.set_dy(0);      
     }
   }
 }
@@ -399,18 +405,12 @@ void sfml_game::control_tile(bool b, const sf::Event& event, tile& t)
     if (b == true)
     {
       tile_move_ctrl(event, t);
-      m_timer += (1 / m_tile_speed) * 114;
+      m_timer += (1 / m_tile_speed) * 111;
     }
     else
     {
       t.set_dx(0);
-      t.set_dy(0);
-      for(agent& a: m_game.get_agents()){
-        if(is_on_specific_tile(a, t)){
-          a.set_dx(0);
-          a.set_dy(0);
-        }
-      }
+      t.set_dy(0);      
     }
   }
 }
@@ -464,7 +464,7 @@ void sfml_game::switch_collide(tile& t, int direction)
   {
     //confirm_tile_move(t, direction);
     m_game.confirm_tile_move(t, direction, m_tile_speed);
-    sf::Vector2f b = get_direction_pos(direction, t, 115);
+    sf::Vector2f b = get_direction_pos(direction, t, 112);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {
       t.set_dx(t.get_dx() * 2);
@@ -613,7 +613,7 @@ bool sfml_game::check_collision(double x, double y)
     // |   B |
     // |_____|
     //
-    if (contains(t, x + 15, y + 15) || contains(t, x - 15, y - 15))
+    if (contains(t, x + 12, y + 12) || contains(t, x - 12, y - 12))
     {
       return true;
     }
