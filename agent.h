@@ -47,7 +47,7 @@ public:
 
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
-  void move(game& g);
+  void move();
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
@@ -56,6 +56,8 @@ public:
   bool is_in_range(double x, double y, double range);
 
   agent nearest_agent(game& g, agent& a, agent_type type);
+
+  void move_to_food(game& g);
 
 private:
   /// The type the tile

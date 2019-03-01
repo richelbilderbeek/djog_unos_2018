@@ -30,6 +30,10 @@
         <file>resources/lion.png</file>
         <file>resources/zen_title.png</file>
         <file>resources/squirrel.png</file>
+<<<<<<< HEAD
         <file>resources/venus_fly_trap.png</file>
+=======
+        <file>resources/foxgloves.png</file>
+>>>>>>> develop
     </qresource>
 </RCC>
