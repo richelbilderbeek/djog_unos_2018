@@ -9,7 +9,7 @@ class sfml_pause_overlay
 {
 public:
 
-    sfml_pause_overlay(const int close_at);
+    sfml_pause_overlay();
 
     void exec();
 
@@ -33,8 +33,6 @@ private:
 
     sfml_button m_button1;
     sfml_button m_button2;
-
-    int m_close_at;
 
 };
 

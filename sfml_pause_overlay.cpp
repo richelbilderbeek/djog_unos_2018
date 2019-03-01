@@ -5,10 +5,9 @@
 #include <iostream>
 #include <cassert>
 
-sfml_pause_overlay::sfml_pause_overlay(const int close_at)
+sfml_pause_overlay::sfml_pause_overlay()
     : m_window{ sfml_window_manager::get().get_window() },
-      m_font{ sfml_resources::get().get_default_font() },
-      m_close_at{close_at}
+      m_font{ sfml_resources::get().get_default_font() }
 {
   m_header.setFont(m_font);
   m_header.setCharacterSize(40);
@@ -36,6 +35,7 @@ sfml_pause_overlay::sfml_pause_overlay(const int close_at)
 
 void sfml_pause_overlay::exec()
 {
+  assert(active(game_state::paused));
   sf::Event event;
   while (m_window.pollEvent(event))
   {

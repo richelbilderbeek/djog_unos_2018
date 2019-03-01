@@ -23,7 +23,8 @@ sfml_game::sfml_game(
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
-    m_window{ sfml_window_manager::get().get_window() }
+    m_window{ sfml_window_manager::get().get_window() },
+    m_pause_screen()
 { // Set up music
   m_background_music.setLoop(true);
   m_ben_ik_een_spin.setLoop(true);
@@ -163,9 +164,13 @@ void sfml_game::set_tile_sprite(const tile &t, sf::Sprite &sprite) {
 void sfml_game::exec()
 {
   while (active(game_state::playing) || active(game_state::paused))
-  {//TODO if not paused do this else display this and pause screen
-    process_input();
-    process_events();
+  {
+    if (active(game_state::paused)) {
+      m_pause_screen.exec();
+    } else {
+      process_input();
+      process_events();
+    }
     display();
   }
 }
@@ -310,6 +315,8 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
       control_tile(true, event, getTileById(m_game.m_selected));
     if (m_timer > 0)
       control_tile(false, event, getTileById(m_game.m_selected));
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+      close(game_state::paused);
   }
   else
   {

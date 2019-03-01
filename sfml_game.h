@@ -14,6 +14,7 @@
 #include "game_state.h"
 #include "sfml_camera.h"
 #include "sfml_window_manager.h"
+#include "sfml_pause_overlay.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
@@ -175,6 +176,8 @@ private:
 
   sf::Vector2i m_prev_mouse_pos;
   double m_mouse_speed;
+
+  sfml_pause_overlay m_pause_screen;
 
 };
 
