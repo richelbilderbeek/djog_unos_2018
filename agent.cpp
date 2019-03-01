@@ -423,14 +423,23 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     move_agent_to_tile(a2, 1, 2);
     agents.push_back(a2);
   }
+<<<<<<< HEAD
   //#define FIX_ISSUE_423
   #ifdef FIX_ISSUE_423
+=======
+  //#define FIX_ISSUE_1234
+  #ifdef FIX_ISSUE_1234
+>>>>>>> fdec8fae73e0e4de2e929553eb310951fd89d1c7
   {
     agent a5(agent_type::venus_fly_trap, 270, 240, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a5, 0, 2);
     agents.push_back(a5);
   }
+<<<<<<< HEAD
   #endif // FIX_ISSUE_423
+=======
+  #endif
+>>>>>>> fdec8fae73e0e4de2e929553eb310951fd89d1c7
   return agents;
 }
 
