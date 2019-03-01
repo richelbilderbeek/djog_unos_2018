@@ -95,7 +95,6 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   {
     std::stringstream s;
     s << "TICK COUNT: " << m_game.get_n_ticks() << "\n"
-      << "MOUSE SPEED: " << m_mouse_speed << "\n"
       << "SCORE: " << m_game.get_score();
     m_tickcounter_text.setString(s.str());
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
