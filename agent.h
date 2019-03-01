@@ -96,7 +96,10 @@ void move_agent_to_tile(agent &a, double tile_x, double tile_y);
 
 bool will_drown(agent_type a);
 
-bool is_aquatic(agent_type a);
+/// Determine if the agent_type is a plant
+/// @return true if the agent_type is a plant
+/// @note plankton is counted as plants, but do include small animals as well
+bool is_plant(const agent_type type) noexcept;
 
 int get_min_depth(agent_type a);
 

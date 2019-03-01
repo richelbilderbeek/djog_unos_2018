@@ -4,8 +4,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
-#include <math.h>
-
+#include <cmath>
+#include <set>
 #include "agent_type.h"
 #include "game.h"
 
@@ -57,20 +57,22 @@ std::vector<agent_type> can_eat(const agent_type type) {
       return {agent_type::cow, agent_type::giraffe};
     case agent_type::giraffe:
       return {agent_type::tree};
+    case agent_type::venus_fly_trap:
+      return {agent_type::spider };
     default:
       return {};
   }
 }
 
-bool is_plant(const agent_type type) {
-    if (type == agent_type::plankton || type == agent_type::grass || type == agent_type::tree) //!OCLINT TODO: redundant if statement
-    {
-        return true;
-    }
-    else
-    {   //!OCLINT TODO: unnecessary else statement
-        return false;
-    }
+bool is_plant(const agent_type type) noexcept
+{
+  const std::set<agent_type> plants = {
+    agent_type::plankton, //Some plankton are also bacteria, archea, protozoa or animals
+    agent_type::grass,
+    agent_type::tree,
+    agent_type::venus_fly_trap
+  };
+  return plants.count(type);
 }
 
 void agent::eat(const game& g) {
@@ -421,6 +423,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     move_agent_to_tile(a2, 1, 2);
     agents.push_back(a2);
   }
+  //#define FIX_ISSUE_423
+  #ifdef FIX_ISSUE_423
+  {
+    agent a5(agent_type::venus_fly_trap, 270, 240, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
+    move_agent_to_tile(a5, 0, 2);
+    agents.push_back(a5);
+  }
+  #endif // FIX_ISSUE_423
   return agents;
 }
 
@@ -534,6 +544,27 @@ void test_agent() //!OCLINT testing functions may be long
     const agent a(agent_type::cow, x, y);
     assert(a.get_x() == x);
     assert(a.get_y() == y);
+  }
+  // Check if species are classified as plants
+  {
+    assert(!is_plant(agent_type::bird));
+    assert(!is_plant(agent_type::cow));
+    assert(!is_plant(agent_type::crocodile));
+    assert(!is_plant(agent_type::fish));
+    assert(!is_plant(agent_type::giraffe));
+    assert(!is_plant(agent_type::goat));
+    assert( is_plant(agent_type::grass));
+    assert(!is_plant(agent_type::lion));
+    assert(!is_plant(agent_type::none));
+    assert(!is_plant(agent_type::octopus));
+    assert( is_plant(agent_type::plankton));
+    assert(!is_plant(agent_type::snake));
+    assert(!is_plant(agent_type::spider));
+    assert(!is_plant(agent_type::squirrel));
+    assert( is_plant(agent_type::tree));
+    assert( is_plant(agent_type::venus_fly_trap));
+    assert(!is_plant(agent_type::whale));
+    assert(!is_plant(agent_type::worm));
   }
   // A cow moves
   {
@@ -689,7 +720,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   #define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
-  //Grass creates new grassesget_agents
+  //Grass creates new grasses
   {
     game g(create_default_tiles(), { agent(agent_type::grass) } );
     assert(g.get_agents().size() == 1);
@@ -727,24 +758,24 @@ void test_agent() //!OCLINT testing functions may be long
     //Cow is fed ...
     assert(g.get_agents()[1].get_stamina() > cow_stamina);
   }
-//Crocodiles eat cows
-{
-  const double cow_health{5.0};
-  game g(
-    create_default_tiles(),
-    {
-      agent(agent_type::cow, 0.0, 0.0, cow_health),
-      agent(agent_type::crocodile  , 0.0, 0.0, 10.0)
-    }
-  );
-  assert(g.get_agents()[0].get_health() == cow_health);
-  double crocodile_stamina = g.get_agents()[1].get_stamina();
-  g.process_events();
-  //Grass is eaten ...
-  assert(g.get_agents()[0].get_health() < cow_health);
-  //Cow is fed ...
-  assert(g.get_agents()[1].get_stamina() > crocodile_stamina);
-}
+  //Crocodiles eat cows
+  {
+    const double cow_health{5.0};
+    game g(
+      create_default_tiles(),
+      {
+        agent(agent_type::cow, 0.0, 0.0, cow_health),
+        agent(agent_type::crocodile  , 0.0, 0.0, 10.0)
+      }
+    );
+    assert(g.get_agents()[0].get_health() == cow_health);
+    double crocodile_stamina = g.get_agents()[1].get_stamina();
+    g.process_events();
+    //Grass is eaten ...
+    assert(g.get_agents()[0].get_health() < cow_health);
+    //Cow is fed ...
+    assert(g.get_agents()[1].get_stamina() > crocodile_stamina);
+  }
   //Fish die when on land
   {
     game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::fish) } );

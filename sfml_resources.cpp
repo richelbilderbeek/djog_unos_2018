@@ -153,6 +153,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_squirrel_texture.loadFromFile("squirrel.png"))
       throw std::runtime_error("Cannot find image file squirrel.png");
   }
+  // venus_fly_trap texture
+  {
+    QFile f(":/nature_zen/resources/venus_fly_trap.png");
+    f.copy("venus_fly_trap.png");
+    if (!m_venus_fly_trap_texture.loadFromFile("venus_fly_trap.png"))
+      throw std::runtime_error("Cannot find image file venus_fly_trap.png");
+  }
   // None texture
   {
     QFile f(":/nature_zen/resources/none_agent.png");
