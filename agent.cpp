@@ -274,7 +274,7 @@ void agent::damage_near_grass(game &g)
 {
   const double max_distance { pythagoras(32.0, 32.0) };
 
-  const double max_damage { 10.0/1000.0 };
+  const double max_damage { 17.5/1000.0 };
 
   std::vector <agent> all_agents{ g.get_agents() };
 
@@ -824,15 +824,15 @@ void test_agent() //!OCLINT testing functions may be long
     double distanceX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
     double distanceY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
     //move the cow 100 times
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 1000; i++){
       g.process_events();
     }
     double cow_aft_posX = g.get_agents()[0].get_x();
     double cow_aft_posY = g.get_agents()[0].get_y();
     double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
     double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-//    std::cout << distanceX << " + " << distance_afterX << std::endl;
-//    std::cout << distanceY << " + " << distance_afterY << std::endl;
+    std::cout << distanceX << " + " << distance_afterX << std::endl;
+    std::cout << distanceY << " + " << distance_afterY << std::endl;
     assert(distanceX > distance_afterX);
     assert(distanceY > distance_afterY);
     assert(g.get_agents()[0].get_x() > 0);
@@ -855,12 +855,16 @@ void test_agent() //!OCLINT testing functions may be long
     const double prev_grass_health2 = g.get_agents()[1].get_health();
     // Check their current health.
 
-    g.process_events();
+    for(int i = 0; i < 20; i++){
+      g.process_events();
+    }
     // Damage time.
 
     const double after_grass_health1 = g.get_agents()[0].get_health();
     const double after_grass_health2 = g.get_agents()[1].get_health();
     // Check their health now.
+
+    std::cout << after_grass_health1 << std::endl;
 
     assert(after_grass_health1 < prev_grass_health1);
     assert(after_grass_health2 < prev_grass_health2);
