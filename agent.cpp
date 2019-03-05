@@ -244,8 +244,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     while(!is_on_tile(g, new_agent) || get_on_tile_type(g, new_agent) == tile_type::water
           || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
           || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t)){
-      f_x = static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX);
-      f_y = static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX);
+      f_x = static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX + 1);
+      f_y = static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX + 1);
       assert(f_x >= 0.0 && f_x < 1.0);
       assert(f_y >= 0.0 && f_y < 1.0);
       new_x = m_x + (((f_x * 2.0) - 1.0) * max_distance);
@@ -714,7 +714,7 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
   }
-  #define FIX_ISSUE_300
+  //#define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
   //Grass creates new grasses
   {
