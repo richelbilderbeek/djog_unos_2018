@@ -422,7 +422,8 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
   //#define FIX_ISSUE_423
   #ifdef FIX_ISSUE_423
   {
-    agent a5(agent_type::venus_fly_trap, 270, 240, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
+    agent a5(agent_type::venus_fly_trap, 270, 240, 50 + std::rand()
+      / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a5, 0, 2);
     agents.push_back(a5);
   }
