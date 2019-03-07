@@ -84,7 +84,7 @@ void agent::eat(const game& g) {
     // NOTE not calculated from the center of the agent
     if (is_in_range(a.get_x(),
                     a.get_y(),
-                    50.0) &&
+                    25.0) &&
         a.get_health() > 0 &&
         std::count(std::begin(food), std::end(food), a.get_type()))
     {
@@ -96,7 +96,7 @@ void agent::eat(const game& g) {
     // NOTE not calculated from the center of the agent
     if (is_in_range(a.get_x(),
                     a.get_y(),
-                    50.0) &&
+                    25.0) &&
         m_health > 0 &&
         std::count(std::begin(a_food), std::end(a_food), m_type))
     {
@@ -151,11 +151,8 @@ void agent::move() //!OCLINT NPath complexity too high
 
 void agent::move(double x, double y)
 {
-    std::cout << "Moving: x=" << x << "y=" << y;
-    std::cout << "Was: x=" << m_x << "y=" << m_y;
     m_x += x;
     m_y += y;
-    std::cout << "Moved: x=" << m_x << "y=" << m_y << std::endl;
 }
 
 void agent::move_to_food(game &g){
