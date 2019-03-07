@@ -49,6 +49,8 @@ public:
   /// agents and tiles for its movement
   void move();
 
+  void move(double x, double y);
+
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
   void eat(const game& g);

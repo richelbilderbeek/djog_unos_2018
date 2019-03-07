@@ -68,6 +68,8 @@ public:
   void set_type(const tile_type t) noexcept;
 
   /// Move the tile by the movement coeficients
+  void move(std::vector<agent>& a);
+
   void move();
 
   /// Get the tile's id
