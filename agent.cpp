@@ -177,8 +177,6 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
   if (m_type == agent_type::grass) damage_near_grass(g);
 
-  if (m_type == agent_type::cactus)
-      std::cout << "CACTIE!" << std::endl;
    //TODO is depth suitable for agent
   if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
     m_stamina -= 0.2;
