@@ -66,7 +66,7 @@ void game::process_events()
   for (auto& tile: m_tiles)
   {
     if(tile.get_dx() != 0 || tile.get_dy() != 0){
-        spawn(agent_type::cow, tile);
+//        spawn(agent_type::cow, tile);
         tile.move(m_agents);
     }
     tile.process_events();
@@ -80,8 +80,8 @@ void game::process_events()
 void game::spawn(agent_type type, tile t)
 {
     agent a1(type);
-    m_agents.push_back(a1);
     move_agent_to_tile(a1, t.get_x()/122, t.get_y()/122);
+    m_agents.push_back(a1);
 //    m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
 
