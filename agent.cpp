@@ -57,8 +57,8 @@ std::vector<agent_type> can_eat(const agent_type type) {
       return {agent_type::cow, agent_type::giraffe};
     case agent_type::giraffe:
       return {agent_type::tree};
-    case agent_type::venus_fly_trap:
-      return {agent_type::spider };
+    //case agent_type::venus_fly_trap:
+    //  return {agent_type::spider };
     default:
       return {};
   }
@@ -70,6 +70,7 @@ bool is_plant(const agent_type type) noexcept
     agent_type::plankton, //Some plankton are also bacteria, archea, protozoa or animals
     agent_type::grass,
     agent_type::tree,
+    agent_type::cactus,
     agent_type::foxgloves,
     agent_type::venus_fly_trap
   };
@@ -141,9 +142,7 @@ void agent::move() //!OCLINT NPath complexity too high
   if (m_health <= 0.0) return;
   if (m_stamina <= 0.0) {
     m_health += (m_stamina - 1) * 0.2;
-    return;
   }
-
   if (!is_plant(m_type)) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
@@ -157,6 +156,10 @@ void agent::move(double x, double y)
 }
 
 void agent::move_to_food(game &g){
+  // Plants don't move to thier food
+  if (is_plant(m_type)) {
+    return;
+  }
   for(agent a: g.get_agents()){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
       if(a.get_type() == can_eat(m_type)[i] && a == nearest_agent(g, a, can_eat(m_type)[i])){
@@ -178,11 +181,11 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move_to_food(g);
 
   if (m_type == agent_type::grass || m_type == agent_type::tree
-      || m_type == agent_type::cow) reproduce_agents(g, m_type);
+      || m_type == agent_type::cow)  reproduce_agents(g, m_type);
 
   if (m_type == agent_type::grass) damage_near_grass(g);
 
-  //TODO is depth suitable for agent
+   //TODO is depth suitable for agent
   if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
     m_stamina -= 0.2;
   }
@@ -216,7 +219,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
   if ((m_type == agent_type::grass && m_health > 100.0) ||
       (m_type == agent_type::tree && m_health > 500.0) ||
-      (m_type == agent_type::cow && m_health > 100.0))
+      (m_type == agent_type::cow && m_health > 100.0) ||
+      (m_type == agent_type::cactus && m_health > 100.0))
   {
     //Random fractions, from 0.0 to 1.0
     const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
@@ -334,6 +338,12 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::venus_fly_trap, 30, 160, 1000);
     move_agent_to_tile(a3, 0, 2);
     agents.push_back(a3);
+    agent a4(agent_type::cactus, 10, 15, 100);
+    move_agent_to_tile(a4, 0, 2);
+    agents.push_back(a4);
+    agent a5(agent_type::cactus, 30, 120, 100);
+    move_agent_to_tile(a5, 0, 2);
+    agents.push_back(a5);
   }
   {
     agent a1(agent_type::crocodile);
@@ -558,6 +568,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(!is_plant(agent_type::snake));
     assert(!is_plant(agent_type::spider));
     assert(!is_plant(agent_type::squirrel));
+    assert( is_plant(agent_type::cactus));
     assert( is_plant(agent_type::tree));
     assert( is_plant(agent_type::venus_fly_trap));
     assert(!is_plant(agent_type::whale));
@@ -620,6 +631,16 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
+    // Venus Fly Trap does not move
+    {
+      game g;
+      const double x{12.34};
+      const double y{56.78};
+      agent a(agent_type::venus_fly_trap, x, y);
+      assert(is_on_tile(g, a));
+      a.move();
+      assert(a.get_x() == x && a.get_y() == y);
+    }
   // Agents have health
   {
     const agent a(agent_type::cow, 0, 0, 10);
