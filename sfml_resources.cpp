@@ -240,7 +240,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     {
       QFile f(":/nature_zen/resources/cactus.png");
       f.copy("cactus.png");
-      if (!m_zen_title.loadFromFile("cactus.png")) {
+      if (!m_cactus_texture.loadFromFile("cactus.png")) {
         throw std::runtime_error("Cannot find image file cactus.png");
       }
     }

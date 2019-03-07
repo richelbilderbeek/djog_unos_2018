@@ -173,11 +173,13 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move_to_food(g);
 
   if (m_type == agent_type::grass || m_type == agent_type::tree
-      || m_type == agent_type::cow) reproduce_agents(g, m_type);
+      || m_type == agent_type::cow)  reproduce_agents(g, m_type);
 
   if (m_type == agent_type::grass) damage_near_grass(g);
 
-  //TODO is depth suitable for agent
+  if (m_type == agent_type::cactus)
+      std::cout << "CACTIE!" << std::endl;
+   //TODO is depth suitable for agent
   if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
     m_stamina -= 0.2;
   }
@@ -211,7 +213,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
   if ((m_type == agent_type::grass && m_health > 100.0) ||
       (m_type == agent_type::tree && m_health > 500.0) ||
-      (m_type == agent_type::cow && m_health > 100.0))
+      (m_type == agent_type::cow && m_health > 100.0) ||
+      (m_type == agent_type::cactus && m_health > 100.0))
   {
     //Random fractions, from 0.0 to 1.0
     const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
@@ -329,6 +332,12 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::venus_fly_trap, 30, 160, 1000);
     move_agent_to_tile(a3, 0, 2);
     agents.push_back(a3);
+    agent a4(agent_type::cactus, 10, 15, 100);
+    move_agent_to_tile(a4, 0, 2);
+    agents.push_back(a4);
+    agent a5(agent_type::cactus, 30, 120, 100);
+    move_agent_to_tile(a5, 0, 2);
+    agents.push_back(a5);
   }
   {
     agent a1(agent_type::crocodile);
@@ -553,6 +562,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(!is_plant(agent_type::snake));
     assert(!is_plant(agent_type::spider));
     assert(!is_plant(agent_type::squirrel));
+    assert( is_plant(agent_type::cactus));
     assert( is_plant(agent_type::tree));
     assert( is_plant(agent_type::venus_fly_trap));
     assert(!is_plant(agent_type::whale));
