@@ -325,6 +325,9 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a2(agent_type::snake, 50, 15);
     move_agent_to_tile(a2, 0, 2);
     agents.push_back(a2);
+    agent a3(agent_type::venus_fly_trap, 30, 160, 1000);
+    move_agent_to_tile(a3, 0, 2);
+    agents.push_back(a3);
   }
   {
     agent a1(agent_type::crocodile);
@@ -419,15 +422,6 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     move_agent_to_tile(a2, 1, 2);
     agents.push_back(a2);
   }
-  //#define FIX_ISSUE_423
-  #ifdef FIX_ISSUE_423
-  {
-    agent a5(agent_type::venus_fly_trap, 270, 240, 50 + std::rand()
-      / (RAND_MAX / (100 - 50 + 1) + 1));
-    move_agent_to_tile(a5, 0, 2);
-    agents.push_back(a5);
-  }
-  #endif // FIX_ISSUE_423
   return agents;
 }
 
