@@ -84,7 +84,7 @@ void agent::eat(const game& g) {
     // NOTE not calculated from the center of the agent
     if (is_in_range(a.get_x(),
                     a.get_y(),
-                    50.0) &&
+                    25.0) &&
         a.get_health() > 0 &&
         std::count(std::begin(food), std::end(food), a.get_type()))
     {
@@ -96,7 +96,7 @@ void agent::eat(const game& g) {
     // NOTE not calculated from the center of the agent
     if (is_in_range(a.get_x(),
                     a.get_y(),
-                    50.0) &&
+                    25.0) &&
         m_health > 0 &&
         std::count(std::begin(a_food), std::end(a_food), m_type))
     {
