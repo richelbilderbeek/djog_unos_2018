@@ -24,7 +24,8 @@ enum class agent_type {
     lion,
     giraffe,
     venus_fly_trap,
-    foxgloves
+    foxgloves,
+    cactus
 };
 
 /// Get all the agent types in a std::vector

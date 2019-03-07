@@ -70,6 +70,7 @@ bool is_plant(const agent_type type) noexcept
     agent_type::plankton, //Some plankton are also bacteria, archea, protozoa or animals
     agent_type::grass,
     agent_type::tree,
+    agent_type::cactus,
     agent_type::foxgloves,
     agent_type::venus_fly_trap
   };

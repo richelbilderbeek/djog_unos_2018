@@ -1,4 +1,4 @@
-#include "sfml_resources.h"
+﻿#include "sfml_resources.h"
 #include "agent_type.h"
 #include "agent.h"
 #include "tile_type.h"
@@ -237,6 +237,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file zen_title.png");
     }
   }
+    {
+      QFile f(":/nature_zen/resources/cactus.png");
+      f.copy("cactus.png");
+      if (!m_zen_title.loadFromFile("cactus.png")) {
+        throw std::runtime_error("Cannot find image file cactus.png");
+      }
+    }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -283,6 +290,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_foxgloves_texture;
     case agent_type::venus_fly_trap:
       return m_venus_fly_trap_texture;
+  case agent_type::cactus:
+    return m_cactus_texture;
     default:
       return m_none_texture;
   }
