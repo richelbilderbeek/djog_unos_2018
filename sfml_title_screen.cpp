@@ -83,7 +83,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
           break;
         case sf::Event::MouseButtonPressed:
           if (start_button.is_clicked(event, m_window))
-            sfml_window_manager::get().set_state(game_state::playing);
+            sfml_window_manager::get().set_state(game_state::menuscreen);
           break;
         default:
           sfml_window_manager::get().process();
