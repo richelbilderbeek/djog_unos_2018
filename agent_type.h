@@ -10,6 +10,7 @@ enum class agent_type {
     plankton,
     cow,
     grass,
+    sun_flower,
     fish,
     crocodile,
     squirrel,

@@ -75,6 +75,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_grass_texture.loadFromFile("grass.png"))
       throw std::runtime_error("Cannot find image file 'grass.png'");
   }
+  // grass texture
+  {
+    QFile f(":/nature_zen/resources/sun flower.png");
+    f.copy("sunflower.png");
+    if (!m_sun_flower_texture.loadFromFile("sun flower.png"))
+      throw std::runtime_error("Cannot find image file 'sun flower.png'");
+  }
   // spider texture
   {
     QFile f(":/nature_zen/resources/spider.png");
@@ -240,8 +247,10 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_worm_texture;
     case agent_type::cow:
       return m_cow_texture;
-    case agent_type::crocodile:
-      return m_crocodile_texture;
+  case agent_type::crocodile:
+    return m_crocodile_texture;
+  case agent_type::sun_flower:
+    return m_sun_flower_texture;
     case agent_type::fish:
       return m_fish_texture;
     case agent_type::whale:

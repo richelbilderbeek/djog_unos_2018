@@ -64,6 +64,8 @@ private:
 
   sf::Texture m_grass_texture;
 
+  sf::Texture m_sun_flower_texture;
+
   sf::Texture m_whale_texture;
 
   sf::Texture m_goat_texture;

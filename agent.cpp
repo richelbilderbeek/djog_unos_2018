@@ -303,6 +303,9 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::grass, 70, 40, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a3, 0, 0);
     agents.push_back(a3);
+    agent a4(agent_type::sun_flower, 50, 40);
+    move_agent_to_tile(a4, 0, 0);
+    agents.push_back(a3);
   }
   {
     agent a1(agent_type::cow);
@@ -583,6 +586,16 @@ void test_agent() //!OCLINT testing functions may be long
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::grass, x, y);
+    assert(is_on_tile(g, a));
+    a.move(g);
+    assert(a.get_x() == x && a.get_y() == y);
+  }
+  // sun_flower does not move
+  {
+    game g;
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::sun_flower, x, y);
     assert(is_on_tile(g, a));
     a.move(g);
     assert(a.get_x() == x && a.get_y() == y);

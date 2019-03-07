@@ -32,7 +32,7 @@ sfml_game::sfml_game(
   setup_tickcounter_text();
 
   // Set up framerate
-  m_window.setFramerateLimit(60);
+  m_window.setFramerateLimit(120);
 }
 
 
