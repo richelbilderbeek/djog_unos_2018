@@ -158,18 +158,25 @@ void game::kill_agents() {
 }
 
 void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
-  for (unsigned i = 0; i < m_tiles.size(); ++i) {
+    std::vector<tile> n_tiles;
+    for (unsigned i = 0; i < m_tiles.size(); ++i) {
     if (contains(m_tiles.at(i),
        sf::Mouse::getPosition(window).x + camera.x,
        sf::Mouse::getPosition(window).y + camera.y))
     {
-       if(m_tiles[i].get_id() == m_selected[0]){
-          m_selected.pop_back();
-       }
-       m_tiles[i] = m_tiles.back();
-       m_tiles.pop_back();
+        try {
+            if(m_tiles[i].get_id() == m_selected.at(0)){
+               m_selected.pop_back();
+            }
+        } catch (std::out_of_range) {
+            std::cout << "SEGMENTATION ERROR :)";
+        }
+    } else {
+
+      n_tiles.push_back(m_tiles[i]);
     }
   }
+  m_tiles = n_tiles;
 }
 
 int game::get_n_ticks() const{
@@ -388,6 +395,40 @@ void test_game() //!OCLINT a testing function may be long
     assert(x_before != x_after);
     assert(y_before != y_after);
   }
+
+
+  //#define FIX_ISSUE_415
+  #ifdef FIX_ISSUE_415
+  {
+    // Create a game with two grassland blocks, one with a cow,
+    // one with a grass agent
+    //
+    //     0             x               40
+    //  +--+-------------|----------------+------
+    //  |
+    // 0+  +=============================+
+    //  |  |grassland witC cow agent     |
+    //10+  +=============================+
+    //  |  | grassland wiGh grass agent  |
+    //20+  +=============================+
+    // The cow will move towards the grass and should cross the chasm
+    // between the tiles
+    game g(
+      { //   x     y    z    w     h
+        tile(0.0,  0.0, 0.0, 40.0, 10.0),
+        tile(0.0, 10.0, 0.0, 40.0, 10.0)
+      },
+      {
+        agent(agent_type::cow  , 20.0,  5.0),
+        agent(agent_type::grass, 20.0, 15.0),
+      }
+    );
+    //Will freeze
+    while (g.get_agents()[0].get_y() < 11.0) {
+      g.process_events();
+    }
+  }
+  #endif //
   //Agents must follow the movement of the tile they are on
   {
     //Put a cow on a grass tile, then move tile down and rightwards

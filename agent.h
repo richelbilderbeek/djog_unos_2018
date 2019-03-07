@@ -47,7 +47,7 @@ public:
 
   /// Moves an agent. It can read the game, containing
   /// agents and tiles for its movement
-  void move(game& g);
+  void move();
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
@@ -56,6 +56,8 @@ public:
   bool is_in_range(double x, double y, double range);
 
   agent nearest_agent(game& g, agent& a, agent_type type);
+
+  void move_to_food(game& g);
 
 private:
   /// The type the tile
@@ -96,7 +98,10 @@ void move_agent_to_tile(agent &a, double tile_x, double tile_y);
 
 bool will_drown(agent_type a);
 
-bool is_aquatic(agent_type a);
+/// Determine if the agent_type is a plant
+/// @return true if the agent_type is a plant
+/// @note plankton is counted as plants, but do include small animals as well
+bool is_plant(const agent_type type) noexcept;
 
 int get_min_depth(agent_type a);
 

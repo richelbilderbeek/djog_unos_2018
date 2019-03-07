@@ -58,11 +58,12 @@ script:
   - ./djog_unos_2018 --version
   # cppcheck
   - cppcheck --error-exitcode=1 . 
-  # Get code coverage
-  - ./get_code_cov
-  - codecov
   # Call OCLint
   - ./do_oclint
+  # Get code coverage
+  - cp debug/*.* .
+  - ./get_code_cov
+  - codecov
   # SLOCcount
   #   remove OCLint and .git, otherwise it will be counted as well
   - rm -rf oclint-0.10.3 oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz oclint.log
