@@ -152,11 +152,8 @@ void agent::move() //!OCLINT NPath complexity too high
 
 void agent::move(double x, double y)
 {
-    std::cout << "Moving: x=" << x << "y=" << y;
-    std::cout << "Was: x=" << m_x << "y=" << m_y;
     m_x += x;
     m_y += y;
-    std::cout << "Moved: x=" << m_x << "y=" << m_y << std::endl;
 }
 
 void agent::move_to_food(game &g){
