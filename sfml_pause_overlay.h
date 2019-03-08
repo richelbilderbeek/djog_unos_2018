@@ -34,6 +34,7 @@ private:
     sfml_button m_button1;
     sfml_button m_button2;
 
+    sf::RectangleShape m_bg_rect;
 };
 
 #endif // SFML_PAUSE_OVERLAY_H
