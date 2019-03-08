@@ -141,6 +141,18 @@ void tile::set_type(const tile_type t) noexcept
   m_type = t;
 }
 
+void tile::move(std::vector<agent>& a) {
+  m_x += m_dx;
+  m_y += m_dy;
+  m_z += m_dz;
+
+  for (auto& agent: a) {
+      if(is_on_specific_tile(agent, *this)){
+        agent.move(m_dx, m_dy);
+      }
+  }
+}
+
 void tile::move() {
   m_x += m_dx;
   m_y += m_dy;

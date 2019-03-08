@@ -1,4 +1,4 @@
-#include "sfml_resources.h"
+﻿#include "sfml_resources.h"
 #include "agent_type.h"
 #include "agent.h"
 #include "tile_type.h"
@@ -42,6 +42,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     f.copy("plankton.png");
     if (!m_plankton_texture.loadFromFile("plankton.png")) {
       throw std::runtime_error("Cannot find image file 'plankton.png'");
+    }
+  }
+  // foxgloves texture
+  {
+    QFile f(":/nature_zen/resources/foxgloves.png");
+    f.copy("foxgloves.png");
+    if (!m_foxgloves_texture.loadFromFile("foxgloves.png")) {
+      throw std::runtime_error("Cannot find image file 'foxgloves.png'");
     }
   }
   // worm texture
@@ -153,6 +161,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_squirrel_texture.loadFromFile("squirrel.png"))
       throw std::runtime_error("Cannot find image file squirrel.png");
   }
+  // venus_fly_trap texture
+  {
+    QFile f(":/nature_zen/resources/venus_fly_trap.png");
+    f.copy("venus_fly_trap.png");
+    if (!m_venus_fly_trap_texture.loadFromFile("venus_fly_trap.png"))
+      throw std::runtime_error("Cannot find image file venus_fly_trap.png");
+  }
   // None texture
   {
     QFile f(":/nature_zen/resources/none_agent.png");
@@ -222,6 +237,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file zen_title.png");
     }
   }
+    {
+      QFile f(":/nature_zen/resources/cactus.png");
+      f.copy("cactus.png");
+      if (!m_cactus_texture.loadFromFile("cactus.png")) {
+        throw std::runtime_error("Cannot find image file cactus.png");
+      }
+    }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -264,6 +286,12 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
         return m_lion_texture;
     case agent_type::giraffe:
       return m_giraffe_texture;
+    case agent_type::foxgloves:
+      return m_foxgloves_texture;
+    case agent_type::venus_fly_trap:
+      return m_venus_fly_trap_texture;
+  case agent_type::cactus:
+    return m_cactus_texture;
     default:
       return m_none_texture;
   }
