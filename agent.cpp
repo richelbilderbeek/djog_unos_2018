@@ -71,7 +71,8 @@ bool is_plant(const agent_type type) noexcept {
          type == agent_type::tree ||
          type == agent_type::cactus ||
          type == agent_type::foxgloves ||
-         type == agent_type::venus_fly_trap;
+         type == agent_type::venus_fly_trap ||
+         type == agent_type::sunflower;
 }
 
 void agent::eat(const game& g) {
