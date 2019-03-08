@@ -42,6 +42,10 @@ void sfml_game::close(game_state s) {
   if (s != game_state::paused) {
     m_camera.reset();
   }
+  m_camera.m_movecam_r = false;
+  m_camera.m_movecam_l = false;
+  m_camera.m_movecam_u = false;
+  m_camera.m_movecam_d = false;
   sfml_window_manager::get().set_state(s);
 }
 
