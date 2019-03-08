@@ -180,7 +180,7 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
                m_selected.pop_back();
             }
         } catch (std::out_of_range) {
-            std::cout << "SEGMENTATION ERROR :)";
+            std::cout << "segmentation fault\n";
         }
     } else {
 
