@@ -60,7 +60,7 @@ std::vector<agent_type> can_eat(const agent_type type) {
     //case agent_type::venus_fly_trap:
     //  return {agent_type::spider };
     default:
-      return {};
+      return {agent_type::none};
   }
 }
 
@@ -157,18 +157,30 @@ void agent::move_to_food(game &g){
   if (is_plant(m_type)) {
     return;
   }
-  for(agent a: g.get_agents()){
+  agent nearest_f(agent_type::none, NAN, NAN);
+  for(agent a : g.get_agents()){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
-      if(a.get_type() == can_eat(m_type)[i] && a == nearest_agent(g, a, can_eat(m_type)[i])){
-        double x = -(0.0005 * (m_x - a.get_x()));
-        x = std::max(-0.05, std::min(x, 0.05));
-        m_x += x;
-        double y = -(0.0005 * (m_y - a.get_y()));
-        y = std::max(-0.05, std::min(y, 0.05));
-        m_y += y;
-        return;
+      if(a.get_type() == can_eat(m_type)[i]
+         && a == nearest_agent(g, a, can_eat(m_type)[i])){
+        if(!std::isnan(nearest_f.get_x()) &&
+           (fabs(m_x - nearest_f.get_x()) > fabs(m_x - a.get_x())
+           || fabs(m_y  - nearest_f.get_x()) > fabs(m_x - a.get_x()))){
+          nearest_f = a;
+        }
+        else{
+          nearest_f = a;
+        }
       }
     }
+  }
+  if(!std::isnan(nearest_f.get_x())){
+    double x = -(0.001 * (m_x - nearest_f.get_x()));
+    x = std::max(-0.05, std::min(x, 0.05));
+    m_x += x;
+    double y = -(0.0005 * (m_y - nearest_f.get_y()));
+    y = std::max(-0.05, std::min(y, 0.05));
+    m_y += y;
+    return;
   }
 }
 
