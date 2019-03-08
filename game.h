@@ -47,6 +47,8 @@ public:
 
   int get_agent_count(agent_type type);
 
+  void spawn(agent_type type, tile t);
+
 private:
 
   /// The selected tile
