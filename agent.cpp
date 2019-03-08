@@ -324,6 +324,8 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a5(agent_type::foxgloves, 60, 70);
     move_agent_to_tile(a4, 0, 0);
     agents.push_back(a4);
+    move_agent_to_tile(a5, 0, 0);
+    agents.push_back(a5);
   }
   {
     agent a1(agent_type::cow);
