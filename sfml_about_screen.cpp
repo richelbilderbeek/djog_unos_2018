@@ -37,6 +37,7 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   m_text.setColor(sf::Color::Green);
   #endif
   m_text.setString(get_team_name_string());
+  m_y = m_window.getSize().y;
 }
 
 std::string get_team_name_string(){
@@ -53,27 +54,23 @@ std::vector<std::string> get_team_names() noexcept
 {
   return
   {
-    "Senior Developper",
+    "Senior Developer",
     "Richel Bilderbeek",
-    "",
-    "Medior Developpers",
+    "\nMedior Developers",
+    "Joshua van Waardenberg",
     "Rafayel Gardishyan",
     "Rob Kruger",
-    "Joshua van Waardenberg",
-    "",
-    "Junior Developpers",
-    "Jan Derk Kotlarski",
-    "Same Drenth",
-    "Jolien Gay",
+    "\nJunior Developers",
     "Enzo de Haas",
-    "Anne Hinrichs",
-    "Rijk van Putten",
-    "Mart Prenger",
     "Isis Reinders",
+    "Jan Derk Kotlarski",
+    "Jolien Gay",
+    "Mart Prenger",
+    "Rijk van Putten",
+    "Same Drenth",
     "Tom Stuivenga",
-    "",
-    "Former Team Members",
-    "???"
+    "\nFormer Team Members",
+    "Anne Hinrichs",
   };
 }
 
@@ -99,12 +96,12 @@ void sfml_about_screen::prepare_assets()
 {
     m_window.clear(sf::Color::Black); // Clear the window with black color
 
-    m_header.setPosition(25, 25);
+    m_header.setPosition(25 + m_x, 25 + m_y);
 
     m_header.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_header.getPosition())));
 
-    m_text.setPosition(25, 175);
+    m_text.setPosition(25 + m_x, 175 + m_y);
 
     m_text.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_text.getPosition())));
@@ -114,23 +111,20 @@ void sfml_about_screen::prepare_assets()
 
     float zenbar_y = 100;
 
-    m_zen_bar.setPosition(sf::Vector2f(5, zenbar_y));
+    m_zen_bar.setPosition(sf::Vector2f(5 + m_x, zenbar_y + m_y));
     m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
 
     m_zen_icon.setPosition(sf::Vector2f(
                             5 + (m_zen_bar.getTextureRect().width/2.0f) -
-                               (m_zen_icon.getTextureRect().width/2.0f),
-                            zenbar_y - 10));
+                               (m_zen_icon.getTextureRect().width/2.0f) + m_x,
+                            zenbar_y - 10 + m_y));
     m_zen_icon.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_icon.getPosition())));
 
 
 }
 
-void sfml_about_screen::exec()
+void sfml_about_screen::display()
 {
-  if (m_close_at >= 0) close(game_state::gameover);
-  while (active(game_state::aboutscreen))
-  {
     sf::Event event;
     while (m_window.pollEvent(event))
     {
@@ -158,6 +152,22 @@ void sfml_about_screen::exec()
 
     prepare_assets();
     display_assets();
+}
+
+void sfml_about_screen::update()
+{
+  m_x = m_window.getSize().x / 2 - 200;
+  m_y += deltatime.asSeconds() * -(30);
+  deltatime = deltaclock.restart();
+}
+
+void sfml_about_screen::exec()
+{
+  if (m_close_at >= 0) close(game_state::gameover);
+  while (active(game_state::aboutscreen))
+  {
+    update();
+    display();
   }
     
 }
