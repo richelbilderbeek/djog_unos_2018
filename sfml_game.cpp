@@ -31,9 +31,6 @@ sfml_game::sfml_game(
   start_music();
   setup_display_score();
   setup_tickcounter_text();
-
-  // Set up framerate
-  m_window.setFramerateLimit(60);
 }
 
 sfml_game::~sfml_game()
