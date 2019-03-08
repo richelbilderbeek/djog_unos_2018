@@ -10,7 +10,7 @@ myqmake="i686-w64-mingw32.static-qmake-qt5"
 echo "Displaying cross compiler version (if it is not found, set the path to YourFolder/mxe/usr/bin"
 $myqmake -v
 
-for myprofile in beer_sim.pro
+for myprofile in djog_unos_2018.pro
 do
   echo "========================================="
   echo "Working on .pro file: "$myprofile

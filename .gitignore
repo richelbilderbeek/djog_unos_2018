@@ -55,3 +55,4 @@ qrc_djog_unos_2018.cpp
 *.gcda
 *.gcdo
 *.gcno
+djog_unos_2018_plugin_import.cpp
