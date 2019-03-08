@@ -15,7 +15,8 @@
     $$PWD/sfml_button.cpp \
     $$PWD/tile_id.cpp \
     $$PWD/sfml_window_manager.cpp \
-    $$PWD/sfml_gameover_screen.cpp
+    $$PWD/sfml_gameover_screen.cpp \
+    $$PWD/sfml_pause_overlay.cpp
 
 HEADERS += \
     $$PWD/agent.h \
@@ -34,7 +35,8 @@ HEADERS += \
     $$PWD/sfml_button.h \
     $$PWD/tile_id.h \
     $$PWD/sfml_window_manager.h \
-    $$PWD/sfml_gameover_screen.h
+    $$PWD/sfml_gameover_screen.h \
+    $$PWD/sfml_pause_overlay.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc
