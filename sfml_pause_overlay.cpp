@@ -55,7 +55,7 @@ void sfml_pause_overlay::exec()
         if (m_button1.is_clicked(event, m_window))
           close(game_state::playing);
         if (m_button2.is_clicked(event, m_window))
-          close();
+          close(game_state::menuscreen);
         break;
       default:
         sfml_window_manager::get().process();
@@ -64,6 +64,7 @@ void sfml_pause_overlay::exec()
   }
   set_positions();
   draw_objects();
+  m_window.display();
 }
 
 void sfml_pause_overlay::draw_objects() {

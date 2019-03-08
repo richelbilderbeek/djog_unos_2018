@@ -20,7 +20,7 @@ public:
 
   game_state get_state() const noexcept { return m_state; }
 
-  void set_state(game_state s) { m_state = s; }
+  void set_state(game_state s);
 
   void process();
 
@@ -37,6 +37,8 @@ private:
   sf::Vector2i m_window_pos;
 
   game_state m_state;
+
+  sf::View m_old_view;
 
 };
 

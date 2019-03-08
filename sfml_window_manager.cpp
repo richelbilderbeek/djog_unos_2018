@@ -56,6 +56,12 @@ void sfml_window_manager::process() {
   m_window_pos = m_window.getPosition();
 }
 
+void sfml_window_manager::set_state(game_state s) {
+  m_state = s;
+  m_old_view = m_window.getDefaultView(); //TODO this doesn't work right
+  sfml_window_manager::get().get_window().setView(m_old_view);
+}
+
 int get_video_mode() {
 #ifndef NDEBUG
   return sf::Style::Default;

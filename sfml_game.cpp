@@ -39,9 +39,9 @@ sfml_game::~sfml_game()
 }
 
 void sfml_game::close(game_state s) {
-  m_camera.reset();
-  sf::View old_view = sfml_window_manager::get().get_window().getDefaultView();
-  sfml_window_manager::get().get_window().setView(old_view);
+  if (s != game_state::paused) {
+    m_camera.reset();
+  }
   sfml_window_manager::get().set_state(s);
 }
 
@@ -115,7 +115,8 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_zen_ind.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_ind.getPosition())));
     m_window.draw(m_zen_ind);
   }
-  m_window.display(); // Put everything on the screen
+  if (active(game_state::playing))
+    m_window.display(); // Put everything on the screen
 }
 
 void sfml_game::display_tile(const tile &t){
@@ -163,12 +164,13 @@ void sfml_game::exec()
   while (active(game_state::playing) || active(game_state::paused))
   {
     if (active(game_state::paused)) {
+      display();
       m_pause_screen.exec();
     } else {
       process_input();
       process_events();
+      display();
     }
-    display();
   }
 }
 
@@ -263,16 +265,13 @@ void sfml_game::process_event(const sf::Event& event)
       close();
       break;
 
+    case sf::Event::KeyReleased:
     case sf::Event::KeyPressed:
       process_keyboard_input(event);
       break;
 
     case sf::Event::MouseButtonPressed:
       process_mouse_input(event);
-      break;
-
-    case sf::Event::KeyReleased:
-      process_keyboard_input(event);
       break;
 
     case sf::Event::Resized:
