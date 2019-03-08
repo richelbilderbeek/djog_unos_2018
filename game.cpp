@@ -69,6 +69,7 @@ void game::process_events()
 //        spawn(agent_type::cow, tile);
         tile.move(m_agents);
     }
+
     tile.process_events();
   }
 
