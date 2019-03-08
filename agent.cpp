@@ -177,20 +177,40 @@ void agent::move_to_food(game &g){
     }
   }
   if(!std::isnan(nearest_f.get_x())){
-    double x = -(0.001 * (m_x - nearest_f.get_x()));
+    double x = -(0.0005 * (m_x - nearest_f.get_x()));
     x = std::max(-0.05, std::min(x, 0.05));
     m_x += x;
     double y = -(0.0005 * (m_y - nearest_f.get_y()));
     y = std::max(-0.05, std::min(y, 0.05));
     m_y += y;
-    return;
   }
+}
+
+void agent::attract_to_agent(game &g, agent_type type){
+  agent near_a(agent_type::none, INFINITY, INFINITY);
+  for(agent a : g.get_agents()){
+    if(a.get_type() == type){
+      if(fabs(m_x - a.get_x()) < fabs(m_x - near_a.get_x()) ||
+         fabs(m_y - a.get_y()) < m_y - near_a.get_y()){
+        near_a = a;
+      }
+    }
+  }
+  double x = -(0.0005 * (m_x - near_a.get_x()));
+  x = std::max(-0.05, std::min(x, 0.05));
+  m_x += x;
+  double y = -(0.0005 * (m_y - near_a.get_y()));
+  y = std::max(-0.05, std::min(y, 0.05));
+  m_y += y;
+  return;
 }
 
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move();
 
   move_to_food(g);
+
+  if(m_type == agent_type::spider) attract_to_agent(g, agent_type::venus_fly_trap);
 
   if (m_type == agent_type::grass || m_type == agent_type::tree
       || m_type == agent_type::cow)  reproduce_agents(g, m_type);
