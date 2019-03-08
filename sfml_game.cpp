@@ -161,6 +161,10 @@ void sfml_game::set_tile_sprite(const tile &t, sf::Sprite &sprite) {
 
 void sfml_game::exec()
 {
+  sf::View view = m_window.getDefaultView();
+  view.setSize(static_cast<float>(m_window.getSize().x),
+               static_cast<float>(m_window.getSize().y));
+  m_window.setView(view);
   while (active(game_state::playing) || active(game_state::paused))
   {
     if (active(game_state::paused)) {

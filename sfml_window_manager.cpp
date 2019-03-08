@@ -58,7 +58,9 @@ void sfml_window_manager::process() {
 
 void sfml_window_manager::set_state(game_state s) {
   m_state = s;
-  m_old_view = m_window.getDefaultView(); //TODO this doesn't work right
+  sf::Vector2f size = m_window.getView().getSize();
+  m_old_view = m_window.getDefaultView();
+  m_old_view.setSize(size);
   sfml_window_manager::get().get_window().setView(m_old_view);
 }
 
