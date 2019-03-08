@@ -7,7 +7,8 @@ enum class game_state
     menuscreen,
     aboutscreen,
     playing,
-    gameover
+    gameover,
+    paused
 };
 
 #endif // GAME_STATE_H
