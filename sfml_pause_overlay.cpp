@@ -27,6 +27,8 @@ sfml_pause_overlay::sfml_pause_overlay()
   m_header.setFillColor(sf::Color(51, 51, 51));
   m_header.setOutlineColor(sf::Color(41,180,116));
   m_header.setOutlineThickness(3);
+
+  m_bg_rect.setFillColor(sf::Color(80, 140, 80, 200));
   #else
   //Only relevant for Travis
   m_header.setColor(sf::Color::Green);
@@ -68,6 +70,7 @@ void sfml_pause_overlay::exec()
 }
 
 void sfml_pause_overlay::draw_objects() {
+  m_window.draw(m_bg_rect);
   m_window.draw(m_header);
   m_window.draw(m_button1.get_shape());
   m_window.draw(m_button1.get_text());
@@ -94,6 +97,9 @@ void sfml_pause_overlay::set_positions() {
                                                   (m_window.getSize().x / 2),
                                                   (m_window.getSize().y/568)*330)));
   m_button2.set_pos(b2_pos.x, b2_pos.y);
+
+  m_bg_rect.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
+  m_bg_rect.setSize(m_window.getView().getSize());
 }
 
 void sfml_pause_overlay::close(game_state s) {
