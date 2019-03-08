@@ -53,21 +53,27 @@ std::vector<std::string> get_team_names() noexcept
 {
   return
   {
-    "Richel Bilderbeek -> "
-    "Senior developer (Project Leader / Software Architect)",
-    "Rafayel Gardishyan -> Medior developer (Software Architect)",
-    "Joshua van Waardenberg -> "
-    "Medior developer (Lead Game Design & Developement / Debugging)",
-    "Rob Kruger -> Medior developer",
-    "Same Drenth -> Junior developer (Lead graphics)"
-    "Enzo de Haas -> Junior developer",
-    "Rijk van Putten -> Junior developer",
-    "Mart Prenger -> Junior developer (Lead testing)",
-    "Isis Reinders -> Junior developer",
-    "Jan Derk Kotlarski -> Junior developer",
-    "Anne Hinrichs -> Junior developer",
-    "Jolien Gay -> Junior developer",
-    "Tom Stuivenga -> Junior developer"
+    "Senior Developper",
+    "Richel Bilderbeek",
+    "",
+    "Medior Developpers",
+    "Rafayel Gardishyan",
+    "Rob Kruger",
+    "Joshua van Waardenberg",
+    "",
+    "Junior Developpers",
+    "Jan Derk Kotlarski",
+    "Same Drenth",
+    "Jolien Gay",
+    "Enzo de Haas",
+    "Anne Hinrichs",
+    "Rijk van Putten",
+    "Mart Prenger",
+    "Isis Reinders",
+    "Tom Stuivenga",
+    "",
+    "Former Team Members",
+    "???"
   };
 }
 

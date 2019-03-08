@@ -37,8 +37,8 @@ CONFIG(debug, debug|release) {
   # GNU/Linux
   unix:!macx {
     # gcov
-    GCC: QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
-    GCC: LIBS += -lgcov
+    QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+    LIBS += -lgcov
 
     # helgrind, for helgrind and memcheck
     QMAKE_LFLAGS += -pthread -Wl,--no-as-needed

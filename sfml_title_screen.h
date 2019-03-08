@@ -42,8 +42,6 @@ private:
     sf::Sprite m_zen_bar;
     sf::Text copyright_text;
 
-    sfml_button start_button;
-
     double i = 0;
     bool b = true;
 

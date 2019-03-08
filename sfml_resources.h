@@ -86,9 +86,15 @@ private:
 
   sf::Texture m_snake_texture;
 
+  sf::Texture m_foxgloves_texture;
+
   sf::Texture m_background_image;
 
   sf::Texture m_bird_texture;
+
+  sf::Texture m_cactus_texture;
+
+  sf::Texture m_venus_fly_trap_texture;
 
   sf::Texture m_zen_ind_texture;
 

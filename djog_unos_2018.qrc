@@ -31,5 +31,8 @@
         <file>resources/zen_title.png</file>
         <file>resources/squirrel.png</file>
         <file>resources/sunflower.png</file>
+        <file>resources/venus_fly_trap.png</file>
+        <file>resources/foxgloves.png</file>
+        <file>resources/cactus.png</file>
     </qresource>
 </RCC>

@@ -14,6 +14,7 @@ sfml_window_manager::sfml_window_manager()
   m_window.setPosition(sf::Vector2i(100, 50));
   m_screen_center = sf::Vector2i(m_window.getSize().x / 2,
                                  m_window.getSize().y / 2);
+  m_window.setFramerateLimit(300);
 }
 #else
 sfml_window_manager::sfml_window_manager()
