@@ -57,6 +57,7 @@ std::vector<std::string> get_team_names() noexcept
     "Senior Developer",
     "Richel Bilderbeek",
     "\nMedior Developers",
+    "Anton Hensen",
     "Joshua van Waardenberg",
     "Rafayel Gardishyan",
     "Rob Kruger",
@@ -156,7 +157,7 @@ void sfml_about_screen::display()
 
 void sfml_about_screen::update()
 {
-  m_x = m_window.getSize().x / 2 - 200;
+  m_x = m_window.getSize().x / 2 - 220;
   m_y += deltatime.asSeconds() * -(30);
   deltatime = deltaclock.restart();
 }
