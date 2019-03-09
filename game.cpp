@@ -70,7 +70,7 @@ void game::process_events()
         tile.move(m_agents);
     }
 
-    tile.process_events();
+    tile.process_events(*this);
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -275,7 +275,7 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
       t.set_dy(tile_speed);
       return;
     case 4:
-      t.set_dx(-tile_speed);      
+      t.set_dx(-tile_speed);
       return;
     default:
       return;
@@ -380,7 +380,7 @@ void test_game() //!OCLINT a testing function may be long
   //When an agent dies, score must decrease
   //Depends on #285
   {
-    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    game g({tile(0, 0, 0, 100, 100, 0, tile_type::grassland)}, { agent(agent_type::cow) } );
     assert(!g.get_agents().empty());
     double prev_score = g.get_score();
     // Wait until cow starves

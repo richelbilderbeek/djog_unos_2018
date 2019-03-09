@@ -121,9 +121,46 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
     && lhs.get_y() == rhs.get_y();
 }
 
-void tile::process_events()
+void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 {
+  if(g.get_n_ticks() % ticks == 0){
+    ticks = std::rand() % ((1800 - 1400) + 1) + 1400;
+    if(m_type == tile_type::mountains){
+      spawn(g, agent_type::foxgloves);
+    }
+    if(m_type == tile_type::water){
+      spawn(g, agent_type::plankton);
+    }
+    if(m_type == tile_type::grassland){
+      spawn(g, agent_type::grass);
+    }
+  }
+}
 
+void tile::spawn(game& g, agent_type type){ //!OCLINT high cyclomatic complexity
+  const double max_distance_x{m_width};
+  const double max_distance_y{m_height - 40};
+  double f_x{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+  double f_y{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+  assert(f_x >= 0.0 && f_x < 1.0);
+  assert(f_y >= 0.0 && f_y < 1.0);
+  double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance_x)};
+  double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance_y)};
+  agent new_agent(type, new_x, new_y);
+  tile t = *this;
+  while(!is_on_tile(g, new_agent)
+        || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
+        || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t)){
+    f_x = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
+    f_y = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
+    assert(f_x >= 0.0 && f_x < 1.0);
+    assert(f_y >= 0.0 && f_y < 1.0);
+    new_x = m_x + (((f_x * 2.0) - 1.0) * max_distance_x);
+    new_y = m_y + (((f_y * 2.0) - 1.0) * max_distance_y);
+    new_agent.set_x(new_x);
+    new_agent.set_y(new_y);
+  }
+  g.add_agents( { new_agent } );
 }
 
 void tile::set_dx(double dx) {

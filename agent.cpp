@@ -154,31 +154,29 @@ void agent::move(double x, double y)
 }
 
 void agent::move_to_food(game &g){
-  // Plants don't move to thier food
+  // Plants don't move to their food
   if (is_plant(m_type)) {
     return;
   }
-  agent nearest_f(agent_type::none, NAN, NAN);
+  agent nearest_f(agent_type::none, INFINITY, INFINITY);
   for(agent a : g.get_agents()){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
-      if(a.get_type() == can_eat(m_type)[i]
-         && a == nearest_agent(g, a, can_eat(m_type)[i])){
-        if(!std::isnan(nearest_f.get_x()) &&
-           (fabs(m_x - nearest_f.get_x()) > fabs(m_x - a.get_x())
-           || fabs(m_y  - nearest_f.get_x()) > fabs(m_x - a.get_x()))){
-          nearest_f = a;
-        }
-        else{
+      if(a.get_type() == can_eat(m_type)[i]){
+        double distance_x = fabs(m_x - a.get_x());
+        double distance_y = fabs(m_y - a.get_y());
+        if(distance_x > 250 || distance_y > 250) return;
+        if(distance_x < fabs(m_x - nearest_f.get_x())
+           || distance_y < fabs(m_y - nearest_f.get_y())){
           nearest_f = a;
         }
       }
     }
   }
-  if(!std::isnan(nearest_f.get_x())){
-    double x = -(0.0005 * (m_x - nearest_f.get_x()));
+  if(!std::isinf(nearest_f.get_x())){
+    double x = -(0.01 * (m_x - nearest_f.get_x()));
     x = std::max(-0.05, std::min(x, 0.05));
     m_x += x;
-    double y = -(0.0005 * (m_y - nearest_f.get_y()));
+    double y = -(0.01 * (m_y - nearest_f.get_y()));
     y = std::max(-0.05, std::min(y, 0.05));
     m_y += y;
   }
@@ -189,17 +187,21 @@ void agent::attract_to_agent(game &g, agent_type type){
   for(agent a : g.get_agents()){
     if(a.get_type() == type &&
       (fabs(m_x - a.get_x()) < fabs(m_x - near_a.get_x()) ||
-      fabs(m_y - a.get_y()) < fabs(m_y - near_a.get_y()))){
+      fabs(m_y - a.get_y()) < fabs(m_y - near_a.get_y()))
+      && fabs(m_x - a.get_x()) < 250
+      && fabs(m_y - a.get_y()) < 250){
         near_a = a;
     }
   }
-  double x = -(0.0005 * (m_x - near_a.get_x()));
-  x = std::max(-0.05, std::min(x, 0.05));
-  m_x += x;
-  double y = -(0.0005 * (m_y - near_a.get_y()));
-  y = std::max(-0.05, std::min(y, 0.05));
-  m_y += y;
-  return;
+  if(!std::isinf(near_a.get_x())){
+    double x = -(0.01 * (m_x - near_a.get_x()));
+    x = std::max(-0.05, std::min(x, 0.05));
+    m_x += x;
+    double y = -(0.01 * (m_y - near_a.get_y()));
+    y = std::max(-0.05, std::min(y, 0.05));
+    m_y += y;
+    return;
+  }
 }
 
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
@@ -732,7 +734,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //An agent must be removed if health is below zero
   {
-    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    game g({tile(0, 0, 0, 100, 100, 0, tile_type::grassland)}, { agent(agent_type::cow) } );
     assert(!g.get_agents().empty());
     // Wait until cow starves
     while (!g.get_agents().empty())
