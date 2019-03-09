@@ -55,7 +55,7 @@ public:
   ///Process events, for example, make the agents move
   void process_events(game& g);
 
-  void spawn_foxgloves(game& g);
+  void spawn(game& g, agent_type type);
 
   /// Set the movement coeficient on the x-axis
   void set_dx(double dx);
@@ -117,6 +117,8 @@ private:
   double m_depth;
 
   bool m_locked = false;
+
+  int ticks = 1;
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const tile& t);
