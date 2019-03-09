@@ -125,14 +125,24 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 {
   if(g.get_n_ticks() % ticks == 0){
     ticks = std::rand() % ((1800 - 1400) + 1) + 1400;
-    if(m_type == tile_type::mountains){
-      spawn(g, agent_type::foxgloves);
-    }
-    if(m_type == tile_type::water){
-      spawn(g, agent_type::plankton);
-    }
-    if(m_type == tile_type::grassland){
-      spawn(g, agent_type::grass);
+    switch(m_type){
+      case tile_type::mountains:
+        spawn(g, agent_type::foxgloves);
+        break;
+      case tile_type::water:
+        spawn(g, agent_type::plankton);
+        break;
+      case tile_type::grassland:
+        spawn(g, agent_type::grass);
+        break;
+      case tile_type::desert:
+        spawn(g, agent_type::cactus);
+        break;
+      case tile_type::rainforest:
+        spawn(g, agent_type::tree);
+        break;
+      default:
+        break;
     }
   }
 }
