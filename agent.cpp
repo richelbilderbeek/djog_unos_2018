@@ -894,8 +894,6 @@ void test_agent() //!OCLINT testing functions may be long
         //get depth test
         assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
     }
-  #define FIX_ISSUE_326
-  #ifdef FIX_ISSUE_326
   //a cow walks to grass when its close
   {
     game g(create_default_tiles(),
@@ -920,7 +918,30 @@ void test_agent() //!OCLINT testing functions may be long
     assert(cow_prev_posX < cow_aft_posX);
     assert(cow_prev_posY < cow_aft_posY);
   }
-  #endif //FIX_ISSUE_326
+  //a spider is attracted to venus_fly_trap
+  {
+    game g(create_default_tiles(),
+           {agent(agent_type::spider, 0, 0, 100),
+            agent(agent_type::venus_fly_trap, 100, 100, 100)});
+    double spider_prev_posX = g.get_agents()[0].get_x();
+    double spider_prev_posY = g.get_agents()[0].get_y();
+    double distanceX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
+    double distanceY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
+    //move the spider 1000 times
+    for(int i = 0; i < 1000; i++){
+      g.process_events();
+    }
+    double spider_aft_posX = g.get_agents()[0].get_x();
+    double spider_aft_posY = g.get_agents()[0].get_y();
+    double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
+    double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
+    assert(distanceX > distance_afterX);
+    assert(distanceY > distance_afterY);
+    assert(g.get_agents()[0].get_x() > 0);
+    assert(g.get_agents()[0].get_y() > 0);
+    assert(spider_prev_posX < spider_aft_posX);
+    assert(spider_prev_posY < spider_aft_posY);
+  }
   #define FIX_ISSUE_363
   #ifdef FIX_ISSUE_363
   //Grass damages nearby grasses
