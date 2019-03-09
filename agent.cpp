@@ -213,7 +213,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   if (m_type == agent_type::grass || m_type == agent_type::tree
       || m_type == agent_type::cow)  reproduce_agents(g, m_type);
 
-  if (m_type == agent_type::grass) damage_near_grass(g);
+  if (m_type == agent_type::grass || m_type == agent_type::tree) damage_near_grass(g, m_type);
 
    //TODO is depth suitable for agent
   if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
@@ -305,7 +305,7 @@ double pythagoras(double x_length, double y_length){
     return sqrt((x_length * x_length) + (y_length * y_length));
 }
 
-void agent::damage_near_grass(game &g)
+void agent::damage_near_grass(game &g, agent_type type)
 {
   const double max_distance { pythagoras(32.0, 32.0) };
 
@@ -316,7 +316,7 @@ void agent::damage_near_grass(game &g)
   for (agent& current_agent : all_agents)
   {
     double delta = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
-    if (current_agent.get_type() == agent_type::grass &&
+    if (current_agent.get_type() == type &&
          delta <= max_distance
        )
     {
