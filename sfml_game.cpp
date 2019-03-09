@@ -23,7 +23,8 @@ sfml_game::sfml_game(
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
-    m_window{ sfml_window_manager::get().get_window() }
+    m_window{ sfml_window_manager::get().get_window() },
+    m_pause_screen()
 { // Set up music
   m_background_music.setLoop(true);
   m_ben_ik_een_spin.setLoop(true);
@@ -32,16 +33,19 @@ sfml_game::sfml_game(
   setup_tickcounter_text();
 }
 
-
 sfml_game::~sfml_game()
 {
   stop_music();
 }
 
 void sfml_game::close(game_state s) {
-  m_camera.reset();
-  sf::View old_view = sfml_window_manager::get().get_window().getDefaultView();
-  sfml_window_manager::get().get_window().setView(old_view);
+  if (s != game_state::paused) {
+    m_camera.reset();
+  }
+  m_camera.m_movecam_r = false;
+  m_camera.m_movecam_l = false;
+  m_camera.m_movecam_u = false;
+  m_camera.m_movecam_d = false;
   sfml_window_manager::get().set_state(s);
 }
 
@@ -92,7 +96,6 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   {
     std::stringstream s;
     s << "TICK COUNT: " << m_game.get_n_ticks() << "\n"
-      << "MOUSE SPEED: " << m_mouse_speed << "\n"
       << "SCORE: " << m_game.get_score();
     m_tickcounter_text.setString(s.str());
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
@@ -115,7 +118,8 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_zen_ind.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_ind.getPosition())));
     m_window.draw(m_zen_ind);
   }
-  m_window.display(); // Put everything on the screen
+  if (active(game_state::playing))
+    m_window.display(); // Put everything on the screen
 }
 
 void sfml_game::display_tile(const tile &t){
@@ -160,11 +164,20 @@ void sfml_game::set_tile_sprite(const tile &t, sf::Sprite &sprite) {
 
 void sfml_game::exec()
 {
-  while (active(game_state::playing))
+  sf::View view = m_window.getDefaultView();
+  view.setSize(static_cast<float>(m_window.getSize().x),
+               static_cast<float>(m_window.getSize().y));
+  m_window.setView(view);
+  while (active(game_state::playing) || active(game_state::paused))
   {
-    process_input();
-    process_events();
-    display();
+    if (active(game_state::paused)) {
+      display();
+      m_pause_screen.exec();
+    } else {
+      process_input();
+      process_events();
+      display();
+    }
   }
 }
 
@@ -259,16 +272,13 @@ void sfml_game::process_event(const sf::Event& event)
       close();
       break;
 
+    case sf::Event::KeyReleased:
     case sf::Event::KeyPressed:
       process_keyboard_input(event);
       break;
 
     case sf::Event::MouseButtonPressed:
       process_mouse_input(event);
-      break;
-
-    case sf::Event::KeyReleased:
-      process_keyboard_input(event);
       break;
 
     case sf::Event::Resized:
@@ -308,6 +318,8 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
       control_tile(true, event, getTileById(m_game.m_selected));
     if (m_timer > 0)
       control_tile(false, event, getTileById(m_game.m_selected));
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+      close(game_state::paused);
   }
   else
   {

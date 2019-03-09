@@ -64,17 +64,15 @@ std::vector<agent_type> can_eat(const agent_type type) {
   }
 }
 
-bool is_plant(const agent_type type) noexcept
-{
-  const std::set<agent_type> plants = {
-    agent_type::plankton, //Some plankton are also bacteria, archea, protozoa or animals
-    agent_type::grass,
-    agent_type::tree,
-    agent_type::cactus,
-    agent_type::foxgloves,
-    agent_type::venus_fly_trap
-  };
-  return plants.count(type);
+bool is_plant(const agent_type type) noexcept {
+  //Some plankton are also bacteria, archea, protozoa or animals
+  return type == agent_type::plankton ||
+         type == agent_type::grass ||
+         type == agent_type::tree ||
+         type == agent_type::cactus ||
+         type == agent_type::foxgloves ||
+         type == agent_type::venus_fly_trap ||
+         type == agent_type::sunflower;
 }
 
 void agent::eat(const game& g) {
@@ -342,9 +340,12 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::grass, 70, 40, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a3, 0, 0);
     agents.push_back(a3);
-    agent a4(agent_type::foxgloves, 60, 70);
+    agent a4(agent_type::sunflower, 42, 112);
+    agent a5(agent_type::foxgloves, 60, 70);
     move_agent_to_tile(a4, 0, 0);
     agents.push_back(a4);
+    move_agent_to_tile(a5, 0, 0);
+    agents.push_back(a5);
   }
   {
     agent a1(agent_type::cow);
