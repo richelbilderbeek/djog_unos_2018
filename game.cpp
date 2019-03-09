@@ -66,14 +66,24 @@ void game::process_events()
   for (auto& tile: m_tiles)
   {
     if(tile.get_dx() != 0 || tile.get_dy() != 0){
-      tile.move(m_agents);
+//        spawn(agent_type::cow, tile);
+        tile.move(m_agents);
     }
+
     tile.process_events();
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
 
   ++m_n_tick;
+}
+
+void game::spawn(agent_type type, tile t)
+{
+    agent a1(type);
+    move_agent_to_tile(a1, t.get_x()/122, t.get_y()/122);
+    m_agents.push_back(a1);
+//    m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
@@ -170,7 +180,7 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
                m_selected.pop_back();
             }
         } catch (std::out_of_range) {
-            std::cout << "SEGMENTATION ERROR :)";
+            std::cout << "segmentation fault\n";
         }
     } else {
 

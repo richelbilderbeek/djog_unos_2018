@@ -13,6 +13,7 @@ enum class agent_type {
     sun_flower,
     fish,
     crocodile,
+    sunflower,
     squirrel,
     tree,
     goat,

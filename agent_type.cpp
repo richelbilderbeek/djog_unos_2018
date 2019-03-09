@@ -19,6 +19,7 @@ std::vector<agent_type> collect_all_agent_types()
     agent_type::tree,
     agent_type::bird,
     agent_type::spider,
+    agent_type::sunflower,
     agent_type::goat,
     agent_type::snake,
     agent_type::octopus,
@@ -45,6 +46,7 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::giraffe) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::lion) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::sunflower) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
@@ -111,6 +113,8 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "goat";
     case agent_type::squirrel:
       return "squirrel";
+    case agent_type::sunflower:
+      return "sunflower";
     case agent_type::snake:
       return "snake";
     case agent_type::spider:
@@ -137,6 +141,7 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "worm") return agent_type::worm;
   if (str == "plankton") return agent_type::plankton;
   if (str == "grass") return agent_type::grass;
+  if (str == "sunflower") return agent_type::sunflower;
   if (str == "fish") return agent_type::fish;
   if (str == "whale") return agent_type::whale;
   if (str == "crocodile") return agent_type::crocodile;

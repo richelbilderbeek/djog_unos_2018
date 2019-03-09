@@ -181,6 +181,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       case game_state::aboutscreen:
         show_sfml_about_screen(close_at);
         break;
+      case game_state::paused:
       case game_state::playing:
         start_sfml_game(close_at, music, tiles, agents);
         break;

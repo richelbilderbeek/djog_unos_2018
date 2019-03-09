@@ -60,21 +60,19 @@ std::vector<agent_type> can_eat(const agent_type type) {
     //case agent_type::venus_fly_trap:
     //  return {agent_type::spider };
     default:
-      return {};
+      return {agent_type::none};
   }
 }
 
-bool is_plant(const agent_type type) noexcept
-{
-  const std::set<agent_type> plants = {
-    agent_type::plankton, //Some plankton are also bacteria, archea, protozoa or animals
-    agent_type::grass,
-    agent_type::tree,
-    agent_type::cactus,
-    agent_type::foxgloves,
-    agent_type::venus_fly_trap
-  };
-  return plants.count(type);
+bool is_plant(const agent_type type) noexcept {
+  //Some plankton are also bacteria, archea, protozoa or animals
+  return type == agent_type::plankton ||
+         type == agent_type::grass ||
+         type == agent_type::tree ||
+         type == agent_type::cactus ||
+         type == agent_type::foxgloves ||
+         type == agent_type::venus_fly_trap ||
+         type == agent_type::sunflower;
 }
 
 void agent::eat(const game& g) {
@@ -84,7 +82,7 @@ void agent::eat(const game& g) {
     // NOTE not calculated from the center of the agent
     if (is_in_range(a.get_x(),
                     a.get_y(),
-                    50.0) &&
+                    25.0) &&
         a.get_health() > 0 &&
         std::count(std::begin(food), std::end(food), a.get_type()))
     {
@@ -96,7 +94,7 @@ void agent::eat(const game& g) {
     // NOTE not calculated from the center of the agent
     if (is_in_range(a.get_x(),
                     a.get_y(),
-                    50.0) &&
+                    25.0) &&
         m_health > 0 &&
         std::count(std::begin(a_food), std::end(a_food), m_type))
     {
@@ -151,11 +149,8 @@ void agent::move() //!OCLINT NPath complexity too high
 
 void agent::move(double x, double y)
 {
-    std::cout << "Moving: x=" << x << "y=" << y;
-    std::cout << "Was: x=" << m_x << "y=" << m_y;
     m_x += x;
     m_y += y;
-    std::cout << "Moved: x=" << m_x << "y=" << m_y << std::endl;
 }
 
 void agent::move_to_food(game &g){
@@ -163,18 +158,30 @@ void agent::move_to_food(game &g){
   if (is_plant(m_type)) {
     return;
   }
-  for(agent a: g.get_agents()){
+  agent nearest_f(agent_type::none, NAN, NAN);
+  for(agent a : g.get_agents()){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
-      if(a.get_type() == can_eat(m_type)[i] && a == nearest_agent(g, a, can_eat(m_type)[i])){
-        double x = -(0.0005 * (m_x - a.get_x()));
-        x = std::max(-0.05, std::min(x, 0.05));
-        m_x += x;
-        double y = -(0.0005 * (m_y - a.get_y()));
-        y = std::max(-0.05, std::min(y, 0.05));
-        m_y += y;
-        return;
+      if(a.get_type() == can_eat(m_type)[i]
+         && a == nearest_agent(g, a, can_eat(m_type)[i])){
+        if(!std::isnan(nearest_f.get_x()) &&
+           (fabs(m_x - nearest_f.get_x()) > fabs(m_x - a.get_x())
+           || fabs(m_y  - nearest_f.get_x()) > fabs(m_x - a.get_x()))){
+          nearest_f = a;
+        }
+        else{
+          nearest_f = a;
+        }
       }
     }
+  }
+  if(!std::isnan(nearest_f.get_x())){
+    double x = -(0.001 * (m_x - nearest_f.get_x()));
+    x = std::max(-0.05, std::min(x, 0.05));
+    m_x += x;
+    double y = -(0.0005 * (m_y - nearest_f.get_y()));
+    y = std::max(-0.05, std::min(y, 0.05));
+    m_y += y;
+    return;
   }
 }
 
@@ -313,10 +320,12 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a3(agent_type::grass, 70, 40, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
     move_agent_to_tile(a3, 0, 0);
     agents.push_back(a3);
-
-    agent a4(agent_type::foxgloves, 60, 70);
+    agent a4(agent_type::sunflower, 42, 112);
+    agent a5(agent_type::foxgloves, 60, 70);
     move_agent_to_tile(a4, 0, 0);
     agents.push_back(a4);
+    move_agent_to_tile(a5, 0, 0);
+    agents.push_back(a5);
   }
   {
     agent a1(agent_type::cow);

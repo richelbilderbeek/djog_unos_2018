@@ -47,8 +47,9 @@ public:
 
   int get_agent_count(agent_type type);
 
-private:
+  void spawn(agent_type type, tile t);
 
+private:
   /// The selected tile
   std::vector<int> m_selected;
 
@@ -109,6 +110,8 @@ void save(const game &game, const std::string &filename);
 
 /// Test the game class
 void test_game();
+
+sf::Time deltatime();
 
 std::ostream& operator<<(std::ostream& os, const game& g);
 
