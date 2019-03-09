@@ -297,6 +297,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_giraffe_texture;
     case agent_type::foxgloves:
       return m_foxgloves_texture;
+    case agent_type::octopus:
+      return m_octopus_texture;
     case agent_type::venus_fly_trap:
       return m_venus_fly_trap_texture;
   case agent_type::cactus:
