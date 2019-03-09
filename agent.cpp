@@ -187,11 +187,10 @@ void agent::move_to_food(game &g){
 void agent::attract_to_agent(game &g, agent_type type){
   agent near_a(agent_type::none, INFINITY, INFINITY);
   for(agent a : g.get_agents()){
-    if(a.get_type() == type){
-      if(fabs(m_x - a.get_x()) < fabs(m_x - near_a.get_x()) ||
-         fabs(m_y - a.get_y()) < m_y - near_a.get_y()){
+    if(a.get_type() == type &&
+      (fabs(m_x - a.get_x()) < fabs(m_x - near_a.get_x()) ||
+      fabs(m_y - a.get_y()) < fabs(m_y - near_a.get_y()))){
         near_a = a;
-      }
     }
   }
   double x = -(0.0005 * (m_x - near_a.get_x()));
