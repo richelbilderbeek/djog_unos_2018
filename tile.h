@@ -53,7 +53,9 @@ public:
   sf::Vector2f get_center() const noexcept { return sf::Vector2f(m_width / 2.0f, m_height / 2.0f); }
 
   ///Process events, for example, make the agents move
-  void process_events();
+  void process_events(game& g);
+
+  void spawn_foxgloves(game& g);
 
   /// Set the movement coeficient on the x-axis
   void set_dx(double dx);

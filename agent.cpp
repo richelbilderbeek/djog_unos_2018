@@ -732,7 +732,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //An agent must be removed if health is below zero
   {
-    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    game g({tile(0, 0, 0, 100, 100, 0, tile_type::grassland)}, { agent(agent_type::cow) } );
     assert(!g.get_agents().empty());
     // Wait until cow starves
     while (!g.get_agents().empty())
