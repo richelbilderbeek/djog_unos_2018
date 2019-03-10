@@ -387,6 +387,9 @@ void test_game() //!OCLINT a testing function may be long
     while (!g.get_agents().empty())
     {
       g.process_events();
+      while(g.get_agents().size() >= 2){
+        g.get_agents().pop_back();
+      }
     }
     const double new_score = g.get_score();
     assert(new_score < prev_score);

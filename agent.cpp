@@ -740,6 +740,9 @@ void test_agent() //!OCLINT testing functions may be long
     while (!g.get_agents().empty())
     {
       g.process_events();
+      while(g.get_agents().size() >= 2){
+        g.get_agents().pop_back();
+      }
     }
   }
   //Grass grows
@@ -830,7 +833,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //Fish die when on land
   {
-    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::fish) } );
+    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::fish) } );
     assert(!g.get_agents().empty());
     //Choke fish
     while (g.get_agents()[0].get_health() > 0)
@@ -841,7 +844,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //octopus die when on land
 {
-  game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::octopus) } );
+  game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::octopus) } );
   assert(!g.get_agents().empty());
   //Choke octopus
   while (g.get_agents()[0].get_health() > 0)
@@ -880,7 +883,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //grass has different health when its duplicated
   {
-    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+    game g({tile(0,0,0,3,3,10,tile_type::nonetile)},
            {agent(agent_type::grass, 10, 10, 100)});
     const auto prev_health = g.get_agents()[0].get_health();
     g.process_events();
