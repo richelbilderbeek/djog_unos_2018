@@ -118,19 +118,13 @@ bool agent::is_in_range(double x, double y, double range) {
 }
 
 agent agent::nearest_agent(game& g, agent& a, agent_type type){
-  double minX = 1000000;
-  double minY = 1000000;
-  double minD = pythagoras(minX, minY);
+  double minD = pythagoras(1000000, 1000000);
   agent near_agent(type);
   for(agent& ag: g.get_agents()){
     if(ag.get_type() == type){
-      double distanceX = fabs(ag.get_x() - a.get_x());
-      double distanceY = fabs(ag.get_y() - a.get_y());
-      double distance = pythagoras(distanceX, distanceY);
+      double distance = pythagoras(fabs(ag.get_x() - a.get_x()), fabs(ag.get_y() - a.get_y()));
       if(distance < minD){
-        minX = distanceX;
-        minY = distanceY;
-        minD = pythagoras(minX, minY);
+        minD = distance;
         near_agent = ag;
       }
     }
@@ -190,16 +184,17 @@ void agent::move_to_food(game &g){
 
 void agent::attract_to_agent(game &g, agent_type type){
   agent near_a(agent_type::none, INFINITY, INFINITY);
+  double distance = pythagoras(fabs(m_x - near_a.get_x()), fabs(m_y - near_a.get_y()));
   for(agent a : g.get_agents()){
+    double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
+    if(distance_a > 350) return;
     if(a.get_type() == type &&
-      (fabs(m_x - a.get_x()) < fabs(m_x - near_a.get_x()) ||
-      fabs(m_y - a.get_y()) < fabs(m_y - near_a.get_y()))
-      && fabs(m_x - a.get_x()) < 250
-      && fabs(m_y - a.get_y()) < 250){
+      distance_a < distance){
         near_a = a;
+        distance = pythagoras(fabs(m_x - near_a.get_x()), fabs(m_y - near_a.get_y()));
     }
   }
-  if(!std::isinf(near_a.get_x())){
+  if(near_a.get_type() != agent_type::none){
     double x = -(0.01 * (m_x - near_a.get_x()));
     x = std::max(-0.05, std::min(x, 0.05));
     m_x += x;
@@ -933,8 +928,8 @@ void test_agent() //!OCLINT testing functions may be long
     double spider_prev_posY = g.get_agents()[0].get_y();
     double distanceX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
     double distanceY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    //move the spider 1000 times
-    for(int i = 0; i < 1000; i++){
+    //move the spider 10 times
+    for(int i = 0; i < 10; i++){
       g.process_events();
     }
     double spider_aft_posX = g.get_agents()[0].get_x();
