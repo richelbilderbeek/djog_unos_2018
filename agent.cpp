@@ -928,8 +928,8 @@ void test_agent() //!OCLINT testing functions may be long
     double spider_prev_posY = g.get_agents()[0].get_y();
     double distanceX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
     double distanceY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    //move the spider 10 times
-    for(int i = 0; i < 10; i++){
+    //move the spider 100 times
+    for(int i = 0; i < 100; i++){
       g.process_events();
     }
     double spider_aft_posX = g.get_agents()[0].get_x();
