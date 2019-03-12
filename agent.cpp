@@ -38,6 +38,10 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
   ;
 }
 
+double pythagoras(double x_length, double y_length){
+    return sqrt((x_length * x_length) + (y_length * y_length));
+}
+
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::crocodile:
@@ -116,17 +120,17 @@ bool agent::is_in_range(double x, double y, double range) {
 agent agent::nearest_agent(game& g, agent& a, agent_type type){
   double minX = 1000000;
   double minY = 1000000;
+  double minD = pythagoras(minX, minY);
   agent near_agent(type);
   for(agent& ag: g.get_agents()){
     if(ag.get_type() == type){
       double distanceX = fabs(ag.get_x() - a.get_x());
       double distanceY = fabs(ag.get_y() - a.get_y());
-      if(distanceX < minX){
+      double distance = pythagoras(distanceX, distanceY);
+      if(distance < minD){
         minX = distanceX;
-        near_agent = ag;
-      }
-      if(distanceY < minY){
         minY = distanceY;
+        minD = pythagoras(minX, minY);
         near_agent = ag;
       }
     }
@@ -159,20 +163,22 @@ void agent::move_to_food(game &g){
     return;
   }
   agent nearest_f(agent_type::none, INFINITY, INFINITY);
+  double f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
+  double distance;
   for(agent a : g.get_agents()){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
       if(a.get_type() == can_eat(m_type)[i]){
-        double distance_x = fabs(m_x - a.get_x());
-        double distance_y = fabs(m_y - a.get_y());
-        if(distance_x > 250 || distance_y > 250) return;
-        if(distance_x < fabs(m_x - nearest_f.get_x())
-           || distance_y < fabs(m_y - nearest_f.get_y())){
+        distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
+        if(distance > 350) return;
+        if(a == nearest_agent(g, *this, can_eat(m_type)[i])
+           && distance < f_distance){
           nearest_f = a;
+          f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
         }
       }
     }
   }
-  if(!std::isinf(nearest_f.get_x())){
+  if(nearest_f.get_type() != agent_type::none){
     double x = -(0.01 * (m_x - nearest_f.get_x()));
     x = std::max(-0.05, std::min(x, 0.05));
     m_x += x;
@@ -300,10 +306,6 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     g.add_agents( { new_agent } );
     m_health = health_parent;
   }
-}
-
-double pythagoras(double x_length, double y_length){
-    return sqrt((x_length * x_length) + (y_length * y_length));
 }
 
 void agent::damage_near_grass(game &g, agent_type type)
