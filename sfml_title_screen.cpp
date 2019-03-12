@@ -19,8 +19,8 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   title_text.setOrigin(title_text.getGlobalBounds().left
       + title_text.getGlobalBounds().width / 2.0f,
     title_text.getGlobalBounds().top
-      + title_text.getGlobalBounds().height / 2.0f);
-  title_text.setScale(2,2);
+      + title_text.getGlobalBounds().height / 4.0f);
+  title_text.setScale(3,3);
   #if(SFML_VERSION_MINOR > 3)
   title_text.setOutlineColor(sf::Color(36, 211, 16));
   title_text.setFillColor(sf::Color(155, 40, 0));
@@ -29,7 +29,6 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   //Only relevant for Travis and RuG
   title_text.setColor(sf::Color(36, 211, 16));
   #endif
-  title_text.setPosition(400, 200);
 
   copyright_text.setFont(m_default_font);
   copyright_text.setString("(C) 2018 Team Octane");
@@ -40,15 +39,15 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   //Only relevant for Travis and RuG
   copyright_text.setColor(sf::Color::Black);
   #endif
-  copyright_text.setPosition(10, 840);
+  copyright_text.setPosition(m_window.getSize().x / 100, m_window.getSize().y / 1.05f);
 
   m_zen_title.setTexture(sfml_resources::get().get_zen_title());
   m_zen_title.setScale(2,2);
-  m_zen_title.setPosition(710, 300);
-
-  m_zen_bar.setTexture(sfml_resources::get().get_zen_bar());
-  m_zen_bar.setScale(2,1.25);
-  m_zen_bar.setPosition(540, 350);
+  m_zen_title.setOrigin(m_zen_title.getGlobalBounds().left
+                        + m_zen_title.getGlobalBounds().width / 2.0f,
+                      m_zen_title.getGlobalBounds().top
+                        + m_zen_title.getGlobalBounds().height / 2.0f);
+  m_zen_title.setPosition(m_window.getSize().x / 1.75f, m_window.getSize().y / 1.5f);
 
   m_bg_sprite.setTexture(sfml_resources::get().get_background_image());
   stretch_bg();
@@ -88,7 +87,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     }
     title_text.setPosition(m_window.getSize().x/2,
                            m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-                           (m_window.getSize().y/568)*110+i);
+                           (m_window.getSize().y/568)*130+i);
     title_text.setPosition(m_window.mapPixelToCoords(
                            sf::Vector2i(title_text.getPosition())));
 
@@ -104,7 +103,6 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     m_window.draw(m_bg_sprite);
     m_window.draw(title_text);
     m_window.draw(copyright_text);
-    m_window.draw(m_zen_bar);
     m_window.draw(m_zen_title);
     m_window.display();
   }

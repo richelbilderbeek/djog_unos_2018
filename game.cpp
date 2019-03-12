@@ -69,7 +69,8 @@ void game::process_events()
 //        spawn(agent_type::cow, tile);
         tile.move(m_agents);
     }
-    tile.process_events();
+
+    tile.process_events(*this);
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -97,8 +98,8 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   m_tiles[other_pos] = m_tiles.back();
   m_tiles.pop_back();
   //change the selected tile
-//  m_selected.clear();
-//  assert(!m_selected.empty());
+  m_selected.clear();
+  assert(m_selected.empty());
 }
 
 void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
@@ -274,7 +275,7 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
       t.set_dy(tile_speed);
       return;
     case 4:
-      t.set_dx(-tile_speed);      
+      t.set_dx(-tile_speed);
       return;
     default:
       return;
@@ -379,13 +380,16 @@ void test_game() //!OCLINT a testing function may be long
   //When an agent dies, score must decrease
   //Depends on #285
   {
-    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    game g({tile(0, 0, 0, 100, 100, 0, tile_type::grassland)}, { agent(agent_type::cow) } );
     assert(!g.get_agents().empty());
     double prev_score = g.get_score();
     // Wait until cow starves
     while (!g.get_agents().empty())
     {
       g.process_events();
+      while(g.get_agents().size() >= 2){
+        g.get_agents().pop_back();
+      }
     }
     const double new_score = g.get_score();
     assert(new_score < prev_score);
