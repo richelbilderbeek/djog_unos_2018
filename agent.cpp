@@ -929,8 +929,8 @@ void test_agent() //!OCLINT testing functions may be long
     double distanceX = fabs(g.get_agents()[1].get_x() - g.get_agents()[0].get_x());
     double distanceY = fabs(g.get_agents()[1].get_y() - g.get_agents()[0].get_y());
     double distance = pythagoras(distanceX, distanceY);
-    //move the spider 10000 times
-    for(int i = 0; i < 10000; i++){
+    //move the spider 100 times
+    for(int i = 0; i < 100; i++){
       //g.process_events() doesn't work?
       //g.process_events();
       g.get_agents()[0].attract_to_agent(g, agent_type::venus_fly_trap);
