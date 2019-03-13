@@ -39,7 +39,6 @@ private:
     sf::Text title_text;
     sf::Sprite m_bg_sprite;
     sf::Sprite m_zen_title;
-    sf::Sprite m_zen_bar;
     sf::Text copyright_text;
 
     double i = 0;
