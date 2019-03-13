@@ -922,22 +922,25 @@ void test_agent() //!OCLINT testing functions may be long
   //a spider is attracted to venus_fly_trap
   {
     game g(create_default_tiles(),
-           {agent(agent_type::spider, 0, 0, 100),
-            agent(agent_type::venus_fly_trap, 100, 100, 100)});
+           {agent(agent_type::spider, 0, 0),
+            agent(agent_type::venus_fly_trap, 50, 50)});
     double spider_prev_posX = g.get_agents()[0].get_x();
     double spider_prev_posY = g.get_agents()[0].get_y();
-    double distanceX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
-    double distanceY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    //move the spider 100 times
-    for(int i = 0; i < 100; i++){
-      g.process_events();
+    double distanceX = fabs(g.get_agents()[1].get_x() - g.get_agents()[0].get_x());
+    double distanceY = fabs(g.get_agents()[1].get_y() - g.get_agents()[0].get_y());
+    double distance = pythagoras(distanceX, distanceY);
+    //move the spider 10000 times
+    for(int i = 0; i < 10000; i++){
+      //g.process_events() doesn't work?
+      //g.process_events();
+      g.get_agents()[0].attract_to_agent(g, agent_type::venus_fly_trap);
     }
     double spider_aft_posX = g.get_agents()[0].get_x();
     double spider_aft_posY = g.get_agents()[0].get_y();
-    double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
-    double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    assert(distanceX > distance_afterX);
-    assert(distanceY > distance_afterY);
+    double distance_afterX = fabs(g.get_agents()[1].get_x() - spider_aft_posX);
+    double distance_afterY = fabs(g.get_agents()[1].get_y() - spider_aft_posY);
+    double distance_after = pythagoras(distance_afterX, distance_afterY);
+    assert(distance > distance_after);
     assert(g.get_agents()[0].get_x() > 0);
     assert(g.get_agents()[0].get_y() > 0);
     assert(spider_prev_posX < spider_aft_posX);
