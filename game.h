@@ -6,6 +6,7 @@
 #include "tile.h"
 #include "agent.h"
 #include "sfml_camera.h"
+#include <QDir>
 
 class game {
 
@@ -48,7 +49,6 @@ public:
   int get_agent_count(agent_type type);
 
   void spawn(agent_type type, tile t);
-
 private:
   /// The selected tile
   std::vector<int> m_selected;
@@ -104,6 +104,9 @@ tile get_current_tile(game& g, double x, double y);
 
 /// Load a game from a file
 game load(const std::string &filename);
+
+// The save Subdir
+const std::string SAVE_DIR = "saves\\";
 
 /// Save the game to a file
 void save(const game &game, const std::string &filename);

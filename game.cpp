@@ -312,13 +312,14 @@ void test_game() //!OCLINT a testing function may be long
   {
     const game g;
     const std::string filename{"tmp.sav"};
+    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str();
     if (QFile::exists(filename.c_str()))
     {
       std::remove(filename.c_str());
     }
     assert(!QFile::exists(filename.c_str()));
     save(g, filename);
-    assert(QFile::exists(filename.c_str()));
+    assert(QFile::exists(actual_path));
   }
 
   //'is_on_tile' should detect if there is a tile at a certain coordinat
@@ -346,13 +347,14 @@ void test_game() //!OCLINT a testing function may be long
                  std::vector<agent>{agent(agent_type::spider, 0, 0, 100)}
                 );
     const std::string filename{"tmp.sav"};
+    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str();
     if (QFile::exists(filename.c_str()))
     {
       std::remove(filename.c_str());
     }
     assert(!QFile::exists(filename.c_str()));
     save(g, filename);
-    assert(QFile::exists(filename.c_str()));
+    assert(QFile::exists(actual_path));
     const game h = load(filename);
     assert(g == h);
   }
@@ -505,15 +507,19 @@ void test_game() //!OCLINT a testing function may be long
 }
 
 game load(const std::string &filename) {
-  std::ifstream f(filename);
+  std::ifstream f(SAVE_DIR + filename);
   game g;
   f >> g;
   return g;
 }
 
 void save(const game &g, const std::string &filename) {
-  std::ofstream f(filename);
-  f << g;
+    QString path = QDir::currentPath() + "/saves";
+    QDir dir = QDir::root();
+    dir.mkpath(path);
+
+    std::ofstream f(SAVE_DIR + filename);
+    f << g;
 }
 
 std::ostream& operator<<(std::ostream& os, const game& g)
