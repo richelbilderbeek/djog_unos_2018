@@ -47,6 +47,10 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tiles.push_back(t);
   }
   {
+    tile t(1, 5, 1, 2, 1, 0, tile_type::grassland, tile_id());
+    tiles.push_back(t);
+  }
+  {
     tile t(0, 2, 2, 1, 2, 0, tile_type::desert, tile_id());
     tiles.push_back(t);
   }
