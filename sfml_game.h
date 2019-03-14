@@ -15,6 +15,7 @@
 #include "sfml_camera.h"
 #include "sfml_window_manager.h"
 #include "sfml_pause_overlay.h"
+#include "sfml_shop_overlay.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
@@ -179,6 +180,9 @@ private:
 
   sfml_pause_overlay m_pause_screen;
 
+  sfml_shop_overlay m_shop_overlay;
+
+  sfml_button m_shop_button;
 };
 
 ///Test the sfml_game class

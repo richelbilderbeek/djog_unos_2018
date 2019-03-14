@@ -26,6 +26,8 @@ public:
   void set_string(const std::string str);
 
   void set_pos(double x, double y);
+  void set_pos(sf::Vector2f position);
+
   void set_size(double width, double height);
 
 private:

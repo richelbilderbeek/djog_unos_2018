@@ -24,8 +24,15 @@ sfml_game::sfml_game(
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
-    m_pause_screen()
-{ // Set up music
+    m_pause_screen(),
+    m_shop_overlay()
+{
+    // Set up Shop Button
+    sf::RectangleShape &b1_s = m_shop_button.get_shape();
+    b1_s.setFillColor(sf::Color(53,234,151));
+    m_shop_button.set_size(500, 75);
+    m_shop_button.set_string("SHOP");
+  // Set up music
   m_background_music.setLoop(true);
   m_ben_ik_een_spin.setLoop(true);
   start_music();
@@ -39,7 +46,7 @@ sfml_game::~sfml_game()
 }
 
 void sfml_game::close(game_state s) {
-  if (s != game_state::paused) {
+  if (s != game_state::paused || s != game_state::shop) {
     m_camera.reset();
   }
   m_camera.m_movecam_r = false;
@@ -91,6 +98,13 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   for (const agent& a : m_game.get_agents())
   {
     display_agent(a);
+  }
+  // Display Shop Button
+  {
+    sf::Vector2i pos = sf::Vector2i(m_window.getSize().x - m_shop_button.get_size().x, m_window.getSize().y - m_shop_button.get_size().y);
+    m_shop_button.set_pos(m_window.mapPixelToCoords(pos));
+    m_window.draw(m_shop_button.get_shape());
+    m_window.draw(m_shop_button.get_text());
   }
   // Display & Update Tickcounter
   {
@@ -168,12 +182,17 @@ void sfml_game::exec()
   view.setSize(static_cast<float>(m_window.getSize().x),
                static_cast<float>(m_window.getSize().y));
   m_window.setView(view);
-  while (active(game_state::playing) || active(game_state::paused))
+  while (active(game_state::playing) || active(game_state::paused) || active(game_state::shop))
   {
     if (active(game_state::paused)) {
-      display();
-      m_pause_screen.exec();
-    } else {
+        display();
+        m_pause_screen.exec();
+    }
+    else if (active(game_state::shop)) {
+        display();
+        m_shop_overlay.exec();
+    }
+    else {
       process_input();
       process_events();
       display();
@@ -319,7 +338,13 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
     if (m_timer > 0)
       control_tile(false, event, getTileById(m_game.m_selected));
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-      close(game_state::paused);
+    {
+        close(game_state::paused);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Delete))
+    {
+        close(game_state::shop);
+    }
   }
   else
   {

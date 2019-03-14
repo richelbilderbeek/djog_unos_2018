@@ -16,6 +16,14 @@ sfml_button::sfml_button(const double x, const double y,
   set_string("Click me!");
 }
 
+void sfml_button::set_pos(sf::Vector2f position)
+{
+  m_x = position.x - (m_width / 2);
+  m_y = position.y - (m_height / 2);
+  m_shape.setPosition(m_x, m_y);
+
+  m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
+}
 
 void sfml_button::set_pos(double x, double y) {
   m_x = x - (m_width / 2);
