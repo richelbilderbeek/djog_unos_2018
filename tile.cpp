@@ -9,6 +9,7 @@
 #include <cassert>
 #include <iostream>
 #include <stdexcept>
+#include <tuple>
 
 tile::tile(const double x, const double y, const double z, double const width,
            const double height, const double depth, const tile_type type, const tile_id id)
@@ -123,26 +124,42 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 
 void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 {
+  //Land type, common agent type spawned, rare agent type spawned
+  using triplet = std::tuple<tile_type, agent_type, agent_type>;
+  const std::vector<triplet> v =
+  {
+    triplet(tile_type::arctic, agent_type::none, agent_type::none),
+    triplet(tile_type::beach, agent_type::sunflower, agent_type::squirrel),
+    triplet(tile_type::desert, agent_type::cactus, agent_type::snake),
+    triplet(tile_type::dunes, agent_type::grass, agent_type::squirrel),
+    triplet(tile_type::grassland, agent_type::grass, agent_type::cow),
+    triplet(tile_type::hills, agent_type::foxgloves, agent_type::goat),
+    triplet(tile_type::mangrove, agent_type::worm, agent_type::crocodile),
+    triplet(tile_type::mountains, agent_type::foxgloves, agent_type::bird),
+    triplet(tile_type::rainforest, agent_type::tree, agent_type::cow),
+    triplet(tile_type::savannah, agent_type::grass, agent_type::giraffe),
+    triplet(tile_type::swamp, agent_type::venus_fly_trap, agent_type::cow),
+    triplet(tile_type::tundra, agent_type::grass, agent_type::cow),
+    triplet(tile_type::water, agent_type::plankton, agent_type::fish),
+    triplet(tile_type::woods, agent_type::tree, agent_type::spider)
+  };
+
   if(g.get_n_ticks() % ticks == 0){
     ticks = std::rand() % ((1800 - 1400) + 1) + 1400;
-    switch(m_type){
-      case tile_type::mountains:
-        spawn(g, agent_type::foxgloves);
-        break;
-      case tile_type::water:
-        spawn(g, agent_type::plankton);
-        break;
-      case tile_type::grassland:
-        spawn(g, agent_type::grass);
-        break;
-      case tile_type::desert:
-        spawn(g, agent_type::cactus);
-        break;
-      case tile_type::rainforest:
-        spawn(g, agent_type::tree);
-        break;
-      default:
-        break;
+    const auto here = std::find_if(
+      std::begin(v),
+      std::end(v),
+      [this](const triplet& t)
+      {
+        return std::get<0>(t) == m_type;
+      }
+    );
+    if ((std::rand() >> 4) % 10 != 0) {
+      //common
+      spawn(g, std::get<1>(*here));
+    } else {
+      //rare
+      spawn(g, std::get<2>(*here));
     }
   }
 }
