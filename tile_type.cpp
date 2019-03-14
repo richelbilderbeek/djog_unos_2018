@@ -8,33 +8,55 @@
 #include <string>
 #include <vector>
 #include <string>
+#include <tuple>
 
 tile_type get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
 {
-  if (type1 == tile_type::grassland && type2 == tile_type::grassland)
+  using triplet = std::tuple<tile_type, tile_type, tile_type>;
+  const std::vector<triplet> v = {
+    //Ordered alphabetically
+    triplet(tile_type::arctic, tile_type::grassland, tile_type::tundra),
+    triplet(tile_type::arctic, tile_type::mountains, tile_type::tundra),
+    triplet(tile_type::arctic, tile_type::savannah, tile_type::tundra),
+    triplet(tile_type::arctic, tile_type::swamp, tile_type::tundra),
+    triplet(tile_type::arctic, tile_type::woods, tile_type::tundra),
+    triplet(tile_type::beach, tile_type::hills, tile_type::dunes),
+    triplet(tile_type::desert, tile_type::grassland, tile_type::savannah),
+    triplet(tile_type::desert, tile_type::water, tile_type::beach),
+    triplet(tile_type::dunes, tile_type::water, tile_type::beach),
+    triplet(tile_type::grassland, tile_type::arctic, tile_type::tundra),
+    triplet(tile_type::grassland, tile_type::desert, tile_type::savannah),
+    triplet(tile_type::grassland, tile_type::grassland, tile_type::hills),
+    triplet(tile_type::grassland, tile_type::mangrove, tile_type::swamp),
+    triplet(tile_type::grassland, tile_type::water, tile_type::swamp),
+    triplet(tile_type::hills, tile_type::beach, tile_type::dunes),
+    triplet(tile_type::hills, tile_type::hills, tile_type::mountains),
+    triplet(tile_type::mangrove, tile_type::grassland, tile_type::swamp),
+    triplet(tile_type::mountains, tile_type::arctic, tile_type::tundra),
+    triplet(tile_type::mountains, tile_type::water, tile_type::arctic),
+    triplet(tile_type::rainforest, tile_type::water, tile_type::mangrove),
+    triplet(tile_type::savannah, tile_type::arctic, tile_type::tundra),
+    triplet(tile_type::swamp, tile_type::arctic, tile_type::tundra),
+    triplet(tile_type::water, tile_type::desert, tile_type::beach),
+    triplet(tile_type::water, tile_type::dunes, tile_type::beach),
+    triplet(tile_type::water, tile_type::grassland, tile_type::swamp),
+    triplet(tile_type::water, tile_type::rainforest, tile_type::mangrove),
+    triplet(tile_type::water, tile_type::mountains, tile_type::arctic),
+    triplet(tile_type::water, tile_type::woods, tile_type::mangrove),
+    triplet(tile_type::woods, tile_type::arctic, tile_type::tundra),
+    triplet(tile_type::woods, tile_type::water, tile_type::mangrove),
+    triplet(tile_type::woods, tile_type::woods, tile_type::rainforest),
+  };
+  for (const auto& t: v)
   {
-    return tile_type::hills;
-  }
-  else if (
-       (type1 == tile_type::grassland && type2 == tile_type::desert)
-    || (type1 == tile_type::desert && type2 == tile_type::grassland)
-  )
-  {
-    return tile_type::savannah;
-  }
-  else if (
-       (type1 == tile_type::grassland && type2 == tile_type::water)
-    || (type1 == tile_type::water && type2 == tile_type::grassland)
-  )
-  {
-    return tile_type::swamp;
-  }
-  else if (
-       (type1 == tile_type::mountains&& type2 == tile_type::water)
-    || (type1 == tile_type::water && type2 == tile_type::mountains)
-  )
-  {
-    return tile_type::arctic;
+    if (std::get<0>(t) == type1 && std::get<1>(t) == type2)
+    {
+      return std::get<2>(t);
+    }
+    if (std::get<0>(t) == type2 && std::get<1>(t) == type1)
+    {
+      return std::get<2>(t);
+    }
   }
   return tile_type::nonetile;
 }
@@ -45,27 +67,27 @@ void test_tile_type()
     // merging of types
     assert(get_merge_type(tile_type::nonetile, tile_type::grassland) == tile_type::nonetile);
     assert(get_merge_type(tile_type::grassland, tile_type::grassland) == tile_type::hills);
-    //assert(get_merge_type(tile_type::hills, tile_type::hills) == tile_type::mountains);
+    assert(get_merge_type(tile_type::hills, tile_type::hills) == tile_type::mountains);
     assert(get_merge_type(tile_type::grassland, tile_type::desert) == tile_type::savannah);
     assert(get_merge_type(tile_type::desert, tile_type::grassland) == tile_type::savannah);
     assert(get_merge_type(tile_type::grassland, tile_type::water) == tile_type::swamp);
     assert(get_merge_type(tile_type::water, tile_type::grassland) == tile_type::swamp);
     assert(get_merge_type(tile_type::water, tile_type::mountains) == tile_type::arctic);
     assert(get_merge_type(tile_type::mountains, tile_type::water) == tile_type::arctic);
-    //assert(get_merge_type(tile_type::water, tile_type::woods) == tile_type::mangrove);
-    //assert(get_merge_type(tile_type::woods, tile_type::water) == tile_type::mangrove);
-    //assert(get_merge_type(tile_type::hills, tile_type::beach) == tile_type::dunes);
-    //assert(get_merge_type(tile_type::beach, tile_type::hills) == tile_type::dunes);
-    //assert(get_merge_type(tile_type::dessert, tile_type::water) == tile_type::beach);
-    //assert(get_merge_type(tile_type::water, tile_type::dessert) == tile_type::beach);
-    //assert(get_merge_type(tile_type::mangrove, tile_type::grasslands) == tile_type::swamp);
-    //assert(get_merge_type(tile_type::grasslands, tile_type::mangrove) == tile_type::swamp);
-    //assert(get_merge_type(tile_type::water, tile_type::dunes) == tile_type::beach);
-    //assert(get_merge_type(tile_type::dunes, tile_type::water) == tile_type::beach);
-    //assert(get_merge_type(tile_type::woods, tile_type::woods) == tile_type::rain_forrest);
-    //assert(get_merge_type(tile_type::savannah, tile_type::arctic) == tile_type::tundra);
-    //assert(get_merge_type(tile_type::arctic, tile_type::savannah) == tile_type::tundra);
-    //TODO: after Issue #187: test more combinations
+    assert(get_merge_type(tile_type::water, tile_type::woods) == tile_type::mangrove);
+    assert(get_merge_type(tile_type::woods, tile_type::water) == tile_type::mangrove);
+    assert(get_merge_type(tile_type::hills, tile_type::beach) == tile_type::dunes);
+    assert(get_merge_type(tile_type::beach, tile_type::hills) == tile_type::dunes);
+    assert(get_merge_type(tile_type::desert, tile_type::water) == tile_type::beach);
+    assert(get_merge_type(tile_type::water, tile_type::desert) == tile_type::beach);
+    assert(get_merge_type(tile_type::mangrove, tile_type::grassland) == tile_type::swamp);
+    assert(get_merge_type(tile_type::grassland, tile_type::mangrove) == tile_type::swamp);
+    assert(get_merge_type(tile_type::water, tile_type::dunes) == tile_type::beach);
+    assert(get_merge_type(tile_type::dunes, tile_type::water) == tile_type::beach);
+    assert(get_merge_type(tile_type::woods, tile_type::woods) == tile_type::rainforest);
+    assert(get_merge_type(tile_type::savannah, tile_type::arctic) == tile_type::tundra);
+    assert(get_merge_type(tile_type::arctic, tile_type::savannah) == tile_type::tundra);
+    //If you miss a combination, this is the place to add a test :-)
   }
   // Convert all tile types to string and back
   {
