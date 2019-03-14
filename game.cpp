@@ -18,7 +18,7 @@ game::game(const std::vector<tile>& tiles,
   : m_tiles{tiles},
     m_agents{agents},
     m_n_tick{starting_tick},
-    m_score{-90}
+    m_score{0}
 {
 
 }

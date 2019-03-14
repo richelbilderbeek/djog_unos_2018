@@ -85,10 +85,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   }
   // grass texture
   {
-    QFile f(":/nature_zen/resources/sun flower.png");
+    QFile f(":/nature_zen/resources/sunflower.png");
     f.copy("sunflower.png");
-    if (!m_sun_flower_texture.loadFromFile("sun flower.png"))
-      throw std::runtime_error("Cannot find image file 'sun flower.png'");
+    if (!m_sun_flower_texture.loadFromFile("sunflower.png"))
+      throw std::runtime_error("Cannot find image file 'sunflower.png'");
   }
   // spider texture
   {
