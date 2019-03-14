@@ -18,7 +18,8 @@ game::game(const std::vector<tile>& tiles,
   : m_tiles{tiles},
     m_agents{agents},
     m_n_tick{starting_tick},
-    m_score{0}
+    m_score{0},
+    m_essence{0}
 {
 
 }
@@ -532,7 +533,7 @@ void save(const game &g, const std::string &filename) {
 
 std::ostream& operator<<(std::ostream& os, const game& g)
 {
-  os << g.m_n_tick << ' ' << g.m_score << ' '
+  os << g.m_n_tick << ' ' << g.m_score << ' ' << g.m_essence << ' '
      << g.m_tiles.size() << ' '
      << g.m_agents.size();
   for (int i=0; i < static_cast<int>(g.m_tiles.size()); i++){
@@ -549,7 +550,7 @@ std::ostream& operator<<(std::ostream& os, const game& g)
 
 std::istream& operator>>(std::istream& is, game& g)
 {
-  is >> g.m_n_tick >> g.m_score;
+  is >> g.m_n_tick >> g.m_score >> g.m_essence;
   int n_tiles = 0;
   is >> n_tiles;
   int n_agents = 0;
@@ -575,6 +576,7 @@ bool operator==(const game& lhs, const game& rhs) noexcept
 {
   return lhs.m_n_tick == rhs.m_n_tick &&
          lhs.m_score == rhs.m_score &&
+         lhs.m_essence == rhs.m_essence &&
          lhs.m_tiles == rhs.m_tiles &&
          lhs.m_agents == rhs.m_agents;
 }
