@@ -61,6 +61,8 @@ public:
 
   void move_to_food(game& g);
 
+  void attract_to_agent(game& g, agent_type type);
+
 private:
   /// The type the tile
   agent_type m_type;
@@ -84,7 +86,7 @@ private:
 
   void reproduce_agents(game& g, agent_type type);
 
-  void damage_near_grass(game &g);
+  void damage_near_grass(game &g, agent_type type);
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);
