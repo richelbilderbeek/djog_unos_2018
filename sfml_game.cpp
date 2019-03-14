@@ -435,6 +435,8 @@ void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
     switch_collide(t, 1);
   if (event.key.code == sf::Keyboard::S)
     switch_collide(t, 3);
+  if (event.key.code == sf::Keyboard::)
+    switch_collide(t, 3);
 }
 
 void sfml_game::confirm_tile_move(tile& t, int direction)
