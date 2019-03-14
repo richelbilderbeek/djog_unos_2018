@@ -410,7 +410,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(y_before != y_after);
   }
 
-  //A game event should move tiles
+  //A game event should rotate tiles
 
   {
 

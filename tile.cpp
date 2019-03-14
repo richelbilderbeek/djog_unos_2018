@@ -151,6 +151,16 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
   }
 }
 
+void rotate(tile& t)
+{
+  const double width = t.get_width();
+  const double height = t. get_height();
+  t.set_width(height);
+  t.set_height(width);
+
+
+}
+
 void tile::spawn(game& g, agent_type type){ //!OCLINT high cyclomatic complexity
   const double max_distance_x{m_width};
   const double max_distance_y{m_height - 40};
@@ -185,6 +195,16 @@ void tile::set_dx(double dx) {
 void tile::set_dy(double dy) {
   if (!m_locked)
     m_dy = dy;
+}
+
+void tile::set_width(double width) {
+  if (!m_locked)
+    m_width = width;
+}
+
+void tile::set_height(double height) {
+  if (!m_locked)
+    m_height = height;
 }
 
 void tile::set_type(const tile_type t) noexcept
