@@ -30,6 +30,8 @@ public:
 
   void change_score_by(int delta_score);
 
+  int get_essence() const noexcept { return m_essence; }
+
   void delete_tiles(std::vector<tile> ts);
 
   void add_agents(const std::vector<agent>& as);
@@ -68,6 +70,8 @@ private:
   int m_n_tick = 0;
 
   double m_score;
+
+  int m_essence;
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);
