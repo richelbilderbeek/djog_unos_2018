@@ -31,6 +31,7 @@ sfml_game::sfml_game(
   start_music();
   setup_display_score();
   setup_tickcounter_text();
+  m_game.set_allow_spawning(true);
 }
 
 sfml_game::~sfml_game()
@@ -434,6 +435,8 @@ void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
     switch_collide(t, 1);
   if (event.key.code == sf::Keyboard::S)
     switch_collide(t, 3);
+  if (event.key.code == sf::Keyboard::R)
+    rotate(t);
 }
 
 void sfml_game::confirm_tile_move(tile& t, int direction)

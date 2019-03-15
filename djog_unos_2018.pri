@@ -17,7 +17,8 @@
     $$PWD/sfml_window_manager.cpp \
     $$PWD/sfml_gameover_screen.cpp \
     $$PWD/sfml_pause_overlay.cpp \
-    $$PWD/sfml_text_input.cpp
+    $$PWD/sfml_text_input.cpp \
+    $$PWD/sfml_save_overlay.cpp
 
 HEADERS += \
     $$PWD/agent.h \
@@ -38,7 +39,8 @@ HEADERS += \
     $$PWD/sfml_window_manager.h \
     $$PWD/sfml_gameover_screen.h \
     $$PWD/sfml_pause_overlay.h \
-    $$PWD/sfml_text_input.h
+    $$PWD/sfml_text_input.h \
+    $$PWD/sfml_save_overlay.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc

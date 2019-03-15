@@ -12,12 +12,13 @@
 #include <functional>
 
 
-game::game(const std::vector<tile>& tiles,
-           const std::vector<agent>& agents,
-           const int starting_tick)
-  : m_tiles{tiles},
+game::game(
+  const std::vector<tile>& tiles,
+  const std::vector<agent>& agents
+) : m_allow_spawning{false},
+    m_tiles{tiles},
     m_agents{agents},
-    m_n_tick{starting_tick},
+    m_n_tick{0},
     m_score{0},
     m_essence{0}
 {
@@ -75,7 +76,7 @@ void game::process_events()
     ppt = ppt / m_tiles.size();
   }
   m_score = ppt * 112 - 112;
-  std::cout << ppt << std::endl;
+  //std::cout << ppt << std::endl;
 
   //Process the events happening on the tiles
   for (auto& tile : m_tiles)
@@ -421,6 +422,11 @@ void test_game() //!OCLINT a testing function may be long
     const auto y_after = tile.get_y();
     assert(x_before != x_after);
     assert(y_before != y_after);
+  }
+  //A game event should rotate tiles
+
+  {
+
   }
   //#define FIX_ISSUE_415
   #ifdef FIX_ISSUE_415
