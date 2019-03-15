@@ -127,6 +127,9 @@ private:
 
 };
 
+/// Create the default collection of tiles (old)
+std::vector<tile> create_test_default_tiles() noexcept;
+
 /// Create the default collection of tiles
 std::vector<tile> create_default_tiles() noexcept;
 

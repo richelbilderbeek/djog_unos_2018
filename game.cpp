@@ -75,7 +75,7 @@ void game::process_events()
   if (m_tiles.size() != 0) {
     ppt = ppt / m_tiles.size();
   }
-  m_score = ppt * 112 - 112;
+  //m_score = ppt * 112 - 112;
   //std::cout << ppt << std::endl;
 
   //Process the events happening on the tiles
@@ -358,7 +358,7 @@ void test_game() //!OCLINT a testing function may be long
   }
   // A game can be loaded
   {
-    const game g(create_default_tiles(),
+    const game g(create_test_default_tiles(),
                  std::vector<agent>{agent(agent_type::spider, 0, 0, 100)}
                 );
     const std::string filename{"tmp.sav"};
@@ -505,7 +505,7 @@ void test_game() //!OCLINT a testing function may be long
 
   //Get agent count function test (Issue: #373)
     {
-        game g(create_default_tiles(), { agent(agent_type::cow),
+        game g(create_test_default_tiles(), { agent(agent_type::cow),
                                          agent(agent_type::cow),
                                          agent(agent_type::cow),
                                          agent(agent_type::cow),
