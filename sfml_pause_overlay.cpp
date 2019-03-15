@@ -59,6 +59,14 @@ void sfml_pause_overlay::exec()
         if (m_button2.is_clicked(event, m_window))
           close(game_state::menuscreen);
         break;
+      case sf::Event::KeyPressed:
+        if(event.key.code == sf::Keyboard::C){
+          close(game_state::playing);
+        }
+        if(event.key.code == sf::Keyboard::Q){
+          close(game_state::menuscreen);
+        }
+        break;
       default:
         sfml_window_manager::get().process();
         break;
