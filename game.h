@@ -13,9 +13,16 @@ friend class sfml_game;
 
 public:
   /// Constructor
-  game(const std::vector<tile>& tiles = create_default_tiles(),
-       const std::vector<agent>& agents = create_default_agents(),
-       const int starting_tick = 0);
+  game(
+    const std::vector<tile>& tiles = create_default_tiles(),
+    const std::vector<agent>& agents = create_default_agents()
+  );
+
+  ///Does the game spawn agents?
+  ///Iff true, tiles spawn agents.
+  ///Spawning is set to false in debugging,
+  ///e.g. when all creatures must go extinct due to starvation
+  bool allow_spawning() const noexcept { return m_allow_spawning; }
 
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
@@ -49,7 +56,17 @@ public:
 
   void spawn(agent_type type, tile t);
 
+  /// Allow the real game to allow spawning of agents
+  void set_allow_spawning(const bool do_allow) noexcept { m_allow_spawning = do_allow; }
+
 private:
+
+  ///Does the game spawn agents?
+  ///Iff true, tiles spawn agents.
+  ///Spawning is set to false in debugging,
+  ///e.g. when all creatures must go extinct due to starvation
+  bool m_allow_spawning;
+
   /// The selected tile
   std::vector<int> m_selected;
 

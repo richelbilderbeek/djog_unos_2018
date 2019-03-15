@@ -31,6 +31,11 @@ sfml_game::sfml_game(
   start_music();
   setup_display_score();
   setup_tickcounter_text();
+
+  //Let new agents spawn. This is disabled in
+  //debug mode (which makes many tests simpler),
+  //but in the real game, agents must definitely spawn
+  m_game.set_allow_spawning(true);
 }
 
 sfml_game::~sfml_game()

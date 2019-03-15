@@ -12,12 +12,13 @@
 #include <functional>
 
 
-game::game(const std::vector<tile>& tiles,
-           const std::vector<agent>& agents,
-           const int starting_tick)
-  : m_tiles{tiles},
+game::game(
+  const std::vector<tile>& tiles,
+  const std::vector<agent>& agents
+) : m_allow_spawning{false},
+    m_tiles{tiles},
     m_agents{agents},
-    m_n_tick{starting_tick},
+    m_n_tick{0},
     m_score{0}
 {
 

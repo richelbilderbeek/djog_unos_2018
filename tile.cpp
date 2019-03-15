@@ -124,6 +124,8 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 
 void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 {
+  if (!g.allow_spawning()) return;
+  //Spawning
   //Land type, common agent type spawned, rare agent type spawned
   using triplet = std::tuple<tile_type, agent_type, agent_type>;
   const std::vector<triplet> v =
