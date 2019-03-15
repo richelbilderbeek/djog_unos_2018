@@ -6,6 +6,7 @@
 
 /// The type an agent can be
 enum class agent_type {
+<<<<<<< HEAD
   bird,
   cactus,
   cow,
@@ -27,6 +28,30 @@ enum class agent_type {
   venus_fly_trap,
   whale,
   worm
+=======
+    none,
+    plankton,
+    cow,
+    grass,
+    sun_flower,
+    fish,
+    crocodile,
+    sunflower,
+    squirrel,
+    tree,
+    goat,
+    snake,
+    bird,
+    spider,
+    octopus,
+    worm,
+    whale,
+    lion,
+    giraffe,
+    venus_fly_trap,
+    foxgloves,
+    cactus
+>>>>>>> mart
 };
 
 /// Get all the agent types in a std::vector

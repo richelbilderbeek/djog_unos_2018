@@ -63,6 +63,12 @@ public:
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
 
+  /// Set the movement coeficient on the width-axis
+  void set_width(double width);
+
+  /// Set the movement coeficient on the height-axis
+  void set_height(double height);
+
   /// Set the movement coeficient of the z-axis
   void set_dz(double dz);
 
@@ -141,6 +147,9 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept;
 
 /// Is this coordinate within the tile?
 bool contains(const tile& t, double x, double y) noexcept;
+
+/// Rotate the tile
+void rotate(tile& t);
 
 std::ostream& operator<<(std::ostream& os, const tile& t);
 
