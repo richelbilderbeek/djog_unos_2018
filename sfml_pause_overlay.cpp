@@ -35,7 +35,7 @@ sfml_pause_overlay::sfml_pause_overlay()
   #endif
 }
 
-void sfml_pause_overlay::exec()
+void sfml_pause_overlay::exec() //!OCLINT high cyclomatic complexity
 {
   assert(active(game_state::paused));
   sf::Event event;

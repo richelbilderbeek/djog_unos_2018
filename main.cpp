@@ -166,7 +166,7 @@ int main(int argc, char **argv) //!OCLINT main too long
     tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::nonetile));
     agents.push_back(agent(agent_type::spider,50));
   } else {
-    tiles = create_default_tiles();
+    tiles = create_test_default_tiles();
     agents = create_default_agents();
   }
 

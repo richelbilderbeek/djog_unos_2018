@@ -227,13 +227,13 @@ void sfml_game::process_events()
 void sfml_game::confirm_move()
 {
   if (m_camera.m_movecam_r == true)
-    m_camera.move_camera(sf::Vector2f(1, 0));
+    m_camera.move_camera(sf::Vector2f(0.5, 0));
   if (m_camera.m_movecam_l == true)
-    m_camera.move_camera(sf::Vector2f(-1, 0));
+    m_camera.move_camera(sf::Vector2f(-0.5, 0));
   if (m_camera.m_movecam_u == true)
-    m_camera.move_camera(sf::Vector2f(0, -1));
+    m_camera.move_camera(sf::Vector2f(0, -0.5));
   if (m_camera.m_movecam_d == true)
-    m_camera.move_camera(sf::Vector2f(0, 1));
+    m_camera.move_camera(sf::Vector2f(0, 0.5));
 }
 
 void sfml_game::follow_tile()
