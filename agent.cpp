@@ -675,6 +675,7 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
+
     // Venus Fly Trap does not move
     {
       game g;
@@ -685,6 +686,7 @@ void test_agent() //!OCLINT testing functions may be long
       a.move();
       assert(a.get_x() == x && a.get_y() == y);
     }
+
   // Agents have health
   {
     const agent a(agent_type::cow, 0, 0, 10);

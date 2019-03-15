@@ -96,6 +96,8 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "cow";
     case agent_type::crocodile:
       return "crocodile";
+    case agent_type::sunflower:
+      return "sunflower";
     case agent_type::grass:
       return "grass";
     case agent_type::fish:
@@ -110,8 +112,6 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "goat";
     case agent_type::squirrel:
       return "squirrel";
-    case agent_type::sunflower:
-      return "sunflower";
     case agent_type::snake:
       return "snake";
     case agent_type::spider:
@@ -149,6 +149,7 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "octopus") return agent_type::octopus;
   if (str == "spider") return agent_type::spider;
   if (str == "lion") return agent_type::lion;
+  if (str == "sun_flower") return agent_type::sunflower;
   if (str == "giraffe") return agent_type::giraffe;
   if (str == "venus_fly_trap") return agent_type::venus_fly_trap;
   if (str == "foxgloves") return agent_type::foxgloves;
