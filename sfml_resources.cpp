@@ -278,7 +278,7 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_cow_texture;
   case agent_type::crocodile:
     return m_crocodile_texture;
-  case agent_type::sun_flower:
+  case agent_type::sunflower:
     return m_sun_flower_texture;
     case agent_type::fish:
       return m_fish_texture;
@@ -296,8 +296,6 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_spider_texture;
     case agent_type::squirrel:
       return m_squirrel_texture;
-    case agent_type::sunflower:
-      return m_sunflower_texture;
     case agent_type::bird:
       return m_bird_texture;
     case agent_type::lion:

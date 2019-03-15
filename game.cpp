@@ -423,17 +423,11 @@ void test_game() //!OCLINT a testing function may be long
     assert(x_before != x_after);
     assert(y_before != y_after);
   }
-<<<<<<< HEAD
-=======
-
   //A game event should rotate tiles
 
   {
 
   }
-
-
->>>>>>> mart
   //#define FIX_ISSUE_415
   #ifdef FIX_ISSUE_415
   {
