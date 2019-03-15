@@ -76,7 +76,7 @@ void game::process_events()
     ppt = ppt / m_tiles.size();
   }
   m_score = ppt * 112 - 112;
-  std::cout << ppt << std::endl;
+  //std::cout << ppt << std::endl;
 
   //Process the events happening on the tiles
   for (auto& tile : m_tiles)
