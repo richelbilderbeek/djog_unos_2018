@@ -11,9 +11,22 @@
 
 using namespace sf;
 
-agent::agent(const agent_type type, const double x, const double y,
-             const double health, const double direction)
-    : m_type{type}, m_x{x}, m_y{y}, m_direction{direction}, m_health{health}, m_stamina{100}{}
+agent::agent(
+  const agent_type type,
+  const double x,
+  const double y,
+  const double health,
+  const double direction
+) : m_type{type},
+    m_x{x},
+    m_y{y},
+    m_direction{direction},
+    m_health{health},
+    m_stamina{100}
+{
+  //An agent of type none is used when a 'null' agent is needed
+  assert(type != agent_type::none || type == agent_type::none);
+}
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
