@@ -6,6 +6,7 @@
 #include "tile.h"
 #include "agent.h"
 #include "sfml_camera.h"
+#include <QDir>
 
 class game {
 
@@ -35,6 +36,8 @@ public:
   double get_score() const noexcept { return m_score; }
 
   void change_score_by(int delta_score);
+
+  int get_essence() const noexcept { return m_essence; }
 
   void delete_tiles(std::vector<tile> ts);
 
@@ -86,6 +89,8 @@ private:
 
   double m_score;
 
+  int m_essence;
+
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);
   friend std::istream& operator>>(std::istream& os, game& g);
@@ -121,6 +126,9 @@ tile get_current_tile(game& g, double x, double y);
 
 /// Load a game from a file
 game load(const std::string &filename);
+
+// The save Subdir
+const std::string SAVE_DIR = "saves\\";
 
 /// Save the game to a file
 void save(const game &game, const std::string &filename);

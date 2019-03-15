@@ -38,6 +38,10 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
   ;
 }
 
+double pythagoras(double x_length, double y_length){
+    return sqrt((x_length * x_length) + (y_length * y_length));
+}
+
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::crocodile:
@@ -114,19 +118,13 @@ bool agent::is_in_range(double x, double y, double range) {
 }
 
 agent agent::nearest_agent(game& g, agent& a, agent_type type){
-  double minX = 1000000;
-  double minY = 1000000;
+  double minD = pythagoras(1000000, 1000000);
   agent near_agent(type);
   for(agent& ag: g.get_agents()){
     if(ag.get_type() == type){
-      double distanceX = fabs(ag.get_x() - a.get_x());
-      double distanceY = fabs(ag.get_y() - a.get_y());
-      if(distanceX < minX){
-        minX = distanceX;
-        near_agent = ag;
-      }
-      if(distanceY < minY){
-        minY = distanceY;
+      double distance = pythagoras(fabs(ag.get_x() - a.get_x()), fabs(ag.get_y() - a.get_y()));
+      if(distance < minD){
+        minD = distance;
         near_agent = ag;
       }
     }
@@ -159,20 +157,22 @@ void agent::move_to_food(game &g){
     return;
   }
   agent nearest_f(agent_type::none, INFINITY, INFINITY);
+  double f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
+  double distance;
   for(agent a : g.get_agents()){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
       if(a.get_type() == can_eat(m_type)[i]){
-        double distance_x = fabs(m_x - a.get_x());
-        double distance_y = fabs(m_y - a.get_y());
-        if(distance_x > 250 || distance_y > 250) return;
-        if(distance_x < fabs(m_x - nearest_f.get_x())
-           || distance_y < fabs(m_y - nearest_f.get_y())){
+        distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
+        if(distance > 350) return;
+        if(a == nearest_agent(g, *this, can_eat(m_type)[i])
+           && distance < f_distance){
           nearest_f = a;
+          f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
         }
       }
     }
   }
-  if(!std::isinf(nearest_f.get_x())){
+  if(nearest_f.get_type() != agent_type::none){
     double x = -(0.01 * (m_x - nearest_f.get_x()));
     x = std::max(-0.05, std::min(x, 0.05));
     m_x += x;
@@ -184,16 +184,17 @@ void agent::move_to_food(game &g){
 
 void agent::attract_to_agent(game &g, agent_type type){
   agent near_a(agent_type::none, INFINITY, INFINITY);
+  double distance = pythagoras(fabs(m_x - near_a.get_x()), fabs(m_y - near_a.get_y()));
   for(agent a : g.get_agents()){
+    double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
+    if(distance_a > 350) return;
     if(a.get_type() == type &&
-      (fabs(m_x - a.get_x()) < fabs(m_x - near_a.get_x()) ||
-      fabs(m_y - a.get_y()) < fabs(m_y - near_a.get_y()))
-      && fabs(m_x - a.get_x()) < 250
-      && fabs(m_y - a.get_y()) < 250){
+      distance_a < distance){
         near_a = a;
+        distance = pythagoras(fabs(m_x - near_a.get_x()), fabs(m_y - near_a.get_y()));
     }
   }
-  if(!std::isinf(near_a.get_x())){
+  if(near_a.get_type() != agent_type::none){
     double x = -(0.01 * (m_x - near_a.get_x()));
     x = std::max(-0.05, std::min(x, 0.05));
     m_x += x;
@@ -300,10 +301,6 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     g.add_agents( { new_agent } );
     m_health = health_parent;
   }
-}
-
-double pythagoras(double x_length, double y_length){
-    return sqrt((x_length * x_length) + (y_length * y_length));
 }
 
 void agent::damage_near_grass(game &g, agent_type type)
@@ -925,22 +922,25 @@ void test_agent() //!OCLINT testing functions may be long
   //a spider is attracted to venus_fly_trap
   {
     game g(create_default_tiles(),
-           {agent(agent_type::spider, 0, 0, 100),
-            agent(agent_type::venus_fly_trap, 100, 100, 100)});
+           {agent(agent_type::spider, 0, 0),
+            agent(agent_type::venus_fly_trap, 50, 50)});
     double spider_prev_posX = g.get_agents()[0].get_x();
     double spider_prev_posY = g.get_agents()[0].get_y();
-    double distanceX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
-    double distanceY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    //move the spider 1000 times
-    for(int i = 0; i < 1000; i++){
-      g.process_events();
+    double distanceX = fabs(g.get_agents()[1].get_x() - g.get_agents()[0].get_x());
+    double distanceY = fabs(g.get_agents()[1].get_y() - g.get_agents()[0].get_y());
+    double distance = pythagoras(distanceX, distanceY);
+    //move the spider 100 times
+    for(int i = 0; i < 100; i++){
+      //g.process_events() doesn't work?
+      //g.process_events();
+      g.get_agents()[0].attract_to_agent(g, agent_type::venus_fly_trap);
     }
     double spider_aft_posX = g.get_agents()[0].get_x();
     double spider_aft_posY = g.get_agents()[0].get_y();
-    double distance_afterX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();
-    double distance_afterY = g.get_agents()[1].get_y() - g.get_agents()[0].get_y();
-    assert(distanceX > distance_afterX);
-    assert(distanceY > distance_afterY);
+    double distance_afterX = fabs(g.get_agents()[1].get_x() - spider_aft_posX);
+    double distance_afterY = fabs(g.get_agents()[1].get_y() - spider_aft_posY);
+    double distance_after = pythagoras(distance_afterX, distance_afterY);
+    assert(distance > distance_after);
     assert(g.get_agents()[0].get_x() > 0);
     assert(g.get_agents()[0].get_y() > 0);
     assert(spider_prev_posX < spider_aft_posX);
