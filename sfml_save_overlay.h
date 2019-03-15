@@ -1,11 +1,11 @@
-#ifndef SFML_SVAE_OVERLAY_H
-#define SFML_SVAE_OVERLAY_H
+#ifndef SFML_SAVE_OVERLAY_H
+#define SFML_SAVE_OVERLAY_H
 
 
-class sfml_svae_overlay
+class sfml_save_overlay
 {
 public:
-    sfml_svae_overlay();
+  sfml_save_overlay();
 };
 
-#endif // SFML_SVAE_OVERLAY_H
+#endif // SFML_SAVE_OVERLAY_H
