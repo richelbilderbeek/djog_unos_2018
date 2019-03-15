@@ -52,13 +52,40 @@ void sfml_text_input::select(const sf::Event& event,
 }
 
 void sfml_text_input::input(const sf::Event& event) {
-  if (event.type == sf::Event::TextEntered)
-  {
-    // Handle ASCII characters only
-    if (event.text.unicode < 128)
-    {
+  if (event.type == sf::Event::TextEntered && m_selected) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+      m_selected = false;
+    } else if (is_normal_char(event.text.unicode)) { // Handle ASCII chars only
       m_string += static_cast<char>(event.text.unicode);
       set_string(m_string);
     }
   }
+}
+
+bool is_normal_char(uint32_t c) {
+  return (c > 47 && c < 58) ||
+         (c > 64 && c < 91) ||
+         (c > 96 && c < 123);
+}
+
+void test_normal_char() {
+  assert(is_normal_char('a'));
+  assert(is_normal_char('z'));
+  assert(is_normal_char('0'));
+  assert(is_normal_char('9'));
+  assert(is_normal_char('A'));
+  assert(is_normal_char('Z'));
+  assert(is_normal_char('G'));
+  assert(is_normal_char('g'));
+  assert(is_normal_char('1'));
+  assert(is_normal_char('5'));
+
+  assert(!is_normal_char('{'));
+  assert(!is_normal_char('\\'));
+  assert(!is_normal_char('\b'));
+  assert(!is_normal_char('\n'));
+  assert(!is_normal_char('`'));
+  assert(!is_normal_char(';'));
+  assert(!is_normal_char('*'));
+  assert(!is_normal_char('|'));
 }

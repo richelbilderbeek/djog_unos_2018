@@ -48,4 +48,8 @@ private:
 
 };
 
+bool is_normal_char(uint32_t c);
+
+void test_normal_char();
+
 #endif // SFML_TEXT_INPUT_H

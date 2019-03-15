@@ -10,6 +10,7 @@
 #include "sfml_window_manager.h"
 #include "tile.h"
 #include "tile_id.h"
+#include "sfml_text_input.h"
 #include <QFile>
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
@@ -42,6 +43,7 @@ void test() {
   test_agent_type();
   test_tile_id();
   //test_sfml_window_manager();
+  test_normal_char();
 }
 int start_sfml_game(int ca, bool music,
                     std::vector<tile> tiles,
