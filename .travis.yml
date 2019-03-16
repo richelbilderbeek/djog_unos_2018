@@ -64,7 +64,7 @@ script:
   - qmake djog_unos_2018.pro
   - make release
   - ./djog_unos_2018 --short
-  - gprof djog_unos_2018 --short > gprof.log
+  - gprof djog_unos_2018 > gprof.log
   - head gprof.log -n 1000
   # Get code coverage
   - cp debug/*.* .
