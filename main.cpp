@@ -26,6 +26,7 @@
 ///   * '--about': show the about screen
 ///   * '--version': show the SFML version and quit
 ///   * '--spin': that's a secret...
+///   * '--profiling': only run for a minute, for profiling
 /// @param argv the arguments (as words) Nature Zen's executable is called
 ///   with by the operating system
 
@@ -130,6 +131,10 @@ int main(int argc, char **argv) //!OCLINT main too long
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
+    sfml_window_manager::get().set_state(game_state::titlescreen);
+  }
+  else if(std::count(std::begin(args), std::end(args), "--profiling")){
+    close_at = 16000;
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--title"))

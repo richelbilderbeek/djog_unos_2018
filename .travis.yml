@@ -63,6 +63,7 @@ script:
   # Build and run and profile normal program
   - qmake djog_unos_2018.pro
   - make release
+  - time ./djog_unos_2018 --short
   - ./djog_unos_2018 --short
   - gprof djog_unos_2018 > gprof.log
   - head gprof.log -n 1000
