@@ -30,7 +30,6 @@ private:
     sf::Text m_header;
 
     sfml_button m_button1;
-    sfml_button m_button2;
 
     sf::RectangleShape m_bg_rect;
 };

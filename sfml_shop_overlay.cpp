@@ -16,12 +16,7 @@ sfml_shop_overlay::sfml_shop_overlay()
   sf::RectangleShape &b1_s = m_button1.get_shape();
   b1_s.setFillColor(sf::Color(53,234,151));
   m_button1.set_size(250, 75);
-  m_button1.set_string("CONTINUE");
-
-  sf::RectangleShape &b2_s = m_button2.get_shape();
-  b2_s.setFillColor(sf::Color(53,234,151));
-  m_button2.set_size(250, 75);
-  m_button2.set_string("QUIT");
+  m_button1.set_string("CLOSE");
 
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color(51, 51, 51));
@@ -56,8 +51,6 @@ void sfml_shop_overlay::exec()
       case sf::Event::MouseButtonPressed:
         if (m_button1.is_clicked(event, m_window))
           close(game_state::playing);
-        if (m_button2.is_clicked(event, m_window))
-          close(game_state::menuscreen);
         break;
       default:
         sfml_window_manager::get().process();
@@ -74,8 +67,6 @@ void sfml_shop_overlay::draw_objects() {
   m_window.draw(m_header);
   m_window.draw(m_button1.get_shape());
   m_window.draw(m_button1.get_text());
-  m_window.draw(m_button2.get_shape());
-  m_window.draw(m_button2.get_text());
 }
 
 void sfml_shop_overlay::set_positions() {
@@ -92,11 +83,6 @@ void sfml_shop_overlay::set_positions() {
                                                   (m_window.getSize().y/568)*220)));
   m_button1.set_pos(b1_pos.x, b1_pos.y);
 
-  //Button 2
-  sf::Vector2f b2_pos(m_window.mapPixelToCoords(sf::Vector2i(
-                                                  (m_window.getSize().x / 2),
-                                                  (m_window.getSize().y/568)*330)));
-  m_button2.set_pos(b2_pos.x, b2_pos.y);
 
   m_bg_rect.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
   m_bg_rect.setSize(m_window.getView().getSize());
