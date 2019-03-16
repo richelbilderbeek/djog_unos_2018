@@ -11,9 +11,22 @@
 
 using namespace sf;
 
-agent::agent(const agent_type type, const double x, const double y,
-             const double health, const double direction)
-    : m_type{type}, m_x{x}, m_y{y}, m_direction{direction}, m_health{health}, m_stamina{100}{}
+agent::agent(
+  const agent_type type,
+  const double x,
+  const double y,
+  const double health,
+  const double direction
+) : m_type{type},
+    m_x{x},
+    m_y{y},
+    m_direction{direction},
+    m_health{health},
+    m_stamina{100}
+{
+  //An agent of type none is used when a 'null' agent is needed
+  assert(type != agent_type::none || type == agent_type::none);
+}
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
 {
@@ -420,9 +433,9 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a2(agent_type::giraffe, 10, 20);
     move_agent_to_tile(a2, 1, -1);
     agents.push_back(a2);
-    agent a3(agent_type::lion, 120, 20);
-    move_agent_to_tile(a3, 1, -1);
-    agents.push_back(a3);
+    //agent a3(agent_type::lion, 120, 20);
+    //move_agent_to_tile(a3, 1, -1);
+    //agents.push_back(a3);
     agent a4(agent_type::crocodile, 180, 20);
     move_agent_to_tile(a4, 1, -1);
     agents.push_back(a4);

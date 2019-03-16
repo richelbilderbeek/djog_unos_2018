@@ -5,21 +5,21 @@
 #include <iostream>
 /// The type a tile can be
 enum class tile_type {
-  nonetile,
-  grassland,
-  mountains,
-  water,
-  savannah,
   arctic,
-  desert,
-  swamp,
-  woods,
-  dunes,
-  mangrove,
   beach,
-  tundra,
+  desert,
+  dunes,
+  grassland,
+  hills,
+  mangrove,
+  mountains,
+  nonetile,
   rainforest,
-  hills
+  savannah,
+  swamp,
+  tundra,
+  water,
+  woods
 };
 
 ///Get the merged type of two type names,
