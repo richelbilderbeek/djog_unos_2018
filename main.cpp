@@ -134,7 +134,7 @@ int main(int argc, char **argv) //!OCLINT main too long
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if(std::count(std::begin(args), std::end(args), "--profiling")){
-    close_at = 16000;
+    close_at = 8000;
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--title"))
