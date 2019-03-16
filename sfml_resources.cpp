@@ -265,6 +265,20 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file beach_texture_standing.png");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/water_lying.png");
+    f.copy("water_lying.png");
+    if (!m_water_laying.loadFromFile("water_lying.png")) {
+      throw std::runtime_error("Cannot find image file water_lying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/water_standing.png");
+    f.copy("water_standing.png");
+    if (!m_water_standing.loadFromFile("water_standing.png")) {
+      throw std::runtime_error("Cannot find image file water_standing.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -336,6 +350,11 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept {
         return m_beach_laying;
       }
       return m_beach_standing;
+    case tile_type::water:
+      if (t.get_width() > 100) {
+        return m_water_laying;
+      }
+      return m_water_standing;
     default:
       return m_empty_tile;
   }

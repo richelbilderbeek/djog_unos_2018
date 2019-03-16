@@ -109,6 +109,9 @@ private:
 
   sf::Texture m_beach_laying;
   sf::Texture m_beach_standing;
+
+  sf::Texture m_water_laying;
+  sf::Texture m_water_standing;
 };
 
 /// Test the sfml_resources class
