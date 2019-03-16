@@ -318,18 +318,15 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
 void agent::damage_near_grass(game &g, agent_type type)
 {
-  const double max_distance { pythagoras(32.0, 32.0) };
+  const double max_distance { 45 };
 
-  const double max_damage { 17.5/1000.0 };
+  const double max_damage { 0.0175 };
 
-  std::vector <agent> all_agents{ g.get_agents() };
-
-  for (agent& current_agent : all_agents)
+  for (agent& current_agent : g.get_agents())
   {
-    double delta = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
-    if (current_agent.get_type() == type &&
-         delta <= max_distance
-       )
+    if(current_agent.get_type() != type) return;
+    double delta = pythagoras(fabs(current_agent.get_x() - m_x), fabs(current_agent.get_y() - m_y));
+    if (delta <= max_distance)
     {
         double rate = 1 - delta / max_distance;
         double damage = max_damage * rate;
