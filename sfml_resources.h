@@ -107,6 +107,8 @@ private:
   sf::Texture m_tundra_laying;
   sf::Texture m_tundra_standing;
 
+  sf::Texture m_beach_laying;
+  sf::Texture m_beach_standing;
 };
 
 /// Test the sfml_resources class

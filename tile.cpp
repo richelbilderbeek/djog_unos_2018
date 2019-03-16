@@ -76,6 +76,10 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
     tiles.push_back(t);
   }
   {
+    tile t(5, 2, 8, 1, 2, 0, tile_type::beach, tile_id());
+    tiles.push_back(t);
+  }
+  {
     tile t(1, -1, 7, 2, 1, 0, tile_type::savannah, tile_id());
     tiles.push_back(t);
   }

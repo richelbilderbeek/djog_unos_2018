@@ -244,13 +244,27 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file zen_title.png");
     }
   }
-    {
-      QFile f(":/nature_zen/resources/cactus.png");
-      f.copy("cactus.png");
-      if (!m_cactus_texture.loadFromFile("cactus.png")) {
-        throw std::runtime_error("Cannot find image file cactus.png");
-      }
+  {
+    QFile f(":/nature_zen/resources/cactus.png");
+    f.copy("cactus.png");
+    if (!m_cactus_texture.loadFromFile("cactus.png")) {
+      throw std::runtime_error("Cannot find image file cactus.png");
     }
+  }
+  {
+    QFile f(":/nature_zen/resources/beach_texture_laying.png");
+    f.copy("beach_texture_laying.png");
+    if (!m_beach_laying.loadFromFile("beach_texture_laying.png")) {
+      throw std::runtime_error("Cannot find image file beach_texture_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/beach_texture_standing.png");
+    f.copy("beach_texture_standing.png");
+    if (!m_beach_standing.loadFromFile("beach_texture_standing.png")) {
+      throw std::runtime_error("Cannot find image file beach_texture_standing.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -317,6 +331,11 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept {
       }
       assert(t.get_width() == 100.0);
       return m_tundra_standing;
+    case tile_type::beach:
+      if (t.get_width() > 100) {
+        return m_beach_laying;
+      }
+      return m_beach_standing;
     default:
       return m_empty_tile;
   }

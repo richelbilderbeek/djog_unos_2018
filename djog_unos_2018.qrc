@@ -34,5 +34,7 @@
         <file>resources/venus_fly_trap.png</file>
         <file>resources/foxgloves.png</file>
         <file>resources/cactus.png</file>
+        <file>resources/beach_texture_laying.png</file>
+        <file>resources/beach_texture_standing.png</file>
     </qresource>
 </RCC>
