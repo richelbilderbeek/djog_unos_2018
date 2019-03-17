@@ -76,13 +76,13 @@ private:
   ///Iff true, tiles spawn agents.
   ///Spawning is set to false in debugging,
   ///e.g. when all creatures must go extinct due to starvation
-  bool m_allow_spawning;
+  bool m_allow_spawning = true;
 
   ///Allow agents to damage each other
-  bool m_allow_damage;
+  bool m_allow_damage = true;
 
   ///Update the score
-  bool m_allow_score;
+  bool m_allow_score = true;
 
   /// The selected tile
   std::vector<int> m_selected;
