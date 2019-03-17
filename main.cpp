@@ -179,8 +179,14 @@ int main(int argc, char **argv) //!OCLINT main too long
     agents = create_default_agents();
   }
   else{
-    tiles = create_test_default_tiles();
-    agents = create_default_agents();
+    for(int i = 0; i < std::stoi(args[2]); i++){
+      agent a(agent_type::cow, i, i);
+      agents.push_back(a);
+    }
+    for(int i = 0; i < std::stoi(args[3]); i++){
+      tile t(i, i, 0, 1, 2, 0, tile_type::grassland);
+      tiles.push_back(t);
+    }
     spawning = false;
     damage = false;
   }
