@@ -46,8 +46,10 @@ void test() {
 }
 int start_sfml_game(int ca, bool music,
                     std::vector<tile> tiles,
-                    std::vector<agent> agents) {
-  sfml_game g(sfml_game_delegate(ca), tiles, agents);
+                    std::vector<agent> agents,
+                    bool spawning,
+                    bool damage) {
+  sfml_game g(sfml_game_delegate(ca, spawning, damage), tiles, agents);
   if (!music) g.stop_music();
   g.exec();
   return 0;
@@ -161,6 +163,8 @@ int main(int argc, char **argv) //!OCLINT main too long
 
   std::vector<tile> tiles;
   std::vector<agent> agents;
+  bool spawning = true;
+  bool damage = true;
 
   if (std::count(std::begin(args), std::end(args), "--spin"))
   {
@@ -170,9 +174,15 @@ int main(int argc, char **argv) //!OCLINT main too long
     tiles.push_back(tile(-2.2,1,0,0.2,1,0,tile_type::nonetile));
     tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::nonetile));
     agents.push_back(agent(agent_type::spider,50));
-  } else {
+  } else if(!std::count(std::begin(args), std::end(args), "--profiling")) {
     tiles = create_test_default_tiles();
     agents = create_default_agents();
+  }
+  else{
+    tiles = create_test_default_tiles();
+    agents = create_default_agents();
+    spawning = false;
+    damage = false;
   }
 
   while (sfml_window_manager::get().get_window().isOpen()) {
@@ -188,7 +198,7 @@ int main(int argc, char **argv) //!OCLINT main too long
         break;
       case game_state::paused:
       case game_state::playing:
-        start_sfml_game(close_at, music, tiles, agents);
+        start_sfml_game(close_at, music, tiles, agents, spawning, damage);
         break;
       case game_state::gameover:
         show_sfml_gameover_screen(close_at);

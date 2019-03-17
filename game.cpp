@@ -16,6 +16,7 @@ game::game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents
 ) : m_allow_spawning{false},
+    m_allow_damage{false},
     m_tiles{tiles},
     m_agents{agents},
     m_n_tick{0},
@@ -60,7 +61,9 @@ void game::process_events()
     a.process_events(*this);
   }
 
-  kill_agents();
+  if(m_allow_damage){
+    kill_agents();
+  }
 
   merge_tiles();
 

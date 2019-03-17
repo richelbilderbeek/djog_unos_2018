@@ -25,6 +25,8 @@ public:
   ///e.g. when all creatures must go extinct due to starvation
   bool allow_spawning() const noexcept { return m_allow_spawning; }
 
+  bool allow_damage() const noexcept { return m_allow_damage; }
+
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
   auto &get_tiles() noexcept { return m_tiles; }
@@ -62,6 +64,8 @@ public:
   /// Allow the real game to allow spawning of agents
   void set_allow_spawning(const bool do_allow) noexcept { m_allow_spawning = do_allow; }
 
+  void set_allow_damage(const bool do_damage) noexcept { m_allow_damage = do_damage; }
+
 private:
 
   ///Does the game spawn agents?
@@ -69,6 +73,9 @@ private:
   ///Spawning is set to false in debugging,
   ///e.g. when all creatures must go extinct due to starvation
   bool m_allow_spawning;
+
+  ///Allow agents to damage each other
+  bool m_allow_damage;
 
   /// The selected tile
   std::vector<int> m_selected;

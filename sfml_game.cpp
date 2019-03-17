@@ -31,7 +31,8 @@ sfml_game::sfml_game(
   start_music();
   setup_display_score();
   setup_tickcounter_text();
-  m_game.set_allow_spawning(true);
+  m_game.set_allow_spawning(m_delegate.get_spawning());
+  m_game.set_allow_damage(m_delegate.get_damage());
 }
 
 sfml_game::~sfml_game()

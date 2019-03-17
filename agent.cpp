@@ -225,8 +225,8 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
   if(m_type == agent_type::spider) attract_to_agent(g, agent_type::venus_fly_trap);
 
-  if (m_type == agent_type::grass || m_type == agent_type::tree
-      || m_type == agent_type::cow)  reproduce_agents(g, m_type);
+  if ((m_type == agent_type::grass || m_type == agent_type::tree
+      || m_type == agent_type::cow) && g.allow_damage())  reproduce_agents(g, m_type);
 
   if (m_type == agent_type::grass || m_type == agent_type::tree) damage_near_grass(g, m_type);
 
@@ -318,15 +318,18 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
 void agent::damage_near_grass(game &g, agent_type type)
 {
-  const double max_distance { 45 };
+  const double max_distance { pythagoras(32.0, 32.0) };
 
-  const double max_damage { 0.0175 };
+  const double max_damage { 17.5/1000.0 };
 
-  for (agent& current_agent : g.get_agents())
+  std::vector <agent> all_agents{ g.get_agents() };
+
+  for (agent& current_agent : all_agents)
   {
-    if(current_agent.get_type() != type) return;
-    double delta = pythagoras(fabs(current_agent.get_x() - m_x), fabs(current_agent.get_y() - m_y));
-    if (delta <= max_distance)
+    double delta = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
+    if (current_agent.get_type() == type &&
+         delta <= max_distance
+       )
     {
         double rate = 1 - delta / max_distance;
         double damage = max_damage * rate;
