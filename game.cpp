@@ -57,8 +57,6 @@ int count_n_agents(const game& g) noexcept
 
 void game::process_events()
 {
-  std::cout << count_n_tiles(*this) << std::endl;
-  std::cout << count_n_agents(*this) << std::endl;
   for (auto& a: m_agents) {
     a.process_events(*this);
   }
