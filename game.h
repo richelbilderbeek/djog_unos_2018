@@ -27,6 +27,8 @@ public:
 
   bool allow_damage() const noexcept { return m_allow_damage; }
 
+  bool allow_score() const noexcept { return m_allow_score; }
+
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
   auto &get_tiles() noexcept { return m_tiles; }
@@ -66,6 +68,8 @@ public:
 
   void set_allow_damage(const bool do_damage) noexcept { m_allow_damage = do_damage; }
 
+  void set_allow_score(const bool do_score) noexcept { m_allow_score = do_score; }
+
 private:
 
   ///Does the game spawn agents?
@@ -76,6 +80,9 @@ private:
 
   ///Allow agents to damage each other
   bool m_allow_damage;
+
+  ///Update the score
+  bool m_allow_score;
 
   /// The selected tile
   std::vector<int> m_selected;

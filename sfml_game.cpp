@@ -33,6 +33,7 @@ sfml_game::sfml_game(
   setup_tickcounter_text();
   m_game.set_allow_spawning(m_delegate.get_spawning());
   m_game.set_allow_damage(m_delegate.get_damage());
+  m_game.set_allow_score(m_delegate.get_score());
 }
 
 sfml_game::~sfml_game()

@@ -78,7 +78,9 @@ void game::process_events()
   if (m_tiles.size() != 0) {
     ppt = ppt / m_tiles.size();
   }
-  m_score = ppt * 112 - 112;
+  if(m_allow_score){
+    m_score = ppt * 112 - 112;
+  }
   //std::cout << ppt << std::endl;
 
   //Process the events happening on the tiles

@@ -48,8 +48,9 @@ int start_sfml_game(int ca, bool music,
                     std::vector<tile> tiles,
                     std::vector<agent> agents,
                     bool spawning,
-                    bool damage) {
-  sfml_game g(sfml_game_delegate(ca, spawning, damage), tiles, agents);
+                    bool damage,
+                    bool score) {
+  sfml_game g(sfml_game_delegate(ca, spawning, damage, score), tiles, agents);
   if (!music) g.stop_music();
   g.exec();
   return 0;
@@ -135,7 +136,7 @@ int main(int argc, char **argv) //!OCLINT main too long
     close_at = 600;
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
-  else if(std::count(std::begin(args), std::end(args), "--profiling")){
+  else if (std::count(std::begin(args), std::end(args), "--profiling")){
     close_at = 8000;
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
@@ -165,6 +166,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   std::vector<agent> agents;
   bool spawning = true;
   bool damage = true;
+  bool score = true;
 
   if (std::count(std::begin(args), std::end(args), "--spin"))
   {
@@ -190,6 +192,9 @@ int main(int argc, char **argv) //!OCLINT main too long
     spawning = false;
     damage = false;
   }
+  if(std::count(std::begin(args), std::end(args), "--god")){
+    score = false;
+  }
 
   while (sfml_window_manager::get().get_window().isOpen()) {
     switch (sfml_window_manager::get().get_state()) {
@@ -204,7 +209,7 @@ int main(int argc, char **argv) //!OCLINT main too long
         break;
       case game_state::paused:
       case game_state::playing:
-        start_sfml_game(close_at, music, tiles, agents, spawning, damage);
+        start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);
         break;
       case game_state::gameover:
         show_sfml_gameover_screen(close_at);

@@ -5,8 +5,8 @@
 #include <SFML/Window/Event.hpp>
 #include "sfml_game.h"
 
-sfml_game_delegate::sfml_game_delegate(const int close_at, bool spawning, bool damage)
-    : m_close_at{close_at}, m_spawning{spawning}, m_damage{damage} {}
+sfml_game_delegate::sfml_game_delegate(const int close_at, bool spawning, bool damage, bool score)
+    : m_close_at{close_at}, m_spawning{spawning}, m_damage{damage}, m_score{score} {}
 
 bool sfml_game_delegate::do_actions(sfml_game &sg) {
 

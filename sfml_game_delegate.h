@@ -10,7 +10,8 @@ public:
   ///@param close_at number of frames at which the sfml_game
   ///  will be closed, which is useful in testing. Set to a negative
   ///  value to let the game run indefinitely
-  sfml_game_delegate(const int close_at = -1, bool spawning = true, bool damage = true);
+  sfml_game_delegate(const int close_at = -1, bool spawning = true, bool damage = true,
+                     bool score = true);
 
   /// Do possible actions on the sfml_game. This member
   /// function is called once each game cycle.
@@ -26,6 +27,8 @@ public:
 
   bool get_damage() const noexcept { return m_damage; }
 
+  bool get_score() const noexcept { return m_score; }
+
 private:
   /// The number of frames at which the sfml_game will be closed.
   /// A negative value lets the game run indefinitely
@@ -34,6 +37,8 @@ private:
   bool m_spawning;
 
   bool m_damage;
+
+  bool m_score;
 };
 
 /// Tests this class
