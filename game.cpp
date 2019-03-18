@@ -16,7 +16,7 @@ game::game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents
 ) : m_allow_spawning{false},
-    m_allow_damage{false},
+    m_allow_damage{true},
     m_tiles{tiles},
     m_agents{agents},
     m_n_tick{0},

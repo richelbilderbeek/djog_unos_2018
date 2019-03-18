@@ -747,14 +747,12 @@ void test_agent() //!OCLINT testing functions may be long
   //An agent must be removed if health is below zero
   {
     game g({tile(0, 0, 0, 100, 100, 0, tile_type::grassland)}, { agent(agent_type::cow) } );
+    g.set_allow_spawning(false);
     assert(!g.get_agents().empty());
     // Wait until cow starves
     while (!g.get_agents().empty())
     {
       g.process_events();
-      while(g.get_agents().size() >= 2){
-        g.get_agents().pop_back();
-      }
     }
   }
   //Grass grows
