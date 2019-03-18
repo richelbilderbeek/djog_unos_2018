@@ -57,7 +57,6 @@ int count_n_agents(const game& g) noexcept
 
 void game::process_events()
 {
-  std::cout << m_allow_damage << std::endl;
   for (auto& a: m_agents) {
     a.process_events(*this);
   }
