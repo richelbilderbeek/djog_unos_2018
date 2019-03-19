@@ -188,6 +188,7 @@ int main(int argc, char **argv) //!OCLINT main too long
     }
     spawning = false;
     damage = false;
+    score = false;
   }
   else if(std::count(std::begin(args), std::end(args), "--god")){
     score = false;
