@@ -190,8 +190,10 @@ int main(int argc, char **argv) //!OCLINT main too long
     damage = false;
     score = false;
   }
-  else if(std::count(std::begin(args), std::end(args), "--god")){
+  if(std::count(std::begin(args), std::end(args), "--god")){
     score = false;
+    tiles = create_test_default_tiles();
+    agents = create_default_agents();
   }
   else{
     tiles = create_test_default_tiles();
