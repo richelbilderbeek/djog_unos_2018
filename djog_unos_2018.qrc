@@ -38,5 +38,9 @@
         <file>resources/beach_texture_standing.png</file>
         <file>resources/water_lying.png</file>
         <file>resources/water_standing.png</file>
+        <file>resources/dunes_laying.png</file>
+        <file>resources/dunes_standing.png</file>
+        <file>resources/hills_laying.png</file>
+        <file>resources/hills_standing.png</file>
     </qresource>
 </RCC>

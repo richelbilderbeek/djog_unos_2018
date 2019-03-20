@@ -279,6 +279,34 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file water_standing.png");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/dunes_laying.png");
+    f.copy("dunes_laying.png");
+    if (!m_dunes_laying.loadFromFile("dunes_laying.png")) {
+      throw std::runtime_error("Cannot find image file dunes_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/dunes_standing.png");
+    f.copy("dunes_standing.png");
+    if (!m_dunes_standing.loadFromFile("dunes_standing.png")) {
+      throw std::runtime_error("Cannot find image file dunes_standing.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/hills_laying.png");
+    f.copy("hills_laying.png");
+    if (!m_hills_laying.loadFromFile("hills_laying.png")) {
+      throw std::runtime_error("Cannot find image file hills_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/hills_standing.png");
+    f.copy("hills_standing.png");
+    if (!m_hills_standing.loadFromFile("hills_standing.png")) {
+      throw std::runtime_error("Cannot find image file hills_standing.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -355,6 +383,16 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept {
         return m_water_laying;
       }
       return m_water_standing;
+    case tile_type::dunes:
+      if (t.get_width() > 100) {
+        return m_dunes_laying;
+      }
+      return m_dunes_standing;
+    case tile_type::hills:
+      if (t.get_width() > 100) {
+        return m_hills_laying;
+      }
+      return m_hills_standing;
     default:
       return m_empty_tile;
   }
