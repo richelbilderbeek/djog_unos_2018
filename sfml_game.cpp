@@ -82,6 +82,29 @@ void sfml_game::setup_display_score() {
   m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
 }
 
+void sfml_game::setup_essence_symbol()
+{
+  m_essence_symbol.setSize(sf::Vector2f(sfml_resources::get().get_essence_texture().getSize()));
+  m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*7.0f/8.0f, 10)));
+  m_essence_symbol.setTexture(&sfml_resources::get().get_essence_texture());
+}
+
+void sfml_game::display_essence_symbol()
+{
+    m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*7.0f/8.0f, 10)));
+    m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_essence_symbol.getPosition())));
+    m_window.draw(m_essence_symbol);
+}
+
+void sfml_game::display_essence()
+{
+  std::stringstream s;
+  s << "ESSENCE: " << m_game.get_essence();
+  m_tickcounter_text.setString(s.str());
+  m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*3.0f/4.0f, 10)));
+  m_window.draw(m_tickcounter_text);
+}
+
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color
@@ -104,6 +127,9 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
   }
+  // Display the essence
+  display_essence();
+
   // Display the zen
   {
     m_zen_bar.setPosition(sf::Vector2f(

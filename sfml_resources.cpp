@@ -258,6 +258,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
         throw std::runtime_error("Cannot find image file cactus.png");
       }
     }
+    {
+      QFile f(":/nature_zen/resources/Essence_29_32.png");
+      f.copy("Essence_29_32.png");
+      if (!m_essence_texture.loadFromFile("Essence_29_32.png")) {
+        throw std::runtime_error("Cannot find image file Essence_29_32.png");
+      }
+    }
 }
 
 sfml_resources &sfml_resources::get() {

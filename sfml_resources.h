@@ -35,6 +35,8 @@ public:
 
   sf::Texture &get_tile_sprite(const tile& t) noexcept;
 
+  sf::Texture& get_essence_texture() noexcept { return m_essence_texture; }
+
 private:
   /// Do not construct a sfml_resources,
   /// use sfml_resources::get() instead
@@ -108,6 +110,8 @@ private:
 
   sf::Texture m_tundra_laying;
   sf::Texture m_tundra_standing;
+
+  sf::Texture m_essence_texture;
 
 };
 
