@@ -16,6 +16,7 @@ game::game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents
 ) : m_allow_spawning{false},
+    m_allow_damage{true},
     m_tiles{tiles},
     m_agents{agents},
     m_n_tick{0},
@@ -60,7 +61,9 @@ void game::process_events()
     a.process_events(*this);
   }
 
-  kill_agents();
+  if(m_allow_damage){
+    kill_agents();
+  }
 
   merge_tiles();
 
@@ -75,7 +78,9 @@ void game::process_events()
   if (m_tiles.size() != 0) {
     ppt = ppt / m_tiles.size();
   }
-  m_score = ppt * 112 - 112;
+  if(m_allow_score){
+    m_score = ppt * 112 - 112;
+  }
   //std::cout << ppt << std::endl;
 
   //Process the events happening on the tiles
@@ -358,7 +363,7 @@ void test_game() //!OCLINT a testing function may be long
   }
   // A game can be loaded
   {
-    const game g(create_default_tiles(),
+    const game g(create_test_default_tiles(),
                  std::vector<agent>{agent(agent_type::spider, 0, 0, 100)}
                 );
     const std::string filename{"tmp.sav"};
@@ -422,6 +427,11 @@ void test_game() //!OCLINT a testing function may be long
     const auto y_after = tile.get_y();
     assert(x_before != x_after);
     assert(y_before != y_after);
+  }
+  //A game event should rotate tiles
+
+  {
+
   }
   //#define FIX_ISSUE_415
   #ifdef FIX_ISSUE_415
@@ -505,7 +515,7 @@ void test_game() //!OCLINT a testing function may be long
 
   //Get agent count function test (Issue: #373)
     {
-        game g(create_default_tiles(), { agent(agent_type::cow),
+        game g(create_test_default_tiles(), { agent(agent_type::cow),
                                          agent(agent_type::cow),
                                          agent(agent_type::cow),
                                          agent(agent_type::cow),

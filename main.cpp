@@ -26,6 +26,7 @@
 ///   * '--about': show the about screen
 ///   * '--version': show the SFML version and quit
 ///   * '--spin': that's a secret...
+///   * '--profiling': only run for a minute, for profiling
 /// @param argv the arguments (as words) Nature Zen's executable is called
 ///   with by the operating system
 
@@ -45,8 +46,11 @@ void test() {
 }
 int start_sfml_game(int ca, bool music,
                     std::vector<tile> tiles,
-                    std::vector<agent> agents) {
-  sfml_game g(sfml_game_delegate(ca), tiles, agents);
+                    std::vector<agent> agents,
+                    bool spawning,
+                    bool damage,
+                    bool score) {
+  sfml_game g(sfml_game_delegate(ca, spawning, damage, score), tiles, agents);
   if (!music) g.stop_music();
   g.exec();
   return 0;
@@ -119,6 +123,9 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   bool music = false;
+  bool spawning = true;
+  bool damage = true;
+  bool score = true;
 
   if (std::count(std::begin(args), std::end(args), "--music"))
   {
@@ -130,6 +137,10 @@ int main(int argc, char **argv) //!OCLINT main too long
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
+    sfml_window_manager::get().set_state(game_state::titlescreen);
+  }
+  else if (std::count(std::begin(args), std::end(args), "--profiling")){
+    close_at = 8000;
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--title"))
@@ -165,8 +176,27 @@ int main(int argc, char **argv) //!OCLINT main too long
     tiles.push_back(tile(-2.2,1,0,0.2,1,0,tile_type::nonetile));
     tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::nonetile));
     agents.push_back(agent(agent_type::spider,50));
-  } else {
-    tiles = create_default_tiles();
+  }
+  else if(std::count(std::begin(args), std::end(args), "--profiling")) {
+    for(int i = 0; i < std::stoi(args[2]); i++){
+      agent a(agent_type::cow, i, i);
+      agents.push_back(a);
+    }
+    for(int i = 0; i < std::stoi(args[3]); i++){
+      tile t(i, i, 0, 1, 2, 0, tile_type::grassland);
+      tiles.push_back(t);
+    }
+    spawning = false;
+    damage = false;
+    score = false;
+  }
+  if(std::count(std::begin(args), std::end(args), "--god")){
+    score = false;
+    tiles = create_test_default_tiles();
+    agents = create_default_agents();
+  }
+  else{
+    tiles = create_test_default_tiles();
     agents = create_default_agents();
   }
 
@@ -184,7 +214,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       case game_state::paused:
       case game_state::shop:
       case game_state::playing:
-        start_sfml_game(close_at, music, tiles, agents);
+        start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);
         break;
       case game_state::gameover:
         show_sfml_gameover_screen(close_at);
