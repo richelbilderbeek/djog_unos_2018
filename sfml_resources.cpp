@@ -363,4 +363,10 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(resources.get_texture(agent_type::goat).getSize().x > 0);
   }
   #endif // FIX_ISSUE_225
+  { /// Testing succesful access to the essence symbol png and its dimensions
+    sf::Texture texture{ resources.get_essence_texture() };
+
+    assert(texture.getSize().x > 0);
+    assert(texture.getSize().y > 0);
+  }
 }

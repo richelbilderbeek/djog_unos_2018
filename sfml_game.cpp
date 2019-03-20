@@ -30,6 +30,7 @@ sfml_game::sfml_game(
   m_ben_ik_een_spin.setLoop(true);
   start_music();
   setup_display_score();
+  setup_essence_symbol();
   setup_tickcounter_text();
   m_game.set_allow_spawning(m_delegate.get_spawning());
   m_game.set_allow_damage(m_delegate.get_damage());
@@ -85,15 +86,17 @@ void sfml_game::setup_display_score() {
 void sfml_game::setup_essence_symbol()
 {
   m_essence_symbol.setSize(sf::Vector2f(sfml_resources::get().get_essence_texture().getSize()));
-  m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*7.0f/8.0f, 10)));
+  // m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(7.0f*m_window.getSize().x/8.0f, 100)));
+
+  m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(7.0f*m_window.getSize().x/8.0f, 100)));
   m_essence_symbol.setTexture(&sfml_resources::get().get_essence_texture());
 }
 
 void sfml_game::display_essence_symbol()
 {
-    m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*7.0f/8.0f, 10)));
-    m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_essence_symbol.getPosition())));
-    m_window.draw(m_essence_symbol);
+  m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(7.0f*m_window.getSize().x/8.0f, 100)));
+  m_essence_symbol.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_essence_symbol.getPosition())));
+  m_window.draw(m_essence_symbol);
 }
 
 void sfml_game::display_essence()
@@ -128,8 +131,8 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_window.draw(m_tickcounter_text);
   }
   // Display the essence
-  display_essence();
-
+  // display_essence();
+  sfml_game::display_essence_symbol();
   // Display the zen
   {
     m_zen_bar.setPosition(sf::Vector2f(
