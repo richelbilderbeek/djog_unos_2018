@@ -30,7 +30,7 @@ sfml_game::sfml_game(
     // Set up Shop Button
     sf::RectangleShape &b1_s = m_shop_button.get_shape();
     b1_s.setFillColor(sf::Color(53,184,151));
-    m_shop_button.set_size(120, 50);
+    m_shop_button.set_size(100, 100);
     m_shop_button.set_string("SHOP");
   // Set up music
   m_background_music.setLoop(true);
@@ -104,9 +104,8 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   }
   // Display Shop Button
   {
-    sf::Vector2i offset = sf::Vector2i(20, 20);
     sf::Vector2i pos = sf::Vector2i(m_window.getSize().x - (m_shop_button.get_size().x / 2), m_window.getSize().y - (m_shop_button.get_size().y / 2));
-    m_shop_button.set_pos(m_window.mapPixelToCoords(pos - offset));
+    m_shop_button.set_pos(m_window.mapPixelToCoords(pos));
     m_window.draw(m_shop_button.get_shape());
     m_window.draw(m_shop_button.get_text());
   }

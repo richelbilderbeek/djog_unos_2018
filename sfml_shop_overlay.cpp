@@ -15,7 +15,7 @@ sfml_shop_overlay::sfml_shop_overlay()
 
   sf::RectangleShape &b1_s = m_button1.get_shape();
   b1_s.setFillColor(sf::Color(53,234,151));
-  m_button1.set_size(250, 75);
+  m_button1.set_size(100, 100);
   m_button1.set_string("CLOSE");
 
   #if(SFML_VERSION_MINOR > 3)
@@ -48,6 +48,12 @@ void sfml_shop_overlay::exec()
                      static_cast<float>(m_window.getSize().y));
         m_window.setView(view);
         break;
+      case sf::Event::KeyPressed:
+        if (event.key.code == sf::Keyboard::Escape)
+        {
+          close(game_state::playing);
+        }
+        break;
       case sf::Event::MouseButtonPressed:
         if (m_button1.is_clicked(event, m_window))
           close(game_state::playing);
@@ -77,15 +83,13 @@ void sfml_shop_overlay::set_positions() {
   m_header.setPosition(m_window.mapPixelToCoords(
                             sf::Vector2i(m_header.getPosition())));
 
-  //Button 1
-  sf::Vector2f b1_pos(m_window.mapPixelToCoords(sf::Vector2i(
-                                                  (m_window.getSize().x / 2),
-                                                  (m_window.getSize().y/568)*220)));
-  m_button1.set_pos(b1_pos.x, b1_pos.y);
-
-
+  // BG
   m_bg_rect.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
   m_bg_rect.setSize(m_window.getView().getSize());
+
+  // Button 1
+  sf::Vector2i pos = sf::Vector2i(m_window.getSize().x - (m_button1.get_size().x / 2), m_window.getSize().y - (m_button1.get_size().y / 2));
+  m_button1.set_pos(m_window.mapPixelToCoords(pos));
 }
 
 void sfml_shop_overlay::close(game_state s) {
