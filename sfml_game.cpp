@@ -171,11 +171,16 @@ void sfml_game::exec()
   view.setSize(static_cast<float>(m_window.getSize().x),
                static_cast<float>(m_window.getSize().y));
   m_window.setView(view);
-  while (active(game_state::playing) || active(game_state::paused))
+  while (active(game_state::playing) ||
+         active(game_state::paused) ||
+         active(game_state::saving))
   {
     if (active(game_state::paused)) {
       display();
       m_pause_screen.exec();
+    } else if (active(game_state::saving)) {
+      display();
+      m_save_screen.exec();
     } else {
       process_input();
       process_events();

@@ -161,6 +161,14 @@ int main(int argc, char **argv) //!OCLINT main too long
            std::count(std::begin(args), std::end(args), "--gameover")) {
     sfml_window_manager::get().set_state(game_state::gameover);
   }
+  else if (std::count(std::begin(args), std::end(args), "--paused"))
+  {
+    sfml_window_manager::get().set_state(game_state::paused);
+  }
+  else if (std::count(std::begin(args), std::end(args), "--save"))
+  {
+    sfml_window_manager::get().set_state(game_state::saving);
+  }
 
   //Not realy to show settings, but to use the variables
   std::cout << "\nSettings\n"
@@ -213,6 +221,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       case game_state::aboutscreen:
         show_sfml_about_screen(close_at);
         break;
+      case game_state::saving:
       case game_state::paused:
       case game_state::playing:
         start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);

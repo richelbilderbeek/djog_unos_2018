@@ -141,7 +141,6 @@ tile get_current_tile(game& g, double x, double y);
 /// Load a game from a file
 game load(const std::string &filename);
 
-// The save Subdir
 const std::string SAVE_DIR = "saves\\";
 
 /// Save the game to a file

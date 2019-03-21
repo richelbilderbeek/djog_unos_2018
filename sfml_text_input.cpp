@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cassert>
 
+// TODO make color lighter if selected
+
 sfml_text_input::sfml_text_input(const double x, const double y,
                          const double height, const double width)
   : m_x{x}, m_y{y}, m_height{height}, m_width{width}
@@ -45,14 +47,14 @@ void sfml_text_input::select(const sf::Event& event,
   sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
   double x = mouse.x;
   double y = mouse.y;
-  if (event.type == sf::Event::MouseButtonPressed) {
-    m_selected = x > m_x && x < m_x + m_width &&
-                 y > m_y && y < m_y + m_height;
-  }
+  assert(event.type == sf::Event::MouseButtonPressed);
+  m_selected = x > m_x && x < m_x + m_width &&
+               y > m_y && y < m_y + m_height;
 }
 
 void sfml_text_input::input(const sf::Event& event) {
-  if (event.type == sf::Event::TextEntered && m_selected) {
+  assert(event.type == sf::Event::TextEntered);
+  if (m_selected) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
       m_selected = false;
     } else if (is_normal_char(event.text.unicode)) { // Handle ASCII chars only
