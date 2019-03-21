@@ -59,6 +59,22 @@ void sfml_menu_screen::exec()
                        static_cast<float>(m_window.getSize().y));
           m_window.setView(view);
           break;
+        case sf::Event::KeyPressed:
+          switch (event.key.code)
+            {
+              default:
+                break;
+            case sf::Keyboard::C:
+              close(game_state::playing);
+              break;
+            case sf::Keyboard::T:
+              close(game_state::aboutscreen);
+              break;
+            case sf::Keyboard::Q:
+              close();
+              break;
+            }
+          break;
         case sf::Event::MouseButtonPressed:
           if (m_button1.is_clicked(event, m_window))
             close(game_state::playing);
