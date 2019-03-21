@@ -171,9 +171,13 @@ private:
 
   void setup_tickcounter_text();
 
+  void setup_selected_text();
+
   sf::Font m_debug_font;
 
   sf::Text m_tickcounter_text;
+
+  sf::Text m_selected_text;
 
   sf::Vector2i m_prev_mouse_pos;
   double m_mouse_speed;

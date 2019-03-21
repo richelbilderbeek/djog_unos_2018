@@ -38,6 +38,7 @@ sfml_game::sfml_game(
   start_music();
   setup_display_score();
   setup_tickcounter_text();
+  setup_selected_text();
   m_game.set_allow_spawning(m_delegate.get_spawning());
   m_game.set_allow_damage(m_delegate.get_damage());
   m_game.set_allow_score(m_delegate.get_score());
@@ -73,6 +74,12 @@ void sfml_game::setup_tickcounter_text() {
     m_debug_font.loadFromFile("font.ttf");
     m_tickcounter_text.setFont(m_debug_font);
     m_tickcounter_text.setCharacterSize(20);
+}
+
+void sfml_game::setup_selected_text() {
+    m_debug_font.loadFromFile("font.ttf");
+    m_selected_text.setFont(m_debug_font);
+    m_selected_text.setCharacterSize(24);
 }
 
 void sfml_game::setup_display_score() {
@@ -117,6 +124,12 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_tickcounter_text.setString(s.str());
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
+  }
+  // Display Selected Tile Text
+  {
+    float x = (m_window.getSize().x / 2) - (m_selected_text.getLocalBounds().width / 2);
+    m_selected_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(x, 80)));
+    m_window.draw(m_selected_text);
   }
   // Display the zen
   {
@@ -223,6 +236,8 @@ void sfml_game::process_events()
   if (m_game.m_selected.empty())
   {
     confirm_move();
+    // Clear selected tile text if nothing is selected
+    m_selected_text.setString("");
   }
   else
   {
@@ -262,6 +277,11 @@ void sfml_game::follow_tile()
   sf::Vector2f new_coords = sf::Vector2f(t.get_x() + (t.get_width() / 2) - screen_center.x,
                                          t.get_y() + (t.get_height() / 2) - screen_center.y);
   m_camera.move_camera(new_coords);
+
+  // Set the selected tile text
+  std::string text = to_str(t.get_type());
+  text[0] = toupper(text[0]);
+  m_selected_text.setString(text);
 }
 
 void sfml_game::manage_timer()
