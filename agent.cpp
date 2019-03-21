@@ -225,8 +225,8 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
   if(m_type == agent_type::spider) attract_to_agent(g, agent_type::venus_fly_trap);
 
-  if (m_type == agent_type::grass || m_type == agent_type::tree
-      || m_type == agent_type::cow)  reproduce_agents(g, m_type);
+  if ((m_type == agent_type::grass || m_type == agent_type::tree
+      || m_type == agent_type::cow) && g.allow_damage())  reproduce_agents(g, m_type);
 
   if (m_type == agent_type::grass || m_type == agent_type::tree) damage_near_grass(g, m_type);
 
@@ -721,7 +721,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //Agent can pass out of exhaustion
   {
-    game g(create_default_tiles(), { agent(agent_type::cow) } );
+    game g(create_test_default_tiles(), { agent(agent_type::cow) } );
     assert(!g.get_agents().empty());
     const auto stamina_before = g.get_agents()[0].get_stamina();
     // Exhaust one turn
@@ -747,19 +747,17 @@ void test_agent() //!OCLINT testing functions may be long
   //An agent must be removed if health is below zero
   {
     game g({tile(0, 0, 0, 100, 100, 0, tile_type::grassland)}, { agent(agent_type::cow) } );
+    g.set_allow_spawning(false);
     assert(!g.get_agents().empty());
     // Wait until cow starves
     while (!g.get_agents().empty())
     {
       g.process_events();
-      while(g.get_agents().size() >= 2){
-        g.get_agents().pop_back();
-      }
     }
   }
   //Grass grows
   {
-    game g(create_default_tiles(), { agent(agent_type::grass) } );
+    game g(create_test_default_tiles(), { agent(agent_type::grass) } );
     assert(!g.get_agents().empty());
     const auto health_before = g.get_agents()[0].get_health();
     // Grow one turn
@@ -769,7 +767,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //Trees grow
   {
-    game g(create_default_tiles(), { agent(agent_type::tree) } );
+    game g(create_test_default_tiles(), { agent(agent_type::tree) } );
     assert(!g.get_agents().empty());
     const auto health_before = g.get_agents()[0].get_health();
     // Grow one turn
@@ -811,7 +809,7 @@ void test_agent() //!OCLINT testing functions may be long
   {
     const double grass_health{5.0};
     game g(
-      create_default_tiles(),
+      create_test_default_tiles(),
       {
         agent(agent_type::grass, 0.0, 0.0, grass_health),
         agent(agent_type::cow  , 0.0, 0.0, 10.0)
@@ -829,7 +827,7 @@ void test_agent() //!OCLINT testing functions may be long
   {
     const double cow_health{5.0};
     game g(
-      create_default_tiles(),
+      create_test_default_tiles(),
       {
         agent(agent_type::cow, 0.0, 0.0, cow_health),
         agent(agent_type::crocodile  , 0.0, 0.0, 10.0)
@@ -912,7 +910,7 @@ void test_agent() //!OCLINT testing functions may be long
     }
   //a cow walks to grass when its close
   {
-    game g(create_default_tiles(),
+    game g(create_test_default_tiles(),
            {agent(agent_type::cow, 0, 0, 100),
             agent(agent_type::grass, 100, 100, 100)});
     double cow_prev_posX = g.get_agents()[0].get_x();
@@ -936,7 +934,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //a spider is attracted to venus_fly_trap
   {
-    game g(create_default_tiles(),
+    game g(create_test_default_tiles(),
            {agent(agent_type::spider, 0, 0),
             agent(agent_type::venus_fly_trap, 50, 50)});
     double spider_prev_posX = g.get_agents()[0].get_x();

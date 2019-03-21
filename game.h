@@ -15,7 +15,7 @@ friend class sfml_game;
 public:
   /// Constructor
   game(
-    const std::vector<tile>& tiles = create_default_tiles(),
+    const std::vector<tile>& tiles = create_test_default_tiles(),
     const std::vector<agent>& agents = create_default_agents()
   );
 
@@ -24,6 +24,10 @@ public:
   ///Spawning is set to false in debugging,
   ///e.g. when all creatures must go extinct due to starvation
   bool allow_spawning() const noexcept { return m_allow_spawning; }
+
+  bool allow_damage() const noexcept { return m_allow_damage; }
+
+  bool allow_score() const noexcept { return m_allow_score; }
 
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
@@ -62,13 +66,23 @@ public:
   /// Allow the real game to allow spawning of agents
   void set_allow_spawning(const bool do_allow) noexcept { m_allow_spawning = do_allow; }
 
+  void set_allow_damage(const bool do_damage) noexcept { m_allow_damage = do_damage; }
+
+  void set_allow_score(const bool do_score) noexcept { m_allow_score = do_score; }
+
 private:
 
   ///Does the game spawn agents?
   ///Iff true, tiles spawn agents.
   ///Spawning is set to false in debugging,
   ///e.g. when all creatures must go extinct due to starvation
-  bool m_allow_spawning;
+  bool m_allow_spawning = true;
+
+  ///Allow agents to damage each other
+  bool m_allow_damage = true;
+
+  ///Update the score
+  bool m_allow_score = true;
 
   /// The selected tile
   std::vector<int> m_selected;
