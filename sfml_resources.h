@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <QFile>
 
 /// Singleton class to access all resources
 //TODO: make this a member variable of sfml_game
@@ -12,6 +13,8 @@ class sfml_resources { //!OCLINT ignore too many fields for now
 public:
   /// Access the resources
   static sfml_resources &get();
+
+  void copy_file(const std::string& file_name);
 
   sf::Music &get_background_music() noexcept { return m_background_music; }
 
@@ -44,6 +47,8 @@ private:
 
   static sfml_resources *m_instance; //!OCLINT accepted for now
 
+  QString m_resource_folder;
+
   sf::Font m_default_font;
 
   sf::Font m_title_font;
@@ -53,6 +58,8 @@ private:
   sf::Music m_title_music;
 
   sf::Music m_benikeenspin;
+
+  sf::Music m_game_music;
 
   sf::Texture m_cow_texture;
 

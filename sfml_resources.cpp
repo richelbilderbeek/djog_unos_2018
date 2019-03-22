@@ -6,9 +6,15 @@
 
 #include <cassert>
 
-#include <QFile>
+
 
 sfml_resources *sfml_resources::m_instance = nullptr; //!OCLINT static accepted singleton
+
+void copy_file(const std::string& file_name)
+{
+  const QString qfile_name
+  { QString::fromStdString(file_name) };
+}
 
 sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
@@ -34,6 +40,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     f.copy("ben_ik_een_spin.ogg");
     if (!m_benikeenspin.openFromFile("ben_ik_een_spin.ogg")) {
       throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
+    }
+  }
+  {
+    // Copy resource file locally
+    QFile f(":/nature_zen/resources/Barachem_Tranquil_Canopy.ogg");
+    f.copy("Barachem_Tranquil_Canopy.ogg");
+    if (!m_game_music.openFromFile("Barachem_Tranquil_Canopy.ogg")) {
+      throw std::runtime_error("Cannot find music file 'Barachem_Tranquil_Canopy.ogg'");
     }
   }
   // plankton texture
@@ -363,6 +377,14 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(resources.get_texture(agent_type::goat).getSize().x > 0);
   }
   #endif // FIX_ISSUE_225
+
+  #define FIX_ISSUE_521
+  #ifdef FIX_ISSUE_521
+
+
+
+  #endif // FIX_ISSUE_521
+
   { /// Testing succesful access to the essence symbol png and its dimensions
     sf::Texture texture{ resources.get_essence_texture() };
 

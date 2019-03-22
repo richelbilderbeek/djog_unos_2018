@@ -9,13 +9,15 @@ class sfml_soundtrack
 {
 public:
   sfml_soundtrack();
+
+  void access_music();
+  // { m_music = }
 private:
   sf::Music m_music;
 
   const bool m_loop;
 
   bool m_playing;
-
 
 };
 
