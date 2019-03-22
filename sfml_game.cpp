@@ -128,7 +128,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   // Display Selected Tile Text
   {
     float x = (m_window.getSize().x / 2) - (m_selected_text.getLocalBounds().width / 2);
-    m_selected_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(x, 80)));
+    m_selected_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(x, 72)));
     m_window.draw(m_selected_text);
   }
   // Display the zen
