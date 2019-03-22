@@ -177,7 +177,8 @@ int main(int argc, char **argv) //!OCLINT main too long
     tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::nonetile));
     agents.push_back(agent(agent_type::spider,50));
   }
-  else if(std::count(std::begin(args), std::end(args), "--profiling")) {
+
+  if(std::count(std::begin(args), std::end(args), "--profiling")) {
     for(int i = 0; i < std::stoi(args[2]); i++){
       agent a(agent_type::cow, i, i);
       agents.push_back(a);
@@ -190,12 +191,9 @@ int main(int argc, char **argv) //!OCLINT main too long
     damage = false;
     score = false;
   }
+
   if(std::count(std::begin(args), std::end(args), "--god")){
     score = false;
-    tiles = create_test_default_tiles();
-    agents = create_default_agents();
-  }
-  else{
     tiles = create_test_default_tiles();
     agents = create_default_agents();
   }

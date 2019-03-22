@@ -67,20 +67,6 @@ void sfml_game::setup_tickcounter_text() {
     m_tickcounter_text.setCharacterSize(20);
 }
 
-//TODO: Remove
-//void sfml_game::setup_display_score() {
-//  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
-//  m_zen_bar.setPosition(sf::Vector2f(
-//                          (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
-//                          15));
-//  m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
-
-//  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
-//  m_zen_ind.setPosition(sf::Vector2f(
-//                          (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
-//                          15+(m_zen_bar.getSize().y/2.0f)));
-//  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
-//}
 
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
