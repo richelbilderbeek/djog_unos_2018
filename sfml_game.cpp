@@ -359,6 +359,7 @@ void sfml_game::ben_ik_een_spin() {
 void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
+  assert(tiles.size() > 0);
   const int i = std::rand() % tiles.size();
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
