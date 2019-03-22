@@ -15,6 +15,7 @@
 #include "sfml_camera.h"
 #include "sfml_window_manager.h"
 #include "sfml_pause_overlay.h"
+#include "sfml_zen_bar.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
@@ -26,7 +27,7 @@ public:
   /// @param window_height height of the game window in pixels
   /// @param delegate an object that can modify sfml_game at certain times
   sfml_game(const sfml_game_delegate &delegate = sfml_game_delegate(),
-            const std::vector<tile>& tiles = create_default_tiles(),
+            const std::vector<tile>& tiles = create_test_default_tiles(),
             const std::vector<agent>& agents = create_default_agents()
   );
 
@@ -163,10 +164,7 @@ private:
 
   sfml_camera m_camera;
 
-  sf::RectangleShape m_zen_bar;
-  sf::RectangleShape m_zen_ind;
-
-  void setup_display_score();
+  sfml_zen_bar m_zen_bar;
 
   void setup_tickcounter_text();
 
