@@ -176,9 +176,8 @@ void agent::move_to_food(game &g){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
       if(a.get_type() == can_eat(m_type)[i]){
         distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-        if(distance > 350) return;
         if(a == nearest_agent(g, *this, can_eat(m_type)[i])
-           && distance < f_distance){
+           && distance < f_distance && distance < 200){
           nearest_f = a;
           f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
         }
