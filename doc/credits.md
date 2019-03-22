@@ -2,7 +2,7 @@
 
 This is a work in progress of [Issue 514](https://github.com/richelbilderbeek/djog_unos_2018/issues/514).
 
-I, @richelbilderbeek, will consult team members **in person** . 
+I, @richelbilderbeek, will consult team members **in person**. 
 
 Do not reply at the Issue. 
 

@@ -28,6 +28,8 @@ install:
   - sudo apt-get install -qq clang-3.8
   # cppcheck
   - sudo apt-get install -qq cppcheck
+  # valgrind, for helgrind and memcheck
+  - sudo apt-get install -qq valgrind
   # Codecov
   - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-6 90
   - sudo pip install codecov
@@ -56,6 +58,12 @@ script:
   - ./djog_unos_2018 --short --music
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
+  # helgrind
+  - valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short
+  - cat helgrind.log
+  # memcheck
+  - valgrind --leak-check=full -v --show-reachable=yes --log-file=memcheck.log ./djog_unos_2018 --short
+  - cat memcheck.log
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Call OCLint
