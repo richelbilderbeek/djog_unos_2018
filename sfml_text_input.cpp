@@ -57,17 +57,20 @@ void sfml_text_input::input(const sf::Event& event) {
   if (m_selected) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
       m_selected = false;
-    } else if (is_normal_char(event.text.unicode)) { // Handle ASCII chars only
+    } else if (event.text.unicode == '\b') {
+      m_string.erase(m_string.size() - 1, 1);// BUG heres the input
+    } else if (is_normal_char(event.text.unicode)) {
       m_string += static_cast<char>(event.text.unicode);
-      set_string(m_string);
     }
+    std::clog << m_string << "\n";
   }
 }
 
 bool is_normal_char(uint32_t c) {
   return (c > 47 && c < 58) ||
          (c > 64 && c < 91) ||
-         (c > 96 && c < 123);
+         (c > 96 && c < 123) ||
+         (c == ' ');
 }
 
 void test_normal_char() {
@@ -81,6 +84,7 @@ void test_normal_char() {
   assert(is_normal_char('g'));
   assert(is_normal_char('1'));
   assert(is_normal_char('5'));
+  assert(is_normal_char(' '));
 
   assert(!is_normal_char('{'));
   assert(!is_normal_char('\\'));
