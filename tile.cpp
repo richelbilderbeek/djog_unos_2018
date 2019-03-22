@@ -11,10 +11,20 @@
 #include <stdexcept>
 #include <tuple>
 
-tile::tile(const double x, const double y, const double z, double const width,
-           const double height, const double depth, const tile_type type, const tile_id id)
-    : m_height{height}, m_type{type}, m_width{width}, m_x{x}, m_y{y}, m_z{z},
-      m_dx{0}, m_dy{0}, m_dz{0}, m_id{id}, m_depth{depth}
+tile::tile(const double x, const double y, const double z,
+           double const width, const double height, const double depth,
+           const tile_type type, const tile_id id)
+  : m_depth{depth},
+    m_dx{0.0},
+    m_dy{0.0},
+    m_dz{0.0},
+    m_height{height},
+    m_id{id},
+    m_type{type},
+    m_width{width},
+    m_x{x},
+    m_y{y},
+    m_z{z}
 {
 
   if (width <= 0.0)
@@ -380,6 +390,28 @@ void tile::lock_movement(bool b) { m_locked = b; }
 
 void test_tile() //!OCLINT testing function may be many lines
 {
+  //A tile can rotate, #463
+  {
+    const double x{1.0};
+    const double y{2.0};
+    const double z{3.0};
+    const double width{4.0};
+    const double height{5.0};
+    const double depth{6.0};
+    const tile_type type{tile_type::arctic};
+    const tile_id id{tile_id()};
+
+    const tile a(x, y, z, width, height, depth, type, id);
+    assert(std::abs(x - a.get_x()) < 0.0001);
+    assert(std::abs(y - a.get_y()) < 0.0001);
+    assert(std::abs(z - a.get_z()) < 0.0001);
+    assert(std::abs(width - a.get_width()) < 0.0001);
+    assert(std::abs(height - a.get_height()) < 0.0001);
+    assert(std::abs(depth - a.get_depth()) < 0.0001);
+    assert(type == a.get_type());
+    assert(id.get() == a.get_id());
+  }
+
   // width cannot be negative
   {
     bool b = false;
@@ -516,5 +548,17 @@ void test_tile() //!OCLINT testing function may be many lines
   #endif
   {
     assert(create_two_grass_tiles().size() == 2);
+  }
+  //A tile can rotate, #463
+  {
+    const double width{4.5};
+    const double height{5.6};
+    tile a(1.2, 2.3, 3.4, width, height);
+    assert(width == a.get_width());
+    assert(height == a.get_height());
+    rotate(a);
+    assert(height == a.get_width());
+    assert(width == a.get_height());
+    assert(1==2);
   }
 }
