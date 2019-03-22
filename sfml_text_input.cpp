@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 
+#include <SFML/Main.hpp>
 // TODO make color lighter if selected
 
 sfml_text_input::sfml_text_input(const double x, const double y,
@@ -55,14 +56,14 @@ void sfml_text_input::select(const sf::Event& event,
 void sfml_text_input::input(const sf::Event& event) {
   assert(event.type == sf::Event::TextEntered);
   if (m_selected) {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
       m_selected = false;
     } else if (event.text.unicode == '\b') {
-      m_string.erase(m_string.size() - 1, 1);// BUG heres the input
+      m_string.resize(m_string.size() - 1);
     } else if (is_normal_char(event.text.unicode)) {
       m_string += static_cast<char>(event.text.unicode);
     }
-    std::clog << m_string << "\n";
+    set_string(m_string);
   }
 }
 
