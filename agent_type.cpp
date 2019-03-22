@@ -27,6 +27,7 @@ std::vector<agent_type> collect_all_agent_types()
     agent_type::venus_fly_trap,
     agent_type::foxgloves,
     agent_type::cactus,
+    agent_type::corpse,
     agent_type::none
   };
 }
@@ -126,6 +127,8 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "foxgloves";
   case agent_type::cactus:
     return "cactus";
+  case agent_type::corpse:
+    return "corpse";
     default:
       assert(a == agent_type::none); //!OCLINT accepted idiom
       return "none";
@@ -154,6 +157,7 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "venus_fly_trap") return agent_type::venus_fly_trap;
   if (str == "foxgloves") return agent_type::foxgloves;
   if (str == "cactus") return agent_type::cactus;
+  if (str == "corpse") return agent_type::corpse;
   return agent_type::none;
 }
 

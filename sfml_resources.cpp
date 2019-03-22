@@ -258,6 +258,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
         throw std::runtime_error("Cannot find image file cactus.png");
       }
     }
+  {
+    QFile f(":/nature_zen/resources/blood-spatter.png");
+    f.copy("blood-spatter.png");
+    if (!m_corpse_texture.loadFromFile("blood-spatter.png")) {
+      throw std::runtime_error("Cannot find image file blood-spatter.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -308,8 +315,10 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_octopus_texture;
     case agent_type::venus_fly_trap:
       return m_venus_fly_trap_texture;
-  case agent_type::cactus:
-    return m_cactus_texture;
+    case agent_type::cactus:
+      return m_cactus_texture;
+    case agent_type::corpse:
+      return m_corpse_texture;
     default:
       return m_none_texture;
   }

@@ -34,5 +34,6 @@
         <file>resources/venus_fly_trap.png</file>
         <file>resources/foxgloves.png</file>
         <file>resources/cactus.png</file>
+        <file>resources/blood-spatter.png</file>
     </qresource>
 </RCC>
