@@ -8,29 +8,44 @@ Do not reply at the Issue.
 
 Sometimes people do more things, so they can appears multiple times.
 
-## Project managers
-
-Richel Bilderbeek
-Anton Hensen
-
 ## Developers
+
+### Lead developers
+
+Joshua van Waardenberg
+Richel Bilderbeek
 
 ### Medior developers
 
-Joshua van Waardenberg
 Rafayel Gardishyan
-Rob Kruger
+Rob Krüger
 
 ### Junior Developers
 
 Enzo de Haas
 Isis Reinders
-Jan Derk Kotlarski
+Jan Kotlarski
 Jolien Gay
 Mart Prenger
 Rijk van Putten
 Same Drenth
 Tom Stuivenga
+
+## Game design
+
+### Initial idea
+
+Rafayel Gardishyan
+
+### Lead game designer
+
+Joshua van Waardenberg
+
+### Game designers
+
+Rafayel Gardishyan
+Richel Bilderbeek
+[Cannot remember more examples of people having added ideas to the game]
 
 ## Test
 
@@ -54,7 +69,11 @@ Same Drenth
 
 ### Graphics contributors
 
-[names here]
+Enzo de Haas
+Joshua van Waardenbergh
+Mart Prenger
+Rijk van Putten
+Rob Krüger
 
 ## Sound
 
@@ -64,7 +83,13 @@ Jan Kotlarski
 
 ### Sound contributors
 
-[names here]
+Rafayel Gardishyan
+Joshua van Waardenbergh
+
+## Producers
+
+Richel Bilderbeek
+Anton Hensen
 
 ## Former Team Members
 
@@ -76,3 +101,7 @@ Jana Riederer
 Jorn Prenger
 Giorgio Boccarella
 Koen Prins
+
+## Special thanks to
+
+Stichting De Jonge Onderzoekers Groningen
