@@ -493,28 +493,9 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(b == c);
   }
 
-#define FIX_ISSUE_116_TILE_CONTAINS
-#ifdef FIX_ISSUE_116_TILE_CONTAINS
-  //
-  //
-  //   (0,0)------(100,0)
-  //     |           |
-  //     |     A     |     B
-  //     |           |
-  //   (0,100)-----(100,100)
-  //
-  //           C           D
-  {
-    const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
-    assert(contains(t, 50, 50));   // A
-    assert(!contains(t, 165, 50));  // B
-    assert(!contains(t, 50, 165)); // C
-    assert(!contains(t, 165, 165)); // D
-  }
-#endif // FIX_ISSUE_116_TILE_CONTAINS
-
   //#define FIX_ISSUE_246
   #ifdef FIX_ISSUE_246
+  //Depends on #522
   //
   //
   //   (0,0)------(100,0)
@@ -525,15 +506,22 @@ void test_tile() //!OCLINT testing function may be many lines
   //
   //           C           D
   {
-    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
-    assert(contains(t, 50, 50));   // A
-    assert(!contains(165, 50));  // B
-    assert(!contains(50, 165)); // C
-    assert(!contains(165, 165)); // D
+    const double width{100.0};
+    const double height{100.0};
+    const tile t(0.0, 0.0, 0.0, width, height);
+    assert(t.get_width() == width); // #522
+    assert(t.get_height() == height); // #522
+    assert( contains(t, 1.0 * width / 2.0, 1.0 * height / 2.0));  // A
+    assert(!contains(t, 3.0 * width / 2.0, 1.0 * height / 2.0));  // B
+    assert(!contains(t, 1.0 * width / 2.0, 3.0 * height / 2.0));  // C
+    assert(!contains(t, 3.0 * width / 2.0, 3.0 * height / 2.0));  // D
   }
   #endif // FIX_ISSUE_246
-  //operator==
+
+  //#define FIX_OPERATOR_IS_IS
   #ifdef FIX_OPERATOR_IS_IS
+  //operator==
+  //Depends on #522
   {
     const tile a;
 
