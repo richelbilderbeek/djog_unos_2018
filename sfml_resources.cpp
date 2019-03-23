@@ -44,11 +44,11 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   }
   {
     // Copy resource file locally
-    QFile f(":/nature_zen/resources/Barachem_Tranquil_Canopy.ogg");
-    f.copy("Barachem_Tranquil_Canopy.ogg");
-    if (!m_game_music.openFromFile("Barachem_Tranquil_Canopy.ogg")) {
-      throw std::runtime_error("Cannot find music file 'Barachem_Tranquil_Canopy.ogg'");
-    }
+    // QFile f(":/nature_zen/resources/Barachem_Tranquil_Canopy.ogg");
+    // f.copy("Barachem_Tranquil_Canopy.ogg");
+    // if (!m_game_music.openFromFile("Barachem_Tranquil_Canopy.ogg")) {
+    //   throw std::runtime_error("Cannot find music file 'Barachem_Tranquil_Canopy.ogg'");
+    // }
   }
   // plankton texture
   {
