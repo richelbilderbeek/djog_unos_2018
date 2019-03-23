@@ -58,9 +58,9 @@ script:
   - ./djog_unos_2018 --short --music
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
-  # helgrind
-  - travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1
-  - cat helgrind.log
+  # helgrind: takes too long
+  # - travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1
+  # - cat helgrind.log
   # memcheck
   - travis_wait 50 valgrind --leak-check=full -v --show-reachable=yes --log-file=memcheck.log ./djog_unos_2018 --short 1
   - cat memcheck.log
