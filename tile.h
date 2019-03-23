@@ -136,11 +136,23 @@ private:
 
 };
 
+/// Create the default collection of tiles
+std::vector<tile> create_default_tiles() noexcept;
+
 /// Create the default collection of tiles (old)
 std::vector<tile> create_test_default_tiles() noexcept;
 
-/// Create the default collection of tiles
-std::vector<tile> create_default_tiles() noexcept;
+/// Create a tile to be used in testing:
+///
+///   (0,0)-------(1,0)
+///     |           |
+///     | grassland |
+///     |           |
+///   (0,1)-------(1,1)
+///
+/// * z: 0.0
+/// * depth: 0.0
+tile create_test_tile() noexcept;
 
 /// Create two horizontally adjacent grass tiles
 /// +----+----+----+----+

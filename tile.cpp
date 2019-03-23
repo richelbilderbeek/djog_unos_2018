@@ -206,6 +206,11 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
   return tiles;
 }
 
+tile create_test_tile() noexcept
+{
+  return tile(0.0, 0.0, 0.0, 1.0, 1.0, 0.0, tile_type::grassland);
+}
+
 std::vector<tile> create_two_grass_tiles() noexcept
 {
   return
@@ -518,12 +523,9 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   #endif // FIX_ISSUE_246
 
-  //#define FIX_OPERATOR_IS_IS
-  #ifdef FIX_OPERATOR_IS_IS
   //operator==
-  //Depends on #522
   {
-    const tile a;
+    const tile a = create_test_tile();
 
     // b with different dx
     tile b = a;
@@ -537,7 +539,6 @@ void test_tile() //!OCLINT testing function may be many lines
     b.set_dy(a.get_dy() + 1.0);
     assert(!(a == b));
   }
-  #endif
   {
     assert(create_two_grass_tiles().size() == 2);
   }
