@@ -59,10 +59,10 @@ script:
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
   # helgrind
-  - valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1
+  - travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1
   - cat helgrind.log
   # memcheck
-  - valgrind --leak-check=full -v --show-reachable=yes --log-file=memcheck.log ./djog_unos_2018 --short 1
+  - travis_wait 50 valgrind --leak-check=full -v --show-reachable=yes --log-file=memcheck.log ./djog_unos_2018 --short 1
   - cat memcheck.log
   # cppcheck
   - cppcheck --error-exitcode=1 . 
