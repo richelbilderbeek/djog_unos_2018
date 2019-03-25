@@ -4,7 +4,10 @@
 #include "agent.h"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <string>
 #include <vector>
+#include <QDir>
 #include <QFile>
 
 /// Singleton class to access all resources
@@ -13,8 +16,6 @@ class sfml_resources { //!OCLINT ignore too many fields for now
 public:
   /// Access the resources
   static sfml_resources &get();
-
-  void copy_file(const std::string& file_name);
 
   sf::Music &get_background_music() noexcept { return m_background_music; }
 
@@ -121,6 +122,16 @@ private:
   sf::Texture m_essence_texture;
 
 };
+
+void dir_path_couter(const QString& dir_path) noexcept;
+
+
+/// Test the specified path.
+void check_path(const QString& dir_path);
+
+/// Copy file from the resources folder to the build folder
+void copy_file(const std::string& folder,
+               const std::string& name);
 
 /// Test the sfml_resources class
 void test_sfml_resources();
