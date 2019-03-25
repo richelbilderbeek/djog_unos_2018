@@ -96,6 +96,8 @@ private:
 
   sf::Texture m_cactus_texture;
 
+  sf::Texture m_chameleon_texture;
+
   sf::Texture m_venus_fly_trap_texture;
 
   sf::Texture m_zen_ind_texture;

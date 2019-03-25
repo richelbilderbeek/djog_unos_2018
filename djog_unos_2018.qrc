@@ -35,5 +35,6 @@
         <file>resources/foxgloves.png</file>
         <file>resources/cactus.png</file>
         <file>resources/blood-spatter.png</file>
+        <file>resources/chameleon.png</file>
     </qresource>
 </RCC>

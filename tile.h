@@ -89,8 +89,26 @@ public:
   bool get_m_locked() const noexcept { return m_locked; }
 
 private:
+
+  /// The tile's depth
+  double m_depth;
+
+  /// The movement coefficient on the x-axis
+  double m_dx{0.0};
+
+  /// The movement coefficient on the y-axis
+  double m_dy{0.0};
+
+  /// The movement coefficient on the z-axis
+  double m_dz{0.0};
+
   /// The height of the tile
   double m_height;
+
+  /// The tile's id
+  tile_id m_id;
+
+  bool m_locked{false};
 
   /// The type the tile
   tile_type m_type;
@@ -107,24 +125,9 @@ private:
   /// The z-coordinate of the top-left corner of the tile
   double m_z;
 
-  /// The movement coefficient on the x-axis
-  double m_dx;
-
-  /// The movement coefficient on the y-axis
-  double m_dy;
-
-  /// The movement coefficient on the z-axis
-  double m_dz;
-
-  /// The tile's id
-  tile_id m_id;
-
-  /// The tile's depth
-  double m_depth;
-
-  bool m_locked = false;
-
   int ticks = 1;
+
+
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const tile& t);
@@ -133,11 +136,23 @@ private:
 
 };
 
+/// Create the default collection of tiles
+std::vector<tile> create_default_tiles() noexcept;
+
 /// Create the default collection of tiles (old)
 std::vector<tile> create_test_default_tiles() noexcept;
 
-/// Create the default collection of tiles
-std::vector<tile> create_default_tiles() noexcept;
+/// Create a tile to be used in testing:
+///
+///   (0,0)-------(1,0)
+///     |           |
+///     | grassland |
+///     |           |
+///   (0,1)-------(1,1)
+///
+/// * z: 0.0
+/// * depth: 0.0
+tile create_test_tile() noexcept;
 
 /// Create two horizontally adjacent grass tiles
 /// +----+----+----+----+
