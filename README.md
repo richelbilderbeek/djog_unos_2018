@@ -32,7 +32,7 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 
 ## Goal
 
-Collaboratively create a game, to be put on, for example, Steam.
+Collaboratively create a game, to be put on Steam.
 
   * [architecture](doc/architecture.md)
   * [code of conduct](code_of_conduct.md)
