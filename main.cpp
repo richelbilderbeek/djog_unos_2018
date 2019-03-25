@@ -187,11 +187,27 @@ int main(int argc, char **argv) //!OCLINT main too long
     agents.push_back(agent(agent_type::spider,50));
   }
   else if(std::count(std::begin(args), std::end(args), "--profiling")) {
-    for(int i = 0; i < std::stoi(args[2]); i++){
+    int agents_size = 10;
+    int tiles_size = 10;
+    if (std::find(std::begin(args), std::end(args), "--profiling") + 1 != std::end(args))
+    {
+      const std::string s{
+      *(std::find(std::begin(args), std::end(args), "--profiling") + 1)
+      };
+      agents_size = std::atoi(s.c_str());
+    }
+    if (std::find(std::begin(args), std::end(args), "--profiling") + 2 != std::end(args))
+    {
+      const std::string s{
+      *(std::find(std::begin(args), std::end(args), "--profiling") + 2)
+      };
+      tiles_size = std::atoi(s.c_str());
+    }
+    for(int i = 0; i < agents_size; i++){
       agent a(agent_type::cow, i, i);
       agents.push_back(a);
     }
-    for(int i = 0; i < std::stoi(args[3]); i++){
+    for(int i = 0; i < tiles_size; i++){
       tile t(i, i, 0, 1, 2, 0, tile_type::grassland);
       tiles.push_back(t);
     }
@@ -199,7 +215,7 @@ int main(int argc, char **argv) //!OCLINT main too long
     damage = false;
     score = false;
   }
-  if(std::count(std::begin(args), std::end(args), "--god")){
+  else if(std::count(std::begin(args), std::end(args), "--god")){
     score = false;
     tiles = create_test_default_tiles();
     agents = create_default_agents();
