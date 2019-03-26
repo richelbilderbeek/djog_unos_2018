@@ -144,7 +144,9 @@ int main(int argc, char **argv) //!OCLINT main too long
       const std::string s{
         *(std::find(std::begin(args), std::end(args), "--short") + 1)
       };
-      close_at = std::atoi(s.c_str());
+      if(s.at(0) != '-'){
+        close_at = std::atoi(s.c_str());
+      }
     }
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
@@ -192,16 +194,22 @@ int main(int argc, char **argv) //!OCLINT main too long
     if (std::find(std::begin(args), std::end(args), "--profiling") + 1 != std::end(args))
     {
       const std::string s{
-      *(std::find(std::begin(args), std::end(args), "--profiling") + 1)
+        *(std::find(std::begin(args), std::end(args), "--profiling") + 1)
       };
-      agents_size = std::atoi(s.c_str());
+      if(!s.empty() && s.at(0) != '-'){
+        agents_size = std::atoi(s.c_str());
+      }
     }
     if (std::find(std::begin(args), std::end(args), "--profiling") + 2 != std::end(args))
     {
       const std::string s{
-      *(std::find(std::begin(args), std::end(args), "--profiling") + 2)
+        *(std::find(std::begin(args), std::end(args), "--profiling") + 2)
       };
-      tiles_size = std::atoi(s.c_str());
+      if(!s.empty()){
+        if(s.at(0) != '-'){
+          tiles_size = std::atoi(s.c_str());
+        }
+      }
     }
     for(int i = 0; i < agents_size; i++){
       agent a(agent_type::cow, i, i);
