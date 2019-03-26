@@ -68,8 +68,8 @@ script:
   # Build and run and profile normal program
   - qmake djog_unos_2018.pro
   - make release
-  - time ./djog_unos_2018 --profiling 500 500
-  - ./djog_unos_2018 --profiling 500 500
+  - time ./djog_unos_2018 --profiling 250 250
+  - ./djog_unos_2018 --profiling 250 250
   - gprof djog_unos_2018 > gprof.log
   - head gprof.log -n 1000
   # Get code coverage
