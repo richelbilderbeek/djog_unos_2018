@@ -61,9 +61,6 @@ script:
   # helgrind: takes too long
   # - travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1
   # - cat helgrind.log
-  # memcheck
-  - travis_wait 50 valgrind --leak-check=full -v --show-reachable=yes --log-file=memcheck.log ./djog_unos_2018 --short 1
-  - head memcheck.log -n 1000
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Call OCLint
