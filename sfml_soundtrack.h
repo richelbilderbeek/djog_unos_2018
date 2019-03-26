@@ -10,6 +10,7 @@ class sfml_soundtrack
 public:
   sfml_soundtrack();
 
+  /// Accessing music from sfml_resources
   void access_music();
   // { m_music = }
 private:
