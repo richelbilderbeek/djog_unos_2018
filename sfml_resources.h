@@ -123,16 +123,6 @@ private:
 
 };
 
-void dir_path_couter(const QString& dir_path) noexcept;
-
-
-/// Test the specified path.
-void check_path(const QString& dir_path);
-
-/// Copy file from the resources folder to the build folder
-void copy_file(const std::string& folder,
-               const std::string& name);
-
 /// Test the sfml_resources class
 void test_sfml_resources();
 

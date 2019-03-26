@@ -40,13 +40,6 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     QFile f(":/nature_zen/resources/Barachem_Tranquil_Canopy.ogg");
     f.copy("Barachem_Tranquil_Canopy.ogg");
 
-    const std::string file_folder
-    { "/nature_zen/resources/" };
-
-    const std::string file_name
-    { "Barachem_Tranquil_Canopy.ogg" };
-
-    copy_file(file_folder, file_name);
     // if (!m_game_music.openFromFile("Barachem_Tranquil_Canopy.ogg")) {
     //   throw std::runtime_error("Cannot find music file 'Barachem_Tranquil_Canopy.ogg'");
     // }
@@ -349,74 +342,6 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept {
     default:
       return m_empty_tile;
   }
-}
-
-void dir_path_couter(const QString& dir_path) noexcept
-{ std::cout << dir_path.toStdString() << '\n'; }
-
-void check_path(const QString& dir_path)
-{
-  if (!QFile::exists(dir_path))
-  { std::cout << dir_path.toStdString() << " was not found.\n"; }
-}
-
-void copy_file(const std::string& folder,
-               const std::string& name)
-{
-  assert(folder != "");
-  assert(name != "");
-
-  const QDir home_dir
-  { QDir::current() };
-
-  const QString home_path
-  { home_dir.absolutePath() };
-
-  dir_path_couter(home_path);
-
-  QDir base_dir
-  { QDir::current() };
-
-  base_dir.cdUp();
-
-  QString base_path
-  { base_dir.absolutePath() };
-
-  dir_path_couter(base_path);
-
-  const QString q_folder
-  { QString::fromStdString(folder) };
-
-  const QString slash
-  { QString::fromStdString("/") };
-
-  const QString q_name
-  { QString::fromStdString(name) };
-
-  const QString base_name
-  { base_path + q_folder + q_name };
-
-  dir_path_couter(base_name);
-
-
-
-  assert(QFile::exists(base_name));
-  check_path(base_name);
-
-  /*
-
-  QFile file(base_name);
-
-  const QString home_name
-  { home_path + slash + q_name };
-
-  // dir_path_couter(home_name);
-
-  file.copy(home_name);
-
-  assert(QFile::exists(home_name));
-  check_path(home_name);
-  */
 }
 
 void test_sfml_resources() //!OCLINT tests may be long
