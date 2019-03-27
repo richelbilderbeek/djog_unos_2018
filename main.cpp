@@ -217,6 +217,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       tile t(i, i, 0, 1, 2, 0, tile_type::grassland);
       tiles.push_back(t);
     }
+
     spawning = false;
     damage = false;
     score = false;
