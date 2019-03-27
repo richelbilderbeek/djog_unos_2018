@@ -205,10 +205,8 @@ int main(int argc, char **argv) //!OCLINT main too long
       const std::string s{
         *(std::find(std::begin(args), std::end(args), "--profiling") + 2)
       };
-      if(!s.empty()){
-        if(s.at(0) != '-'){
-          tiles_size = std::atoi(s.c_str());
-        }
+      if(!s.empty() && s.at(0) != '-'){
+        tiles_size = std::atoi(s.c_str());
       }
     }
     for(int i = 0; i < agents_size; i++){
@@ -219,7 +217,6 @@ int main(int argc, char **argv) //!OCLINT main too long
       tile t(i, i, 0, 1, 2, 0, tile_type::grassland);
       tiles.push_back(t);
     }
-    std::cout << agents.size() << std::endl;
     spawning = false;
     damage = false;
     score = false;
