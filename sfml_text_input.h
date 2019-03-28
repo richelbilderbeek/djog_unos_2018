@@ -19,7 +19,7 @@ public:
 
   void input(const sf::Event& event);
 
-  sf::RectangleShape &get_shape() noexcept { return m_shape; }
+  sf::RectangleShape &get_shape();
   sf::Text &get_text() noexcept { return m_text; }
 
   sf::Vector2f get_pos() noexcept { return sf::Vector2f(m_x, m_y); }
@@ -31,6 +31,12 @@ public:
   void set_size(double width, double height);
 
   bool is_selected() const noexcept { return m_selected; }
+
+  void set_limit(int lim) { m_limit = lim; }
+
+  void set_color(sf::Color c);
+
+  void update();
 
 private:
 
@@ -45,6 +51,13 @@ private:
   double m_width;
 
   bool m_selected;
+
+  int m_str_size;
+
+  int m_limit;
+
+  sf::Color m_color;
+  sf::Color m_select_color;
 
 };
 

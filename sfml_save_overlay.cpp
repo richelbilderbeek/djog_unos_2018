@@ -18,14 +18,14 @@ sfml_save_overlay::sfml_save_overlay()
   m_button1.set_size(100, 75);
   m_button1.set_string(">");
 
-  sf::RectangleShape &ni_s = m_name_input.get_shape();
-  ni_s.setFillColor(sf::Color(53,234,151));
-  m_name_input.set_size(300, 75);
+  m_name_input.set_size(500, 75);
 
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color(51, 51, 51));
   m_header.setOutlineColor(sf::Color(41,180,116));
   m_header.setOutlineThickness(3);
+
+  m_name_input.set_color(sf::Color(53,234,151));
 
   m_bg_rect.setFillColor(sf::Color(80, 140, 80, 200));
   #else
@@ -75,6 +75,7 @@ void sfml_save_overlay::draw_objects() {
   m_window.draw(m_header);
   m_window.draw(m_button1.get_shape());
   m_window.draw(m_button1.get_text());
+  m_name_input.update();
   m_window.draw(m_name_input.get_shape());
   m_window.draw(m_name_input.get_text());
 }
@@ -83,14 +84,14 @@ void sfml_save_overlay::set_positions() {
 
   //Button 1
   sf::Vector2f b1_pos(m_window.mapPixelToCoords(sf::Vector2i(
-                                                  (m_window.getSize().x /2 + 250),
+                                                  (m_window.getSize().x / 2 + 250),
                                                   (m_window.getSize().y/568)*450)));
   m_button1.set_pos(b1_pos.x, b1_pos.y);
 
   //Name input
   sf::Vector2f ni_pos(m_window.mapPixelToCoords(sf::Vector2i(
-                                                  (m_window.getSize().x / 2),
-                                                  (m_window.getSize().y/568)*330)));
+                                                  (m_window.getSize().x / 2 - 100),
+                                                  (m_window.getSize().y/568)*450)));
   m_name_input.set_pos(ni_pos.x, ni_pos.y);
 
   m_bg_rect.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));

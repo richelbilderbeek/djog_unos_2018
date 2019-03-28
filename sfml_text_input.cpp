@@ -4,12 +4,10 @@
 #include <iostream>
 #include <cassert>
 
-#include <SFML/Main.hpp>
-// TODO make color lighter if selected
-
 sfml_text_input::sfml_text_input(const double x, const double y,
                          const double height, const double width)
-  : m_x{x}, m_y{y}, m_height{height}, m_width{width}
+  : m_x{x}, m_y{y}, m_height{height}, m_width{width},
+    m_selected{false}, m_str_size{0}, m_limit{20}
 {
   m_shape.setSize(sf::Vector2f(m_width,m_height));
   m_shape.setPosition(sf::Vector2f(m_x,m_y));
@@ -38,9 +36,15 @@ void sfml_text_input::set_string(const std::string str) {
   m_string = str;
   m_text.setString(str);
   sf::FloatRect bounds = m_text.getLocalBounds();
-  m_text.setOrigin(bounds.left + bounds.width/2.0f,
-                   bounds.top  + bounds.height/2.0f);
+  if (m_str_size == 0 && m_string.size() == 1) {
+    m_text.setOrigin(bounds.left + bounds.width/2.0f,
+                     bounds.top  + bounds.height/2.0f);
+  } else {
+    m_text.setOrigin(bounds.left + bounds.width/2.0f,
+                     m_text.getOrigin().y);
+  }
   m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
+  m_str_size = m_string.size();
 }
 
 void sfml_text_input::select(const sf::Event& event,
@@ -58,12 +62,41 @@ void sfml_text_input::input(const sf::Event& event) {
   if (m_selected) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
       m_selected = false;
-    } else if (event.text.unicode == '\b') {
+    } else if (event.text.unicode == '\b' && m_string.size() > 0) {
       m_string.resize(m_string.size() - 1);
-    } else if (is_normal_char(event.text.unicode)) {
+    } else if (is_normal_char(event.text.unicode) &&
+               static_cast<int>(m_string.size()) < m_limit) {
       m_string += static_cast<char>(event.text.unicode);
     }
     set_string(m_string);
+  }
+}
+
+sf::RectangleShape &sfml_text_input::get_shape() {
+  return m_shape;
+}
+
+void sfml_text_input::update() {
+  if (m_selected) {
+    m_shape.setFillColor(m_select_color);
+  } else {
+    m_shape.setFillColor(m_color);
+  }
+}
+
+void sfml_text_input::set_color(sf::Color c) {
+  m_color = c;
+  float high = 1.10;
+  float low = 0.90;
+  if (c.r * high > 256 ||
+      c.g * high > 256 ||
+      c.b * high > 256) {
+    assert(c.r * low >= 0);
+    assert(c.g * low >= 0);
+    assert(c.b * low >= 0);
+    m_select_color = sf::Color(c.r * low, c.g * low, c.b * low, c.a);
+  } else {
+    m_select_color = sf::Color(c.r * high, c.g * high, c.b * high, c.a);
   }
 }
 

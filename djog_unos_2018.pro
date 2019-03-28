@@ -16,6 +16,9 @@ unix:!macx {
 QMAKE_LFLAGS += -fuse-ld=gold
 }
 
+# Need this to make std::cout work
+CONFIG += console
+
 # Debug and release settings
 CONFIG += debug_and_release
 CONFIG(release, debug|release) {
