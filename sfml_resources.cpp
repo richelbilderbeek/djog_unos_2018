@@ -251,13 +251,20 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file zen_title.png");
     }
   }
-    {
-      QFile f(":/nature_zen/resources/cactus.png");
-      f.copy("cactus.png");
-      if (!m_cactus_texture.loadFromFile("cactus.png")) {
-        throw std::runtime_error("Cannot find image file cactus.png");
-      }
+  {
+    QFile f(":/nature_zen/resources/cactus.png");
+    f.copy("cactus.png");
+    if (!m_cactus_texture.loadFromFile("cactus.png")) {
+      throw std::runtime_error("Cannot find image file cactus.png");
     }
+  }
+  {
+    QFile f(":/nature_zen/resources/chameleon.png");
+    f.copy("chameleon.png");
+    if (!m_chameleon_texture.loadFromFile("chameleon.png")) {
+      throw std::runtime_error("Cannot find image file chameleon.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -272,6 +279,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
   switch (a.get_type()) {
     case agent_type::plankton:
       return m_plankton_texture;
+    case agent_type::chameleon:
+      return m_chameleon_texture;
     case agent_type::worm:
       return m_worm_texture;
     case agent_type::cow:
