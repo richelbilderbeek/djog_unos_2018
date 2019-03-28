@@ -1,4 +1,4 @@
-    SOURCES += \
+SOURCES += \
     $$PWD/agent.cpp \
     $$PWD/agent_type.cpp \
     $$PWD/game.cpp \
@@ -18,7 +18,8 @@
     $$PWD/sfml_gameover_screen.cpp \
     $$PWD/sfml_pause_overlay.cpp \
     $$PWD/sfml_text_input.cpp \
-    $$PWD/sfml_save_overlay.cpp
+    $$PWD/sfml_save_overlay.cpp \
+    $$PWD/sfml_zen_bar.cpp
 
 HEADERS += \
     $$PWD/agent.h \
@@ -40,7 +41,8 @@ HEADERS += \
     $$PWD/sfml_gameover_screen.h \
     $$PWD/sfml_pause_overlay.h \
     $$PWD/sfml_text_input.h \
-    $$PWD/sfml_save_overlay.h
+    $$PWD/sfml_save_overlay.h \
+    $$PWD/sfml_zen_bar.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc

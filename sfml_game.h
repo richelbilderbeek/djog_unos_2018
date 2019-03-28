@@ -16,6 +16,7 @@
 #include "sfml_window_manager.h"
 #include "sfml_pause_overlay.h"
 #include "sfml_save_overlay.h"
+#include "sfml_zen_bar.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
@@ -164,10 +165,7 @@ private:
 
   sfml_camera m_camera;
 
-  sf::RectangleShape m_zen_bar;
-  sf::RectangleShape m_zen_ind;
-
-  void setup_display_score();
+  sfml_zen_bar m_zen_bar;
 
   void setup_tickcounter_text();
 
