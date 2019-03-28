@@ -57,6 +57,8 @@ double pythagoras(double x_length, double y_length){
 
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
+    case agent_type::chameleon:
+      return {agent_type::worm, agent_type::spider, agent_type::bird};
     case agent_type::crocodile:
       return {agent_type::cow, agent_type::giraffe};
     case agent_type::squirrel:
@@ -342,6 +344,11 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
 {
   std::vector<agent> agents;
   {
+    agent a1(agent_type::chameleon);
+    move_agent_to_tile(a1, -3, 0);
+    agents.push_back(a1);
+  }
+  {
     agent a1(agent_type::cow);
     move_agent_to_tile(a1, 0, 0);
     agents.push_back(a1);
@@ -517,6 +524,8 @@ bool will_drown(agent_type a) { //!OCLINT can't be simpler
       return true;
     case agent_type::crocodile:
       return false;
+    case agent_type::chameleon:
+      return true;
     case agent_type::fish:
       return false;
     case agent_type::whale:
@@ -600,6 +609,7 @@ void test_agent() //!OCLINT testing functions may be long
   {
     assert(!is_plant(agent_type::bird));
     assert(!is_plant(agent_type::cow));
+    assert(!is_plant(agent_type::chameleon));
     assert(!is_plant(agent_type::crocodile));
     assert(!is_plant(agent_type::fish));
     assert(!is_plant(agent_type::giraffe));

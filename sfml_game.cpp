@@ -31,7 +31,6 @@ sfml_game::sfml_game(
 
   m_ben_ik_een_spin.setLoop(true);
   start_music();
-  setup_display_score();
   setup_essence_symbol();
   setup_tickcounter_text();
   m_game.set_allow_spawning(m_delegate.get_spawning());
@@ -71,19 +70,20 @@ void sfml_game::setup_tickcounter_text() {
     m_tickcounter_text.setCharacterSize(20);
 }
 
-void sfml_game::setup_display_score() {
-  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
-  m_zen_bar.setPosition(sf::Vector2f(
-                          (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
-                          15));
-  m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
+//TODO: Remove
+//void sfml_game::setup_display_score() {
+//  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
+//  m_zen_bar.setPosition(sf::Vector2f(
+//                          (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
+//                          15));
+//  m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
 
-  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
-  m_zen_ind.setPosition(sf::Vector2f(
-                          (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
-                          15+(m_zen_bar.getSize().y/2.0f)));
-  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
-}
+//  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
+//  m_zen_ind.setPosition(sf::Vector2f(
+//                          (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
+//                          15+(m_zen_bar.getSize().y/2.0f)));
+//  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
+//}
 
 void sfml_game::setup_essence_symbol()
 {
@@ -138,20 +138,9 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   sfml_game::display_essence_symbol();
   // Display the zen
   {
-    m_zen_bar.setPosition(sf::Vector2f(
-                            (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
-                            15));
-    m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
-    m_window.draw(m_zen_bar);
-    m_zen_ind.setPosition(sf::Vector2f(
-                              (m_window.getSize().x/2.0f)-
-                              (m_zen_ind.getSize().x/2.0f)+
-                              m_game.get_score(),
-                              15+(m_zen_bar.getSize().y/2.0f)-
-                              (m_zen_ind.getSize().x/2.0f))
-                            );
-    m_zen_ind.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_ind.getPosition())));
-    m_window.draw(m_zen_ind);
+    m_window.draw(m_zen_bar.get_drawable_bar(m_window.getSize().x/2.0f, 15, m_window));
+    m_zen_bar.set_score(m_game.get_score());
+    m_window.draw(m_zen_bar.get_drawable_ind(m_window.getSize().x/2.0f, 15, m_window));
   }
   if (active(game_state::playing))
     m_window.display(); // Put everything on the screen

@@ -17,7 +17,8 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     QFile f(":/nature_zen/resources/Barachem_Zauberspiel_Preliminary_Edit.ogg");
     f.copy("Barachem_Zauberspiel_Preliminary_Edit.ogg");
     if (!m_background_music.openFromFile("Barachem_Zauberspiel_Preliminary_Edit.ogg")) {
-      throw std::runtime_error("Cannot find music file 'Barachem_Zauberspiel_Preliminary_Edit.ogg'");
+      throw std::runtime_error("Cannot find music file "
+                               "'Barachem_Zauberspiel_Preliminary_Edit.ogg'");
     }
   }
   {
@@ -197,6 +198,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find font file font.ttf");
     }
   }
+
   {
     QFile f(":/nature_zen/resources/zen_font.ttf");
     f.copy("zen_font.ttf");
@@ -204,6 +206,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find font file zen_font.ttf");
     }
   }
+
   {
     QFile f(":/nature_zen/resources/title_screen_background.jpg");
     f.copy("title_screen_background.jpg");
@@ -211,6 +214,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file title_screen_background.jpg");
     }
   }
+
   {
     QFile f(":/nature_zen/resources/zen_bar.png");
     f.copy("zen_bar.png");
@@ -218,6 +222,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file zen_bar.png");
     }
   }
+
   {
     QFile f(":/nature_zen/resources/zen_indicator.png");
     f.copy("zen_indicator.png");
@@ -225,6 +230,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file zen_indicator.png");
     }
   }
+
   {
     QFile f(":/nature_zen/resources/none_tile.png");
     f.copy("none_tile.png");
@@ -232,6 +238,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file none_tile.png");
     }
   }
+
   {
     QFile fl(":/nature_zen/resources/tundra_laying.png");
     fl.copy("tundra_laying.png");
@@ -251,20 +258,30 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file zen_title.png");
     }
   }
-    {
-      QFile f(":/nature_zen/resources/cactus.png");
-      f.copy("cactus.png");
-      if (!m_cactus_texture.loadFromFile("cactus.png")) {
-        throw std::runtime_error("Cannot find image file cactus.png");
-      }
+
+  {
+    QFile f(":/nature_zen/resources/cactus.png");
+    f.copy("cactus.png");
+    if (!m_cactus_texture.loadFromFile("cactus.png")) {
+      throw std::runtime_error("Cannot find image file cactus.png");
     }
-    {
-      QFile f(":/nature_zen/resources/Essence_29_32.png");
-      f.copy("Essence_29_32.png");
-      if (!m_essence_texture.loadFromFile("Essence_29_32.png")) {
-        throw std::runtime_error("Cannot find image file Essence_29_32.png");
-      }
+  }
+
+  {
+    QFile f(":/nature_zen/resources/Essence_29_32.png");
+    f.copy("Essence_29_32.png");
+    if (!m_essence_texture.loadFromFile("Essence_29_32.png")) {
+      throw std::runtime_error("Cannot find image file Essence_29_32.png");
     }
+  }
+
+  {
+    QFile f(":/nature_zen/resources/chameleon.png");
+    f.copy("chameleon.png");
+    if (!m_chameleon_texture.loadFromFile("chameleon.png")) {
+      throw std::runtime_error("Cannot find image file chameleon.png");
+    }
+  }
 }
 
 sfml_resources &sfml_resources::get() {
@@ -279,14 +296,16 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
   switch (a.get_type()) {
     case agent_type::plankton:
       return m_plankton_texture;
+    case agent_type::chameleon:
+      return m_chameleon_texture;
     case agent_type::worm:
       return m_worm_texture;
     case agent_type::cow:
       return m_cow_texture;
-  case agent_type::crocodile:
-    return m_crocodile_texture;
-  case agent_type::sunflower:
-    return m_sun_flower_texture;
+    case agent_type::crocodile:
+      return m_crocodile_texture;
+    case agent_type::sunflower:
+      return m_sun_flower_texture;
     case agent_type::fish:
       return m_fish_texture;
     case agent_type::whale:
@@ -315,8 +334,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
       return m_octopus_texture;
     case agent_type::venus_fly_trap:
       return m_venus_fly_trap_texture;
-  case agent_type::cactus:
-    return m_cactus_texture;
+    case agent_type::cactus:
+      return m_cactus_texture;
     default:
       return m_none_texture;
   }

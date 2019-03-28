@@ -21,6 +21,7 @@
 /// Arguments are:
 ///   * '--music': run with music
 ///   * '--short': only run for a couple of seconds
+///   * '--short [n]': only run for [n] ticks
 ///   * '--title': show the title screen
 ///   * '--menu': show the menu screen
 ///   * '--about': show the about screen
@@ -137,6 +138,14 @@ int main(int argc, char **argv) //!OCLINT main too long
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
+    assert(std::find(std::begin(args), std::end(args), "--short") != std::end(args));
+    if (std::find(std::begin(args), std::end(args), "--short") + 1 != std::end(args))
+    {
+      const std::string s{
+        *(std::find(std::begin(args), std::end(args), "--short") + 1)
+      };
+      close_at = std::atoi(s.c_str());
+    }
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--profiling")){

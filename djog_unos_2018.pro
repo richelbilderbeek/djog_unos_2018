@@ -28,10 +28,11 @@ CONFIG(release, debug|release) {
     # gprof
     QMAKE_CXXFLAGS += -pg
     QMAKE_LFLAGS += -pg
+
+    # helgrind, for helgrind and memcheck
+    QMAKE_LFLAGS += -pthread -Wl,--no-as-needed
   }
 }
-
-
 
 CONFIG(debug, debug|release) {
 

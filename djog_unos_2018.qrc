@@ -36,6 +36,7 @@
         <file>resources/cactus.png</file>
         <file>resources/Essence_29_32.png</file>
         <file>resources/Barachem_Zauberspiel_Preliminary_Edit.ogg</file>
+        <file>resources/chameleon.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
