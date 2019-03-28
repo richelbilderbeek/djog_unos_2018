@@ -14,10 +14,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
   {
     // Re-create resource at executable's location
-    QFile f(":/nature_zen/resources/background_music.ogg");
-    f.copy("background_music.ogg");
-    if (!m_background_music.openFromFile("background_music.ogg")) {
-      throw std::runtime_error("Cannot find music file 'background_music.ogg'");
+    QFile f(":/nature_zen/resources/Barachem_Zauberspiel_Preliminary_Edit.ogg");
+    f.copy("Barachem_Zauberspiel_Preliminary_Edit.ogg");
+    if (!m_background_music.openFromFile("Barachem_Zauberspiel_Preliminary_Edit.ogg")) {
+      throw std::runtime_error("Cannot find music file 'Barachem_Zauberspiel_Preliminary_Edit.ogg'");
     }
   }
   {
@@ -36,15 +36,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
     }
   }
-  {
-    QFile f(":/nature_zen/resources/Barachem_Tranquil_Canopy.ogg");
-    f.copy("Barachem_Tranquil_Canopy.ogg");
-
-    // if (!m_game_music.openFromFile("Barachem_Tranquil_Canopy.ogg")) {
-    //   throw std::runtime_error("Cannot find music file 'Barachem_Tranquil_Canopy.ogg'");
-    // }
-  }
-  // plankton texture
+   // plankton texture
   {
     QFile f(":/nature_zen/resources/plankton.png");
     f.copy("plankton.png");

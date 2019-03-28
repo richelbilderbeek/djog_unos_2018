@@ -26,7 +26,9 @@ sfml_game::sfml_game(
     m_window{ sfml_window_manager::get().get_window() },
     m_pause_screen()
 { // Set up music
+  // m_background_music = sfml_resources::get().get_background_music();
   m_background_music.setLoop(true);
+
   m_ben_ik_een_spin.setLoop(true);
   start_music();
   setup_display_score();
