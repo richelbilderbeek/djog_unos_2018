@@ -258,11 +258,9 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 void rotate(tile& t)
 {
   const double width = t.get_width();
-  const double height = t. get_height();
+  const double height = t.get_height();
   t.set_width(height);
   t.set_height(width);
-
-
 }
 
 void tile::spawn(game& g, agent_type type){ //!OCLINT high cyclomatic complexity
