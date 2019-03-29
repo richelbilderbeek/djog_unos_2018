@@ -15,8 +15,6 @@
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
 #include <cassert>
-#include <crtdbg.h>
-#include <crtdefs.h>
 
 /// Nature Zen
 /// @param argc the number of arguments Nature Zen's executable is called
