@@ -203,7 +203,7 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
             if(m_tiles[i].get_id() == m_selected.at(0)){
                m_selected.pop_back();
             }
-        } catch (std::out_of_range) {
+        } catch (std::out_of_range&) {
             std::cout << "segmentation fault" << std::endl;
         }
     } else {
