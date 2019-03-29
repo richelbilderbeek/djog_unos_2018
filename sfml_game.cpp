@@ -148,8 +148,12 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 }
 
 void sfml_game::display_tile(const tile &t){
-    sf::RectangleShape sfml_tile(sf::Vector2f(
-      static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
+    sf::RectangleShape sfml_tile(
+      sf::Vector2f(
+        static_cast<float>(t.get_width()),
+        static_cast<float>(t.get_height())
+      )
+    );
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
     const double screen_x{ t.get_x() - m_camera.x };
@@ -265,10 +269,12 @@ void sfml_game::follow_tile()
 {
   sf::Vector2i screen_center = sfml_window_manager::get().get_window_center();
   const tile& t = getTileById(m_game.m_selected);
-  m_camera.x = 0;
-  m_camera.y = 0;
-  sf::Vector2f new_coords = sf::Vector2f(t.get_x() + (t.get_width() / 2) - screen_center.x,
-                                         t.get_y() + (t.get_height() / 2) - screen_center.y);
+  m_camera.x = 0.0;
+  m_camera.y = 0.0;
+  sf::Vector2f new_coords(
+    t.get_x() + (t.get_width()  / 2.0) - static_cast<double>(screen_center.x),
+    t.get_y() + (t.get_height() / 2.0) - static_cast<double>(screen_center.y)
+  );
   m_camera.move_camera(new_coords);
 }
 
@@ -367,8 +373,8 @@ void sfml_game::move_selected_tile_randomly()
 
 void sfml_game::reset_input()
 {
-  m_camera.x = 0;
-  m_camera.y = 0;
+  m_camera.x = 0.0;
+  m_camera.y = 0.0;
   m_camera.m_movecam_r = false;
   m_camera.m_movecam_l = false;
   m_camera.m_movecam_u = false;

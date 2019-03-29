@@ -99,25 +99,25 @@ void agent::eat(const game& g) {
   //Is agent_type a in food?
   for (agent a : g.get_agents()) {
     // NOTE not calculated from the center of the agent
-    if (is_in_range(a.get_x(),
-                    a.get_y(),
-                    25.0) &&
-        a.get_health() > 0 &&
-        std::count(std::begin(food), std::end(food), a.get_type()))
+    if (is_in_range(a.get_x(), a.get_y(), 25.0)
+      && a.get_health() > 0.0
+      && std::count(std::begin(food), std::end(food), a.get_type())
+    )
     {
-      m_stamina += 1;
-    } else if (!is_plant(m_type)){
+      m_stamina += 1.0;
+    }
+    else if (!is_plant(m_type))
+    {
       m_stamina -= 0.05;
     }
     std::vector<agent_type> a_food = can_eat(a.get_type());
     // NOTE not calculated from the center of the agent
-    if (is_in_range(a.get_x(),
-                    a.get_y(),
-                    25.0) &&
-        m_health > 0 &&
-        std::count(std::begin(a_food), std::end(a_food), m_type))
+    if (is_in_range(a.get_x(), a.get_y(), 25.0)
+      && m_health > 0.0
+      && std::count(std::begin(a_food), std::end(a_food), m_type)
+    )
     {
-      m_stamina = 0;
+      m_stamina = 0.0;
       m_health -= 0.1;
     }
   }
@@ -241,7 +241,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
   if(m_type != agent_type::bird && !is_on_tile(g, *this))
   {
-    m_health = 0;
+    m_health = 0.0;
   }
 
   if(m_type == agent_type::fish || m_type == agent_type::whale){
@@ -269,9 +269,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
 
   if(is_plant(type)){
-    double rand = std::rand() % 10 + 26; // 20 extra for the grass self-damage
-    rand = rand / 1000;
-
+    const double rand = ((std::rand() % 10) + 26) / 1000.0; // 20 extra for the grass self-damage
     // Grow
     m_health += rand;
   }
