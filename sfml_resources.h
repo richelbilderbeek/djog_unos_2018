@@ -4,7 +4,11 @@
 #include "agent.h"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <string>
 #include <vector>
+#include <QDir>
+#include <QFile>
 
 /// Singleton class to access all resources
 //TODO: make this a member variable of sfml_game
@@ -35,12 +39,16 @@ public:
 
   sf::Texture &get_tile_sprite(const tile& t) noexcept;
 
+  sf::Texture& get_essence_texture() noexcept { return m_essence_texture; }
+
 private:
   /// Do not construct a sfml_resources,
   /// use sfml_resources::get() instead
   sfml_resources();
 
   static sfml_resources *m_instance; //!OCLINT accepted for now
+
+  QString m_resource_folder;
 
   sf::Font m_default_font;
 
@@ -51,6 +59,8 @@ private:
   sf::Music m_title_music;
 
   sf::Music m_benikeenspin;
+
+  sf::Music m_game_music;
 
   sf::Texture m_cow_texture;
 
@@ -112,6 +122,8 @@ private:
   sf::Texture m_tundra_standing;
 
   sf::Texture m_corpse_texture;
+
+  sf::Texture m_essence_texture;
 
 };
 

@@ -5,6 +5,7 @@ SOURCES += main.cpp
 
 # C++14
 CONFIG += c++14
+CONFIG += resources_big
 QMAKE_CXXFLAGS += -std=c++14
 
 # High warning levels

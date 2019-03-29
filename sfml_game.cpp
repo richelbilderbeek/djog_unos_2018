@@ -26,9 +26,12 @@ sfml_game::sfml_game(
     m_window{ sfml_window_manager::get().get_window() },
     m_pause_screen()
 { // Set up music
+  // m_background_music = sfml_resources::get().get_background_music();
   m_background_music.setLoop(true);
+
   m_ben_ik_een_spin.setLoop(true);
   start_music();
+  setup_essence_symbol();
   setup_tickcounter_text();
   m_game.set_allow_spawning(m_delegate.get_spawning());
   m_game.set_allow_damage(m_delegate.get_damage());
@@ -82,6 +85,32 @@ void sfml_game::setup_tickcounter_text() {
 //  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
 //}
 
+void sfml_game::setup_essence_symbol()
+{
+  m_essence_symbol.setSize(0.6f*sf::Vector2f(
+    sfml_resources::get().get_essence_texture().getSize()));
+  m_essence_symbol.setTexture(&sfml_resources::get().get_essence_texture());
+}
+
+void sfml_game::display_essence_symbol()
+{
+  m_essence_symbol.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*51.0f/64.0f, 15)));
+  m_essence_symbol.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_essence_symbol.getPosition())));
+  m_window.draw(m_essence_symbol);
+}
+
+void sfml_game::display_essence()
+{
+  std::stringstream s;
+  s << " : " << m_game.get_essence();
+  m_tickcounter_text.setString(s.str());
+  m_tickcounter_text.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*52.0f/64.0f, 10)));
+  m_window.draw(m_tickcounter_text);
+}
+
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color
@@ -104,6 +133,9 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
   }
+  // Display the essence
+  display_essence();
+  sfml_game::display_essence_symbol();
   // Display the zen
   {
     m_window.draw(m_zen_bar.get_drawable_bar(m_window.getSize().x/2.0f, 15, m_window));
