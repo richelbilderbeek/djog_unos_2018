@@ -10,6 +10,7 @@ enum class agent_type {
   cactus,
   chameleon,
   cow,
+  corpse,
   crocodile,
   fish,
   foxgloves,

@@ -8,7 +8,6 @@ class sfml_zen_bar
 public:
     sf::RectangleShape get_drawable_bar(float x_pos, float y_pos, sf::RenderWindow &window);
     sf::RectangleShape get_drawable_ind(float x_pos, float y_pos, sf::RenderWindow &window);
-//    void change_score(float delta);
     void set_score(float score);
     sfml_zen_bar();
 private:

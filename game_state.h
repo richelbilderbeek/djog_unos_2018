@@ -3,12 +3,13 @@
 
 enum class game_state
 {
-    titlescreen,
-    menuscreen,
-    aboutscreen,
-    playing,
-    gameover,
-    paused
+  titlescreen,
+  menuscreen,
+  aboutscreen,
+  playing,
+  gameover,
+  paused,
+  saving
 };
 
 #endif // GAME_STATE_H

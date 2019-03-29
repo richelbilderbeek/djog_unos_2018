@@ -154,7 +154,7 @@ void agent::move() //!OCLINT NPath complexity too high
   if (m_stamina <= 0.0) {
     m_health += (m_stamina - 1) * 0.2;
   }
-  if (!is_plant(m_type)) {
+  if (!is_plant(m_type) && m_type != agent_type::corpse) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
@@ -178,9 +178,8 @@ void agent::move_to_food(game &g){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
       if(a.get_type() == can_eat(m_type)[i]){
         distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-        if(distance > 350) return;
         if(a == nearest_agent(g, *this, can_eat(m_type)[i])
-           && distance < f_distance){
+           && distance < f_distance && distance < 200){
           nearest_f = a;
           f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
         }
@@ -249,6 +248,19 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
     for(tile& t: g.get_tiles()){
       if(is_on_specific_tile(*this, t) && t.get_type() != tile_type::water){
         m_health -= 0.01;
+      }
+    }
+  }
+
+  if(m_type == agent_type::corpse && corpse_ticks == -1){
+    corpse_ticks = g.get_n_ticks();
+  }
+  if(m_type == agent_type::corpse && corpse_ticks + 300 < g.get_n_ticks()){
+    unsigned int n = static_cast<unsigned int>(count_n_agents(g));
+    for(unsigned int i = 0; i < n; i++){
+      if(g.get_agents()[i] == *this){
+        g.get_agents()[i] = g.get_agents().back();
+        g.get_agents().pop_back();
       }
     }
   }
@@ -760,7 +772,7 @@ void test_agent() //!OCLINT testing functions may be long
     g.set_allow_spawning(false);
     assert(!g.get_agents().empty());
     // Wait until cow starves
-    while (!g.get_agents().empty())
+    while (g.get_agents()[0].get_type() != agent_type::corpse)
     {
       g.process_events();
     }
@@ -791,7 +803,7 @@ void test_agent() //!OCLINT testing functions may be long
     game g(no_tiles, { agent(agent_type::crocodile, -100, -100, 100)});
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
     g.process_events();
-    assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
+    assert(g.get_agents()[0].get_type() == agent_type::corpse); //!OCLINT accepted idiom
   }
   //#define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
@@ -856,23 +868,21 @@ void test_agent() //!OCLINT testing functions may be long
     game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::fish) } );
     assert(!g.get_agents().empty());
     //Choke fish
-    while (g.get_agents()[0].get_health() > 0)
+    while (g.get_agents()[0].get_type() != agent_type::corpse)
     {
       g.process_events();
     }
-    assert(g.get_agents().empty());
   }
   //octopus die when on land
-{
-  game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::octopus) } );
-  assert(!g.get_agents().empty());
-  //Choke octopus
-  while (g.get_agents()[0].get_health() > 0)
   {
-    g.process_events();
+    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::octopus) } );
+    assert(!g.get_agents().empty());
+    //Choke octopus
+    while (g.get_agents()[0].get_type() != agent_type::corpse)
+    {
+      g.process_events();
+    }
   }
-  assert(g.get_agents().empty());
-}
   // Agents drown
   {
     game g({tile(0,0,0,3,3,10,tile_type::water)},
