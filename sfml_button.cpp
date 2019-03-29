@@ -10,7 +10,7 @@ sfml_button::sfml_button(const double x, const double y,
 {
   m_shape.setSize(sf::Vector2f(m_width,m_height));
   m_shape.setPosition(sf::Vector2f(m_x,m_y));
-  m_shape.setFillColor(sf::Color(100,100,100));
+  m_shape.setFillColor(sf::Color(53,234,151));
 
   m_text.setFont(sfml_resources::get().get_default_font());
   set_string("Click me!");
