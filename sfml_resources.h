@@ -111,6 +111,8 @@ private:
   sf::Texture m_tundra_laying;
   sf::Texture m_tundra_standing;
 
+  sf::Texture m_corpse_texture;
+
 };
 
 /// Test the sfml_resources class
