@@ -24,7 +24,8 @@ sfml_game::sfml_game(
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
-    m_pause_screen()
+    m_pause_screen(),
+    m_save_screen(m_game)
 { // Set up music
   // m_background_music = sfml_resources::get().get_background_music();
   m_background_music.setLoop(true);
@@ -192,11 +193,16 @@ void sfml_game::exec()
   view.setSize(static_cast<float>(m_window.getSize().x),
                static_cast<float>(m_window.getSize().y));
   m_window.setView(view);
-  while (active(game_state::playing) || active(game_state::paused))
+  while (active(game_state::playing) ||
+         active(game_state::paused) ||
+         active(game_state::saving))
   {
     if (active(game_state::paused)) {
       display();
       m_pause_screen.exec();
+    } else if (active(game_state::saving)) {
+      display();
+      m_save_screen.exec();
     } else {
       process_input();
       process_events();

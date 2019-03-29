@@ -10,6 +10,7 @@
 #include "sfml_window_manager.h"
 #include "tile.h"
 #include "tile_id.h"
+#include "sfml_text_input.h"
 #include <QFile>
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
@@ -44,6 +45,7 @@ void test() {
   test_agent_type();
   test_tile_id();
   //test_sfml_window_manager();
+  test_normal_char();
 }
 int start_sfml_game(int ca, bool music,
                     std::vector<tile> tiles,
@@ -118,7 +120,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       #if(SFML_VERSION_MINOR > 1)
       << "." << SFML_VERSION_PATCH
       #endif
-      << '\n'
+      << std::endl
     ;
     return 0; // 0: everything went OK
   }
@@ -170,11 +172,19 @@ int main(int argc, char **argv) //!OCLINT main too long
            std::count(std::begin(args), std::end(args), "--gameover")) {
     sfml_window_manager::get().set_state(game_state::gameover);
   }
+  else if (std::count(std::begin(args), std::end(args), "--paused"))
+  {
+    sfml_window_manager::get().set_state(game_state::paused);
+  }
+  else if (std::count(std::begin(args), std::end(args), "--save"))
+  {
+    sfml_window_manager::get().set_state(game_state::saving);
+  }
 
   //Not realy to show settings, but to use the variables
   std::cout << "\nSettings\n"
             << "Close at : " << close_at << "\n"
-            << "Music    : " << music << "\n";
+            << "Music    : " << music << std::endl;
 
   std::vector<tile> tiles;
   std::vector<agent> agents;
@@ -243,6 +253,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       case game_state::aboutscreen:
         show_sfml_about_screen(close_at);
         break;
+      case game_state::saving:
       case game_state::paused:
       case game_state::playing:
         start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);

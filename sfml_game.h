@@ -15,6 +15,7 @@
 #include "sfml_camera.h"
 #include "sfml_window_manager.h"
 #include "sfml_pause_overlay.h"
+#include "sfml_save_overlay.h"
 #include "sfml_zen_bar.h"
 
 //TODO: decrease the number of member functions and member variables
@@ -184,6 +185,8 @@ private:
   double m_mouse_speed;
 
   sfml_pause_overlay m_pause_screen;
+
+  sfml_save_overlay m_save_screen;
 
 };
 

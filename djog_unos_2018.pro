@@ -17,6 +17,11 @@ unix:!macx {
 QMAKE_LFLAGS += -fuse-ld=gold
 }
 
+# Needed this to make std::cout work
+# CONFIG += console
+# NOTE you need to flush a cout to print it
+# seems like std::endl is superior after all
+
 # Debug and release settings
 CONFIG += debug_and_release
 CONFIG(release, debug|release) {
