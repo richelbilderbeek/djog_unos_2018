@@ -516,7 +516,7 @@ void sfml_game::switch_collide(tile& t, int direction)
 
 bool sfml_game::check_merge(tile& t1, tile& t2)
 {
-  return get_merge_type(t1.get_type(), t2.get_type()) != tile_type::nonetile;
+  return !get_merge_type(t1.get_type(), t2.get_type()).empty();
 }
 
 sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
