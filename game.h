@@ -8,7 +8,7 @@
 #include "sfml_camera.h"
 #include <QDir>
 
-class game {
+class game { //!OCLINT too many methods
 
 friend class sfml_game;
 
@@ -69,6 +69,8 @@ public:
   void set_allow_damage(const bool do_damage) noexcept { m_allow_damage = do_damage; }
 
   void set_allow_score(const bool do_score) noexcept { m_allow_score = do_score; }
+
+  void save_this(const std::string filename) const;
 
 private:
 
@@ -141,7 +143,6 @@ tile get_current_tile(game& g, double x, double y);
 /// Load a game from a file
 game load(const std::string &filename);
 
-// The save Subdir
 const std::string SAVE_DIR = "saves\\";
 
 /// Save the game to a file

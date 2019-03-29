@@ -24,11 +24,15 @@ sfml_game::sfml_game(
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
-    m_pause_screen()
+    m_pause_screen(),
+    m_save_screen(m_game)
 { // Set up music
+  // m_background_music = sfml_resources::get().get_background_music();
   m_background_music.setLoop(true);
+
   m_ben_ik_een_spin.setLoop(true);
   start_music();
+  setup_essence_symbol();
   setup_tickcounter_text();
   m_game.set_allow_spawning(m_delegate.get_spawning());
   m_game.set_allow_damage(m_delegate.get_damage());
@@ -82,6 +86,32 @@ void sfml_game::setup_tickcounter_text() {
 //  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
 //}
 
+void sfml_game::setup_essence_symbol()
+{
+  m_essence_symbol.setSize(0.6f*sf::Vector2f(
+    sfml_resources::get().get_essence_texture().getSize()));
+  m_essence_symbol.setTexture(&sfml_resources::get().get_essence_texture());
+}
+
+void sfml_game::display_essence_symbol()
+{
+  m_essence_symbol.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*51.0f/64.0f, 15)));
+  m_essence_symbol.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_essence_symbol.getPosition())));
+  m_window.draw(m_essence_symbol);
+}
+
+void sfml_game::display_essence()
+{
+  std::stringstream s;
+  s << " : " << m_game.get_essence();
+  m_tickcounter_text.setString(s.str());
+  m_tickcounter_text.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*52.0f/64.0f, 10)));
+  m_window.draw(m_tickcounter_text);
+}
+
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
   m_window.clear(sf::Color::Black); // Clear the window with black color
@@ -104,6 +134,9 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
   }
+  // Display the essence
+  display_essence();
+  sfml_game::display_essence_symbol();
   // Display the zen
   {
     m_window.draw(m_zen_bar.get_drawable_bar(m_window.getSize().x/2.0f, 15, m_window));
@@ -115,8 +148,12 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 }
 
 void sfml_game::display_tile(const tile &t){
-    sf::RectangleShape sfml_tile(sf::Vector2f(
-      static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
+    sf::RectangleShape sfml_tile(
+      sf::Vector2f(
+        static_cast<float>(t.get_width()),
+        static_cast<float>(t.get_height())
+      )
+    );
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
     const double screen_x{ t.get_x() - m_camera.x };
@@ -160,11 +197,16 @@ void sfml_game::exec()
   view.setSize(static_cast<float>(m_window.getSize().x),
                static_cast<float>(m_window.getSize().y));
   m_window.setView(view);
-  while (active(game_state::playing) || active(game_state::paused))
+  while (active(game_state::playing) ||
+         active(game_state::paused) ||
+         active(game_state::saving))
   {
     if (active(game_state::paused)) {
       display();
       m_pause_screen.exec();
+    } else if (active(game_state::saving)) {
+      display();
+      m_save_screen.exec();
     } else {
       process_input();
       process_events();
@@ -227,10 +269,12 @@ void sfml_game::follow_tile()
 {
   sf::Vector2i screen_center = sfml_window_manager::get().get_window_center();
   const tile& t = getTileById(m_game.m_selected);
-  m_camera.x = 0;
-  m_camera.y = 0;
-  sf::Vector2f new_coords = sf::Vector2f(t.get_x() + (t.get_width() / 2) - screen_center.x,
-                                         t.get_y() + (t.get_height() / 2) - screen_center.y);
+  m_camera.x = 0.0;
+  m_camera.y = 0.0;
+  sf::Vector2f new_coords(
+    t.get_x() + (t.get_width()  / 2.0) - static_cast<double>(screen_center.x),
+    t.get_y() + (t.get_height() / 2.0) - static_cast<double>(screen_center.y)
+  );
   m_camera.move_camera(new_coords);
 }
 
@@ -329,8 +373,8 @@ void sfml_game::move_selected_tile_randomly()
 
 void sfml_game::reset_input()
 {
-  m_camera.x = 0;
-  m_camera.y = 0;
+  m_camera.x = 0.0;
+  m_camera.y = 0.0;
   m_camera.m_movecam_r = false;
   m_camera.m_movecam_l = false;
   m_camera.m_movecam_u = false;

@@ -28,6 +28,8 @@ install:
   - sudo apt-get install -qq clang-3.8
   # cppcheck
   - sudo apt-get install -qq cppcheck
+  # valgrind, for helgrind and memcheck
+  - sudo apt-get install -qq valgrind
   # Codecov
   - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-6 90
   - sudo pip install codecov
@@ -56,6 +58,9 @@ script:
   - ./djog_unos_2018 --short --music
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
+  # helgrind: takes too long
+  # - travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1
+  # - cat helgrind.log
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Call OCLint
@@ -63,44 +68,8 @@ script:
   # Build and run and profile normal program
   - qmake djog_unos_2018.pro
   - make release
-  # time ./djog_unos_2018 --profiling 10 80
-  # ./djog_unos_2018 --profiling 10 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 20 80
-  # ./djog_unos_2018 --profiling 20 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 40 80
-  # ./djog_unos_2018 --profiling 40 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 80 80
-  # ./djog_unos_2018 --profiling 80 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 160 80
-  # ./djog_unos_2018 --profiling 160 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 80 10
-  # ./djog_unos_2018 --profiling 10 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 80 20 
-  # ./djog_unos_2018 --profiling 80 20
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  - time ./djog_unos_2018 --profiling 80 40
-  - ./djog_unos_2018 --profiling 80 40
-  - gprof djog_unos_2018 > gprof.log
-  - head gprof.log -n 1000
-  - time ./djog_unos_2018 --profiling 80 80
-  - ./djog_unos_2018 --profiling 80 80
-  - gprof djog_unos_2018 > gprof.log
-  - head gprof.log -n 1000
-  - time ./djog_unos_2018 --profiling 80 160
-  - ./djog_unos_2018 --profiling 80 160
+  - time ./djog_unos_2018 --profiling 350 350
+  - ./djog_unos_2018 --profiling 350 350
   - gprof djog_unos_2018 > gprof.log
   - head gprof.log -n 1000
   # Get code coverage

@@ -181,7 +181,11 @@ void game::merge_tiles() { //!OCLINT must simplify
 void game::kill_agents() {
   const int n = count_n_agents(*this);
   for (int i = 0; i < n; ++i) {
-    if (m_agents[i].get_health() <= 0) {
+    if (m_agents[i].get_health() <= 0 && m_agents[i].get_type() != agent_type::corpse) {
+      agent a(agent_type::corpse, m_agents[i].get_x(), m_agents[i].get_y());
+      if(!is_plant(m_agents[i].get_type())){
+        m_agents.push_back(a);
+      }
       m_agents[i] = m_agents.back();
       m_agents.pop_back();
     }
@@ -199,8 +203,8 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
             if(m_tiles[i].get_id() == m_selected.at(0)){
                m_selected.pop_back();
             }
-        } catch (std::out_of_range) {
-            std::cout << "segmentation fault\n";
+        } catch (std::out_of_range&) {
+            std::cout << "segmentation fault" << std::endl;
         }
     } else {
 
@@ -253,12 +257,16 @@ bool is_on_tile(const game& g, const double x, const double y)
 
 tile_type get_on_tile_type(const game& g, const agent& a)
 {
-  for (tile t: g.get_tiles()){
-    if(a.get_x() >= t.get_x() - 6 &&
-       a.get_x() <= t.get_x() + t.get_width() + 6 &&
-       a.get_y() >= t.get_y() - 6 &&
-       a.get_y() <= t.get_y() + t.get_height() + 6)
+  for (tile t: g.get_tiles())
+  {
+    if(  a.get_x() >= t.get_x() - 6.0
+      && a.get_x() <= t.get_x() + t.get_width() + 6.0
+      && a.get_y() >= t.get_y() - 6.0
+      && a.get_y() <= t.get_y() + t.get_height() + 6.0
+    )
+    {
       return t.get_type();
+    }
   }
   return tile_type::nonetile;
 }
@@ -302,6 +310,10 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
   }
 }
 
+void game::save_this(const std::string filename) const {
+  save(*this, filename);
+}
+
 void test_game() //!OCLINT a testing function may be long
 {
   // A game starts with one or more tiles
@@ -331,14 +343,14 @@ void test_game() //!OCLINT a testing function may be long
   // A game can be saved
   {
     const game g;
-    const std::string filename{"tmp.sav"};
-    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str();
+    const std::string filename{"tmp"};
+    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str() + ".sav";
     if (QFile::exists(filename.c_str()))
     {
       std::remove(filename.c_str());
     }
     assert(!QFile::exists(filename.c_str()));
-    save(g, filename);
+    g.save_this(filename);
     assert(QFile::exists(actual_path));
   }
 
@@ -366,8 +378,8 @@ void test_game() //!OCLINT a testing function may be long
     const game g(create_test_default_tiles(),
                  std::vector<agent>{agent(agent_type::spider, 0, 0, 100)}
                 );
-    const std::string filename{"tmp.sav"};
-    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str();
+    const std::string filename{"tmp"};
+    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str() + ".sav";
     if (QFile::exists(filename.c_str()))
     {
       std::remove(filename.c_str());
@@ -527,7 +539,7 @@ void test_game() //!OCLINT a testing function may be long
 }
 
 game load(const std::string &filename) {
-  std::ifstream f(SAVE_DIR + filename);
+  std::ifstream f(SAVE_DIR + filename + ".sav");
   game g;
   f >> g;
   return g;
@@ -538,7 +550,7 @@ void save(const game &g, const std::string &filename) {
     QDir dir = QDir::root();
     dir.mkpath(path);
 
-    std::ofstream f(SAVE_DIR + filename);
+    std::ofstream f(SAVE_DIR + filename + ".sav");
     f << g;
 }
 
