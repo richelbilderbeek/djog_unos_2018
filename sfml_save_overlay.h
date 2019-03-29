@@ -4,13 +4,14 @@
 #include "sfml_button.h"
 #include "sfml_text_input.h"
 #include "game_state.h"
+#include "game.h"
 #include <SFML/Graphics.hpp>
 
 class sfml_save_overlay
 {
 public:
 
-    sfml_save_overlay();
+    sfml_save_overlay(game &game);
 
     void exec();
 
@@ -37,6 +38,8 @@ private:
     sfml_button m_button1;
 
     sfml_text_input m_name_input;
+
+    game &m_game;
 
 };
 

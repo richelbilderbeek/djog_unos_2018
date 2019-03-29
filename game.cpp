@@ -204,7 +204,7 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
                m_selected.pop_back();
             }
         } catch (std::out_of_range) {
-            std::cout << "segmentation fault\n";
+            std::cout << "segmentation fault" << std::endl;
         }
     } else {
 
@@ -306,6 +306,10 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
   }
 }
 
+void game::save_this(const std::string filename) const {
+  save(*this, filename);
+}
+
 void test_game() //!OCLINT a testing function may be long
 {
   // A game starts with one or more tiles
@@ -335,14 +339,14 @@ void test_game() //!OCLINT a testing function may be long
   // A game can be saved
   {
     const game g;
-    const std::string filename{"tmp.sav"};
-    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str();
+    const std::string filename{"tmp"};
+    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str() + ".sav";
     if (QFile::exists(filename.c_str()))
     {
       std::remove(filename.c_str());
     }
     assert(!QFile::exists(filename.c_str()));
-    save(g, filename);
+    g.save_this(filename);
     assert(QFile::exists(actual_path));
   }
 
@@ -370,8 +374,8 @@ void test_game() //!OCLINT a testing function may be long
     const game g(create_test_default_tiles(),
                  std::vector<agent>{agent(agent_type::spider, 0, 0, 100)}
                 );
-    const std::string filename{"tmp.sav"};
-    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str();
+    const std::string filename{"tmp"};
+    const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str() + ".sav";
     if (QFile::exists(filename.c_str()))
     {
       std::remove(filename.c_str());
@@ -531,7 +535,7 @@ void test_game() //!OCLINT a testing function may be long
 }
 
 game load(const std::string &filename) {
-  std::ifstream f(SAVE_DIR + filename);
+  std::ifstream f(SAVE_DIR + filename + ".sav");
   game g;
   f >> g;
   return g;
@@ -542,7 +546,7 @@ void save(const game &g, const std::string &filename) {
     QDir dir = QDir::root();
     dir.mkpath(path);
 
-    std::ofstream f(SAVE_DIR + filename);
+    std::ofstream f(SAVE_DIR + filename + ".sav");
     f << g;
 }
 

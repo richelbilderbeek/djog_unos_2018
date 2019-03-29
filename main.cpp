@@ -15,6 +15,8 @@
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
 #include <cassert>
+#include <crtdbg.h>
+#include <crtdefs.h>
 
 /// Nature Zen
 /// @param argc the number of arguments Nature Zen's executable is called
@@ -120,7 +122,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       #if(SFML_VERSION_MINOR > 1)
       << "." << SFML_VERSION_PATCH
       #endif
-      << '\n'
+      << std::endl
     ;
     return 0; // 0: everything went OK
   }
@@ -184,7 +186,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   //Not realy to show settings, but to use the variables
   std::cout << "\nSettings\n"
             << "Close at : " << close_at << "\n"
-            << "Music    : " << music << "\n";
+            << "Music    : " << music << std::endl;
 
   std::vector<tile> tiles;
   std::vector<agent> agents;

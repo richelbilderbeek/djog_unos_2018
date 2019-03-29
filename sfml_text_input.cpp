@@ -47,12 +47,11 @@ void sfml_text_input::set_string(const std::string str) {
   m_str_size = m_string.size();
 }
 
-void sfml_text_input::select(const sf::Event& event,
-                             const sf::RenderWindow& window) {
+void sfml_text_input::select(const sf::RenderWindow& window) {
   sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
   double x = mouse.x;
   double y = mouse.y;
-  assert(event.type == sf::Event::MouseButtonPressed);
+//  assert(event.type == sf::Event::MouseButtonPressed);
   m_selected = x > m_x && x < m_x + m_width &&
                y > m_y && y < m_y + m_height;
 }
@@ -86,18 +85,21 @@ void sfml_text_input::update() {
 
 void sfml_text_input::set_color(sf::Color c) {
   m_color = c;
-  float high = 1.10;
-  float low = 0.90;
-  if (c.r * high > 256 ||
-      c.g * high > 256 ||
-      c.b * high > 256) {
-    assert(c.r * low >= 0);
-    assert(c.g * low >= 0);
-    assert(c.b * low >= 0);
+//  float high = 1.30f;
+  float low = 0.70f;
+//  if ((c.r * high > 255 && c.g * high > 255) ||
+//      (c.g * high > 255 && c.b * high > 255) ||
+//      (c.b * high > 255 && c.g * high > 255)) {
+    if (c.r * low < 0) c.r = 0;
+    if (c.g * low < 0) c.g = 0;
+    if (c.b * low < 0) c.b = 0;
     m_select_color = sf::Color(c.r * low, c.g * low, c.b * low, c.a);
-  } else {
-    m_select_color = sf::Color(c.r * high, c.g * high, c.b * high, c.a);
-  }
+//  } else {
+//    if (c.r * high > 255) c.r = 255/high;
+//    if (c.g * high > 255) c.g = 255/high;
+//    if (c.b * high > 255) c.b = 255/high;
+//    m_select_color = sf::Color(c.r * high, c.g * high, c.b * high, c.a);
+//  }
 }
 
 bool is_normal_char(uint32_t c) {

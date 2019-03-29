@@ -5,9 +5,10 @@
 #include <iostream>
 #include <cassert>
 
-sfml_save_overlay::sfml_save_overlay()
+sfml_save_overlay::sfml_save_overlay(game &game)
     : m_window{ sfml_window_manager::get().get_window() },
-      m_font{ sfml_resources::get().get_default_font() }
+      m_font{ sfml_resources::get().get_default_font() },
+      m_game{ game }
 {
   m_header.setFont(m_font);
   m_header.setCharacterSize(40);
@@ -18,7 +19,7 @@ sfml_save_overlay::sfml_save_overlay()
   m_button1.set_size(100, 75);
   m_button1.set_string(">");
 
-  m_name_input.set_size(500, 75);
+  m_name_input.set_size(590, 75);
 
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color(51, 51, 51));
@@ -53,7 +54,12 @@ void sfml_save_overlay::exec() //!OCLINT high cyclomatic complexity
         m_window.setView(view);
         break;
       case sf::Event::MouseButtonPressed:
-        m_name_input.select(event, m_window);
+        m_name_input.select(m_window);
+        if (m_button1.is_clicked(event, m_window) &&
+            !m_name_input.get_string().empty()) {
+          m_game.save_this(m_name_input.get_string());
+          close(game_state::paused);
+        }
         break;
 //      case sf::Event::KeyPressed:
 //        break;
@@ -99,6 +105,7 @@ void sfml_save_overlay::set_positions() {
 }
 
 void sfml_save_overlay::close(game_state s) {
+  m_name_input.set_string("");
   sfml_window_manager::get().set_state(s);
 }
 

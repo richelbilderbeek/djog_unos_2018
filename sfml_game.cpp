@@ -24,7 +24,8 @@ sfml_game::sfml_game(
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
-    m_pause_screen()
+    m_pause_screen(),
+    m_save_screen(m_game)
 { // Set up music
   m_background_music.setLoop(true);
   m_ben_ik_een_spin.setLoop(true);

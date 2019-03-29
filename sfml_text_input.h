@@ -15,7 +15,7 @@ public:
               const double height = 100.0, const double width = 100.0);
 
   /// Is the text_input clicked?
-  void select(const sf::Event& event, const sf::RenderWindow& window);
+  void select(const sf::RenderWindow& window);
 
   void input(const sf::Event& event);
 
@@ -37,6 +37,8 @@ public:
   void set_color(sf::Color c);
 
   void update();
+
+  std::string get_string() const noexcept { return m_string; }
 
 private:
 
