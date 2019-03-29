@@ -109,11 +109,13 @@ void game::spawn(agent_type type, tile t)
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
   // Merge attempt with this function
-  const tile_type merged_type = get_merge_type(
+  const std::vector<tile_type> merged_types = get_merge_type(
     focal_tile.get_type(),
     other_tile.get_type()
   );
+  if (merged_types.empty()) return;
   //focal tile becomes merged type
+  const tile_type merged_type = merged_types[0];
   focal_tile.set_type(merged_type);
   //other tile is swapped to the back, then deleted
   m_tiles[other_pos] = m_tiles.back();
