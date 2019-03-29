@@ -8,7 +8,7 @@
 #include "sfml_camera.h"
 #include <QDir>
 
-class game {
+class game { //!OCLINT too many methods
 
 friend class sfml_game;
 

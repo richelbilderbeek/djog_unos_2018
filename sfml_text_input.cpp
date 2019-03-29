@@ -109,7 +109,7 @@ bool is_normal_char(uint32_t c) {
          (c == ' ');
 }
 
-void test_normal_char() {
+void test_normal_char() { //!OCLINT tests can be complex
   assert(is_normal_char('a'));
   assert(is_normal_char('z'));
   assert(is_normal_char('0'));

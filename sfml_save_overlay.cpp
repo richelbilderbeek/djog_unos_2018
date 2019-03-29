@@ -12,7 +12,7 @@ sfml_save_overlay::sfml_save_overlay(game &game)
 {
   m_header.setFont(m_font);
   m_header.setCharacterSize(40);
-  m_header.setString("Save game");
+  m_header.setString("Save game\nLeave empty to cancel (for now)");
 
   sf::RectangleShape &b1_s = m_button1.get_shape();
   b1_s.setFillColor(sf::Color(53,234,151));
@@ -59,6 +59,8 @@ void sfml_save_overlay::exec() //!OCLINT high cyclomatic complexity
             !m_name_input.get_string().empty()) {
           m_game.save_this(m_name_input.get_string());
           close(game_state::paused);
+        } else if (m_button1.is_clicked(event, m_window)) {
+          close(game_state::paused);
         }
         break;
 //      case sf::Event::KeyPressed:
@@ -87,6 +89,8 @@ void sfml_save_overlay::draw_objects() {
 }
 
 void sfml_save_overlay::set_positions() {
+
+  m_header.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
 
   //Button 1
   sf::Vector2f b1_pos(m_window.mapPixelToCoords(sf::Vector2i(
