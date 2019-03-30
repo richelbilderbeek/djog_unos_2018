@@ -140,6 +140,8 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
     case tile_type::water: return "water";
     case tile_type::woods: return "woods";
   }
+  assert(!"Should not get here"); //!OCLINT acceptable idiom
+  return "";
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
