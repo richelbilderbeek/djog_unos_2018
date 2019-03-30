@@ -628,10 +628,6 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::beach:
       color_shape(sfml_tile, sf::Color(240, 226, 180), sf::Color(223, 206, 157));
       break;
-    default:
-      color_shape(
-        sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
-      break;
   }
   sfml_tile.setOutlineThickness(5);
   auto selected = vectortoint(m_game.m_selected);
