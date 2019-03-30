@@ -97,8 +97,6 @@ void sfml_game::display_essence_symbol()
 {
   m_essence_symbol.setPosition(
     m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*51.0f/64.0f, 15)));
-  m_essence_symbol.setPosition(
-    m_window.mapPixelToCoords(sf::Vector2i(m_essence_symbol.getPosition())));
   m_window.draw(m_essence_symbol);
 }
 
