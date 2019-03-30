@@ -123,38 +123,22 @@ std::vector<tile_type> get_all_tile_types() noexcept
 
 std::string to_str(tile_type t) //!OCLINT cannot be simpler
 {
-  switch (t) {
-    case tile_type::grassland:
-      return "grassland";
-    case tile_type::arctic:
-      return "arctic";
-    case tile_type::desert:
-      return "desert";
-    case tile_type::mountains:
-      return "mountains";
-    case tile_type::water:
-      return "water";
-    case tile_type::savannah:
-      return "savannah";
-    case tile_type::swamp:
-      return "swamp";
-    case tile_type::woods:
-      return "woods";
-  case tile_type::dunes:
-    return "dunes";
-  case tile_type::mangrove:
-    return "mangrove";
-    case tile_type::beach:
-      return "beach";
-    case tile_type::hills:
-      return "hills";
-    case tile_type::rainforest:
-      return "rainforest";
-    case tile_type::tundra:
-      return "tundra";
-    default:
-      assert(!"Should not get here"); //!OCLINT acceptable idiom
-      return "";
+  switch (t)
+  {
+    case tile_type::arctic: return "arctic";
+    case tile_type::beach: return "beach";
+    case tile_type::desert: return "desert";
+    case tile_type::dunes: return "dunes";
+    case tile_type::grassland: return "grassland";
+    case tile_type::hills: return "hills";
+    case tile_type::mangrove: return "mangrove";
+    case tile_type::mountains: return "mountains";
+    case tile_type::rainforest: return "rainforest";
+    case tile_type::savannah: return "savannah";
+    case tile_type::swamp: return "swamp";
+    case tile_type::tundra: return "tundra";
+    case tile_type::water: return "water";
+    case tile_type::woods: return "woods";
   }
 }
 
