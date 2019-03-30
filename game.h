@@ -128,7 +128,10 @@ bool is_on_tile(const game& g, const agent& a);
 /// Determine if there is a tile at the given coordinat
 bool is_on_tile(const game& g, double x, double y);
 
-tile_type get_on_tile_type(const game& g, const agent& a);
+/// Get the tile_type the agent is one.
+/// Returns one tile_type if the agent is on a tile.
+/// Returns an empty vector if the agent is above the void
+std::vector<tile_type> get_on_tile_type(const game& g, const agent& a);
 
 /// Determine if an agent is on a specific tile
 bool is_on_specific_tile(const agent& a, const tile& t);
@@ -136,9 +139,19 @@ bool is_on_specific_tile(const agent& a, const tile& t);
 /// Determine if there is a specific tile at the given coordinat
 bool is_on_specific_tile(double x, double y, const tile& t);
 
-tile get_current_tile(game& g, const agent& a);
+/// Gets a tile at the coordinats of the agent.
+/// If there is at least one tile at the specified coordinats,
+/// a vector with a copy of the first tile found is returned.
+/// If there are not tiles at the specified coordinats,
+/// an empty vector is returned
+std::vector<tile> get_current_tile(game& g, const agent& a);
 
-tile get_current_tile(game& g, double x, double y);
+/// Gets a tile at the specified coordinats.
+/// If there is at least one tile at the specified coordinats,
+/// a vector with a copy of the first tile found is returned.
+/// If there are not tiles at the specified coordinats,
+/// an empty vector is returned
+std::vector<tile> get_current_tile(game& g, double x, double y);
 
 /// Load a game from a file
 game load(const std::string &filename);

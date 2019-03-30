@@ -208,10 +208,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   }
 
   {
-    QFile f(":/nature_zen/resources/title_screen_background.jpg");
-    f.copy("title_screen_background.jpg");
-    if (!m_background_image.loadFromFile("title_screen_background.jpg")) {
-      throw std::runtime_error("Cannot find image file title_screen_background.jpg");
+    QFile f(":/nature_zen/resources/title_screen_background.png");
+    f.copy("title_screen_background.png");
+    if (!m_background_image.loadFromFile("title_screen_background.png")) {
+      throw std::runtime_error("Cannot find image file title_screen_background.png");
     }
   }
 

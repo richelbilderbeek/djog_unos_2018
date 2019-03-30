@@ -232,7 +232,10 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   if (m_type == agent_type::grass || m_type == agent_type::tree) damage_near_grass(g, m_type);
 
    //TODO is depth suitable for agent
-  if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
+  if (will_drown(m_type)
+    && !get_on_tile_type(g, *this).empty()
+    && get_on_tile_type(g, *this).front() == tile_type::water)
+  {
     m_stamina -= 0.2;
   }
 
@@ -307,10 +310,14 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
 
     agent new_agent(type, new_x, new_y, health_kid);
-    tile t = get_current_tile(g, new_agent);
-    while(!is_on_tile(g, new_agent) || get_on_tile_type(g, new_agent) == tile_type::water
-          || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
-          || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t)){
+    std::vector<tile> t = get_current_tile(g, new_agent);
+    while(t.empty()
+        || !is_on_tile(g, new_agent)
+        || get_on_tile_type(g, new_agent).at(0) == tile_type::water
+        || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t.front())
+        || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t.front())
+    )
+    {
       f_x = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
       f_y = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
       assert(f_x >= 0.0 && f_x < 1.0);
@@ -863,7 +870,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //Fish die when on land
   {
-    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::fish) } );
+    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::fish) } );
     assert(!g.get_agents().empty());
     //Choke fish
     while (g.get_agents()[0].get_type() != agent_type::corpse)
@@ -873,7 +880,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //octopus die when on land
   {
-    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::octopus) } );
+    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::octopus) } );
     assert(!g.get_agents().empty());
     //Choke octopus
     while (g.get_agents()[0].get_type() != agent_type::corpse)
@@ -911,7 +918,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //grass has different health when its duplicated
   {
-    game g({tile(0,0,0,3,3,10,tile_type::nonetile)},
+    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 100)});
     const auto prev_health = g.get_agents()[0].get_health();
     g.process_events();
