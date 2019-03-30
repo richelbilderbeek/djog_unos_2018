@@ -65,7 +65,6 @@ void test_tile_type() //!OCLINT testing functions can be long and complex
 {
   {
     // merging of types
-    assert(get_merge_type(tile_type::nonetile, tile_type::grassland).front() == tile_type::nonetile);
     assert(get_merge_type(tile_type::grassland, tile_type::grassland).front() == tile_type::hills);
     assert(get_merge_type(tile_type::hills, tile_type::hills).front() == tile_type::mountains);
     assert(get_merge_type(tile_type::grassland, tile_type::desert).front() == tile_type::savannah);
@@ -103,21 +102,22 @@ void test_tile_type() //!OCLINT testing functions can be long and complex
 
 std::vector<tile_type> get_all_tile_types() noexcept
 {
-  return{
-  tile_type::nonetile,
-  tile_type::grassland,
-  tile_type::mountains,
-  tile_type::water,
-  tile_type::savannah,
-  tile_type::arctic,
-  tile_type::desert,
-  tile_type::swamp,
-  tile_type::dunes,
-  tile_type::mangrove,
-  tile_type::beach,
-  tile_type::rainforest,
-  tile_type::hills,
-  tile_type::tundra,
+  return
+  {
+    tile_type::arctic,
+    tile_type::beach,
+    tile_type::desert,
+    tile_type::dunes,
+    tile_type::grassland,
+    tile_type::hills,
+    tile_type::mangrove,
+    tile_type::mountains,
+    tile_type::rainforest,
+    tile_type::savannah,
+    tile_type::swamp,
+    tile_type::tundra,
+    tile_type::water,
+    tile_type::woods
   };
 }
 
@@ -153,28 +153,28 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
     case tile_type::tundra:
       return "tundra";
     default:
-      assert(t == tile_type::nonetile);
-      return "nonetile";
+      assert(!"Should not get here"); //!OCLINT acceptable idiom
+      return "";
   }
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
 {
   if (str == "arctic") return tile_type::arctic;
-  if (str == "grassland") return tile_type::grassland;
-  if (str == "desert") return tile_type::desert;
-  if (str == "swamp") return tile_type::swamp;
-  if (str == "mountains") return tile_type::mountains;
-  if (str == "water") return tile_type::water;
-  if (str == "savannah") return tile_type::savannah;
-  if (str == "woods") return tile_type::woods;
-  if (str == "dunes") return tile_type::dunes;
-  if (str == "mangrove") return tile_type::mangrove;
   if (str == "beach") return tile_type::beach;
+  if (str == "desert") return tile_type::desert;
+  if (str == "dunes") return tile_type::dunes;
+  if (str == "grassland") return tile_type::grassland;
   if (str == "hills") return tile_type::hills;
-  if (str == "tundra") return tile_type::tundra;
+  if (str == "mangrove") return tile_type::mangrove;
+  if (str == "mountains") return tile_type::mountains;
   if (str == "rainforest") return tile_type::rainforest;
-  return tile_type::nonetile;
+  if (str == "savannah") return tile_type::savannah;
+  if (str == "swamp") return tile_type::swamp;
+  if (str == "tundra") return tile_type::tundra;
+  if (str == "water") return tile_type::water;
+  assert(str == "woods");
+  return tile_type::woods;
 }
 
 std::ostream& operator <<(std::ostream& os, const tile_type t) noexcept

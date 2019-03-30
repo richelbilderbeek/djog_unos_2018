@@ -13,7 +13,6 @@ enum class tile_type {
   hills,
   mangrove,
   mountains,
-  nonetile,
   rainforest,
   savannah,
   swamp,

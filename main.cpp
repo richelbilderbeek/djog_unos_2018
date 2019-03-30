@@ -193,9 +193,9 @@ int main(int argc, char **argv) //!OCLINT main too long
   {
     tiles.push_back(tile(2,-1,0,4,6,0,tile_type::mountains));
     tiles.push_back(tile(0,-1,0,2,6,0,tile_type::grassland));
-    tiles.push_back(tile(-2.2,-1,0,0.2,1,0,tile_type::nonetile));
-    tiles.push_back(tile(-2.2,1,0,0.2,1,0,tile_type::nonetile));
-    tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::nonetile));
+    tiles.push_back(tile(-2.2,-1,0,0.2,1,0,tile_type::mountains));
+    tiles.push_back(tile(-2.2,1,0,0.2,1,0,tile_type::mountains));
+    tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::mountains));
     agents.push_back(agent(agent_type::spider,50));
   }
   else if(std::count(std::begin(args), std::end(args), "--profiling")) {

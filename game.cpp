@@ -257,7 +257,7 @@ bool is_on_tile(const game& g, const double x, const double y)
   return false;
 }
 
-tile_type get_on_tile_type(const game& g, const agent& a)
+std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
   for (tile t: g.get_tiles())
   {
@@ -267,10 +267,10 @@ tile_type get_on_tile_type(const game& g, const agent& a)
       && a.get_y() <= t.get_y() + t.get_height() + 6.0
     )
     {
-      return t.get_type();
+      return { t.get_type() };
     }
   }
-  return tile_type::nonetile;
+  return {};
 }
 
 bool is_on_tile(const game& g, const agent& a) {
@@ -278,18 +278,21 @@ bool is_on_tile(const game& g, const agent& a) {
   return is_on_tile(g, center.x, center.y);
 }
 
-tile get_current_tile(game& g, const agent& a){
+std::vector<tile> get_current_tile(game& g, const agent& a){
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
   return get_current_tile(g, center.x, center.y);
 }
 
-tile get_current_tile(game& g, double x, double y){
-  for(tile t: g.get_tiles()){
-    if(is_on_specific_tile(x, y, t)){
-      return t;
+std::vector<tile> get_current_tile(game& g, double x, double y)
+{
+  for(tile t: g.get_tiles())
+  {
+    if(is_on_specific_tile(x, y, t))
+    {
+      return { t };
     }
   }
-  return tile(0, 0, 0, 10, 10, 0, tile_type::nonetile);
+  return {};
 }
 
 void game::confirm_tile_move(tile& t, int direction, int tile_speed){
