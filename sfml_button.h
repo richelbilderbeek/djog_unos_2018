@@ -24,6 +24,7 @@ public:
   sf::Vector2f get_size() noexcept { return sf::Vector2f(m_width, m_height); }
 
   void set_string(const std::string str);
+  std::string get_string() const noexcept { return m_string; }
 
   void set_pos(double x, double y);
   void set_size(double width, double height);
@@ -38,6 +39,8 @@ private:
 
   double m_height;
   double m_width;
+
+  std::string m_string;
 
 };
 

@@ -33,6 +33,8 @@ public:
 
   void remove_drawable(sf::Drawable &drawable);
 
+  void scroll(sf::Event &event);
+
 private:
 
   sf::RectangleShape m_shape;

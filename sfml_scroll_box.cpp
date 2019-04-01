@@ -50,9 +50,8 @@ void sfml_scroll_box::remove_drawable(sf::Drawable& drawable) {
   m_drawables.pop_back();
 }
 
-//TODO add scroll control
-/*
-void sfml_scroll_box::scroll(sf::Event &event, m_window) {
-  tmp_view blablabla
+void sfml_scroll_box::scroll(sf::Event &event) {
+  if (event.type != sf::Event::MouseWheelScrolled) return;
+  m_view.move(0, event.mouseWheelScroll.delta);
+  m_view.setViewport(m_shape.getGlobalBounds());
 }
-*/

@@ -534,6 +534,11 @@ void test_game() //!OCLINT a testing function may be long
     }
 }
 
+void load(game& g, const std::string &filename) {
+  std::ifstream f(SAVE_DIR + filename + ".sav");
+  f >> g;
+}
+
 game load(const std::string &filename) {
   std::ifstream f(SAVE_DIR + filename + ".sav");
   game g;
@@ -542,12 +547,28 @@ game load(const std::string &filename) {
 }
 
 void save(const game &g, const std::string &filename) {
-    QString path = QDir::currentPath() + "/saves";
-    QDir dir = QDir::root();
-    dir.mkpath(path);
+  QString path = QDir::currentPath() + "/saves";
+  QDir dir = QDir::root();
+  dir.mkpath(path);
 
-    std::ofstream f(SAVE_DIR + filename + ".sav");
-    f << g;
+  std::ofstream f(SAVE_DIR + filename + ".sav");
+  f << g;
+}
+
+std::vector<std::string> get_saves() {
+  QString path = QDir::currentPath() + "/saves";
+  QDir dir = QDir(path);
+  std::vector<std::string> filenames;
+  std::list<QString> entries = dir.entryList().toStdList();
+  for (QString qstr : entries) {
+    std::string str = qstr.toStdString();
+    if (str.size() > 4 &&
+        str.substr(str.size() - 4, 4) == ".sav") {
+      str.erase(str.size() - 4, 4);
+      filenames.push_back(str);
+    }
+  }
+  return filenames;
 }
 
 std::ostream& operator<<(std::ostream& os, const game& g)
