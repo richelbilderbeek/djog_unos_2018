@@ -29,6 +29,7 @@ sfml_load_screen::sfml_load_screen(const int close_at)
   m_list.set_size(500, 200);
   m_list.set_pos(100, 100, m_window);
 
+  // BUG "pure virtual method called" or otherwise not displaying the buttons
   int y = 0;
   sf::Vector2i p = m_window.mapCoordsToPixel(m_list.get_pos());
   sf::View tmp_view = m_window.getView();
