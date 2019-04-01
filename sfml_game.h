@@ -167,9 +167,17 @@ private:
 
   sfml_camera m_camera;
 
+  sf::RectangleShape m_essence_symbol;
+
   sfml_zen_bar m_zen_bar;
 
   void setup_tickcounter_text();
+
+  void setup_essence_symbol();
+
+  void display_essence_symbol();
+
+  void display_essence();
 
   sf::Font m_debug_font;
 

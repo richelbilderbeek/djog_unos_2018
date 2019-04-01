@@ -43,7 +43,7 @@ sf::RectangleShape sfml_zen_bar::get_drawable_ind(
   return m_zen_icon;
 }
 
-void sfml_zen_bar::set_score(float score)
+void sfml_zen_bar::set_score(const double score)
 {
-    m_zen_balance = score;
+  m_zen_balance = score;
 }

@@ -257,12 +257,16 @@ bool is_on_tile(const game& g, const double x, const double y)
 
 tile_type get_on_tile_type(const game& g, const agent& a)
 {
-  for (tile t: g.get_tiles()){
-    if(a.get_x() >= t.get_x() - 6 &&
-       a.get_x() <= t.get_x() + t.get_width() + 6 &&
-       a.get_y() >= t.get_y() - 6 &&
-       a.get_y() <= t.get_y() + t.get_height() + 6)
+  for (tile t: g.get_tiles())
+  {
+    if(  a.get_x() >= t.get_x() - 6.0
+      && a.get_x() <= t.get_x() + t.get_width() + 6.0
+      && a.get_y() >= t.get_y() - 6.0
+      && a.get_y() <= t.get_y() + t.get_height() + 6.0
+    )
+    {
       return t.get_type();
+    }
   }
   return tile_type::nonetile;
 }
