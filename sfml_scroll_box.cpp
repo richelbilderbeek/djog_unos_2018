@@ -1,9 +1,11 @@
 #include "sfml_scroll_box.h"
+#include "sfml_button.h"
 
 sfml_scroll_box::sfml_scroll_box(const double x, const double y,
                                  const double height, const double width)
   : m_x{x}, m_y{y}, m_height{height}, m_width{width}
 {
+  // NOTE only works with buttons
   m_shape.setSize(sf::Vector2f(m_width,m_height));
   m_shape.setPosition(sf::Vector2f(m_x,m_y));
 
@@ -35,17 +37,18 @@ void sfml_scroll_box::draw(sf::RenderWindow& window) {
   const sf::View tmp_view = window.getView();
   window.setView(m_view);
   window.draw(m_shape);
-  for (sf::Drawable &d : m_drawables) {
-    window.draw(d);
+  for (sfml_button &d : m_drawables) {
+    window.draw(d.get_shape());
+    window.draw(d.get_text());
   }
   window.setView(tmp_view);
 }
 
-void sfml_scroll_box::add_drawable(sf::Drawable& drawable) {
+void sfml_scroll_box::add_drawable(sfml_button &drawable) {
   m_drawables.push_back(std::ref(drawable));
 }
 
-void sfml_scroll_box::remove_drawable(sf::Drawable& drawable) {
+void sfml_scroll_box::remove_drawable(sfml_button &drawable) {
   drawable = m_drawables.back();
   m_drawables.pop_back();
 }

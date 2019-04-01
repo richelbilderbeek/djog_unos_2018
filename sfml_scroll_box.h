@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <functional>
+#include "sfml_button.h"
 
 class sfml_scroll_box
 {
@@ -29,9 +30,9 @@ public:
 
   void draw(sf::RenderWindow& window);
 
-  void add_drawable(sf::Drawable &drawable);
+  void add_drawable(sfml_button &drawable);
 
-  void remove_drawable(sf::Drawable &drawable);
+  void remove_drawable(sfml_button &drawable);
 
   void scroll(sf::Event &event);
 
@@ -46,7 +47,7 @@ private:
   double m_height;
   double m_width;
 
-  std::vector<std::reference_wrapper<sf::Drawable>> m_drawables;
+  std::vector<std::reference_wrapper<sfml_button>> m_drawables;
 
 };
 

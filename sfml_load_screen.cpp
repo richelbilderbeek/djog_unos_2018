@@ -41,8 +41,7 @@ sfml_load_screen::sfml_load_screen(const int close_at)
     b.set_pos(p.x + 10, p.y + y);
     y += 85;
     m_saves.push_back(b);
-    m_list.add_drawable(b.get_shape());
-    m_list.add_drawable(b.get_text());
+    m_list.add_drawable(b);
   }
 
   #if(SFML_VERSION_MINOR > 3)
@@ -80,7 +79,8 @@ void sfml_load_screen::exec()
               sfml_game g;
               g.load_game(b.get_string());
               close(game_state::playing);
-              break;
+              g.exec();
+              return;
             }
           }
           if (m_new_game.is_clicked(event, m_window)) {
