@@ -26,23 +26,27 @@ sfml_load_screen::sfml_load_screen(const int close_at)
   m_new_game.set_size(590, 75);
   m_new_game.set_string("new game");
 
-  m_list.set_size(120, 400);
-  m_list.set_pos(50, 50);
+  m_list.set_size(500, 200);
+  m_list.set_pos(100, 100, m_window);
 
-  double y = 0;
-  sf::Vector2f p = m_list.get_pos();
-
+  int y = 0;
+  sf::Vector2i p = m_window.mapCoordsToPixel(m_list.get_pos());
+  sf::View tmp_view = m_window.getView();
+  m_window.setView(m_list.get_view());
   for (std::string str : get_saves()) {
     sfml_button b;
     sf::RectangleShape &b_s = b.get_shape();
     b_s.setFillColor(sf::Color(53,234,151));
     b.set_size(100, 75);
     b.set_string(str);
-    b.set_pos(p.x + 10, p.y + y);
-    y += 85;
+    sf::Vector2f pos = m_window.mapPixelToCoords(sf::Vector2i(p.x + 10, p.y + y));
+    b.set_pos(pos.x, pos.y);
+    y += 80;
     m_saves.push_back(b);
-    m_list.add_drawable(b);
+    m_list.add_drawable(b.get_shape());
+    m_list.add_drawable(b.get_text());
   }
+  m_window.setView(tmp_view);
 
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color(51, 51, 51));
@@ -119,7 +123,7 @@ void sfml_load_screen::set_positions() {
                                                   (m_window.getSize().y/568)*450)));
   m_new_game.set_pos(ng_pos.x, ng_pos.y);
 
-  m_list.set_pos(100, 100);
+  m_list.set_pos(m_window.getSize().y/2, 200, m_window); // map pixel to coords is built in
 }
 
 void sfml_load_screen::close(game_state s) {
