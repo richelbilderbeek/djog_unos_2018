@@ -113,6 +113,8 @@ public:
 
   void start_music();
 
+  void load_game(const std::string &filename);
+
 private:
   // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);

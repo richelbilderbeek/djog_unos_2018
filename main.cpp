@@ -11,6 +11,8 @@
 #include "tile.h"
 #include "tile_id.h"
 #include "sfml_text_input.h"
+#include "sfml_scroll_box.h"
+#include "sfml_load_screen.h"
 #include <QFile>
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
@@ -77,6 +79,11 @@ int show_sfml_about_screen(int ca) {
 int show_sfml_gameover_screen(int ca) {
   sfml_gameover_screen gos(ca);
   gos.exec();
+  return 0;
+}
+int show_sfml_load_screen(int ca) {
+  sfml_load_screen ls(ca);
+  ls.exec();
   return 0;
 }
 
@@ -260,6 +267,9 @@ int main(int argc, char **argv) //!OCLINT main too long
         break;
       case game_state::gameover:
         show_sfml_gameover_screen(close_at);
+        break;
+      case game_state::loading:
+        show_sfml_load_screen(close_at);
         break;
     }
   }

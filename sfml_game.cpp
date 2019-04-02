@@ -718,6 +718,10 @@ bool sfml_game::will_colide(int direction, tile& t)
   return false;
 }
 
+void sfml_game::load_game(const std::string &filename) {
+  load(m_game, filename);
+}
+
 void test_sfml_game() //!OCLINT tests may be long
 {
   return; // STUB
