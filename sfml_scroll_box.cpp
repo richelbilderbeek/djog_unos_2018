@@ -50,7 +50,11 @@ void sfml_scroll_box::remove_drawable(sf::Drawable& drawable) {
   m_drawables.pop_back();
 }
 
-void sfml_scroll_box::scroll(sf::Event &event) {
+void sfml_scroll_box::scroll(sf::Event&
+  #if(SFML_VERSION_MINOR > 3)
+  event
+  #endif
+) {
 
   #if(SFML_VERSION_MINOR > 3)
   if (event.type != sf::Event::MouseWheelScrolled) return;
