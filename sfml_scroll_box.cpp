@@ -51,7 +51,10 @@ void sfml_scroll_box::remove_drawable(sf::Drawable& drawable) {
 }
 
 void sfml_scroll_box::scroll(sf::Event &event) {
+
+  #if(SFML_VERSION_MINOR > 3)
   if (event.type != sf::Event::MouseWheelScrolled) return;
+  #endif
   m_view.move(0, event.mouseWheelScroll.delta);
   m_view.setViewport(m_shape.getGlobalBounds());
 }
