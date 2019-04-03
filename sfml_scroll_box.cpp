@@ -54,7 +54,7 @@ void sfml_scroll_box::scroll(sf::Event &event) {
 
   #if(SFML_VERSION_MINOR > 3)
   if (event.type != sf::Event::MouseWheelScrolled) return;
-  #endif
   m_view.move(0, event.mouseWheelScroll.delta);
+  #endif
   m_view.setViewport(m_shape.getGlobalBounds());
 }
