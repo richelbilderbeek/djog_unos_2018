@@ -313,14 +313,15 @@ void sfml_game::follow_tile()
 
 void sfml_game::update_selected_text()
 {
-  sf::RectangleShape color_shape(sf::Vector2f(10,10));
   const tile& t = getTileById(m_game.m_selected);
-  color_tile_shape(color_shape, t);
-  sf::Color text_color = color_shape.getFillColor();
   std::string text = to_str(t.get_type());
   text[0] = toupper(text[0]);
   m_selected_text.setString(text);
+
   #if(SFML_VERSION_MINOR > 3)
+  sf::RectangleShape color_shape(sf::Vector2f(10,10));
+  color_tile_shape(color_shape, t);
+  sf::Color text_color = color_shape.getFillColor();
   m_selected_text.setFillColor(text_color);
   #endif
 }
