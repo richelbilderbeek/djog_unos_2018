@@ -261,6 +261,7 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
         return std::get<0>(t) == m_type;
       }
     );
+    assert(here != std::end(v));
     if ((std::rand() >> 4) % 10 == 0) {
       //rare
       spawn(g, std::get<2>(*here));
