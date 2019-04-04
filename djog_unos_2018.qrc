@@ -45,6 +45,7 @@
         <file>resources/Essence_29_32.png</file>
         <file>resources/Barachem_Zauberspiel_Preliminary_Edit.ogg</file>
         <file>resources/chameleon.png</file>
+        <file>resources/title_screen_background.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
