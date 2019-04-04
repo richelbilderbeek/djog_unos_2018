@@ -1,0 +1,1 @@
+start cmd /k "bash ./gcc_build"

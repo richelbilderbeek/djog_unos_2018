@@ -84,6 +84,8 @@ private:
   ///the stamina of the agent
   double m_stamina;
 
+  int corpse_ticks = -1;
+
   void reproduce_agents(game& g, agent_type type);
 
   void damage_near_grass(game &g, agent_type type);

@@ -41,7 +41,7 @@ private:
     sf::Sprite m_zen_title;
     sf::Text copyright_text;
 
-    double i = 0;
+    double i = 0.0;
     bool b = true;
 
     int m_close_at;
