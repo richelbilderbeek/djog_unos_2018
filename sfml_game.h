@@ -15,6 +15,7 @@
 #include "sfml_camera.h"
 #include "sfml_window_manager.h"
 #include "sfml_pause_overlay.h"
+#include "sfml_shop_overlay.h"
 #include "sfml_save_overlay.h"
 #include "sfml_zen_bar.h"
 
@@ -173,6 +174,10 @@ private:
 
   void setup_tickcounter_text();
 
+  void setup_selected_text();
+
+  void update_selected_text();
+
   void setup_essence_symbol();
 
   void display_essence_symbol();
@@ -183,10 +188,16 @@ private:
 
   sf::Text m_tickcounter_text;
 
+  sf::Text m_selected_text;
+
   sf::Vector2i m_prev_mouse_pos;
   double m_mouse_speed;
 
   sfml_pause_overlay m_pause_screen;
+
+  sfml_shop_overlay m_shop_overlay;
+
+  sfml_button m_shop_button;
 
   sfml_save_overlay m_save_screen;
 

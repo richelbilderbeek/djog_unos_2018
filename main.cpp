@@ -262,6 +262,7 @@ int main(int argc, char **argv) //!OCLINT main too long
         break;
       case game_state::saving:
       case game_state::paused:
+      case game_state::shop:
       case game_state::playing:
         start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);
         break;
