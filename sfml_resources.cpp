@@ -37,6 +37,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
     }
   }
+  {
+    // Re-create resource at executable's location
+    QFile f(":/nature_zen/resources/tile_merge.wav");
+    f.copy("tile_merge.wav");
+    if (!m_title_music.openFromFile("tile_merge.wav")) {
+      throw std::runtime_error("Cannot find music file 'tile_merge.wav'");
+    }
+  }
    // plankton texture
   {
     QFile f(":/nature_zen/resources/plankton.png");
