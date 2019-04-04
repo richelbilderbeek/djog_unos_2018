@@ -61,6 +61,7 @@ void game::process_events()
     a.process_events(*this);
   }
 
+  // If an agent has less than zero health, turn it into a corpse
   if(m_allow_damage){
     kill_agents();
   }
