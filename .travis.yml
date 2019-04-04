@@ -64,7 +64,7 @@ script:
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
   # helgrind: takes too long
-  - if [[ $TRAVIS_BRANCH == develop || $TRAVIS_BRANCH == master ]] then; travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
+  - if [[ $TRAVIS_BRANCH == richel ]] then; travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Call OCLint
