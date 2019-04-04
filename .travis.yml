@@ -64,13 +64,13 @@ script:
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
   # helgrind: takes too long
-  - if [[ $TRAVIS_BRANCH == richel ]] then; travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
+  - if [[ $TRAVIS_BRANCH == "richel" ]] then; travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Call OCLint
   - ./do_oclint
   # Build and run and profile normal program
-  - if [[ $TRAVIS_BRANCH == develop || $TRAVIS_BRANCH == master || $TRAVIS_BRANCH == rob ]] then; qmake djog_unos_2018.pro; make release; time ./djog_unos_2018 --profiling 350 350; ./djog_unos_2018 --profiling 350 350; gprof djog_unos_2018 > gprof.log; head gprof.log -n 1000; fi
+  - if [[ $TRAVIS_BRANCH == "develop" || $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "rob" ]] then; qmake djog_unos_2018.pro; make release; time ./djog_unos_2018 --profiling 350 350; ./djog_unos_2018 --profiling 350 350; gprof djog_unos_2018 > gprof.log; head gprof.log -n 1000; fi
   # Get code coverage
   - cp debug/*.* .
   - ./get_code_cov
