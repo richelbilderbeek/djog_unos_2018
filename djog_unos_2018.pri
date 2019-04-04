@@ -1,4 +1,4 @@
-    SOURCES += \
+SOURCES += \
     $$PWD/agent.cpp \
     $$PWD/agent_type.cpp \
     $$PWD/game.cpp \
@@ -18,7 +18,11 @@
     $$PWD/sfml_gameover_screen.cpp \
     $$PWD/sfml_pause_overlay.cpp \
     $$PWD/sfml_shop_overlay.cpp \
-    $$PWD/sfml_save_overlay.cpp
+    $$PWD/sfml_text_input.cpp \
+    $$PWD/sfml_save_overlay.cpp \
+    $$PWD/sfml_zen_bar.cpp \
+    $$PWD/sfml_scroll_box.cpp \
+    $$PWD/sfml_load_screen.cpp
 
 HEADERS += \
     $$PWD/agent.h \
@@ -40,7 +44,11 @@ HEADERS += \
     $$PWD/sfml_gameover_screen.h \
     $$PWD/sfml_pause_overlay.h \
     $$PWD/sfml_shop_overlay.h \
-    $$PWD/sfml_save_overlay.h
+    $$PWD/sfml_text_input.h \
+    $$PWD/sfml_save_overlay.h \
+    $$PWD/sfml_zen_bar.h \
+    $$PWD/sfml_scroll_box.h \
+    $$PWD/sfml_load_screen.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc

@@ -7,14 +7,25 @@
 #include "game.h"
 
 #include <cassert>
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 #include <tuple>
 
-tile::tile(const double x, const double y, const double z, double const width,
-           const double height, const double depth, const tile_type type, const tile_id id)
-    : m_height{height}, m_type{type}, m_width{width}, m_x{x}, m_y{y}, m_z{z},
-      m_dx{0}, m_dy{0}, m_dz{0}, m_id{id}, m_depth{depth}
+tile::tile(const double x, const double y, const double z,
+           double const width, const double height, const double depth,
+           const tile_type type, const tile_id id)
+  : m_depth{depth},
+    m_dx{0.0},
+    m_dy{0.0},
+    m_dz{0.0},
+    m_height{height},
+    m_id{id},
+    m_type{type},
+    m_width{width},
+    m_x{x},
+    m_y{y},
+    m_z{z}
 {
 
   if (width <= 0.0)
@@ -203,6 +214,11 @@ std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function th
   return tiles;
 }
 
+tile create_test_tile() noexcept
+{
+  return tile(0.0, 0.0, 0.0, 1.0, 1.0, 0.0, tile_type::grassland);
+}
+
 std::vector<tile> create_two_grass_tiles() noexcept
 {
   return
@@ -388,6 +404,31 @@ void tile::lock_movement(bool b) { m_locked = b; }
 
 void test_tile() //!OCLINT testing function may be many lines
 {
+  //#define FIX_ISSUE_522
+  #ifdef FIX_ISSUE_522
+  //A tile behaves as expected
+  {
+    const double x{1.0};
+    const double y{2.0};
+    const double z{3.0};
+    const double width{4.0};
+    const double height{5.0};
+    const double depth{6.0};
+    const tile_type type{tile_type::arctic};
+    const tile_id id{tile_id()};
+
+    const tile a(x, y, z, width, height, depth, type, id);
+    assert(std::abs(x - a.get_x()) < 0.001);
+    assert(std::abs(y - a.get_y()) < 0.001);
+    assert(std::abs(z - a.get_z()) < 0.001);
+    assert(std::abs(width - a.get_width()) < 0.001);
+    assert(std::abs(height - a.get_height()) < 0.001);
+    assert(std::abs(depth - a.get_depth()) < 0.001);
+    assert(type == a.get_type());
+    assert(id.get() == a.get_id());
+  }
+  #endif // FIX_ISSUE_522
+
   // width cannot be negative
   {
     bool b = false;
@@ -465,28 +506,9 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(b == c);
   }
 
-#define FIX_ISSUE_116_TILE_CONTAINS
-#ifdef FIX_ISSUE_116_TILE_CONTAINS
-  //
-  //
-  //   (0,0)------(100,0)
-  //     |           |
-  //     |     A     |     B
-  //     |           |
-  //   (0,100)-----(100,100)
-  //
-  //           C           D
-  {
-    const tile t(0.0, 0.0, 0.0, 1, 1, 0, tile_type::grassland, tile_id());
-    assert(contains(t, 50, 50));   // A
-    assert(!contains(t, 165, 50));  // B
-    assert(!contains(t, 50, 165)); // C
-    assert(!contains(t, 165, 165)); // D
-  }
-#endif // FIX_ISSUE_116_TILE_CONTAINS
-
   //#define FIX_ISSUE_246
   #ifdef FIX_ISSUE_246
+  //Depends on #522
   //
   //
   //   (0,0)------(100,0)
@@ -497,17 +519,21 @@ void test_tile() //!OCLINT testing function may be many lines
   //
   //           C           D
   {
-    const tile t(0.0, 0.0, 0.0, 1, 1, tile_type::grassland, 0);
-    assert(contains(t, 50, 50));   // A
-    assert(!contains(165, 50));  // B
-    assert(!contains(50, 165)); // C
-    assert(!contains(165, 165)); // D
+    const double width{100.0};
+    const double height{100.0};
+    const tile t(0.0, 0.0, 0.0, width, height);
+    assert(t.get_width() == width); // #522
+    assert(t.get_height() == height); // #522
+    assert( contains(t, 1.0 * width / 2.0, 1.0 * height / 2.0));  // A
+    assert(!contains(t, 3.0 * width / 2.0, 1.0 * height / 2.0));  // B
+    assert(!contains(t, 1.0 * width / 2.0, 3.0 * height / 2.0));  // C
+    assert(!contains(t, 3.0 * width / 2.0, 3.0 * height / 2.0));  // D
   }
   #endif // FIX_ISSUE_246
+
   //operator==
-  #ifdef FIX_OPERATOR_IS_IS
   {
-    const tile a;
+    const tile a = create_test_tile();
 
     // b with different dx
     tile b = a;
@@ -521,8 +547,23 @@ void test_tile() //!OCLINT testing function may be many lines
     b.set_dy(a.get_dy() + 1.0);
     assert(!(a == b));
   }
-  #endif
   {
     assert(create_two_grass_tiles().size() == 2);
   }
+  //#define FIX_ISSUE_463
+  #ifdef FIX_ISSUE_463
+  //Depends on #522
+  //A tile can rotate, #463
+  {
+    const double width{4.5};
+    const double height{5.6};
+    tile a(1.2, 2.3, 3.4, width, height);
+    assert(width == a.get_width());
+    assert(height == a.get_height());
+    rotate(a);
+    assert(height == a.get_width());
+    assert(width == a.get_height());
+    assert(1==2);
+  }
+  #endif //FIX_ISSUE_463
 }

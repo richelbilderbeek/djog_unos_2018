@@ -10,6 +10,9 @@
 #include "sfml_window_manager.h"
 #include "tile.h"
 #include "tile_id.h"
+#include "sfml_text_input.h"
+#include "sfml_scroll_box.h"
+#include "sfml_load_screen.h"
 #include <QFile>
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
@@ -21,6 +24,7 @@
 /// Arguments are:
 ///   * '--music': run with music
 ///   * '--short': only run for a couple of seconds
+///   * '--short [n]': only run for [n] ticks
 ///   * '--title': show the title screen
 ///   * '--menu': show the menu screen
 ///   * '--about': show the about screen
@@ -43,6 +47,7 @@ void test() {
   test_agent_type();
   test_tile_id();
   //test_sfml_window_manager();
+  test_normal_char();
 }
 int start_sfml_game(int ca, bool music,
                     std::vector<tile> tiles,
@@ -74,6 +79,11 @@ int show_sfml_about_screen(int ca) {
 int show_sfml_gameover_screen(int ca) {
   sfml_gameover_screen gos(ca);
   gos.exec();
+  return 0;
+}
+int show_sfml_load_screen(int ca) {
+  sfml_load_screen ls(ca);
+  ls.exec();
   return 0;
 }
 
@@ -117,7 +127,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       #if(SFML_VERSION_MINOR > 1)
       << "." << SFML_VERSION_PATCH
       #endif
-      << '\n'
+      << std::endl
     ;
     return 0; // 0: everything went OK
   }
@@ -137,10 +147,20 @@ int main(int argc, char **argv) //!OCLINT main too long
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
     close_at = 600;
+    assert(std::find(std::begin(args), std::end(args), "--short") != std::end(args));
+    if (std::find(std::begin(args), std::end(args), "--short") + 1 != std::end(args))
+    {
+      const std::string s{
+        *(std::find(std::begin(args), std::end(args), "--short") + 1)
+      };
+      if(s.at(0) != '-'){
+        close_at = std::atoi(s.c_str());
+      }
+    }
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--profiling")){
-    close_at = 8000;
+    close_at = 10000;
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--title"))
@@ -159,11 +179,19 @@ int main(int argc, char **argv) //!OCLINT main too long
            std::count(std::begin(args), std::end(args), "--gameover")) {
     sfml_window_manager::get().set_state(game_state::gameover);
   }
+  else if (std::count(std::begin(args), std::end(args), "--paused"))
+  {
+    sfml_window_manager::get().set_state(game_state::paused);
+  }
+  else if (std::count(std::begin(args), std::end(args), "--save"))
+  {
+    sfml_window_manager::get().set_state(game_state::saving);
+  }
 
   //Not realy to show settings, but to use the variables
   std::cout << "\nSettings\n"
             << "Close at : " << close_at << "\n"
-            << "Music    : " << music << "\n";
+            << "Music    : " << music << std::endl;
 
   std::vector<tile> tiles;
   std::vector<agent> agents;
@@ -172,25 +200,46 @@ int main(int argc, char **argv) //!OCLINT main too long
   {
     tiles.push_back(tile(2,-1,0,4,6,0,tile_type::mountains));
     tiles.push_back(tile(0,-1,0,2,6,0,tile_type::grassland));
-    tiles.push_back(tile(-2.2,-1,0,0.2,1,0,tile_type::nonetile));
-    tiles.push_back(tile(-2.2,1,0,0.2,1,0,tile_type::nonetile));
-    tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::nonetile));
+    tiles.push_back(tile(-2.2,-1,0,0.2,1,0,tile_type::mountains));
+    tiles.push_back(tile(-2.2,1,0,0.2,1,0,tile_type::mountains));
+    tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::mountains));
     agents.push_back(agent(agent_type::spider,50));
   }
   else if(std::count(std::begin(args), std::end(args), "--profiling")) {
-    for(int i = 0; i < std::stoi(args[2]); i++){
+    int agents_size = 10;
+    int tiles_size = 10;
+    if (std::find(std::begin(args), std::end(args), "--profiling") + 1 != std::end(args))
+    {
+      const std::string s{
+        *(std::find(std::begin(args), std::end(args), "--profiling") + 1)
+      };
+      if(!s.empty() && s.at(0) != '-'){
+        agents_size = std::atoi(s.c_str());
+      }
+    }
+    if (std::find(std::begin(args), std::end(args), "--profiling") + 2 != std::end(args))
+    {
+      const std::string s{
+        *(std::find(std::begin(args), std::end(args), "--profiling") + 2)
+      };
+      if(!s.empty() && s.at(0) != '-'){
+        tiles_size = std::atoi(s.c_str());
+      }
+    }
+    for(int i = 0; i < agents_size; i++){
       agent a(agent_type::cow, i, i);
       agents.push_back(a);
     }
-    for(int i = 0; i < std::stoi(args[3]); i++){
+    for(int i = 0; i < tiles_size; i++){
       tile t(i, i, 0, 1, 2, 0, tile_type::grassland);
       tiles.push_back(t);
     }
+
     spawning = false;
     damage = false;
     score = false;
   }
-  if(std::count(std::begin(args), std::end(args), "--god")){
+  else if(std::count(std::begin(args), std::end(args), "--god")){
     score = false;
     tiles = create_test_default_tiles();
     agents = create_default_agents();
@@ -211,6 +260,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       case game_state::aboutscreen:
         show_sfml_about_screen(close_at);
         break;
+      case game_state::saving:
       case game_state::paused:
       case game_state::shop:
       case game_state::playing:
@@ -218,6 +268,9 @@ int main(int argc, char **argv) //!OCLINT main too long
         break;
       case game_state::gameover:
         show_sfml_gameover_screen(close_at);
+        break;
+      case game_state::loading:
+        show_sfml_load_screen(close_at);
         break;
     }
   }

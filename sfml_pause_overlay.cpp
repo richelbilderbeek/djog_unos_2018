@@ -21,7 +21,12 @@ sfml_pause_overlay::sfml_pause_overlay()
   sf::RectangleShape &b2_s = m_button2.get_shape();
   b2_s.setFillColor(sf::Color(53,234,151));
   m_button2.set_size(250, 75);
-  m_button2.set_string("QUIT");
+  m_button2.set_string("SAVE");
+
+  sf::RectangleShape &b3_s = m_button3.get_shape();
+  b3_s.setFillColor(sf::Color(53,234,151));
+  m_button3.set_size(250, 75);
+  m_button3.set_string("QUIT");
 
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color(51, 51, 51));
@@ -57,14 +62,20 @@ void sfml_pause_overlay::exec() //!OCLINT high cyclomatic complexity
         if (m_button1.is_clicked(event, m_window))
           close(game_state::playing);
         if (m_button2.is_clicked(event, m_window))
+          close(game_state::saving);
+        if (m_button3.is_clicked(event, m_window))
           close(game_state::menuscreen);
         break;
       case sf::Event::KeyPressed:
-        if(event.key.code == sf::Keyboard::C){
+        if(event.key.code == sf::Keyboard::C ||
+           event.key.code == sf::Keyboard::Escape) {
           close(game_state::playing);
         }
         if(event.key.code == sf::Keyboard::Q){
           close(game_state::menuscreen);
+        }
+        if(event.key.code == sf::Keyboard::S){
+          close(game_state::saving);
         }
         break;
       default:
@@ -84,6 +95,8 @@ void sfml_pause_overlay::draw_objects() {
   m_window.draw(m_button1.get_text());
   m_window.draw(m_button2.get_shape());
   m_window.draw(m_button2.get_text());
+  m_window.draw(m_button3.get_shape());
+  m_window.draw(m_button3.get_text());
 }
 
 void sfml_pause_overlay::set_positions() {
@@ -105,6 +118,12 @@ void sfml_pause_overlay::set_positions() {
                                                   (m_window.getSize().x / 2),
                                                   (m_window.getSize().y/568)*330)));
   m_button2.set_pos(b2_pos.x, b2_pos.y);
+
+  //Button 3
+  sf::Vector2f b3_pos(m_window.mapPixelToCoords(sf::Vector2i(
+                                                  (m_window.getSize().x / 2),
+                                                  (m_window.getSize().y/568)*440)));
+  m_button3.set_pos(b3_pos.x, b3_pos.y);
 
   m_bg_rect.setPosition(m_window.mapPixelToCoords(sf::Vector2i(0, 0)));
   m_bg_rect.setSize(m_window.getView().getSize());

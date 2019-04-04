@@ -1,0 +1,14 @@
+#!/bin/bash
+cd ../../build_nature_zen
+cpp_files=`ls ../djog_unos_2018/*.cpp | egrep -v "^.*_test\.cpp$"`
+h_files=`ls ../djog_unos_2018/*.h`
+qt_include=C:/Qt/5.11.3/mingw53_32/include
+
+# build the executable
+echo Building, this will take around 5 minutes...
+g++ -c -std=c++14 -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror -Wno-unused-variable -fext-numeric-literals -IC:/Qt/sfml/include -I$qt_include -I$qt_include/QtCore -I$qt_include/QtWidgets -I$qt_include/QtQui -I../djog_unos_2018 $cpp_files $h_files
+echo adding the resources
+# add the resources
+ld -r -b binary -o resources.o resources/*.*
+
+g++ *.o -o nature_zen.exe -LC:/Qt/sfml/lib -lsfml-graphics-d -lsfml-window-d -lsfml-system-d -lsfml-audio-d

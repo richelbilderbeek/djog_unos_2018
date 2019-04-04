@@ -40,7 +40,7 @@ private:
     sf::Sprite m_bg_sprite;
     sf::Sprite m_zen_title;
 
-    double i = 0;
+    double i = 0.0;
     bool b = true;
 
     int m_close_at;

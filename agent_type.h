@@ -8,7 +8,9 @@
 enum class agent_type {
   bird,
   cactus,
+  chameleon,
   cow,
+  corpse,
   crocodile,
   fish,
   foxgloves,
