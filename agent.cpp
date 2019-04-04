@@ -984,8 +984,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(spider_prev_posX < spider_aft_posX);
     assert(spider_prev_posY < spider_aft_posY);
   }
-  #define FIX_ISSUE_363
-  #ifdef FIX_ISSUE_363
   //Grass damages nearby grasses
   {
     //agent(const agent_type type, const double x = 0.0, const double y = 0.0,
@@ -1011,6 +1009,33 @@ void test_agent() //!OCLINT testing functions may be long
     assert(after_grass_health2 < prev_grass_health2);
     // See whether damage hath happened.
   }
+  //#define FIX_ISSUE_447
+  #ifdef FIX_ISSUE_447
+  //Cacti damage nearby cacti
+  {
+    // Make two plants next to each other.
+    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+           {agent(agent_type::cactus, 10, 10, 10),
+            agent(agent_type::cactus, 10, 10, 10)});
+
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time.
+    for(int i = 0; i != 20; ++i){
+      g.process_events();
+    }
+
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
+
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
+  }
+  #endif // FIX_ISSUE_447
   //Cows reproduce
   {
     game g({tile(0,0,0,3,3,10,tile_type::grassland)},
@@ -1019,5 +1044,4 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents().size() >= 2);
   }
-  #endif //FIX_ISSUE_363
 }
