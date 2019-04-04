@@ -9,6 +9,7 @@ enum class game_state
   playing,
   gameover,
   paused,
+  shop,
   saving,
   loading
 };
