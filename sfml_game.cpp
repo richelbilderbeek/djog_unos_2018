@@ -320,7 +320,9 @@ void sfml_game::update_selected_text()
   std::string text = to_str(t.get_type());
   text[0] = toupper(text[0]);
   m_selected_text.setString(text);
+  #if(SFML_VERSION_MINOR > 3)
   m_selected_text.setFillColor(text_color);
+  #endif
 }
 
 void sfml_game::manage_timer()
