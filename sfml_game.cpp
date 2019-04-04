@@ -50,7 +50,7 @@ sfml_game::~sfml_game()
 }
 
 void sfml_game::close(game_state s) {
-  if (s != game_state::paused || s != game_state::shop) {
+  if (s != game_state::paused && s != game_state::shop) {
     m_camera.reset();
   }
   m_camera.m_movecam_r = false;
@@ -77,7 +77,6 @@ void sfml_game::setup_tickcounter_text() {
 }
 
 void sfml_game::setup_selected_text() {
-    m_debug_font.loadFromFile("font.ttf");
     m_selected_text.setFont(m_debug_font);
     m_selected_text.setCharacterSize(24);
 }
@@ -242,6 +241,7 @@ void sfml_game::process_events()
   else
   {
     follow_tile();
+    update_selected_text();
   }
 
   exec_tile_move(m_game.m_selected);
@@ -277,11 +277,18 @@ void sfml_game::follow_tile()
   sf::Vector2f new_coords = sf::Vector2f(t.get_x() + (t.get_width() / 2) - screen_center.x,
                                          t.get_y() + (t.get_height() / 2) - screen_center.y);
   m_camera.move_camera(new_coords);
+}
 
-  // Set the selected tile text
+void sfml_game::update_selected_text()
+{
+  sf::RectangleShape color_shape(sf::Vector2f(10,10));
+  const tile& t = getTileById(m_game.m_selected);
+  color_tile_shape(color_shape, t);
+  sf::Color text_color = color_shape.getFillColor();
   std::string text = to_str(t.get_type());
   text[0] = toupper(text[0]);
   m_selected_text.setString(text);
+  m_selected_text.setFillColor(text_color);
 }
 
 void sfml_game::manage_timer()

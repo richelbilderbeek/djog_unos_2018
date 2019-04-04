@@ -61,9 +61,7 @@ void sfml_menu_screen::exec()
           break;
         case sf::Event::KeyPressed:
           switch (event.key.code)
-            {
-              default:
-                break;
+          {
             case sf::Keyboard::C:
               close(game_state::playing);
               break;
@@ -73,7 +71,9 @@ void sfml_menu_screen::exec()
             case sf::Keyboard::Q:
               close();
               break;
-            }
+            default:
+              break;
+          }
           break;
         case sf::Event::MouseButtonPressed:
           if (m_button1.is_clicked(event, m_window))

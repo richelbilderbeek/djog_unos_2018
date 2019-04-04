@@ -173,6 +173,8 @@ private:
 
   void setup_selected_text();
 
+  void update_selected_text();
+
   sf::Font m_debug_font;
 
   sf::Text m_tickcounter_text;
