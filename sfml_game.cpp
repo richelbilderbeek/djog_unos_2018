@@ -520,7 +520,7 @@ void sfml_game::switch_collide(tile& t, int direction)
 
 bool sfml_game::check_merge(tile& t1, tile& t2)
 {
-  return get_merge_type(t1.get_type(), t2.get_type()) != tile_type::nonetile;
+  return !get_merge_type(t1.get_type(), t2.get_type()).empty();
 }
 
 sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
@@ -626,10 +626,6 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::beach:
       color_shape(sfml_tile, sf::Color(240, 226, 180), sf::Color(223, 206, 157));
       break;
-    default:
-      color_shape(
-        sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
-      break;
   }
   sfml_tile.setOutlineThickness(5);
   auto selected = vectortoint(m_game.m_selected);
@@ -718,6 +714,10 @@ bool sfml_game::will_colide(int direction, tile& t)
       break;
   }
   return false;
+}
+
+void sfml_game::load_game(const std::string &filename) {
+  load(m_game, filename);
 }
 
 void test_sfml_game() //!OCLINT tests may be long

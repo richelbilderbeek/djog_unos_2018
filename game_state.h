@@ -9,7 +9,8 @@ enum class game_state
   playing,
   gameover,
   paused,
-  saving
+  saving,
+  loading
 };
 
 #endif // GAME_STATE_H
