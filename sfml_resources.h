@@ -121,6 +121,18 @@ private:
   sf::Texture m_tundra_laying;
   sf::Texture m_tundra_standing;
 
+  sf::Texture m_beach_laying;
+  sf::Texture m_beach_standing;
+
+  sf::Texture m_water_laying;
+  sf::Texture m_water_standing;
+
+  sf::Texture m_dunes_laying;
+  sf::Texture m_dunes_standing;
+
+  sf::Texture m_hills_laying;
+  sf::Texture m_hills_standing;
+
   sf::Texture m_corpse_texture;
 
   sf::Texture m_essence_texture;

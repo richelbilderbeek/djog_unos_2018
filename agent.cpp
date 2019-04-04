@@ -229,7 +229,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   if ((m_type == agent_type::grass || m_type == agent_type::tree
       || m_type == agent_type::cow) && g.allow_damage())  reproduce_agents(g, m_type);
 
-  if (m_type == agent_type::grass || m_type == agent_type::tree) damage_near_grass(g, m_type);
+  if (m_type == agent_type::grass || m_type == agent_type::cactus || m_type == agent_type::tree) damage_near_grass(g, m_type);
 
    //TODO is depth suitable for agent
   if (will_drown(m_type)
@@ -677,9 +677,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-
-  #define FIX_ISSUE_343
-  #ifdef FIX_ISSUE_343
   // A bird moves
   {
     game g;
@@ -691,7 +688,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #endif
   // Grass does not move
   {
     game g;
@@ -702,24 +698,21 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
-
-    // Venus Fly Trap does not move
-    {
-      game g;
-      const double x{12.34};
-      const double y{56.78};
-      agent a(agent_type::venus_fly_trap, x, y);
-      assert(is_on_tile(g, a));
-      a.move();
-      assert(a.get_x() == x && a.get_y() == y);
-    }
-
+  // Venus Fly Trap does not move
+  {
+    game g;
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::venus_fly_trap, x, y);
+    assert(is_on_tile(g, a));
+    a.move();
+    assert(a.get_x() == x && a.get_y() == y);
+  }
   // Agents have health
   {
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
-
   // Agents have a direction, that can be read
   {
     const agent a(agent_type::cow); //Must be const
@@ -731,7 +724,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.set_direction(3.14);
     assert(a.get_direction() == 3.14);
   }
-
   // Test can_eat
   {
     for (agent_type a : collect_all_agent_types()) {
@@ -921,6 +913,7 @@ void test_agent() //!OCLINT testing functions may be long
     game g({tile(0,0,0,3,3,10,tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 100)});
     const auto prev_health = g.get_agents()[0].get_health();
+#define test
     g.process_events();
     assert(g.get_agents().size() == 2);
     const auto after_health = g.get_agents()[0].get_health();
@@ -928,11 +921,10 @@ void test_agent() //!OCLINT testing functions may be long
     assert(prev_health != after_health);
     assert(after_health != second_grass_health);
   }
-
-    {
-        //get depth test
-        assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
-    }
+  //get depth test
+  {
+    assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
+  }
   //a cow walks to grass when its close
   {
     game g(create_test_default_tiles(),
@@ -1009,12 +1001,12 @@ void test_agent() //!OCLINT testing functions may be long
     assert(after_grass_health2 < prev_grass_health2);
     // See whether damage hath happened.
   }
-  //#define FIX_ISSUE_447
+  #define FIX_ISSUE_447
   #ifdef FIX_ISSUE_447
   //Cacti damage nearby cacti
   {
     // Make two plants next to each other.
-    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+    game g({tile(0,0,0,3,3,10,tile_type::desert)},
            {agent(agent_type::cactus, 10, 10, 10),
             agent(agent_type::cactus, 10, 10, 10)});
 

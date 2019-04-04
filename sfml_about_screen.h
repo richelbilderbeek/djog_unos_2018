@@ -34,6 +34,8 @@ private:
 
   sf::Text m_text;
 
+  sf::Text m_copyright_text;
+
   int m_close_at;
 
   sf::Font m_font;

@@ -91,6 +91,14 @@ std::vector<tile> create_test_default_tiles() noexcept //!OCLINT indeed a functi
     tiles.push_back(t);
   }
   {
+    tile t(5, 2, 8, 1, 2, 0, tile_type::beach, tile_id());
+    tiles.push_back(t);
+  }
+  {
+    tile t(6, 2, 8, 1, 2, 0, tile_type::dunes, tile_id());
+    tiles.push_back(t);
+  }
+  {
     tile t(1, -1, 7, 2, 1, 0, tile_type::savannah, tile_id());
     tiles.push_back(t);
   }
@@ -107,15 +115,15 @@ std::vector<tile> create_test_default_tiles() noexcept //!OCLINT indeed a functi
     tiles.push_back(t);
   }
   {
-    tile t(-3, 0, 8, 1, 2, 0, tile_type::rainforest, tile_id());
+    tile t(-1, 0, 8, 1, 2, 0, tile_type::rainforest, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(-5, 0, 8, 1, 2, 0, tile_type::tundra, tile_id());
+    tile t(-2, 0, 8, 1, 2, 0, tile_type::tundra, tile_id());
     tiles.push_back(t);
   }
   {
-    tile t(-4, 0, 8, 1, 2, 0, tile_type::hills, tile_id());
+    tile t(-3, 0, 8, 1, 2, 0, tile_type::hills, tile_id());
     tiles.push_back(t);
   }
   return tiles;
@@ -274,11 +282,9 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 void rotate(tile& t)
 {
   const double width = t.get_width();
-  const double height = t. get_height();
+  const double height = t.get_height();
   t.set_width(height);
   t.set_height(width);
-
-
 }
 
 void tile::spawn(game& g, agent_type type){ //!OCLINT high cyclomatic complexity
