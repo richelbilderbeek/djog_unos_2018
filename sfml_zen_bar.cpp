@@ -12,16 +12,10 @@ sfml_zen_bar::sfml_zen_bar()
 }
 
 sf::RectangleShape sfml_zen_bar::get_drawable_bar(
-<<<<<<< HEAD
         float x_pos,
         float y_pos,
         sf::RenderWindow &window)
-=======
-  float x_pos,
-  float y_pos,
-  sf::RenderWindow &window
-)
->>>>>>> develop
+
 {
     m_zen_bar.setPosition(sf::Vector2f(
                             (x_pos - (m_zen_bar.getSize().x/2.0f)),
@@ -32,16 +26,10 @@ sf::RectangleShape sfml_zen_bar::get_drawable_bar(
 }
 
 sf::RectangleShape sfml_zen_bar::get_drawable_ind(
-<<<<<<< HEAD
-        float x_pos,
-        float y_pos,
-        sf::RenderWindow &window)
-=======
   float x_pos,
-  float y_pos,
-  sf::RenderWindow &window
+float y_pos,
+sf::RenderWindow &window
 )
->>>>>>> develop
 {
   m_zen_icon.setPosition(
     sf::Vector2f(
