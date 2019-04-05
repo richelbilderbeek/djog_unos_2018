@@ -30,16 +30,6 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   title_text.setColor(sf::Color(36, 211, 16));
   #endif
 
-  copyright_text.setFont(m_default_font);
-  copyright_text.setString("(C) 2018 Team Octane");
-  #if(SFML_VERSION_MINOR > 3)
-  copyright_text.setOutlineColor(sf::Color::Black);
-  copyright_text.setFillColor(sf::Color::Black);
-  #else
-  //Only relevant for Travis and RuG
-  copyright_text.setColor(sf::Color::Black);
-  #endif
-  copyright_text.setPosition(m_window.getSize().x / 100, m_window.getSize().y / 1.05f);
 
   m_zen_title.setTexture(sfml_resources::get().get_zen_title());
   m_zen_title.setScale(2,2);
@@ -102,7 +92,6 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     m_window.clear();
     m_window.draw(m_bg_sprite);
     m_window.draw(title_text);
-    m_window.draw(copyright_text);
     m_window.draw(m_zen_title);
     m_window.display();
   }

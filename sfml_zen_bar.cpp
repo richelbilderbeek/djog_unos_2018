@@ -12,9 +12,16 @@ sfml_zen_bar::sfml_zen_bar()
 }
 
 sf::RectangleShape sfml_zen_bar::get_drawable_bar(
+<<<<<<< HEAD
         float x_pos,
         float y_pos,
         sf::RenderWindow &window)
+=======
+  float x_pos,
+  float y_pos,
+  sf::RenderWindow &window
+)
+>>>>>>> develop
 {
     m_zen_bar.setPosition(sf::Vector2f(
                             (x_pos - (m_zen_bar.getSize().x/2.0f)),
@@ -25,27 +32,30 @@ sf::RectangleShape sfml_zen_bar::get_drawable_bar(
 }
 
 sf::RectangleShape sfml_zen_bar::get_drawable_ind(
+<<<<<<< HEAD
         float x_pos,
         float y_pos,
         sf::RenderWindow &window)
+=======
+  float x_pos,
+  float y_pos,
+  sf::RenderWindow &window
+)
+>>>>>>> develop
 {
-    m_zen_icon.setPosition(sf::Vector2f(
-                               x_pos - (m_zen_icon.getSize().x/2.0f)+
-                               m_zen_balance,
-                               y_pos + (m_zen_bar.getSize().y/2.0f)-
-                               (m_zen_icon.getSize().x/2.0f))
-                             );
-    m_zen_icon.setPosition(window.mapPixelToCoords(sf::Vector2i(m_zen_icon.getPosition())));
-
-    return m_zen_icon;
+  m_zen_icon.setPosition(
+    sf::Vector2f(
+      x_pos - (m_zen_icon.getSize().x/2.0f) + m_zen_balance,
+      y_pos + (m_zen_bar.getSize().y/2.0f) - (m_zen_icon.getSize().x/2.0f)
+    )
+  );
+  m_zen_icon.setPosition(
+    window.mapPixelToCoords(sf::Vector2i(m_zen_icon.getPosition()))
+  );
+  return m_zen_icon;
 }
 
-//void sfml_zen_bar::change_score(float delta)
-//{
-//    m_zen_balance += delta;
-//}
-
-void sfml_zen_bar::set_score(float score)
+void sfml_zen_bar::set_score(const double score)
 {
-    m_zen_balance = score;
+  m_zen_balance = score;
 }

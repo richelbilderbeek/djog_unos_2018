@@ -51,12 +51,17 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
   ;
 }
 
-double pythagoras(double x_length, double y_length){
-    return sqrt((x_length * x_length) + (y_length * y_length));
+double pythagoras(double x_length, double y_length)
+{
+  return sqrt(
+    (x_length * x_length) + (y_length * y_length)
+  );
 }
 
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
+    case agent_type::chameleon:
+      return {agent_type::worm, agent_type::spider, agent_type::bird};
     case agent_type::crocodile:
       return {agent_type::cow, agent_type::giraffe};
     case agent_type::squirrel:
@@ -97,25 +102,25 @@ void agent::eat(const game& g) {
   //Is agent_type a in food?
   for (agent a : g.get_agents()) {
     // NOTE not calculated from the center of the agent
-    if (is_in_range(a.get_x(),
-                    a.get_y(),
-                    25.0) &&
-        a.get_health() > 0 &&
-        std::count(std::begin(food), std::end(food), a.get_type()))
+    if (is_in_range(a.get_x(), a.get_y(), 25.0)
+      && a.get_health() > 0.0
+      && std::count(std::begin(food), std::end(food), a.get_type())
+    )
     {
-      m_stamina += 1;
-    } else if (!is_plant(m_type)){
+      m_stamina += 1.0;
+    }
+    else if (!is_plant(m_type))
+    {
       m_stamina -= 0.05;
     }
     std::vector<agent_type> a_food = can_eat(a.get_type());
     // NOTE not calculated from the center of the agent
-    if (is_in_range(a.get_x(),
-                    a.get_y(),
-                    25.0) &&
-        m_health > 0 &&
-        std::count(std::begin(a_food), std::end(a_food), m_type))
+    if (is_in_range(a.get_x(), a.get_y(), 25.0)
+      && m_health > 0.0
+      && std::count(std::begin(a_food), std::end(a_food), m_type)
+    )
     {
-      m_stamina = 0;
+      m_stamina = 0.0;
       m_health -= 0.1;
     }
   }
@@ -152,7 +157,7 @@ void agent::move() //!OCLINT NPath complexity too high
   if (m_stamina <= 0.0) {
     m_health += (m_stamina - 1) * 0.2;
   }
-  if (!is_plant(m_type)) {
+  if (!is_plant(m_type) && m_type != agent_type::corpse) {
     m_x += 0.1 * (-1 + (std::rand() % 3));
     m_y += 0.1 * (-1 + (std::rand() % 3));
   }
@@ -160,8 +165,8 @@ void agent::move() //!OCLINT NPath complexity too high
 
 void agent::move(double x, double y)
 {
-    m_x += x;
-    m_y += y;
+  m_x += x;
+  m_y += y;
 }
 
 void agent::move_to_food(game &g){
@@ -176,9 +181,8 @@ void agent::move_to_food(game &g){
     for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
       if(a.get_type() == can_eat(m_type)[i]){
         distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-        if(distance > 350) return;
         if(a == nearest_agent(g, *this, can_eat(m_type)[i])
-           && distance < f_distance){
+           && distance < f_distance && distance < 200){
           nearest_f = a;
           f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
         }
@@ -228,10 +232,16 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   if ((m_type == agent_type::grass || m_type == agent_type::tree
       || m_type == agent_type::cow) && g.allow_damage())  reproduce_agents(g, m_type);
 
-  if (m_type == agent_type::grass || m_type == agent_type::tree) damage_near_grass(g, m_type);
+  if (m_type == agent_type::grass
+    || m_type == agent_type::cactus
+    || m_type == agent_type::tree
+  ) damage_near_grass(g, m_type);
 
    //TODO is depth suitable for agent
-  if (will_drown(m_type) && get_on_tile_type(g, *this) == tile_type::water) {
+  if (will_drown(m_type)
+    && !get_on_tile_type(g, *this).empty()
+    && get_on_tile_type(g, *this).front() == tile_type::water)
+  {
     m_stamina -= 0.2;
   }
 
@@ -240,7 +250,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
   if(m_type != agent_type::bird && !is_on_tile(g, *this))
   {
-    m_health = 0;
+    m_health = 0.0;
   }
 
   if(m_type == agent_type::fish || m_type == agent_type::whale){
@@ -250,14 +260,25 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
       }
     }
   }
+
+  if(m_type == agent_type::corpse && corpse_ticks == -1){
+    corpse_ticks = g.get_n_ticks();
+  }
+  if(m_type == agent_type::corpse && corpse_ticks + 300 < g.get_n_ticks()){
+    unsigned int n = static_cast<unsigned int>(count_n_agents(g));
+    for(unsigned int i = 0; i < n; i++){
+      if(g.get_agents()[i] == *this){
+        g.get_agents()[i] = g.get_agents().back();
+        g.get_agents().pop_back();
+      }
+    }
+  }
 }
 
 void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
 
   if(is_plant(type)){
-    double rand = std::rand() % 10 + 26; // 20 extra for the grass self-damage
-    rand = rand / 1000;
-
+    const double rand = ((std::rand() % 10) + 26) / 1000.0; // 20 extra for the grass self-damage
     // Grow
     m_health += rand;
   }
@@ -295,10 +316,14 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
 
     agent new_agent(type, new_x, new_y, health_kid);
-    tile t = get_current_tile(g, new_agent);
-    while(!is_on_tile(g, new_agent) || get_on_tile_type(g, new_agent) == tile_type::water
-          || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
-          || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t)){
+    std::vector<tile> t = get_current_tile(g, new_agent);
+    while(t.empty()
+        || !is_on_tile(g, new_agent)
+        || get_on_tile_type(g, new_agent).at(0) == tile_type::water
+        || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t.front())
+        || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t.front())
+    )
+    {
       f_x = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
       f_y = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
       assert(f_x >= 0.0 && f_x < 1.0);
@@ -341,6 +366,11 @@ void agent::damage_near_grass(game &g, agent_type type)
 std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
 {
   std::vector<agent> agents;
+  {
+    agent a1(agent_type::chameleon);
+    move_agent_to_tile(a1, -3, 0);
+    agents.push_back(a1);
+  }
   {
     agent a1(agent_type::cow);
     move_agent_to_tile(a1, 0, 0);
@@ -517,6 +547,8 @@ bool will_drown(agent_type a) { //!OCLINT can't be simpler
       return true;
     case agent_type::crocodile:
       return false;
+    case agent_type::chameleon:
+      return true;
     case agent_type::fish:
       return false;
     case agent_type::whale:
@@ -600,6 +632,7 @@ void test_agent() //!OCLINT testing functions may be long
   {
     assert(!is_plant(agent_type::bird));
     assert(!is_plant(agent_type::cow));
+    assert(!is_plant(agent_type::chameleon));
     assert(!is_plant(agent_type::crocodile));
     assert(!is_plant(agent_type::fish));
     assert(!is_plant(agent_type::giraffe));
@@ -650,9 +683,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-
-  #define FIX_ISSUE_343
-  #ifdef FIX_ISSUE_343
   // A bird moves
   {
     game g;
@@ -664,7 +694,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() != x || a.get_y() != y);
   }
-  #endif
   // Grass does not move
   {
     game g;
@@ -675,24 +704,21 @@ void test_agent() //!OCLINT testing functions may be long
     a.move();
     assert(a.get_x() == x && a.get_y() == y);
   }
-
-    // Venus Fly Trap does not move
-    {
-      game g;
-      const double x{12.34};
-      const double y{56.78};
-      agent a(agent_type::venus_fly_trap, x, y);
-      assert(is_on_tile(g, a));
-      a.move();
-      assert(a.get_x() == x && a.get_y() == y);
-    }
-
+  // Venus Fly Trap does not move
+  {
+    game g;
+    const double x{12.34};
+    const double y{56.78};
+    agent a(agent_type::venus_fly_trap, x, y);
+    assert(is_on_tile(g, a));
+    a.move();
+    assert(a.get_x() == x && a.get_y() == y);
+  }
   // Agents have health
   {
     const agent a(agent_type::cow, 0, 0, 10);
     assert(a.get_health() > 0.0);
   }
-
   // Agents have a direction, that can be read
   {
     const agent a(agent_type::cow); //Must be const
@@ -704,7 +730,6 @@ void test_agent() //!OCLINT testing functions may be long
     a.set_direction(3.14);
     assert(a.get_direction() == 3.14);
   }
-
   // Test can_eat
   {
     for (agent_type a : collect_all_agent_types()) {
@@ -750,7 +775,7 @@ void test_agent() //!OCLINT testing functions may be long
     g.set_allow_spawning(false);
     assert(!g.get_agents().empty());
     // Wait until cow starves
-    while (!g.get_agents().empty())
+    while (g.get_agents()[0].get_type() != agent_type::corpse)
     {
       g.process_events();
     }
@@ -781,7 +806,7 @@ void test_agent() //!OCLINT testing functions may be long
     game g(no_tiles, { agent(agent_type::crocodile, -100, -100, 100)});
     assert(g.get_agents()[0].get_health() > 0.0); //!OCLINT accepted idiom
     g.process_events();
-    assert(g.get_agents()[0].get_health() == 0.0); //!OCLINT accepted idiom
+    assert(g.get_agents()[0].get_type() == agent_type::corpse); //!OCLINT accepted idiom
   }
   //#define FIX_ISSUE_300
   #ifdef FIX_ISSUE_300
@@ -843,26 +868,24 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //Fish die when on land
   {
-    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::fish) } );
+    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::fish) } );
     assert(!g.get_agents().empty());
     //Choke fish
-    while (g.get_agents()[0].get_health() > 0)
+    while (g.get_agents()[0].get_type() != agent_type::corpse)
     {
       g.process_events();
     }
-    assert(g.get_agents().empty());
   }
   //octopus die when on land
-{
-  game g({ tile(0, 0, 0, 2, 2, 0, tile_type::nonetile) }, { agent(agent_type::octopus) } );
-  assert(!g.get_agents().empty());
-  //Choke octopus
-  while (g.get_agents()[0].get_health() > 0)
   {
-    g.process_events();
+    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::octopus) } );
+    assert(!g.get_agents().empty());
+    //Choke octopus
+    while (g.get_agents()[0].get_type() != agent_type::corpse)
+    {
+      g.process_events();
+    }
   }
-  assert(g.get_agents().empty());
-}
   // Agents drown
   {
     game g({tile(0,0,0,3,3,10,tile_type::water)},
@@ -893,9 +916,10 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //grass has different health when its duplicated
   {
-    game g({tile(0,0,0,3,3,10,tile_type::nonetile)},
+    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 100)});
     const auto prev_health = g.get_agents()[0].get_health();
+#define test
     g.process_events();
     assert(g.get_agents().size() == 2);
     const auto after_health = g.get_agents()[0].get_health();
@@ -903,11 +927,10 @@ void test_agent() //!OCLINT testing functions may be long
     assert(prev_health != after_health);
     assert(after_health != second_grass_health);
   }
-
-    {
-        //get depth test
-        assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
-    }
+  //get depth test
+  {
+    assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
+  }
   //a cow walks to grass when its close
   {
     game g(create_test_default_tiles(),
@@ -959,8 +982,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(spider_prev_posX < spider_aft_posX);
     assert(spider_prev_posY < spider_aft_posY);
   }
-  #define FIX_ISSUE_363
-  #ifdef FIX_ISSUE_363
   //Grass damages nearby grasses
   {
     //agent(const agent_type type, const double x = 0.0, const double y = 0.0,
@@ -986,6 +1007,33 @@ void test_agent() //!OCLINT testing functions may be long
     assert(after_grass_health2 < prev_grass_health2);
     // See whether damage hath happened.
   }
+  #define FIX_ISSUE_447
+  #ifdef FIX_ISSUE_447
+  //Cacti damage nearby cacti
+  {
+    // Make two plants next to each other.
+    game g({tile(0,0,0,3,3,10,tile_type::desert)},
+           {agent(agent_type::cactus, 10, 10, 10),
+            agent(agent_type::cactus, 10, 10, 10)});
+
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time.
+    for(int i = 0; i != 20; ++i){
+      g.process_events();
+    }
+
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
+
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
+  }
+  #endif // FIX_ISSUE_447
   //Cows reproduce
   {
     game g({tile(0,0,0,3,3,10,tile_type::grassland)},
@@ -994,5 +1042,13 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents().size() >= 2);
   }
-  #endif //FIX_ISSUE_363
+  //#define FIX_ISSUE_540
+  #ifdef FIX_ISSUE_540
+  {
+    assert(get_agent_reproduction_health(agent_type::cactus) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::cow) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::grass) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::tree) == 500.0);
+  }
+  #endif // FIX_ISSUE_540
 }

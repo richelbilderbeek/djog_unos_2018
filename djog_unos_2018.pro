@@ -5,6 +5,7 @@ SOURCES += main.cpp
 
 # C++14
 CONFIG += c++14
+CONFIG += resources_big
 QMAKE_CXXFLAGS += -std=c++14
 
 # High warning levels
@@ -15,6 +16,11 @@ unix:!macx {
 # Fix error: unrecognized option '--push-state--no-as-needed'
 QMAKE_LFLAGS += -fuse-ld=gold
 }
+
+# Needed this to make std::cout work
+# CONFIG += console
+# NOTE you need to flush a cout to print it
+# seems like std::endl is superior after all
 
 # Debug and release settings
 CONFIG += debug_and_release
@@ -27,10 +33,11 @@ CONFIG(release, debug|release) {
     # gprof
     QMAKE_CXXFLAGS += -pg
     QMAKE_LFLAGS += -pg
+
+    # helgrind, for helgrind and memcheck
+    QMAKE_LFLAGS += -pthread -Wl,--no-as-needed
   }
 }
-
-
 
 CONFIG(debug, debug|release) {
 

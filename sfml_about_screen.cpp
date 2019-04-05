@@ -38,6 +38,19 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   #endif
   m_text.setString(get_team_name_string());
   m_y = m_window.getSize().y;
+
+  m_copyright_text.setCharacterSize(18);
+  m_copyright_text.setFont(m_font);
+  m_copyright_text.setString("(C) 2018 Team Octane");
+  #if(SFML_VERSION_MINOR > 3)
+  m_copyright_text.setOutlineColor(sf::Color::White);
+  m_copyright_text.setFillColor(sf::Color::White);
+  #else
+  //Only relevant for Travis and RuG
+  m_copyright_text.setColor(sf::Color::Black);
+  #endif
+  m_copyright_text.setPosition(m_window.getSize().x / 100, m_window.getSize().y / 1.05f);
+
 }
 
 std::string get_team_name_string(){
@@ -90,6 +103,8 @@ void sfml_about_screen::display_assets()
     m_window.draw(m_text);
     m_window.draw(m_zen_bar);
     m_window.draw(m_zen_icon);
+
+    m_window.draw(m_copyright_text);
     m_window.display();
 }
 
@@ -110,7 +125,7 @@ void sfml_about_screen::prepare_assets()
     m_zen_bar.setTexture(sfml_resources::get().get_zen_bar());
     m_zen_icon.setTexture(sfml_resources::get().get_zen_ind());
 
-    float zenbar_y = 100;
+    double zenbar_y = 100.0;
 
     m_zen_bar.setPosition(sf::Vector2f(5 + m_x, zenbar_y + m_y));
     m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
@@ -121,7 +136,8 @@ void sfml_about_screen::prepare_assets()
                             zenbar_y - 10 + m_y));
     m_zen_icon.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_icon.getPosition())));
 
-
+    sf::Vector2i pos = sf::Vector2i(10, m_window.getSize().y - 26);
+    m_copyright_text.setPosition(m_window.mapPixelToCoords(pos));
 }
 
 void sfml_about_screen::display()
@@ -157,8 +173,8 @@ void sfml_about_screen::display()
 
 void sfml_about_screen::update()
 {
-  m_x = m_window.getSize().x / 2 - 220;
-  m_y += deltatime.asSeconds() * -(30);
+  m_x = static_cast<double>(m_window.getSize().x / 2 - 220);
+  m_y += static_cast<double>(deltatime.asSeconds() * -30.0);
   deltatime = deltaclock.restart();
 }
 

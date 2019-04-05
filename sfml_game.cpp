@@ -24,15 +24,27 @@ sfml_game::sfml_game(
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
-    m_pause_screen()
-{ // Set up music
+    m_pause_screen(),
+    m_shop_overlay(),
+    m_save_screen(m_game)
+{
+  // Set up music
   m_background_music.setLoop(true);
+
   m_ben_ik_een_spin.setLoop(true);
   start_music();
+  setup_essence_symbol();
   setup_tickcounter_text();
+  setup_selected_text();
   m_game.set_allow_spawning(m_delegate.get_spawning());
   m_game.set_allow_damage(m_delegate.get_damage());
   m_game.set_allow_score(m_delegate.get_score());
+
+  // Set up Shop Button
+  sf::RectangleShape &b1_s = m_shop_button.get_shape();
+  b1_s.setFillColor(sf::Color(53,184,151));
+  m_shop_button.set_size(100, 100);
+  m_shop_button.set_string("SHOP");
 }
 
 sfml_game::~sfml_game()
@@ -41,7 +53,7 @@ sfml_game::~sfml_game()
 }
 
 void sfml_game::close(game_state s) {
-  if (s != game_state::paused) {
+  if (s != game_state::paused && s != game_state::shop) {
     m_camera.reset();
   }
   m_camera.m_movecam_r = false;
@@ -67,6 +79,34 @@ void sfml_game::setup_tickcounter_text() {
     m_tickcounter_text.setCharacterSize(20);
 }
 
+void sfml_game::setup_selected_text() {
+    m_selected_text.setFont(m_debug_font);
+    m_selected_text.setCharacterSize(24);
+}
+
+void sfml_game::setup_essence_symbol()
+{
+  m_essence_symbol.setSize(0.6f*sf::Vector2f(
+    sfml_resources::get().get_essence_texture().getSize()));
+  m_essence_symbol.setTexture(&sfml_resources::get().get_essence_texture());
+}
+
+void sfml_game::display_essence_symbol()
+{
+  m_essence_symbol.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*51.0f/64.0f, 15)));
+  m_window.draw(m_essence_symbol);
+}
+
+void sfml_game::display_essence()
+{
+  std::stringstream s;
+  s << " : " << m_game.get_essence();
+  m_tickcounter_text.setString(s.str());
+  m_tickcounter_text.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*52.0f/64.0f, 10)));
+  m_window.draw(m_tickcounter_text);
+}
 
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
@@ -81,6 +121,15 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   {
     display_agent(a);
   }
+  // Display Shop Button
+  {
+    sf::Vector2i pos = sf::Vector2i(m_window.getSize().x
+      - (m_shop_button.get_size().x / 2), m_window.getSize().y
+      - (m_shop_button.get_size().y / 2));
+    m_shop_button.set_pos(m_window.mapPixelToCoords(pos));
+    m_window.draw(m_shop_button.get_shape());
+    m_window.draw(m_shop_button.get_text());
+  }
   // Display & Update Tickcounter
   {
     std::stringstream s;
@@ -89,6 +138,17 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_tickcounter_text.setString(s.str());
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
+  }
+  // Display Selected Tile Text
+  {
+    float x = (m_window.getSize().x / 2) - (m_selected_text.getLocalBounds().width / 2);
+    m_selected_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(x, 72)));
+    m_window.draw(m_selected_text);
+  }
+  // Display the essence
+  {
+    display_essence();
+    sfml_game::display_essence_symbol();
   }
   // Display the zen
   {
@@ -101,8 +161,12 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 }
 
 void sfml_game::display_tile(const tile &t){
-    sf::RectangleShape sfml_tile(sf::Vector2f(
-      static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
+    sf::RectangleShape sfml_tile(
+      sf::Vector2f(
+        static_cast<float>(t.get_width()),
+        static_cast<float>(t.get_height())
+      )
+    );
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
     const double screen_x{ t.get_x() - m_camera.x };
@@ -146,11 +210,20 @@ void sfml_game::exec()
   view.setSize(static_cast<float>(m_window.getSize().x),
                static_cast<float>(m_window.getSize().y));
   m_window.setView(view);
-  while (active(game_state::playing) || active(game_state::paused))
+  while (active(game_state::playing) ||
+         active(game_state::paused) ||
+         active(game_state::saving) ||
+         active(game_state::shop))
   {
     if (active(game_state::paused)) {
       display();
       m_pause_screen.exec();
+    } else if (active(game_state::saving)) {
+      display();
+      m_save_screen.exec();
+    } else if (active(game_state::shop)) {
+      display();
+      m_shop_overlay.exec();
     } else {
       process_input();
       process_events();
@@ -179,10 +252,13 @@ void sfml_game::process_events()
   if (m_game.m_selected.empty())
   {
     confirm_move();
+    // Clear selected tile text if nothing is selected
+    m_selected_text.setString("");
   }
   else
   {
     follow_tile();
+    update_selected_text();
   }
 
   exec_tile_move(m_game.m_selected);
@@ -213,11 +289,28 @@ void sfml_game::follow_tile()
 {
   sf::Vector2i screen_center = sfml_window_manager::get().get_window_center();
   const tile& t = getTileById(m_game.m_selected);
-  m_camera.x = 0;
-  m_camera.y = 0;
-  sf::Vector2f new_coords = sf::Vector2f(t.get_x() + (t.get_width() / 2) - screen_center.x,
-                                         t.get_y() + (t.get_height() / 2) - screen_center.y);
+  m_camera.x = 0.0;
+  m_camera.y = 0.0;
+  sf::Vector2f new_coords(
+    t.get_x() + (t.get_width()  / 2.0) - static_cast<double>(screen_center.x),
+    t.get_y() + (t.get_height() / 2.0) - static_cast<double>(screen_center.y)
+  );
   m_camera.move_camera(new_coords);
+}
+
+void sfml_game::update_selected_text()
+{
+  const tile& t = getTileById(m_game.m_selected);
+  std::string text = to_str(t.get_type());
+  text[0] = toupper(text[0]);
+  m_selected_text.setString(text);
+
+  #if(SFML_VERSION_MINOR > 3)
+  sf::RectangleShape color_shape(sf::Vector2f(10,10));
+  color_tile_shape(color_shape, t);
+  sf::Color text_color = color_shape.getFillColor();
+  m_selected_text.setFillColor(text_color);
+  #endif
 }
 
 void sfml_game::manage_timer()
@@ -297,7 +390,9 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
     if (m_timer > 0)
       control_tile(false, event, getTileById(m_game.m_selected));
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-      close(game_state::paused);
+    {
+        close(game_state::paused);
+    }
   }
   else
   {
@@ -315,8 +410,8 @@ void sfml_game::move_selected_tile_randomly()
 
 void sfml_game::reset_input()
 {
-  m_camera.x = 0;
-  m_camera.y = 0;
+  m_camera.x = 0.0;
+  m_camera.y = 0.0;
   m_camera.m_movecam_r = false;
   m_camera.m_movecam_l = false;
   m_camera.m_movecam_u = false;
@@ -332,6 +427,8 @@ void sfml_game::process_mouse_input(const sf::Event& event)
   {
     m_game.move_tiles(m_window, m_camera);
     m_clicked_tile = false;
+    if (m_shop_button.is_clicked(event, m_window))
+      close(game_state::shop);
     if (m_game.get_agents().size() == 1 &&
         m_game.get_tiles().size() > 0)
       ben_ik_een_spin();
@@ -465,7 +562,7 @@ void sfml_game::switch_collide(tile& t, int direction)
 
 bool sfml_game::check_merge(tile& t1, tile& t2)
 {
-  return get_merge_type(t1.get_type(), t2.get_type()) != tile_type::nonetile;
+  return !get_merge_type(t1.get_type(), t2.get_type()).empty();
 }
 
 sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
@@ -568,9 +665,8 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::rainforest:
       color_shape(sfml_tile, sf::Color(41,47,13), sf::Color(33,19,4));
       break;
-    default:
-      color_shape(
-        sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
+    case tile_type::beach:
+      color_shape(sfml_tile, sf::Color(240, 226, 180), sf::Color(223, 206, 157));
       break;
   }
   sfml_tile.setOutlineThickness(5);
@@ -660,6 +756,10 @@ bool sfml_game::will_colide(int direction, tile& t)
       break;
   }
   return false;
+}
+
+void sfml_game::load_game(const std::string &filename) {
+  load(m_game, filename);
 }
 
 void test_sfml_game() //!OCLINT tests may be long

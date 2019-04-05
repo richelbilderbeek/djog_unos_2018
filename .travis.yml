@@ -36,15 +36,20 @@ install:
   # For the virtual X server
   - sudo apt-get install libxrandr-dev
   # valgrind, for helgrind and memcheck
-  - sudo apt-get install -qq valgrind
+  - if [[ $TRAVIS_BRANCH == "richel" ]]; then sudo apt-get install -qq valgrind; fi
   # SLOCcount
   - sudo apt-get install sloccount
 
-# Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/
+# Xenial
+# services:
+#  - xvfb
+
+# Trusty
+# Start virtual X server
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
+ - "export DISPLAY=:99.0"
+ - "sh -e /etc/init.d/xvfb start"
+ - sleep 3 # give xvfb some time to start
 
 script: 
   # Build the project, then:
@@ -56,64 +61,30 @@ script:
   - ./djog_unos_2018 --short --music
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
-  # cppcheck
-  - cppcheck --error-exitcode=1 . 
   # Call OCLint
   - ./do_oclint
   # Build and run and profile normal program
-  - qmake djog_unos_2018.pro
-  - make release
-  # time ./djog_unos_2018 --profiling 10 80
-  # ./djog_unos_2018 --profiling 10 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 20 80
-  # ./djog_unos_2018 --profiling 20 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 40 80
-  # ./djog_unos_2018 --profiling 40 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 80 80
-  # ./djog_unos_2018 --profiling 80 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 160 80
-  # ./djog_unos_2018 --profiling 160 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 80 10
-  # ./djog_unos_2018 --profiling 10 80
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  # time ./djog_unos_2018 --profiling 80 20 
-  # ./djog_unos_2018 --profiling 80 20
-  # gprof djog_unos_2018 > gprof.log
-  # head gprof.log -n 1000
-  - time ./djog_unos_2018 --profiling 80 40
-  - ./djog_unos_2018 --profiling 80 40
-  - gprof djog_unos_2018 > gprof.log
-  - head gprof.log -n 1000
-  - time ./djog_unos_2018 --profiling 80 80
-  - ./djog_unos_2018 --profiling 80 80
-  - gprof djog_unos_2018 > gprof.log
-  - head gprof.log -n 1000
-  - time ./djog_unos_2018 --profiling 80 160
-  - ./djog_unos_2018 --profiling 80 160
-  - gprof djog_unos_2018 > gprof.log
-  - head gprof.log -n 1000
+  - if [[ $TRAVIS_BRANCH == "develop" || $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "rob" ]]; then qmake djog_unos_2018.pro; fi
+  - if [[ $TRAVIS_BRANCH == "develop" || $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "rob" ]]; then make --silent release; fi
+  - if [[ $TRAVIS_BRANCH == "develop" || $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "rob" ]]; then time ./djog_unos_2018 --profiling 350 350; fi
+  - if [[ $TRAVIS_BRANCH == "develop" || $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "rob" ]]; then gprof djog_unos_2018 > gprof.log; fi
+  - if [[ $TRAVIS_BRANCH == "develop" || $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "rob" ]]; then head gprof.log -n 500; fi
   # Get code coverage
   - cp debug/*.* .
   - ./get_code_cov
   - codecov
+  # helgrind: takes long
+  - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
+  # cppcheck
+  # No cppcheck on Richel's branch, as he looks at the helgrind results insteaf
+  - if [[ $TRAVIS_BRANCH != "richel" ]]; then travis_wait 50 cppcheck --quiet --error-exitcode=1 .; fi
   # SLOCcount
   #   remove OCLint and .git, otherwise it will be counted as well
   - rm -rf oclint-0.10.3 oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz oclint.log
   - rm -rf .git
   - rm -rf debug
   - rm -rf debug
-  - cd ..; sloccount --overhead 1 --personcost 22614 djog_unos_2018; cd djog_unos_2018
+  - cd ..; sloccount --overhead 1 --personcost 22614 djog_unos_2018 | egrep -v "Adding"; cd djog_unos_2018
   # clang-tidy
   #- ./do_clang-tidy
 
