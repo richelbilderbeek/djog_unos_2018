@@ -64,7 +64,7 @@ script:
   # helgrind: takes long
   # - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
   # cppcheck
-  - cppcheck --error-exitcode=1 . 
+  - cppcheck --quiet --error-exitcode=1 . 
   # Call OCLint
   - ./do_oclint
   # Build and run and profile normal program
