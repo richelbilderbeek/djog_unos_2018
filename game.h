@@ -6,16 +6,28 @@
 #include "tile.h"
 #include "agent.h"
 #include "sfml_camera.h"
+#include <QDir>
 
-class game {
+class game { //!OCLINT too many methods
 
 friend class sfml_game;
 
 public:
   /// Constructor
-  game(const std::vector<tile>& tiles = create_default_tiles(),
-       const std::vector<agent>& agents = create_default_agents(),
-       const int starting_tick = 0);
+  game(
+    const std::vector<tile>& tiles = create_test_default_tiles(),
+    const std::vector<agent>& agents = create_default_agents()
+  );
+
+  ///Does the game spawn agents?
+  ///Iff true, tiles spawn agents.
+  ///Spawning is set to false in debugging,
+  ///e.g. when all creatures must go extinct due to starvation
+  bool allow_spawning() const noexcept { return m_allow_spawning; }
+
+  bool allow_damage() const noexcept { return m_allow_damage; }
+
+  bool allow_score() const noexcept { return m_allow_score; }
 
   /// Read all tiles
   const auto &get_tiles() const noexcept { return m_tiles; }
@@ -28,6 +40,8 @@ public:
   double get_score() const noexcept { return m_score; }
 
   void change_score_by(int delta_score);
+
+  int get_essence() const noexcept { return m_essence; }
 
   void delete_tiles(std::vector<tile> ts);
 
@@ -49,7 +63,28 @@ public:
 
   void spawn(agent_type type, tile t);
 
+  /// Allow the real game to allow spawning of agents
+  void set_allow_spawning(const bool do_allow) noexcept { m_allow_spawning = do_allow; }
+
+  void set_allow_damage(const bool do_damage) noexcept { m_allow_damage = do_damage; }
+
+  void set_allow_score(const bool do_score) noexcept { m_allow_score = do_score; }
+
+  void save_this(const std::string filename) const;
+
 private:
+
+  ///Does the game spawn agents?
+  ///Iff true, tiles spawn agents.
+  ///Spawning is set to false in debugging,
+  ///e.g. when all creatures must go extinct due to starvation
+  bool m_allow_spawning = true;
+
+  ///Allow agents to damage each other
+  bool m_allow_damage = true;
+
+  ///Update the score
+  bool m_allow_score = true;
 
   /// The selected tile
   std::vector<int> m_selected;
@@ -69,6 +104,8 @@ private:
   int m_n_tick = 0;
 
   double m_score;
+
+  int m_essence;
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);
@@ -91,7 +128,10 @@ bool is_on_tile(const game& g, const agent& a);
 /// Determine if there is a tile at the given coordinat
 bool is_on_tile(const game& g, double x, double y);
 
-tile_type get_on_tile_type(const game& g, const agent& a);
+/// Get the tile_type the agent is one.
+/// Returns one tile_type if the agent is on a tile.
+/// Returns an empty vector if the agent is above the void
+std::vector<tile_type> get_on_tile_type(const game& g, const agent& a);
 
 /// Determine if an agent is on a specific tile
 bool is_on_specific_tile(const agent& a, const tile& t);
@@ -99,18 +139,37 @@ bool is_on_specific_tile(const agent& a, const tile& t);
 /// Determine if there is a specific tile at the given coordinat
 bool is_on_specific_tile(double x, double y, const tile& t);
 
-tile get_current_tile(game& g, const agent& a);
+/// Gets a tile at the coordinats of the agent.
+/// If there is at least one tile at the specified coordinats,
+/// a vector with a copy of the first tile found is returned.
+/// If there are not tiles at the specified coordinats,
+/// an empty vector is returned
+std::vector<tile> get_current_tile(game& g, const agent& a);
 
-tile get_current_tile(game& g, double x, double y);
+/// Gets a tile at the specified coordinats.
+/// If there is at least one tile at the specified coordinats,
+/// a vector with a copy of the first tile found is returned.
+/// If there are not tiles at the specified coordinats,
+/// an empty vector is returned
+std::vector<tile> get_current_tile(game& g, double x, double y);
 
 /// Load a game from a file
+void load(game &g, const std::string &filename);
 game load(const std::string &filename);
+
+std::vector<std::string> get_saves();
+
+const std::string SAVE_DIR = "saves\\";
 
 /// Save the game to a file
 void save(const game &game, const std::string &filename);
 
+std::vector<std::string> get_saves();
+
 /// Test the game class
 void test_game();
+
+sf::Time deltatime();
 
 std::ostream& operator<<(std::ostream& os, const game& g);
 

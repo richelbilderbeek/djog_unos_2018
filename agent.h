@@ -17,7 +17,7 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0.0, const double y = 0.0,
+  explicit agent(const agent_type type, const double x = 0.0, const double y = 0.0,
         const double health = 1.0,  const double direction = 0.0);
 
   void process_events(game &g);
@@ -61,6 +61,8 @@ public:
 
   void move_to_food(game& g);
 
+  void attract_to_agent(game& g, agent_type type);
+
 private:
   /// The type the tile
   agent_type m_type;
@@ -71,10 +73,17 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
-
-  /// The direction angle of the agent, which is a radial angle with 0 for
-  /// left to right direction, pi/2 for top to down direction,
-  /// pi for right to left direction and -pi/2 for down to top direction.
+  /// The direction angle of the agent:
+  ///
+  ///           0.5 * pi
+  ///              |
+  ///              |
+  /// 1.0 * pi ----+---- 0.0 * pi
+  ///              |
+  ///              |
+  ///           1.5 * pi
+  ///
+  /// For example, for an m_direction of 1.5 pi, the agent moves down
   double m_direction;
 
   /// The health of the agent
@@ -82,9 +91,11 @@ private:
   ///the stamina of the agent
   double m_stamina;
 
+  int corpse_ticks = -1;
+
   void reproduce_agents(game& g, agent_type type);
 
-  void damage_near_grass(game &g);
+  void damage_near_grass(game &g, agent_type type);
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);

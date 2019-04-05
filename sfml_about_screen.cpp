@@ -37,6 +37,20 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   m_text.setColor(sf::Color::Green);
   #endif
   m_text.setString(get_team_name_string());
+  m_y = m_window.getSize().y;
+
+  m_copyright_text.setCharacterSize(18);
+  m_copyright_text.setFont(m_font);
+  m_copyright_text.setString("(C) 2018 Team Octane");
+  #if(SFML_VERSION_MINOR > 3)
+  m_copyright_text.setOutlineColor(sf::Color::White);
+  m_copyright_text.setFillColor(sf::Color::White);
+  #else
+  //Only relevant for Travis and RuG
+  m_copyright_text.setColor(sf::Color::Black);
+  #endif
+  m_copyright_text.setPosition(m_window.getSize().x / 100, m_window.getSize().y / 1.05f);
+
 }
 
 std::string get_team_name_string(){
@@ -53,27 +67,24 @@ std::vector<std::string> get_team_names() noexcept
 {
   return
   {
-    "Senior Developper",
+    "Senior Developer",
     "Richel Bilderbeek",
-    "",
-    "Medior Developpers",
+    "\nMedior Developers",
+    "Anton Hensen",
+    "Joshua van Waardenberg",
     "Rafayel Gardishyan",
     "Rob Kruger",
-    "Joshua van Waardenberg",
-    "",
-    "Junior Developpers",
-    "Jan Derk Kotlarski",
-    "Same Drenth",
-    "Jolien Gay",
+    "\nJunior Developers",
     "Enzo de Haas",
-    "Anne Hinrichs",
-    "Rijk van Putten",
-    "Mart Prenger",
     "Isis Reinders",
+    "Jan Derk Kotlarski",
+    "Jolien Gay",
+    "Mart Prenger",
+    "Rijk van Putten",
+    "Same Drenth",
     "Tom Stuivenga",
-    "",
-    "Former Team Members",
-    "???"
+    "\nFormer Team Members",
+    "Anne Hinrichs",
   };
 }
 
@@ -92,6 +103,8 @@ void sfml_about_screen::display_assets()
     m_window.draw(m_text);
     m_window.draw(m_zen_bar);
     m_window.draw(m_zen_icon);
+
+    m_window.draw(m_copyright_text);
     m_window.display();
 }
 
@@ -99,12 +112,12 @@ void sfml_about_screen::prepare_assets()
 {
     m_window.clear(sf::Color::Black); // Clear the window with black color
 
-    m_header.setPosition(25, 25);
+    m_header.setPosition(25 + m_x, 25 + m_y);
 
     m_header.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_header.getPosition())));
 
-    m_text.setPosition(25, 175);
+    m_text.setPosition(25 + m_x, 175 + m_y);
 
     m_text.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_text.getPosition())));
@@ -112,25 +125,23 @@ void sfml_about_screen::prepare_assets()
     m_zen_bar.setTexture(sfml_resources::get().get_zen_bar());
     m_zen_icon.setTexture(sfml_resources::get().get_zen_ind());
 
-    float zenbar_y = 100;
+    double zenbar_y = 100.0;
 
-    m_zen_bar.setPosition(sf::Vector2f(5, zenbar_y));
+    m_zen_bar.setPosition(sf::Vector2f(5 + m_x, zenbar_y + m_y));
     m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
 
     m_zen_icon.setPosition(sf::Vector2f(
                             5 + (m_zen_bar.getTextureRect().width/2.0f) -
-                               (m_zen_icon.getTextureRect().width/2.0f),
-                            zenbar_y - 10));
+                               (m_zen_icon.getTextureRect().width/2.0f) + m_x,
+                            zenbar_y - 10 + m_y));
     m_zen_icon.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_icon.getPosition())));
 
-
+    sf::Vector2i pos = sf::Vector2i(10, m_window.getSize().y - 26);
+    m_copyright_text.setPosition(m_window.mapPixelToCoords(pos));
 }
 
-void sfml_about_screen::exec()
+void sfml_about_screen::display()
 {
-  if (m_close_at >= 0) close(game_state::gameover);
-  while (active(game_state::aboutscreen))
-  {
     sf::Event event;
     while (m_window.pollEvent(event))
     {
@@ -158,6 +169,22 @@ void sfml_about_screen::exec()
 
     prepare_assets();
     display_assets();
+}
+
+void sfml_about_screen::update()
+{
+  m_x = static_cast<double>(m_window.getSize().x / 2 - 220);
+  m_y += static_cast<double>(deltatime.asSeconds() * -30.0);
+  deltatime = deltaclock.restart();
+}
+
+void sfml_about_screen::exec()
+{
+  if (m_close_at >= 0) close(game_state::gameover);
+  while (active(game_state::aboutscreen))
+  {
+    update();
+    display();
   }
     
 }

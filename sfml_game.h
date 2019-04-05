@@ -14,6 +14,10 @@
 #include "game_state.h"
 #include "sfml_camera.h"
 #include "sfml_window_manager.h"
+#include "sfml_pause_overlay.h"
+#include "sfml_shop_overlay.h"
+#include "sfml_save_overlay.h"
+#include "sfml_zen_bar.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
@@ -25,7 +29,7 @@ public:
   /// @param window_height height of the game window in pixels
   /// @param delegate an object that can modify sfml_game at certain times
   sfml_game(const sfml_game_delegate &delegate = sfml_game_delegate(),
-            const std::vector<tile>& tiles = create_default_tiles(),
+            const std::vector<tile>& tiles = create_test_default_tiles(),
             const std::vector<agent>& agents = create_default_agents()
   );
 
@@ -110,6 +114,8 @@ public:
 
   void start_music();
 
+  void load_game(const std::string &filename);
+
 private:
   // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);
@@ -162,19 +168,38 @@ private:
 
   sfml_camera m_camera;
 
-  sf::RectangleShape m_zen_bar;
-  sf::RectangleShape m_zen_ind;
+  sf::RectangleShape m_essence_symbol;
 
-  void setup_display_score();
+  sfml_zen_bar m_zen_bar;
 
   void setup_tickcounter_text();
+
+  void setup_selected_text();
+
+  void update_selected_text();
+
+  void setup_essence_symbol();
+
+  void display_essence_symbol();
+
+  void display_essence();
 
   sf::Font m_debug_font;
 
   sf::Text m_tickcounter_text;
 
+  sf::Text m_selected_text;
+
   sf::Vector2i m_prev_mouse_pos;
   double m_mouse_speed;
+
+  sfml_pause_overlay m_pause_screen;
+
+  sfml_shop_overlay m_shop_overlay;
+
+  sfml_button m_shop_button;
+
+  sfml_save_overlay m_save_screen;
 
 };
 

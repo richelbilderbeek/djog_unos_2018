@@ -18,11 +18,23 @@ public:
 
 private:
 
+  double m_x = {0};
+  double m_y = {0};
+
+  void display();
+  void update();
+
   sf::RenderWindow& m_window;
 
   sf::Text m_header;
 
+  sf::Clock deltaclock;
+
+  sf::Time deltatime;
+
   sf::Text m_text;
+
+  sf::Text m_copyright_text;
 
   int m_close_at;
 

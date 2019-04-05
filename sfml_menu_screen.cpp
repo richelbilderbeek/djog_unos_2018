@@ -17,7 +17,7 @@ sfml_menu_screen::sfml_menu_screen(const int close_at)
   sf::RectangleShape &b1_s = m_button1.get_shape();
   b1_s.setFillColor(sf::Color(53,234,151));
   m_button1.set_size(250, 75);
-  m_button1.set_string("CONTINUE");
+  m_button1.set_string("PLAY / LOAD");
 
   sf::RectangleShape &b2_s = m_button2.get_shape();
   b2_s.setFillColor(sf::Color(53,234,151));
@@ -39,7 +39,7 @@ sfml_menu_screen::sfml_menu_screen(const int close_at)
   #endif
 }
 
-void sfml_menu_screen::exec()
+void sfml_menu_screen::exec() //!OCLINT indeed to long, please fix
 {
   if (m_close_at >= 0) close(game_state::aboutscreen);
   while(active(game_state::menuscreen))
@@ -48,7 +48,7 @@ void sfml_menu_screen::exec()
     while (m_window.pollEvent(event))
     {
       sf::View view = m_window.getDefaultView();
-      switch (event.type) //!OCLINT too few branches, please fix
+      switch (event.type)
       {
         case sf::Event::Closed:
             close();
@@ -59,9 +59,25 @@ void sfml_menu_screen::exec()
                        static_cast<float>(m_window.getSize().y));
           m_window.setView(view);
           break;
+        case sf::Event::KeyPressed:
+          switch (event.key.code)
+          {
+            case sf::Keyboard::C:
+              close(game_state::playing);
+              break;
+            case sf::Keyboard::T:
+              close(game_state::aboutscreen);
+              break;
+            case sf::Keyboard::Q:
+              close();
+              break;
+            default:
+              break;
+          }
+          break;
         case sf::Event::MouseButtonPressed:
           if (m_button1.is_clicked(event, m_window))
-            close(game_state::playing);
+            close(game_state::loading);
           if (m_button2.is_clicked(event, m_window))
             close(game_state::aboutscreen);
           if (m_button3.is_clicked(event, m_window))

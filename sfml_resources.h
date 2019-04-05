@@ -4,7 +4,14 @@
 #include "agent.h"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <string>
 #include <vector>
+#include <QDir>
+#include <QFile>
+
+/// Test the sfml_resources class
+void test_sfml_resources();
 
 /// Singleton class to access all resources
 //TODO: make this a member variable of sfml_game
@@ -35,12 +42,16 @@ public:
 
   sf::Texture &get_tile_sprite(const tile& t) noexcept;
 
+  sf::Texture& get_essence_texture() noexcept { return m_essence_texture; }
+
 private:
   /// Do not construct a sfml_resources,
   /// use sfml_resources::get() instead
   sfml_resources();
 
   static sfml_resources *m_instance; //!OCLINT accepted for now
+
+  QString m_resource_folder;
 
   sf::Font m_default_font;
 
@@ -51,6 +62,8 @@ private:
   sf::Music m_title_music;
 
   sf::Music m_benikeenspin;
+
+  sf::Music m_game_music;
 
   sf::Texture m_cow_texture;
 
@@ -64,7 +77,11 @@ private:
 
   sf::Texture m_grass_texture;
 
+  sf::Texture m_sun_flower_texture;
+
   sf::Texture m_whale_texture;
+
+  sf::Texture m_sunflower_texture;
 
   sf::Texture m_goat_texture;
 
@@ -92,6 +109,8 @@ private:
 
   sf::Texture m_cactus_texture;
 
+  sf::Texture m_chameleon_texture;
+
   sf::Texture m_venus_fly_trap_texture;
 
   sf::Texture m_zen_ind_texture;
@@ -105,9 +124,24 @@ private:
   sf::Texture m_tundra_laying;
   sf::Texture m_tundra_standing;
 
+  sf::Texture m_beach_laying;
+  sf::Texture m_beach_standing;
+
+  sf::Texture m_water_laying;
+  sf::Texture m_water_standing;
+
+  sf::Texture m_dunes_laying;
+  sf::Texture m_dunes_standing;
+
+  sf::Texture m_hills_laying;
+  sf::Texture m_hills_standing;
+
+  sf::Texture m_corpse_texture;
+
+  sf::Texture m_essence_texture;
+
+  friend void test_sfml_resources();
 };
 
-/// Test the sfml_resources class
-void test_sfml_resources();
 
 #endif // SFML_RESOURCES_H
