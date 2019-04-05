@@ -172,7 +172,7 @@ void agent::move(double x, double y)
 }
 
 void agent::move_to_food(game &g){
-  // Plants don't move to their food
+  /* Plants don't move to their food
   if (is_plant(m_type)) {
     return;
   }
@@ -198,6 +198,23 @@ void agent::move_to_food(game &g){
     double y = -(0.01 * (m_y - nearest_f.get_y()));
     y = std::max(-0.05, std::min(y, 0.05));
     m_y += y;
+  }*/
+  unsigned int rand = static_cast<unsigned int>(std::rand() % (count_n_agents(g)));
+  agent a = g.get_agents()[rand];
+  if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) == m_prey.end()){
+    return;
+  }
+  else{
+    double distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
+    const double vector_length = std::exp(-distance/400);
+    double angle = atan2(m_y - a.get_y(), m_x - a.get_x());
+    m_dx_motivation += sin(angle) * vector_length;
+    m_dy_motivation += -cos(angle) * vector_length;
+    m_dx_motivation = std::max(-0.5, std::min(m_dx_motivation, 0.5));
+    m_dy_motivation = std::max(-0.5, std::min(m_dy_motivation, 0.5));
+    std::cout << m_dx_motivation << std::endl;
+    m_x += m_dx_motivation;
+    m_y += m_dy_motivation;
   }
 }
 
@@ -227,7 +244,9 @@ void agent::attract_to_agent(game &g, agent_type type){
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move();
 
-  move_to_food(g);
+  if(g.get_n_ticks() != 1){
+    move_to_food(g);
+  }
 
   if(m_type == agent_type::spider) attract_to_agent(g, agent_type::venus_fly_trap);
 
