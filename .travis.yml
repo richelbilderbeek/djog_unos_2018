@@ -28,8 +28,6 @@ install:
   - sudo apt-get install -qq clang-3.8
   # cppcheck
   - sudo apt-get install -qq cppcheck
-  # valgrind, for helgrind and memcheck
-  - sudo apt-get install -qq valgrind
   # Codecov
   - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-6 90
   - sudo pip install codecov
@@ -38,7 +36,7 @@ install:
   # For the virtual X server
   - sudo apt-get install libxrandr-dev
   # valgrind, for helgrind and memcheck
-  - sudo apt-get install -qq valgrind
+  - if [[ $TRAVIS_BRANCH == "richel" ]]; then sudo apt-get install -qq valgrind; fi
   # SLOCcount
   - sudo apt-get install sloccount
 
@@ -63,8 +61,8 @@ script:
   - ./djog_unos_2018 --short --music
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
-  # helgrind: takes too long
-  - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
+  # helgrind: takes long
+  # - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
   # cppcheck
   - cppcheck --error-exitcode=1 . 
   # Call OCLint
