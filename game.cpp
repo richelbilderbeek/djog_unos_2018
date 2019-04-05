@@ -57,7 +57,7 @@ int count_n_agents(const game& g) noexcept
 
 void game::process_events()
 {
-  for (auto& a: m_agents) {
+  for (agent& a : m_agents) {
     a.process_events(*this);
   }
 
@@ -77,6 +77,7 @@ void game::process_events()
   }
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
+    assert(m_tiles.size() > 0);
     ppt = ppt / m_tiles.size();
   }
   if(m_allow_score){
@@ -90,16 +91,7 @@ void game::process_events()
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-
-<<<<<<< HEAD
-    if(tile.get_type() == tile_type::grassland && m_n_tick % 5000 == 0) {
-      spawn(agent_type::grass, tile);
-    }
-
-    tile.process_events();
-=======
     tile.process_events(*this);
->>>>>>> 1e34fa2a0703b19a677a90cd662fdf792b734319
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
