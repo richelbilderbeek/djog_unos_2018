@@ -1039,4 +1039,13 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents().size() >= 2);
   }
+  //#define FIX_ISSUE_540
+  #ifdef FIX_ISSUE_540
+  {
+    assert(get_agent_reproduction_health(agent_type::cactus) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::cow) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::grass) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::tree) == 500.0);
+  }
+  #endif // FIX_ISSUE_540
 }
