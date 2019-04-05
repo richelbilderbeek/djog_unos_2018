@@ -88,7 +88,10 @@ void sfml_shop_overlay::set_positions() {
   m_bg_rect.setSize(m_window.getView().getSize());
 
   // Button 1
-  sf::Vector2i pos = sf::Vector2i(m_window.getSize().x - (m_button1.get_size().x / 2), m_window.getSize().y - (m_button1.get_size().y / 2));
+  sf::Vector2i pos = sf::Vector2i(
+    m_window.getSize().x - (m_button1.get_size().x / 2),
+    m_window.getSize().y - (m_button1.get_size().y / 2)
+  );
   m_button1.set_pos(m_window.mapPixelToCoords(pos));
 }
 

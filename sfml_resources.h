@@ -10,6 +10,9 @@
 #include <QDir>
 #include <QFile>
 
+/// Test the sfml_resources class
+void test_sfml_resources();
+
 /// Singleton class to access all resources
 //TODO: make this a member variable of sfml_game
 class sfml_resources { //!OCLINT ignore too many fields for now
@@ -137,9 +140,8 @@ private:
 
   sf::Texture m_essence_texture;
 
+  friend void test_sfml_resources();
 };
 
-/// Test the sfml_resources class
-void test_sfml_resources();
 
 #endif // SFML_RESOURCES_H

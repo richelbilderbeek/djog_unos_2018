@@ -39,7 +39,7 @@ sfml_menu_screen::sfml_menu_screen(const int close_at)
   #endif
 }
 
-void sfml_menu_screen::exec()
+void sfml_menu_screen::exec() //!OCLINT indeed to long, please fix
 {
   if (m_close_at >= 0) close(game_state::aboutscreen);
   while(active(game_state::menuscreen))
@@ -48,7 +48,7 @@ void sfml_menu_screen::exec()
     while (m_window.pollEvent(event))
     {
       sf::View view = m_window.getDefaultView();
-      switch (event.type) //!OCLINT too few branches, please fix
+      switch (event.type)
       {
         case sf::Event::Closed:
             close();
