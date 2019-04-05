@@ -51,8 +51,11 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
   ;
 }
 
-double pythagoras(double x_length, double y_length){
-    return sqrt((x_length * x_length) + (y_length * y_length));
+double pythagoras(double x_length, double y_length)
+{
+  return sqrt(
+    (x_length * x_length) + (y_length * y_length)
+  );
 }
 
 std::vector<agent_type> can_eat(const agent_type type) {
@@ -162,8 +165,8 @@ void agent::move() //!OCLINT NPath complexity too high
 
 void agent::move(double x, double y)
 {
-    m_x += x;
-    m_y += y;
+  m_x += x;
+  m_y += y;
 }
 
 void agent::move_to_food(game &g){
@@ -229,7 +232,10 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   if ((m_type == agent_type::grass || m_type == agent_type::tree
       || m_type == agent_type::cow) && g.allow_damage())  reproduce_agents(g, m_type);
 
-  if (m_type == agent_type::grass || m_type == agent_type::cactus || m_type == agent_type::tree) damage_near_grass(g, m_type);
+  if (m_type == agent_type::grass
+    || m_type == agent_type::cactus
+    || m_type == agent_type::tree
+  ) damage_near_grass(g, m_type);
 
    //TODO is depth suitable for agent
   if (will_drown(m_type)
@@ -1036,4 +1042,13 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents().size() >= 2);
   }
+  //#define FIX_ISSUE_540
+  #ifdef FIX_ISSUE_540
+  {
+    assert(get_agent_reproduction_health(agent_type::cactus) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::cow) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::grass) == 100.0);
+    assert(get_agent_reproduction_health(agent_type::tree) == 500.0);
+  }
+  #endif // FIX_ISSUE_540
 }
