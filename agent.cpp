@@ -229,7 +229,10 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   if ((m_type == agent_type::grass || m_type == agent_type::tree
       || m_type == agent_type::cow) && g.allow_damage())  reproduce_agents(g, m_type);
 
-  if (m_type == agent_type::grass || m_type == agent_type::cactus || m_type == agent_type::tree) damage_near_grass(g, m_type);
+  if (m_type == agent_type::grass
+    || m_type == agent_type::cactus
+    || m_type == agent_type::tree
+  ) damage_near_grass(g, m_type);
 
    //TODO is depth suitable for agent
   if (will_drown(m_type)

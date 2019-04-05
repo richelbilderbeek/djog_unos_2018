@@ -138,7 +138,9 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   }
   // Display Shop Button
   {
-    sf::Vector2i pos = sf::Vector2i(m_window.getSize().x - (m_shop_button.get_size().x / 2), m_window.getSize().y - (m_shop_button.get_size().y / 2));
+    sf::Vector2i pos = sf::Vector2i(m_window.getSize().x
+      - (m_shop_button.get_size().x / 2), m_window.getSize().y
+      - (m_shop_button.get_size().y / 2));
     m_shop_button.set_pos(m_window.mapPixelToCoords(pos));
     m_window.draw(m_shop_button.get_shape());
     m_window.draw(m_shop_button.get_text());

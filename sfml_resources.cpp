@@ -462,4 +462,12 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
+  //#define FIX_ISSUE_538
+  #ifdef FIX_ISSUE_538
+  // Can get the sprite of a tile type
+  {
+    assert(resources.get_tile_sprite_portrait(tile_type::grassland).getSize().x > 0);
+    assert(resources.get_tile_sprite_landscape(tile_type::grassland).getSize().x > 0);
+  }
+  #endif // FIX_ISSUE_538
 }
