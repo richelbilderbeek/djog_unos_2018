@@ -61,10 +61,6 @@ script:
   - ./djog_unos_2018 --short --music
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
-  # helgrind: takes long
-  # - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
-  # cppcheck
-  - travis_wait 50 cppcheck --quiet --error-exitcode=1 .
   # Call OCLint
   - ./do_oclint
   # Build and run and profile normal program
@@ -77,6 +73,10 @@ script:
   - cp debug/*.* .
   - ./get_code_cov
   - codecov
+  # helgrind: takes long
+  # - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
+  # cppcheck
+  - travis_wait 50 cppcheck --quiet --error-exitcode=1 .
   # SLOCcount
   #   remove OCLint and .git, otherwise it will be counted as well
   - rm -rf oclint-0.10.3 oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz oclint.log
