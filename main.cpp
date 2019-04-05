@@ -244,10 +244,6 @@ int main(int argc, char **argv) //!OCLINT main too long
     tiles = create_test_default_tiles();
     agents = create_default_agents();
   }
-  else{
-    tiles = create_test_default_tiles();
-    agents = create_default_agents();
-  }
 
   while (sfml_window_manager::get().get_window().isOpen()) {
     switch (sfml_window_manager::get().get_state()) {

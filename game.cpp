@@ -87,12 +87,19 @@ void game::process_events()
   //Process the events happening on the tiles
   for (auto& tile : m_tiles)
   {
-    if(tile.get_dx() != 0 || tile.get_dy() != 0){
-//        spawn(agent_type::cow, tile);
-        tile.move(m_agents);
+    if(tile.get_dx() != 0 || tile.get_dy() != 0) {
+      tile.move(m_agents);
     }
 
+<<<<<<< HEAD
+    if(tile.get_type() == tile_type::grassland && m_n_tick % 5000 == 0) {
+      spawn(agent_type::grass, tile);
+    }
+
+    tile.process_events();
+=======
     tile.process_events(*this);
+>>>>>>> 1e34fa2a0703b19a677a90cd662fdf792b734319
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -102,10 +109,10 @@ void game::process_events()
 
 void game::spawn(agent_type type, tile t)
 {
-    agent a1(type);
-    move_agent_to_tile(a1, t.get_x()/122, t.get_y()/122);
-    m_agents.push_back(a1);
-//    m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
+  agent a1(type);
+  move_agent_to_tile(a1, t.get_x()/112, t.get_y()/112);
+  m_agents.push_back(a1);
+//  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {

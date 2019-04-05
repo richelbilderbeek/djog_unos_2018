@@ -84,21 +84,6 @@ void sfml_game::setup_selected_text() {
     m_selected_text.setCharacterSize(24);
 }
 
-//TODO: Remove
-//void sfml_game::setup_display_score() {
-//  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
-//  m_zen_bar.setPosition(sf::Vector2f(
-//                          (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
-//                          15));
-//  m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
-
-//  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
-//  m_zen_ind.setPosition(sf::Vector2f(
-//                          (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
-//                          15+(m_zen_bar.getSize().y/2.0f)));
-//  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
-//}
-
 void sfml_game::setup_essence_symbol()
 {
   m_essence_symbol.setSize(0.6f*sf::Vector2f(
@@ -471,6 +456,7 @@ void sfml_game::ben_ik_een_spin() {
 void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
+  assert(tiles.size() > 0);
   const int i = std::rand() % tiles.size();
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
