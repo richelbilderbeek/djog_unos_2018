@@ -16,13 +16,15 @@ agent::agent(
   const double x,
   const double y,
   const double health,
-  const double direction
+  const double direction,
+  std::vector<agent_type> prey
 ) : m_type{type},
     m_x{x},
     m_y{y},
     m_direction{direction},
     m_health{health},
-    m_stamina{100}
+    m_stamina{100},
+    m_prey{prey}
 {
   //An agent of type none is used when a 'null' agent is needed
   assert(type != agent_type::none || type == agent_type::none);
@@ -98,7 +100,7 @@ bool is_plant(const agent_type type) noexcept {
 }
 
 void agent::eat(const game& g) {
-  std::vector<agent_type> food = can_eat(m_type);
+  std::vector<agent_type> food = m_prey;
   //Is agent_type a in food?
   for (agent a : g.get_agents()) {
     // NOTE not calculated from the center of the agent
@@ -178,10 +180,10 @@ void agent::move_to_food(game &g){
   double f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
   double distance;
   for(agent a : g.get_agents()){
-    for(int i = static_cast<int>(can_eat(m_type).size() - 1); i > -1; i--){
-      if(a.get_type() == can_eat(m_type)[i]){
+    for(int i = static_cast<int>(m_prey.size() - 1); i > -1; i--){
+      if(a.get_type() == m_prey[i]){
         distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-        if(a == nearest_agent(g, *this, can_eat(m_type)[i])
+        if(a == nearest_agent(g, *this, m_prey[i])
            && distance < f_distance && distance < 200){
           nearest_f = a;
           f_distance = pythagoras(fabs(m_x - nearest_f.get_x()), fabs(m_y - nearest_f.get_y()));
@@ -315,7 +317,7 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance)};
     double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
 
-    agent new_agent(type, new_x, new_y, health_kid);
+    agent new_agent(type, new_x, new_y, health_kid, 0, can_eat(type));
     std::vector<tile> t = get_current_tile(g, new_agent);
     while(t.empty()
         || !is_on_tile(g, new_agent)
@@ -367,148 +369,152 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
 {
   std::vector<agent> agents;
   {
-    agent a1(agent_type::chameleon);
+    agent a1(agent_type::chameleon, 0, 0, 1, 0, can_eat(agent_type::chameleon));
     move_agent_to_tile(a1, -3, 0);
     agents.push_back(a1);
   }
   {
-    agent a1(agent_type::cow);
+    agent a1(agent_type::cow, 0, 0, 1, 0, can_eat(agent_type::cow));
     move_agent_to_tile(a1, 0, 0);
     agents.push_back(a1);
-    agent a2(agent_type::cow, 40, 70);
+    agent a2(agent_type::cow, 40, 70, 1, 0, can_eat(agent_type::cow));
     move_agent_to_tile(a2, 0, 0);
     agents.push_back(a2);
-    agent a3(agent_type::grass, 70, 40, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
+    agent a3(agent_type::grass, 70, 40, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1)
+             , 0, can_eat(agent_type::grass));
     move_agent_to_tile(a3, 0, 0);
     agents.push_back(a3);
-    agent a4(agent_type::sunflower, 42, 112);
-    agent a5(agent_type::foxgloves, 60, 70);
+    agent a4(agent_type::sunflower, 42, 112, 1, 0, can_eat(agent_type::sunflower));
+    agent a5(agent_type::foxgloves, 60, 70, 1, 0, can_eat(agent_type::foxgloves));
     move_agent_to_tile(a4, 0, 0);
     agents.push_back(a4);
     move_agent_to_tile(a5, 0, 0);
     agents.push_back(a5);
   }
   {
-    agent a1(agent_type::cow);
+    agent a1(agent_type::cow, 0, 0, 1, 0, can_eat(agent_type::cow));
     move_agent_to_tile(a1, 1, 0);
     agents.push_back(a1);
-    agent a2(agent_type::cow, 90, 30);
+    agent a2(agent_type::cow, 90, 30, 1, 0, can_eat(agent_type::cow));
     move_agent_to_tile(a2, 1, 0);
     agents.push_back(a2);
-    agent a3(agent_type::cow, 30, 90);
+    agent a3(agent_type::cow, 30, 90, 1, 0, can_eat(agent_type::cow));
     move_agent_to_tile(a3, 1, 0);
     agents.push_back(a3);
-    agent a4(agent_type::worm, 50, 130);
+    agent a4(agent_type::worm, 50, 130, 1, 0, can_eat(agent_type::worm));
     move_agent_to_tile(a4, 1, 0);
     agents.push_back(a4);
   }
   {
-    agent a1(agent_type::crocodile, 30, 160);
+    agent a1(agent_type::crocodile, 30, 160, 1, 0, can_eat(agent_type::crocodile));
     move_agent_to_tile(a1, 0, 2);
     agents.push_back(a1);
-    agent a2(agent_type::snake, 50, 15);
+    agent a2(agent_type::snake, 50, 15, 1, 0, can_eat(agent_type::snake));
     move_agent_to_tile(a2, 0, 2);
     agents.push_back(a2);
-    agent a3(agent_type::venus_fly_trap, 30, 160, 1000);
+    agent a3(agent_type::venus_fly_trap, 30, 160, 1000, 0,
+             can_eat(agent_type::venus_fly_trap));
     move_agent_to_tile(a3, 0, 2);
     agents.push_back(a3);
-    agent a4(agent_type::cactus, 10, 15, 100);
+    agent a4(agent_type::cactus, 10, 15, 100, 0, can_eat(agent_type::cactus));
     move_agent_to_tile(a4, 0, 2);
     agents.push_back(a4);
-    agent a5(agent_type::cactus, 30, 120, 100);
+    agent a5(agent_type::cactus, 30, 120, 100, 0, can_eat(agent_type::cactus));
     move_agent_to_tile(a5, 0, 2);
     agents.push_back(a5);
   }
   {
-    agent a1(agent_type::crocodile);
+    agent a1(agent_type::crocodile, 0, 0, 1, 0, can_eat(agent_type::crocodile));
     move_agent_to_tile(a1, 2, 1);
     agents.push_back(a1);
-    agent a2(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
+    agent a2(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1),
+             0, can_eat(agent_type::grass));
     move_agent_to_tile(a2, 2, 1);
     agents.push_back(a2);
   }
   {
-    agent a1(agent_type::fish);
+    agent a1(agent_type::fish, 0, 0, 1, 0, can_eat(agent_type::fish));
     move_agent_to_tile(a1, 3, 2);
     agents.push_back(a1);
-    agent a2(agent_type::fish, 10, 10);
+    agent a2(agent_type::fish, 10, 10, 1, 0, can_eat(agent_type::fish));
     move_agent_to_tile(a2, 3, 2);
     agents.push_back(a2);
-    agent a3(agent_type::octopus, 50, 70);
+    agent a3(agent_type::octopus, 50, 70, 1, 0, can_eat(agent_type::octopus));
     move_agent_to_tile(a3, 3, 2);
     agents.push_back(a3);
   }
   {
-    agent a1(agent_type::whale);
+    agent a1(agent_type::whale, 0, 0, 1, 0, can_eat(agent_type::whale));
     move_agent_to_tile(a1, 3, 2);
     agents.push_back(a1);
   }
   {
-    agent a1(agent_type::whale);
+    agent a1(agent_type::whale, 0, 0, 1, 0, can_eat(agent_type::whale));
     move_agent_to_tile(a1, 3, 2);
     agents.push_back(a1);
   }
   {
-    agent a1(agent_type::fish);
+    agent a1(agent_type::fish, 0, 0, 1, 0, can_eat(agent_type::fish));
     move_agent_to_tile(a1, 4, 2);
     agents.push_back(a1);
-    agent a2(agent_type::fish, 10, 10);
+    agent a2(agent_type::fish, 10, 10, 1, 0, can_eat(agent_type::fish));
     move_agent_to_tile(a2, 4, 2);
     agents.push_back(a2);
   }
   {
-    agent a1(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1));
+    agent a1(agent_type::grass, 0, 0, 50 + std::rand() / (RAND_MAX / (100 - 50 + 1) + 1),
+             0, can_eat(agent_type::grass));
     move_agent_to_tile(a1, 1, -1);
     agents.push_back(a1);
-    agent a2(agent_type::giraffe, 10, 20);
+    agent a2(agent_type::giraffe, 10, 20, 1, 0, can_eat(agent_type::giraffe));
     move_agent_to_tile(a2, 1, -1);
     agents.push_back(a2);
     //agent a3(agent_type::lion, 120, 20);
     //move_agent_to_tile(a3, 1, -1);
     //agents.push_back(a3);
-    agent a4(agent_type::crocodile, 180, 20);
+    agent a4(agent_type::crocodile, 180, 20, 1, 0, can_eat(agent_type::crocodile));
     move_agent_to_tile(a4, 1, -1);
     agents.push_back(a4);
   }
   {
-    agent a1(agent_type::tree, 10, 20);
+    agent a1(agent_type::tree, 10, 20, 1, 0, can_eat(agent_type::tree));
     move_agent_to_tile(a1, 4, -1);
     agents.push_back(a1);
-    agent a2(agent_type::tree, 40, 10);
+    agent a2(agent_type::tree, 40, 10, 1, 0, can_eat(agent_type::tree));
     move_agent_to_tile(a2, 4, -1);
     agents.push_back(a2);
-    agent a3(agent_type::tree, 50, 35);
+    agent a3(agent_type::tree, 50, 35, 1, 0, can_eat(agent_type::tree));
     move_agent_to_tile(a3, 4, -1);
     agents.push_back(a3);
-    agent a4(agent_type::tree, 60, 40);
+    agent a4(agent_type::tree, 60, 40, 1, 0, can_eat(agent_type::tree));
     move_agent_to_tile(a4, 4, -1);
     agents.push_back(a4);
-    agent a5(agent_type::tree, 35, 65);
+    agent a5(agent_type::tree, 35, 65, 1, 0, can_eat(agent_type::tree));
     move_agent_to_tile(a5, 4, -1);
     agents.push_back(a5);
-    agent a6(agent_type::tree);
+    agent a6(agent_type::tree, 0, 0, 1, 0, can_eat(agent_type::tree));
     move_agent_to_tile(a6, 4, -1);
     agents.push_back(a6);
-    agent a7(agent_type::spider, 40, 40);
+    agent a7(agent_type::spider, 40, 40, 1, 0, can_eat(agent_type::spider));
     move_agent_to_tile(a7, 4, -1);
     agents.push_back(a7);
-    agent a8(agent_type::bird, 75, 150);
+    agent a8(agent_type::bird, 75, 150, 1, 0, can_eat(agent_type::bird));
     move_agent_to_tile(a8, 4, -1);
     agents.push_back(a8);
   }
   {
-    agent a1(agent_type::tree, 90, 170);
+    agent a1(agent_type::tree, 90, 170, 1, 0, can_eat(agent_type::tree));
     move_agent_to_tile(a1, 0, -2);
     agents.push_back(a1);
-    agent a2(agent_type::squirrel, 90, 150);
+    agent a2(agent_type::squirrel, 90, 150, 1, 0, can_eat(agent_type::squirrel));
     move_agent_to_tile(a2, 0, -2);
     agents.push_back(a2);
   }
   {
-    agent a1(agent_type::goat, 190, 90);
+    agent a1(agent_type::goat, 190, 90, 1, 0, can_eat(agent_type::goat));
     move_agent_to_tile(a1, 1, 2);
     agents.push_back(a1);
-    agent a2(agent_type::goat, 50, 80);
+    agent a2(agent_type::goat, 50, 80, 1, 0, can_eat(agent_type::goat));
     move_agent_to_tile(a2, 1, 2);
     agents.push_back(a2);
   }
@@ -836,8 +842,8 @@ void test_agent() //!OCLINT testing functions may be long
     game g(
       create_test_default_tiles(),
       {
-        agent(agent_type::grass, 0.0, 0.0, grass_health),
-        agent(agent_type::cow  , 0.0, 0.0, 10.0)
+        agent(agent_type::grass, 0.0, 0.0, grass_health, 0, can_eat(agent_type::grass)),
+        agent(agent_type::cow  , 0.0, 0.0, 10.0, 0, can_eat(agent_type::cow))
       }
     );
     assert(g.get_agents()[0].get_health() == grass_health);
@@ -854,8 +860,8 @@ void test_agent() //!OCLINT testing functions may be long
     game g(
       create_test_default_tiles(),
       {
-        agent(agent_type::cow, 0.0, 0.0, cow_health),
-        agent(agent_type::crocodile  , 0.0, 0.0, 10.0)
+        agent(agent_type::cow, 0.0, 0.0, cow_health, 0, can_eat(agent_type::cow)),
+        agent(agent_type::crocodile  , 0.0, 0.0, 10.0, 0, can_eat(agent_type::crocodile))
       }
     );
     assert(g.get_agents()[0].get_health() == cow_health);
@@ -934,8 +940,8 @@ void test_agent() //!OCLINT testing functions may be long
   //a cow walks to grass when its close
   {
     game g(create_test_default_tiles(),
-           {agent(agent_type::cow, 0, 0, 100),
-            agent(agent_type::grass, 100, 100, 100)});
+           {agent(agent_type::cow, 0, 0, 100, 0, can_eat(agent_type::cow)),
+            agent(agent_type::grass, 100, 100, 100, 0, can_eat(agent_type::grass))});
     double cow_prev_posX = g.get_agents()[0].get_x();
     double cow_prev_posY = g.get_agents()[0].get_y();
     double distanceX = g.get_agents()[1].get_x() - g.get_agents()[0].get_x();

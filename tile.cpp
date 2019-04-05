@@ -296,7 +296,7 @@ void tile::spawn(game& g, agent_type type){ //!OCLINT high cyclomatic complexity
   assert(f_y >= 0.0 && f_y < 1.0);
   double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance_x)};
   double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance_y)};
-  agent new_agent(type, new_x, new_y);
+  agent new_agent(type, new_x, new_y, 100, 0, can_eat(type));
   tile t = *this;
   while(!is_on_tile(g, new_agent)
         || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
