@@ -73,10 +73,17 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
-
-  /// The direction angle of the agent, which is a radial angle with 0 for
-  /// left to right direction, pi/2 for top to down direction,
-  /// pi for right to left direction and -pi/2 for down to top direction.
+  /// The direction angle of the agent:
+  ///
+  ///           0.5 * pi
+  ///              |
+  ///              |
+  /// 1.0 * pi ----+---- 0.0 * pi
+  ///              |
+  ///              |
+  ///           1.5 * pi
+  ///
+  /// For example, for an m_direction of 1.5 pi, the agent moves down
   double m_direction;
 
   /// The health of the agent

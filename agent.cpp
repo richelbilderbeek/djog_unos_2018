@@ -51,8 +51,11 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
   ;
 }
 
-double pythagoras(double x_length, double y_length){
-    return sqrt((x_length * x_length) + (y_length * y_length));
+double pythagoras(double x_length, double y_length)
+{
+  return sqrt(
+    (x_length * x_length) + (y_length * y_length)
+  );
 }
 
 std::vector<agent_type> can_eat(const agent_type type) {
@@ -162,8 +165,8 @@ void agent::move() //!OCLINT NPath complexity too high
 
 void agent::move(double x, double y)
 {
-    m_x += x;
-    m_y += y;
+  m_x += x;
+  m_y += y;
 }
 
 void agent::move_to_food(game &g){
