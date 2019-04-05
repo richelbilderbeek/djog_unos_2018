@@ -74,9 +74,10 @@ script:
   - ./get_code_cov
   - codecov
   # helgrind: takes long
-  # - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
+  - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --short 1; cat helgrind.log; fi
   # cppcheck
-  - travis_wait 50 cppcheck --quiet --error-exitcode=1 .
+  # No cppcheck on Richel's branch, as he looks at the helgrind results insteaf
+  - if [[ $TRAVIS_BRANCH != "richel" ]]; then travis_wait 50 cppcheck --quiet --error-exitcode=1 .; fi
   # SLOCcount
   #   remove OCLint and .git, otherwise it will be counted as well
   - rm -rf oclint-0.10.3 oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz oclint.log
