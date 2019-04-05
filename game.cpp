@@ -91,15 +91,7 @@ void game::process_events()
       tile.move(m_agents);
     }
 
-<<<<<<< HEAD
-    if(tile.get_type() == tile_type::grassland && m_n_tick % 5000 == 0) {
-      spawn(agent_type::grass, tile);
-    }
-
-    tile.process_events();
-=======
     tile.process_events(*this);
->>>>>>> 1e34fa2a0703b19a677a90cd662fdf792b734319
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE

@@ -53,7 +53,7 @@ public:
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
-  void eat(const game& g);
+  void eat(game& g);
 
   bool is_in_range(double x, double y, double range);
 

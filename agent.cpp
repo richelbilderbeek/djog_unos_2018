@@ -97,10 +97,11 @@ bool is_plant(const agent_type type) noexcept {
          type == agent_type::sunflower;
 }
 
-void agent::eat(const game& g) {
+// WARNING SEGFAULT OVER HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+void agent::eat(game& g) { //!OCLINT high compexity
   std::vector<agent_type> food = can_eat(m_type);
   //Is agent_type a in food?
-  for (agent a : g.get_agents()) {
+  for (agent &a : g.get_agents()) {
     // NOTE not calculated from the center of the agent
     if (is_in_range(a.get_x(), a.get_y(), 25.0)
       && a.get_health() > 0.0
