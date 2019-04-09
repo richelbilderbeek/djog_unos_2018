@@ -49,13 +49,28 @@ void test() {
   //test_sfml_window_manager();
   test_normal_char();
 }
-int start_sfml_game(int ca, bool music,
-                    std::vector<tile> tiles,
-                    std::vector<agent> agents,
-                    bool spawning,
-                    bool damage,
-                    bool score) {
-  sfml_game g(sfml_game_delegate(ca, spawning, damage, score), tiles, agents);
+
+///Start the game
+///@param close_at_tick tick at which the game will be closed.
+///   if close_at_tick equals minus one, the game runs indefinitely
+///@param music will there be music?
+///@param tiles starting tiles
+///@param agents initial agents
+///@param spawning will agents spawn?
+///@param damage can agents damage one another?
+///@param score is the game score being tracked? If not, the player will
+///   never die
+///@return closing status, which is zero if everything went OK
+int start_sfml_game(
+  const int close_at_tick,
+  bool music,
+  std::vector<tile> tiles,
+  std::vector<agent> agents,
+  bool spawning,
+  bool damage,
+  bool score
+) {
+  sfml_game g(sfml_game_delegate(close_at_tick, spawning, damage, score), tiles, agents);
   if (!music) g.stop_music();
   g.exec();
   return 0;
