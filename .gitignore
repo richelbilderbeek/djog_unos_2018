@@ -58,3 +58,8 @@ qrc_djog_unos_2018.cpp
 *.gcno
 djog_unos_2018_plugin_import.cpp
 djog_unos_2018_plugin_import.cpp
+djog_unos_2018
+*.png
+*.ogg
+*.ttf
+helgrind.log
