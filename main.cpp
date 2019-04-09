@@ -172,7 +172,9 @@ int main(int argc, char **argv) //!OCLINT main too long
         close_at = std::atoi(s.c_str());
       }
     }
-    sfml_window_manager::get().set_state(game_state::titlescreen);
+    //The '--short' setting is used on Travis for debugging and
+    //should jump straight to the game
+    sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--profiling")){
     close_at = 10000;
