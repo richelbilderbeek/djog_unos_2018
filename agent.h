@@ -45,21 +45,24 @@ public:
 
   sf::Vector2f get_center(const sf::Texture& sprite) const;
 
-  /// Moves an agent. It can read the game, containing
-  /// agents and tiles for its movement
-  void move();
 
   void move(double x, double y);
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
+  /// Make this agent eat other agents
   void eat(game& g);
 
   bool is_in_range(double x, double y, double range);
 
-  agent nearest_agent(game& g, agent& a, agent_type type);
+  /// Find the nearest agent
+  /// @param g the game logic, contains the other agents
+  agent nearest_agent(const game& g, agent& a, agent_type type);
 
-  void move_to_food(game& g);
+  ///Moves the agent. It will do nothing if exhausted.
+  ///If it has stamina, the agent will go looking for food
+  ///@param game the game logic
+  void move(const game& g);
 
   void attract_to_agent(game& g, agent_type type);
 
