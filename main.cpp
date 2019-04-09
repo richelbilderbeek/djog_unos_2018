@@ -263,6 +263,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   while (sfml_window_manager::get().get_window().isOpen()) {
+    std::clog << "State: " << sfml_window_manager::get().get_state() << '\n';
     switch (sfml_window_manager::get().get_state()) {
       case game_state::titlescreen:
         show_sfml_title_screen(close_at, music);
@@ -280,7 +281,7 @@ int main(int argc, char **argv) //!OCLINT main too long
         start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);
         break;
       case game_state::gameover:
-        show_sfml_gameover_screen(close_at);
+        show_sfml_gameover_screen(-1);
         break;
       case game_state::loading:
         show_sfml_load_screen(close_at);
