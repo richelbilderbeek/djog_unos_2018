@@ -2,7 +2,7 @@
 #include <cassert>
 #include <iostream>
 
-std::string to_str(const game_state s) noexcept
+std::string to_str(const game_state s) noexcept //!OCLINT too complex indeed
 {
   switch(s)
   {

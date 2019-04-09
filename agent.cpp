@@ -162,7 +162,7 @@ void agent::move(double x, double y)
   m_y += y;
 }
 
-void agent::move(const game &g){
+void agent::move(const game &g){ //!OCLINT too complex indeed
   // Plants don't move to their food
   if (is_plant(m_type)) {
     return;
