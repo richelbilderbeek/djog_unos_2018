@@ -13,6 +13,7 @@
 #include "sfml_text_input.h"
 #include "sfml_scroll_box.h"
 #include "sfml_load_screen.h"
+#include "sound_type.h"
 #include <QFile>
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
@@ -45,6 +46,7 @@ void test() {
   test_tile();
   test_agent();
   test_agent_type();
+  test_sound_type();
   test_tile_id();
   //test_sfml_window_manager();
   test_normal_char();

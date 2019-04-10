@@ -6,6 +6,7 @@
 
 enum class sound_type
 {
+  none,
   tile_move,
   tile_rotate,
   tile_collision
