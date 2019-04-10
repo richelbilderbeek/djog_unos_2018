@@ -74,7 +74,7 @@ script:
   - ./get_code_cov
   - codecov
   # helgrind: takes long
-  # - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --god --short 1; cat helgrind.log; fi
+  - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --log-file=helgrind.log -v ./djog_unos_2018 --god --short 1; cat helgrind.log; fi
   # cppcheck
   # No cppcheck on Richel's branch, as he looks at the helgrind results insteaf
   - if [[ $TRAVIS_BRANCH != "richel" ]]; then travis_wait 50 cppcheck --quiet --error-exitcode=1 .; fi
