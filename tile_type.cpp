@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <tuple>
+#include <map>
 
 std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
 {
@@ -146,22 +147,29 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
 {
-  if (str == "arctic") return tile_type::arctic;
-  if (str == "beach") return tile_type::beach;
-  if (str == "desert") return tile_type::desert;
-  if (str == "dunes") return tile_type::dunes;
-  if (str == "grassland") return tile_type::grassland;
-  if (str == "hills") return tile_type::hills;
-  if (str == "mangrove") return tile_type::mangrove;
-  if (str == "mountains") return tile_type::mountains;
-  if (str == "rainforest") return tile_type::rainforest;
-  if (str == "savannah") return tile_type::savannah;
-  if (str == "swamp") return tile_type::swamp;
-  if (str == "tundra") return tile_type::tundra;
-  if (str == "water") return tile_type::water;
-  assert(str == "woods");
-  return tile_type::woods;
+  const std::map<std::string, tile_type> m{
+    { "arctic", tile_type::arctic},
+    { "desert", tile_type::desert},
+    { "dunes", tile_type::dunes},
+    { "grassland", tile_type::grassland},
+    { "hills", tile_type::hills},
+    { "mangrove", tile_type::mangrove},
+    { "mountains", tile_type::mountains},
+    { "rainforest", tile_type::rainforest},
+    { "savannah", tile_type::savannah},
+    { "swamp", tile_type::swamp},
+    { "tundra", tile_type::tundra},
+    { "water", tile_type::water},
+    { "woods", tile_type::woods},
+    { "beach", tile_type::beach} //Other tile types here
+  };
+  //This assert will fail if the string is not in the map
+  std::clog << str << std::endl;
+  assert(m.find(str) != std::end(m));
+  return m.find(str)->second;
 }
+
+
 
 std::ostream& operator <<(std::ostream& os, const tile_type t) noexcept
 {
