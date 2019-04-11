@@ -164,7 +164,6 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
     { "beach", tile_type::beach} //Other tile types here
   };
   //This assert will fail if the string is not in the map
-  std::clog << str << std::endl;
   assert(m.find(str) != std::end(m));
   return m.find(str)->second;
 }

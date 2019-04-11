@@ -343,8 +343,14 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
-sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLINT Can't be simpler (High Complexity)
-  switch (a.get_type()) {
+sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept
+{
+  return get_agent_sprite(a.get_type());
+}
+
+sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept{
+  switch (t)
+  {
     case agent_type::plankton:
       return m_plankton_texture;
     case agent_type::chameleon:
@@ -444,8 +450,6 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
-  //#define FIX_ISSUE_537
-  #ifdef FIX_ISSUE_537
   // Can get the sprite of an agent_type
   {
     assert(resources.get_agent_sprite(agent_type::cow).getSize().x > 0);
@@ -456,7 +460,6 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(resources.get_agent_sprite(agent_type::plankton).getSize().x > 0);
     assert(resources.get_agent_sprite(agent_type::tree).getSize().x > 0);
   }
-  #endif // FIX_ISSUE_537
   { /// Testing succesful access to the essence symbol png and its dimensions
     sf::Texture texture{ resources.get_essence_texture() };
     assert(texture.getSize().x > 0);
