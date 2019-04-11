@@ -3,6 +3,7 @@
 #include "agent.h"
 #include "tile_type.h"
 #include "tile.h"
+#include "sound_type.h"
 
 #include <cassert>
 
@@ -41,7 +42,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     // Re-create resource at executable's location
     QFile f(":/nature_zen/resources/tile_merge.wav");
     f.copy("tile_merge.wav");
-    if (!m_title_music.openFromFile("tile_merge.wav")) {
+    if (!m_tile_collission_soundbuffer.loadFromFile("tile_merge.wav")) {
       throw std::runtime_error("Cannot find music file 'tile_merge.wav'");
     }
   }
@@ -400,6 +401,15 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
     default:
       return m_none_texture;
   }
+}
+
+sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
+{
+  if (st == sound_type::tile_collision)
+  { return m_tile_collission_soundbuffer; }
+
+  assert(!"Should never come this far."); //!OCLINT accepted idiom
+  return m_tile_collission_soundbuffer;
 }
 
 sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT too long, needs to be fixed
