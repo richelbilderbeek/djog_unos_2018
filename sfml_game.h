@@ -47,6 +47,10 @@ public:
 
   /// Get tile color and outline functions
   sf::Color get_fill_color(tile_type tile);
+
+  /// Take a read-only peek at the game logic
+  const game& get_game() const noexcept { return m_game; }
+
   sf::Color get_outline_color(tile_type tile);
 
   /// Get how many times the sfml_game has been displayed on screen.
