@@ -28,8 +28,6 @@ std::string to_string(const sound_type& st)
       return "tile_rotate";
     case sound_type::tile_collision:
       return "tile_collision";
-    default:
-      return "none";
   }
 }
 
