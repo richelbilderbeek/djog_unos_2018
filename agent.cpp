@@ -320,7 +320,6 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
   if (m_health > get_agent_reproduction_health(type))
   {
-      return;
     //Random fractions, from 0.0 to 1.0
     const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
     const double f_kid{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
