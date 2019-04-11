@@ -29,6 +29,8 @@ std::string to_string(const sound_type& st)
     case sound_type::tile_collision:
       return "tile_collision";
   }
+
+  return "none";
 }
 
 sound_type to_sound(const std::string& str)
