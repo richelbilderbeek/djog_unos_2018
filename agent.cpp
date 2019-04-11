@@ -97,7 +97,6 @@ bool is_plant(const agent_type type) noexcept {
          type == agent_type::sunflower;
 }
 
-// WARNING SEGFAULT OVER HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void agent::eat(game& g) { //!OCLINT high compexity
 
   //Plants do not eat
@@ -790,7 +789,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //An agent must be removed if health is below zero
   {
-    game g({tile(0, 0, 0, 100, 100, 0, tile_type::grassland)}, { agent(agent_type::cow) } );
+    game g({tile(0, 0, 0, 90, 0, tile_type::grassland)}, { agent(agent_type::cow, 50, 50) } );
     g.set_allow_spawning(false);
     assert(!g.get_agents().empty());
     // Wait until cow starves
@@ -889,7 +888,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //Fish die when on land
   {
-    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::fish) } );
+    game g({ tile(0, 0, 0, 90, 0, tile_type::grassland) }, { agent(agent_type::fish) } );
     assert(!g.get_agents().empty());
     //Choke fish
     while (g.get_agents()[0].get_type() != agent_type::corpse)
@@ -899,7 +898,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //octopus die when on land
   {
-    game g({ tile(0, 0, 0, 2, 2, 0, tile_type::grassland) }, { agent(agent_type::octopus) } );
+    game g({ tile(0, 0, 0, 90, 0, tile_type::grassland) }, { agent(agent_type::octopus) } );
     assert(!g.get_agents().empty());
     //Choke octopus
     while (g.get_agents()[0].get_type() != agent_type::corpse)
@@ -909,7 +908,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   // Agents drown
   {
-    game g({tile(0,0,0,3,3,10,tile_type::water)},
+    game g({ tile(0, 0, 0, 90, 10, tile_type::water)},
            {agent(agent_type::cow, 10, 10),
             agent(agent_type::fish, 10, 10)});
     double cow_before = g.get_agents()[0].get_stamina();
@@ -921,9 +920,9 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //grass grows gradually
   {
-    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+    game g({tile(0, 0, 0, 0, 10, tile_type::grassland)},
            {agent(agent_type::grass, 10, 10),
-            agent(agent_type::grass, 200, 200)});
+            agent(agent_type::grass, 90, 202)});
     const auto prev_grass_health1 = g.get_agents()[0].get_health();
     const auto prev_grass_health2 = g.get_agents()[1].get_health();
     for(int i = 0; i < 10; i++){
@@ -937,7 +936,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //grass has different health when its duplicated
   {
-    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+    game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 100)});
     const auto prev_health = g.get_agents()[0].get_health();
     g.process_events();
@@ -1006,7 +1005,7 @@ void test_agent() //!OCLINT testing functions may be long
   {
     //agent(const agent_type type, const double x = 0.0, const double y = 0.0,
     //      const double health = 1.0,  const double direction = 0.0);
-    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+    game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 10),
             agent(agent_type::grass, 10, 10, 10)});
     // Make two grass patches near each other.
@@ -1032,7 +1031,7 @@ void test_agent() //!OCLINT testing functions may be long
   //Cacti damage nearby cacti
   {
     // Make two plants next to each other.
-    game g({tile(0,0,0,3,3,10,tile_type::desert)},
+    game g({tile(0, 0, 0, 90, 10, tile_type::desert)},
            {agent(agent_type::cactus, 10, 10, 10),
             agent(agent_type::cactus, 10, 10, 10)});
 
@@ -1056,7 +1055,7 @@ void test_agent() //!OCLINT testing functions may be long
   #endif // FIX_ISSUE_447
   //Cows reproduce
   {
-    game g({tile(0,0,0,3,3,10,tile_type::grassland)},
+    game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
            {agent(agent_type::cow, 10, 10, 150)});
     assert(g.get_agents().size() == 1);
     g.process_events();
