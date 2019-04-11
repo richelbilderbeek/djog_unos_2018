@@ -24,4 +24,6 @@ sound_type to_sound(const std::string& str);
 /// Test the sound_type class
 void test_sound_type();
 
+void test_conversion();
+
 #endif // SOUND_TYPE_H

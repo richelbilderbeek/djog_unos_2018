@@ -47,6 +47,7 @@ void test() {
   test_agent();
   test_agent_type();
   test_sound_type();
+  test_conversion();
   test_tile_id();
   //test_sfml_window_manager();
   test_normal_char();

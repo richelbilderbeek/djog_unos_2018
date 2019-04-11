@@ -49,11 +49,20 @@ sound_type to_sound(const std::string& str)
 
 void test_sound_type()
 {
-  const std::vector<sound_type> st
+  const std::vector<sound_type> sts
   { get_all_sound_types() };
 
-  assert(std::count(std::begin(st), std::end(st), sound_type::none) == 1);
-  assert(std::count(std::begin(st), std::end(st), sound_type::tile_move) == 1);
-  assert(std::count(std::begin(st), std::end(st), sound_type::tile_rotate) == 1);
-  assert(std::count(std::begin(st), std::end(st), sound_type::tile_collision) == 1);
+  assert(std::count(std::begin(sts), std::end(sts), sound_type::none) == 1);
+  assert(std::count(std::begin(sts), std::end(sts), sound_type::tile_move) == 1);
+  assert(std::count(std::begin(sts), std::end(sts), sound_type::tile_rotate) == 1);
+  assert(std::count(std::begin(sts), std::end(sts), sound_type::tile_collision) == 1);
+}
+
+void test_conversion()
+{
+  const std::vector<sound_type> sts
+  { get_all_sound_types() };
+
+  for (const sound_type st : sts)
+  { assert(to_sound(to_string(st)) == st); }
 }
