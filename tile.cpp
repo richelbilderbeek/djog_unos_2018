@@ -288,7 +288,6 @@ void rotate(tile& t)
   t.set_height(width);
 }
 
-// WARNING check this one!!!!
 void tile::spawn(game& g, agent_type type){ //!OCLINT high cyclomatic complexity
   const double max_distance_x{m_width};
   const double max_distance_y{m_height - 40};
