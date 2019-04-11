@@ -255,7 +255,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
     }
   }
 
-  //Agents always loose stamina
+  //Agents always lose stamina
   m_stamina -= 0.01;
 
   move(g);
@@ -281,7 +281,6 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   ///Eating others
   eat(g);
 
-
   if(m_type == agent_type::fish || m_type == agent_type::whale){
     for(tile& t: g.get_tiles()){
       if(is_on_specific_tile(*this, t) && t.get_type() != tile_type::water){
@@ -289,7 +288,6 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
       }
     }
   }
-
 }
 
 void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
@@ -334,11 +332,13 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
     agent new_agent(type, new_x, new_y, health_kid);
     std::vector<tile> t = get_current_tile(g, new_agent);
-    while(t.empty()
-        || !is_on_tile(g, new_agent)
-        || get_on_tile_type(g, new_agent).at(0) == tile_type::water
-        || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t.front())
-        || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t.front())
+    bool water = get_on_tile_type(g, new_agent).size() > 0 &&
+                 get_on_tile_type(g, new_agent).at(0) == tile_type::water;
+    while (t.empty()
+           || !is_on_tile(g, new_agent)
+           || water
+           || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t.front())
+           || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t.front())
     )
     {
       f_x = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
@@ -355,6 +355,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     }
     g.add_agents( { new_agent } );
     m_health = health_parent;
+    water = get_on_tile_type(g, new_agent).size() > 0 &&
+            get_on_tile_type(g, new_agent).at(0) == tile_type::water;
   }
 }
 
