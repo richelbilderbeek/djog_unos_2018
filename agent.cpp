@@ -51,6 +51,24 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
   ;
 }
 
+double get_agent_reproduction_health(const agent_type t) noexcept
+{
+  switch(t)
+  {
+    case (agent_type::grass):
+      return 100.0;
+    case (agent_type::tree):
+      return 500.0;
+    case (agent_type::cow):
+      return 100.0;
+    case (agent_type::cactus):
+      return 100.0;
+    default:
+       return 0.0;
+  }
+}
+
+
 double pythagoras(double x_length, double y_length)
 {
   return sqrt(
@@ -300,10 +318,7 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     m_health += rand;
   }
 
-  if ((m_type == agent_type::grass && m_health > 100.0) ||
-      (m_type == agent_type::tree && m_health > 500.0) ||
-      (m_type == agent_type::cow && m_health > 100.0) ||
-      (m_type == agent_type::cactus && m_health > 100.0))
+  if (m_health > get_agent_reproduction_health(type))
   {
     //Random fractions, from 0.0 to 1.0
     const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
@@ -628,6 +643,7 @@ int get_max_depth(agent_type a){
 sf::Vector2i get_depth(agent_type a){
     return sf::Vector2i(get_min_depth(a), get_max_depth(a));
 }
+
 
 void test_agent() //!OCLINT testing functions may be long
 {
@@ -1060,7 +1076,7 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents().size() >= 2);
   }
-  //#define FIX_ISSUE_540
+  #define FIX_ISSUE_540
   #ifdef FIX_ISSUE_540
   {
     assert(get_agent_reproduction_health(agent_type::cactus) == 100.0);
