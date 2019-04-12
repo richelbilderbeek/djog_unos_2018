@@ -67,7 +67,7 @@ script:
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
   # Run, redirect audio to null
-  - export AUDIODEV=null; ./djog_unos_2018 --god --short --music
+  - ./djog_unos_2018 --god --short
   - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
   # Call OCLint
