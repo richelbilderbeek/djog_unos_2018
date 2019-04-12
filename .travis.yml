@@ -17,10 +17,10 @@ install:
   - sudo apt-get install -qq g++-6
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
   # Qt5
-  - sudo apt-get install -qq libqt5webkit5-dev qtdeclarative5-dev libqt5svg5*
-  - export QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+  #- sudo apt-get install -qq libqt5webkit5-dev qtdeclarative5-dev libqt5svg5*
+  #- export QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
   # Qt5 SVG
-  - sudo apt-get install libqt5svg5-dev
+  #- sudo apt-get install libqt5svg5-dev
   # SFML
   - sudo apt-get install libsfml-dev
   # XRandR, else you get 'Failed to use the XRandR extension while trying to get the desktop video modes'
