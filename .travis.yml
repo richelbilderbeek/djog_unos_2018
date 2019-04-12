@@ -17,6 +17,7 @@ install:
   - sudo apt-get install -qq g++-6
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
   # Qt5
+  - sudo apt-get install -qq qt5-qmake
   #- sudo apt-get install -qq libqt5webkit5-dev qtdeclarative5-dev libqt5svg5*
   #- export QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
   # Qt5 SVG
