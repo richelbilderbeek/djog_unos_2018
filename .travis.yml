@@ -30,7 +30,7 @@ install:
   - sudo apt-get install libxrandr-dev
   # ALSA
   - sudo apt-get install alsa-utils
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then CONFIG="$CONFIG --audio-drv-list=alsa,oss,pa,sdl"; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then CONFIG="$CONFIG --audio-drv-list=alsa,oss,pa,sdl"; fi
   # clang-tidy
   - sudo apt-get install -qq clang-3.8
   # cppcheck
