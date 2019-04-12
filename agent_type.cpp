@@ -46,10 +46,13 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::whale) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::giraffe) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::lion) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::snake) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::fish) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::sunflower) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::squirrel) == 1);
+    assert(std::count(std::begin(v), std::end(v), agent_type::worm) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::foxgloves) == 1);
