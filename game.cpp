@@ -372,7 +372,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(!is_on_tile(g, -100.0, -100.0));
   }
   {
-    const game g(std::vector<tile>{tile(0, 0, 0, 1, 1, 0, tile_type::grassland)},
+    const game g(std::vector<tile>{tile(0, 0, 0, 0, 0, tile_type::grassland)},
                  std::vector<agent>{agent(agent_type::cow, 0, 0, 100)}
                 );
     assert(g.get_agents().size() == 1);
@@ -403,9 +403,9 @@ void test_game() //!OCLINT a testing function may be long
     // +====+====+    +----+----+
     const std::vector<tile> tiles
     {
-      //   x    y    z   w    h    type         ID
-      tile(1.0, 1.0, 1.0, 2.0, 1.0, 0.0, tile_type::grassland, tile_id()),
-      tile(1.0, 1.0, 1.0, 2.0, 1.0, 0.0, tile_type::grassland, tile_id())
+      //   x    y    z    r    type         ID
+      tile(1.0, 1.0, 1.0, 0.0, 0.0, tile_type::grassland, tile_id()),
+      tile(1.0, 1.0, 1.0, 0.0, 0.0, tile_type::grassland, tile_id())
     };
 
     game g(tiles);
@@ -607,7 +607,7 @@ std::istream& operator>>(std::istream& is, game& g)
   g.m_tiles.clear();
   for (int i = 0; i < n_tiles; ++i)
   {
-    tile t(1, 1, 1, 1, 1, 0, tile_type::grassland, tile_id());
+    tile t(1, 1, 1, 0, 0, tile_type::grassland, tile_id());
     is >> t;
     g.m_tiles.emplace_back(t);
   }
