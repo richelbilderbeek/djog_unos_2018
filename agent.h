@@ -98,6 +98,14 @@ private:
   /// Added as a result of profiling
   std::vector<agent_type> m_prey;
 
+  /// Motivation for a certain horizontal velocity
+  /// Added due to profiling results, see Issue  #543
+  double m_dx_motivation = 0;
+
+  /// Motivation for a certain horizontal velocity
+  /// Added due to profiling results, see Issue  #543
+  double m_dy_motivation = 0;
+
   void reproduce_agents(game& g, agent_type type);
 
   void damage_near_grass(game &g, agent_type type);
