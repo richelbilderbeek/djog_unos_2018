@@ -291,7 +291,6 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 }
 
 void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
-
   if(is_plant(type)){
     const double rand = ((std::rand() % 10) + 26) / 1000.0; // 20 extra for the grass self-damage
     // Grow
