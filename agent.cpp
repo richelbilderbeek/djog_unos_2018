@@ -216,7 +216,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   move();
 
   if(g.get_n_ticks() != 1){
-    //move_to_food(g);
+    move_to_food(g);
   }
 
   if(m_type == agent_type::spider) attract_to_agent(g, agent_type::venus_fly_trap);
