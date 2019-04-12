@@ -15,6 +15,7 @@
 #include "sfml_camera.h"
 #include "sfml_window_manager.h"
 #include "sfml_pause_overlay.h"
+#include "sfml_shop_overlay.h"
 #include "sfml_save_overlay.h"
 #include "sfml_zen_bar.h"
 
@@ -46,6 +47,10 @@ public:
 
   /// Get tile color and outline functions
   sf::Color get_fill_color(tile_type tile);
+
+  /// Take a read-only peek at the game logic
+  const game& get_game() const noexcept { return m_game; }
+
   sf::Color get_outline_color(tile_type tile);
 
   /// Get how many times the sfml_game has been displayed on screen.
@@ -113,6 +118,8 @@ public:
 
   void start_music();
 
+  void load_game(const std::string &filename);
+
 private:
   // Functions to display tiles and agents on the screen
   void display_tile(const tile& t);
@@ -171,6 +178,10 @@ private:
 
   void setup_tickcounter_text();
 
+  void setup_selected_text();
+
+  void update_selected_text();
+
   void setup_essence_symbol();
 
   void display_essence_symbol();
@@ -181,10 +192,16 @@ private:
 
   sf::Text m_tickcounter_text;
 
+  sf::Text m_selected_text;
+
   sf::Vector2i m_prev_mouse_pos;
   double m_mouse_speed;
 
   sfml_pause_overlay m_pause_screen;
+
+  sfml_shop_overlay m_shop_overlay;
+
+  sfml_button m_shop_button;
 
   sfml_save_overlay m_save_screen;
 

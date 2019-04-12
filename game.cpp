@@ -61,6 +61,7 @@ void game::process_events()
     a.process_events(*this);
   }
 
+  // If an agent has less than zero health, turn it into a corpse
   if(m_allow_damage){
     kill_agents();
   }
@@ -86,9 +87,8 @@ void game::process_events()
   //Process the events happening on the tiles
   for (auto& tile : m_tiles)
   {
-    if(tile.get_dx() != 0 || tile.get_dy() != 0){
-//        spawn(agent_type::cow, tile);
-        tile.move(m_agents);
+    if(tile.get_dx() != 0 || tile.get_dy() != 0) {
+      tile.move(m_agents);
     }
 
     tile.process_events(*this);
@@ -101,19 +101,21 @@ void game::process_events()
 
 void game::spawn(agent_type type, tile t)
 {
-    agent a1(type);
-    move_agent_to_tile(a1, t.get_x()/122, t.get_y()/122);
-    m_agents.push_back(a1);
-//    m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
+  agent a1(type);
+  move_agent_to_tile(a1, t.get_x()/112, t.get_y()/112);
+  m_agents.push_back(a1);
+//  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
   // Merge attempt with this function
-  const tile_type merged_type = get_merge_type(
+  const std::vector<tile_type> merged_types = get_merge_type(
     focal_tile.get_type(),
     other_tile.get_type()
   );
+  if (merged_types.empty()) return;
   //focal tile becomes merged type
+  const tile_type merged_type = merged_types[0];
   focal_tile.set_type(merged_type);
   //other tile is swapped to the back, then deleted
   m_tiles[other_pos] = m_tiles.back();
@@ -255,20 +257,20 @@ bool is_on_tile(const game& g, const double x, const double y)
   return false;
 }
 
-tile_type get_on_tile_type(const game& g, const agent& a)
+std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
-  for (tile t: g.get_tiles())
+  for (tile t : g.get_tiles())
   {
-    if(  a.get_x() >= t.get_x() - 6.0
-      && a.get_x() <= t.get_x() + t.get_width() + 6.0
-      && a.get_y() >= t.get_y() - 6.0
-      && a.get_y() <= t.get_y() + t.get_height() + 6.0
+    if (a.get_x() >= t.get_x() - 6.0 &&
+        a.get_x() <= t.get_x() + t.get_width() + 6.0 &&
+        a.get_y() >= t.get_y() - 6.0 &&
+        a.get_y() <= t.get_y() + t.get_height() + 6.0
     )
     {
-      return t.get_type();
+      return { t.get_type() };
     }
   }
-  return tile_type::nonetile;
+  return {};
 }
 
 bool is_on_tile(const game& g, const agent& a) {
@@ -276,18 +278,21 @@ bool is_on_tile(const game& g, const agent& a) {
   return is_on_tile(g, center.x, center.y);
 }
 
-tile get_current_tile(game& g, const agent& a){
+std::vector<tile> get_current_tile(game& g, const agent& a){
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
   return get_current_tile(g, center.x, center.y);
 }
 
-tile get_current_tile(game& g, double x, double y){
-  for(tile t: g.get_tiles()){
-    if(is_on_specific_tile(x, y, t)){
-      return t;
+std::vector<tile> get_current_tile(game& g, double x, double y)
+{
+  for(tile t: g.get_tiles())
+  {
+    if(is_on_specific_tile(x, y, t))
+    {
+      return { t };
     }
   }
-  return tile(0, 0, 0, 10, 10, 0, tile_type::nonetile);
+  return {};
 }
 
 void game::confirm_tile_move(tile& t, int direction, int tile_speed){
@@ -538,6 +543,11 @@ void test_game() //!OCLINT a testing function may be long
     }
 }
 
+void load(game& g, const std::string &filename) {
+  std::ifstream f(SAVE_DIR + filename + ".sav");
+  f >> g;
+}
+
 game load(const std::string &filename) {
   std::ifstream f(SAVE_DIR + filename + ".sav");
   game g;
@@ -546,12 +556,28 @@ game load(const std::string &filename) {
 }
 
 void save(const game &g, const std::string &filename) {
-    QString path = QDir::currentPath() + "/saves";
-    QDir dir = QDir::root();
-    dir.mkpath(path);
+  QString path = QDir::currentPath() + "/saves";
+  QDir dir = QDir::root();
+  dir.mkpath(path);
 
-    std::ofstream f(SAVE_DIR + filename + ".sav");
-    f << g;
+  std::ofstream f(SAVE_DIR + filename + ".sav");
+  f << g;
+}
+
+std::vector<std::string> get_saves() {
+  QString path = QDir::currentPath() + "/saves";
+  QDir dir = QDir(path);
+  std::vector<std::string> filenames;
+  std::list<QString> entries = dir.entryList().toStdList();
+  for (QString qstr : entries) {
+    std::string str = qstr.toStdString();
+    if (str.size() > 4 &&
+        str.substr(str.size() - 4, 4) == ".sav") {
+      str.erase(str.size() - 4, 4);
+      filenames.push_back(str);
+    }
+  }
+  return filenames;
 }
 
 std::ostream& operator<<(std::ostream& os, const game& g)

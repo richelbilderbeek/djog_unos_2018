@@ -13,7 +13,6 @@ enum class tile_type {
   hills,
   mangrove,
   mountains,
-  nonetile,
   rainforest,
   savannah,
   swamp,
@@ -22,9 +21,10 @@ enum class tile_type {
   woods
 };
 
-///Get the merged type of two type names,
-///e.g.
-tile_type get_merge_type(tile_type type1, tile_type type2) noexcept;
+///Get the merged type of two tile_types,
+///will return an empty vector if these types cannot merge,
+///else returns a vector with one element; the merged type.
+std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept;
 
 ///Test the tile_type function
 void test_tile_type();

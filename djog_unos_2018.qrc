@@ -5,7 +5,6 @@
         <file>resources/font.ttf</file>
         <file>resources/grass.png</file>
         <file>resources/cow.png</file>
-        <file>resources/title_screen_background.png</file>
         <file>resources/fish.png</file>
         <file>resources/crocodile.png</file>
         <file>resources/zen_font.ttf</file>
@@ -34,10 +33,19 @@
         <file>resources/venus_fly_trap.png</file>
         <file>resources/foxgloves.png</file>
         <file>resources/cactus.png</file>
+        <file>resources/beach_texture_laying.png</file>
+        <file>resources/beach_texture_standing.png</file>
+        <file>resources/water_lying.png</file>
+        <file>resources/water_standing.png</file>
+        <file>resources/dunes_laying.png</file>
+        <file>resources/dunes_standing.png</file>
+        <file>resources/hills_laying.png</file>
+        <file>resources/hills_standing.png</file>
         <file>resources/blood-spatter.png</file>
         <file>resources/Essence_29_32.png</file>
         <file>resources/Barachem_Zauberspiel_Preliminary_Edit.ogg</file>
         <file>resources/chameleon.png</file>
+        <file>resources/title_screen_background.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
