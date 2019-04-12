@@ -13,14 +13,19 @@ public:
   /// @param x the x-coordinate of the top-left corner of the tile
   /// @param y the y-coordinate of the top-left corner of the tile
   /// @param z the z-coordinate of the top-left corner of the tile
-  /// @param width the width of the tile
-  /// @param height the height of the tile
+  /// @param rotation the angle of the tile
   /// @param depth the depth of the tile
   /// @param type the type the tile
   /// @param the tiles id
-  tile(double x = 0.0, double y = 0.0, const double z = 0.0,
-       double rotation = 0.0, double depth = 0.0,
-       const tile_type type = tile_type::grassland, const tile_id = tile_id());
+  tile(
+    const double x = 0.0,
+    const double y = 0.0,
+    const double z = 0.0,
+    const double rotation = 0.0,
+    const double depth = 0.0,
+    const tile_type type = tile_type::grassland,
+    const tile_id = tile_id()
+  );
 
   /// The height of the tile
   double get_rotation() const noexcept { return m_rotation; }
