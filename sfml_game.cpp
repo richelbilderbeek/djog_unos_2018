@@ -171,10 +171,10 @@ void sfml_game::display_tile(const tile &t){
     // left/downwards
     const double screen_x{ t.get_x() - m_camera.x };
     const double screen_y{ t.get_y() - m_camera.y };
+    sfml_tile.setOrigin(50, 50);
+    sfml_tile.setRotation(t.get_rotation());
     sfml_tile.setPosition(screen_x, screen_y);
     sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
-    sfml_tile.setOrigin(50, 50);
-    sfml_tile.rotate(t.get_rotation());
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
     // Texture

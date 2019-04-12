@@ -27,15 +27,9 @@ tile::tile(const double x, const double y, const double z,
     m_z{z}
 {
 
-  while (m_rotation <= 0.0)
-  {
-    m_rotation += 90.0;
-  }
-
   m_x *= 112;
   m_y *= 112;
 
-  assert(m_rotation > 0.0);
 }
 
 std::vector<tile> create_test_default_tiles() noexcept //!OCLINT indeed a function that is too long
