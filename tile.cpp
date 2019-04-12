@@ -12,10 +12,15 @@
 #include <stdexcept>
 #include <tuple>
 
-tile::tile(const double x, const double y, const double z,
-           const double rotation, const double depth,
-           const tile_type type, const tile_id id)
-  : m_depth{depth},
+tile::tile(
+  const double x,
+  const double y,
+  const double z,
+  const double rotation,
+  const double depth,
+  const tile_type type,
+  const tile_id id
+) : m_depth{depth},
     m_dx{0.0},
     m_dy{0.0},
     m_dz{0.0},
@@ -372,17 +377,18 @@ std::istream& operator>>(std::istream& is, tile& t)
 }
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept {
-  if (//lhs.m_x != rhs.m_x ||
-      //lhs.m_y != rhs.m_y ||
-      //lhs.m_z != rhs.m_z ||
-      lhs.m_dx != rhs.m_dx ||
-      lhs.m_dy != rhs.m_dy ||
-      lhs.m_depth != rhs.m_depth ||
-      lhs.m_rotation != rhs.m_rotation ||
-      lhs.m_locked != rhs.m_locked ||
-      lhs.m_type != rhs.m_type)
-    return false;
-  return true;
+  return
+       lhs.m_depth    == rhs.m_depth
+    && lhs.m_dx       == rhs.m_dx
+    && lhs.m_dy       == rhs.m_dy
+    && lhs.m_dz       == rhs.m_dz
+    && lhs.m_locked   == rhs.m_locked
+    && lhs.m_rotation == rhs.m_rotation
+    && lhs.m_type     == rhs.m_type
+    && lhs.m_x        == rhs.m_x
+    && lhs.m_y        == rhs.m_y
+    && lhs.m_z        == rhs.m_z
+  ;
 }
 
 bool contains(const tile& t, double x, double y) noexcept {
@@ -464,9 +470,9 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Test the == operator
   {
-    tile a(0.0, 0.0, 0.0, 0, 0.0, tile_type::grassland, tile_id());
-    tile b(0.0, 0.0, 0.0, 90, 0.0, tile_type::grassland, tile_id());
-    tile c(0.0, 0.0, 0.0, 90, 0.0, tile_type::grassland, tile_id());
+    const tile a(0.0, 0.0, 0.0,  0.0, 0.0, tile_type::grassland, tile_id());
+    const tile b(0.0, 0.0, 0.0, 90.0, 0.0, tile_type::grassland, tile_id());
+    const tile c(0.0, 0.0, 0.0, 90.0, 0.0, tile_type::grassland, tile_id());
     assert(!(a == b));
     assert(b == c);
   }
