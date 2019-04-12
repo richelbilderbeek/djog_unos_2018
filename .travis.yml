@@ -6,7 +6,7 @@ addons:
   apt: 
     packages: 
       - libboost-all-dev
-      - libxrandr-dev
+      #- libxrandr-dev
       - libasound2-dev
       - libpulse-dev
 
@@ -41,7 +41,7 @@ install:
   # OCLint
   - ./install_oclint
   # For the virtual X server
-  - sudo apt-get install libxrandr-dev
+  # - sudo apt-get install libxrandr-dev
   # valgrind, for helgrind and memcheck
   - if [[ $TRAVIS_BRANCH == "richel" ]]; then sudo apt-get install -qq valgrind; fi
   # SLOCcount
