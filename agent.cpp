@@ -107,7 +107,6 @@ void agent::eat(game& g) { //!OCLINT high compexity
 
   //What can the focal agent eat
   const std::vector<agent_type> prey_types = m_prey;
-  assert(!prey_types.empty());
 
   //Is agent_type a in food?
   for (agent& other : g.get_agents()) {
@@ -163,6 +162,7 @@ void agent::move(double x, double y)
   m_x += x;
   m_y += y;
 }
+
 void agent::move(const game &g){ //!OCLINT too complex indeed
   // Plants don't move to their food
   if (is_plant(m_type)) {
@@ -186,7 +186,7 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
   m_x += 0.1 * (-1 + (std::rand() % 3));
   m_y += 0.1 * (-1 + (std::rand() % 3));
 
-  unsigned int rand = static_cast<unsigned int>(std::rand() % (count_n_agents(g) - 1));
+  unsigned int rand = static_cast<unsigned int>(std::rand() % (count_n_agents(g)));
   std::cout << rand << " + " << count_n_agents(g) << std::endl;
   agent a = g.get_agents()[rand];
   if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) != m_prey.end()){
@@ -197,7 +197,6 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
     m_dy_motivation += -cos(angle) * vector_length;
     m_dx_motivation = std::max(-0.5, std::min(m_dx_motivation, 0.5));
     m_dy_motivation = std::max(-0.5, std::min(m_dy_motivation, 0.5));
-    std::cout << m_dx_motivation << std::endl;
     m_x += m_dx_motivation;
     m_y += m_dy_motivation;
   }
@@ -228,7 +227,7 @@ void agent::attract_to_agent(game &g, agent_type type){
 
 void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
-  // Sessile and aquatic species die instantly when on void
+  //Sessile and aquatic species die instantly when on void
   if(m_type != agent_type::bird && !is_on_tile(g, *this))
   {
     m_health = 0.0;
