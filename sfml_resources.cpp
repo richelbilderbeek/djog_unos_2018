@@ -348,7 +348,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept
   return get_agent_sprite(a.get_type());
 }
 
-sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept{
+sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept //!OCLINT indeed too complex
+{
   switch (t)
   {
     case agent_type::plankton:
