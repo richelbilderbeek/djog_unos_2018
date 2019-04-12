@@ -6,8 +6,6 @@ addons:
   apt: 
     packages: 
       - libboost-all-dev
-      - libasound2-dev
-      - libpulse-dev
 
 before_install:
   # C++14
