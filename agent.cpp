@@ -187,7 +187,6 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
   m_y += 0.1 * (-1 + (std::rand() % 3));
 
   unsigned int rand = static_cast<unsigned int>(std::rand() % (count_n_agents(g)));
-  std::cout << rand << " + " << count_n_agents(g) << std::endl;
   agent a = g.get_agents()[rand];
   if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) != m_prey.end()){
     double distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
@@ -195,10 +194,8 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
     double angle = atan2(m_y - a.get_y(), m_x - a.get_x());
     m_dx_motivation += sin(angle) * vector_length;
     m_dy_motivation += -cos(angle) * vector_length;
-    m_dx_motivation = std::max(-0.5, std::min(m_dx_motivation, 0.5));
-    m_dy_motivation = std::max(-0.5, std::min(m_dy_motivation, 0.5));
-    m_x += m_dx_motivation;
-    m_y += m_dy_motivation;
+    m_x += std::max(-1.0, std::min(m_dx_motivation, 1.0));
+    m_y += std::max(-1.0, std::min(m_dy_motivation, 1.0));
   }
 }
 
