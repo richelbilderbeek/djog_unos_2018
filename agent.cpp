@@ -79,13 +79,24 @@ double pythagoras(double x_length, double y_length)
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::chameleon:
-      return {agent_type::worm, agent_type::spider, agent_type::bird};
+      return {agent_type::worm,
+              agent_type::spider,
+              agent_type::bird};
     case agent_type::crocodile:
-      return {agent_type::cow, agent_type::giraffe};
+      return {agent_type::cow,
+              agent_type::giraffe,
+              agent_type::fish,
+              agent_type::goat,
+              agent_type::squirrel};
     case agent_type::squirrel:
       return {agent_type::tree};
+    case agent_type::whale:
+      return {agent_type::fish};
     case agent_type::snake:
       return {agent_type::squirrel};
+    case agent_type::venus_fly_trap:
+      return {agent_type::spider,
+              agent_type::worm};
     case agent_type::bird:
       return {agent_type::spider,
               agent_type::fish,
@@ -94,7 +105,8 @@ std::vector<agent_type> can_eat(const agent_type type) {
     case agent_type::cow:
       return {agent_type::grass};
     case agent_type::lion:
-      return {agent_type::cow, agent_type::giraffe};
+      return {agent_type::cow,
+              agent_type::giraffe};
     case agent_type::giraffe:
       return {agent_type::tree};
     //case agent_type::venus_fly_trap:
