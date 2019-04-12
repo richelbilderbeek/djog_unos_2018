@@ -6,7 +6,6 @@ addons:
   apt: 
     packages: 
       - libboost-all-dev
-      #- libxrandr-dev
       - libasound2-dev
       - libpulse-dev
 
@@ -40,8 +39,6 @@ install:
   - sudo pip install codecov
   # OCLint
   - ./install_oclint
-  # For the virtual X server
-  # - sudo apt-get install libxrandr-dev
   # valgrind, for helgrind and memcheck
   - if [[ $TRAVIS_BRANCH == "richel" ]]; then sudo apt-get install -qq valgrind; fi
   # SLOCcount
@@ -52,24 +49,14 @@ services:
  - xvfb
  - alsa
 
-# Trusty
-# # Start virtual X server
-# before_script:
-#  - "export DISPLAY=:99.0"
-#  - "sh -e /etc/init.d/xvfb start"
-#  - sleep 3 # give xvfb some time to start
-
 script: 
   # Build the project, then:
   # 1) Show the version of SFML, then quit
   # 2) Run the game for a short time, then quit
-  # 3) Test the secret command, then quit
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
-  # Run, redirect audio to null
-  - ./djog_unos_2018 --god --short
-  - # ./djog_unos_2018 --short --spin --music
   - ./djog_unos_2018 --version
+  - ./djog_unos_2018 --god --short
   # Call OCLint
   - ./do_oclint
   # Build and run and profile normal program
@@ -94,8 +81,6 @@ script:
   - rm -rf debug
   - rm -rf debug
   - cd ..; sloccount --overhead 1 --personcost 22614 djog_unos_2018 | egrep -v "Adding"; cd djog_unos_2018
-  # clang-tidy
-  #- ./do_clang-tidy
 
 after_success:
   # Codecov
