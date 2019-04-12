@@ -87,9 +87,8 @@ void game::process_events()
   //Process the events happening on the tiles
   for (auto& tile : m_tiles)
   {
-    if(tile.get_dx() != 0 || tile.get_dy() != 0){
-//        spawn(agent_type::cow, tile);
-        tile.move(m_agents);
+    if(tile.get_dx() != 0 || tile.get_dy() != 0) {
+      tile.move(m_agents);
     }
 
     tile.process_events(*this);
@@ -102,10 +101,10 @@ void game::process_events()
 
 void game::spawn(agent_type type, tile t)
 {
-    agent a1(type);
-    move_agent_to_tile(a1, t.get_x()/122, t.get_y()/122);
-    m_agents.push_back(a1);
-//    m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
+  agent a1(type);
+  move_agent_to_tile(a1, t.get_x()/112, t.get_y()/112);
+  m_agents.push_back(a1);
+//  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
@@ -260,12 +259,12 @@ bool is_on_tile(const game& g, const double x, const double y)
 
 std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
-  for (tile t: g.get_tiles())
+  for (tile t : g.get_tiles())
   {
-    if(  a.get_x() >= t.get_x() - 6.0
-      && a.get_x() <= t.get_x() + t.get_width() + 6.0
-      && a.get_y() >= t.get_y() - 6.0
-      && a.get_y() <= t.get_y() + t.get_height() + 6.0
+    if (a.get_x() >= t.get_x() - 6.0 &&
+        a.get_x() <= t.get_x() + t.get_width() + 6.0 &&
+        a.get_y() >= t.get_y() - 6.0 &&
+        a.get_y() <= t.get_y() + t.get_height() + 6.0
     )
     {
       return { t.get_type() };

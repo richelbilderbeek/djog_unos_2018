@@ -49,13 +49,28 @@ void test() {
   //test_sfml_window_manager();
   test_normal_char();
 }
-int start_sfml_game(int ca, bool music,
-                    std::vector<tile> tiles,
-                    std::vector<agent> agents,
-                    bool spawning,
-                    bool damage,
-                    bool score) {
-  sfml_game g(sfml_game_delegate(ca, spawning, damage, score), tiles, agents);
+
+///Start the game
+///@param close_at_tick tick at which the game will be closed.
+///   if close_at_tick equals minus one, the game runs indefinitely
+///@param music will there be music?
+///@param tiles starting tiles
+///@param agents initial agents
+///@param spawning will agents spawn?
+///@param damage can agents damage one another?
+///@param score is the game score being tracked? If not, the player will
+///   never die
+///@return closing status, which is zero if everything went OK
+int start_sfml_game(
+  const int close_at_tick,
+  bool music,
+  std::vector<tile> tiles,
+  std::vector<agent> agents,
+  bool spawning,
+  bool damage,
+  bool score
+) {
+  sfml_game g(sfml_game_delegate(close_at_tick, spawning, damage, score), tiles, agents);
   if (!music) g.stop_music();
   g.exec();
   return 0;
@@ -157,11 +172,13 @@ int main(int argc, char **argv) //!OCLINT main too long
         close_at = std::atoi(s.c_str());
       }
     }
-    sfml_window_manager::get().set_state(game_state::titlescreen);
+    //The '--short' setting is used on Travis for debugging and
+    //should jump straight to the game
+    sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--profiling")){
     close_at = 10000;
-    sfml_window_manager::get().set_state(game_state::titlescreen);
+    sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--title"))
   {
@@ -244,12 +261,9 @@ int main(int argc, char **argv) //!OCLINT main too long
     tiles = create_test_default_tiles();
     agents = create_default_agents();
   }
-  else{
-    tiles = create_test_default_tiles();
-    agents = create_default_agents();
-  }
 
   while (sfml_window_manager::get().get_window().isOpen()) {
+    std::clog << "State: " << sfml_window_manager::get().get_state() << '\n';
     switch (sfml_window_manager::get().get_state()) {
       case game_state::titlescreen:
         show_sfml_title_screen(close_at, music);
@@ -267,7 +281,7 @@ int main(int argc, char **argv) //!OCLINT main too long
         start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);
         break;
       case game_state::gameover:
-        show_sfml_gameover_screen(close_at);
+        show_sfml_gameover_screen(-1);
         break;
       case game_state::loading:
         show_sfml_load_screen(close_at);
