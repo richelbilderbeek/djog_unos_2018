@@ -26,6 +26,8 @@ install:
   - sudo apt-get install libsfml-dev
   # XRandR, else you get 'Failed to use the XRandR extension while trying to get the desktop video modes'
   - sudo apt-get install libxrandr-dev
+  # ALSA
+  - sudo apt-get install alsa-utils
   # clang-tidy
   - sudo apt-get install -qq clang-3.8
   # cppcheck
