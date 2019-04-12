@@ -329,8 +329,7 @@ void tile::set_dy(double dy) {
 }
 
 void tile::set_rotation(double r) {
-  if (!m_locked)
-    m_rotation = r;
+  m_rotation = r;
 }
 
 void tile::set_type(const tile_type t) noexcept
