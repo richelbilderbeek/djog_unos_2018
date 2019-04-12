@@ -1,5 +1,6 @@
 #include "agent.h"
 #include "agent_type.h"
+#include "biology.h"
 #include "game.h"
 #include "sfml_title_screen.h"
 #include "sfml_about_screen.h"
@@ -37,6 +38,7 @@
 
 /// All tests are called from here, only in debug mode
 void test() {
+  test_biology();
   test_sfml_resources();
   test_game();
   test_sfml_game();
