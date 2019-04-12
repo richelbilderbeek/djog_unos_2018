@@ -51,7 +51,6 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::sunflower) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::grass) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
-    assert(std::count(std::begin(v), std::end(v), agent_type::squirrel) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::worm) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);

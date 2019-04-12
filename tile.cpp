@@ -244,7 +244,7 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
   const std::vector<triplet> v =
   {
     triplet(tile_type::arctic, agent_type::none, agent_type::none),
-    triplet(tile_type::beach, agent_type::sunflower, agent_type::squirrel),
+    triplet(tile_type::beach, agent_type::none, agent_type::squirrel),
     triplet(tile_type::desert, agent_type::cactus, agent_type::snake),
     triplet(tile_type::dunes, agent_type::grass, agent_type::squirrel),
     triplet(tile_type::grassland, agent_type::grass, agent_type::cow),
