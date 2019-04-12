@@ -4,7 +4,9 @@ dist: xenial
 
 addons: 
   apt: 
-    packages: libboost-all-dev
+    packages: 
+      - libboost-all-dev
+      - libxrandr-dev
 
 before_install:
   # C++14
