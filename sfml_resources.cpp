@@ -343,8 +343,15 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
-sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLINT Can't be simpler (High Complexity)
-  switch (a.get_type()) {
+sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept
+{
+  return get_agent_sprite(a.get_type());
+}
+
+sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept //!OCLINT indeed too complex
+{
+  switch (t)
+  {
     case agent_type::plankton:
       return m_plankton_texture;
     case agent_type::chameleon:
@@ -396,38 +403,48 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
 
 sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT too long, needs to be fixed
 {
-  switch (t.get_type()) //!OCLINT too few branches for now
-  {
-    case tile_type::tundra:
-      if (t.get_width() > 100) {
-        assert(t.get_height() == 100.0);
-        return m_tundra_laying;
+
+  if (t.get_width() > 100) {
+      // orientatie is horizontaal
+      assert(t.get_height() == 100.0);
+      switch (t.get_type())
+      {
+        case tile_type::tundra:
+               return m_tundra_laying;
+        case tile_type::beach:
+               return m_beach_laying;
+        case tile_type::water:
+               return m_water_laying;
+        case tile_type::dunes:
+               return m_dunes_laying;
+        case tile_type::hills:
+               return m_hills_laying;
+        default:
+          return m_empty_tile;
       }
+   }
+  if (t.get_height() > 100) {
+      // orientatie is verticaal
       assert(t.get_width() == 100.0);
-      return m_tundra_standing;
-    case tile_type::beach:
-      if (t.get_width() > 100) {
-        return m_beach_laying;
-      }
-      return m_beach_standing;
-    case tile_type::water:
-      if (t.get_width() > 100) {
-        return m_water_laying;
-      }
-      return m_water_standing;
-    case tile_type::dunes:
-      if (t.get_width() > 100) {
-        return m_dunes_laying;
-      }
-      return m_dunes_standing;
-    case tile_type::hills:
-      if (t.get_width() > 100) {
-        return m_hills_laying;
-      }
-      return m_hills_standing;
-    default:
-      return m_empty_tile;
-  }
+      switch (t.get_type())
+        {
+      case tile_type::tundra:
+             return m_tundra_standing;
+      case tile_type::beach:
+             return m_beach_standing;
+      case tile_type::water:
+             return m_water_standing;
+      case tile_type::dunes:
+             return m_dunes_standing;
+      case tile_type::hills:
+             return m_hills_standing;
+        default:
+          return m_empty_tile;
+        }
+   }
+
+  return m_empty_tile;
+
 }
 
 void test_sfml_resources() //!OCLINT tests may be long
@@ -444,8 +461,6 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
-  //#define FIX_ISSUE_537
-  #ifdef FIX_ISSUE_537
   // Can get the sprite of an agent_type
   {
     assert(resources.get_agent_sprite(agent_type::cow).getSize().x > 0);
@@ -456,7 +471,6 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(resources.get_agent_sprite(agent_type::plankton).getSize().x > 0);
     assert(resources.get_agent_sprite(agent_type::tree).getSize().x > 0);
   }
-  #endif // FIX_ISSUE_537
   { /// Testing succesful access to the essence symbol png and its dimensions
     sf::Texture texture{ resources.get_essence_texture() };
     assert(texture.getSize().x > 0);

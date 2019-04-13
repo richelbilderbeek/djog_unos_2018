@@ -13,6 +13,8 @@ public:
 
     void exec();
 
+    void process_event(sf::Event event);
+
     ///@param game state to change to
     void close(game_state s);
 

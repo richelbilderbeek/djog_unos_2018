@@ -51,6 +51,24 @@ bool operator==(const agent& lhs, const agent& rhs) noexcept{
   ;
 }
 
+double get_agent_reproduction_health(const agent_type t) noexcept
+{
+  switch(t)
+  {
+    case (agent_type::grass):
+      return 100.0;
+    case (agent_type::tree):
+      return 500.0;
+    case (agent_type::cow):
+      return 100.0;
+    case (agent_type::cactus):
+      return 100.0;
+    default:
+       return 0.0;
+  }
+}
+
+
 double pythagoras(double x_length, double y_length)
 {
   return sqrt(
@@ -61,13 +79,24 @@ double pythagoras(double x_length, double y_length)
 std::vector<agent_type> can_eat(const agent_type type) {
   switch (type) {
     case agent_type::chameleon:
-      return {agent_type::worm, agent_type::spider, agent_type::bird};
+      return {agent_type::worm,
+              agent_type::spider,
+              agent_type::bird};
     case agent_type::crocodile:
-      return {agent_type::cow, agent_type::giraffe};
+      return {agent_type::cow,
+              agent_type::giraffe,
+              agent_type::fish,
+              agent_type::goat,
+              agent_type::squirrel};
     case agent_type::squirrel:
       return {agent_type::tree};
+    case agent_type::whale:
+      return {agent_type::fish};
     case agent_type::snake:
       return {agent_type::squirrel};
+    case agent_type::venus_fly_trap:
+      return {agent_type::spider,
+              agent_type::worm};
     case agent_type::bird:
       return {agent_type::spider,
               agent_type::fish,
@@ -76,7 +105,8 @@ std::vector<agent_type> can_eat(const agent_type type) {
     case agent_type::cow:
       return {agent_type::grass};
     case agent_type::lion:
-      return {agent_type::cow, agent_type::giraffe};
+      return {agent_type::cow,
+              agent_type::giraffe};
     case agent_type::giraffe:
       return {agent_type::tree};
     //case agent_type::venus_fly_trap:
@@ -290,17 +320,13 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 }
 
 void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
-
   if(is_plant(type)){
     const double rand = ((std::rand() % 10) + 26) / 1000.0; // 20 extra for the grass self-damage
     // Grow
     m_health += rand;
   }
 
-  if ((m_type == agent_type::grass && m_health > 100.0) ||
-      (m_type == agent_type::tree && m_health > 500.0) ||
-      (m_type == agent_type::cow && m_health > 100.0) ||
-      (m_type == agent_type::cactus && m_health > 100.0))
+  if (m_health > get_agent_reproduction_health(type))
   {
     //Random fractions, from 0.0 to 1.0
     const double f_parent{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
@@ -629,6 +655,7 @@ int get_max_depth(agent_type a){
 sf::Vector2i get_depth(agent_type a){
     return sf::Vector2i(get_min_depth(a), get_max_depth(a));
 }
+
 
 void test_agent() //!OCLINT testing functions may be long
 {
@@ -1064,7 +1091,7 @@ void test_agent() //!OCLINT testing functions may be long
     g.process_events();
     assert(g.get_agents().size() >= 2);
   }
-  //#define FIX_ISSUE_540
+  #define FIX_ISSUE_540
   #ifdef FIX_ISSUE_540
   {
     assert(get_agent_reproduction_health(agent_type::cactus) == 100.0);
