@@ -5,6 +5,7 @@
 
 #include "tile.h"
 #include "agent.h"
+#include "sound_type.h"
 #include "sfml_camera.h"
 #include <QDir>
 
@@ -53,9 +54,15 @@ public:
 
   void confirm_tile_move(tile& t, int direction, int tile_speed);
 
-  /// Timer, physics, bullets moving, etc.
+  /// Timer, physics, bullets moving, etc.bool
   /// Everything except user input.
-  void process_events();
+  sound_type process_events();
+
+  void set_sound_type(const sound_type st) noexcept
+  { m_sound_type = st; }
+
+  sound_type get_sound_type() noexcept
+  { return m_sound_type; }
 
   void remove_tile(sf::RenderWindow& window, sfml_camera& camera);
 
@@ -91,7 +98,10 @@ private:
 
   void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
 
-  void merge_tiles();
+  void sound_wipe() noexcept
+  { set_sound_type(sound_type::none); }
+
+  sound_type merge_tiles();
 
   void kill_agents();
 
@@ -106,6 +116,8 @@ private:
   double m_score;
 
   int m_essence;
+
+  sound_type m_sound_type;
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);

@@ -21,9 +21,10 @@ game::game(
     m_agents{agents},
     m_n_tick{0},
     m_score{0},
-    m_essence{0}
+    m_essence{0},
+    m_sound_type{sound_type::none}
 {
-
+  assert(m_sound_type == sound_type::none);
 }
 
 void game::add_agents(const std::vector<agent>& as)
@@ -55,8 +56,11 @@ int count_n_agents(const game& g) noexcept
   return g.get_agents().size();
 }
 
-void game::process_events()
+sound_type game::process_events()
 {
+  sound_wipe();
+  assert(m_sound_type == sound_type::none);
+
   for (auto& a: m_agents) {
     a.process_events(*this);
   }
@@ -66,7 +70,9 @@ void game::process_events()
     kill_agents();
   }
 
-  merge_tiles();
+  m_sound_type = merge_tiles();
+  assert(m_sound_type == sound_type::none ||
+         m_sound_type == sound_type::tile_collision);
 
   // Calculate the score
   int agent_count = 0;
@@ -97,6 +103,8 @@ void game::process_events()
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
 
   ++m_n_tick;
+
+  return m_sound_type;
 }
 
 void game::spawn(agent_type type, tile t)
@@ -157,7 +165,7 @@ void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
   }
 }
 
-void game::merge_tiles() { //!OCLINT must simplify
+sound_type game::merge_tiles() { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
   const int n = count_n_tiles(*this);
@@ -175,9 +183,11 @@ void game::merge_tiles() { //!OCLINT must simplify
       tile& other_tile = m_tiles[j];
       if (!have_same_position(focal_tile, other_tile)) { continue; }
       tile_merge(focal_tile, other_tile, j);
-      return; //!OCLINT I don't know an alternative;
+      return sound_type::tile_collision; //!OCLINT I don't know an alternative;
     }
   }
+
+  return sound_type::none;
 }
 
 void game::kill_agents() {
@@ -499,11 +509,11 @@ void test_game() //!OCLINT a testing function may be long
     tile& tile = g.get_tiles()[0];
     const auto x_before = tile.get_x();
     tile.set_dx(5.0);
-    g.process_events();
+    g.set_sound_type(g.process_events());
     const auto x_after = tile.get_x();
     assert(x_before != x_after);
     tile.set_dy(5.0);
-    g.process_events();
+    g.set_sound_type(g.process_events());
   }
   {
     const agent a(agent_type::tree);
@@ -529,7 +539,7 @@ void test_game() //!OCLINT a testing function may be long
 //    tile.set_dy(1.0);
 //    for (int i=0; i != 100; ++i)
 //    {
-//      g.process_events();
+//      g.set_sound_type(g.process_events());
 //    }
 //    assert(g.get_agents()[0].get_x() == start_grass_x);
 //    assert(g.get_agents()[0].get_y() == start_grass_y);
