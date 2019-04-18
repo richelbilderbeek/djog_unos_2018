@@ -161,17 +161,14 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 }
 
 void sfml_game::display_tile(const tile &t){
-    sf::RectangleShape sfml_tile(
-      sf::Vector2f(
-        static_cast<float>(t.get_width()),
-        static_cast<float>(t.get_height())
-      )
-    );
+    sf::RectangleShape sfml_tile(sf::Vector2f(212, 100));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
     const double screen_x{ t.get_x() - m_camera.x };
     const double screen_y{ t.get_y() - m_camera.y };
-    sfml_tile.setPosition(screen_x, screen_y);
+    sfml_tile.setOrigin(50, 50);
+    sfml_tile.setRotation(t.get_rotation());
+    sfml_tile.setPosition(screen_x + 50, screen_y + 50);
     sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
@@ -179,7 +176,9 @@ void sfml_game::display_tile(const tile &t){
     sf::Sprite sprite;
     set_tile_sprite(t, sprite);
     assert(sprite.getTexture());
-    sprite.setPosition(screen_x, screen_y);
+    sprite.setOrigin(50, 50);
+    sprite.setRotation(t.get_rotation() - 90);
+    sprite.setPosition(screen_x + 50, screen_y + 50);
     sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
     m_window.draw(sprite);
 }
@@ -510,8 +509,11 @@ void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
     switch_collide(t, 1);
   if (event.key.code == sf::Keyboard::S)
     switch_collide(t, 3);
-  if (event.key.code == sf::Keyboard::R)
-    rotate(t);
+  if (event.key.code == sf::Keyboard::R) {
+    t.rotate_c();
+  } else if (event.key.code == sf::Keyboard::T) {
+    t.rotate_cc();
+  }
 }
 
 void sfml_game::confirm_tile_move(tile& t, int direction)

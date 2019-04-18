@@ -44,8 +44,8 @@ sfml_load_screen::sfml_load_screen(const int close_at)
     b.set_pos(pos.x, pos.y);
     y += 80;
     m_saves.push_back(b);
-    m_list.add_drawable(b.get_shape());
-    m_list.add_drawable(b.get_text());
+    m_list.add_rectangle(b.get_shape());
+    m_list.add_text(b.get_text());
   }
   m_window.setView(tmp_view);
 
