@@ -290,11 +290,9 @@ void sfml_game::follow_tile()
   const tile& t = getTileById(m_game.m_selected);
   m_camera.x = 0.0;
   m_camera.y = 0.0;
-  sf::Vector2f new_coords(
-    t.get_x() + (t.get_width()  / 2.0) - static_cast<double>(screen_center.x),
-    t.get_y() + (t.get_height() / 2.0) - static_cast<double>(screen_center.y)
-  );
-  m_camera.move_camera(new_coords);
+  m_camera.move_camera(sf::Vector2f(
+                         t.get_center().x - screen_center.x,
+                         t.get_center().y - screen_center.y));
 }
 
 void sfml_game::update_selected_text()
@@ -727,33 +725,21 @@ bool sfml_game::will_colide(int direction, tile& t)
   switch (direction)
   {
     case 1:
-      if (sfml_game::check_collision(
-            t.get_x() + (t.get_width() / 2), t.get_y() - (t.get_height() / 2)))
-      {
-        return true;
-      }
-      return false;
+      return sfml_game::check_collision(
+            t.get_corner().x + (t.get_width() / 2),
+            t.get_corner().y - (t.get_height() / 2));
     case 2:
-      if (sfml_game::check_collision(t.get_x() + (t.get_width() * 1.5),
-            t.get_y() + (t.get_height() / 2)))
-      {
-        return true;
-      }
-      return false;
+      return sfml_game::check_collision(
+            t.get_corner().x + (t.get_width() * 1.5),
+            t.get_corner().y + (t.get_height() / 2));
     case 3:
-      if (sfml_game::check_collision(t.get_x() + (t.get_width() / 2),
-            t.get_y() + (t.get_height() * 1.5)))
-      {
-        return true;
-      }
-      return false;
+      return sfml_game::check_collision(
+            t.get_corner().x + (t.get_width() / 2),
+            t.get_corner().y + (t.get_height() * 1.5));
     case 4:
-      if (sfml_game::check_collision(
-            t.get_x() - (t.get_width() / 2), t.get_y() + (t.get_height() / 2)))
-      {
-        return true;
-      }
-      return false;
+      return sfml_game::check_collision(
+            t.get_corner().x - (t.get_width() / 2),
+            t.get_corner().y + (t.get_height() / 2));
     default:
       break;
   }
