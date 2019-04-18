@@ -203,7 +203,7 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
        sf::Mouse::getPosition(window).x + camera.x,
        sf::Mouse::getPosition(window).y + camera.y))
     {
-        assert(i < static_cast<int>(m_tiles.size()));
+        assert((int)i < static_cast<int>(m_tiles.size()));
         assert(0 < static_cast<int>(m_selected.size()));
         if(m_tiles[i].get_id() == m_selected[0]){
            m_selected.pop_back();
