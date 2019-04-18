@@ -35,7 +35,9 @@ public:
 
   sf::Texture &get_background_image() noexcept { return m_background_image; }
 
-  sf::Texture &get_agent_sprite(const agent& a) noexcept;
+  sf::Texture &get_agent_sprite(const agent_type t ) noexcept;
+
+  sf::Texture &get_agent_sprite(const agent &a ) noexcept;
 
   sf::Texture &get_zen_bar() noexcept { return m_zen_bar_texture; }
 
