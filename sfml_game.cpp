@@ -21,6 +21,7 @@ sfml_game::sfml_game(
   const std::vector<agent>& agents)
   : m_background_music{ sfml_resources::get().get_background_music() },
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
+    m_sound(),
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
@@ -71,6 +72,18 @@ void sfml_game::close()
 void sfml_game::start_music() {
   stop_music();
   m_background_music.play();
+}
+
+void sfml_game::play_sound(const sound_type st)
+{
+  if (st != sound_type::none)
+  {
+    m_soundbuffer = sfml_resources::get().get_soundbuffer(st);
+
+    m_sound.setBuffer(m_soundbuffer);
+
+    m_sound.play();
+  }
 }
 
 void sfml_game::setup_tickcounter_text() {
@@ -234,7 +247,7 @@ void sfml_game::exec()
 void sfml_game::process_events()
 {
 
-  m_game.process_events();
+  play_sound(m_game.process_events());
 
   sf::Vector2i current_mouse = sf::Mouse::getPosition();
   sf::Vector2i mouse_delta = current_mouse - m_prev_mouse_pos;

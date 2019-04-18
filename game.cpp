@@ -58,7 +58,7 @@ int count_n_agents(const game& g) noexcept
 
 sound_type game::process_events()
 {
-  sound_wipe();
+  set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
 
   for (auto& a: m_agents) {
@@ -353,7 +353,7 @@ void test_game() //!OCLINT a testing function may be long
   // Number of game cycles is increased each time all events are processed
   {
     game g;
-    g.process_events();
+    g.set_sound_type(g.process_events());
     assert(g.get_n_ticks() == 1);
   }
 
@@ -427,7 +427,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 2);
     assert(collect_tile_types(g)[0] == tile_type::grassland);
     assert(collect_tile_types(g)[1] == tile_type::grassland);
-    g.process_events();
+    g.set_sound_type(g.process_events());
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::hills);
   }
@@ -440,7 +440,7 @@ void test_game() //!OCLINT a testing function may be long
 //    // Wait until cow starves
 //    while (!g.get_agents().empty())
 //    {
-//      g.process_events();
+//      g.set_sound_type(g.process_events());
 //    }
 //    const double new_score = g.get_score();
 //    assert(new_score < prev_score);
@@ -454,7 +454,7 @@ void test_game() //!OCLINT a testing function may be long
     const auto y_before = tile.get_y();
     tile.set_dx(5.0);
     tile.set_dy(5.0);
-    g.process_events();
+    g.set_sound_type(g.process_events());
     const auto x_after = tile.get_x();
     const auto y_after = tile.get_y();
     assert(x_before != x_after);
@@ -493,7 +493,7 @@ void test_game() //!OCLINT a testing function may be long
     );
     //Will freeze
     while (g.get_agents()[0].get_y() < 11.0) {
-      g.process_events();
+      g.set_sound_type(g.process_events());
     }
   }
   #endif //

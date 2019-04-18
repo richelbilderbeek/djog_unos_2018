@@ -56,11 +56,15 @@ public:
 
   /// Timer, physics, bullets moving, etc.bool
   /// Everything except user input.
+  /// The sound_type returned is used to determine
+  /// which game sound to play
   sound_type process_events();
 
+  /// Set m_sound_type to the input sound_type
   void set_sound_type(const sound_type st) noexcept
   { m_sound_type = st; }
 
+  /// See what the sound_type of m_sound_type is
   sound_type get_sound_type() noexcept
   { return m_sound_type; }
 
@@ -97,9 +101,6 @@ private:
   std::vector<int> m_selected;
 
   void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
-
-  void sound_wipe() noexcept
-  { set_sound_type(sound_type::none); }
 
   sound_type merge_tiles();
 
