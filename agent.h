@@ -98,13 +98,15 @@ private:
 
   void reproduce_agents(game& g, agent_type type);
 
-  void damage_near_grass(game &g, agent_type type);
+  void damage_own_type(game &g, agent_type type);
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);
   friend bool operator==(const agent& lhs, const agent& rhs) noexcept;
 
 };
+
+double get_agent_reproduction_health(const agent_type t) noexcept;
 
 std::vector<agent_type> can_eat(const agent_type type);
 
