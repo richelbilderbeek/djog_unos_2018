@@ -1,6 +1,7 @@
 SOURCES += \
     $$PWD/agent.cpp \
     $$PWD/agent_type.cpp \
+    $$PWD/biology.cpp \
     $$PWD/game.cpp \
     $$PWD/game_state.cpp \
     $$PWD/sfml_about_screen.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
 HEADERS += \
     $$PWD/agent.h \
     $$PWD/agent_type.h \
+    $$PWD/biology.h \
     $$PWD/game.h \
     $$PWD/game_state.h \
     $$PWD/sfml_about_screen.h \

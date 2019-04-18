@@ -1,8 +1,7 @@
 include(djog_unos_2018.pri)
 
 # Entry point for user
-SOURCES += main.cpp \
-    biology.cpp
+SOURCES += main.cpp
 
 # C++14
 CONFIG += c++14
@@ -135,5 +134,3 @@ QMAKE_CXXFLAGS += -fext-numeric-literals
 # [*]: the resource filename
 QMAKE_CXXFLAGS += -Wno-unused-variable
 
-HEADERS += \
-    biology.h
