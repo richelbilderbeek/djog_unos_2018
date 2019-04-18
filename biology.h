@@ -8,7 +8,15 @@
 class biology
 {
 public:
+  /// Constructor
   biology();
+
+  double get_health_increase_when_eating() const noexcept;
+
+  double get_stamina_increase_when_eating() const noexcept;
+
+  double get_health_decrease_when_eaten() const noexcept;
+
 };
 
 
