@@ -124,25 +124,27 @@ std::vector<tile_type> get_all_tile_types() noexcept
 
 std::string to_str(tile_type t) //!OCLINT cannot be simpler
 {
-  switch (t)
-  {
-    case tile_type::arctic: return "arctic";
-    case tile_type::beach: return "beach";
-    case tile_type::desert: return "desert";
-    case tile_type::dunes: return "dunes";
-    case tile_type::grassland: return "grassland";
-    case tile_type::hills: return "hills";
-    case tile_type::mangrove: return "mangrove";
-    case tile_type::mountains: return "mountains";
-    case tile_type::rainforest: return "rainforest";
-    case tile_type::savannah: return "savannah";
-    case tile_type::swamp: return "swamp";
-    case tile_type::tundra: return "tundra";
-    case tile_type::water: return "water";
-    case tile_type::woods: return "woods";
-  }
-  assert(!"Should not get here"); //!OCLINT acceptable idiom
-  return "";
+  // nieuw
+  const std::map<tile_type, std::string> m{
+    { tile_type::arctic, "wit landschap"},
+    { tile_type::beach, "beach"},
+    { tile_type::desert, "desert"},
+    { tile_type::dunes, "dunes"},
+    { tile_type::grassland, "grassland"},
+    { tile_type::hills, "hills"},
+    { tile_type::mangrove, "mangrove"},
+    { tile_type::mountains, "mountains"},
+    { tile_type::rainforest, "rainforest"},
+    { tile_type::savannah, "savannah"},
+    { tile_type::swamp, "swamp"},
+    { tile_type::tundra, "tundra"},
+    { tile_type::water, "water"},
+    { tile_type::woods, "woods"},
+
+  };
+  //This assert will fail if the string is not in the map
+  assert(m.find(t) != std::end(m));
+  return m.find(t)->second;
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
