@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <cmath>
 #include <set>
+#include <random>
+#include <chrono>
 #include "agent_type.h"
 #include "game.h"
 
@@ -215,16 +217,23 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
   m_x += 0.1 * (-1 + (std::rand() % 3));
   m_y += 0.1 * (-1 + (std::rand() % 3));
 
-  unsigned int rand = static_cast<unsigned int>(std::rand() % count_n_agents(g) + 1);
-  std::vector<agent>::iterator it = c.begin();
-  std::advance(it, r);
+  const auto p1 = std::chrono::system_clock::now();
+  unsigned seed = std::chrono::duration_cast<std::chrono::nanoseconds>(
+              p1.time_since_epoch()).count();
+  std::mt19937 rng;
+  rng.seed(seed);
+  std::uniform_int_distribution<std::mt19937::result_type> dist(0, count_n_agents(g) - 1);
+
+  unsigned int rand = dist(rng);
+
   agent a = g.get_agents()[rand];
   if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) != m_prey.end()){
     double distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
     const double vector_length = std::exp(-distance/400);
-    m_dx_motivation += -(0.001 * (m_x - a.get_x())) * vector_length;
-    m_dy_motivation += -(0.001 * (m_y - a.get_y())) * vector_length;
-    std::cout << m_dx_motivation << " + " << m_dy_motivation << std::endl;
+    m_dx_motivation += -(0.001 * (m_x - a.get_x()) * vector_length);
+    m_dy_motivation += -(0.001 * (m_y - a.get_y()) * vector_length);
+    //std::cout << vector_length << " " << rand << " " << count_n_agents(g) << std::endl;
+    //std::cout << m_dx_motivation << " + " << m_dy_motivation << " " << rand << std::endl;
     m_x += std::max(-1.0, std::min(m_dx_motivation, 1.0));
     m_y += std::max(-1.0, std::min(m_dy_motivation, 1.0));
   }
@@ -271,6 +280,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
       if(g.get_agents()[i] == *this){
         g.get_agents()[i] = g.get_agents().back();
         g.get_agents().pop_back();
+        return;
       }
     }
   }
