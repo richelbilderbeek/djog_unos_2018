@@ -86,8 +86,8 @@ void sfml_game::setup_selected_text() {
 
 void sfml_game::setup_essence_symbol()
 {
-  m_essence_symbol.setSize(0.6f*sf::Vector2f(
-    sfml_resources::get().get_essence_texture().getSize()));
+  m_essence_symbol.setSize(0.6f * sf::Vector2f(
+          sfml_resources::get().get_essence_texture().getSize()));
   m_essence_symbol.setTexture(&sfml_resources::get().get_essence_texture());
 }
 
@@ -508,9 +508,9 @@ void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
   if (event.key.code == sf::Keyboard::S)
     switch_collide(t, 3);
   if (event.key.code == sf::Keyboard::R) {
-    t.rotate_c();
+    try_rotate(t, false);
   } else if (event.key.code == sf::Keyboard::T) {
-    t.rotate_cc();
+    try_rotate(t, true);
   }
 }
 
@@ -557,6 +557,21 @@ void sfml_game::switch_collide(tile& t, int direction)
       t.set_dx(t.get_dx() * 2);
       t.set_dy(t.get_dy() * 2);
     }
+  }
+}
+
+void sfml_game::try_rotate(tile &t, bool cc) {
+  int rot = static_cast<int>(t.get_rotation());
+  std::cout << ((rot + (90 - (rot % 90))) % 360) / 90 << std::endl;
+  std::cout << ((((rot + (90 - (rot % 90))) % 360) / 90) + 2) / 4 << std::endl;
+  std::cout << t.get_rotation() << std::endl;
+  std::cout << "----------------------" << std::endl;
+  if (cc) {
+    if (!will_colide(((rot + (90 - (rot % 90))) % 360) / 90, t)) {
+      t.rotate_cc();
+    }
+  } else if (!will_colide(((((rot + (90 - (rot % 90))) % 360) / 90) + 2) / 4, t)) {
+    t.rotate_c();
   }
 }
 
