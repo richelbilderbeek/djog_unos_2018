@@ -33,6 +33,6 @@ void sfml_camera::move_camera(Vector2f offset)
 void sfml_camera::zoom_camera(double mag)
 {
   sf::View view = m_window.getView();
-  view.rotate(mag);
+  view.zoom(mag);
   m_window.setView(view);
 }

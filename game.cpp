@@ -58,14 +58,10 @@ int count_n_agents(const game& g) noexcept
 
 void game::process_events()
 {
-<<<<<<< HEAD
-  for (agent& a : m_agents) {
-=======
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
 
   for (auto& a: m_agents) {
->>>>>>> develop
     a.process_events(*this);
   }
 

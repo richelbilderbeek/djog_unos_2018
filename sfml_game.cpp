@@ -423,11 +423,11 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
     {
-      m_camera.zoom_camera(10);
+      m_camera.zoom_camera(1.1);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
-      m_camera.zoom_camera(-10);
+      m_camera.zoom_camera(0.9);
     }
   }
   else
