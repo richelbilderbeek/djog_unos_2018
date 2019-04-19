@@ -411,8 +411,10 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept //!OC
 
 sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
 {
+  /// Only deal with actual sounds
   assert(st != sound_type::none);
 
+  /// Getting the collision soundfile
   if (st == sound_type::tile_collision)
     return m_tile_collission_soundbuffer;
 

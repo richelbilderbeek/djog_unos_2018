@@ -79,16 +79,23 @@ void sfml_game::start_music() {
 
 void sfml_game::play_sound()
 {
+  /// Only play actual sounds
   if (m_sound_type != sound_type::none)
   {
     assert(m_sound_type != sound_type::none);
 
+    /// Get the soundbuffer from the file
     m_soundbuffer = sfml_resources::get().get_soundbuffer(m_sound_type);
 
+    /// Set m_soundbuffer
+    /// Keep it in scope while m_sound exists
     m_sound.setBuffer(m_soundbuffer);
 
+    /// Play the sound
     m_sound.play();
 
+    /// Reset m_sound_type so this function
+    /// does not trigger continuously
     m_sound_type = sound_type::none;
   }
 }

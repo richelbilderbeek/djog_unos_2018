@@ -27,6 +27,7 @@ public:
 
   sf::Music &get_benikeenspin() noexcept { return m_benikeenspin; }
 
+  /// Get the appropriate soundbuffer
   sf::SoundBuffer& get_soundbuffer(const sound_type st);
 
   sf::Font& get_default_font() noexcept { return m_default_font; }
