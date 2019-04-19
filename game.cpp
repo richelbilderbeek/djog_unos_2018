@@ -46,6 +46,22 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
   return types;
 }
 
+int random_int(unsigned seed, int min, int max){
+    std::mt19937 rng;
+    rng.seed(seed);
+    std::uniform_int_distribution<int> dist(min, max);
+
+    return static_cast<int>(dist(rng));
+}
+
+double random_double(unsigned seed, double min, double max){
+    std::mt19937 rng;
+    rng.seed(seed);
+    std::uniform_real_distribution<double> dist(min, max);
+
+    return static_cast<double>(dist(rng));
+}
+
 int count_n_tiles(const game& g) noexcept
 {
   return g.get_tiles().size();

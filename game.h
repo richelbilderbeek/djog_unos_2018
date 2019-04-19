@@ -133,6 +133,9 @@ int count_n_tiles(const game& g) noexcept;
 
 int count_n_agents(const game& g) noexcept;
 
+int random_int(unsigned seed, int min, int max);
+double random_double(unsigned seed, double min, double max);
+
 /// Determine if an agent is on a tile
 bool is_on_tile(const game& g, const agent& a);
 
