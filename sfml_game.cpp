@@ -21,6 +21,9 @@ sfml_game::sfml_game(
   const std::vector<agent>& agents)
   : m_background_music{ sfml_resources::get().get_background_music() },
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
+    m_sound_type(sound_type::none),
+    m_soundbuffer(),
+    m_sound(),    
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
@@ -28,6 +31,7 @@ sfml_game::sfml_game(
     m_shop_overlay(),
     m_save_screen(m_game)
 {
+  assert(m_sound_type == sound_type::none);
   // Set up music
   m_background_music.setLoop(true);
 
@@ -71,6 +75,29 @@ void sfml_game::close()
 void sfml_game::start_music() {
   stop_music();
   m_background_music.play();
+}
+
+void sfml_game::play_sound()
+{
+  /// Only play actual sounds
+  if (m_sound_type != sound_type::none)
+  {
+    assert(m_sound_type != sound_type::none);
+
+    /// Get the soundbuffer from the file
+    m_soundbuffer = sfml_resources::get().get_soundbuffer(m_sound_type);
+
+    /// Set m_soundbuffer
+    /// Keep it in scope while m_sound exists
+    m_sound.setBuffer(m_soundbuffer);
+
+    /// Play the sound
+    m_sound.play();
+
+    /// Reset m_sound_type so this function
+    /// does not trigger continuously
+    m_sound_type = sound_type::none;
+  }
 }
 
 void sfml_game::setup_tickcounter_text() {
@@ -161,17 +188,14 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 }
 
 void sfml_game::display_tile(const tile &t){
-    sf::RectangleShape sfml_tile(
-      sf::Vector2f(
-        static_cast<float>(t.get_width()),
-        static_cast<float>(t.get_height())
-      )
-    );
+    sf::RectangleShape sfml_tile(sf::Vector2f(212, 100));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
     const double screen_x{ t.get_x() - m_camera.x };
     const double screen_y{ t.get_y() - m_camera.y };
-    sfml_tile.setPosition(screen_x, screen_y);
+    sfml_tile.setOrigin(50, 50);
+    sfml_tile.setRotation(t.get_rotation());
+    sfml_tile.setPosition(screen_x + 50, screen_y + 50);
     sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
@@ -179,7 +203,9 @@ void sfml_game::display_tile(const tile &t){
     sf::Sprite sprite;
     set_tile_sprite(t, sprite);
     assert(sprite.getTexture());
-    sprite.setPosition(screen_x, screen_y);
+    sprite.setOrigin(50, 50);
+    sprite.setRotation(t.get_rotation() - 90);
+    sprite.setPosition(screen_x + 50, screen_y + 50);
     sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
     m_window.draw(sprite);
 }
@@ -271,6 +297,8 @@ void sfml_game::process_events()
 
   m_delegate.do_actions(*this);
   ++m_n_displayed;
+
+  play_sound();
 }
 
 void sfml_game::confirm_move()
@@ -510,8 +538,11 @@ void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
     switch_collide(t, 1);
   if (event.key.code == sf::Keyboard::S)
     switch_collide(t, 3);
-  if (event.key.code == sf::Keyboard::R)
-    rotate(t);
+  if (event.key.code == sf::Keyboard::R) {
+    t.rotate_c();
+  } else if (event.key.code == sf::Keyboard::T) {
+    t.rotate_cc();
+  }
 }
 
 void sfml_game::confirm_tile_move(tile& t, int direction)
@@ -550,6 +581,7 @@ void sfml_game::switch_collide(tile& t, int direction)
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
     //confirm_tile_move(t, direction);
+    m_sound_type = sound_type::tile_collision;
     m_game.confirm_tile_move(t, direction, m_tile_speed);
     sf::Vector2f b = get_direction_pos(direction, t, 112);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])

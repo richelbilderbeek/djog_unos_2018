@@ -1,6 +1,7 @@
 SOURCES += \
     $$PWD/agent.cpp \
     $$PWD/agent_type.cpp \
+    $$PWD/biology.cpp \
     $$PWD/game.cpp \
     $$PWD/game_state.cpp \
     $$PWD/sfml_about_screen.cpp \
@@ -22,11 +23,13 @@ SOURCES += \
     $$PWD/sfml_save_overlay.cpp \
     $$PWD/sfml_zen_bar.cpp \
     $$PWD/sfml_scroll_box.cpp \
-    $$PWD/sfml_load_screen.cpp
+    $$PWD/sfml_load_screen.cpp \
+    $$PWD/sound_type.cpp
 
 HEADERS += \
     $$PWD/agent.h \
     $$PWD/agent_type.h \
+    $$PWD/biology.h \
     $$PWD/game.h \
     $$PWD/game_state.h \
     $$PWD/sfml_about_screen.h \
@@ -48,7 +51,8 @@ HEADERS += \
     $$PWD/sfml_save_overlay.h \
     $$PWD/sfml_zen_bar.h \
     $$PWD/sfml_scroll_box.h \
-    $$PWD/sfml_load_screen.h
+    $$PWD/sfml_load_screen.h \
+    $$PWD/sound_type.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc
