@@ -407,46 +407,54 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT t
   if (t.get_width() > 100) {
       // orientatie is horizontaal
       assert(t.get_height() == 100.0);
-      switch (t.get_type())
-      {
-        case tile_type::tundra:
-               return m_tundra_laying;
-        case tile_type::beach:
-               return m_beach_laying;
-        case tile_type::water:
-               return m_water_laying;
-        case tile_type::dunes:
-               return m_dunes_laying;
-        case tile_type::hills:
-               return m_hills_laying;
-        default:
-          return m_empty_tile;
-      }
+      return get_tile_sprite_landscape(t.get_type());
+
    }
   if (t.get_height() > 100) {
       // orientatie is verticaal
       assert(t.get_width() == 100.0);
-      switch (t.get_type())
-        {
-      case tile_type::tundra:
-             return m_tundra_standing;
-      case tile_type::beach:
-             return m_beach_standing;
-      case tile_type::water:
-             return m_water_standing;
-      case tile_type::dunes:
-             return m_dunes_standing;
-      case tile_type::hills:
-             return m_hills_standing;
-        default:
-          return m_empty_tile;
-        }
-   }
-
+      return get_tile_sprite_portrait(t.get_type());
+    }
   return m_empty_tile;
 
 }
+sf::Texture &sfml_resources::get_tile_sprite_landscape(const tile_type t) noexcept //!OCLINT cannot be simpler
+{
+  switch (t)
+    {
+      case tile_type::tundra:
+             return m_tundra_laying;
+      case tile_type::beach:
+             return m_beach_laying;
+      case tile_type::water:
+             return m_water_laying;
+      case tile_type::dunes:
+             return m_dunes_laying;
+      case tile_type::hills:
+             return m_hills_laying;
+      default:
+        return m_empty_tile;
+    }
+}
 
+sf::Texture &sfml_resources::get_tile_sprite_portrait(const tile_type t) noexcept //!OCLINT cannot be simpler
+{
+  switch (t)
+    {
+  case tile_type::tundra:
+         return m_tundra_standing;
+  case tile_type::beach:
+         return m_beach_standing;
+  case tile_type::water:
+         return m_water_standing;
+  case tile_type::dunes:
+         return m_dunes_standing;
+  case tile_type::hills:
+         return m_hills_standing;
+    default:
+      return m_empty_tile;
+    }
+}
 void test_sfml_resources() //!OCLINT tests may be long
 {
   sfml_resources &resources = sfml_resources::get();
