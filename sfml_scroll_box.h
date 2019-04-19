@@ -19,6 +19,7 @@ public:
   bool hovering(const sf::Event& event, const sf::RenderWindow& window);
 
   sf::RectangleShape &get_shape() noexcept { return m_shape; }
+
   sf::View &get_view() noexcept { return m_view; }
 
   sf::Vector2f get_pos() noexcept { return sf::Vector2f(m_x, m_y); }
@@ -29,9 +30,15 @@ public:
 
   void draw(sf::RenderWindow& window);
 
-  void add_drawable(sf::Drawable &drawable);
+  //No ABCs
+  //void add_drawable(sf::Drawable &drawable);
+  void add_rectangle(sf::RectangleShape &r);
+  void add_text(sf::Text &t);
 
-  void remove_drawable(sf::Drawable &drawable);
+  //No ABCs
+  //void remove_drawable(sf::Drawable &drawable);
+
+  void remove_rectangle(sf::RectangleShape &r);
 
   void scroll(sf::Event &event);
 
@@ -46,7 +53,11 @@ private:
   double m_height;
   double m_width;
 
-  std::vector<std::reference_wrapper<sf::Drawable>> m_drawables;
+  //No, we are not going to use abstract base classes in this project
+  //std::vector<std::reference_wrapper<sf::Drawable>> m_drawables;
+  std::vector<std::reference_wrapper<sf::RectangleShape>> m_rectangles;
+
+  std::vector<std::reference_wrapper<sf::Text>> m_texts;
 
 };
 
