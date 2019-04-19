@@ -390,7 +390,15 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
       control_tile(false, event, getTileById(m_game.m_selected));
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
-        close(game_state::paused);
+      close(game_state::paused);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+    {
+      m_camera.zoom_camera(10);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+    {
+      m_camera.zoom_camera(-10);
     }
   }
   else

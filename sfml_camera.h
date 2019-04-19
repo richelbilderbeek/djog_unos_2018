@@ -13,6 +13,7 @@ public:
   double x{-100.0};
   double y{-100.0};
   void move_camera(sf::Vector2f offset);
+  void zoom_camera(double mag);
 
   sf::Vector2f origin;
   void reset();

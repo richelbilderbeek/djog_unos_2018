@@ -310,29 +310,6 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   ///Eating others
   eat(g);
 
-<<<<<<< HEAD
-//  if(m_type == agent_type::fish || m_type == agent_type::whale){
-//    for(tile& t : g.get_tiles()){
-//      if(is_on_specific_tile(*this, t) && t.get_type() != tile_type::water){
-//        m_health -= 0.01;
-//      }
-//    }
-//  }
-
-//  if(m_type == agent_type::corpse && corpse_ticks == -1){
-//    corpse_ticks = g.get_n_ticks();
-//  }
-
-//  if(m_type == agent_type::corpse && corpse_ticks + 300 < g.get_n_ticks()){
-//    unsigned int n = static_cast<unsigned int>(count_n_agents(g));
-//    for(unsigned int i = 0; i < n; i++){
-//      if(g.get_agents()[i] == *this){
-//        g.get_agents()[i] = g.get_agents().back();
-//        g.get_agents().pop_back();
-//      }
-//    }
-//  }
-=======
   if(m_type == agent_type::fish || m_type == agent_type::whale){
     for(tile& t: g.get_tiles()){
       if(is_on_specific_tile(*this, t) && t.get_type() != tile_type::water){
@@ -340,7 +317,6 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
       }
     }
   }
->>>>>>> develop
 }
 
 void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
@@ -993,11 +969,7 @@ void test_agent() //!OCLINT testing functions may be long
     game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 100)});
     const auto prev_health = g.get_agents()[0].get_health();
-<<<<<<< HEAD
-#define test
-    assert(g.get_tiles().size() == 1);
-=======
->>>>>>> develop
+
     g.process_events();
     assert(g.get_agents().size() == 2);
     const auto after_health = g.get_agents()[0].get_health();

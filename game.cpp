@@ -91,10 +91,6 @@ void game::process_events()
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
     tile.process_events(*this);
   }
 
