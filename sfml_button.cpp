@@ -41,7 +41,7 @@ void sfml_button::set_size(double width, double height) {
   m_text.setPosition(m_x + (m_width / 2), m_y + (m_height / 2));
 }
 
-void sfml_button::set_string(const std::string str) {
+void sfml_button::set_string(const std::string& str) {
   m_string = str;
   m_text.setString(str);
   sf::FloatRect bounds = m_text.getLocalBounds();
