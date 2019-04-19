@@ -392,8 +392,10 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
 }
 
 bool contains(const tile& t, double x, double y) noexcept {
-  return x > t.get_x() - 5 && x < t.get_x() + t.get_width() + 5 && y > t.get_y() - 5 &&
-         y < t.get_y() + t.get_height() + 5;
+  return x > t.get_x() - 5
+      && x < t.get_x() + t.get_width() + 5
+      && y > t.get_y() - 5
+      && y < t.get_y() + t.get_height() + 5;
 }
 
 void tile::lock_movement(bool b) { m_locked = b; }

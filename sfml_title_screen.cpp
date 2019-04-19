@@ -76,9 +76,10 @@ void sfml_title_screen::exec()
       }
     }
     title_text.setPosition(
-        m_window.getSize().x/2,
-        m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-        (m_window.getSize().y/568)*130+i);
+      m_window.getSize().x/2,
+      m_window.getView().getCenter().y - (m_window.getSize().y/2) +
+        (m_window.getSize().y/568)*130+i
+    );
     title_text.setPosition(m_window.mapPixelToCoords(
                            sf::Vector2i(title_text.getPosition())));
     m_bg_sprite.setPosition(0, 0);
