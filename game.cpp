@@ -21,9 +21,10 @@ game::game(
     m_agents{agents},
     m_n_tick{0},
     m_score{0},
-    m_essence{0}
+    m_essence{0},
+    m_sound_type{sound_type::none}
 {
-
+  assert(m_sound_type == sound_type::none);
 }
 
 void game::add_agents(const std::vector<agent>& as)
@@ -57,7 +58,14 @@ int count_n_agents(const game& g) noexcept
 
 void game::process_events()
 {
+<<<<<<< HEAD
   for (agent& a : m_agents) {
+=======
+  set_sound_type(sound_type::none);
+  assert(m_sound_type == sound_type::none);
+
+  for (auto& a: m_agents) {
+>>>>>>> develop
     a.process_events(*this);
   }
 
@@ -203,12 +211,10 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
        sf::Mouse::getPosition(window).x + camera.x,
        sf::Mouse::getPosition(window).y + camera.y))
     {
-        try {
-            if(m_tiles[i].get_id() == m_selected.at(0)){
-               m_selected.pop_back();
-            }
-        } catch (std::out_of_range&) {
-            std::cout << "segmentation fault" << std::endl;
+        assert((int)i < static_cast<int>(m_tiles.size()));
+        assert(0 < static_cast<int>(m_selected.size()));
+        if(m_tiles[i].get_id() == m_selected[0]){
+           m_selected.pop_back();
         }
     } else {
 
@@ -612,7 +618,7 @@ std::istream& operator>>(std::istream& is, game& g)
   g.m_tiles.clear();
   for (int i = 0; i < n_tiles; ++i)
   {
-    tile t(1, 1, 1, 0, 0, tile_type::grassland, tile_id());
+    tile t(1, 1, 1, 0, 0, tile_type::grassland);
     is >> t;
     g.m_tiles.emplace_back(t);
   }
