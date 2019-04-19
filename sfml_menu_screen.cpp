@@ -54,7 +54,7 @@ void sfml_menu_screen::exec()
   }
 }
 
-void sfml_menu_screen::process_event(sf::Event event)
+void sfml_menu_screen::process_event(sf::Event event) //!OCLINT indeed too complex
 {
   switch (event.type) {
     case sf::Event::Closed:
