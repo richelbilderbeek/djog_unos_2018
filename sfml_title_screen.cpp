@@ -75,16 +75,12 @@ void sfml_title_screen::exec()
           break;
       }
     }
-    title_text.setPosition(m_window.getSize().x/2,
-                           m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-                           (m_window.getSize().y/568)*130+i);
+    title_text.setPosition(
+        m_window.getSize().x/2,
+        m_window.getView().getCenter().y-(m_window.getSize().y/2)+
+        (m_window.getSize().y/568)*130+i);
     title_text.setPosition(m_window.mapPixelToCoords(
                            sf::Vector2i(title_text.getPosition())));
-
-    //m_bg_sprite.setPosition(sf::Vector2f(m_window.getView().getCenter().x -
-    //                                     m_bg_sprite.getTexture()->getSize().x,
-    //                                     m_window.getView().getCenter().y -
-    //                                     m_bg_sprite.getTexture()->getSize().y));
     m_bg_sprite.setPosition(0, 0);
     m_bg_sprite.setPosition(m_window.mapPixelToCoords(
                                sf::Vector2i(m_bg_sprite.getPosition())));
