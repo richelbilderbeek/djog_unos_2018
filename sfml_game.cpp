@@ -415,7 +415,7 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
     arrows(true, event);
     if (!m_game.m_selected.empty())
     {
-      assert(!m_selected.empty());
+      assert(!m_game.m_selected.empty());
       control_tile(true, event, getTileById(m_game.m_selected));
     }
     if (m_timer > 0)
