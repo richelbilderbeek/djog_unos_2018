@@ -23,8 +23,8 @@ public:
   sf::Vector2f get_pos() noexcept { return sf::Vector2f(m_x, m_y); }
   sf::Vector2f get_size() noexcept { return sf::Vector2f(m_width, m_height); }
 
-  void set_string(const std::string str);
-  std::string get_string() const noexcept { return m_string; }
+  void set_string(const std::string& str);
+  const std::string& get_string() const noexcept { return m_string; }
 
   void set_pos(double x, double y);
   void set_pos(sf::Vector2f position);
