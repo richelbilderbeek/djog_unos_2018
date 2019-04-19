@@ -43,7 +43,7 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   stretch_bg();
 }
 
-void sfml_title_screen::exec() //!OCLINT must be shorter
+void sfml_title_screen::exec()
 {
   while(active(game_state::titlescreen)) {
     if (m_close_at >= 0) close(game_state::menuscreen);
@@ -52,7 +52,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     while (m_window.pollEvent(event))
     {
       sf::View view = m_window.getDefaultView();
-      switch (event.type) //!OCLINT TODO too few branches, please fix
+      switch (event.type)
       {
         case sf::Event::Closed:
           close();
