@@ -56,7 +56,7 @@ int count_n_agents(const game& g) noexcept
   return g.get_agents().size();
 }
 
-sound_type game::process_events()
+void game::process_events()
 {
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
@@ -70,9 +70,7 @@ sound_type game::process_events()
     kill_agents();
   }
 
-  m_sound_type = merge_tiles();
-  assert(m_sound_type == sound_type::none ||
-         m_sound_type == sound_type::tile_collision);
+  merge_tiles();
 
   // Calculate the score
   int agent_count = 0;
@@ -103,8 +101,6 @@ sound_type game::process_events()
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
 
   ++m_n_tick;
-
-  return m_sound_type;
 }
 
 void game::spawn(agent_type type, tile t)
@@ -165,7 +161,7 @@ void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
   }
 }
 
-sound_type game::merge_tiles() { //!OCLINT must simplify
+void game::merge_tiles() { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
   const int n = count_n_tiles(*this);
@@ -183,11 +179,9 @@ sound_type game::merge_tiles() { //!OCLINT must simplify
       tile& other_tile = m_tiles[j];
       if (!have_same_position(focal_tile, other_tile)) { continue; }
       tile_merge(focal_tile, other_tile, j);
-      return sound_type::tile_collision; //!OCLINT I don't know an alternative;
+      return; //!OCLINT I don't know an alternative;
     }
   }
-
-  return sound_type::none;
 }
 
 void game::kill_agents() {
@@ -353,7 +347,7 @@ void test_game() //!OCLINT a testing function may be long
   // Number of game cycles is increased each time all events are processed
   {
     game g;
-    g.set_sound_type(g.process_events());
+    g.process_events();
     assert(g.get_n_ticks() == 1);
   }
 
@@ -427,7 +421,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 2);
     assert(collect_tile_types(g)[0] == tile_type::grassland);
     assert(collect_tile_types(g)[1] == tile_type::grassland);
-    g.set_sound_type(g.process_events());
+    g.process_events();
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::hills);
   }
@@ -440,7 +434,7 @@ void test_game() //!OCLINT a testing function may be long
 //    // Wait until cow starves
 //    while (!g.get_agents().empty())
 //    {
-//      g.set_sound_type(g.process_events());
+//      g.process_events();
 //    }
 //    const double new_score = g.get_score();
 //    assert(new_score < prev_score);
@@ -454,7 +448,7 @@ void test_game() //!OCLINT a testing function may be long
     const auto y_before = tile.get_y();
     tile.set_dx(5.0);
     tile.set_dy(5.0);
-    g.set_sound_type(g.process_events());
+    g.process_events();
     const auto x_after = tile.get_x();
     const auto y_after = tile.get_y();
     assert(x_before != x_after);
@@ -493,7 +487,7 @@ void test_game() //!OCLINT a testing function may be long
     );
     //Will freeze
     while (g.get_agents()[0].get_y() < 11.0) {
-      g.set_sound_type(g.process_events());
+      g.process_events();
     }
   }
   #endif //
@@ -509,11 +503,11 @@ void test_game() //!OCLINT a testing function may be long
     tile& tile = g.get_tiles()[0];
     const auto x_before = tile.get_x();
     tile.set_dx(5.0);
-    g.set_sound_type(g.process_events());
+    g.process_events();
     const auto x_after = tile.get_x();
     assert(x_before != x_after);
     tile.set_dy(5.0);
-    g.set_sound_type(g.process_events());
+    g.process_events();
   }
   {
     const agent a(agent_type::tree);
@@ -539,7 +533,7 @@ void test_game() //!OCLINT a testing function may be long
 //    tile.set_dy(1.0);
 //    for (int i=0; i != 100; ++i)
 //    {
-//      g.set_sound_type(g.process_events());
+//      g.process_events();
 //    }
 //    assert(g.get_agents()[0].get_x() == start_grass_x);
 //    assert(g.get_agents()[0].get_y() == start_grass_y);

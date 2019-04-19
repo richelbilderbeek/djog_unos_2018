@@ -3,7 +3,6 @@
 #include "agent.h"
 #include "tile_type.h"
 #include "tile.h"
-#include "sound_type.h"
 
 #include <cassert>
 
@@ -412,8 +411,10 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept //!OC
 
 sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
 {
+  assert(st != sound_type::none);
+
   if (st == sound_type::tile_collision)
-  { return m_tile_collission_soundbuffer; }
+    return m_tile_collission_soundbuffer;
 
   assert(!"Should never come this far."); //!OCLINT accepted idiom
   return m_tile_collission_soundbuffer;

@@ -56,9 +56,7 @@ public:
 
   /// Timer, physics, bullets moving, etc.bool
   /// Everything except user input.
-  /// The sound_type returned is used to determine
-  /// which game sound to play
-  sound_type process_events();
+  void process_events();
 
   /// Set m_sound_type to the input sound_type
   void set_sound_type(const sound_type st) noexcept
@@ -102,7 +100,7 @@ private:
 
   void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
 
-  sound_type merge_tiles();
+  void merge_tiles();
 
   void kill_agents();
 

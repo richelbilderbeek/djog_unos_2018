@@ -130,11 +130,13 @@ private:
 
   sf::Music &m_ben_ik_een_spin;
 
+  sound_type m_sound_type;
+
   sf::SoundBuffer m_soundbuffer;
 
   sf::Sound m_sound;
 
-  void play_sound(const sound_type st);
+  void play_sound();
 
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
