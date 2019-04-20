@@ -10,6 +10,7 @@
 #include <QFile>
 #include <algorithm>
 #include <functional>
+#include <chrono>
 
 
 game::game(
@@ -46,20 +47,21 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
   return types;
 }
 
-int random_int(unsigned seed, int min, int max){
+int random_int(int min, int max){
+    std::random_device rd;
     std::mt19937 rng;
-    rng.seed(seed);
+    rng.seed(rd());
     std::uniform_int_distribution<int> dist(min, max);
 
     return static_cast<int>(dist(rng));
 }
 
-double random_double(unsigned seed, double min, double max){
-    std::mt19937 rng;
-    rng.seed(seed);
-    std::uniform_real_distribution<double> dist(min, max);
+double random_double(double min, double max){
+    std::default_random_engine device(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count()));
+    std::mt19937 generator(device());
+    std::uniform_real_distribution<double> distribution(min, max);
 
-    return static_cast<double>(dist(rng));
+    return distribution(generator);
 }
 
 int count_n_tiles(const game& g) noexcept
@@ -563,6 +565,22 @@ void test_game() //!OCLINT a testing function may be long
                                          agent(agent_type::plankton) } );
         // There are now 5 agents of type cow
         assert(g.get_agent_count(agent_type::cow) == 5);
+    }
+    //random_int() returns a random int between min (inclusive) and max (inclusive)
+    {
+      int random = random_int(0, 10);
+      assert(random >= 0 && random <= 10);
+    }
+    //random_double() returns a random double between min (inclusive) and max (inclusive)
+    {
+//      double random1 = random_double(0.0, 10.0);
+//      double random2 = random_double(0.0, 10.0);
+//      std::cout << random1 << " " << random2 << std::endl;
+//      assert(random1 >= 0.0 && random1 <= 10.0);
+//      assert(random2 >= 0.0 && random2 <= 10.0);
+//      assert(random1 != random2);
+        for(int i = 0; i <= 10; i++) std::cout << random_double(0, 10) << std::endl;
+        assert(1==2);
     }
 }
 

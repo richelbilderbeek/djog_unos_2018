@@ -250,7 +250,7 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
   };
 
   if(g.get_n_ticks() % ticks == 0){
-    ticks = random_int(314, 1400, 1800);
+    ticks = random_int(1400, 1800);
     const auto here = std::find_if(
       std::begin(v),
       std::end(v),
@@ -294,8 +294,8 @@ double tile::get_height() const {
 void tile::spawn(game& g, agent_type type) { //!OCLINT high cyclomatic complexity
   const double max_distance_x{get_width()};
   const double max_distance_y{get_height() - 40};
-  double f_x{random_double(314, 0, 1)};
-  double f_y{random_double(314, 0, 1)};
+  double f_x{random_double(0, 1)};
+  double f_y{random_double(0, 1)};
   assert(f_x >= 0.0 && f_x < 1.0);
   assert(f_y >= 0.0 && f_y < 1.0);
   double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance_x)};
@@ -305,8 +305,8 @@ void tile::spawn(game& g, agent_type type) { //!OCLINT high cyclomatic complexit
   while(!is_on_tile(g, new_agent)
         || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
         || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t)){
-    f_x = random_double(314, 0, 1);
-    f_y = random_double(314, 0, 1);
+    f_x = random_double(0, 1);
+    f_y = random_double(0, 1);
     assert(f_x >= 0.0 && f_x < 1.0);
     assert(f_y >= 0.0 && f_y < 1.0);
     new_x = m_x + (((f_x * 2.0) - 1.0) * max_distance_x);

@@ -214,10 +214,10 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
   if (m_type == agent_type::corpse) return;
 
   //Move randomly a bit
-  m_x += 0.1 * (-1 + random_double(314, 0, 3));
-  m_y += 0.1 * (-1 + random_double(314, 0, 3));
+  m_x += 0.1 * (-1 + random_double(0, 3));
+  m_y += 0.1 * (-1 + random_double(0, 3));
 
-  unsigned int rand = static_cast<unsigned int>(random_int(314, 0, count_n_agents(g) - 1));
+  unsigned int rand = static_cast<unsigned int>(random_int(0, count_n_agents(g) - 1));
 
   agent a = g.get_agents()[rand];
   if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) != m_prey.end()){
@@ -315,7 +315,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
 void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
   if(is_plant(type)){
-    const double rand = random_double(314, 10, 26) / 1000.0; // 20 extra for the grass self-damage
+    const double rand = random_double(10, 26) / 1000.0; // 20 extra for the grass self-damage
     // Grow
     m_health += rand;
   }
@@ -323,8 +323,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
   if (m_health > get_agent_reproduction_health(type))
   {
     //Random fractions, from 0.0 to 1.0
-    const double f_parent{random_double(314, 0, 1)};
-    const double f_kid{random_double(314, 0, 1)};
+    const double f_parent{random_double(0, 1)};
+    const double f_kid{random_double(0, 1)};
     assert(f_parent >= 0.0 && f_parent < 1.0);
     assert(f_kid >= 0.0 && f_kid < 1.0);
 
@@ -342,8 +342,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
     //Kids grow at new spot
     const double max_distance{64.0};
-    double f_x{random_double(314, 0, 1)};
-    double f_y{random_double(314, 0, 1)};
+    double f_x{random_double(0, 1)};
+    double f_y{random_double(0, 1)};
     assert(f_x >= 0.0 && f_x < 1.0);
     assert(f_y >= 0.0 && f_y < 1.0);
     double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance)};
@@ -360,8 +360,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
            || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t.front())
     )
     {
-      f_x = random_double(314, 0, 1);
-      f_y = random_double(314, 0, 1);
+      f_x = random_double(0, 1);
+      f_y = random_double(0, 1);
       assert(f_x >= 0.0 && f_x < 1.0);
       assert(f_y >= 0.0 && f_y < 1.0);
       new_x = m_x + (((f_x * 2.0) - 1.0) * max_distance);
@@ -416,7 +416,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a2(agent_type::cow, 40, 70, 1, 0, can_eat(agent_type::cow));
     move_agent_to_tile(a2, 0, 0);
     agents.push_back(a2);
-    agent a3(agent_type::grass, 70, 40, 50 + random_double(314, 0, 50)
+    agent a3(agent_type::grass, 70, 40, 50 + random_double(0, 50)
              , 0, can_eat(agent_type::grass));
     move_agent_to_tile(a3, 0, 0);
     agents.push_back(a3);
@@ -463,7 +463,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agent a1(agent_type::crocodile, 0, 0, 1, 0, can_eat(agent_type::crocodile));
     move_agent_to_tile(a1, 2, 1);
     agents.push_back(a1);
-    agent a2(agent_type::grass, 0, 0, 50 + random_double(314, 0, 50),
+    agent a2(agent_type::grass, 0, 0, 50 + random_double(0, 50),
              0, can_eat(agent_type::grass));
     move_agent_to_tile(a2, 2, 1);
     agents.push_back(a2);
@@ -498,7 +498,7 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agents.push_back(a2);
   }
   {
-    agent a1(agent_type::grass, 0, 0, 50 + random_double(314, 0, 50),
+    agent a1(agent_type::grass, 0, 0, 50 + random_double(0, 50),
              0, can_eat(agent_type::grass));
     move_agent_to_tile(a1, 1, -1);
     agents.push_back(a1);

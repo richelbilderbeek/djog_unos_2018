@@ -485,7 +485,7 @@ void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
   assert(tiles.size() > 0);
-  const int i = random_int(314, 0, tiles.size());
+  const int i = random_int(0, tiles.size());
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
   m_game.m_selected[0] = id;
