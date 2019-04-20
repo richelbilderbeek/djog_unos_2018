@@ -11,7 +11,7 @@
 #include <tuple>
 #include <map>
 
-std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
+std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept
 {
   using triplet = std::tuple<tile_type, tile_type, tile_type>;
   const std::vector<triplet> v = {

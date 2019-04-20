@@ -227,7 +227,7 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 
 void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 {
-  if (!g.allow_spawning()) return;
+  if (!g.allow_spawning() || m_type == tile_type::arctic) return;
   //Spawning
   //Land type, common agent type spawned, rare agent type spawned
   using triplet = std::tuple<tile_type, agent_type, agent_type>;
@@ -300,7 +300,7 @@ void tile::spawn(game& g, agent_type type) { //!OCLINT high cyclomatic complexit
   assert(f_y >= 0.0 && f_y < 1.0);
   double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance_x)};
   double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance_y)};
-  agent new_agent(type, new_x, new_y);
+  agent new_agent(type, new_x, new_y, 100, 0, can_eat(type));
   tile t = *this;
   while(!is_on_tile(g, new_agent)
         || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
@@ -392,8 +392,10 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
 }
 
 bool contains(const tile& t, double x, double y) noexcept {
-  return x > t.get_x() - 5 && x < t.get_x() + t.get_width() + 5 && y > t.get_y() - 5 &&
-         y < t.get_y() + t.get_height() + 5;
+  return x > t.get_x() - 5
+      && x < t.get_x() + t.get_width() + 5
+      && y > t.get_y() - 5
+      && y < t.get_y() + t.get_height() + 5;
 }
 
 void tile::lock_movement(bool b) { m_locked = b; }
