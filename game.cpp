@@ -58,7 +58,7 @@ int random_int(int min, int max){
 }
 
 double random_double(double min, double max){
-    std::default_random_engine device;
+    std::default_random_engine device(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count()));
     std::mt19937 generator(device());
     std::uniform_real_distribution<double> distribution(min, max);
 
