@@ -70,9 +70,7 @@ double get_agent_reproduction_health(const agent_type t) noexcept
 
 double pythagoras(double x_length, double y_length)
 {
-  return sqrt(
-    (x_length * x_length) + (y_length * y_length)
-  );
+  return sqrt((x_length * x_length) + (y_length * y_length));
 }
 
 std::vector<agent_type> can_eat(const agent_type type) {
@@ -388,9 +386,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
 void agent::damage_own_type(game &g, agent_type type)
 {
-  const double max_distance { pythagoras(32.0, 32.0) };
-
-  const double max_damage { 17.5/1000.0 };
+  const double MAX_DISTANCE = 30; // The max range to deal damage to an object
+  const double MAX_DAMAGE = 0.18; // The max damage to deal per frame per agent
 
   std::vector <agent> all_agents{ g.get_agents() };
 
@@ -399,12 +396,16 @@ void agent::damage_own_type(game &g, agent_type type)
     if (current_agent == *this)
         continue;
 
-    double delta = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
-    if (current_agent.get_type() == type && delta <= max_distance)
+    if (current_agent.get_type() == type)
     {
-        double rate = 1-delta / max_distance;
-        double damage = max_damage * rate;
-        m_health -= damage;
+        double distance = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
+        if (!(distance <= MAX_DISTANCE))
+          continue;
+
+        double rate = 1-distance / MAX_DISTANCE;
+        double damage = MAX_DAMAGE * rate;
+        double relative_damage = damage / (all_agents.size() - 1);
+        m_health -= relative_damage;
     }
   }
 }
@@ -661,7 +662,7 @@ sf::Vector2i get_depth(agent_type a){
 
 void test_agent() //!OCLINT testing functions may be long
 {
-  //#define FIX_ISSUE_447
+  #define FIX_ISSUE_447
   #ifdef FIX_ISSUE_447
   //Cacti damage nearby cacti
   {
@@ -674,7 +675,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double prev_health1 = g.get_agents()[0].get_health();
     const double prev_health2 = g.get_agents()[1].get_health();
 
-    // Damage time.
+    // Damage time
     for(int i = 0; i != 100; ++i){
       g.process_events();
     }
@@ -1156,30 +1157,29 @@ void test_agent() //!OCLINT testing functions may be long
     assert(spider_prev_posX < spider_aft_posX);
     assert(spider_prev_posY < spider_aft_posY);
   }
-  //Grass damages nearby grasses
+  //Grass damages nearby grass
   {
-    //agent(const agent_type type, const double x = 0.0, const double y = 0.0,
-    //      const double health = 1.0,  const double direction = 0.0);
-    game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
+    // Make two plants next to each other.
+    game g({tile(0, 0, 3, 3, 10, tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 10),
             agent(agent_type::grass, 10, 10, 10)});
-    // Make two grass patches near each other.
-    const double prev_grass_health1 = g.get_agents()[0].get_health();
-    const double prev_grass_health2 = g.get_agents()[1].get_health();
-    // Check their current health.
 
-    for(int i = 0; i < 20; i++){
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time
+    for(int i = 0; i != 100; ++i){
       g.process_events();
     }
-    // Damage time.
 
-    const double after_grass_health1 = g.get_agents()[0].get_health();
-    const double after_grass_health2 = g.get_agents()[1].get_health();
-    // Check their health now.
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
 
-    assert(after_grass_health1 < prev_grass_health1);
-    assert(after_grass_health2 < prev_grass_health2);
-    // See whether damage hath happened.
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
   }
   #define FIX_ISSUE_447
   #ifdef FIX_ISSUE_447
