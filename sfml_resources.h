@@ -10,6 +10,7 @@
 #include <vector>
 #include <QDir>
 #include <QFile>
+#include "tile_type.h"
 
 /// Test the sfml_resources class
 void test_sfml_resources();
@@ -47,6 +48,10 @@ public:
   sf::Texture &get_zen_title() noexcept { return m_zen_title; }
 
   sf::Texture &get_tile_sprite(const tile& t) noexcept;
+
+  sf::Texture &get_tile_sprite_portrait(const tile_type t) noexcept;
+
+  sf::Texture &get_tile_sprite_landscape(const tile_type t) noexcept;
 
   sf::Texture& get_essence_texture() noexcept { return m_essence_texture; }
 
