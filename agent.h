@@ -18,7 +18,8 @@ public:
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
   explicit agent(const agent_type type, const double x = 0.0, const double y = 0.0,
-        const double health = 1.0,  const double direction = 0.0);
+        const double health = 1.0,  const double direction = 0.0,
+        std::vector<agent_type> prey = std::vector<agent_type>());
 
   void process_events(game &g);
 
@@ -95,6 +96,18 @@ private:
   double m_stamina;
 
   int corpse_ticks = -1;
+
+  /// The types of agents this agent can eat
+  /// Added as a result of profiling
+  std::vector<agent_type> m_prey;
+
+  /// Motivation for a certain horizontal velocity
+  /// Added due to profiling results, see Issue  #543
+  double m_dx_motivation = 0;
+
+  /// Motivation for a certain horizontal velocity
+  /// Added due to profiling results, see Issue  #543
+  double m_dy_motivation = 0;
 
   void reproduce_agents(game& g, agent_type type);
 

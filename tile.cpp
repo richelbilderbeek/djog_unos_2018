@@ -41,79 +41,79 @@ std::vector<tile> create_test_default_tiles() noexcept //!OCLINT indeed a functi
 {
   std::vector<tile> tiles;
   {
-    tile t(0, 0, 0, 90, 0, tile_type::grassland, tile_id());
+    tile t(0, 0, 0, 90, 0, tile_type::grassland);
     tiles.push_back(t);
   }
   {
-    tile t(1, 0, 1, 90, 0, tile_type::grassland, tile_id());
+    tile t(1, 0, 1, 90, 0, tile_type::grassland);
     tiles.push_back(t);
   }
   {
-    tile t(1, 5, 1, 0, 0, tile_type::grassland, tile_id());
+    tile t(1, 5, 1, 0, 0, tile_type::grassland);
     tiles.push_back(t);
   }
   {
-    tile t(0, 2, 2, 90, 0, tile_type::desert, tile_id());
+    tile t(0, 2, 2, 90, 0, tile_type::desert);
     tiles.push_back(t);
   }
   {
-    tile t(2, 1, 3, 0, 0, tile_type::swamp, tile_id());
+    tile t(2, 1, 3, 0, 0, tile_type::swamp);
     tiles.push_back(t);
   }
   {
-    tile t(4, 4, 5, 0, 0, tile_type::dunes, tile_id());
+    tile t(4, 4, 5, 0, 0, tile_type::dunes);
     tiles.push_back(t);
   }
   {
-    tile t(1, 2, 4, 0, 0, tile_type::mountains, tile_id());
+    tile t(1, 2, 4, 0, 0, tile_type::mountains);
     tiles.push_back(t);
   }
   {
-    tile t(4, 1, 5, 0, 0, tile_type::arctic, tile_id());
+    tile t(4, 1, 5, 0, 0, tile_type::arctic);
     tiles.push_back(t);
   }
   {
-    tile t(3, 2, 6, 90, 20, tile_type::water, tile_id());
+    tile t(3, 2, 6, 90, 20, tile_type::water);
     tiles.push_back(t);
   }
   {
-    tile t(4, 2, 6, 90, 85, tile_type::water, tile_id());
+    tile t(4, 2, 6, 90, 85, tile_type::water);
     tiles.push_back(t);
   }
   {
-    tile t(5, 2, 8, 90, 0, tile_type::beach, tile_id());
+    tile t(5, 2, 8, 90, 0, tile_type::beach);
     tiles.push_back(t);
   }
   {
-    tile t(6, 2, 8, 90, 0, tile_type::dunes, tile_id());
+    tile t(6, 2, 8, 90, 0, tile_type::dunes);
     tiles.push_back(t);
   }
   {
-    tile t(1, -1, 7, 0, 0, tile_type::savannah, tile_id());
+    tile t(1, -1, 7, 0, 0, tile_type::savannah);
     tiles.push_back(t);
   }
   {
-    tile t(4, -1, 8, 90, 0, tile_type::woods, tile_id());
+    tile t(4, -1, 8, 90, 0, tile_type::woods);
     tiles.push_back(t);
   }
   {
-    tile t(0, -2, 8, 90, 0, tile_type::woods, tile_id());
+    tile t(0, -2, 8, 90, 0, tile_type::woods);
     tiles.push_back(t);
   }
   {
-    tile t(6, -3, 8, 90, 0, tile_type::mangrove, tile_id());
+    tile t(6, -3, 8, 90, 0, tile_type::mangrove);
     tiles.push_back(t);
   }
   {
-    tile t(-1, 0, 8, 90, 0, tile_type::rainforest, tile_id());
+    tile t(-1, 0, 8, 90, 0, tile_type::rainforest);
     tiles.push_back(t);
   }
   {
-    tile t(-2, 0, 8, 90, 0, tile_type::tundra, tile_id());
+    tile t(-2, 0, 8, 90, 0, tile_type::tundra);
     tiles.push_back(t);
   }
   {
-    tile t(-3, 0, 8, 90, 0, tile_type::hills, tile_id());
+    tile t(-3, 0, 8, 90, 0, tile_type::hills);
     tiles.push_back(t);
   }
   return tiles;
@@ -122,85 +122,85 @@ std::vector<tile> create_test_default_tiles() noexcept //!OCLINT indeed a functi
 std::vector<tile> create_default_tiles() noexcept //!OCLINT indeed a function that is too long
 {
   std::vector<tile> tiles;
-  {tile t(2, 8, 0, 0, 0, tile_type::arctic, tile_id());tiles.push_back(t);}
-  {tile t(4, 7, 0, 90, 0, tile_type::arctic, tile_id());tiles.push_back(t);}
-  {tile t(5, 8, 0, 0, 0, tile_type::arctic, tile_id());tiles.push_back(t);}
-  {tile t(1, 7, 0, 0, 0, tile_type::water, tile_id());tiles.push_back(t);}
-  {tile t(5, 7, 0, 0, 0, tile_type::water, tile_id());tiles.push_back(t);}
-  {tile t(7, 7, 0, 90, 0, tile_type::water, tile_id());tiles.push_back(t);}
-  {tile t(8, 8, 0, 0, 0, tile_type::arctic, tile_id());tiles.push_back(t);}
-  {tile t(8, 7, 0, 0, 0, tile_type::water, tile_id());tiles.push_back(t);}
-  {tile t(2, 6, 0, 0, 0, tile_type::tundra, tile_id());tiles.push_back(t);}
-  {tile t(4, 6, 0, 0, 0, tile_type::tundra, tile_id());tiles.push_back(t);}
-  {tile t(6, 6, 0, 0, 0, tile_type::tundra, tile_id());tiles.push_back(t);}
-  {tile t(9, 6, 0, 0, 0, tile_type::tundra, tile_id());tiles.push_back(t);}
-  {tile t(2, 5, 0, 0, 0, tile_type::beach, tile_id());tiles.push_back(t);}
-  {tile t(4, 5, 0, 0, 0, tile_type::beach, tile_id());tiles.push_back(t);}
-  {tile t(6, 4, 0, 90, 0, tile_type::beach, tile_id());tiles.push_back(t);}
-  {tile t(8, 5, 0, 0, 0, tile_type::beach, tile_id());tiles.push_back(t);}
-  {tile t(2, 4, 0, 0, 0, tile_type::dunes, tile_id());tiles.push_back(t);}
-  {tile t(4, 3, 0, 90, 0, tile_type::dunes, tile_id());tiles.push_back(t);}
-  {tile t(7, 4, 0, 0, 0, tile_type::dunes, tile_id());tiles.push_back(t);}
-  {tile t(2, 3, 0, 0, 0, tile_type::grassland, tile_id());tiles.push_back(t);}
-  {tile t(5, 3, 0, 0, 0, tile_type::grassland, tile_id());tiles.push_back(t);}
-  {tile t(7, 3, 0, 0, 0, tile_type::grassland, tile_id());tiles.push_back(t);}
-  {tile t(9, 3, 0, 0, 0, tile_type::grassland, tile_id());tiles.push_back(t);}
-  {tile t(2, 2, 0, 0, 0, tile_type::woods, tile_id()); tiles.push_back(t);}
-  {tile t(4, 1, 0, 90, 0, tile_type::woods, tile_id());tiles.push_back(t);}
-  {tile t(5, 2, 0, 0, 0, tile_type::woods, tile_id());tiles.push_back(t);}
-  {tile t(7, 2, 0, 0, 0, tile_type::woods, tile_id());tiles.push_back(t);}
-  {tile t(9, 2, 0, 0, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(2, 1, 0, 0, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(5, 0, 0, 90, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(6, 1, 0, 0, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(8, 1, 0, 0, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(3, 0, 0, 0, 0, tile_type::rainforest, tile_id());tiles.push_back(t);}
-  {tile t(6, -1, 0, 90, 0, tile_type::rainforest, tile_id());tiles.push_back(t);}
-  {tile t(7, 0, 0, 0, 0, tile_type::rainforest, tile_id());tiles.push_back(t);}
-  {tile t(9, 0, 0, 0, 0, tile_type::rainforest, tile_id());tiles.push_back(t);}
-  {tile t(2, -1, 0, 0, 0, tile_type::savannah, tile_id());tiles.push_back(t);}
-  {tile t(4, -1, 0, 0, 0, tile_type::savannah, tile_id());tiles.push_back(t);}
-  {tile t(8, -1, 0, 0, 0, tile_type::savannah, tile_id());tiles.push_back(t);}
-  {tile t(8, -2, 0, 0, 0, tile_type::savannah, tile_id());tiles.push_back(t);}
-  {tile t(7, -2, 0, 90, 0, tile_type::savannah, tile_id());tiles.push_back(t);}
-  {tile t(4, -2, 0, 0, 0, tile_type::savannah, tile_id());tiles.push_back(t);}
-  {tile t(2, -2, 0, 0, 0, tile_type::savannah, tile_id());tiles.push_back(t);}
-  {tile t(9, -3, 0, 0, 0, tile_type::rainforest, tile_id());tiles.push_back(t);}
-  {tile t(7, -3, 0, 0, 0, tile_type::rainforest, tile_id());tiles.push_back(t);}
-  {tile t(6, -3, 0, 90, 0, tile_type::rainforest, tile_id());tiles.push_back(t);}
-  {tile t(3, -3, 0, 0, 0, tile_type::rainforest, tile_id());tiles.push_back(t);}
-  {tile t(8, -4, 0, 0, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(6, -4, 0, 0, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(5, -4, 0, 90, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(2, -4, 0, 0, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(9, -4, 0, 0, 0, tile_type::mangrove, tile_id());tiles.push_back(t);}
-  {tile t(7, -5, 0, 0, 0, tile_type::woods, tile_id());tiles.push_back(t);}
-  {tile t(5, -5, 0, 0, 0, tile_type::woods, tile_id());tiles.push_back(t);}
-  {tile t(4, -5, 0, 90, 0, tile_type::woods, tile_id());tiles.push_back(t);}
-  {tile t(2, -5, 0, 0, 0, tile_type::woods, tile_id()); tiles.push_back(t);}
-  {tile t(9, -6, 0, 0, 0, tile_type::grassland, tile_id());tiles.push_back(t);}
-  {tile t(7, -6, 0, 0, 0, tile_type::grassland, tile_id());tiles.push_back(t);}
-  {tile t(5, -6, 0, 0, 0, tile_type::grassland, tile_id());tiles.push_back(t);}
-  {tile t(2, -6, 0, 0, 0, tile_type::grassland, tile_id());tiles.push_back(t);}
-  {tile t(7, -7, 0, 0, 0, tile_type::dunes, tile_id());tiles.push_back(t);}
-  {tile t(4, -7, 0, 90, 0, tile_type::dunes, tile_id());tiles.push_back(t);}
-  {tile t(2, -7, 0, 0, 0, tile_type::dunes, tile_id());tiles.push_back(t);}
-  {tile t(8, -8, 0, 0, 0, tile_type::beach, tile_id());tiles.push_back(t);}
-  {tile t(6, -8, 0, 90, 0, tile_type::beach, tile_id());tiles.push_back(t);}
-  {tile t(4, -8, 0, 0, 0, tile_type::beach, tile_id());tiles.push_back(t);}
-  {tile t(2, -8, 0, 0, 0, tile_type::beach, tile_id());tiles.push_back(t);}
-  {tile t(9, -9, 0, 0, 0, tile_type::tundra, tile_id());tiles.push_back(t);}
-  {tile t(6, -9, 0, 0, 0, tile_type::tundra, tile_id());tiles.push_back(t);}
-  {tile t(4, -9, 0, 0, 0, tile_type::tundra, tile_id());tiles.push_back(t);}
-  {tile t(2, -9, 0, 0, 0, tile_type::tundra, tile_id());tiles.push_back(t);}
-  {tile t(8, -10, 0, 0, 0, tile_type::water, tile_id());tiles.push_back(t);}
-  {tile t(8, -11, 0, 0, 0, tile_type::arctic, tile_id());tiles.push_back(t);}
-  {tile t(7, -11, 0, 90, 0, tile_type::water, tile_id());tiles.push_back(t);}
-  {tile t(5, -10, 0, 0, 0, tile_type::water, tile_id());tiles.push_back(t);}
-  {tile t(1, -10, 0, 0, 0, tile_type::water, tile_id());tiles.push_back(t);}
-  {tile t(5, -11, 0, 0, 0, tile_type::arctic, tile_id());tiles.push_back(t);}
-  {tile t(4, -11, 0, 90, 0, tile_type::arctic, tile_id());tiles.push_back(t);}
-  {tile t(2, -11, 0, 0, 0, tile_type::arctic, tile_id());tiles.push_back(t);}
+  {tile t(2, 8, 0, 0, 0, tile_type::arctic);tiles.push_back(t);}
+  {tile t(4, 7, 0, 90, 0, tile_type::arctic);tiles.push_back(t);}
+  {tile t(5, 8, 0, 0, 0, tile_type::arctic);tiles.push_back(t);}
+  {tile t(1, 7, 0, 0, 0, tile_type::water);tiles.push_back(t);}
+  {tile t(5, 7, 0, 0, 0, tile_type::water);tiles.push_back(t);}
+  {tile t(7, 7, 0, 90, 0, tile_type::water);tiles.push_back(t);}
+  {tile t(8, 8, 0, 0, 0, tile_type::arctic);tiles.push_back(t);}
+  {tile t(8, 7, 0, 0, 0, tile_type::water);tiles.push_back(t);}
+  {tile t(2, 6, 0, 0, 0, tile_type::tundra);tiles.push_back(t);}
+  {tile t(4, 6, 0, 0, 0, tile_type::tundra);tiles.push_back(t);}
+  {tile t(6, 6, 0, 0, 0, tile_type::tundra);tiles.push_back(t);}
+  {tile t(9, 6, 0, 0, 0, tile_type::tundra);tiles.push_back(t);}
+  {tile t(2, 5, 0, 0, 0, tile_type::beach);tiles.push_back(t);}
+  {tile t(4, 5, 0, 0, 0, tile_type::beach);tiles.push_back(t);}
+  {tile t(6, 4, 0, 90, 0, tile_type::beach);tiles.push_back(t);}
+  {tile t(8, 5, 0, 0, 0, tile_type::beach);tiles.push_back(t);}
+  {tile t(2, 4, 0, 0, 0, tile_type::dunes);tiles.push_back(t);}
+  {tile t(4, 3, 0, 90, 0, tile_type::dunes);tiles.push_back(t);}
+  {tile t(7, 4, 0, 0, 0, tile_type::dunes);tiles.push_back(t);}
+  {tile t(2, 3, 0, 0, 0, tile_type::grassland);tiles.push_back(t);}
+  {tile t(5, 3, 0, 0, 0, tile_type::grassland);tiles.push_back(t);}
+  {tile t(7, 3, 0, 0, 0, tile_type::grassland);tiles.push_back(t);}
+  {tile t(9, 3, 0, 0, 0, tile_type::grassland);tiles.push_back(t);}
+  {tile t(2, 2, 0, 0, 0, tile_type::woods); tiles.push_back(t);}
+  {tile t(4, 1, 0, 90, 0, tile_type::woods);tiles.push_back(t);}
+  {tile t(5, 2, 0, 0, 0, tile_type::woods);tiles.push_back(t);}
+  {tile t(7, 2, 0, 0, 0, tile_type::woods);tiles.push_back(t);}
+  {tile t(9, 2, 0, 0, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(2, 1, 0, 0, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(5, 0, 0, 90, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(6, 1, 0, 0, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(8, 1, 0, 0, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(3, 0, 0, 0, 0, tile_type::rainforest);tiles.push_back(t);}
+  {tile t(6, -1, 0, 90, 0, tile_type::rainforest);tiles.push_back(t);}
+  {tile t(7, 0, 0, 0, 0, tile_type::rainforest);tiles.push_back(t);}
+  {tile t(9, 0, 0, 0, 0, tile_type::rainforest);tiles.push_back(t);}
+  {tile t(2, -1, 0, 0, 0, tile_type::savannah);tiles.push_back(t);}
+  {tile t(4, -1, 0, 0, 0, tile_type::savannah);tiles.push_back(t);}
+  {tile t(8, -1, 0, 0, 0, tile_type::savannah);tiles.push_back(t);}
+  {tile t(8, -2, 0, 0, 0, tile_type::savannah);tiles.push_back(t);}
+  {tile t(7, -2, 0, 90, 0, tile_type::savannah);tiles.push_back(t);}
+  {tile t(4, -2, 0, 0, 0, tile_type::savannah);tiles.push_back(t);}
+  {tile t(2, -2, 0, 0, 0, tile_type::savannah);tiles.push_back(t);}
+  {tile t(9, -3, 0, 0, 0, tile_type::rainforest);tiles.push_back(t);}
+  {tile t(7, -3, 0, 0, 0, tile_type::rainforest);tiles.push_back(t);}
+  {tile t(6, -3, 0, 90, 0, tile_type::rainforest);tiles.push_back(t);}
+  {tile t(3, -3, 0, 0, 0, tile_type::rainforest);tiles.push_back(t);}
+  {tile t(8, -4, 0, 0, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(6, -4, 0, 0, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(5, -4, 0, 90, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(2, -4, 0, 0, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(9, -4, 0, 0, 0, tile_type::mangrove);tiles.push_back(t);}
+  {tile t(7, -5, 0, 0, 0, tile_type::woods);tiles.push_back(t);}
+  {tile t(5, -5, 0, 0, 0, tile_type::woods);tiles.push_back(t);}
+  {tile t(4, -5, 0, 90, 0, tile_type::woods);tiles.push_back(t);}
+  {tile t(2, -5, 0, 0, 0, tile_type::woods); tiles.push_back(t);}
+  {tile t(9, -6, 0, 0, 0, tile_type::grassland);tiles.push_back(t);}
+  {tile t(7, -6, 0, 0, 0, tile_type::grassland);tiles.push_back(t);}
+  {tile t(5, -6, 0, 0, 0, tile_type::grassland);tiles.push_back(t);}
+  {tile t(2, -6, 0, 0, 0, tile_type::grassland);tiles.push_back(t);}
+  {tile t(7, -7, 0, 0, 0, tile_type::dunes);tiles.push_back(t);}
+  {tile t(4, -7, 0, 90, 0, tile_type::dunes);tiles.push_back(t);}
+  {tile t(2, -7, 0, 0, 0, tile_type::dunes);tiles.push_back(t);}
+  {tile t(8, -8, 0, 0, 0, tile_type::beach);tiles.push_back(t);}
+  {tile t(6, -8, 0, 90, 0, tile_type::beach);tiles.push_back(t);}
+  {tile t(4, -8, 0, 0, 0, tile_type::beach);tiles.push_back(t);}
+  {tile t(2, -8, 0, 0, 0, tile_type::beach);tiles.push_back(t);}
+  {tile t(9, -9, 0, 0, 0, tile_type::tundra);tiles.push_back(t);}
+  {tile t(6, -9, 0, 0, 0, tile_type::tundra);tiles.push_back(t);}
+  {tile t(4, -9, 0, 0, 0, tile_type::tundra);tiles.push_back(t);}
+  {tile t(2, -9, 0, 0, 0, tile_type::tundra);tiles.push_back(t);}
+  {tile t(8, -10, 0, 0, 0, tile_type::water);tiles.push_back(t);}
+  {tile t(8, -11, 0, 0, 0, tile_type::arctic);tiles.push_back(t);}
+  {tile t(7, -11, 0, 90, 0, tile_type::water);tiles.push_back(t);}
+  {tile t(5, -10, 0, 0, 0, tile_type::water);tiles.push_back(t);}
+  {tile t(1, -10, 0, 0, 0, tile_type::water);tiles.push_back(t);}
+  {tile t(5, -11, 0, 0, 0, tile_type::arctic);tiles.push_back(t);}
+  {tile t(4, -11, 0, 90, 0, tile_type::arctic);tiles.push_back(t);}
+  {tile t(2, -11, 0, 0, 0, tile_type::arctic);tiles.push_back(t);}
   return tiles;
 }
 
@@ -214,8 +214,8 @@ std::vector<tile> create_two_grass_tiles() noexcept
   return
   {
     //   x    y    z   w    h    d   type               ID
-    tile(1, 1, 1, 0, 0, tile_type::grassland, tile_id()),
-    tile(3, 1, 1, 0, 0, tile_type::grassland, tile_id())
+    tile(1, 1, 1, 0, 0, tile_type::grassland),
+    tile(3, 1, 1, 0, 0, tile_type::grassland)
   };
 }
 
@@ -227,7 +227,7 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 
 void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 {
-  if (!g.allow_spawning()) return;
+  if (!g.allow_spawning() || m_type == tile_type::arctic) return;
   //Spawning
   //Land type, common agent type spawned, rare agent type spawned
   using triplet = std::tuple<tile_type, agent_type, agent_type>;
@@ -300,7 +300,7 @@ void tile::spawn(game& g, agent_type type) { //!OCLINT high cyclomatic complexit
   assert(f_y >= 0.0 && f_y < 1.0);
   double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance_x)};
   double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance_y)};
-  agent new_agent(type, new_x, new_y);
+  agent new_agent(type, new_x, new_y, 100, 0, can_eat(type));
   tile t = *this;
   while(!is_on_tile(g, new_agent)
         || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
@@ -392,8 +392,10 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
 }
 
 bool contains(const tile& t, double x, double y) noexcept {
-  return x > t.get_x() - 5 && x < t.get_x() + t.get_width() + 5 && y > t.get_y() - 5 &&
-         y < t.get_y() + t.get_height() + 5;
+  return x > t.get_x() - 5
+      && x < t.get_x() + t.get_width() + 5
+      && y > t.get_y() - 5
+      && y < t.get_y() + t.get_height() + 5;
 }
 
 void tile::lock_movement(bool b) { m_locked = b; }
@@ -426,12 +428,12 @@ void test_tile() //!OCLINT testing function may be many lines
   #endif // FIX_ISSUE_522
   // A tile starts from standstill
   {
-    const tile t(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id());
+    const tile t(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland);
     assert(t.get_dx() == 0.0);
     assert(t.get_dy() == 0.0);
   }
   {
-    tile t(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id());
+    tile t(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland);
     t.lock_movement(true);
     t.set_dx(12.34);
     t.set_dy(56.78);
@@ -440,7 +442,7 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Speed is set correctly
   {
-    tile t(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id());
+    tile t(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland);
     const double dx{12.34};
     const double dy{56.78};
     t.set_dx(dx);
@@ -450,7 +452,7 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // Tile responds to its speed
   {
-    tile t(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id());
+    tile t(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland);
     const double dx{12.34};
     const double dy{56.78};
     t.set_dx(dx);
@@ -463,16 +465,16 @@ void test_tile() //!OCLINT testing function may be many lines
   }
   // A tile has the correct depth
   {
-    tile g(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id());
+    tile g(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland);
     assert(g.get_depth() == 0.0);
-    tile o(0.0, 0.0, 0.0, 0.0, 1.0, tile_type::water, tile_id());
+    tile o(0.0, 0.0, 0.0, 0.0, 1.0, tile_type::water);
     assert(o.get_depth() > 0.0);
   }
   // Test the == operator
   {
-    const tile a(0.0, 0.0, 0.0,  0.0, 0.0, tile_type::grassland, tile_id());
-    const tile b(0.0, 0.0, 0.0, 90.0, 0.0, tile_type::grassland, tile_id());
-    const tile c(0.0, 0.0, 0.0, 90.0, 0.0, tile_type::grassland, tile_id());
+    const tile a(0.0, 0.0, 0.0,  0.0, 0.0, tile_type::grassland);
+    const tile b(0.0, 0.0, 0.0, 90.0, 0.0, tile_type::grassland);
+    const tile c(0.0, 0.0, 0.0, 90.0, 0.0, tile_type::grassland);
     assert(!(a == b));
     assert(b == c);
   }

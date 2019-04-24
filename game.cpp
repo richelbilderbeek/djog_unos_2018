@@ -20,9 +20,10 @@ game::game(
     m_agents{agents},
     m_n_tick{0},
     m_score{0},
-    m_essence{0}
+    m_essence{0},
+    m_sound_type{sound_type::none}
 {
-
+  assert(m_sound_type == sound_type::none);
 }
 
 void game::add_agents(const std::vector<agent>& as)
@@ -56,6 +57,9 @@ int count_n_agents(const game& g) noexcept
 
 void game::process_events()
 {
+  set_sound_type(sound_type::none);
+  assert(m_sound_type == sound_type::none);
+
   for (auto& a: m_agents) {
     a.process_events(*this);
   }
@@ -609,7 +613,7 @@ std::istream& operator>>(std::istream& is, game& g)
   g.m_tiles.clear();
   for (int i = 0; i < n_tiles; ++i)
   {
-    tile t(1, 1, 1, 0, 0, tile_type::grassland, tile_id());
+    tile t(1, 1, 1, 0, 0, tile_type::grassland);
     is >> t;
     g.m_tiles.emplace_back(t);
   }
