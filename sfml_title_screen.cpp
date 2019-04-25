@@ -43,7 +43,7 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   stretch_bg();
 }
 
-void sfml_title_screen::exec() //!OCLINT must be shorter
+void sfml_title_screen::exec()
 {
   while(active(game_state::titlescreen)) {
     if (m_close_at >= 0) close(game_state::menuscreen);
@@ -52,7 +52,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     while (m_window.pollEvent(event))
     {
       sf::View view = m_window.getDefaultView();
-      switch (event.type) //!OCLINT TODO too few branches, please fix
+      switch (event.type)
       {
         case sf::Event::Closed:
           close();
@@ -75,16 +75,13 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
           break;
       }
     }
-    title_text.setPosition(m_window.getSize().x/2,
-                           m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-                           (m_window.getSize().y/568)*130+i);
+    title_text.setPosition(
+      m_window.getSize().x/2,
+      m_window.getView().getCenter().y - (m_window.getSize().y/2) +
+        (m_window.getSize().y/568)*130+i
+    );
     title_text.setPosition(m_window.mapPixelToCoords(
                            sf::Vector2i(title_text.getPosition())));
-
-    //m_bg_sprite.setPosition(sf::Vector2f(m_window.getView().getCenter().x -
-    //                                     m_bg_sprite.getTexture()->getSize().x,
-    //                                     m_window.getView().getCenter().y -
-    //                                     m_bg_sprite.getTexture()->getSize().y));
     m_bg_sprite.setPosition(0, 0);
     m_bg_sprite.setPosition(m_window.mapPixelToCoords(
                                sf::Vector2i(m_bg_sprite.getPosition())));

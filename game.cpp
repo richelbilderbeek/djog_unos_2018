@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <functional>
 
-
 game::game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents
@@ -21,9 +20,10 @@ game::game(
     m_agents{agents},
     m_n_tick{0},
     m_score{0},
-    m_essence{0}
+    m_essence{0},
+    m_sound_type{sound_type::none}
 {
-
+  assert(m_sound_type == sound_type::none);
 }
 
 void game::add_agents(const std::vector<agent>& as)
@@ -57,6 +57,9 @@ int count_n_agents(const game& g) noexcept
 
 void game::process_events()
 {
+  set_sound_type(sound_type::none);
+  assert(m_sound_type == sound_type::none);
+
   for (auto& a: m_agents) {
     a.process_events(*this);
   }
@@ -77,6 +80,7 @@ void game::process_events()
   }
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
+    assert(m_tiles.size() > 0);
     ppt = ppt / m_tiles.size();
   }
   if(m_allow_score){
@@ -90,7 +94,6 @@ void game::process_events()
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-
     tile.process_events(*this);
   }
 
@@ -102,7 +105,7 @@ void game::process_events()
 void game::spawn(agent_type type, tile t)
 {
   agent a1(type);
-  move_agent_to_tile(a1, t.get_x()/112, t.get_y()/112);
+  move_agent_to_tile(a1, t.get_corner().x/112, t.get_corner().y/112);
   m_agents.push_back(a1);
 //  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
@@ -203,12 +206,10 @@ void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
        sf::Mouse::getPosition(window).x + camera.x,
        sf::Mouse::getPosition(window).y + camera.y))
     {
-        try {
-            if(m_tiles[i].get_id() == m_selected.at(0)){
-               m_selected.pop_back();
-            }
-        } catch (std::out_of_range&) {
-            std::cout << "segmentation fault" << std::endl;
+        assert((int)i < static_cast<int>(m_tiles.size()));
+        assert(0 < static_cast<int>(m_selected.size()));
+        if(m_tiles[i].get_id() == m_selected[0]){
+           m_selected.pop_back();
         }
     } else {
 
@@ -236,10 +237,10 @@ int game::get_agent_count(agent_type type){
 
 bool is_on_specific_tile(const double x, const double y, const tile& t)
 {
-  return x >= t.get_x() - 6 &&
-         x <= t.get_x() + t.get_width() + 6 &&
-         y >= t.get_y() - 6 &&
-         y <= t.get_y() + t.get_height() + 6;
+  return x >= t.get_corner().x - 6 &&
+         x <= t.get_corner().x + t.get_width() + 6 &&
+         y >= t.get_corner().y - 6 &&
+         y <= t.get_corner().y + t.get_height() + 6;
 }
 
 bool is_on_specific_tile(const agent& a, const tile& t) {
@@ -249,11 +250,11 @@ bool is_on_specific_tile(const agent& a, const tile& t) {
 
 bool is_on_tile(const game& g, const double x, const double y)
 {
-  for (tile t: g.get_tiles()){
-    if(x >= t.get_x() - 6 &&
-       x <= t.get_x() + t.get_width() + 6 &&
-       y >= t.get_y() - 6 &&
-       y <= t.get_y() + t.get_height() + 6)
+  for (tile t: g.get_tiles()) {
+    if(x >= t.get_corner().x - 6 &&
+       x <= t.get_corner().x + t.get_width() + 6 &&
+       y >= t.get_corner().y - 6 &&
+       y <= t.get_corner().y + t.get_height() + 6)
       return true;
   }
   return false;
@@ -263,10 +264,10 @@ std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
   for (tile t : g.get_tiles())
   {
-    if (a.get_x() >= t.get_x() - 6.0 &&
-        a.get_x() <= t.get_x() + t.get_width() + 6.0 &&
-        a.get_y() >= t.get_y() - 6.0 &&
-        a.get_y() <= t.get_y() + t.get_height() + 6.0
+    if (a.get_x() >= t.get_corner().x - 6.0 &&
+        a.get_x() <= t.get_corner().x + t.get_width() + 6.0 &&
+        a.get_y() >= t.get_corner().y - 6.0 &&
+        a.get_y() <= t.get_corner().y + t.get_height() + 6.0
     )
     {
       return { t.get_type() };
@@ -612,7 +613,7 @@ std::istream& operator>>(std::istream& is, game& g)
   g.m_tiles.clear();
   for (int i = 0; i < n_tiles; ++i)
   {
-    tile t(1, 1, 1, 0, 0, tile_type::grassland, tile_id());
+    tile t(1, 1, 1, 0, 0, tile_type::grassland);
     is >> t;
     g.m_tiles.emplace_back(t);
   }

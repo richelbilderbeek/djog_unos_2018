@@ -37,6 +37,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
     }
   }
+  {
+    // Re-create resource at executable's location
+    QFile f(":/nature_zen/resources/tile_merge.wav");
+    f.copy("tile_merge.wav");
+    if (!m_tile_collission_soundbuffer.loadFromFile("tile_merge.wav")) {
+      throw std::runtime_error("Cannot find music file 'tile_merge.wav'");
+    }
+  }
    // plankton texture
   {
     QFile f(":/nature_zen/resources/plankton.png");
@@ -401,52 +409,73 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept //!OC
   }
 }
 
+sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
+{
+  /// Only deal with actual sounds
+  assert(st != sound_type::none);
+
+  /// Getting the collision soundfile
+  if (st == sound_type::tile_collision)
+    return m_tile_collission_soundbuffer;
+
+  assert(!"Should never come this far."); //!OCLINT accepted idiom
+  return m_tile_collission_soundbuffer;
+}
+
 sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT too long, needs to be fixed
 {
 
   if (t.get_width() > 100) {
       // orientatie is horizontaal
       assert(t.get_height() == 100.0);
-      switch (t.get_type())
-      {
-        case tile_type::tundra:
-               return m_tundra_laying;
-        case tile_type::beach:
-               return m_beach_laying;
-        case tile_type::water:
-               return m_water_laying;
-        case tile_type::dunes:
-               return m_dunes_laying;
-        case tile_type::hills:
-               return m_hills_laying;
-        default:
-          return m_empty_tile;
-      }
+      return get_tile_sprite_landscape(t.get_type());
+
    }
   if (t.get_height() > 100) {
       // orientatie is verticaal
       assert(t.get_width() == 100.0);
-      switch (t.get_type())
-        {
-      case tile_type::tundra:
-             return m_tundra_standing;
-      case tile_type::beach:
-             return m_beach_standing;
-      case tile_type::water:
-             return m_water_standing;
-      case tile_type::dunes:
-             return m_dunes_standing;
-      case tile_type::hills:
-             return m_hills_standing;
-        default:
-          return m_empty_tile;
-        }
-   }
-
+      return get_tile_sprite_portrait(t.get_type());
+    }
   return m_empty_tile;
 
 }
+sf::Texture &sfml_resources::get_tile_sprite_landscape(const tile_type t) noexcept //!OCLINT cannot be simpler
+{
+  switch (t)
+    {
+      case tile_type::tundra:
+             return m_tundra_laying;
+      case tile_type::beach:
+             return m_beach_laying;
+      case tile_type::water:
+             return m_water_laying;
+      case tile_type::dunes:
+             return m_dunes_laying;
+      case tile_type::hills:
+             return m_hills_laying;
+      default:
+        return m_empty_tile;
+    }
+}
 
+sf::Texture &sfml_resources::get_tile_sprite_portrait(const tile_type t) noexcept //!OCLINT cannot be simpler
+{
+  switch (t)
+    {
+  case tile_type::tundra:
+         return m_tundra_standing;
+  case tile_type::beach:
+         return m_beach_standing;
+  case tile_type::water:
+         return m_water_standing;
+  case tile_type::dunes:
+         return m_dunes_standing;
+  case tile_type::hills:
+         return m_hills_standing;
+    default:
+      return m_empty_tile;
+    }
+}
 void test_sfml_resources() //!OCLINT tests may be long
 {
   sfml_resources &resources = sfml_resources::get();

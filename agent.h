@@ -18,7 +18,8 @@ public:
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
   explicit agent(const agent_type type, const double x = 0.0, const double y = 0.0,
-        const double health = 1.0,  const double direction = 0.0);
+        const double health = 1.0,  const double direction = 0.0,
+        std::vector<agent_type> prey = std::vector<agent_type>());
 
   void process_events(game &g);
 
@@ -96,15 +97,29 @@ private:
 
   int corpse_ticks = -1;
 
+  /// The types of agents this agent can eat
+  /// Added as a result of profiling
+  std::vector<agent_type> m_prey;
+
+  /// Motivation for a certain horizontal velocity
+  /// Added due to profiling results, see Issue  #543
+  double m_dx_motivation = 0;
+
+  /// Motivation for a certain horizontal velocity
+  /// Added due to profiling results, see Issue  #543
+  double m_dy_motivation = 0;
+
   void reproduce_agents(game& g, agent_type type);
 
-  void damage_near_grass(game &g, agent_type type);
+  void damage_own_type(game &g, agent_type type);
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);
   friend bool operator==(const agent& lhs, const agent& rhs) noexcept;
 
 };
+
+double get_agent_reproduction_health(const agent_type t) noexcept;
 
 std::vector<agent_type> can_eat(const agent_type type);
 

@@ -14,6 +14,7 @@
 #include "sfml_text_input.h"
 #include "sfml_scroll_box.h"
 #include "sfml_load_screen.h"
+#include "sound_type.h"
 #include <QFile>
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
@@ -39,10 +40,11 @@
 /// All tests are called from here, only in debug mode
 void test() {
   test_biology();
-  test_agent();
+  //test_agent();
   test_tile_type();
   test_tile();
   test_agent_type();
+  test_sound_type();
   test_tile_id();
   //test_sfml_window_manager();
   test_normal_char();
@@ -154,7 +156,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   bool damage = true;
   bool score = true;
 
-  if (std::count(std::begin(args), std::end(args), "--music"))
+  if (std::count(std::begin(args), std::end(args), "--no-music"))
   {
     music = true;
   }
@@ -254,7 +256,8 @@ int main(int argc, char **argv) //!OCLINT main too long
     damage = false;
     score = false;
   }
-  else if(std::count(std::begin(args), std::end(args), "--god")){
+  else if(std::count(std::begin(args), std::end(args), "--god")) {
+    music = false;
     score = false;
     tiles = create_test_default_tiles();
     agents = create_default_agents();

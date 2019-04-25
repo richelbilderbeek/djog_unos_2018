@@ -105,6 +105,7 @@ public:
   bool check_merge(tile &t1, tile &t2);
 
   void switch_collide(tile& t, int direction);
+  void try_rotate(tile& t, bool cc);
 
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
@@ -129,6 +130,14 @@ private:
   sf::Music &m_background_music;
 
   sf::Music &m_ben_ik_een_spin;
+
+  sound_type m_sound_type;
+
+  sf::SoundBuffer m_soundbuffer;
+
+  sf::Sound m_sound;
+
+  void play_sound();
 
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
