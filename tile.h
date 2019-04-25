@@ -172,6 +172,8 @@ std::istream& operator>>(std::istream& os, tile& t);
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept;
 
+int degreeToDirection(int deg, bool cc);
+
 /// Test the tile class
 void test_tile();
 

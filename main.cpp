@@ -132,6 +132,14 @@ int main(int argc, char **argv) //!OCLINT main too long
 #endif
   
   const std::vector<std::string> args(argv, argv + argc);
+  std::string user = "unknown";
+#ifdef WIN32
+  user = getenv("USERNAME");
+#endif
+#ifdef __linux__
+  user = system("whoami");
+#endif
+  std::clog << "Current user: " << user << "\n" << std::endl;
 
   //----------------------------------------------------------------------------
   //Things with early exits
@@ -210,7 +218,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   //Not realy to show settings, but to use the variables
-  std::cout << "\nSettings\n"
+  std::cout << "Settings\n"
             << "Close at : " << close_at << "\n"
             << "Music    : " << music << std::endl;
 

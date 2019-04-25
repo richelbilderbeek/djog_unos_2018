@@ -361,8 +361,8 @@ sf::Vector2f tile::get_center() const noexcept {
   return sf::Vector2f(m_x + (get_width() / 2.0), m_y + (get_height() / 2.0));
 }
 
-sf::Vector2f tile::get_corner() const noexcept {
-  int rot = ((m_rotation - (m_rotation % 90)) % 360) / 90;
+sf::Vector2f tile::get_corner() const noexcept {// WARNING REDO THIS FUNCTION
+  int rot = degreeToDirection(m_rotation, false);
   switch (rot) {
     case 2:
       return sf::Vector2f(m_x - (get_width() / 2.0), m_y);
@@ -372,6 +372,28 @@ sf::Vector2f tile::get_corner() const noexcept {
       break;
   }
   return sf::Vector2f(m_x, m_y);
+}
+
+// C
+// Direction : \/   <    /\   >
+// Value     : 3    4    1    2
+// --------------------------------
+// CC
+// Direction : /\   >    \/   <
+// Value     : 1    2    3    4
+// --------------------------------
+// Tile
+// Degree    : 0    90   180  270
+// int rot   : 1    2    3    0
+int degreeToDirection(int deg, bool cc) {
+  assert(0 / 90 == 0);
+  assert(((270 + (90 - (270 % 90))) % 360) / 90 == 0);
+  int rot = ((deg + (90 - (deg % 90))) % 360) / 90;
+  if (!cc) rot += 2;
+  if (rot == 0) rot += 4;
+  rot %= 4;
+  if (rot == 0) rot += 4;
+  return rot;
 }
 
 void tile::move() {

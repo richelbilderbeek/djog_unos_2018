@@ -187,7 +187,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_window.display(); // Put everything on the screen
 }
 
-void sfml_game::display_tile(const tile &t){
+void sfml_game::display_tile(const tile &t) {// WARNING WATCH THE WARNINGS
     sf::RectangleShape sfml_tile(sf::Vector2f(212, 100));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
@@ -592,15 +592,11 @@ void sfml_game::switch_collide(tile& t, int direction)
 
 void sfml_game::try_rotate(tile &t, bool cc) {
   int rot = static_cast<int>(t.get_rotation());
-  std::cout << ((rot + (90 - (rot % 90))) % 360) / 90 << std::endl;
-  std::cout << ((((rot + (90 - (rot % 90))) % 360) / 90) + 2) / 4 << std::endl;
-  std::cout << t.get_rotation() << std::endl;
-  std::cout << "----------------------" << std::endl;
   if (cc) {
-    if (!will_colide(((rot + (90 - (rot % 90))) % 360) / 90, t)) {
+    if (!will_colide(degreeToDirection(rot, true), t)) {
       t.rotate_cc();
     }
-  } else if (!will_colide(((((rot + (90 - (rot % 90))) % 360) / 90) + 2) / 4, t)) {
+  } else if (!will_colide(degreeToDirection(rot, false), t)) {
     t.rotate_c();
   }
 }

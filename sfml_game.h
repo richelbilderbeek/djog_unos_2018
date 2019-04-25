@@ -219,6 +219,8 @@ private:
 ///Test the sfml_game class
 void test_sfml_game();
 
+int degreeToDirection(int deg, bool cc);
+
 int vectortoint(std::vector<int> v);
 
 #endif // SFML_sfml_game_H
