@@ -587,15 +587,16 @@ void sfml_game::switch_collide(tile& t, int direction)
   {
     //confirm_tile_move(t, direction);
     m_game.confirm_tile_move(t, direction, m_tile_speed);
+    m_sound_type = sound_type::tile_move;
   }
   if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
-    //confirm_tile_move(t, direction);
-    m_sound_type = sound_type::tile_collision;
+    //confirm_tile_move(t, direction);    
     m_game.confirm_tile_move(t, direction, m_tile_speed);
+    m_sound_type = sound_type::tile_move;
     sf::Vector2f b = get_direction_pos(direction, t, 112);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {

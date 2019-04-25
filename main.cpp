@@ -251,13 +251,11 @@ int main(int argc, char **argv) //!OCLINT main too long
       tile t(i, i, 0, 90, 0, tile_type::grassland);
       tiles.push_back(t);
     }
-
     spawning = false;
     damage = false;
     score = false;
   }
   else if(std::count(std::begin(args), std::end(args), "--god")) {
-    music = false;
     score = false;
     tiles = create_test_default_tiles();
     agents = create_default_agents();
