@@ -23,7 +23,8 @@ SOURCES += \
     $$PWD/sfml_save_overlay.cpp \
     $$PWD/sfml_zen_bar.cpp \
     $$PWD/sfml_scroll_box.cpp \
-    $$PWD/sfml_load_screen.cpp
+    $$PWD/sfml_load_screen.cpp \
+    $$PWD/sound_type.cpp
 
 HEADERS += \
     $$PWD/agent.h \
@@ -50,7 +51,8 @@ HEADERS += \
     $$PWD/sfml_save_overlay.h \
     $$PWD/sfml_zen_bar.h \
     $$PWD/sfml_scroll_box.h \
-    $$PWD/sfml_load_screen.h
+    $$PWD/sfml_load_screen.h \
+    $$PWD/sound_type.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc

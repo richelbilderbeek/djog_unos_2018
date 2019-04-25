@@ -21,6 +21,9 @@ sfml_game::sfml_game(
   const std::vector<agent>& agents)
   : m_background_music{ sfml_resources::get().get_background_music() },
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
+    m_sound_type(sound_type::none),
+    m_soundbuffer(),
+    m_sound(),    
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
@@ -28,6 +31,7 @@ sfml_game::sfml_game(
     m_shop_overlay(),
     m_save_screen(m_game)
 {
+  assert(m_sound_type == sound_type::none);
   // Set up music
   m_background_music.setLoop(true);
 
@@ -71,6 +75,29 @@ void sfml_game::close()
 void sfml_game::start_music() {
   stop_music();
   m_background_music.play();
+}
+
+void sfml_game::play_sound()
+{
+  /// Only play actual sounds
+  if (m_sound_type != sound_type::none)
+  {
+    assert(m_sound_type != sound_type::none);
+
+    /// Get the soundbuffer from the file
+    m_soundbuffer = sfml_resources::get().get_soundbuffer(m_sound_type);
+
+    /// Set m_soundbuffer
+    /// Keep it in scope while m_sound exists
+    m_sound.setBuffer(m_soundbuffer);
+
+    /// Play the sound
+    m_sound.play();
+
+    /// Reset m_sound_type so this function
+    /// does not trigger continuously
+    m_sound_type = sound_type::none;
+  }
 }
 
 void sfml_game::setup_tickcounter_text() {
@@ -270,6 +297,8 @@ void sfml_game::process_events()
 
   m_delegate.do_actions(*this);
   ++m_n_displayed;
+
+  play_sound();
 }
 
 void sfml_game::confirm_move()
@@ -550,6 +579,7 @@ void sfml_game::switch_collide(tile& t, int direction)
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
     //confirm_tile_move(t, direction);
+    m_sound_type = sound_type::tile_collision;
     m_game.confirm_tile_move(t, direction, m_tile_speed);
     sf::Vector2f b = get_direction_pos(direction, t, 112);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])

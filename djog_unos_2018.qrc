@@ -45,7 +45,13 @@
         <file>resources/Essence_29_32.png</file>
         <file>resources/Barachem_Zauberspiel_Preliminary_Edit.ogg</file>
         <file>resources/chameleon.png</file>
+        <file>resources/tile_merge.wav</file>
         <file>resources/title_screen_background.png</file>
+        <file>resources/arctic_laying.png</file>
+        <file>resources/arctic_standing.png</file>
+        <file>resources/mountain_texture_laying.png</file>
+        <file>resources/mountain_texture_standing.png</file>
+        <file>resources/nature zen background.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
