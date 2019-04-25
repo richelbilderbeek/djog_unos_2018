@@ -2,7 +2,6 @@
 #include "sfml_window_manager.h"
 using namespace sf;
 
-
 sfml_camera::sfml_camera()
   :m_window{ sfml_window_manager::get().get_window() }
 {

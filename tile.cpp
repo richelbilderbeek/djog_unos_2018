@@ -16,7 +16,7 @@ tile::tile(
   const double x,
   const double y,
   const double z,
-  const double rotation,
+  const int rotation,
   const double depth,
   const tile_type type,
   const tile_id id
@@ -271,17 +271,16 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
   }
 }
 
-void tile::rotate_c() { //TODO
-  // if rotation is 180 reset it to 0 and move tile
-  /*const double width = t.get_width();
-  const double height = t.get_height();
-  t.set_width(height);
-  t.set_height(width);*/
+void tile::rotate_c() {
+  while (m_rotation < 0) m_rotation += 360;
+  m_rotation %= 360;
+  m_rotation += 90;
 }
 
-void tile::rotate_cc() { //TODO
-  // if rotation is 0 change to 180 and move tile
-  // reset rotation from ^^^
+void tile::rotate_cc() {
+  while (m_rotation < 0) m_rotation += 360;
+  m_rotation %= 360;
+  m_rotation += 360 - 90;
 }
 
 double tile::get_width() const {
@@ -329,7 +328,8 @@ void tile::set_dy(double dy) {
 }
 
 void tile::set_rotation(double r) {
-  m_rotation = r;
+  if (!m_locked)
+    m_rotation = r;
 }
 
 void tile::set_type(const tile_type t) noexcept
@@ -343,10 +343,36 @@ void tile::move(std::vector<agent>& a) {
   m_z += m_dz;
 
   for (auto& agent: a) {
-      if(is_on_specific_tile(agent, *this)){
-        agent.move(m_dx, m_dy);
-      }
+    if(is_on_specific_tile(agent, *this)){
+      agent.move(m_dx, m_dy);
+    }
   }
+}
+
+sf::Vector2f tile::get_center() const noexcept {
+  int rot = ((m_rotation - (m_rotation % 90)) % 360) / 90;
+  switch (rot) {
+    case 2:
+      return sf::Vector2f(m_x, m_y + (get_height() / 2.0));
+    case 3:
+      return sf::Vector2f(m_x + (get_width() / 2.0), m_y);
+    default:
+      break;
+  }
+  return sf::Vector2f(m_x + (get_width() / 2.0), m_y + (get_height() / 2.0));
+}
+
+sf::Vector2f tile::get_corner() const noexcept {
+  int rot = ((m_rotation - (m_rotation % 90)) % 360) / 90;
+  switch (rot) {
+    case 2:
+      return sf::Vector2f(m_x - (get_width() / 2.0), m_y);
+    case 3:
+      return sf::Vector2f(m_x, m_y - (get_height() / 2.0));
+    default:
+      break;
+  }
+  return sf::Vector2f(m_x, m_y);
 }
 
 void tile::move() {
@@ -393,10 +419,10 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
 }
 
 bool contains(const tile& t, double x, double y) noexcept {
-  return x > t.get_x() - 5
-      && x < t.get_x() + t.get_width() + 5
-      && y > t.get_y() - 5
-      && y < t.get_y() + t.get_height() + 5;
+  return x > t.get_corner().x - 5 
+      && x < t.get_corner().x + t.get_width() + 5 
+      && y > t.get_corner().y - 5 
+      && y < t.get_corner().y + t.get_height() + 5;
 }
 
 void tile::lock_movement(bool b) { m_locked = b; }

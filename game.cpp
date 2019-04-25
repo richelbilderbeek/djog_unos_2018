@@ -105,7 +105,7 @@ void game::process_events()
 void game::spawn(agent_type type, tile t)
 {
   agent a1(type);
-  move_agent_to_tile(a1, t.get_x()/112, t.get_y()/112);
+  move_agent_to_tile(a1, t.get_corner().x/112, t.get_corner().y/112);
   m_agents.push_back(a1);
 //  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
@@ -237,10 +237,10 @@ int game::get_agent_count(agent_type type){
 
 bool is_on_specific_tile(const double x, const double y, const tile& t)
 {
-  return x >= t.get_x() - 6 &&
-         x <= t.get_x() + t.get_width() + 6 &&
-         y >= t.get_y() - 6 &&
-         y <= t.get_y() + t.get_height() + 6;
+  return x >= t.get_corner().x - 6 &&
+         x <= t.get_corner().x + t.get_width() + 6 &&
+         y >= t.get_corner().y - 6 &&
+         y <= t.get_corner().y + t.get_height() + 6;
 }
 
 bool is_on_specific_tile(const agent& a, const tile& t) {
@@ -250,11 +250,11 @@ bool is_on_specific_tile(const agent& a, const tile& t) {
 
 bool is_on_tile(const game& g, const double x, const double y)
 {
-  for (tile t: g.get_tiles()){
-    if(x >= t.get_x() - 6 &&
-       x <= t.get_x() + t.get_width() + 6 &&
-       y >= t.get_y() - 6 &&
-       y <= t.get_y() + t.get_height() + 6)
+  for (tile t: g.get_tiles()) {
+    if(x >= t.get_corner().x - 6 &&
+       x <= t.get_corner().x + t.get_width() + 6 &&
+       y >= t.get_corner().y - 6 &&
+       y <= t.get_corner().y + t.get_height() + 6)
       return true;
   }
   return false;
@@ -264,10 +264,10 @@ std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
   for (tile t : g.get_tiles())
   {
-    if (a.get_x() >= t.get_x() - 6.0 &&
-        a.get_x() <= t.get_x() + t.get_width() + 6.0 &&
-        a.get_y() >= t.get_y() - 6.0 &&
-        a.get_y() <= t.get_y() + t.get_height() + 6.0
+    if (a.get_x() >= t.get_corner().x - 6.0 &&
+        a.get_x() <= t.get_corner().x + t.get_width() + 6.0 &&
+        a.get_y() >= t.get_corner().y - 6.0 &&
+        a.get_y() <= t.get_corner().y + t.get_height() + 6.0
     )
     {
       return { t.get_type() };
