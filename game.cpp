@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <functional>
 
-
 game::game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents
