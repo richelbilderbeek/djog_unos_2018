@@ -429,11 +429,11 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
     {
-      m_zoom_state += 0.1;
+      m_zoom_state += m_zoom_state < 2 ? 0.01 : 0;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
-      m_zoom_state -= 0.1;
+      m_zoom_state -= m_zoom_state > 0.1 ? 0.01 : 0;
     }
   }
   else
