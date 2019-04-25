@@ -45,6 +45,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find music file 'tile_merge.wav'");
     }
   }
+  {
+    // Re-create resource at executable's location
+    QFile f(":/nature_zen/resources/tile_move.wav");
+    f.copy("tile_move.wav");
+    if (!m_tile_move_soundbuffer.loadFromFile("tile_move.wav")) {
+      throw std::runtime_error("Cannot find music file 'tile_move.wav'");
+    }
+  }
    // plankton texture
   {
     QFile f(":/nature_zen/resources/plankton.png");
@@ -417,6 +425,8 @@ sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
   /// Getting the collision soundfile
   if (st == sound_type::tile_collision)
     return m_tile_collission_soundbuffer;
+  if (st == sound_type::tile_move)
+    return m_tile_move_soundbuffer;
 
   assert(!"Should never come this far."); //!OCLINT accepted idiom
   return m_tile_collission_soundbuffer;

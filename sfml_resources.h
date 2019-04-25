@@ -74,6 +74,8 @@ private:
 
   sf::SoundBuffer m_tile_collission_soundbuffer;
 
+  sf::SoundBuffer m_tile_move_soundbuffer;
+
   sf::Music m_benikeenspin;
 
   sf::Music m_game_music;
