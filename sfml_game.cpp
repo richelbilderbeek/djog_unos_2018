@@ -252,16 +252,16 @@ void sfml_game::exec()
       m_shop_overlay.exec();
     } else {
       process_input();
-      process_events();
+      process_events(m_sound_type);
       display();
     }
   }
 }
 
-void sfml_game::process_events()
+void sfml_game::process_events(sound_type& st)
 {
 
-  m_game.process_events();
+  m_game.process_events(st);
 
   sf::Vector2i current_mouse = sf::Mouse::getPosition();
   sf::Vector2i mouse_delta = current_mouse - m_prev_mouse_pos;

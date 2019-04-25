@@ -55,7 +55,7 @@ int count_n_agents(const game& g) noexcept
   return g.get_agents().size();
 }
 
-void game::process_events()
+void game::process_events(sound_type& st)
 {
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
@@ -69,7 +69,7 @@ void game::process_events()
     kill_agents();
   }
 
-  merge_tiles();
+  merge_tiles(st);
 
   // Calculate the score
   int agent_count = 0;
@@ -160,7 +160,7 @@ void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
   }
 }
 
-void game::merge_tiles() { //!OCLINT must simplify
+void game::merge_tiles(sound_type &st) { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
   const int n = count_n_tiles(*this);
@@ -178,6 +178,7 @@ void game::merge_tiles() { //!OCLINT must simplify
       tile& other_tile = m_tiles[j];
       if (!have_same_position(focal_tile, other_tile)) { continue; }
       tile_merge(focal_tile, other_tile, j);
+      st = sound_type::tile_collision;
       return; //!OCLINT I don't know an alternative;
     }
   }
@@ -344,7 +345,8 @@ void test_game() //!OCLINT a testing function may be long
   // Number of game cycles is increased each time all events are processed
   {
     game g;
-    g.process_events();
+    sound_type st { sound_type::none };
+    g.process_events(st);
     assert(g.get_n_ticks() == 1);
   }
 
@@ -415,10 +417,11 @@ void test_game() //!OCLINT a testing function may be long
     };
 
     game g(tiles);
+    sound_type st { sound_type::none };
     assert(count_n_tiles(g) == 2);
     assert(collect_tile_types(g)[0] == tile_type::grassland);
     assert(collect_tile_types(g)[1] == tile_type::grassland);
-    g.process_events();
+    g.process_events(st);
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::hills);
   }
@@ -431,7 +434,8 @@ void test_game() //!OCLINT a testing function may be long
 //    // Wait until cow starves
 //    while (!g.get_agents().empty())
 //    {
-//      g.process_events();
+//      sound_type st { sound_type::none };
+//      g.process_events(st);
 //    }
 //    const double new_score = g.get_score();
 //    assert(new_score < prev_score);
@@ -440,12 +444,13 @@ void test_game() //!OCLINT a testing function may be long
   {
     const std::vector<agent> no_agents;
     game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0) }, no_agents);
+    sound_type st { sound_type::none };
     tile& tile = g.get_tiles()[0];
     const auto x_before = tile.get_x();
     const auto y_before = tile.get_y();
     tile.set_dx(5.0);
     tile.set_dy(5.0);
-    g.process_events();
+    g.process_events(st);
     const auto x_after = tile.get_x();
     const auto y_after = tile.get_y();
     assert(x_before != x_after);
@@ -483,8 +488,9 @@ void test_game() //!OCLINT a testing function may be long
       }
     );
     //Will freeze
+    sound_type st { sound_type::none };
     while (g.get_agents()[0].get_y() < 11.0) {
-      g.process_events();
+      g.process_events(st);
     }
   }
   #endif //
@@ -497,14 +503,15 @@ void test_game() //!OCLINT a testing function may be long
       { tile(0.0, 0.0, 0.0, 10.0, 10.0) },
       { agent(agent_type::cow, start_cow_x, start_cow_y) }
     );
+    sound_type st { sound_type::none };
     tile& tile = g.get_tiles()[0];
     const auto x_before = tile.get_x();
     tile.set_dx(5.0);
-    g.process_events();
+    g.process_events(st);
     const auto x_after = tile.get_x();
     assert(x_before != x_after);
     tile.set_dy(5.0);
-    g.process_events();
+    g.process_events(st);
   }
   {
     const agent a(agent_type::tree);
@@ -525,12 +532,13 @@ void test_game() //!OCLINT a testing function may be long
 //      },
 //      { agent(agent_type::grass, start_grass_x, start_grass_y) }
 //    );
+//    sound_type st { sound_type::none };
 //    tile& tile = g.get_tiles()[0];
 //    tile.set_dx(1.0);
 //    tile.set_dy(1.0);
 //    for (int i=0; i != 100; ++i)
 //    {
-//      g.process_events();
+//      g.process_events(st);
 //    }
 //    assert(g.get_agents()[0].get_x() == start_grass_x);
 //    assert(g.get_agents()[0].get_y() == start_grass_y);

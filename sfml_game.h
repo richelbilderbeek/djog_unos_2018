@@ -163,7 +163,7 @@ private:
   /// of the sfml_game_delegate
   /// Will be run approx 60 times per second
   /// and increase m_n_displayed
-  void process_events();
+  void process_events(sound_type& st);
 
   /// Process all input from the user: mouse and keyboard
   void process_input();
