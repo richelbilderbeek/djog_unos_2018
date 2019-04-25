@@ -80,6 +80,7 @@ void game::process_events()
   }
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
+    assert(m_tiles.size() > 0);
     ppt = ppt / m_tiles.size();
   }
   if(m_allow_score){
@@ -93,7 +94,6 @@ void game::process_events()
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-
     tile.process_events(*this);
   }
 

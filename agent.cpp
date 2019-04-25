@@ -1100,6 +1100,7 @@ void test_agent() //!OCLINT testing functions may be long
     game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 100)});
     const auto prev_health = g.get_agents()[0].get_health();
+
     g.process_events();
     assert(g.get_agents().size() == 2);
     const auto after_health = g.get_agents()[0].get_health();
