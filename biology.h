@@ -17,6 +17,8 @@ public:
 
   double get_health_decrease_when_eaten() const noexcept;
 
+  double get_grass_reproduction_health() const noexcept;
+
 };
 
 

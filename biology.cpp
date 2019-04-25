@@ -21,6 +21,11 @@ double biology::get_health_decrease_when_eaten() const noexcept
   return 2.0;
 }
 
+double biology::get_grass_reproduction_health() const noexcept
+{
+  return 100.0;
+}
+
 void test_biology()
 {
 
