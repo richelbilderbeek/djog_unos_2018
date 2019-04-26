@@ -831,30 +831,30 @@ void test_agent() //!OCLINT testing functions may be long
   // A cow moves
   {
     game g;
-    const double x{12.34};
-    const double y{56.78};
+    const double x{12.345};
+    const double y{56.789};
     agent a(agent_type::cow, x, y);
     assert(is_on_tile(g, a));
-    for(int i = 0; i < 10; i++) a.move(g);
+    for (int i = 0; i < 50; i++) a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A crocodile moves
   {
     const game dummy_game; //Unused
-    const double x{12.34};
-    const double y{56.78};
+    const double x{12.345};
+    const double y{56.789};
     agent a(agent_type::crocodile, x, y);
-    for (int i = 0; i != 10; ++i) a.move(dummy_game); //To make surer x or y is changed
+    for (int i = 0; i != 50; ++i) a.move(dummy_game); //To make surer x or y is changed
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A fish moves
   {
     game g;
-    const double x{12.34};
-    const double y{56.78};
+    const double x{12.345};
+    const double y{56.789};
     agent a(agent_type::fish, x, y);
     assert(is_on_tile(g, a));
-    for(int i = 0; i < 10; i++) a.move(g);
+    for (int i = 0; i < 50; i++) a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A bird moves
