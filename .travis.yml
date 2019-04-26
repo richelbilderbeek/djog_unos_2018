@@ -7,13 +7,15 @@ addons:
     packages: 
       - libboost-all-dev
 
+# avoid ALSA errors     
+env:
+  global:
+    - SDL_AUDIODRIVER=dummy
+
 before_install:
   # C++14
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
-  
-  - sudo apt-get install libasound2-dev alsa-utils alsa-oss
-  - sudo modprobe snd-dummy
 
 install: 
   # C++14
