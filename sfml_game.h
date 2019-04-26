@@ -214,6 +214,8 @@ private:
 
   sfml_save_overlay m_save_screen;
 
+  double m_zoom_state = 1;
+
 };
 
 ///Test the sfml_game class

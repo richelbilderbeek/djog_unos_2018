@@ -50,7 +50,7 @@ public:
 
   int get_n_ticks() const;
 
-  void move_tiles(sf::RenderWindow& window, sfml_camera& camera);
+  void move_tiles(double mouse_X, double mouse_y);
 
   void confirm_tile_move(tile& t, int direction, int tile_speed);
 
@@ -66,7 +66,7 @@ public:
   sound_type get_sound_type() noexcept
   { return m_sound_type; }
 
-  void remove_tile(sf::RenderWindow& window, sfml_camera& camera);
+  void remove_tile(double mouse_x, double mouse_y);
 
   int get_agent_count(agent_type type);
 

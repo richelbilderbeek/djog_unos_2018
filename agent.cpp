@@ -357,11 +357,11 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
     agent new_agent(type, new_x, new_y, health_kid, 0, can_eat(type));
     std::vector<tile> t = get_current_tile(g, new_agent);
-    bool water = get_on_tile_type(g, new_agent).size() > 0 &&
-                 get_on_tile_type(g, new_agent).at(0) == tile_type::water;
+//    bool water = get_on_tile_type(g, new_agent).size() > 0 &&
+//                 get_on_tile_type(g, new_agent).at(0) == tile_type::water;
     while (t.empty()
            || !is_on_tile(g, new_agent)
-           || water
+//           || water
            || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t.front())
            || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t.front())
     )
@@ -380,8 +380,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     }
     g.add_agents( { new_agent } );
     m_health = health_parent;
-    water = get_on_tile_type(g, new_agent).size() > 0 &&
-            get_on_tile_type(g, new_agent).at(0) == tile_type::water;
+//    water = get_on_tile_type(g, new_agent).size() > 0 &&
+//            get_on_tile_type(g, new_agent).at(0) == tile_type::water;
   }
 }
 
