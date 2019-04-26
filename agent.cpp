@@ -211,8 +211,11 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
   if (m_type == agent_type::corpse) return;
 
   //Move randomly a bit
-  m_x += 0.1 * (-1 + random_double(0, 3));
-  m_y += 0.1 * (-1 + random_double(0, 3));
+  m_x += 0.1 * (-1 + (std::rand() % 3));
+  m_y += 0.1 * (-1 + (std::rand() % 3));
+//As long as we don't have a random seed, this can't be used here
+//m_x += 0.1 * (-1 + random_double(0, 3));
+//m_y += 0.1 * (-1 + random_double(0, 3));
 
   unsigned int rand = static_cast<unsigned int>(random_int(0, count_n_agents(g) - 1));
 
@@ -220,12 +223,12 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
   if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) != m_prey.end()){
     double distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
     const double vector_length = std::exp(-distance/400);
-    m_dx_motivation += -(0.001 * (m_x - a.get_x()) * vector_length);
-    m_dy_motivation += -(0.001 * (m_y - a.get_y()) * vector_length);
+    m_dx_motivation += -(0.01 * (m_x - a.get_x()) * vector_length);
+    m_dy_motivation += -(0.01 * (m_y - a.get_y()) * vector_length);
     //std::cout << vector_length << " " << rand << " " << count_n_agents(g) << std::endl;
     //std::cout << m_dx_motivation << " + " << m_dy_motivation << " " << rand << std::endl;
-    m_x += std::max(-1.0, std::min(m_dx_motivation, 1.0));
-    m_y += std::max(-1.0, std::min(m_dy_motivation, 1.0));
+    m_x += std::max(-0.35, std::min(m_dx_motivation, 0.35));
+    m_y += std::max(-0.35, std::min(m_dy_motivation, 0.35));
   }
 }
 
@@ -354,13 +357,16 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 //                 get_on_tile_type(g, new_agent).at(0) == tile_type::water;
     while (t.empty()
            || !is_on_tile(g, new_agent)
-//           || water
+//           || !water
            || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t.front())
            || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t.front())
     )
     {
-      f_x = random_double(0, 1);
-      f_y = random_double(0, 1);
+//    As long as we don't have a random seed, this can't be used here
+//    f_x = random_double(0, 1);
+//    f_y = random_double(0, 1);
+      f_x = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
+      f_y = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
       assert(f_x >= 0.0 && f_x < 1.0);
       assert(f_y >= 0.0 && f_y < 1.0);
       new_x = m_x + (((f_x * 2.0) - 1.0) * max_distance);
@@ -369,6 +375,8 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
       new_agent.set_y(new_y);
       if(is_on_tile(g, new_agent)){
         t = get_current_tile(g, new_agent);
+//        water = get_on_tile_type(g, new_agent).size() > 0 &&
+//                get_on_tile_type(g, new_agent).at(0) == tile_type::water;
       }
     }
     g.add_agents( { new_agent } );
