@@ -187,12 +187,12 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_window.display(); // Put everything on the screen
 }
 
-void sfml_game::display_tile(const tile &t) {// WARNING WATCH THE WARNINGS
-    sf::RectangleShape sfml_tile(sf::Vector2f(212, 100));
+void sfml_game::display_tile(const tile &t){
+    sf::RectangleShape sfml_tile(sf::Vector2f(212 * m_zoom_state, 100 * m_zoom_state));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
-    const double screen_x{ t.get_x() - m_camera.x };
-    const double screen_y{ t.get_y() - m_camera.y };
+    const double screen_x{ (t.get_x() - m_camera.x) * m_zoom_state };
+    const double screen_y{ (t.get_y() - m_camera.y) * m_zoom_state };
     sfml_tile.setOrigin(50, 50);
     sfml_tile.setRotation(t.get_rotation());
     sfml_tile.setPosition(screen_x + 50, screen_y + 50);
@@ -201,6 +201,7 @@ void sfml_game::display_tile(const tile &t) {// WARNING WATCH THE WARNINGS
     m_window.draw(sfml_tile);
     // Texture
     sf::Sprite sprite;
+    sprite.setScale(m_zoom_state, m_zoom_state);
     set_tile_sprite(t, sprite);
     assert(sprite.getTexture());
     sprite.setOrigin(50, 50);
@@ -211,12 +212,12 @@ void sfml_game::display_tile(const tile &t) {// WARNING WATCH THE WARNINGS
 }
 
 void sfml_game::display_agent(const agent &a){
-  const double screen_x{ a.get_x() - m_camera.x };
-  const double screen_y{ a.get_y() - m_camera.y };
+  const double screen_x{ (a.get_x() - m_camera.x) * m_zoom_state };
+  const double screen_y{ (a.get_y() - m_camera.y) * m_zoom_state };
   sf::Sprite sprite;
   set_agent_sprite(a, sprite);
   assert(sprite.getTexture());
-  sprite.setScale(0.2f, 0.2f);
+  sprite.setScale(0.2f * m_zoom_state, 0.2f * m_zoom_state);
   sprite.setPosition(screen_x, screen_y);
   sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
   m_window.draw(sprite);
@@ -412,12 +413,27 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
   {
     arrows(true, event);
     if (!m_game.m_selected.empty())
+    {
+      assert(!m_game.m_selected.empty());
       control_tile(true, event, getTileById(m_game.m_selected));
+    }
     if (m_timer > 0)
+    {
+      //Bug is here
+      assert(!m_game.m_selected.empty());
       control_tile(false, event, getTileById(m_game.m_selected));
+    }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
-        close(game_state::paused);
+      close(game_state::paused);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+    {
+      m_zoom_state += m_zoom_state < 2 ? 0.01 : 0;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+    {
+      m_zoom_state -= m_zoom_state > 0.1 ? 0.01 : 0;
     }
   }
   else
@@ -451,7 +467,10 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 
   if (event.mouseButton.button == sf::Mouse::Left)
   {
-    m_game.move_tiles(m_window, m_camera);
+    m_game.move_tiles(
+      sf::Mouse::getPosition(m_window).x + m_camera.x,
+      sf::Mouse::getPosition(m_window).y + m_camera.y
+    );
     m_clicked_tile = false;
     if (m_shop_button.is_clicked(event, m_window))
       close(game_state::shop);
@@ -460,7 +479,10 @@ void sfml_game::process_mouse_input(const sf::Event& event)
       ben_ik_een_spin();
   }
   else if (event.mouseButton.button == sf::Mouse::Right){
-    m_game.remove_tile(m_window, m_camera);
+    m_game.remove_tile(
+      sf::Mouse::getPosition(m_window).x + m_camera.x,
+      sf::Mouse::getPosition(m_window).y + m_camera.y
+    );
   }
 }
 
@@ -710,7 +732,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       color_shape(sfml_tile, sf::Color(240, 226, 180), sf::Color(223, 206, 157));
       break;
   }
-  sfml_tile.setOutlineThickness(5);
+  sfml_tile.setOutlineThickness(5 * m_zoom_state);
   auto selected = vectortoint(m_game.m_selected);
   if (t.get_id() == selected)
   {

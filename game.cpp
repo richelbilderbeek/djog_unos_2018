@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <functional>
 
-
 game::game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents
@@ -81,6 +80,7 @@ void game::process_events()
   }
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
+    assert(m_tiles.size() > 0);
     ppt = ppt / m_tiles.size();
   }
   if(m_allow_score){
@@ -94,7 +94,6 @@ void game::process_events()
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-
     tile.process_events(*this);
   }
 
@@ -129,13 +128,12 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   assert(m_selected.empty());
 }
 
-void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
+void game::move_tiles(double mouse_X, double mouse_y){
   bool clicked_tile = false;
   for (unsigned i = 0; i < m_tiles.size(); i++)
   {
     if (contains(m_tiles.at(i),
-          sf::Mouse::getPosition(window).x + camera.x,
-          sf::Mouse::getPosition(window).y + camera.y))
+          mouse_X, mouse_y))
     {
       for (unsigned j = 0; j < m_tiles.size(); j++)
       {
@@ -200,12 +198,11 @@ void game::kill_agents() {
   }
 }
 
-void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
+void game::remove_tile(double mouse_x, double mouse_y) {
     std::vector<tile> n_tiles;
     for (unsigned i = 0; i < m_tiles.size(); ++i) {
     if (contains(m_tiles.at(i),
-       sf::Mouse::getPosition(window).x + camera.x,
-       sf::Mouse::getPosition(window).y + camera.y))
+       mouse_x, mouse_y))
     {
         assert((int)i < static_cast<int>(m_tiles.size()));
         assert(0 < static_cast<int>(m_selected.size()));
