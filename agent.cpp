@@ -860,13 +860,15 @@ void test_agent() //!OCLINT testing functions may be long
   // A bird moves
   {
     game g;
-    const double x{12.34};
-    const double y{56.78};
+    const double x{12.345};
+    const double y{56.789};
     agent a(agent_type::bird, x, y);
     assert(is_on_tile(g, a));
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 100; i++){
       a.move(g);
     }
+    std::cout << "a.get_x(): " << a.get_x() << ", x: " << x << std::endl;
+    std::cout << "a.get_y(): " << a.get_y() << ", y: " << y << std::endl;
     assert(a.get_x() != x || a.get_y() != y);
   }
   // Grass does not move
