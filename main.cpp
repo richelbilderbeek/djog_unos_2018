@@ -40,7 +40,7 @@
 /// All tests are called from here, only in debug mode
 void test() {
   test_biology();
-  //test_agent();
+  test_agent();
   test_tile_type();
   test_tile();
   test_agent_type();
