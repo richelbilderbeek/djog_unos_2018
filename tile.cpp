@@ -362,13 +362,13 @@ sf::Vector2f tile::get_center() const noexcept {
   return sf::Vector2f(m_x + (get_width() / 2.0), m_y + (get_height() / 2.0));
 }
 
-sf::Vector2f tile::get_corner() const noexcept {// WARNING REDO THIS FUNCTION
-  int rot = degreeToDirection(m_rotation, false);
+sf::Vector2f tile::get_corner() const noexcept {
+  int rot = ((m_rotation + (90 - (m_rotation % 90))) % 360) / 90;
   switch (rot) {
-    case 2:
-      return sf::Vector2f(m_x - (get_width() / 2.0), m_y);
     case 3:
-      return sf::Vector2f(m_x, m_y - (get_height() / 2.0));
+      return sf::Vector2f(m_x - (get_width() / 2), m_y);
+    case 0:
+      return sf::Vector2f(m_x, m_y - (get_height() / 2));
     default:
       break;
   }
@@ -441,10 +441,10 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
 }
 
 bool contains(const tile& t, double x, double y) noexcept {
-  return x > t.get_corner().x - 5 
-      && x < t.get_corner().x + t.get_width() + 5 
-      && y > t.get_corner().y - 5 
-      && y < t.get_corner().y + t.get_height() + 5;
+  return x > t.get_corner().x - 6
+      && x < t.get_corner().x + t.get_width() + 6
+      && y > t.get_corner().y - 6
+      && y < t.get_corner().y + t.get_height() + 6;
 }
 
 void tile::lock_movement(bool b) { m_locked = b; }

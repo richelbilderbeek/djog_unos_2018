@@ -187,7 +187,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_window.display(); // Put everything on the screen
 }
 
-void sfml_game::display_tile(const tile &t){
+void sfml_game::display_tile(const tile &t) {
     sf::RectangleShape sfml_tile(sf::Vector2f(212 * m_zoom_state, 100 * m_zoom_state));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
