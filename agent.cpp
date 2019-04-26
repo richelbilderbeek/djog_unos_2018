@@ -697,7 +697,6 @@ void test_agent() //!OCLINT testing functions may be long
   // A cow moves
   {
     game g;
-    std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::cow, x, y);
@@ -708,7 +707,6 @@ void test_agent() //!OCLINT testing functions may be long
   // A crocodile moves
   {
     const game dummy_game; //Unused
-    std::srand(15);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::crocodile, x, y);
@@ -718,7 +716,6 @@ void test_agent() //!OCLINT testing functions may be long
   // A fish moves
   {
     game g;
-    std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::fish, x, y);
@@ -729,7 +726,6 @@ void test_agent() //!OCLINT testing functions may be long
   // A bird moves
   {
     game g;
-    std::srand(314);
     const double x{12.34};
     const double y{56.78};
     agent a(agent_type::bird, x, y);

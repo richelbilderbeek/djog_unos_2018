@@ -79,7 +79,7 @@ public:
 
   void set_allow_score(const bool do_score) noexcept { m_allow_score = do_score; }
 
-  void save_this(const std::string filename) const;
+  void save_this(const std::string filename) const;  
 
 private:
 

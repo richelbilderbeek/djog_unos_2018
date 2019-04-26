@@ -49,16 +49,15 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
 }
 
 int random_int(int min, int max){
-    std::random_device rd;
-    std::mt19937 rng;
-    rng.seed(rd());
-    std::uniform_int_distribution<int> dist(min, max);
+    std::default_random_engine device(314);
+    std::mt19937 generator(device());
+    std::uniform_int_distribution<int> distribution(min, max);
 
-    return static_cast<int>(dist(rng));
+    return distribution(generator);
 }
 
 double random_double(double min, double max){
-    std::default_random_engine device(static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count()));
+    std::default_random_engine device(314);
     std::mt19937 generator(device());
     std::uniform_real_distribution<double> distribution(min, max);
 
@@ -574,14 +573,8 @@ void test_game() //!OCLINT a testing function may be long
     }
     //random_double() returns a random double between min (inclusive) and max (inclusive)
     {
-//      double random1 = random_double(0.0, 10.0);
-//      double random2 = random_double(0.0, 10.0);
-//      std::cout << random1 << " " << random2 << std::endl;
-//      assert(random1 >= 0.0 && random1 <= 10.0);
-//      assert(random2 >= 0.0 && random2 <= 10.0);
-//      assert(random1 != random2);
-        for(int i = 0; i <= 10; i++) std::cout << random_double(0, 10) << std::endl;
-        assert(1==2);
+      double random = random_double(0.0, 10.0);
+      assert(random >= 0.0 && random <= 10.0);
     }
 }
 
