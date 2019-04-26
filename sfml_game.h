@@ -105,6 +105,7 @@ public:
   bool check_merge(tile &t1, tile &t2);
 
   void switch_collide(tile& t, int direction);
+  void try_rotate(tile& t, bool cc);
 
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
@@ -212,6 +213,8 @@ private:
   sfml_button m_shop_button;
 
   sfml_save_overlay m_save_screen;
+
+  double m_zoom_state = 1;
 
 };
 

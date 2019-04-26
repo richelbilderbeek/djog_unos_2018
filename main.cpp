@@ -156,7 +156,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   bool damage = true;
   bool score = true;
 
-  if (std::count(std::begin(args), std::end(args), "--music"))
+  if (std::count(std::begin(args), std::end(args), "--no-music"))
   {
     music = true;
   }
@@ -256,7 +256,8 @@ int main(int argc, char **argv) //!OCLINT main too long
     damage = false;
     score = false;
   }
-  else if(std::count(std::begin(args), std::end(args), "--god")){
+  else if(std::count(std::begin(args), std::end(args), "--god")) {
+    music = false;
     score = false;
     tiles = create_test_default_tiles();
     agents = create_default_agents();

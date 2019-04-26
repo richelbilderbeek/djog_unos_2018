@@ -13,7 +13,6 @@
 #include <chrono>
 #include <random>
 
-
 game::game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents
@@ -99,6 +98,7 @@ void game::process_events()
   }
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
+    assert(m_tiles.size() > 0);
     ppt = ppt / m_tiles.size();
   }
   if(m_allow_score){
@@ -112,7 +112,6 @@ void game::process_events()
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-
     tile.process_events(*this);
   }
 
@@ -124,7 +123,7 @@ void game::process_events()
 void game::spawn(agent_type type, tile t)
 {
   agent a1(type);
-  move_agent_to_tile(a1, t.get_x()/112, t.get_y()/112);
+  move_agent_to_tile(a1, t.get_corner().x/112, t.get_corner().y/112);
   m_agents.push_back(a1);
 //  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
@@ -147,13 +146,12 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   assert(m_selected.empty());
 }
 
-void game::move_tiles(sf::RenderWindow& window, sfml_camera& camera){
+void game::move_tiles(double mouse_X, double mouse_y){
   bool clicked_tile = false;
   for (unsigned i = 0; i < m_tiles.size(); i++)
   {
     if (contains(m_tiles.at(i),
-          sf::Mouse::getPosition(window).x + camera.x,
-          sf::Mouse::getPosition(window).y + camera.y))
+          mouse_X, mouse_y))
     {
       for (unsigned j = 0; j < m_tiles.size(); j++)
       {
@@ -218,12 +216,11 @@ void game::kill_agents() {
   }
 }
 
-void game::remove_tile(sf::RenderWindow& window, sfml_camera& camera) {
+void game::remove_tile(double mouse_x, double mouse_y) {
     std::vector<tile> n_tiles;
     for (unsigned i = 0; i < m_tiles.size(); ++i) {
     if (contains(m_tiles.at(i),
-       sf::Mouse::getPosition(window).x + camera.x,
-       sf::Mouse::getPosition(window).y + camera.y))
+       mouse_x, mouse_y))
     {
         assert((int)i < static_cast<int>(m_tiles.size()));
         assert(0 < static_cast<int>(m_selected.size()));
@@ -256,10 +253,10 @@ int game::get_agent_count(agent_type type){
 
 bool is_on_specific_tile(const double x, const double y, const tile& t)
 {
-  return x >= t.get_x() - 6 &&
-         x <= t.get_x() + t.get_width() + 6 &&
-         y >= t.get_y() - 6 &&
-         y <= t.get_y() + t.get_height() + 6;
+  return x >= t.get_corner().x - 6 &&
+         x <= t.get_corner().x + t.get_width() + 6 &&
+         y >= t.get_corner().y - 6 &&
+         y <= t.get_corner().y + t.get_height() + 6;
 }
 
 bool is_on_specific_tile(const agent& a, const tile& t) {
@@ -269,11 +266,11 @@ bool is_on_specific_tile(const agent& a, const tile& t) {
 
 bool is_on_tile(const game& g, const double x, const double y)
 {
-  for (tile t: g.get_tiles()){
-    if(x >= t.get_x() - 6 &&
-       x <= t.get_x() + t.get_width() + 6 &&
-       y >= t.get_y() - 6 &&
-       y <= t.get_y() + t.get_height() + 6)
+  for (tile t: g.get_tiles()) {
+    if(x >= t.get_corner().x - 6 &&
+       x <= t.get_corner().x + t.get_width() + 6 &&
+       y >= t.get_corner().y - 6 &&
+       y <= t.get_corner().y + t.get_height() + 6)
       return true;
   }
   return false;
@@ -283,10 +280,10 @@ std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
   for (tile t : g.get_tiles())
   {
-    if (a.get_x() >= t.get_x() - 6.0 &&
-        a.get_x() <= t.get_x() + t.get_width() + 6.0 &&
-        a.get_y() >= t.get_y() - 6.0 &&
-        a.get_y() <= t.get_y() + t.get_height() + 6.0
+    if (a.get_x() >= t.get_corner().x - 6.0 &&
+        a.get_x() <= t.get_corner().x + t.get_width() + 6.0 &&
+        a.get_y() >= t.get_corner().y - 6.0 &&
+        a.get_y() <= t.get_corner().y + t.get_height() + 6.0
     )
     {
       return { t.get_type() };

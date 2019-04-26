@@ -72,12 +72,9 @@ double get_agent_reproduction_health(const agent_type t) noexcept
   }
 }
 
-
 double pythagoras(double x_length, double y_length)
 {
-  return sqrt(
-    (x_length * x_length) + (y_length * y_length)
-  );
+  return sqrt((x_length * x_length) + (y_length * y_length));
 }
 
 std::vector<agent_type> can_eat(const agent_type type) {
@@ -267,6 +264,8 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   if(m_type == agent_type::corpse && corpse_ticks == -1){
     corpse_ticks = g.get_n_ticks();
   }
+
+
   if(m_type == agent_type::corpse && corpse_ticks + 300 < g.get_n_ticks()){
     unsigned int n = static_cast<unsigned int>(count_n_agents(g));
     for(unsigned int i = 0; i < n; i++){
@@ -285,13 +284,13 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
   if(m_type == agent_type::spider) attract_to_agent(g, agent_type::venus_fly_trap);
 
+
   if ((m_type == agent_type::grass || m_type == agent_type::tree
       || m_type == agent_type::cow) && g.allow_damage())  reproduce_agents(g, m_type);
 
-  if (m_type == agent_type::grass
-    || m_type == agent_type::cactus
-    || m_type == agent_type::tree
-  ) damage_near_grass(g, m_type);
+  //Plants damage each other when nearby
+  if (is_plant(m_type))
+    damage_own_type(g, m_type);
 
    //TODO is depth suitable for agent
   if (will_drown(m_type)
@@ -351,11 +350,11 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
     agent new_agent(type, new_x, new_y, health_kid, 0, can_eat(type));
     std::vector<tile> t = get_current_tile(g, new_agent);
-    bool water = get_on_tile_type(g, new_agent).size() > 0 &&
-                 get_on_tile_type(g, new_agent).at(0) == tile_type::water;
+//    bool water = get_on_tile_type(g, new_agent).size() > 0 &&
+//                 get_on_tile_type(g, new_agent).at(0) == tile_type::water;
     while (t.empty()
            || !is_on_tile(g, new_agent)
-           || water
+//           || water
            || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t.front())
            || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t.front())
     )
@@ -374,29 +373,33 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
     }
     g.add_agents( { new_agent } );
     m_health = health_parent;
-    water = get_on_tile_type(g, new_agent).size() > 0 &&
-            get_on_tile_type(g, new_agent).at(0) == tile_type::water;
+//    water = get_on_tile_type(g, new_agent).size() > 0 &&
+//            get_on_tile_type(g, new_agent).at(0) == tile_type::water;
   }
 }
 
-void agent::damage_near_grass(game &g, agent_type type)
+void agent::damage_own_type(game &g, agent_type type)
 {
-  const double max_distance { pythagoras(32.0, 32.0) };
-
-  const double max_damage { 17.5/1000.0 };
+  const double MAX_DISTANCE = 30; // The max range to deal damage to an object
+  const double MAX_DAMAGE = 0.18; // The max damage to deal per frame per agent
 
   std::vector <agent> all_agents{ g.get_agents() };
 
   for (agent& current_agent : all_agents)
   {
-    double delta = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
-    if (current_agent.get_type() == type &&
-         delta <= max_distance
-       )
+    if (current_agent == *this)
+        continue;
+
+    if (current_agent.get_type() == type)
     {
-        double rate = 1 - delta / max_distance;
-        double damage = max_damage * rate;
-        m_health -= damage;
+        double distance = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
+        if (!(distance <= MAX_DISTANCE))
+          continue;
+
+        double rate = 1-distance / MAX_DISTANCE;
+        double damage = MAX_DAMAGE * rate;
+        double relative_damage = damage / (all_agents.size() - 1);
+        m_health -= relative_damage;
     }
   }
 }
@@ -657,6 +660,129 @@ sf::Vector2i get_depth(agent_type a){
 
 void test_agent() //!OCLINT testing functions may be long
 {
+  #define FIX_ISSUE_447
+  #ifdef FIX_ISSUE_447
+  //Cacti damage nearby cacti
+  {
+    // Make two plants next to each other.
+    game g({tile(0, 0, 3, 3, 10, tile_type::grassland)},
+           {agent(agent_type::cactus, 10, 10, 10),
+            agent(agent_type::cactus, 10, 10, 10)});
+
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time
+    for(int i = 0; i != 100; ++i){
+      g.process_events();
+    }
+
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
+
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
+  }
+  //Foxgloves damage nearby Foxgloves
+  {
+    // Make two plants next to each other.
+    game g({tile(0, 0, 3, 3, 10, tile_type::grassland)},
+           {agent(agent_type::foxgloves, 10, 10, 10),
+            agent(agent_type::foxgloves, 10, 10, 10)});
+
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time.
+    for(int i = 0; i != 100; ++i){
+      g.process_events();
+    }
+
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
+
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
+  }
+  //Plankton damage nearby Plankton
+  {
+    // Make two plants next to each other.
+    game g({tile(0, 0, 3, 3, 10, tile_type::water)},
+           {agent(agent_type::plankton, 10, 10, 10),
+            agent(agent_type::plankton, 10, 10, 10)});
+
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time.
+    for(int i = 0; i != 100; ++i){
+      g.process_events();
+    }
+
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
+
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
+  }
+  //Sunflowers damage nearby Sunflowers
+  {
+    // Make two plants next to each other.
+    game g({tile(0, 0, 3, 3, 10, tile_type::grassland)},
+           {agent(agent_type::sunflower, 10, 10, 10),
+            agent(agent_type::sunflower, 10, 10, 10)});
+
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time.
+    for(int i = 0; i != 100; ++i){
+      g.process_events();
+    }
+
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
+
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
+  }
+  //Venus fly traps damage nearby Venus fly traps
+  {
+    // Make two plants next to each other.
+    game g({tile(0, 0, 3, 3, 10, tile_type::grassland)},
+           {agent(agent_type::venus_fly_trap, 10, 10, 10),
+            agent(agent_type::venus_fly_trap, 10, 10, 10)});
+
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time.
+    for(int i = 0; i != 100; ++i){
+      g.process_events();
+    }
+
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
+
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
+  }
+  #endif // FIX_ISSUE_447
   // A default agent has coordinate (0,0)
   {
     const agent a(agent_type::cow);
@@ -963,6 +1089,7 @@ void test_agent() //!OCLINT testing functions may be long
     game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 100)});
     const auto prev_health = g.get_agents()[0].get_health();
+
     g.process_events();
     assert(g.get_agents().size() == 2);
     const auto after_health = g.get_agents()[0].get_health();
@@ -1025,30 +1152,29 @@ void test_agent() //!OCLINT testing functions may be long
     assert(spider_prev_posX < spider_aft_posX);
     assert(spider_prev_posY < spider_aft_posY);
   }
-  //Grass damages nearby grasses
+  //Grass damages nearby grass
   {
-    //agent(const agent_type type, const double x = 0.0, const double y = 0.0,
-    //      const double health = 1.0,  const double direction = 0.0);
-    game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
+    // Make two plants next to each other.
+    game g({tile(0, 0, 3, 3, 10, tile_type::grassland)},
            {agent(agent_type::grass, 10, 10, 10),
             agent(agent_type::grass, 10, 10, 10)});
-    // Make two grass patches near each other.
-    const double prev_grass_health1 = g.get_agents()[0].get_health();
-    const double prev_grass_health2 = g.get_agents()[1].get_health();
-    // Check their current health.
 
-    for(int i = 0; i < 20; i++){
+    // Check their initial health.
+    const double prev_health1 = g.get_agents()[0].get_health();
+    const double prev_health2 = g.get_agents()[1].get_health();
+
+    // Damage time
+    for(int i = 0; i != 100; ++i){
       g.process_events();
     }
-    // Damage time.
 
-    const double after_grass_health1 = g.get_agents()[0].get_health();
-    const double after_grass_health2 = g.get_agents()[1].get_health();
-    // Check their health now.
+    // Check their health after doing damage
+    const double after_health1 = g.get_agents()[0].get_health();
+    const double after_health2 = g.get_agents()[1].get_health();
 
-    assert(after_grass_health1 < prev_grass_health1);
-    assert(after_grass_health2 < prev_grass_health2);
-    // See whether damage hath happened.
+    // Plants should have damaged each other
+    assert(after_health1 < prev_health1);
+    assert(after_health2 < prev_health2);
   }
   #define FIX_ISSUE_447
   #ifdef FIX_ISSUE_447
