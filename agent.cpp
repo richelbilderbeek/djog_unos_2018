@@ -835,7 +835,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::cow, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    for(int i = 0; i < 10; i++) a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A crocodile moves
@@ -854,7 +854,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::fish, x, y);
     assert(is_on_tile(g, a));
-    a.move(g);
+    for(int i = 0; i < 10; i++) a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
   // A bird moves
@@ -864,11 +864,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.789};
     agent a(agent_type::bird, x, y);
     assert(is_on_tile(g, a));
-    for(int i = 0; i < 10; i++){
-      a.move(g);
-    }
-    std::cout << "a.get_x(): " << a.get_x() << ", x: " << x << std::endl;
-    std::cout << "a.get_y(): " << a.get_y() << ", y: " << y << std::endl;
+    for(int i = 0; i < 10; i++) a.move(g);
     assert(a.get_x() != x || a.get_y() != y);
   }
   // Grass does not move
