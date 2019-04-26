@@ -573,6 +573,19 @@ void test_game() //!OCLINT a testing function may be long
       double random = random_double(0.0, 10.0);
       assert(random >= 0.0 && random <= 10.0);
     }
+    //test confirm_tile_move()
+    {
+      game g;
+      tile t(0, 0, 0, 0, 0, tile_type::grassland);
+      g.confirm_tile_move(t, 1, 1);
+      assert(t.get_dy() == -1);
+      g.confirm_tile_move(t, 2, 1);
+      assert(t.get_dx() == 1);
+      g.confirm_tile_move(t, 3, 1);
+      assert(t.get_dy() == 1);
+      g.confirm_tile_move(t, 4, 1);
+      assert(t.get_dx() == -1);
+    }
 }
 
 void load(game& g, const std::string &filename) {
