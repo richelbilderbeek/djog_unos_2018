@@ -159,7 +159,7 @@ void game::move_tiles(double mouse_X, double mouse_y){
   }
 }
 
-void game::merge_tiles() { //!OCLINT must simplify
+void game::merge_tiles() {
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
   const int n = count_n_tiles(*this);

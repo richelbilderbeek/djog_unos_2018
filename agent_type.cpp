@@ -28,8 +28,7 @@ std::vector<agent_type> collect_all_agent_types()
     agent_type::foxgloves,
     agent_type::cactus,
     agent_type::corpse,
-    agent_type::chameleon,
-    agent_type::none
+    agent_type::chameleon
   };
 }
 
@@ -53,7 +52,6 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::worm) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
-    assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::foxgloves) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::octopus) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::cactus) == 1);
@@ -82,7 +80,6 @@ void test_agent_type() //!OCLINT testing functions may be long
     assert(std::count(std::begin(v), std::end(v), agent_type::tree) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::goat) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::foxgloves) == 1);
-    assert(std::count(std::begin(v), std::end(v), agent_type::none) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::venus_fly_trap) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::cactus) == 1);
     assert(std::count(std::begin(v), std::end(v), agent_type::chameleon) == 1);
@@ -137,7 +134,6 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
   case agent_type::corpse:
     return "corpse";
     default:
-      assert(a == agent_type::none); //!OCLINT accepted idiom
       return "none";
   }
 }
@@ -165,8 +161,8 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "venus_fly_trap") return agent_type::venus_fly_trap;
   if (str == "foxgloves") return agent_type::foxgloves;
   if (str == "cactus") return agent_type::cactus;
-  if (str == "corpse") return agent_type::corpse;
-  return agent_type::none;
+  assert(str=="corpse");
+  return agent_type::corpse;
 }
 
 std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
