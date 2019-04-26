@@ -864,7 +864,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double y{56.78};
     agent a(agent_type::bird, x, y);
     assert(is_on_tile(g, a));
-    for(int i = 0; i < 2; i++){
+    for(int i = 0; i < 10; i++){
       a.move(g);
     }
     assert(a.get_x() != x || a.get_y() != y);
