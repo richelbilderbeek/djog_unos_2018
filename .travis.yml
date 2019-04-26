@@ -38,6 +38,7 @@ install:
   - if [[ $TRAVIS_BRANCH == "richel" ]]; then sudo apt-get install -qq valgrind; fi
   # SLOCcount
   - sudo apt-get install sloccount
+  - export AUDIODEV=null
 
 # Xenial
 services:
