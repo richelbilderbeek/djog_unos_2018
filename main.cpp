@@ -49,6 +49,7 @@ void test() {
   //test_sfml_window_manager();
   test_normal_char();
   test_game();
+  test_game_state();
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();

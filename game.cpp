@@ -125,7 +125,6 @@ void game::spawn(agent_type type, tile t)
   agent a1(type);
   move_agent_to_tile(a1, t.get_corner().x/112, t.get_corner().y/112);
   m_agents.push_back(a1);
-//  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
