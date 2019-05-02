@@ -110,8 +110,6 @@ public:
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
 
-  void confirm_tile_move(tile& t, int direction);
-
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
   void set_tile_sprite(const tile &t, sf::Sprite &sprite);
 

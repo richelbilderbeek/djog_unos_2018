@@ -10,6 +10,8 @@
 #include <QFile>
 #include <algorithm>
 #include <functional>
+#include <chrono>
+#include <random>
 
 game::game(
   const std::vector<tile>& tiles,
@@ -43,6 +45,22 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
     types.push_back(t.get_type());
   }
   return types;
+}
+
+int random_int(int min, int max){
+    std::default_random_engine device(314);
+    std::mt19937 generator(device());
+    std::uniform_int_distribution<int> distribution(min, max);
+
+    return distribution(generator);
+}
+
+double random_double(double min, double max){
+    std::default_random_engine device(314);
+    std::mt19937 generator(device());
+    std::uniform_real_distribution<double> distribution(min, max);
+
+    return distribution(generator);
 }
 
 int count_n_tiles(const game& g) noexcept
@@ -107,7 +125,6 @@ void game::spawn(agent_type type, tile t)
   agent a1(type);
   move_agent_to_tile(a1, t.get_corner().x/112, t.get_corner().y/112);
   m_agents.push_back(a1);
-//  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
@@ -177,7 +194,7 @@ void game::merge_tiles() { //!OCLINT must simplify
       tile& other_tile = m_tiles[j];
       if (!have_same_position(focal_tile, other_tile)) { continue; }
       tile_merge(focal_tile, other_tile, j);
-      return; //!OCLINT I don't know an alternative;
+      i = n; j = n;
     }
   }
 }
@@ -545,6 +562,29 @@ void test_game() //!OCLINT a testing function may be long
         // There are now 5 agents of type cow
         assert(g.get_agent_count(agent_type::cow) == 5);
     }
+    //random_int() returns a random int between min (inclusive) and max (inclusive)
+    {
+      int random = random_int(0, 10);
+      assert(random >= 0 && random <= 10);
+    }
+    //random_double() returns a random double between min (inclusive) and max (inclusive)
+    {
+      double random = random_double(0.0, 10.0);
+      assert(random >= 0.0 && random <= 10.0);
+    }
+    //test confirm_tile_move()
+    {
+      game g;
+      tile t(0, 0, 0, 0, 0, tile_type::grassland);
+      g.confirm_tile_move(t, 1, 1);
+      assert(t.get_dy() == -1);
+      g.confirm_tile_move(t, 2, 1);
+      assert(t.get_dx() == 1);
+      g.confirm_tile_move(t, 3, 1);
+      assert(t.get_dy() == 1);
+      g.confirm_tile_move(t, 4, 1);
+      assert(t.get_dx() == -1);
+    }
 }
 
 void load(game& g, const std::string &filename) {
@@ -632,4 +672,9 @@ bool operator==(const game& lhs, const game& rhs) noexcept
          lhs.m_essence == rhs.m_essence &&
          lhs.m_tiles == rhs.m_tiles &&
          lhs.m_agents == rhs.m_agents;
+}
+
+bool operator!=(const game& lhs, const game& rhs) noexcept
+{
+  return !(lhs== rhs);
 }

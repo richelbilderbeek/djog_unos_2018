@@ -505,7 +505,7 @@ void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
   assert(tiles.size() > 0);
-  const int i = std::rand() % tiles.size();
+  const int i = random_int(0, tiles.size());
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
   m_game.m_selected[0] = id;
@@ -565,34 +565,12 @@ void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
   }
 }
 
-void sfml_game::confirm_tile_move(tile& t, int direction)
-{
-  switch (direction)
-  {
-    case 1:
-      t.set_dy(-m_tile_speed);
-      return;
-    case 2:
-      t.set_dx(m_tile_speed);
-      return;
-    case 3:
-      t.set_dy(m_tile_speed);
-      return;
-    case 4:
-      t.set_dx(-m_tile_speed);
-      return;
-    default:
-      return;
-  }
-}
-
 void sfml_game::switch_collide(tile& t, int direction)
 {
   sf::Vector2f v = get_direction_pos(direction, t, 0);
   //std::vector<tile> added_tiles;
   if (!will_colide(direction, t))
   {
-    //confirm_tile_move(t, direction);
     m_game.confirm_tile_move(t, direction, m_tile_speed);
   }
   if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
@@ -600,7 +578,6 @@ void sfml_game::switch_collide(tile& t, int direction)
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
-    //confirm_tile_move(t, direction);
     m_sound_type = sound_type::tile_collision;
     m_game.confirm_tile_move(t, direction, m_tile_speed);
     sf::Vector2f b = get_direction_pos(direction, t, 112);

@@ -79,7 +79,7 @@ public:
 
   void set_allow_score(const bool do_score) noexcept { m_allow_score = do_score; }
 
-  void save_this(const std::string filename) const;
+  void save_this(const std::string filename) const;  
 
 private:
 
@@ -132,6 +132,9 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 int count_n_tiles(const game& g) noexcept;
 
 int count_n_agents(const game& g) noexcept;
+
+int random_int(int min, int max);
+double random_double(double min, double max);
 
 /// Determine if an agent is on a tile
 bool is_on_tile(const game& g, const agent& a);
@@ -187,5 +190,6 @@ std::ostream& operator<<(std::ostream& os, const game& g);
 std::istream& operator>>(std::istream& os, game& g);
 
 bool operator==(const game& lhs, const game& rhs) noexcept;
+bool operator!=(const game& lhs, const game& rhs) noexcept;
 
 #endif // GAME_H
