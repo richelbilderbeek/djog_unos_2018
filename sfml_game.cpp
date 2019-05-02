@@ -205,7 +205,7 @@ void sfml_game::display_tile(const tile &t) {
     set_tile_sprite(t, sprite);
     assert(sprite.getTexture());
     sprite.setOrigin(50, 50);
-    sprite.setRotation(t.get_rotation() - 90);
+    sprite.rotate(t.get_rotation());
     sprite.setPosition(screen_x + 50, screen_y + 50);
     sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
     m_window.draw(sprite);
@@ -569,11 +569,11 @@ void sfml_game::switch_collide(tile& t, int direction)
 {
   sf::Vector2f v = get_direction_pos(direction, t, 0);
   //std::vector<tile> added_tiles;
-  if (!will_colide(direction, t))
+  if (!will_collide(direction, t))
   {
     m_game.confirm_tile_move(t, direction, m_tile_speed);
   }
-  if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
+  if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
@@ -592,10 +592,10 @@ void sfml_game::switch_collide(tile& t, int direction)
 void sfml_game::try_rotate(tile &t, bool cc) {
   int rot = static_cast<int>(t.get_rotation());
   if (cc) {
-    if (!will_colide(degreeToDirection(rot, true), t)) {
+    if (!will_collide(degreeToDirection(rot, true), t)) {
       t.rotate_cc();
     }
-  } else if (!will_colide(degreeToDirection(rot, false), t)) {
+  } else if (!will_collide(degreeToDirection(rot, false), t)) {
     t.rotate_c();
   }
 }
@@ -760,25 +760,25 @@ std::vector<int> sfml_game::get_collision_id(double x, double y) const
 }
 
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-bool sfml_game::will_colide(int direction, tile& t)
+bool sfml_game::will_collide(int direction, tile& t)
 {
   switch (direction)
   {
     case 1:
       return sfml_game::check_collision(
             t.get_corner().x + (t.get_width() / 2),
-            t.get_corner().y - (t.get_height() / 2));
+            t.get_corner().y - (t.get_height() / 2) + 10);
     case 2:
       return sfml_game::check_collision(
-            t.get_corner().x + (t.get_width() * 1.5),
+            t.get_corner().x + (t.get_width() * 1.5) - 10,
             t.get_corner().y + (t.get_height() / 2));
     case 3:
       return sfml_game::check_collision(
             t.get_corner().x + (t.get_width() / 2),
-            t.get_corner().y + (t.get_height() * 1.5));
+            t.get_corner().y + (t.get_height() * 1.5) - 10);
     case 4:
       return sfml_game::check_collision(
-            t.get_corner().x - (t.get_width() / 2),
+            t.get_corner().x - (t.get_width() / 2) + 10,
             t.get_corner().y + (t.get_height() / 2));
     default:
       break;

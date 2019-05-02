@@ -289,7 +289,7 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
 
   if ((m_type == agent_type::grass || m_type == agent_type::tree
-      || m_type == agent_type::cow) && g.allow_damage())  reproduce_agents(g, m_type);
+      || m_type == agent_type::cow) && g.allow_damage()) reproduce_agents(g, m_type);
 
   //Plants damage each other when nearby
   if (is_plant(m_type))

@@ -88,10 +88,10 @@ public:
   bool check_collision(double x, double y);
   std::vector<int> get_collision_id(double x, double y) const;
 
-  /// Check if the tile will colide with another tile if it moves in given
+  /// Check if the tile will collide with another tile if it moves in given
   /// direction
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-  bool will_colide(int direction, tile &t);
+  bool will_collide(int direction, tile &t);
 
   void exec_tile_move(std::vector<int> selected);
 

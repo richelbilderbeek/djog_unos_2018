@@ -78,8 +78,12 @@ void game::process_events()
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
 
+  int agent_count = 0;
   for (auto& a: m_agents) {
     a.process_events(*this);
+    if (!is_plant(a.get_type())) {
+      agent_count++;
+    }
   }
 
   // If an agent has less than zero health, turn it into a corpse
@@ -90,12 +94,6 @@ void game::process_events()
   merge_tiles();
 
   // Calculate the score
-  int agent_count = 0;
-  for (agent a : m_agents) {
-    if (!is_plant(a.get_type())) {
-      agent_count++;
-    }
-  }
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
     assert(m_tiles.size() > 0);
@@ -112,7 +110,7 @@ void game::process_events()
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    tile.process_events(*this);
+    //tile.process_events(*this); BUG this makes it crash
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -216,22 +214,14 @@ void game::kill_agents() {
 }
 
 void game::remove_tile(double mouse_x, double mouse_y) {
-    std::vector<tile> n_tiles;
-    for (unsigned i = 0; i < m_tiles.size(); ++i) {
-    if (contains(m_tiles.at(i),
-       mouse_x, mouse_y))
-    {
-        assert((int)i < static_cast<int>(m_tiles.size()));
-        assert(0 < static_cast<int>(m_selected.size()));
-        if(m_tiles[i].get_id() == m_selected[0]){
-           m_selected.pop_back();
-        }
-    } else {
-
-      n_tiles.push_back(m_tiles[i]);
+  m_selected.clear();
+  for (unsigned int i = 0; i < m_tiles.size(); i++) {
+    if (contains(m_tiles.at(i), mouse_x, mouse_y)) {
+      m_tiles.at(i) = m_tiles.back();
+      m_tiles.pop_back();
+      return;
     }
   }
-  m_tiles = n_tiles;
 }
 
 int game::get_n_ticks() const{
@@ -240,7 +230,7 @@ int game::get_n_ticks() const{
 
 int game::get_agent_count(agent_type type){
     int count = 0;
-    for (unsigned int i=0; i<m_agents.size(); i++) {
+    for (unsigned int i = 0; i<m_agents.size(); i++) {
         agent a = m_agents.at(i);
         if (a.get_type() == type){
             ++count;
