@@ -31,6 +31,8 @@ public:
   /// Get the appropriate soundbuffer
   sf::SoundBuffer& get_soundbuffer(const sound_type st);
 
+  sf::SoundBuffer& random_animal_sound();
+
   sf::Font& get_default_font() noexcept { return m_default_font; }
 
   sf::Font& get_title_font() noexcept { return m_title_font; }
@@ -75,6 +77,8 @@ private:
   sf::SoundBuffer m_tile_collission_soundbuffer;
 
   sf::SoundBuffer m_tile_move_soundbuffer;
+
+  sf::SoundBuffer m_cow_sound;
 
   sf::Music m_benikeenspin;
 

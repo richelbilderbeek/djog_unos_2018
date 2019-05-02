@@ -13,7 +13,7 @@ sfml_resources *sfml_resources::m_instance = nullptr; //!OCLINT static accepted 
 sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
   {
-    // Re-create resource at executable's location
+    // background music
     QFile f(":/nature_zen/resources/Barachem_Zauberspiel_Preliminary_Edit.ogg");
     f.copy("Barachem_Zauberspiel_Preliminary_Edit.ogg");
     if (!m_background_music.openFromFile("Barachem_Zauberspiel_Preliminary_Edit.ogg")) {
@@ -22,7 +22,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    // Re-create resource at executable's location
+    // title music
     QFile f(":/nature_zen/resources/title_music.ogg");
     f.copy("title_music.ogg");
     if (!m_title_music.openFromFile("title_music.ogg")) {
@@ -30,7 +30,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    // Re-create resource at executable's location
+    // ik ben een spin
     QFile f(":/nature_zen/resources/ben_ik_een_spin.ogg");
     f.copy("ben_ik_een_spin.ogg");
     if (!m_benikeenspin.openFromFile("ben_ik_een_spin.ogg")) {
@@ -38,7 +38,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    // Re-create resource at executable's location
+    // tile merge
     QFile f(":/nature_zen/resources/tile_merge.wav");
     f.copy("tile_merge.wav");
     if (!m_tile_collission_soundbuffer.loadFromFile("tile_merge.wav")) {
@@ -46,11 +46,19 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    // Re-create resource at executable's location
+    // tile move
     QFile f(":/nature_zen/resources/tile_move.wav");
     f.copy("tile_move.wav");
     if (!m_tile_move_soundbuffer.loadFromFile("tile_move.wav")) {
       throw std::runtime_error("Cannot find music file 'tile_move.wav'");
+    }
+  }
+  {
+    // moo
+    QFile f(":/nature_zen/resources/moo.wav");
+    f.copy("moo.wav");
+    if (!m_cow_sound.loadFromFile("moo.wav")) {
+      throw std::runtime_error("Cannot find music file 'moo.wav'");
     }
   }
    // plankton texture
@@ -427,9 +435,16 @@ sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
     return m_tile_collission_soundbuffer;
   if (st == sound_type::tile_move)
     return m_tile_move_soundbuffer;
+  if (st == sound_type::random_animal)
+    return random_animal_sound();
 
   assert(!"Should never come this far."); //!OCLINT accepted idiom
   return m_tile_collission_soundbuffer;
+}
+
+sf::SoundBuffer& sfml_resources::random_animal_sound()
+{
+  return m_cow_sound;
 }
 
 sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT too long, needs to be fixed

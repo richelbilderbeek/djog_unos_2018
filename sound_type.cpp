@@ -11,7 +11,8 @@ std::vector<sound_type> get_all_sound_types()
     sound_type::none,
     sound_type::tile_move,
     sound_type::tile_rotate,
-    sound_type::tile_collision
+    sound_type::tile_collision,
+    sound_type::random_animal
   };
 }
 
@@ -24,4 +25,5 @@ void test_sound_type()
   assert(std::count(std::begin(sts), std::end(sts), sound_type::tile_move) == 1);
   assert(std::count(std::begin(sts), std::end(sts), sound_type::tile_rotate) == 1);
   assert(std::count(std::begin(sts), std::end(sts), sound_type::tile_collision) == 1);
+  assert(std::count(std::begin(sts), std::end(sts), sound_type::random_animal) == 1);
 }
