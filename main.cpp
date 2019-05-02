@@ -132,14 +132,19 @@ int main(int argc, char **argv) //!OCLINT main too long
 #endif
   
   const std::vector<std::string> args(argv, argv + argc);
-  std::string user = "unknown";
+  
+  std::string user = "";
 #ifdef WIN32
   user = getenv("USERNAME");
 #endif
 #ifdef __linux__
   user = system("whoami");
 #endif
-  std::clog << "Current user: " << user << "\n" << std::endl;
+  if (user != "") {
+    std::clog << "Current user: " << user << "\n" << std::endl;
+  } else {
+    std::clog << "Error: user not found!"
+  }
 
   //----------------------------------------------------------------------------
   //Things with early exits
