@@ -429,11 +429,11 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
     {
-      m_zoom_state += 0.1;
+      m_zoom_state += m_zoom_state < 2 ? 0.01 : 0;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
-      m_zoom_state -= 0.1;
+      m_zoom_state -= m_zoom_state > 0.1 ? 0.01 : 0;
     }
   }
   else
@@ -467,7 +467,10 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 
   if (event.mouseButton.button == sf::Mouse::Left)
   {
-    m_game.move_tiles(m_window, m_camera);
+    m_game.move_tiles(
+      sf::Mouse::getPosition(m_window).x + m_camera.x,
+      sf::Mouse::getPosition(m_window).y + m_camera.y
+    );
     m_clicked_tile = false;
     if (m_shop_button.is_clicked(event, m_window))
       close(game_state::shop);
@@ -476,7 +479,10 @@ void sfml_game::process_mouse_input(const sf::Event& event)
       ben_ik_een_spin();
   }
   else if (event.mouseButton.button == sf::Mouse::Right){
-    m_game.remove_tile(m_window, m_camera);
+    m_game.remove_tile(
+      sf::Mouse::getPosition(m_window).x + m_camera.x,
+      sf::Mouse::getPosition(m_window).y + m_camera.y
+    );
   }
 }
 
