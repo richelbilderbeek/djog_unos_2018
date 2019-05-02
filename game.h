@@ -190,5 +190,6 @@ std::ostream& operator<<(std::ostream& os, const game& g);
 std::istream& operator>>(std::istream& os, game& g);
 
 bool operator==(const game& lhs, const game& rhs) noexcept;
+bool operator!=(const game& lhs, const game& rhs) noexcept;
 
 #endif // GAME_H

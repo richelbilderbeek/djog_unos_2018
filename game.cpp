@@ -673,3 +673,8 @@ bool operator==(const game& lhs, const game& rhs) noexcept
          lhs.m_tiles == rhs.m_tiles &&
          lhs.m_agents == rhs.m_agents;
 }
+
+bool operator!=(const game& lhs, const game& rhs) noexcept
+{
+  return !(lhs== rhs);
+}
