@@ -144,7 +144,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   if (user != "") {
     std::clog << "Current user: " << user << "\n" << std::endl;
   } else {
-    std::clog << "Error: user not found!"
+    std::clog << "Error: user not found!";
   }
 
   //----------------------------------------------------------------------------
