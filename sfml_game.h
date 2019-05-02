@@ -137,6 +137,12 @@ private:
 
   void play_sound();
 
+  int m_pseudo_random_period;
+
+  int m_pseudo_counter;
+
+  void random_animal_sound();
+
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
 
