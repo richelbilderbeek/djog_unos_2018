@@ -9,7 +9,7 @@ void test_game_state()
   //Can collect all game states
   {
     const std::vector<game_state> v = collect_all_game_states();
-    assert(v.empty());
+    assert(!v.empty());
   }
   #endif //FIX_ISSUE_578
 }
@@ -32,7 +32,7 @@ std::string to_str(const game_state s) noexcept //!OCLINT too complex indeed
   return "";
 }
 
-std::vector<game_state> get_all_game_states() {
+std::vector<game_state> collect_all_game_states() {
   return {
       game_state::aboutscreen,
       game_state::gameover,
