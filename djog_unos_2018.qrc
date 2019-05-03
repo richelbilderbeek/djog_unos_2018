@@ -52,6 +52,8 @@
         <file>resources/mountain_texture_laying.png</file>
         <file>resources/mountain_texture_standing.png</file>
         <file>resources/nature zen background.png</file>
+        <file>resources/tile_move.wav</file>
+        <file>resources/moo.wav</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

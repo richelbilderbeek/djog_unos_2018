@@ -10,6 +10,8 @@
 #include <QFile>
 #include <algorithm>
 #include <functional>
+#include <chrono>
+#include <random>
 
 game::game(
   const std::vector<tile>& tiles,
@@ -45,6 +47,22 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
   return types;
 }
 
+int random_int(int min, int max){
+    std::default_random_engine device(314);
+    std::mt19937 generator(device());
+    std::uniform_int_distribution<int> distribution(min, max);
+
+    return distribution(generator);
+}
+
+double random_double(double min, double max){
+    std::default_random_engine device(314);
+    std::mt19937 generator(device());
+    std::uniform_real_distribution<double> distribution(min, max);
+
+    return distribution(generator);
+}
+
 int count_n_tiles(const game& g) noexcept
 {
   return g.get_tiles().size();
@@ -55,13 +73,17 @@ int count_n_agents(const game& g) noexcept
   return g.get_agents().size();
 }
 
-void game::process_events()
+void game::process_events(sound_type& st)
 {
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
 
+  int agent_count = 0;
   for (auto& a: m_agents) {
     a.process_events(*this);
+    if (!is_plant(a.get_type())) {
+      agent_count++;
+    }
   }
 
   // If an agent has less than zero health, turn it into a corpse
@@ -69,15 +91,9 @@ void game::process_events()
     kill_agents();
   }
 
-  merge_tiles();
+  merge_tiles(st);
 
   // Calculate the score
-  int agent_count = 0;
-  for (agent a : m_agents) {
-    if (!is_plant(a.get_type())) {
-      agent_count++;
-    }
-  }
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
     assert(m_tiles.size() > 0);
@@ -94,7 +110,7 @@ void game::process_events()
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    tile.process_events(*this);
+    //tile.process_events(*this); BUG this makes it crash
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -107,7 +123,6 @@ void game::spawn(agent_type type, tile t)
   agent a1(type);
   move_agent_to_tile(a1, t.get_corner().x/112, t.get_corner().y/112);
   m_agents.push_back(a1);
-//  m_agents.push_back(agent(type, t.get_center().x, t.get_center().y));
 }
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
@@ -159,7 +174,7 @@ void game::move_tiles(double mouse_X, double mouse_y){
   }
 }
 
-void game::merge_tiles() {
+void game::merge_tiles(sound_type &st) { //!OCLINT must simplify
   // I use indices here, so it is more beginner-friendly
   // one day, we'll use iterators
   const int n = count_n_tiles(*this);
@@ -177,6 +192,8 @@ void game::merge_tiles() {
       tile& other_tile = m_tiles[j];
       if (!have_same_position(focal_tile, other_tile)) { continue; }
       tile_merge(focal_tile, other_tile, j);
+      st = sound_type::tile_collision;
+      return; //!OCLINT I don't know an alternative;
       i = n; j = n;
     }
   }
@@ -199,22 +216,14 @@ void game::kill_agents() {
 }
 
 void game::remove_tile(double mouse_x, double mouse_y) {
-    std::vector<tile> n_tiles;
-    for (unsigned i = 0; i < m_tiles.size(); ++i) {
-    if (contains(m_tiles.at(i),
-       mouse_x, mouse_y))
-    {
-        assert((int)i < static_cast<int>(m_tiles.size()));
-        assert(0 < static_cast<int>(m_selected.size()));
-        if(m_tiles[i].get_id() == m_selected[0]){
-           m_selected.pop_back();
-        }
-    } else {
-
-      n_tiles.push_back(m_tiles[i]);
+  m_selected.clear();
+  for (unsigned int i = 0; i < m_tiles.size(); i++) {
+    if (contains(m_tiles.at(i), mouse_x, mouse_y)) {
+      m_tiles.at(i) = m_tiles.back();
+      m_tiles.pop_back();
+      return;
     }
   }
-  m_tiles = n_tiles;
 }
 
 int game::get_n_ticks() const{
@@ -223,7 +232,7 @@ int game::get_n_ticks() const{
 
 int game::get_agent_count(agent_type type){
     int count = 0;
-    for (unsigned int i=0; i<m_agents.size(); i++) {
+    for (unsigned int i = 0; i<m_agents.size(); i++) {
         agent a = m_agents.at(i);
         if (a.get_type() == type){
             ++count;
@@ -342,7 +351,8 @@ void test_game() //!OCLINT a testing function may be long
   // Number of game cycles is increased each time all events are processed
   {
     game g;
-    g.process_events();
+    sound_type st { sound_type::none };
+    g.process_events(st);
     assert(g.get_n_ticks() == 1);
   }
 
@@ -413,10 +423,11 @@ void test_game() //!OCLINT a testing function may be long
     };
 
     game g(tiles);
+    sound_type st { sound_type::none };
     assert(count_n_tiles(g) == 2);
     assert(collect_tile_types(g)[0] == tile_type::grassland);
     assert(collect_tile_types(g)[1] == tile_type::grassland);
-    g.process_events();
+    g.process_events(st);
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::hills);
   }
@@ -429,7 +440,8 @@ void test_game() //!OCLINT a testing function may be long
 //    // Wait until cow starves
 //    while (!g.get_agents().empty())
 //    {
-//      g.process_events();
+//      sound_type st { sound_type::none };
+//      g.process_events(st);
 //    }
 //    const double new_score = g.get_score();
 //    assert(new_score < prev_score);
@@ -438,12 +450,13 @@ void test_game() //!OCLINT a testing function may be long
   {
     const std::vector<agent> no_agents;
     game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0) }, no_agents);
+    sound_type st { sound_type::none };
     tile& tile = g.get_tiles()[0];
     const auto x_before = tile.get_x();
     const auto y_before = tile.get_y();
     tile.set_dx(5.0);
     tile.set_dy(5.0);
-    g.process_events();
+    g.process_events(st);
     const auto x_after = tile.get_x();
     const auto y_after = tile.get_y();
     assert(x_before != x_after);
@@ -481,8 +494,9 @@ void test_game() //!OCLINT a testing function may be long
       }
     );
     //Will freeze
+    sound_type st { sound_type::none };
     while (g.get_agents()[0].get_y() < 11.0) {
-      g.process_events();
+      g.process_events(st);
     }
   }
   #endif //
@@ -495,14 +509,15 @@ void test_game() //!OCLINT a testing function may be long
       { tile(0.0, 0.0, 0.0, 10.0, 10.0) },
       { agent(agent_type::cow, start_cow_x, start_cow_y) }
     );
+    sound_type st { sound_type::none };
     tile& tile = g.get_tiles()[0];
     const auto x_before = tile.get_x();
     tile.set_dx(5.0);
-    g.process_events();
+    g.process_events(st);
     const auto x_after = tile.get_x();
     assert(x_before != x_after);
     tile.set_dy(5.0);
-    g.process_events();
+    g.process_events(st);
   }
   {
     const agent a(agent_type::tree);
@@ -523,12 +538,13 @@ void test_game() //!OCLINT a testing function may be long
 //      },
 //      { agent(agent_type::grass, start_grass_x, start_grass_y) }
 //    );
+//    sound_type st { sound_type::none };
 //    tile& tile = g.get_tiles()[0];
 //    tile.set_dx(1.0);
 //    tile.set_dy(1.0);
 //    for (int i=0; i != 100; ++i)
 //    {
-//      g.process_events();
+//      g.process_events(st);
 //    }
 //    assert(g.get_agents()[0].get_x() == start_grass_x);
 //    assert(g.get_agents()[0].get_y() == start_grass_y);
@@ -544,6 +560,29 @@ void test_game() //!OCLINT a testing function may be long
                                          agent(agent_type::plankton) } );
         // There are now 5 agents of type cow
         assert(g.get_agent_count(agent_type::cow) == 5);
+    }
+    //random_int() returns a random int between min (inclusive) and max (inclusive)
+    {
+      int random = random_int(0, 10);
+      assert(random >= 0 && random <= 10);
+    }
+    //random_double() returns a random double between min (inclusive) and max (inclusive)
+    {
+      double random = random_double(0.0, 10.0);
+      assert(random >= 0.0 && random <= 10.0);
+    }
+    //test confirm_tile_move()
+    {
+      game g;
+      tile t(0, 0, 0, 0, 0, tile_type::grassland);
+      g.confirm_tile_move(t, 1, 1);
+      assert(t.get_dy() == -1);
+      g.confirm_tile_move(t, 2, 1);
+      assert(t.get_dx() == 1);
+      g.confirm_tile_move(t, 3, 1);
+      assert(t.get_dy() == 1);
+      g.confirm_tile_move(t, 4, 1);
+      assert(t.get_dx() == -1);
     }
 }
 
@@ -632,4 +671,9 @@ bool operator==(const game& lhs, const game& rhs) noexcept
          lhs.m_essence == rhs.m_essence &&
          lhs.m_tiles == rhs.m_tiles &&
          lhs.m_agents == rhs.m_agents;
+}
+
+bool operator!=(const game& lhs, const game& rhs) noexcept
+{
+  return !(lhs== rhs);
 }

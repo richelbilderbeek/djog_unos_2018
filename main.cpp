@@ -40,7 +40,7 @@
 /// All tests are called from here, only in debug mode
 void test() {
   test_biology();
-  //test_agent();
+  test_agent();
   test_tile_type();
   test_tile();
   test_agent_type();
@@ -49,6 +49,7 @@ void test() {
   //test_sfml_window_manager();
   test_normal_char();
   test_game();
+  test_game_state();
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
@@ -132,6 +133,19 @@ int main(int argc, char **argv) //!OCLINT main too long
 #endif
   
   const std::vector<std::string> args(argv, argv + argc);
+  
+  std::string user = "";
+#ifdef WIN32
+  user = getenv("USERNAME");
+#endif
+#ifdef __linux__
+  user = system("whoami");
+#endif
+  if (user != "") {
+    std::clog << "Current user: " << user << "\n" << std::endl;
+  } else {
+    std::clog << "Error: user not found!";
+  }
 
   //----------------------------------------------------------------------------
   //Things with early exits
@@ -210,7 +224,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   //Not realy to show settings, but to use the variables
-  std::cout << "\nSettings\n"
+  std::cout << "Settings\n"
             << "Close at : " << close_at << "\n"
             << "Music    : " << music << std::endl;
 
@@ -251,13 +265,11 @@ int main(int argc, char **argv) //!OCLINT main too long
       tile t(i, i, 0, 90, 0, tile_type::grassland);
       tiles.push_back(t);
     }
-
     spawning = false;
     damage = false;
     score = false;
   }
   else if(std::count(std::begin(args), std::end(args), "--god")) {
-    music = false;
     score = false;
     tiles = create_test_default_tiles();
     agents = create_default_agents();

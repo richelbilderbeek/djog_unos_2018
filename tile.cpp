@@ -250,7 +250,7 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
   };
 
   if(g.get_n_ticks() % ticks == 0){
-    ticks = std::rand() % ((1800 - 1400) + 1) + 1400;
+    ticks = random_int(1400, 1800);
     const auto here = std::find_if(
       std::begin(v),
       std::end(v),
@@ -293,8 +293,8 @@ double tile::get_height() const {
 void tile::spawn(game& g, agent_type type) { //!OCLINT high cyclomatic complexity
   const double max_distance_x{get_width()};
   const double max_distance_y{get_height() - 40};
-  double f_x{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
-  double f_y{static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)};
+  double f_x{random_double(0, 1)};
+  double f_y{random_double(0, 1)};
   assert(f_x >= 0.0 && f_x < 1.0);
   assert(f_y >= 0.0 && f_y < 1.0);
   double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance_x)};
@@ -304,8 +304,8 @@ void tile::spawn(game& g, agent_type type) { //!OCLINT high cyclomatic complexit
   while(!is_on_tile(g, new_agent)
         || !is_on_specific_tile(new_agent.get_x() - 6, new_agent.get_y() - 6, t)
         || !is_on_specific_tile(new_agent.get_x() + 18, new_agent.get_y() + 18, t)){
-    f_x = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
-    f_y = static_cast<double>(std::rand()) / (1.0 + static_cast<double>(RAND_MAX));
+    f_x = random_double(0, 1);
+    f_y = random_double(0, 1);
     assert(f_x >= 0.0 && f_x < 1.0);
     assert(f_y >= 0.0 && f_y < 1.0);
     new_x = m_x + (((f_x * 2.0) - 1.0) * max_distance_x);
@@ -362,16 +362,38 @@ sf::Vector2f tile::get_center() const noexcept {
 }
 
 sf::Vector2f tile::get_corner() const noexcept {
-  int rot = ((m_rotation - (m_rotation % 90)) % 360) / 90;
+  int rot = ((m_rotation + (90 - (m_rotation % 90))) % 360) / 90;
   switch (rot) {
-    case 2:
-      return sf::Vector2f(m_x - (get_width() / 2.0), m_y);
     case 3:
-      return sf::Vector2f(m_x, m_y - (get_height() / 2.0));
+      return sf::Vector2f(m_x - (get_width() / 2), m_y);
+    case 0:
+      return sf::Vector2f(m_x, m_y - (get_height() / 2));
     default:
       break;
   }
   return sf::Vector2f(m_x, m_y);
+}
+
+// C
+// Direction : \/   <    /\   >
+// Value     : 3    4    1    2
+// --------------------------------
+// CC
+// Direction : /\   >    \/   <
+// Value     : 1    2    3    4
+// --------------------------------
+// Tile
+// Degree    : 0    90   180  270
+// int rot   : 1    2    3    0
+int degreeToDirection(int deg, bool cc) {
+  assert(0 / 90 == 0);
+  assert(((270 + (90 - (270 % 90))) % 360) / 90 == 0);
+  int rot = ((deg + (90 - (deg % 90))) % 360) / 90;
+  if (!cc) rot += 2;
+  if (rot == 0) rot += 4;
+  rot %= 4;
+  if (rot == 0) rot += 4;
+  return rot;
 }
 
 void tile::move() {
@@ -418,10 +440,10 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
 }
 
 bool contains(const tile& t, double x, double y) noexcept {
-  return x > t.get_corner().x - 5 
-      && x < t.get_corner().x + t.get_width() + 5 
-      && y > t.get_corner().y - 5 
-      && y < t.get_corner().y + t.get_height() + 5;
+  return x > t.get_corner().x - 6
+      && x < t.get_corner().x + t.get_width() + 6
+      && y > t.get_corner().y - 6
+      && y < t.get_corner().y + t.get_height() + 6;
 }
 
 void tile::lock_movement(bool b) { m_locked = b; }

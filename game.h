@@ -56,7 +56,7 @@ public:
 
   /// Timer, physics, bullets moving, etc.bool
   /// Everything except user input.
-  void process_events();
+  void process_events(sound_type &st);
 
   /// Set m_sound_type to the input sound_type
   void set_sound_type(const sound_type st) noexcept
@@ -79,7 +79,7 @@ public:
 
   void set_allow_score(const bool do_score) noexcept { m_allow_score = do_score; }
 
-  void save_this(const std::string filename) const;
+  void save_this(const std::string filename) const;  
 
 private:
 
@@ -100,7 +100,7 @@ private:
 
   void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
 
-  void merge_tiles();
+  void merge_tiles(sound_type& st);
 
   void kill_agents();
 
@@ -132,6 +132,9 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 int count_n_tiles(const game& g) noexcept;
 
 int count_n_agents(const game& g) noexcept;
+
+int random_int(int min, int max);
+double random_double(double min, double max);
 
 /// Determine if an agent is on a tile
 bool is_on_tile(const game& g, const agent& a);
@@ -187,5 +190,6 @@ std::ostream& operator<<(std::ostream& os, const game& g);
 std::istream& operator>>(std::istream& os, game& g);
 
 bool operator==(const game& lhs, const game& rhs) noexcept;
+bool operator!=(const game& lhs, const game& rhs) noexcept;
 
 #endif // GAME_H
