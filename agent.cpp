@@ -9,6 +9,7 @@
 #include <random>
 #include <chrono>
 #include "agent_type.h"
+#include "biology.h"
 #include "game.h"
 
 using namespace sf;
@@ -155,9 +156,9 @@ void agent::eat(game& g) { //!OCLINT high compexity
     // Focal agent will eat the prey
     // As in any food chain, energy is lost: the predator gains less energy
     // than the prey gains
-    m_health += 0.2;
-    m_stamina += 0.2;
-    other.set_health(other.get_health() - 2.0);
+    m_health += biology().get_health_increase_when_eating();
+    m_stamina += biology().get_stamina_increase_when_eating();
+    other.set_health(other.get_health() - biology().get_health_decrease_when_eaten());
   }
 }
 

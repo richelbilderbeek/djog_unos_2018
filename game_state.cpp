@@ -32,6 +32,20 @@ std::string to_str(const game_state s) noexcept //!OCLINT too complex indeed
   return "";
 }
 
+std::vector<game_state> get_all_game_states() {
+  return {
+      game_state::aboutscreen,
+      game_state::gameover,
+      game_state::loading,
+      game_state::menuscreen,
+      game_state::paused,
+      game_state::playing,
+      game_state::saving,
+      game_state::shop,
+      game_state::titlescreen
+    };
+}
+
 std::ostream& operator<<(std::ostream& os, const game_state s)
 {
   os << to_str(s);
