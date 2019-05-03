@@ -2,6 +2,7 @@
 #define SFML_RESOURCES_H
 
 #include "agent.h"
+#include "sound_type.h"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -9,6 +10,10 @@
 #include <vector>
 #include <QDir>
 #include <QFile>
+#include "tile_type.h"
+
+/// Test the sfml_resources class
+void test_sfml_resources();
 
 /// Singleton class to access all resources
 //TODO: make this a member variable of sfml_game
@@ -23,13 +28,20 @@ public:
 
   sf::Music &get_benikeenspin() noexcept { return m_benikeenspin; }
 
+  /// Get the appropriate soundbuffer
+  sf::SoundBuffer& get_soundbuffer(const sound_type st);
+
+  sf::SoundBuffer& random_animal_sound();
+
   sf::Font& get_default_font() noexcept { return m_default_font; }
 
   sf::Font& get_title_font() noexcept { return m_title_font; }
 
   sf::Texture &get_background_image() noexcept { return m_background_image; }
 
-  sf::Texture &get_agent_sprite(const agent& a) noexcept;
+  sf::Texture &get_agent_sprite(const agent_type t ) noexcept;
+
+  sf::Texture &get_agent_sprite(const agent &a ) noexcept;
 
   sf::Texture &get_zen_bar() noexcept { return m_zen_bar_texture; }
 
@@ -38,6 +50,10 @@ public:
   sf::Texture &get_zen_title() noexcept { return m_zen_title; }
 
   sf::Texture &get_tile_sprite(const tile& t) noexcept;
+
+//  sf::Texture &get_tile_sprite_portrait(const tile_type t) noexcept;
+
+  sf::Texture &get_tile_sprite_landscape(const tile_type t) noexcept;
 
   sf::Texture& get_essence_texture() noexcept { return m_essence_texture; }
 
@@ -57,6 +73,12 @@ private:
   sf::Music m_background_music;
 
   sf::Music m_title_music;
+
+  sf::SoundBuffer m_tile_collission_soundbuffer;
+
+  sf::SoundBuffer m_tile_move_soundbuffer;
+
+  sf::SoundBuffer m_cow_sound;
 
   sf::Music m_benikeenspin;
 
@@ -121,13 +143,24 @@ private:
   sf::Texture m_tundra_laying;
   sf::Texture m_tundra_standing;
 
+  sf::Texture m_beach_laying;
+  sf::Texture m_beach_standing;
+
+  sf::Texture m_water_laying;
+  sf::Texture m_water_standing;
+
+  sf::Texture m_dunes_laying;
+  sf::Texture m_dunes_standing;
+
+  sf::Texture m_hills_laying;
+  sf::Texture m_hills_standing;
+
   sf::Texture m_corpse_texture;
 
   sf::Texture m_essence_texture;
 
+  friend void test_sfml_resources();
 };
 
-/// Test the sfml_resources class
-void test_sfml_resources();
 
 #endif // SFML_RESOURCES_H

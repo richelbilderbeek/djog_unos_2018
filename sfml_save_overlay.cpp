@@ -12,7 +12,7 @@ sfml_save_overlay::sfml_save_overlay(game &game)
 {
   m_header.setFont(m_font);
   m_header.setCharacterSize(40);
-  m_header.setString("Save game\nLeave empty to cancel (for now)");
+  m_header.setString("Save game\nLeave empty to cancel (for now)"); //TODO make cancel button
 
   sf::RectangleShape &b1_s = m_button1.get_shape();
   b1_s.setFillColor(sf::Color(53,234,151));

@@ -13,23 +13,25 @@ public:
   /// @param x the x-coordinate of the top-left corner of the tile
   /// @param y the y-coordinate of the top-left corner of the tile
   /// @param z the z-coordinate of the top-left corner of the tile
-  /// @param width the width of the tile
-  /// @param height the height of the tile
+  /// @param rotation the angle of the tile
   /// @param depth the depth of the tile
   /// @param type the type the tile
   /// @param the tiles id
-  tile(double x = 0.0, double y = 0.0, const double z = 0.0,
-       double width = 0.0, double height = 0.0, double depth = 0.0,
-       const tile_type type = tile_type::grassland, const tile_id = tile_id());
+  tile(
+    const double x = 0.0,
+    const double y = 0.0,
+    const double z = 0.0,
+    const int rotation = 0.0,
+    const double depth = 0.0,
+    const tile_type type = tile_type::grassland,
+    const tile_id = tile_id()
+  );
 
   /// The height of the tile
-  double get_height() const noexcept { return m_height; }
+  double get_rotation() const noexcept { return m_rotation; }
 
   /// The type the tile
   tile_type get_type() const noexcept { return m_type; }
-
-  /// The width of the tile
-  double get_width() const noexcept { return m_width; }
 
   /// The x-coordinat of the top-left corner of the tile
   double get_x() const noexcept { return m_x; }
@@ -50,7 +52,8 @@ public:
   double get_depth() const noexcept { return m_depth; }
 
   /// The center of the tile
-  sf::Vector2f get_center() const noexcept { return sf::Vector2f(m_width / 2.0f, m_height / 2.0f); }
+  sf::Vector2f get_center() const noexcept;
+  sf::Vector2f get_corner() const noexcept;
 
   ///Process events, for example, make the agents move
   void process_events(game& g);
@@ -63,11 +66,13 @@ public:
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
 
-  /// Set the movement coeficient on the width-axis
-  void set_width(double width);
+  void set_rotation(double r);
 
-  /// Set the movement coeficient on the height-axis
-  void set_height(double height);
+  void rotate_c();
+  void rotate_cc();
+
+  double get_width() const;
+  double get_height() const;
 
   /// Set the movement coeficient of the z-axis
   void set_dz(double dz);
@@ -102,9 +107,6 @@ private:
   /// The movement coefficient on the z-axis
   double m_dz{0.0};
 
-  /// The height of the tile
-  double m_height;
-
   /// The tile's id
   tile_id m_id;
 
@@ -114,7 +116,7 @@ private:
   tile_type m_type;
 
   /// The width of the tile
-  double m_width;
+  int m_rotation;
 
   /// The x-coordinate of the top-left corner of the tile
   double m_x;
@@ -126,8 +128,6 @@ private:
   double m_z;
 
   int ticks = 1;
-
-
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const tile& t);
@@ -166,14 +166,13 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept;
 /// Is this coordinate within the tile?
 bool contains(const tile& t, double x, double y) noexcept;
 
-/// Rotate the tile
-void rotate(tile& t);
-
 std::ostream& operator<<(std::ostream& os, const tile& t);
 
 std::istream& operator>>(std::istream& os, tile& t);
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept;
+
+int degreeToDirection(int deg, bool cc);
 
 /// Test the tile class
 void test_tile();

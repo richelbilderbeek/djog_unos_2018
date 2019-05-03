@@ -1,5 +1,6 @@
 #include "agent.h"
 #include "agent_type.h"
+#include "biology.h"
 #include "game.h"
 #include "sfml_title_screen.h"
 #include "sfml_about_screen.h"
@@ -11,6 +12,9 @@
 #include "tile.h"
 #include "tile_id.h"
 #include "sfml_text_input.h"
+#include "sfml_scroll_box.h"
+#include "sfml_load_screen.h"
+#include "sound_type.h"
 #include <QFile>
 #include <typeinfo>
 #include <SFML/Graphics.hpp>
@@ -35,25 +39,43 @@
 
 /// All tests are called from here, only in debug mode
 void test() {
-  test_sfml_resources();
-  test_game();
-  test_sfml_game();
-  test_sfml_game_delegate();
+  test_biology();
+  test_agent();
   test_tile_type();
   test_tile();
-  test_agent();
   test_agent_type();
+  test_sound_type();
   test_tile_id();
   //test_sfml_window_manager();
   test_normal_char();
+  test_game();
+  test_game_state();
+  test_sfml_resources();
+  test_sfml_game();
+  test_sfml_game_delegate();
 }
-int start_sfml_game(int ca, bool music,
-                    std::vector<tile> tiles,
-                    std::vector<agent> agents,
-                    bool spawning,
-                    bool damage,
-                    bool score) {
-  sfml_game g(sfml_game_delegate(ca, spawning, damage, score), tiles, agents);
+
+///Start the game
+///@param close_at_tick tick at which the game will be closed.
+///   if close_at_tick equals minus one, the game runs indefinitely
+///@param music will there be music?
+///@param tiles starting tiles
+///@param agents initial agents
+///@param spawning will agents spawn?
+///@param damage can agents damage one another?
+///@param score is the game score being tracked? If not, the player will
+///   never die
+///@return closing status, which is zero if everything went OK
+int start_sfml_game(
+  const int close_at_tick,
+  bool music,
+  std::vector<tile> tiles,
+  std::vector<agent> agents,
+  bool spawning,
+  bool damage,
+  bool score
+) {
+  sfml_game g(sfml_game_delegate(close_at_tick, spawning, damage, score), tiles, agents);
   if (!music) g.stop_music();
   g.exec();
   return 0;
@@ -77,6 +99,11 @@ int show_sfml_about_screen(int ca) {
 int show_sfml_gameover_screen(int ca) {
   sfml_gameover_screen gos(ca);
   gos.exec();
+  return 0;
+}
+int show_sfml_load_screen(int ca) {
+  sfml_load_screen ls(ca);
+  ls.exec();
   return 0;
 }
 
@@ -106,6 +133,19 @@ int main(int argc, char **argv) //!OCLINT main too long
 #endif
   
   const std::vector<std::string> args(argv, argv + argc);
+  
+  std::string user = "";
+#ifdef WIN32
+  user = getenv("USERNAME");
+#endif
+#ifdef __linux__
+  user = system("whoami");
+#endif
+  if (user != "") {
+    std::clog << "Current user: " << user << "\n" << std::endl;
+  } else {
+    std::clog << "Error: user not found!";
+  }
 
   //----------------------------------------------------------------------------
   //Things with early exits
@@ -130,7 +170,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   bool damage = true;
   bool score = true;
 
-  if (std::count(std::begin(args), std::end(args), "--music"))
+  if (std::count(std::begin(args), std::end(args), "--no-music"))
   {
     music = true;
   }
@@ -150,11 +190,13 @@ int main(int argc, char **argv) //!OCLINT main too long
         close_at = std::atoi(s.c_str());
       }
     }
-    sfml_window_manager::get().set_state(game_state::titlescreen);
+    //The '--short' setting is used on Travis for debugging and
+    //should jump straight to the game
+    sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--profiling")){
     close_at = 10000;
-    sfml_window_manager::get().set_state(game_state::titlescreen);
+    sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--title"))
   {
@@ -182,7 +224,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   //Not realy to show settings, but to use the variables
-  std::cout << "\nSettings\n"
+  std::cout << "Settings\n"
             << "Close at : " << close_at << "\n"
             << "Music    : " << music << std::endl;
 
@@ -191,11 +233,7 @@ int main(int argc, char **argv) //!OCLINT main too long
 
   if (std::count(std::begin(args), std::end(args), "--spin"))
   {
-    tiles.push_back(tile(2,-1,0,4,6,0,tile_type::mountains));
-    tiles.push_back(tile(0,-1,0,2,6,0,tile_type::grassland));
-    tiles.push_back(tile(-2.2,-1,0,0.2,1,0,tile_type::nonetile));
-    tiles.push_back(tile(-2.2,1,0,0.2,1,0,tile_type::nonetile));
-    tiles.push_back(tile(-2.2,3,0,0.2,1,0,tile_type::nonetile));
+    tiles.push_back(tile(0,-1,0,90,0,tile_type::grassland));
     agents.push_back(agent(agent_type::spider,50));
   }
   else if(std::count(std::begin(args), std::end(args), "--profiling")) {
@@ -224,25 +262,21 @@ int main(int argc, char **argv) //!OCLINT main too long
       agents.push_back(a);
     }
     for(int i = 0; i < tiles_size; i++){
-      tile t(i, i, 0, 1, 2, 0, tile_type::grassland);
+      tile t(i, i, 0, 90, 0, tile_type::grassland);
       tiles.push_back(t);
     }
-
     spawning = false;
     damage = false;
     score = false;
   }
-  else if(std::count(std::begin(args), std::end(args), "--god")){
+  else if(std::count(std::begin(args), std::end(args), "--god")) {
     score = false;
-    tiles = create_test_default_tiles();
-    agents = create_default_agents();
-  }
-  else{
     tiles = create_test_default_tiles();
     agents = create_default_agents();
   }
 
   while (sfml_window_manager::get().get_window().isOpen()) {
+    std::clog << "State: " << sfml_window_manager::get().get_state() << '\n';
     switch (sfml_window_manager::get().get_state()) {
       case game_state::titlescreen:
         show_sfml_title_screen(close_at, music);
@@ -255,11 +289,15 @@ int main(int argc, char **argv) //!OCLINT main too long
         break;
       case game_state::saving:
       case game_state::paused:
+      case game_state::shop:
       case game_state::playing:
         start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);
         break;
       case game_state::gameover:
-        show_sfml_gameover_screen(close_at);
+        show_sfml_gameover_screen(-1);
+        break;
+      case game_state::loading:
+        show_sfml_load_screen(close_at);
         break;
     }
   }

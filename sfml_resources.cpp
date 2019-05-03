@@ -13,7 +13,7 @@ sfml_resources *sfml_resources::m_instance = nullptr; //!OCLINT static accepted 
 sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
   {
-    // Re-create resource at executable's location
+    // background music
     QFile f(":/nature_zen/resources/Barachem_Zauberspiel_Preliminary_Edit.ogg");
     f.copy("Barachem_Zauberspiel_Preliminary_Edit.ogg");
     if (!m_background_music.openFromFile("Barachem_Zauberspiel_Preliminary_Edit.ogg")) {
@@ -22,7 +22,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    // Re-create resource at executable's location
+    // title music
     QFile f(":/nature_zen/resources/title_music.ogg");
     f.copy("title_music.ogg");
     if (!m_title_music.openFromFile("title_music.ogg")) {
@@ -30,11 +30,35 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    // Re-create resource at executable's location
+    // ik ben een spin
     QFile f(":/nature_zen/resources/ben_ik_een_spin.ogg");
     f.copy("ben_ik_een_spin.ogg");
     if (!m_benikeenspin.openFromFile("ben_ik_een_spin.ogg")) {
       throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
+    }
+  }
+  {
+    // tile merge
+    QFile f(":/nature_zen/resources/tile_merge.wav");
+    f.copy("tile_merge.wav");
+    if (!m_tile_collission_soundbuffer.loadFromFile("tile_merge.wav")) {
+      throw std::runtime_error("Cannot find music file 'tile_merge.wav'");
+    }
+  }
+  {
+    // tile move
+    QFile f(":/nature_zen/resources/tile_move.wav");
+    f.copy("tile_move.wav");
+    if (!m_tile_move_soundbuffer.loadFromFile("tile_move.wav")) {
+      throw std::runtime_error("Cannot find music file 'tile_move.wav'");
+    }
+  }
+  {
+    // moo
+    QFile f(":/nature_zen/resources/moo.wav");
+    f.copy("moo.wav");
+    if (!m_cow_sound.loadFromFile("moo.wav")) {
+      throw std::runtime_error("Cannot find music file 'moo.wav'");
     }
   }
    // plankton texture
@@ -112,20 +136,19 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_fish_texture.loadFromFile("fish.png"))
       throw std::runtime_error("Cannot find image file 'fish.png'");
   }
-    // Whale texture
-    {
-      QFile f(":/nature_zen/resources/whale.png");
-      f.copy("whale.png");
-      if (!m_whale_texture.loadFromFile("whale.png"))
-        throw std::runtime_error("Cannot find image file 'whale.png'");
-    }
- // octopus texture
-
+  // Whale texture
   {
-      QFile f(":/nature_zen/resources/octopus.png");
-      f.copy("octopus.png");
-      if (!m_octopus_texture.loadFromFile("octopus.png"))
-        throw std::runtime_error("Cannot find image file 'octopus.png'");
+    QFile f(":/nature_zen/resources/whale.png");
+    f.copy("whale.png");
+    if (!m_whale_texture.loadFromFile("whale.png"))
+      throw std::runtime_error("Cannot find image file 'whale.png'");
+  }
+  // octopus texture
+  {
+    QFile f(":/nature_zen/resources/octopus.png");
+    f.copy("octopus.png");
+    if (!m_octopus_texture.loadFromFile("octopus.png"))
+      throw std::runtime_error("Cannot find image file 'octopus.png'");
   }
   // Goat texture
   {
@@ -208,10 +231,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   }
 
   {
-    QFile f(":/nature_zen/resources/title_screen_background.jpg");
-    f.copy("title_screen_background.jpg");
-    if (!m_background_image.loadFromFile("title_screen_background.jpg")) {
-      throw std::runtime_error("Cannot find image file title_screen_background.jpg");
+    QFile f(":/nature_zen/resources/title_screen_background.png");
+    f.copy("title_screen_background.png");
+    if (!m_background_image.loadFromFile("title_screen_background.png")) {
+      throw std::runtime_error("Cannot find image file title_screen_background.png");
     }
   }
 
@@ -258,7 +281,6 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file zen_title.png");
     }
   }
-
   {
     QFile f(":/nature_zen/resources/cactus.png");
     f.copy("cactus.png");
@@ -266,7 +288,56 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file cactus.png");
     }
   }
-
+  {
+    QFile f(":/nature_zen/resources/beach_texture_laying.png");
+    f.copy("beach_texture_laying.png");
+    if (!m_beach_laying.loadFromFile("beach_texture_laying.png")) {
+      throw std::runtime_error("Cannot find image file beach_texture_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/beach_texture_standing.png");
+    f.copy("beach_texture_standing.png");
+    if (!m_beach_standing.loadFromFile("beach_texture_standing.png")) {
+      throw std::runtime_error("Cannot find image file beach_texture_standing.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/water_lying.png");
+    f.copy("water_lying.png");
+    if (!m_water_laying.loadFromFile("water_lying.png"))
+      throw std::runtime_error("Cannot find image file water_lying.png");
+  }
+  {
+    QFile f(":/nature_zen/resources/water_standing.png");
+    f.copy("water_standing.png");
+    if (!m_water_standing.loadFromFile("water_standing.png"))
+      throw std::runtime_error("Cannot find image file water_standing.png");
+  }
+  {
+    QFile f(":/nature_zen/resources/dunes_laying.png");
+    f.copy("dunes_laying.png");
+    if (!m_dunes_laying.loadFromFile("dunes_laying.png"))
+      throw std::runtime_error("Cannot find image file dunes_laying.png");
+  }
+  {
+    QFile f(":/nature_zen/resources/dunes_standing.png");
+    f.copy("dunes_standing.png");
+    if (!m_dunes_standing.loadFromFile("dunes_standing.png"))
+      throw std::runtime_error("Cannot find image file dunes_standing.png");
+  }
+  {
+    QFile f(":/nature_zen/resources/hills_laying.png");
+    f.copy("hills_laying.png");
+    if (!m_hills_laying.loadFromFile("hills_laying.png"))
+      throw std::runtime_error("Cannot find image file hills_laying.png");
+  }
+  {
+    QFile f(":/nature_zen/resources/hills_standing.png");
+    f.copy("hills_standing.png");
+    if (!m_hills_standing.loadFromFile("hills_standing.png"))
+      throw std::runtime_error("Cannot find image file hills_standing.png");
+  }
   {
     QFile f(":/nature_zen/resources/Essence_29_32.png");
     f.copy("Essence_29_32.png");
@@ -274,21 +345,17 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file Essence_29_32.png");
     }
   }
-
   {
     QFile f(":/nature_zen/resources/blood-spatter.png");
     f.copy("blood-spatter.png");
-    if (!m_corpse_texture.loadFromFile("blood-spatter.png")) {
+    if (!m_corpse_texture.loadFromFile("blood-spatter.png"))
       throw std::runtime_error("Cannot find image file blood-spatter.png");
-
-    }
   }
   {
     QFile f(":/nature_zen/resources/chameleon.png");
     f.copy("chameleon.png");
-    if (!m_chameleon_texture.loadFromFile("chameleon.png")) {
+    if (!m_chameleon_texture.loadFromFile("chameleon.png"))
       throw std::runtime_error("Cannot find image file chameleon.png");
-    }
   }
 }
 
@@ -300,8 +367,15 @@ sfml_resources &sfml_resources::get() {
   return *m_instance;
 }
 
-sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLINT Can't be simpler (High Complexity)
-  switch (a.get_type()) {
+sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept
+{
+  return get_agent_sprite(a.get_type());
+}
+
+sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept //!OCLINT indeed too complex
+{
+  switch (t)
+  {
     case agent_type::plankton:
       return m_plankton_texture;
     case agent_type::chameleon:
@@ -351,19 +425,70 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent &a) noexcept { //!OCLI
   }
 }
 
-sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept {
-  switch (t.get_type()) { //!OCLINT too few branches for now
-    case tile_type::tundra:
-      if (t.get_width() > 100) {
-        assert(t.get_height() == 100.0);
-        return m_tundra_laying;
-      }
-      assert(t.get_width() == 100.0);
-      return m_tundra_standing;
-    default:
-      return m_empty_tile;
-  }
+sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
+{
+  /// Only deal with actual sounds
+  assert(st != sound_type::none);
+
+  /// Getting the collision soundfile
+  if (st == sound_type::tile_collision)
+    return m_tile_collission_soundbuffer;
+  if (st == sound_type::tile_move)
+    return m_tile_move_soundbuffer;
+  if (st == sound_type::random_animal)
+    return random_animal_sound();
+
+  assert(!"Should never come this far."); //!OCLINT accepted idiom
+  return m_tile_collission_soundbuffer;
 }
+
+sf::SoundBuffer& sfml_resources::random_animal_sound()
+{
+  return m_cow_sound;
+}
+
+sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT too long, needs to be fixed
+{
+  return get_tile_sprite_landscape(t.get_type());
+}
+
+sf::Texture &sfml_resources::get_tile_sprite_landscape(const tile_type t) noexcept //!OCLINT cannot be simpler
+{
+  switch (t) {
+    case tile_type::tundra:
+      return m_tundra_laying;
+    case tile_type::beach:
+      return m_beach_laying;
+    case tile_type::water:
+      return m_water_laying;
+    case tile_type::dunes:
+      return m_dunes_laying;
+    case tile_type::hills:
+      return m_hills_laying;
+    default:
+      break;
+  }
+  return m_empty_tile;
+}
+
+//sf::Texture &sfml_resources::get_tile_sprite_portrait(const tile_type t) noexcept //!OCLINT cannot be simpler
+//{
+//  switch (t) {
+//    case tile_type::tundra:
+//      return m_tundra_standing;
+//    case tile_type::beach:
+//      return m_beach_standing;
+//    case tile_type::water:
+//      return m_water_standing;
+//    case tile_type::dunes:
+//      return m_dunes_standing;
+//    case tile_type::hills:
+//      return m_hills_standing;
+//    default:
+//     break;
+//  }
+//  return m_empty_tile;
+//}
 
 void test_sfml_resources() //!OCLINT tests may be long
 {
@@ -379,31 +504,27 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
-  //#define FIX_ISSUE_225
-  #ifdef FIX_ISSUE_225
   // Can get the sprite of an agent_type
   {
-    assert(resources.get_texture(agent_type::plankton).getSize().x > 0);
-    assert(resources.get_texture(agent_type::cow).getSize().x > 0);
-    assert(resources.get_texture(agent_type::crocodile).getSize().x > 0);
-    assert(resources.get_texture(agent_type::fish).getSize().x > 0);
-    assert(resources.get_texture(agent_type::grass).getSize().x > 0);
-    assert(resources.get_texture(agent_type::tree).getSize().x > 0);
-    assert(resources.get_texture(agent_type::goat).getSize().x > 0);
+    assert(resources.get_agent_sprite(agent_type::cow).getSize().x > 0);
+    assert(resources.get_agent_sprite(agent_type::crocodile).getSize().x > 0);
+    assert(resources.get_agent_sprite(agent_type::fish).getSize().x > 0);
+    assert(resources.get_agent_sprite(agent_type::goat).getSize().x > 0);
+    assert(resources.get_agent_sprite(agent_type::grass).getSize().x > 0);
+    assert(resources.get_agent_sprite(agent_type::plankton).getSize().x > 0);
+    assert(resources.get_agent_sprite(agent_type::tree).getSize().x > 0);
   }
-  #endif // FIX_ISSUE_225
-
-  #define FIX_ISSUE_521
-  #ifdef FIX_ISSUE_521
-
-
-
-  #endif // FIX_ISSUE_521
-
   { /// Testing succesful access to the essence symbol png and its dimensions
     sf::Texture texture{ resources.get_essence_texture() };
-
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
+  //#define FIX_ISSUE_538
+  #ifdef FIX_ISSUE_538
+  // Can get the sprite of a tile type
+  {
+    assert(resources.get_tile_sprite_portrait(tile_type::grassland).getSize().x > 0);
+    assert(resources.get_tile_sprite_landscape(tile_type::grassland).getSize().x > 0);
+  }
+  #endif // FIX_ISSUE_538
 }

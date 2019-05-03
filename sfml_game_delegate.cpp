@@ -14,7 +14,7 @@ bool sfml_game_delegate::do_actions(sfml_game &sg) {
   if (m_close_at < 0)
     return false;
 
-  if (sg.get_n_displayed() % 2 == 0)
+  if (sg.get_n_displayed() % 2 == 0 && !sg.get_game().get_tiles().empty())
   {
     sg.select_random_tile();
   }

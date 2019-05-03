@@ -17,8 +17,9 @@ public:
   /// @param x the x-coordinat of the top-left corner of the agent
   /// @param y the y-coordinat of the top-left corner of the agent
   /// @param type the type the tile
-  agent(const agent_type type, const double x = 0.0, const double y = 0.0,
-        const double health = 1.0,  const double direction = 0.0);
+  explicit agent(const agent_type type, const double x = 0.0, const double y = 0.0,
+        const double health = 1.0,  const double direction = 0.0,
+        std::vector<agent_type> prey = std::vector<agent_type>());
 
   void process_events(game &g);
 
@@ -45,21 +46,24 @@ public:
 
   sf::Vector2f get_center(const sf::Texture& sprite) const;
 
-  /// Moves an agent. It can read the game, containing
-  /// agents and tiles for its movement
-  void move();
 
   void move(double x, double y);
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
 
-  void eat(const game& g);
+  /// Make this agent eat other agents
+  void eat(game& g);
 
   bool is_in_range(double x, double y, double range);
 
-  agent nearest_agent(game& g, agent& a, agent_type type);
+  /// Find the nearest agent
+  /// @param g the game logic, contains the other agents
+  agent nearest_agent(const game& g, agent& a, agent_type type);
 
-  void move_to_food(game& g);
+  ///Moves the agent. It will do nothing if exhausted.
+  ///If it has stamina, the agent will go looking for food
+  ///@param game the game logic
+  void move(const game& g);
 
   void attract_to_agent(game& g, agent_type type);
 
@@ -73,10 +77,17 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
-
-  /// The direction angle of the agent, which is a radial angle with 0 for
-  /// left to right direction, pi/2 for top to down direction,
-  /// pi for right to left direction and -pi/2 for down to top direction.
+  /// The direction angle of the agent:
+  ///
+  ///           0.5 * pi
+  ///              |
+  ///              |
+  /// 1.0 * pi ----+---- 0.0 * pi
+  ///              |
+  ///              |
+  ///           1.5 * pi
+  ///
+  /// For example, for an m_direction of 1.5 pi, the agent moves down
   double m_direction;
 
   /// The health of the agent
@@ -86,15 +97,29 @@ private:
 
   int corpse_ticks = -1;
 
+  /// The types of agents this agent can eat
+  /// Added as a result of profiling
+  std::vector<agent_type> m_prey;
+
+  /// Motivation for a certain horizontal velocity
+  /// Added due to profiling results, see Issue  #543
+  double m_dx_motivation = 0;
+
+  /// Motivation for a certain horizontal velocity
+  /// Added due to profiling results, see Issue  #543
+  double m_dy_motivation = 0;
+
   void reproduce_agents(game& g, agent_type type);
 
-  void damage_near_grass(game &g, agent_type type);
+  void damage_own_type(game &g, agent_type type);
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);
   friend bool operator==(const agent& lhs, const agent& rhs) noexcept;
 
 };
+
+double get_agent_reproduction_health(const agent_type t) noexcept;
 
 std::vector<agent_type> can_eat(const agent_type type);
 
