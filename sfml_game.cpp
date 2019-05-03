@@ -23,7 +23,9 @@ sfml_game::sfml_game(
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
     m_sound_type(sound_type::none),
     m_soundbuffer(),
-    m_sound(),    
+    m_sound(),
+    m_pseudo_random_period(random_int(200, 300)),
+    m_pseudo_counter(0),
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
@@ -98,6 +100,19 @@ void sfml_game::play_sound()
     /// does not trigger continuously
     m_sound_type = sound_type::none;
   }
+}
+
+void sfml_game::random_animal_sound()
+{
+  if (m_pseudo_counter >= m_pseudo_random_period)
+  {
+    m_sound_type = sound_type::random_animal;
+    play_sound();
+    m_pseudo_random_period = random_int(200, 300);
+    m_pseudo_counter = 0;
+  }
+  else
+  { ++m_pseudo_counter; }
 }
 
 void sfml_game::setup_tickcounter_text() {
@@ -253,16 +268,17 @@ void sfml_game::exec()
       m_shop_overlay.exec();
     } else {
       process_input();
-      process_events();
+      process_events(m_sound_type);
       display();
     }
   }
 }
 
-void sfml_game::process_events()
+void sfml_game::process_events(sound_type& st)
 {
+  random_animal_sound();
 
-  m_game.process_events();
+  m_game.process_events(st);
 
   sf::Vector2i current_mouse = sf::Mouse::getPosition();
   sf::Vector2i mouse_delta = current_mouse - m_prev_mouse_pos;
@@ -572,14 +588,19 @@ void sfml_game::switch_collide(tile& t, int direction)
   if (!will_collide(direction, t))
   {
     m_game.confirm_tile_move(t, direction, m_tile_speed);
+    m_sound_type = sound_type::tile_move;
   }
   if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
+
+    //confirm_tile_move(t, direction);    
+
     m_sound_type = sound_type::tile_collision;
     m_game.confirm_tile_move(t, direction, m_tile_speed);
+    m_sound_type = sound_type::tile_move;
     sf::Vector2f b = get_direction_pos(direction, t, 112);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {

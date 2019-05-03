@@ -56,7 +56,7 @@ public:
 
   /// Timer, physics, bullets moving, etc.bool
   /// Everything except user input.
-  void process_events();
+  void process_events(sound_type &st);
 
   /// Set m_sound_type to the input sound_type
   void set_sound_type(const sound_type st) noexcept
@@ -100,7 +100,7 @@ private:
 
   void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
 
-  void merge_tiles();
+  void merge_tiles(sound_type& st);
 
   void kill_agents();
 
