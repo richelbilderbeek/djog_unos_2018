@@ -220,7 +220,7 @@ std::vector<tile> create_two_grass_tiles() noexcept
 bool have_same_position(const tile& lhs, const tile& rhs) noexcept
 {
   return lhs.get_x() == rhs.get_x()
-    && lhs.get_y() == rhs.get_y();
+      && lhs.get_y() == rhs.get_y();
 }
 
 void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
@@ -269,15 +269,14 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 }
 
 void tile::rotate_c() {
-  while (m_rotation < 0) m_rotation += 360;
-  m_rotation %= 360;
   m_rotation += 90;
+  m_rotation %= 360;
 }
 
 void tile::rotate_cc() {
+  m_rotation -= 90;
   while (m_rotation < 0) m_rotation += 360;
   m_rotation %= 360;
-  m_rotation += 360 - 90;
 }
 
 double tile::get_width() const {
@@ -347,11 +346,11 @@ void tile::move(std::vector<agent>& a) {
 }
 
 sf::Vector2f tile::get_center() const noexcept {
-  int rot = ((m_rotation - (m_rotation % 90)) % 360) / 90;
+  int rot = ((m_rotation + (90 - (m_rotation % 90))) % 360) / 90;
   switch (rot) {
-    case 2:
-      return sf::Vector2f(m_x, m_y + (get_height() / 2.0));
     case 3:
+      return sf::Vector2f(m_x, m_y + (get_height() / 2.0));
+    case 0:
       return sf::Vector2f(m_x + (get_width() / 2.0), m_y);
     default:
       break;
@@ -433,7 +432,7 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
     && lhs.m_type     == rhs.m_type
     && lhs.m_x        == rhs.m_x
     && lhs.m_y        == rhs.m_y
-    && lhs.m_z        == rhs.m_z
+    //&& lhs.m_z        == rhs.m_z BUG this doesn't work correctly
   ;
 }
 
@@ -584,4 +583,35 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(1==2);
   }
   #endif //FIX_ISSUE_463
+  {
+    std::vector<tile> v1{};
+    std::vector<tile> v2{};
+    for (int i = 0; i < 5; i++) {
+      tile t;
+      v1.push_back(t);
+    }
+    for (int i = 0; i < 5; i++) {
+      tile t;
+      v2.push_back(t);
+    }
+    assert(v1 == v2);
+  }
+  {
+    assert(create_default_tiles().size() > 0);
+  }
+  {
+    tile t;
+    assert(t.get_rotation() == 0);
+    t.rotate_cc();
+    assert(t.get_rotation() == 270);
+    assert(t.get_corner() == sf::Vector2f(t.get_x(), t.get_y() - (t.get_height() / 2.0)));
+    assert(t.get_center() == sf::Vector2f(t.get_x() + (t.get_width() / 2.0), t.get_y()));
+    t.rotate_cc();
+    assert(t.get_rotation() == 180);
+    assert(t.get_corner() == sf::Vector2f(t.get_x() - (t.get_width() / 2.0), t.get_y()));
+    assert(t.get_center() == sf::Vector2f(t.get_x(), t.get_y() + (t.get_height() / 2.0)));
+    t.set_rotation(90);
+    assert(t.get_rotation() == 90);
+    assert(degreeToDirection(t.get_rotation(), true) == 2);
+  }
 }

@@ -4,14 +4,17 @@
 
 void test_game_state()
 {
-  //#define FIX_ISSUE_578
-  #ifdef FIX_ISSUE_578
   //Can collect all game states
   {
     const std::vector<game_state> v = collect_all_game_states();
     assert(!v.empty());
   }
-  #endif //FIX_ISSUE_578
+  {
+    for (auto& s : collect_all_game_states()) {
+      std::string str = to_str(s);
+    }
+  }
+
 }
 
 std::string to_str(const game_state s) noexcept //!OCLINT too complex indeed
@@ -23,13 +26,13 @@ std::string to_str(const game_state s) noexcept //!OCLINT too complex indeed
     case game_state::loading: return "loading";
     case game_state::menuscreen: return "menuscreen";
     case game_state::paused: return "paused";
-    case game_state::playing: return "playing";
     case game_state::saving: return "saving";
     case game_state::shop: return "shop";
     case game_state::titlescreen: return "titlescreen";
+    default: break;
   }
-  assert(!"Should not get here"); //!OCLINT accepted idiom
-  return "";
+  assert(s == game_state::playing); //!OCLINT accepted idiom
+  return "playing";
 }
 
 std::vector<game_state> collect_all_game_states() {

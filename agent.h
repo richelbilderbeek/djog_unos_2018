@@ -67,6 +67,8 @@ public:
 
   void attract_to_agent(game& g, agent_type type);
 
+  void reproduce_agents(game& g, agent_type type);
+
 private:
   /// The type the tile
   agent_type m_type;
@@ -108,8 +110,6 @@ private:
   /// Motivation for a certain horizontal velocity
   /// Added due to profiling results, see Issue  #543
   double m_dy_motivation = 0;
-
-  void reproduce_agents(game& g, agent_type type);
 
   void damage_own_type(game &g, agent_type type);
 

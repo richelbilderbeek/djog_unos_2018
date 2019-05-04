@@ -68,8 +68,6 @@ public:
 
   void arrows(bool b, const sf::Event &event);
 
-  bool m_clicked_tile = false;
-
   int m_timer = 0;
 
   tile &getTileById(const std::vector<int> &tile_id);
@@ -116,8 +114,6 @@ public:
   void ben_ik_een_spin();
 
   void start_music();
-
-  void load_game(const std::string &filename);
 
 private:
   // Functions to display tiles and agents on the screen
