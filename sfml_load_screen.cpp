@@ -7,10 +7,9 @@
 #include <iostream>
 #include <cassert>
 
-sfml_load_screen::sfml_load_screen(const int close_at)
+sfml_load_screen::sfml_load_screen()
     : m_window{ sfml_window_manager::get().get_window() },
-      m_font{ sfml_resources::get().get_default_font() },
-      m_close_at{close_at}
+      m_font{ sfml_resources::get().get_default_font() }
 {
   if (get_saves().empty()) {
     close(game_state::playing);

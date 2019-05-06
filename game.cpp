@@ -199,8 +199,8 @@ void game::merge_tiles(sound_type &st) { //!OCLINT must simplify
   }
 }
 
-void game::kill_agents() {
-  const int n = count_n_agents(*this);
+void game::kill_agents()
+{
   for (int i = 0; i < static_cast<int>(m_agents.size()); ++i) {
     assert(i >= 0);
     assert(i < static_cast<int>(m_agents.size()));
