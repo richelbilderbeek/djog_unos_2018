@@ -361,7 +361,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(!QFile::exists(filename.c_str()));
     g.save_this(filename);
     assert(QFile::exists(actual_path));
-    assert(!get_saves().empty());
+//    assert(!get_saves().empty());
   }
 
   //'is_on_tile' should detect if there is a tile at a certain coordinat
