@@ -101,8 +101,10 @@ int show_sfml_gameover_screen(int ca) {
   gos.exec();
   return 0;
 }
-int show_sfml_load_screen(int ca) {
-  sfml_load_screen ls(ca);
+
+int show_sfml_load_screen()
+{
+  sfml_load_screen ls;
   ls.exec();
   return 0;
 }
@@ -297,7 +299,7 @@ int main(int argc, char **argv) //!OCLINT main too long
         show_sfml_gameover_screen(-1);
         break;
       case game_state::loading:
-        show_sfml_load_screen(close_at);
+        show_sfml_load_screen();
         break;
     }
   }
