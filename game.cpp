@@ -418,8 +418,8 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<tile> tiles
     {
       //   x    y    z    r    type         ID
-      tile(1.0, 1.0, 1.0, 0.0, 0.0, tile_type::grassland, tile_id()),
-      tile(1.0, 1.0, 1.0, 0.0, 0.0, tile_type::grassland, tile_id())
+      tile(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id()),
+      tile(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id())
     };
 
     game g(tiles);
@@ -650,7 +650,7 @@ std::istream& operator>>(std::istream& is, game& g)
   g.m_tiles.clear();
   for (int i = 0; i < n_tiles; ++i)
   {
-    tile t(1, 1, 1, 0, 0, tile_type::grassland);
+    tile t(112, 112, 112, 0, 0, tile_type::grassland);
     is >> t;
     g.m_tiles.emplace_back(t);
   }

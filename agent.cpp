@@ -938,7 +938,7 @@ void test_agent() //!OCLINT testing functions may be long
   //#define FIX_ISSUE_287
   #ifdef FIX_ISSUE_287
   {
-    game g({ tile(-1, -1, 0, 2, 2) }, { agent(agent_type::cow) } );
+    game g({ tile(-1 * 112, -1 * 112, 0, 2, 2) }, { agent(agent_type::cow) } );
     sound_type st { sound_type::none };
     assert(!g.get_agents().empty());
     const auto health_before = g.get_agents()[0].get_health();
