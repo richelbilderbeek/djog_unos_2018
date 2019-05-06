@@ -12,6 +12,11 @@ void test_game_state()
   {
     for (auto& s : collect_all_game_states()) {
       std::string str = to_str(s);
+      if (s == game_state::playing) {
+        assert(str == "playing");
+      } else {
+        assert(str != "playing");
+      }
     }
   }
 
