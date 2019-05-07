@@ -7,6 +7,7 @@
 #include "sfml_gameover_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
+#include "sfml_load_screen.h"
 #include "sfml_resources.h"
 #include "sfml_window_manager.h"
 #include "tile.h"
@@ -53,6 +54,7 @@ void test() {
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
+  test_sfml_load_screen();
 }
 
 ///Start the game

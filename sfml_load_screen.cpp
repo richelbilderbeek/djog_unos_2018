@@ -133,3 +133,12 @@ void sfml_load_screen::close(game_state s) {
 void sfml_load_screen::close() {
   m_window.close();
 }
+
+void test_sfml_load_screen()
+{
+  sfml_load_screen s;
+  s.set_positions();
+  s.draw_objects();
+  s.exec();
+  s.close();
+}

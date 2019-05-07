@@ -39,4 +39,7 @@ private:
     std::vector<sfml_button> m_saves;
 };
 
+/// Test the loading screen
+void test_sfml_load_screen();
+
 #endif // SFML_LOAD_SCREEN_H
