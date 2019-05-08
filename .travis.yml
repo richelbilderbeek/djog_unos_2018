@@ -15,10 +15,10 @@ install:
   # SFML
   - sudo apt-get install libsfml-dev
   # XRandR, else you get 'Failed to use the XRandR extension while trying to get the desktop video modes'
-  - sudo apt-get install libxrandr-dev
+  #- sudo apt-get install libxrandr-dev
   # ALSA
-  - sudo apt-get install alsa-utils
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then CONFIG="$CONFIG --audio-drv-list=alsa,oss,pa,sdl"; fi
+  #- sudo apt-get install alsa-utils
+  #- if [ "$TRAVIS_OS_NAME" == "linux" ]; then CONFIG="$CONFIG --audio-drv-list=alsa,oss,pa,sdl"; fi
   # cppcheck
   - sudo apt-get install -qq cppcheck
   # Codecov
