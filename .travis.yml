@@ -30,7 +30,6 @@ install:
   # SLOCcount
   - sudo apt-get install sloccount
 
-# Xenial
 services:
  - xvfb
  - alsa
