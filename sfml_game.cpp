@@ -23,7 +23,9 @@ sfml_game::sfml_game(
     m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
     m_sound_type(sound_type::none),
     m_soundbuffer(),
-    m_sound(),    
+    m_sound(),
+    m_pseudo_random_period(random_int(200, 300)),
+    m_pseudo_counter(0),
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
     m_window{ sfml_window_manager::get().get_window() },
@@ -98,6 +100,19 @@ void sfml_game::play_sound()
     /// does not trigger continuously
     m_sound_type = sound_type::none;
   }
+}
+
+void sfml_game::random_animal_sound()
+{
+  if (m_pseudo_counter >= m_pseudo_random_period)
+  {
+    m_sound_type = sound_type::random_animal;
+    play_sound();
+    m_pseudo_random_period = random_int(200, 300);
+    m_pseudo_counter = 0;
+  }
+  else
+  { ++m_pseudo_counter; }
 }
 
 void sfml_game::setup_tickcounter_text() {
@@ -187,7 +202,7 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
     m_window.display(); // Put everything on the screen
 }
 
-void sfml_game::display_tile(const tile &t){
+void sfml_game::display_tile(const tile &t) {
     sf::RectangleShape sfml_tile(sf::Vector2f(212 * m_zoom_state, 100 * m_zoom_state));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
@@ -205,7 +220,7 @@ void sfml_game::display_tile(const tile &t){
     set_tile_sprite(t, sprite);
     assert(sprite.getTexture());
     sprite.setOrigin(50, 50);
-    sprite.setRotation(t.get_rotation() - 90);
+    sprite.rotate(t.get_rotation());
     sprite.setPosition(screen_x + 50, screen_y + 50);
     sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
     m_window.draw(sprite);
@@ -253,16 +268,17 @@ void sfml_game::exec()
       m_shop_overlay.exec();
     } else {
       process_input();
-      process_events();
+      process_events(m_sound_type);
       display();
     }
   }
 }
 
-void sfml_game::process_events()
+void sfml_game::process_events(sound_type& st)
 {
+  random_animal_sound();
 
-  m_game.process_events();
+  m_game.process_events(st);
 
   sf::Vector2i current_mouse = sf::Mouse::getPosition();
   sf::Vector2i mouse_delta = current_mouse - m_prev_mouse_pos;
@@ -471,7 +487,6 @@ void sfml_game::process_mouse_input(const sf::Event& event)
       sf::Mouse::getPosition(m_window).x + m_camera.x,
       sf::Mouse::getPosition(m_window).y + m_camera.y
     );
-    m_clicked_tile = false;
     if (m_shop_button.is_clicked(event, m_window))
       close(game_state::shop);
     if (m_game.get_agents().size() == 1 &&
@@ -505,7 +520,7 @@ void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
   assert(tiles.size() > 0);
-  const int i = std::rand() % tiles.size();
+  const int i = random_int(0, tiles.size());
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
   m_game.m_selected[0] = id;
@@ -565,44 +580,26 @@ void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
   }
 }
 
-void sfml_game::confirm_tile_move(tile& t, int direction)
-{
-  switch (direction)
-  {
-    case 1:
-      t.set_dy(-m_tile_speed);
-      return;
-    case 2:
-      t.set_dx(m_tile_speed);
-      return;
-    case 3:
-      t.set_dy(m_tile_speed);
-      return;
-    case 4:
-      t.set_dx(-m_tile_speed);
-      return;
-    default:
-      return;
-  }
-}
-
 void sfml_game::switch_collide(tile& t, int direction)
 {
   sf::Vector2f v = get_direction_pos(direction, t, 0);
   //std::vector<tile> added_tiles;
-  if (!will_colide(direction, t))
+  if (!will_collide(direction, t))
   {
-    //confirm_tile_move(t, direction);
     m_game.confirm_tile_move(t, direction, m_tile_speed);
+    m_sound_type = sound_type::tile_move;
   }
-  if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
+  if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
-    //confirm_tile_move(t, direction);
+
+    //confirm_tile_move(t, direction);    
+
     m_sound_type = sound_type::tile_collision;
     m_game.confirm_tile_move(t, direction, m_tile_speed);
+    m_sound_type = sound_type::tile_move;
     sf::Vector2f b = get_direction_pos(direction, t, 112);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {
@@ -614,15 +611,11 @@ void sfml_game::switch_collide(tile& t, int direction)
 
 void sfml_game::try_rotate(tile &t, bool cc) {
   int rot = static_cast<int>(t.get_rotation());
-  std::cout << ((rot + (90 - (rot % 90))) % 360) / 90 << std::endl;
-  std::cout << ((((rot + (90 - (rot % 90))) % 360) / 90) + 2) / 4 << std::endl;
-  std::cout << t.get_rotation() << std::endl;
-  std::cout << "----------------------" << std::endl;
   if (cc) {
-    if (!will_colide(((rot + (90 - (rot % 90))) % 360) / 90, t)) {
+    if (!will_collide(degreeToDirection(rot, true), t)) {
       t.rotate_cc();
     }
-  } else if (!will_colide(((((rot + (90 - (rot % 90))) % 360) / 90) + 2) / 4, t)) {
+  } else if (!will_collide(degreeToDirection(rot, false), t)) {
     t.rotate_c();
   }
 }
@@ -787,34 +780,30 @@ std::vector<int> sfml_game::get_collision_id(double x, double y) const
 }
 
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-bool sfml_game::will_colide(int direction, tile& t)
+bool sfml_game::will_collide(int direction, tile& t)
 {
   switch (direction)
   {
     case 1:
       return sfml_game::check_collision(
             t.get_corner().x + (t.get_width() / 2),
-            t.get_corner().y - (t.get_height() / 2));
+            t.get_corner().y - (t.get_height() / 2) + 10);
     case 2:
       return sfml_game::check_collision(
-            t.get_corner().x + (t.get_width() * 1.5),
+            t.get_corner().x + (t.get_width() * 1.5) - 10,
             t.get_corner().y + (t.get_height() / 2));
     case 3:
       return sfml_game::check_collision(
             t.get_corner().x + (t.get_width() / 2),
-            t.get_corner().y + (t.get_height() * 1.5));
+            t.get_corner().y + (t.get_height() * 1.5) - 10);
     case 4:
       return sfml_game::check_collision(
-            t.get_corner().x - (t.get_width() / 2),
+            t.get_corner().x - (t.get_width() / 2) + 10,
             t.get_corner().y + (t.get_height() / 2));
     default:
       break;
   }
   return false;
-}
-
-void sfml_game::load_game(const std::string &filename) {
-  load(m_game, filename);
 }
 
 void test_sfml_game() //!OCLINT tests may be long
