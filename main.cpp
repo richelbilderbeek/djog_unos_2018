@@ -69,6 +69,7 @@ void test() {
 int start_sfml_game(
   const int close_at_tick,
   bool music,
+  bool sounds,
   std::vector<tile> tiles,
   std::vector<agent> agents,
   bool spawning,
@@ -77,6 +78,7 @@ int start_sfml_game(
 ) {
   sfml_game g(sfml_game_delegate(close_at_tick, spawning, damage, score), tiles, agents);
   if (!music) g.stop_music();
+  if (!sounds) g.stop_sounds();
   g.exec();
   return 0;
 }
@@ -86,16 +88,19 @@ int show_sfml_title_screen(int ca, bool music) {
   ts.exec();
   return 0;
 }
+
 int show_sfml_menu_screen(int ca) {
   sfml_menu_screen ms(ca);
   ms.exec();
   return 0;
 }
+
 int show_sfml_about_screen(int ca) {
   sfml_about_screen as(ca);
   as.exec();
   return 0;
 }
+
 int show_sfml_gameover_screen(int ca) {
   sfml_gameover_screen gos(ca);
   gos.exec();
@@ -168,6 +173,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   bool music = false;
+  bool sounds = false;
   bool spawning = true;
   bool damage = true;
   bool score = true;
@@ -175,6 +181,10 @@ int main(int argc, char **argv) //!OCLINT main too long
   if (std::count(std::begin(args), std::end(args), "--no-music"))
   {
     music = true;
+  }
+  if (std::count(std::begin(args), std::end(args), "--sounds"))
+  {
+    sounds = true;
   }
 
   int close_at{-1};
@@ -228,7 +238,8 @@ int main(int argc, char **argv) //!OCLINT main too long
   //Not realy to show settings, but to use the variables
   std::cout << "Settings\n"
             << "Close at : " << close_at << "\n"
-            << "Music    : " << music << std::endl;
+            << "Music    : " << music << "\n"
+            << "Sounds   : " << sounds << std::endl;
 
   std::vector<tile> tiles;
   std::vector<agent> agents;
@@ -293,7 +304,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       case game_state::paused:
       case game_state::shop:
       case game_state::playing:
-        start_sfml_game(close_at, music, tiles, agents, spawning, damage, score);
+        start_sfml_game(close_at, music, sounds, tiles, agents, spawning, damage, score);
         break;
       case game_state::gameover:
         show_sfml_gameover_screen(-1);
