@@ -2,26 +2,6 @@
 #include <cassert>
 #include <iostream>
 
-void test_game_state()
-{
-  //Can collect all game states
-  {
-    const std::vector<game_state> v = collect_all_game_states();
-    assert(!v.empty());
-  }
-  {
-    for (auto& s : collect_all_game_states()) {
-      std::string str = to_str(s);
-      if (s == game_state::playing) {
-        assert(str == "playing");
-      } else {
-        assert(str != "playing");
-      }
-    }
-  }
-
-}
-
 std::string to_str(const game_state s) noexcept //!OCLINT too complex indeed
 {
   switch(s)
@@ -60,14 +40,23 @@ std::ostream& operator<<(std::ostream& os, const game_state s)
   os << to_str(s);
   return os;
 }
+
 void test_game_state()
 {
-  //#define FIX_ISSUE_578
-  //#ifdef FIX_ISSUE_578
   //Can collect all game states
   {
     const std::vector<game_state> v = collect_all_game_states();
-    assert(v.empty());
+    assert(!v.empty());
   }
-  //#endif //FIX_ISSUE_578
+  {
+    for (auto& s : collect_all_game_states()) {
+      std::string str = to_str(s);
+      if (s == game_state::playing) {
+        assert(str == "playing");
+      } else {
+        assert(str != "playing");
+      }
+    }
+  }
+
 }
