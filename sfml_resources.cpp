@@ -303,12 +303,6 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    QFile f(":/nature_zen/resources/water_lying.png");
-    f.copy("water_lying.png");
-    if (!m_water_laying.loadFromFile("water_lying.png"))
-      throw std::runtime_error("Cannot find image file water_lying.png");
-  }
-  {
     QFile f(":/nature_zen/resources/water_standing.png");
     f.copy("water_standing.png");
     if (!m_water_standing.loadFromFile("water_standing.png"))

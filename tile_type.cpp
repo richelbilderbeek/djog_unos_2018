@@ -88,6 +88,8 @@ void test_tile_type() //!OCLINT testing functions can be long and complex
     assert(get_merge_type(tile_type::savannah, tile_type::arctic).front() == tile_type::tundra);
     assert(get_merge_type(tile_type::arctic, tile_type::savannah).front() == tile_type::tundra);
     //If you miss a combination, this is the place to add a test :-)
+    //NOTE not every combination should become a new type
+    assert(get_merge_type(tile_type::water, tile_type::savannah).size() == 0);
   }
   // Convert all tile types to string and back
   {
@@ -130,7 +132,6 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
     case tile_type::beach: return "beach";
     case tile_type::desert: return "desert";
     case tile_type::dunes: return "dunes";
-    case tile_type::grassland: return "grassland";
     case tile_type::hills: return "hills";
     case tile_type::mangrove: return "mangrove";
     case tile_type::mountains: return "mountains";
@@ -140,9 +141,10 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
     case tile_type::tundra: return "tundra";
     case tile_type::water: return "water";
     case tile_type::woods: return "woods";
+    default: break;
   }
-  assert(!"Should not get here"); //!OCLINT acceptable idiom
-  return "";
+  assert(t == tile_type::grassland);
+  return "grassland";
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200

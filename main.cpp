@@ -7,6 +7,7 @@
 #include "sfml_gameover_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
+#include "sfml_load_screen.h"
 #include "sfml_resources.h"
 #include "sfml_window_manager.h"
 #include "tile.h"
@@ -53,6 +54,7 @@ void test() {
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
+  test_sfml_load_screen();
 }
 
 ///Start the game
@@ -101,8 +103,10 @@ int show_sfml_gameover_screen(int ca) {
   gos.exec();
   return 0;
 }
-int show_sfml_load_screen(int ca) {
-  sfml_load_screen ls(ca);
+
+int show_sfml_load_screen()
+{
+  sfml_load_screen ls;
   ls.exec();
   return 0;
 }
@@ -143,8 +147,6 @@ int main(int argc, char **argv) //!OCLINT main too long
 #endif
   if (user != "") {
     std::clog << "Current user: " << user << "\n" << std::endl;
-  } else {
-    std::clog << "Error: user not found!";
   }
 
   //----------------------------------------------------------------------------
@@ -231,12 +233,12 @@ int main(int argc, char **argv) //!OCLINT main too long
   std::vector<tile> tiles;
   std::vector<agent> agents;
 
-  if (std::count(std::begin(args), std::end(args), "--spin"))
-  {
-    tiles.push_back(tile(0,-1,0,90,0,tile_type::grassland));
-    agents.push_back(agent(agent_type::spider,50));
-  }
-  else if(std::count(std::begin(args), std::end(args), "--profiling")) {
+//  if (std::count(std::begin(args), std::end(args), "--spin"))
+//  {
+//    tiles.push_back(tile(0,-112,0,90,0,tile_type::grassland));
+//    agents.push_back(agent(agent_type::spider,50));
+//  }
+  if(std::count(std::begin(args), std::end(args), "--profiling")) {
     int agents_size = 10;
     int tiles_size = 10;
     if (std::find(std::begin(args), std::end(args), "--profiling") + 1 != std::end(args))
@@ -262,7 +264,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       agents.push_back(a);
     }
     for(int i = 0; i < tiles_size; i++){
-      tile t(i, i, 0, 90, 0, tile_type::grassland);
+      tile t(i * 112, i * 112, 0, 90, 0, tile_type::grassland);
       tiles.push_back(t);
     }
     spawning = false;
@@ -297,7 +299,7 @@ int main(int argc, char **argv) //!OCLINT main too long
         show_sfml_gameover_screen(-1);
         break;
       case game_state::loading:
-        show_sfml_load_screen(close_at);
+        show_sfml_load_screen();
         break;
     }
   }

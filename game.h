@@ -168,7 +168,6 @@ std::vector<tile> get_current_tile(game& g, const agent& a);
 std::vector<tile> get_current_tile(game& g, double x, double y);
 
 /// Load a game from a file
-void load(game &g, const std::string &filename);
 game load(const std::string &filename);
 
 std::vector<std::string> get_saves();

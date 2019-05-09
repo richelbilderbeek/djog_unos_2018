@@ -487,7 +487,6 @@ void sfml_game::process_mouse_input(const sf::Event& event)
       sf::Mouse::getPosition(m_window).x + m_camera.x,
       sf::Mouse::getPosition(m_window).y + m_camera.y
     );
-    m_clicked_tile = false;
     if (m_shop_button.is_clicked(event, m_window))
       close(game_state::shop);
     if (m_game.get_agents().size() == 1 &&
@@ -805,10 +804,6 @@ bool sfml_game::will_collide(int direction, tile& t)
       break;
   }
   return false;
-}
-
-void sfml_game::load_game(const std::string &filename) {
-  load(m_game, filename);
 }
 
 void test_sfml_game() //!OCLINT tests may be long

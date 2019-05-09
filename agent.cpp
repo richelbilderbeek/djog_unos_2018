@@ -59,16 +59,10 @@ double get_agent_reproduction_health(const agent_type t) noexcept
 {
   switch(t)
   {
-    case (agent_type::grass):
-      return 100.0;
     case (agent_type::tree):
       return 500.0;
-    case (agent_type::cow):
-      return 100.0;
-    case (agent_type::cactus):
-      return 100.0;
     default:
-       return 0.0;
+      return 100.0;
   }
 }
 
@@ -170,20 +164,21 @@ bool agent::is_in_range(double x, double y, double range) {
          y < m_y + range;
 }
 
-agent agent::nearest_agent(const game& g, agent& a, agent_type type){
-  double minD = pythagoras(1000000, 1000000);
-  agent near_agent(type);
-  for(const agent& ag: g.get_agents()){
-    if(ag.get_type() == type){
-      double distance = pythagoras(fabs(ag.get_x() - a.get_x()), fabs(ag.get_y() - a.get_y()));
-      if(distance < minD){
-        minD = distance;
-        near_agent = ag;
-      }
-    }
-  }
-  return near_agent;
-}
+//NOTE unused right now, kept for possible later use
+//agent agent::nearest_agent(const game& g, agent& a, agent_type type){
+//  double minD = pythagoras(1000000, 1000000);
+//  agent near_agent(type);
+//  for(const agent& ag: g.get_agents()){
+//    if(ag.get_type() == type){
+//      double distance = pythagoras(fabs(ag.get_x() - a.get_x()), fabs(ag.get_y() - a.get_y()));
+//      if(distance < minD){
+//        minD = distance;
+//        near_agent = ag;
+//      }
+//    }
+//  }
+//  return near_agent;
+//}
 
 void agent::move(double x, double y)
 {
@@ -352,15 +347,13 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 
     //Kids grow at new spot
     const double max_distance{64.0};
-    double f_x{random_double(0, 1)};
-    double f_y{random_double(0, 1)};
-    assert(f_x >= 0.0 && f_x < 1.0);
-    assert(f_y >= 0.0 && f_y < 1.0);
-    double new_x{m_x + (((f_x * 2.0) - 1.0) * max_distance)};
-    double new_y{m_y + (((f_y * 2.0) - 1.0) * max_distance)};
+    double f_x = 0;
+    double f_y = 0;
+    double new_x = 0;
+    double new_y = 0;
 
     agent new_agent(type, new_x, new_y, health_kid, 0, can_eat(type));
-    std::vector<tile> t = get_current_tile(g, new_agent);
+    std::vector<tile> t;
 //    bool water = get_on_tile_type(g, new_agent).size() > 0 &&
 //                 get_on_tile_type(g, new_agent).at(0) == tile_type::water;
     while (t.empty()
@@ -944,7 +937,7 @@ void test_agent() //!OCLINT testing functions may be long
   //#define FIX_ISSUE_287
   #ifdef FIX_ISSUE_287
   {
-    game g({ tile(-1, -1, 0, 2, 2) }, { agent(agent_type::cow) } );
+    game g({ tile(-1 * 112, -1 * 112, 0, 2, 2) }, { agent(agent_type::cow) } );
     sound_type st { sound_type::none };
     assert(!g.get_agents().empty());
     const auto health_before = g.get_agents()[0].get_health();
@@ -1257,4 +1250,20 @@ void test_agent() //!OCLINT testing functions may be long
     assert(get_agent_reproduction_health(agent_type::tree) == 500.0);
   }
   #endif // FIX_ISSUE_540
+  {
+    std::vector<agent> v1{};
+    std::vector<agent> v2{};
+    for (int i = 0; i < 5; i++) {
+      agent a(agent_type::cow);
+      v1.push_back(a);
+    }
+    for (int i = 0; i < 5; i++) {
+      agent a(agent_type::cow);
+      v2.push_back(a);
+    }
+    assert(v1 == v2);
+  }
+  {
+    assert(is_auqatic(agent_type::whale));
+  }
 }
