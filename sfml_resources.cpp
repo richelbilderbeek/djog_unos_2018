@@ -3,10 +3,9 @@
 #include "agent.h"
 #include "tile_type.h"
 #include "tile.h"
+#include "sfml_game.h"
 
 #include <cassert>
-
-
 
 sfml_resources *sfml_resources::m_instance = nullptr; //!OCLINT static accepted singleton
 
@@ -59,6 +58,30 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     f.copy("cow_01.wav");
     if (!m_cow_sound.loadFromFile("cow_01.wav")) {
       throw std::runtime_error("Cannot find music file 'cow_01.wav'");
+    }
+  }  
+  {
+    // horse
+    QFile f(":/nature_zen/resources/horse_09.wav");
+    f.copy("horse_09.wav");
+    if (!m_horse_sound.loadFromFile("horse_09.wav")) {
+      throw std::runtime_error("Cannot find music file 'horse_09.wav'");
+    }
+  }
+  {
+    // lion
+    QFile f(":/nature_zen/resources/lion_04.wav");
+    f.copy("lion_04.wav");
+    if (!m_lion_sound.loadFromFile("lion_04.wav")) {
+      throw std::runtime_error("Cannot find music file 'lion_04.wav'");
+    }
+  }
+  {
+    // owl
+    QFile f(":/nature_zen/resources/owl_37.wav");
+    f.copy("owl_37.wav");
+    if (!m_owl_sound.loadFromFile("owl_37.wav")) {
+      throw std::runtime_error("Cannot find music file 'owl_37.wav'");
     }
   }
    // plankton texture
@@ -444,6 +467,19 @@ sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
 
 sf::SoundBuffer& sfml_resources::random_animal_sound()
 {
+  const int choose{ random_int(1, 4) };
+
+  switch (choose)
+  {
+    case 1 :
+      return m_cow_sound;
+    case 2 :
+      return m_horse_sound;
+    case 3 :
+      return m_lion_sound;
+    case 4 :
+      return m_owl_sound;
+  }
   return m_cow_sound;
 }
 
