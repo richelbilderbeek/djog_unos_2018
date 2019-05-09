@@ -52,5 +52,8 @@ void test_biology()
     assert(b.get_health_decrease_when_eaten() == 2.0);
   }
   #endif // FIX_ISSUE_549_C
-
+  {
+    const biology b;
+    assert(b.get_grass_reproduction_health() == 100.0);
+  }
 }

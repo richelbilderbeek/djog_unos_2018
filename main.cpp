@@ -7,6 +7,7 @@
 #include "sfml_gameover_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
+#include "sfml_load_screen.h"
 #include "sfml_resources.h"
 #include "sfml_window_manager.h"
 #include "tile.h"
@@ -53,6 +54,7 @@ void test() {
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
+  test_sfml_load_screen();
 }
 
 ///Start the game
@@ -150,8 +152,6 @@ int main(int argc, char **argv) //!OCLINT main too long
 #endif
   if (user != "") {
     std::clog << "Current user: " << user << "\n" << std::endl;
-  } else {
-    std::clog << "Error: user not found!";
   }
 
   //----------------------------------------------------------------------------
@@ -244,12 +244,12 @@ int main(int argc, char **argv) //!OCLINT main too long
   std::vector<tile> tiles;
   std::vector<agent> agents;
 
-  if (std::count(std::begin(args), std::end(args), "--spin"))
-  {
-    tiles.push_back(tile(0,-112,0,90,0,tile_type::grassland));
-    agents.push_back(agent(agent_type::spider,50));
-  }
-  else if(std::count(std::begin(args), std::end(args), "--profiling")) {
+//  if (std::count(std::begin(args), std::end(args), "--spin"))
+//  {
+//    tiles.push_back(tile(0,-112,0,90,0,tile_type::grassland));
+//    agents.push_back(agent(agent_type::spider,50));
+//  }
+  if(std::count(std::begin(args), std::end(args), "--profiling")) {
     int agents_size = 10;
     int tiles_size = 10;
     if (std::find(std::begin(args), std::end(args), "--profiling") + 1 != std::end(args))

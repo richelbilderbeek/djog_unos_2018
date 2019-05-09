@@ -81,7 +81,7 @@ void sfml_load_screen::exec()
           for (sfml_button b : m_saves) {
             if (b.is_clicked(event, m_window)) {
               sfml_game g;
-              g.load_game(b.get_string());
+              //g.load_game(b.get_string());
               close(game_state::playing);
               g.exec();
               return;
@@ -132,4 +132,13 @@ void sfml_load_screen::close(game_state s) {
 
 void sfml_load_screen::close() {
   m_window.close();
+}
+
+void test_sfml_load_screen()
+{
+  sfml_load_screen s;
+  s.set_positions();
+  s.draw_objects();
+  s.exec();
+  s.close();
 }
