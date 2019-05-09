@@ -24,7 +24,8 @@ sfml_game::sfml_game(
     m_sound_type(sound_type::none),
     m_soundbuffer(),
     m_sound(),
-    m_pseudo_random_period(random_int(200, 300)),
+    m_half_minimum_period(500),
+    m_pseudo_random_period(init_pseudo_random_period()),
     m_pseudo_counter(0),
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
@@ -108,7 +109,7 @@ void sfml_game::random_animal_sound()
   {
     m_sound_type = sound_type::random_animal;
     play_sound();
-    m_pseudo_random_period = random_int(200, 300);
+    m_pseudo_random_period = init_pseudo_random_period();
     m_pseudo_counter = 0;
   }
   else

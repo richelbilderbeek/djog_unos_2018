@@ -54,11 +54,11 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    // moo
-    QFile f(":/nature_zen/resources/moo.wav");
-    f.copy("moo.wav");
-    if (!m_cow_sound.loadFromFile("moo.wav")) {
-      throw std::runtime_error("Cannot find music file 'moo.wav'");
+    // cow
+    QFile f(":/nature_zen/resources/cow_01.wav");
+    f.copy("cow_01.wav");
+    if (!m_cow_sound.loadFromFile("cow_01.wav")) {
+      throw std::runtime_error("Cannot find music file 'cow_01.wav'");
     }
   }
    // plankton texture
