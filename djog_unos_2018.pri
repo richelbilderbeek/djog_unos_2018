@@ -24,7 +24,8 @@ SOURCES += \
     $$PWD/sfml_zen_bar.cpp \
     $$PWD/sfml_scroll_box.cpp \
     $$PWD/sfml_load_screen.cpp \
-    $$PWD/sound_type.cpp
+    $$PWD/sound_type.cpp \
+    $$PWD/angle.cpp
 
 
 HEADERS += \
@@ -53,7 +54,8 @@ HEADERS += \
     $$PWD/sfml_zen_bar.h \
     $$PWD/sfml_scroll_box.h \
     $$PWD/sfml_load_screen.h \
-    $$PWD/sound_type.h
+    $$PWD/sound_type.h \
+    $$PWD/angle.h
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc

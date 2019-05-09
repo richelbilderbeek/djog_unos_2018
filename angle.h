@@ -4,8 +4,10 @@
 
 class angle
 {
-public:
-  angle();
+  public:
+
+  private:
+  m_degrees =
 };
 
 #endif // ANGLE_H

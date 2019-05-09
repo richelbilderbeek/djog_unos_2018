@@ -1,15 +1,12 @@
 #include "angle.h"
-#include "game.h"
-#include "agent_type.h"
-#include "tile.h"
-#include "tile_id.h"
-#include "tile_type.h"
-
+#include <cmath>
 
 angle::angle()
 {
 
 }
+
+
 
 void test_angle()
 {
