@@ -23,6 +23,9 @@ public:
 
   void process_events(game &g);
 
+  /// Get the tick at which the agent became a corpse
+  int get_corpse_ticks() const noexcept { return corpse_ticks; }
+
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
 

@@ -265,16 +265,6 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
   }
 
 
-  if(m_type == agent_type::corpse && corpse_ticks + 300 < g.get_n_ticks()){
-    unsigned int n = static_cast<unsigned int>(count_n_agents(g));
-    for(unsigned int i = 0; i < n; i++){
-      if(g.get_agents()[i] == *this){
-        g.get_agents()[i] = g.get_agents().back();
-        g.get_agents().pop_back();
-        return;
-      }
-    }
-  }
 
   //Agents always lose stamina
   m_stamina -= 0.01;

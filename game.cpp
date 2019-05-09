@@ -79,10 +79,29 @@ void game::process_events(sound_type& st)
   assert(m_sound_type == sound_type::none);
 
   int agent_count = 0;
-  for (auto& a: m_agents) {
+  for (auto& a: m_agents) { //BUG: m_agents changes size
     a.process_events(*this);
     if (!is_plant(a.get_type())) {
       agent_count++;
+    }
+  }
+
+  //Remove all corpses in m_agents
+  {
+    for (int i = 0; i < static_cast<int>(m_agents.size()); ++i)
+    {
+      assert(i >= 0);
+      assert(i < static_cast<int>(m_agents.size()));
+      agent& a = m_agents[i];
+      //Agent is a corpse that needs to be removed at this tick
+      if(a.get_type() == agent_type::corpse
+        && a.get_corpse_ticks() + 300 < this->get_n_ticks()
+      )
+      {
+        m_agents[i] = m_agents.back();
+        m_agents.pop_back();
+        --i; //Retry this index with the new agent
+      }
     }
   }
 
