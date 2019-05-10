@@ -297,8 +297,11 @@ int main(int argc, char **argv) //!OCLINT main too long
     agents = create_default_agents();
   }
 
+  //#define FIX_ISSUE_606
+  #ifdef FIX_ISSUE_606
   //A window should have opened up now
   assert(sfml_window_manager::get().get_window().isOpen()); //BUG: Issue #606
+  #endif // FIX_ISSUE_606
 
   while (sfml_window_manager::get().get_window().isOpen()) {
     std::clog << "State: " << sfml_window_manager::get().get_state() << '\n';
