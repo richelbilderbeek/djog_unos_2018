@@ -217,14 +217,13 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
 //m_x += 0.1 * (-1 + random_double(0, 3));
 //m_y += 0.1 * (-1 + random_double(0, 3));
 
-  unsigned int rand = static_cast<unsigned int>(random_int(0, count_n_agents(g) - 1));
-
+  unsigned int rand = static_cast<unsigned int>(random_int(0, count_n_agents(g) - 1, std::rand()));
   agent a = g.get_agents()[rand];
   if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) != m_prey.end()){
     double distance = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
     const double vector_length = std::exp(-distance/400);
-    m_dx_motivation += -(0.01 * (m_x - a.get_x()) * vector_length);
-    m_dy_motivation += -(0.01 * (m_y - a.get_y()) * vector_length);
+    m_dx_motivation += -(0.01 * (m_x - a.get_x())) * vector_length;
+    m_dy_motivation += -(0.01 * (m_y - a.get_y())) * vector_length;
     //std::cout << vector_length << " " << rand << " " << count_n_agents(g) << std::endl;
     //std::cout << m_dx_motivation << " + " << m_dy_motivation << " " << rand << std::endl;
     m_x += std::max(-0.35, std::min(m_dx_motivation, 0.35));

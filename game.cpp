@@ -47,16 +47,16 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
   return types;
 }
 
-int random_int(int min, int max){
-    std::default_random_engine device(314);
+int random_int(int min, int max, unsigned seed){
+    std::default_random_engine device(seed);
     std::mt19937 generator(device());
     std::uniform_int_distribution<int> distribution(min, max);
 
     return distribution(generator);
 }
 
-double random_double(double min, double max){
-    std::default_random_engine device(314);
+double random_double(double min, double max, unsigned seed){
+    std::default_random_engine device(seed);
     std::mt19937 generator(device());
     std::uniform_real_distribution<double> distribution(min, max);
 
