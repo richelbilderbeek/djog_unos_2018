@@ -54,11 +54,7 @@ void test() {
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
-<<<<<<< HEAD
 //  test_sfml_load_screen();
-=======
-  //test_sfml_load_screen();
->>>>>>> develop
 }
 
 ///Start the game
