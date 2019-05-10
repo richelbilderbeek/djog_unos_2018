@@ -21,7 +21,7 @@ public:
     const double x = 0.0,
     const double y = 0.0,
     const double z = 0.0,
-    const double rotation = 0.0,
+    const int rotation = 0.0,
     const double depth = 0.0,
     const tile_type type = tile_type::grassland,
     const tile_id = tile_id()
@@ -53,6 +53,7 @@ public:
 
   /// The center of the tile
   sf::Vector2f get_center() const noexcept;
+  sf::Vector2f get_corner() const noexcept;
 
   ///Process events, for example, make the agents move
   void process_events(game& g);
@@ -65,10 +66,10 @@ public:
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
 
-  void set_rotation(double r);//TODO
+  void set_rotation(double r);
 
-  void rotate_c();//TODO
-  void rotate_cc();//TODO
+  void rotate_c();
+  void rotate_cc();
 
   double get_width() const;
   double get_height() const;
@@ -115,7 +116,7 @@ private:
   tile_type m_type;
 
   /// The width of the tile
-  double m_rotation;
+  int m_rotation;
 
   /// The x-coordinate of the top-left corner of the tile
   double m_x;
@@ -170,6 +171,8 @@ std::ostream& operator<<(std::ostream& os, const tile& t);
 std::istream& operator>>(std::istream& os, tile& t);
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept;
+
+int degreeToDirection(int deg, bool cc);
 
 /// Test the tile class
 void test_tile();

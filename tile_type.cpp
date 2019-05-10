@@ -11,7 +11,7 @@
 #include <tuple>
 #include <map>
 
-std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept //!OCLINT must be simpler
+std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept
 {
   using triplet = std::tuple<tile_type, tile_type, tile_type>;
   const std::vector<triplet> v = {
@@ -88,6 +88,8 @@ void test_tile_type() //!OCLINT testing functions can be long and complex
     assert(get_merge_type(tile_type::savannah, tile_type::arctic).front() == tile_type::tundra);
     assert(get_merge_type(tile_type::arctic, tile_type::savannah).front() == tile_type::tundra);
     //If you miss a combination, this is the place to add a test :-)
+    //NOTE not every combination should become a new type
+    assert(get_merge_type(tile_type::water, tile_type::savannah).size() == 0);
   }
   // Convert all tile types to string and back
   {
@@ -124,27 +126,25 @@ std::vector<tile_type> get_all_tile_types() noexcept
 
 std::string to_str(tile_type t) //!OCLINT cannot be simpler
 {
-  // nieuw
-  const std::map<tile_type, std::string> m{
-    { tile_type::arctic, "wit landschap"},
-    { tile_type::beach, "beach"},
-    { tile_type::desert, "desert"},
-    { tile_type::dunes, "dunes"},
-    { tile_type::grassland, "grassland"},
-    { tile_type::hills, "hills"},
-    { tile_type::mangrove, "mangrove"},
-    { tile_type::mountains, "mountains"},
-    { tile_type::rainforest, "rainforest"},
-    { tile_type::savannah, "savannah"},
-    { tile_type::swamp, "swamp"},
-    { tile_type::tundra, "tundra"},
-    { tile_type::water, "water"},
-    { tile_type::woods, "woods"},
-
-  };
-  //This assert will fail if the string is not in the map
-  assert(m.find(t) != std::end(m));
-  return m.find(t)->second;
+  switch (t)
+  {
+    case tile_type::arctic: return "arctic";
+    case tile_type::beach: return "beach";
+    case tile_type::desert: return "desert";
+    case tile_type::dunes: return "dunes";
+    case tile_type::hills: return "hills";
+    case tile_type::mangrove: return "mangrove";
+    case tile_type::mountains: return "mountains";
+    case tile_type::rainforest: return "rainforest";
+    case tile_type::savannah: return "savannah";
+    case tile_type::swamp: return "swamp";
+    case tile_type::tundra: return "tundra";
+    case tile_type::water: return "water";
+    case tile_type::woods: return "woods";
+    default: break;
+  }
+  assert(t == tile_type::grassland);
+  return "grassland";
 }
 
 tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200

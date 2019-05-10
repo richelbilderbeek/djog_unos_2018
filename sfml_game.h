@@ -68,8 +68,6 @@ public:
 
   void arrows(bool b, const sf::Event &event);
 
-  bool m_clicked_tile = false;
-
   int m_timer = 0;
 
   tile &getTileById(const std::vector<int> &tile_id);
@@ -88,10 +86,10 @@ public:
   bool check_collision(double x, double y);
   std::vector<int> get_collision_id(double x, double y) const;
 
-  /// Check if the tile will colide with another tile if it moves in given
+  /// Check if the tile will collide with another tile if it moves in given
   /// direction
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-  bool will_colide(int direction, tile &t);
+  bool will_collide(int direction, tile &t);
 
   void exec_tile_move(std::vector<int> selected);
 
@@ -105,11 +103,10 @@ public:
   bool check_merge(tile &t1, tile &t2);
 
   void switch_collide(tile& t, int direction);
+  void try_rotate(tile& t, bool cc);
 
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
   sf::Vector2f get_direction_pos(int direction, tile& t, double plus);
-
-  void confirm_tile_move(tile& t, int direction);
 
   void set_agent_sprite(const agent& a, sf::Sprite& sprite);
   void set_tile_sprite(const tile &t, sf::Sprite &sprite);
@@ -117,8 +114,6 @@ public:
   void ben_ik_een_spin();
 
   void start_music();
-
-  void load_game(const std::string &filename);
 
 private:
   // Functions to display tiles and agents on the screen
@@ -129,6 +124,20 @@ private:
   sf::Music &m_background_music;
 
   sf::Music &m_ben_ik_een_spin;
+
+  sound_type m_sound_type;
+
+  sf::SoundBuffer m_soundbuffer;
+
+  sf::Sound m_sound;
+
+  void play_sound();
+
+  int m_pseudo_random_period;
+
+  int m_pseudo_counter;
+
+  void random_animal_sound();
 
   /// an object that can modify sfml_game at certain times
   sfml_game_delegate m_delegate;
@@ -154,7 +163,7 @@ private:
   /// of the sfml_game_delegate
   /// Will be run approx 60 times per second
   /// and increase m_n_displayed
-  void process_events();
+  void process_events(sound_type& st);
 
   /// Process all input from the user: mouse and keyboard
   void process_input();
@@ -205,10 +214,14 @@ private:
 
   sfml_save_overlay m_save_screen;
 
+  double m_zoom_state = 1;
+
 };
 
 ///Test the sfml_game class
 void test_sfml_game();
+
+int degreeToDirection(int deg, bool cc);
 
 int vectortoint(std::vector<int> v);
 

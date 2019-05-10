@@ -40,9 +40,9 @@ Date|What
 10 may|33.
 17 may|34.
 24 may|35.
-31 may|36.
- 7 jun|37.
-14 jun|38.
-21 jun|39.
-28 jun|40.
- 5 jul|41. Presentatie
+31 may|No lessons, due to Pentecost
+ 7 jun|36.
+14 jun|37.
+21 jun|38.
+28 jun|39.
+ 5 jul|40. Presentatie

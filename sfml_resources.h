@@ -2,6 +2,7 @@
 #define SFML_RESOURCES_H
 
 #include "agent.h"
+#include "sound_type.h"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -27,6 +28,11 @@ public:
 
   sf::Music &get_benikeenspin() noexcept { return m_benikeenspin; }
 
+  /// Get the appropriate soundbuffer
+  sf::SoundBuffer& get_soundbuffer(const sound_type st);
+
+  sf::SoundBuffer& random_animal_sound();
+
   sf::Font& get_default_font() noexcept { return m_default_font; }
 
   sf::Font& get_title_font() noexcept { return m_title_font; }
@@ -45,7 +51,7 @@ public:
 
   sf::Texture &get_tile_sprite(const tile& t) noexcept;
 
-  sf::Texture &get_tile_sprite_portrait(const tile_type t) noexcept;
+//  sf::Texture &get_tile_sprite_portrait(const tile_type t) noexcept;
 
   sf::Texture &get_tile_sprite_landscape(const tile_type t) noexcept;
 
@@ -67,6 +73,12 @@ private:
   sf::Music m_background_music;
 
   sf::Music m_title_music;
+
+  sf::SoundBuffer m_tile_collission_soundbuffer;
+
+  sf::SoundBuffer m_tile_move_soundbuffer;
+
+  sf::SoundBuffer m_cow_sound;
 
   sf::Music m_benikeenspin;
 

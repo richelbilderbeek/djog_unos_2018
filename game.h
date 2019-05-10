@@ -5,6 +5,7 @@
 
 #include "tile.h"
 #include "agent.h"
+#include "sound_type.h"
 #include "sfml_camera.h"
 #include <QDir>
 
@@ -49,15 +50,23 @@ public:
 
   int get_n_ticks() const;
 
-  void move_tiles(sf::RenderWindow& window, sfml_camera& camera);
+  void move_tiles(double mouse_X, double mouse_y);
 
   void confirm_tile_move(tile& t, int direction, int tile_speed);
 
-  /// Timer, physics, bullets moving, etc.
+  /// Timer, physics, bullets moving, etc.bool
   /// Everything except user input.
-  void process_events();
+  void process_events(sound_type &st);
 
-  void remove_tile(sf::RenderWindow& window, sfml_camera& camera);
+  /// Set m_sound_type to the input sound_type
+  void set_sound_type(const sound_type st) noexcept
+  { m_sound_type = st; }
+
+  /// See what the sound_type of m_sound_type is
+  sound_type get_sound_type() noexcept
+  { return m_sound_type; }
+
+  void remove_tile(double mouse_x, double mouse_y);
 
   int get_agent_count(agent_type type);
 
@@ -70,7 +79,7 @@ public:
 
   void set_allow_score(const bool do_score) noexcept { m_allow_score = do_score; }
 
-  void save_this(const std::string filename) const;
+  void save_this(const std::string filename) const;  
 
 private:
 
@@ -91,7 +100,7 @@ private:
 
   void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
 
-  void merge_tiles();
+  void merge_tiles(sound_type& st);
 
   void kill_agents();
 
@@ -107,6 +116,8 @@ private:
 
   int m_essence;
 
+  sound_type m_sound_type;
+
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);
   friend std::istream& operator>>(std::istream& os, game& g);
@@ -121,6 +132,9 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept;
 int count_n_tiles(const game& g) noexcept;
 
 int count_n_agents(const game& g) noexcept;
+
+int random_int(int min, int max);
+double random_double(double min, double max);
 
 /// Determine if an agent is on a tile
 bool is_on_tile(const game& g, const agent& a);
@@ -154,7 +168,6 @@ std::vector<tile> get_current_tile(game& g, const agent& a);
 std::vector<tile> get_current_tile(game& g, double x, double y);
 
 /// Load a game from a file
-void load(game &g, const std::string &filename);
 game load(const std::string &filename);
 
 std::vector<std::string> get_saves();
@@ -176,5 +189,6 @@ std::ostream& operator<<(std::ostream& os, const game& g);
 std::istream& operator>>(std::istream& os, game& g);
 
 bool operator==(const game& lhs, const game& rhs) noexcept;
+bool operator!=(const game& lhs, const game& rhs) noexcept;
 
 #endif // GAME_H
