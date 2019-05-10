@@ -258,29 +258,22 @@ void agent::attract_to_agent(game &g, agent_type type){
   }
 }
 
-void agent::process_events(game& g) { //!OCLINT NPath complexity too high
+std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity too high
+  //Do not change game::m_agents in this function!
+  //Measure at start of function, will check at end as well
+  const int n_agents_before = static_cast<int>(g.get_agents().size());
+
+  std::vector <agent> new_agents;
 
   //Sessile and aquatic species die instantly when on void
   if(m_type != agent_type::bird && !is_on_tile(g, *this))
   {
     m_health = 0.0;
-    return;
+    return new_agents;
   }
 
   if(m_type == agent_type::corpse && corpse_ticks == -1){
     corpse_ticks = g.get_n_ticks();
-  }
-
-
-  if(m_type == agent_type::corpse && corpse_ticks + 300 < g.get_n_ticks()){
-    unsigned int n = static_cast<unsigned int>(count_n_agents(g));
-    for(unsigned int i = 0; i < n; i++){
-      if(g.get_agents()[i] == *this){
-        g.get_agents()[i] = g.get_agents().back();
-        g.get_agents().pop_back();
-        return;
-      }
-    }
   }
 
   //Agents always lose stamina
@@ -292,7 +285,11 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
 
 
   if ((m_type == agent_type::grass || m_type == agent_type::tree
-      || m_type == agent_type::cow) && g.allow_damage()) reproduce_agents(g, m_type);
+      || m_type == agent_type::cow) && g.allow_damage())
+  {
+    const auto kids = reproduce_agents(g, m_type);
+    std::copy(std::begin(kids), std::end(kids), std::back_inserter(new_agents));
+  }
 
   //Plants damage each other when nearby
   if (is_plant(m_type))
@@ -316,9 +313,19 @@ void agent::process_events(game& g) { //!OCLINT NPath complexity too high
       }
     }
   }
+
+  //Do not change game::m_agents in this function!
+  //Measure at end of function
+  const int n_agents_after = static_cast<int>(g.get_agents().size());
+  assert(n_agents_before == n_agents_after);
+
+  return new_agents;
 }
 
-void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
+std::vector <agent> agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to complex, but get this merged first :-)
+
+  std::vector <agent> new_agents;
+
   if(is_plant(type)){
     const double rand = random_double(10, 26) / 1000.0; // 20 extra for the grass self-damage
     // Grow
@@ -380,11 +387,15 @@ void agent::reproduce_agents(game& g, agent_type type) { //!OCLINT indeed to com
 //                get_on_tile_type(g, new_agent).at(0) == tile_type::water;
       }
     }
-    g.add_agents( { new_agent } );
+    // g.add_agents( { new_agent } );
     m_health = health_parent;
+
+    new_agents.push_back(new_agent);
 //    water = get_on_tile_type(g, new_agent).size() > 0 &&
 //            get_on_tile_type(g, new_agent).at(0) == tile_type::water;
   }
+
+  return new_agents;
 }
 
 void agent::damage_own_type(game &g, agent_type type)
@@ -1113,7 +1124,7 @@ void test_agent() //!OCLINT testing functions may be long
   //grass has different health when its duplicated
   {
     game g({tile(0, 0, 0, 90, 10, tile_type::grassland)},
-           {agent(agent_type::grass, 10, 10, 100)});
+           {agent(agent_type::grass, 10, 10, 10000)});
     sound_type st { sound_type::none };
     const auto prev_health = g.get_agents()[0].get_health();
 

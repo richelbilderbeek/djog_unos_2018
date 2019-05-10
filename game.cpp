@@ -78,22 +78,67 @@ void game::process_events(sound_type& st)
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
 
+  //std::clog << "Reproduction\n";
+  {
+    std::vector<agent> all_kids;
+
+    //m_agents should not change in size during this loop!
+    const int n_agents_before = static_cast<int>(m_agents.size());
+
+    for (auto& a: m_agents)
+    {
+      const std::vector<agent> kids = a.process_events(*this);
+      std::copy(
+        std::begin(kids),
+        std::end(kids),
+        std::back_inserter(all_kids)
+      );
+
+      //m_agents should not change in size during this loop!
+      const int n_agents_in_loop = static_cast<int>(m_agents.size());
+      assert(n_agents_before == n_agents_in_loop);
+    }
+    add_agents(all_kids);
+  }
+
+  //std::clog << "Count plants\n";
   int agent_count = 0;
-  for (auto& a: m_agents) {
-    a.process_events(*this);
+  for (const auto& a: m_agents) { //BUG: m_agents changes size
     if (!is_plant(a.get_type())) {
       agent_count++;
     }
   }
 
-  // If an agent has less than zero health, turn it into a corpse
-  if(m_allow_damage){
+  //std::clog << "If an agent has less than zero health, turn it into a corpse\n";
+  if(m_allow_damage)
+  {
     kill_agents();
   }
 
+
+  //std::clog << "Remove all corpses in m_agents\n";
+  {
+    for (int i = 0; i < static_cast<int>(m_agents.size()); ++i)
+    {
+      assert(i >= 0);
+      assert(i < static_cast<int>(m_agents.size()));
+      agent& a = m_agents[i];
+      //Agent is a corpse that needs to be removed at this tick
+      if(a.get_type() == agent_type::corpse
+        && a.get_corpse_ticks() + 300 < this->get_n_ticks()
+      )
+      {
+        m_agents[i] = m_agents.back();
+        m_agents.pop_back();
+        --i; // Retry this index with the new agent
+      }
+    }
+  }
+
+  //std::clog << "Merge tiles\n";
   merge_tiles(st);
 
-  // Calculate the score
+  //std::clog << "Calculate the score\n";
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
     assert(m_tiles.size() > 0);
@@ -102,9 +147,8 @@ void game::process_events(sound_type& st)
   if(m_allow_score){
     m_score = ppt * 112 - 112;
   }
-  //std::cout << ppt << std::endl;
 
-  //Process the events happening on the tiles
+  //std::clog << "Process the events happening on the tiles\n";
   for (auto& tile : m_tiles)
   {
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
@@ -115,6 +159,7 @@ void game::process_events(sound_type& st)
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
 
+  //std::clog << "Adding a tick\n";
   ++m_n_tick;
 }
 
@@ -197,13 +242,16 @@ void game::kill_agents()
   for (int i = 0; i < static_cast<int>(m_agents.size()); ++i) {
     assert(i >= 0);
     assert(i < static_cast<int>(m_agents.size()));
+
     if (m_agents[i].get_health() <= 0.0 && m_agents[i].get_type() != agent_type::corpse) {
       agent a(agent_type::corpse, m_agents[i].get_x(), m_agents[i].get_y());
-      if(!is_plant(m_agents[i].get_type())){
-        m_agents.push_back(a);
-      }
-      m_agents[i] = m_agents.back();
+
+      if(!is_plant(m_agents[i].get_type())) {
+        m_agents.push_back(a); }
+
+      m_agents[i] = m_agents.back();            
       m_agents.pop_back();
+      --i; //Retry this index with the new agent
     }
   }
 }
