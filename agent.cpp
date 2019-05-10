@@ -252,6 +252,9 @@ void agent::attract_to_agent(game &g, agent_type type){
 }
 
 std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity too high
+  //Do not change game::m_agents in this function!
+  //Measure at start of function, will check at end as well
+  const int n_agents_before = static_cast<int>(g.get_agents().size());
 
   std::vector <agent> new_agents;
 
@@ -303,6 +306,11 @@ std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity 
       }
     }
   }
+
+  //Do not change game::m_agents in this function!
+  //Measure at end of function
+  const int n_agents_after = static_cast<int>(g.get_agents().size());
+  assert(n_agents_before == n_agents_after);
 
   return new_agents;
 }

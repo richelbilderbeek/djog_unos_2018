@@ -248,36 +248,50 @@ void sfml_game::set_tile_sprite(const tile &t, sf::Sprite &sprite) {
 
 void sfml_game::exec()
 {
+  std::clog << "Start executing an sfml_game\n";
+
+  std::clog << "Create an SFML view\n";
   sf::View view = m_window.getDefaultView();
   view.setSize(static_cast<float>(m_window.getSize().x),
                static_cast<float>(m_window.getSize().y));
   m_window.setView(view);
+
+  std::clog << "Start main program loop\n";
   while (active(game_state::playing) ||
          active(game_state::paused) ||
          active(game_state::saving) ||
          active(game_state::shop))
   {
     if (active(game_state::paused)) {
+      std::clog << "Paused ...\n";
       display();
       m_pause_screen.exec();
     } else if (active(game_state::saving)) {
+      std::clog << "Saving ...\n";
       display();
       m_save_screen.exec();
     } else if (active(game_state::shop)) {
+      std::clog << "Shopping ...\n";
       display();
       m_shop_overlay.exec();
     } else {
+      std::clog << "Doing something else ...\n";
       process_input();
       process_events(m_sound_type);
       display();
     }
   }
+  std::clog << "Done executing an sfml_game!\n";
 }
 
 void sfml_game::process_events(sound_type& st)
 {
+  std::clog << "Start processing an sfml_game!\n";
+
+  std::clog << "Play a random animal sound\n";
   random_animal_sound();
 
+  std::clog << "Process events\n";
   m_game.process_events(st);
 
   sf::Vector2i current_mouse = sf::Mouse::getPosition();
@@ -289,33 +303,44 @@ void sfml_game::process_events(sound_type& st)
         || 112.0 / m_tile_speed != std::abs(std::ceil(112.0 / m_tile_speed)))
     || m_tile_speed > 112.0)
   {
+    std::cerr << "The set tile speed is not usable\n";
     throw std::runtime_error("The set tile speed is not usable");
   }
 
   if (m_game.m_selected.empty())
   {
+    std::clog << "No selected tile\n";
     confirm_move();
     // Clear selected tile text if nothing is selected
     m_selected_text.setString("");
   }
   else
   {
+    std::clog << "A selected tile\n";
     follow_tile();
     update_selected_text();
   }
 
+  std::clog << "Execute the tile_move\n";
   exec_tile_move(m_game.m_selected);
 
   if (m_game.get_score() >= 112 || m_game.get_score() <= -112) {
     close(game_state::gameover);
   }
 
+  std::clog << "Manage the timer\n";
   manage_timer();
 
+  std::clog << "Let the delegate do its thing\n";
   m_delegate.do_actions(*this);
+
+  std::clog << "Displayed another frame\n";
   ++m_n_displayed;
 
+  std::clog << "Play a sound\n";
   play_sound();
+
+  std::clog << "Processed an sfml_game!\n";
 }
 
 void sfml_game::confirm_move()
