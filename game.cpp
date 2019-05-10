@@ -227,13 +227,16 @@ void game::kill_agents()
   for (int i = 0; i < static_cast<int>(m_agents.size()); ++i) {
     assert(i >= 0);
     assert(i < static_cast<int>(m_agents.size()));
+
     if (m_agents[i].get_health() <= 0.0 && m_agents[i].get_type() != agent_type::corpse) {
       agent a(agent_type::corpse, m_agents[i].get_x(), m_agents[i].get_y());
-      if(!is_plant(m_agents[i].get_type())){
-        m_agents.push_back(a);
-      }
-      m_agents[i] = m_agents.back();
+
+      if(!is_plant(m_agents[i].get_type())) {
+        m_agents.push_back(a); }
+
+      m_agents[i] = m_agents.back();            
       m_agents.pop_back();
+      --i; //Retry this index with the new agent
     }
   }
 }
