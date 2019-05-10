@@ -54,7 +54,7 @@ void test() {
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
-  test_sfml_load_screen();
+//  test_sfml_load_screen();
 }
 
 ///Start the game
@@ -133,6 +133,7 @@ void test_ref()
 
 int main(int argc, char **argv) //!OCLINT main too long
 {
+  std::srand(time(0));
   std::clog << "==========\n";
   std::clog << "Nature Zen\n";
   std::clog << "==========\n";
