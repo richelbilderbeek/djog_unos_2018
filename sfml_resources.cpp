@@ -443,10 +443,10 @@ sf::SoundBuffer& sfml_resources::random_animal_sound()
 
 sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT too long, needs to be fixed
 {
-  return get_tile_sprite_landscape(t.get_type());
+  return get_tile_sprite(t.get_type());
 }
 
-sf::Texture &sfml_resources::get_tile_sprite_landscape(const tile_type t) noexcept //!OCLINT cannot be simpler
+sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLINT cannot be simpler
 {
   switch (t) {
     case tile_type::tundra:
@@ -464,25 +464,6 @@ sf::Texture &sfml_resources::get_tile_sprite_landscape(const tile_type t) noexce
   }
   return m_empty_tile;
 }
-
-//sf::Texture &sfml_resources::get_tile_sprite_portrait(const tile_type t) noexcept //!OCLINT cannot be simpler
-//{
-//  switch (t) {
-//    case tile_type::tundra:
-//      return m_tundra_standing;
-//    case tile_type::beach:
-//      return m_beach_standing;
-//    case tile_type::water:
-//      return m_water_standing;
-//    case tile_type::dunes:
-//      return m_dunes_standing;
-//    case tile_type::hills:
-//      return m_hills_standing;
-//    default:
-//     break;
-//  }
-//  return m_empty_tile;
-//}
 
 void test_sfml_resources() //!OCLINT tests may be long
 {
@@ -513,12 +494,5 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
-  //#define FIX_ISSUE_538
-  #ifdef FIX_ISSUE_538
-  // Can get the sprite of a tile type
-  {
-    assert(resources.get_tile_sprite_portrait(tile_type::grassland).getSize().x > 0);
-    assert(resources.get_tile_sprite_landscape(tile_type::grassland).getSize().x > 0);
-  }
-  #endif // FIX_ISSUE_538
+  assert(resources.get_tile_sprite(tile_type::grassland).getSize().x > 0);
 }
