@@ -281,8 +281,6 @@ std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity 
     std::copy(std::begin(kids), std::end(kids), std::back_inserter(new_agents));
   }
 
-
-
   //Plants damage each other when nearby
   if (is_plant(m_type))
     damage_own_type(g, m_type);
@@ -345,8 +343,6 @@ std::vector <agent> agent::reproduce_agents(game& g, agent_type type) { //!OCLIN
     double f_y = 0;
     double new_x = 0;
     double new_y = 0;
-
-
 
     agent new_agent(type, new_x, new_y, health_kid, 0, can_eat(type));
     std::vector<tile> t;

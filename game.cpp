@@ -111,7 +111,7 @@ void game::process_events(sound_type& st)
       {
         m_agents[i] = m_agents.back();
         m_agents.pop_back();
-        --i; //Retry this index with the new agent
+        --i; // Retry this index with the new agent
       }
     }
   }
