@@ -78,13 +78,24 @@ void game::process_events(sound_type& st)
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
 
+  std::vector <agent> new_agents;
+
   int agent_count = 0;
   for (auto& a: m_agents) { //BUG: m_agents changes size
-    a.process_events(*this);
+    auto temp_agents{ a.process_events(*this) };
+
+    std::copy(
+      std::begin(temp_agents),
+      std::end(temp_agents),
+      std::back_inserter(new_agents)
+    );
+
     if (!is_plant(a.get_type())) {
       agent_count++;
     }
   }
+
+  add_agents(new_agents);
 
   //Remove all corpses in m_agents
   {
