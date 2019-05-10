@@ -298,7 +298,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   //A window should have opened up now
-  assert(sfml_window_manager::get().get_window().isOpen()); //BUG
+  assert(sfml_window_manager::get().get_window().isOpen()); //BUG: Issue #606
 
   while (sfml_window_manager::get().get_window().isOpen()) {
     std::clog << "State: " << sfml_window_manager::get().get_state() << '\n';
