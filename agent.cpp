@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
+#include <iterator>
 #include <cmath>
 #include <set>
 #include <random>
@@ -229,14 +230,16 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
 //    m_x += std::max(-0.35, std::min(m_dx_motivation, 0.35));
 //    m_y += std::max(-0.35, std::min(m_dy_motivation, 0.35));
 //  }
-  std::vector<double> near_agent;
-  for (agent a: g.get_agents()){
-    double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-    if(distance_a > 350) return;
-    near_agent.push_back(distance_a);
+  auto min_value = std::min_element(distances_to_prey.begin(), distances_to_prey.end());
+  std::cout << *min_value << std::endl;
+}
+
+void agent::calculate_distances(game &g){
+  for(agent a : g.get_agents()){
+    if(std::count(m_prey.begin(), m_prey.end(), a.get_type())){
+      distances_to_prey.push_back(pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y())));
+    }
   }
-  double min_value = *std::min_element(std::begin(near_agent), std::end(near_agent));
-  std::cout << min_value << std::endl;
 }
 
 void agent::attract_to_agent(game &g, agent_type type){
@@ -244,11 +247,11 @@ void agent::attract_to_agent(game &g, agent_type type){
   double distance = pythagoras(fabs(m_x - near_a.get_x()), fabs(m_y - near_a.get_y()));
   for(agent a : g.get_agents()){
     double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-    if(distance_a > 350) return;
+    if(distance_a > 350) continue;
     if(a.get_type() == type &&
       distance_a < distance){
         near_a = a;
-        distance = pythagoras(fabs(m_x - near_a.get_x()), fabs(m_y - near_a.get_y()));
+        distance = distance_a;
     }
   }
   if(near_a.get_type() != agent_type::none){

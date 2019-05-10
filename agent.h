@@ -72,6 +72,8 @@ public:
 
   std::vector <agent> reproduce_agents(game& g, agent_type type);
 
+  void calculate_distances(game& g);
+
 private:
   /// The type the tile
   agent_type m_type;
@@ -113,6 +115,8 @@ private:
   /// Motivation for a certain horizontal velocity
   /// Added due to profiling results, see Issue  #543
   double m_dy_motivation = 0;
+
+  std::vector<double> distances_to_prey;
 
   void damage_own_type(game &g, agent_type type);
 
