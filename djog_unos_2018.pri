@@ -26,6 +26,7 @@ SOURCES += \
     $$PWD/sfml_load_screen.cpp \
     $$PWD/sound_type.cpp
 
+
 HEADERS += \
     $$PWD/agent.h \
     $$PWD/agent_type.h \

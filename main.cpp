@@ -7,6 +7,7 @@
 #include "sfml_gameover_screen.h"
 #include "sfml_game.h"
 #include "sfml_game_delegate.h"
+#include "sfml_load_screen.h"
 #include "sfml_resources.h"
 #include "sfml_window_manager.h"
 #include "tile.h"
@@ -49,9 +50,11 @@ void test() {
   //test_sfml_window_manager();
   test_normal_char();
   test_game();
+  test_game_state();
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
+  test_sfml_load_screen();
 }
 
 ///Start the game
@@ -74,9 +77,14 @@ int start_sfml_game(
   bool damage,
   bool score
 ) {
+  std::clog << "Create an sfml_game\n";
   sfml_game g(sfml_game_delegate(close_at_tick, spawning, damage, score), tiles, agents);
   if (!music) g.stop_music();
+
+  std::clog << "Execute an sfml_game\n";
   g.exec();
+
+  std::clog << "We're done with the sfml_game\n";
   return 0;
 }
 int show_sfml_title_screen(int ca, bool music) {
@@ -100,8 +108,10 @@ int show_sfml_gameover_screen(int ca) {
   gos.exec();
   return 0;
 }
-int show_sfml_load_screen(int ca) {
-  sfml_load_screen ls(ca);
+
+int show_sfml_load_screen()
+{
+  sfml_load_screen ls;
   ls.exec();
   return 0;
 }
@@ -123,6 +133,9 @@ void test_ref()
 
 int main(int argc, char **argv) //!OCLINT main too long
 {
+  std::clog << "==========\n";
+  std::clog << "Nature Zen\n";
+  std::clog << "==========\n";
 #ifndef NDEBUG
   test_ref();
   test();
@@ -132,10 +145,23 @@ int main(int argc, char **argv) //!OCLINT main too long
 #endif
   
   const std::vector<std::string> args(argv, argv + argc);
+  
+  std::clog << "Get the user's name\n";
+  std::string user = "";
+#ifdef WIN32
+  user = getenv("USERNAME");
+#endif
+#ifdef __linux__
+  user = system("whoami");
+#endif
+  if (user != "") {
+    std::clog << "Current user: " << user << "\n" << std::endl;
+  }
 
   //----------------------------------------------------------------------------
   //Things with early exits
   //----------------------------------------------------------------------------
+  std::clog << "Processing CLI\n";
   //Show the SFML version and quit
   if (std::count(std::begin(args), std::end(args), "--version")) {
     // Travis: 2.1
@@ -165,6 +191,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
+    std::clog << "Process '--short' CLI option\n";
     close_at = 600;
     assert(std::find(std::begin(args), std::end(args), "--short") != std::end(args));
     if (std::find(std::begin(args), std::end(args), "--short") + 1 != std::end(args))
@@ -181,48 +208,56 @@ int main(int argc, char **argv) //!OCLINT main too long
     sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--profiling")){
+    std::clog << "Process '--profiling' CLI option\n";
     close_at = 10000;
     sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--title"))
   {
+    std::clog << "Process '--title' CLI option\n";
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--menu"))
   {
+    std::clog << "Process '--menu' CLI option\n";
     sfml_window_manager::get().set_state(game_state::menuscreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--about"))
   {
+    std::clog << "Process '--about' CLI option\n";
     sfml_window_manager::get().set_state(game_state::aboutscreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--game-over") ||
            std::count(std::begin(args), std::end(args), "--gameover")) {
+    std::clog << "Process '--gameover' CLI option\n";
     sfml_window_manager::get().set_state(game_state::gameover);
   }
   else if (std::count(std::begin(args), std::end(args), "--paused"))
   {
+    std::clog << "Process '--paused' CLI option\n";
     sfml_window_manager::get().set_state(game_state::paused);
   }
   else if (std::count(std::begin(args), std::end(args), "--save"))
   {
+    std::clog << "Process '--save' CLI option\n";
     sfml_window_manager::get().set_state(game_state::saving);
   }
+  std::clog << "Processed all CLI options\n";
 
   //Not realy to show settings, but to use the variables
-  std::cout << "\nSettings\n"
+  std::cout << "Settings\n"
             << "Close at : " << close_at << "\n"
             << "Music    : " << music << std::endl;
 
   std::vector<tile> tiles;
   std::vector<agent> agents;
 
-  if (std::count(std::begin(args), std::end(args), "--spin"))
-  {
-    tiles.push_back(tile(0,-1,0,90,0,tile_type::grassland));
-    agents.push_back(agent(agent_type::spider,50));
-  }
-  else if(std::count(std::begin(args), std::end(args), "--profiling")) {
+//  if (std::count(std::begin(args), std::end(args), "--spin"))
+//  {
+//    tiles.push_back(tile(0,-112,0,90,0,tile_type::grassland));
+//    agents.push_back(agent(agent_type::spider,50));
+//  }
+  if(std::count(std::begin(args), std::end(args), "--profiling")) {
     int agents_size = 10;
     int tiles_size = 10;
     if (std::find(std::begin(args), std::end(args), "--profiling") + 1 != std::end(args))
@@ -248,20 +283,25 @@ int main(int argc, char **argv) //!OCLINT main too long
       agents.push_back(a);
     }
     for(int i = 0; i < tiles_size; i++){
-      tile t(i, i, 0, 90, 0, tile_type::grassland);
+      tile t(i * 112, i * 112, 0, 90, 0, tile_type::grassland);
       tiles.push_back(t);
     }
-
     spawning = false;
     damage = false;
     score = false;
   }
   else if(std::count(std::begin(args), std::end(args), "--god")) {
-    music = false;
+    std::clog << "Process '--god' CLI option\n";
     score = false;
     tiles = create_test_default_tiles();
     agents = create_default_agents();
   }
+
+  //#define FIX_ISSUE_606
+  #ifdef FIX_ISSUE_606
+  //A window should have opened up now
+  assert(sfml_window_manager::get().get_window().isOpen()); //BUG: Issue #606
+  #endif // FIX_ISSUE_606
 
   while (sfml_window_manager::get().get_window().isOpen()) {
     std::clog << "State: " << sfml_window_manager::get().get_state() << '\n';
@@ -285,7 +325,7 @@ int main(int argc, char **argv) //!OCLINT main too long
         show_sfml_gameover_screen(-1);
         break;
       case game_state::loading:
-        show_sfml_load_screen(close_at);
+        show_sfml_load_screen();
         break;
     }
   }

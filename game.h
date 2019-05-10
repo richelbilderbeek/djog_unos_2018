@@ -56,7 +56,7 @@ public:
 
   /// Timer, physics, bullets moving, etc.bool
   /// Everything except user input.
-  void process_events();
+  void process_events(sound_type &st);
 
   /// Set m_sound_type to the input sound_type
   void set_sound_type(const sound_type st) noexcept
@@ -100,7 +100,7 @@ private:
 
   void tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos);
 
-  void merge_tiles();
+  void merge_tiles(sound_type& st);
 
   void kill_agents();
 
@@ -168,7 +168,6 @@ std::vector<tile> get_current_tile(game& g, const agent& a);
 std::vector<tile> get_current_tile(game& g, double x, double y);
 
 /// Load a game from a file
-void load(game &g, const std::string &filename);
 game load(const std::string &filename);
 
 std::vector<std::string> get_saves();
@@ -190,5 +189,6 @@ std::ostream& operator<<(std::ostream& os, const game& g);
 std::istream& operator>>(std::istream& os, game& g);
 
 bool operator==(const game& lhs, const game& rhs) noexcept;
+bool operator!=(const game& lhs, const game& rhs) noexcept;
 
 #endif // GAME_H
