@@ -54,7 +54,7 @@ void test() {
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
-  test_sfml_load_screen();
+  //test_sfml_load_screen();
 }
 
 ///Start the game
@@ -78,10 +78,15 @@ int start_sfml_game(
   bool damage,
   bool score
 ) {
+  //std::clog << "Create an sfml_game\n";
   sfml_game g(sfml_game_delegate(close_at_tick, spawning, damage, score), tiles, agents);
   if (!music) g.stop_music();
   if (!sounds) g.stop_sounds();
+
+  //std::clog << "Execute an sfml_game\n";
   g.exec();
+
+  //std::clog << "We're done with the sfml_game\n";
   return 0;
 }
 int show_sfml_title_screen(int ca, bool music) {
@@ -133,6 +138,9 @@ void test_ref()
 
 int main(int argc, char **argv) //!OCLINT main too long
 {
+  //std::clog << "==========\n";
+  //std::clog << "Nature Zen\n";
+  //std::clog << "==========\n";
 #ifndef NDEBUG
   test_ref();
   test();
@@ -143,6 +151,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   
   const std::vector<std::string> args(argv, argv + argc);
   
+  //std::clog << "Get the user's name\n";
   std::string user = "";
 #ifdef WIN32
   user = getenv("USERNAME");
@@ -157,6 +166,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   //----------------------------------------------------------------------------
   //Things with early exits
   //----------------------------------------------------------------------------
+  //std::clog << "Processing CLI\n";
   //Show the SFML version and quit
   if (std::count(std::begin(args), std::end(args), "--version")) {
     // Travis: 2.1
@@ -191,6 +201,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   
   if (std::count(std::begin(args), std::end(args), "--short"))
   {
+    //std::clog << "Process '--short' CLI option\n";
     close_at = 600;
     assert(std::find(std::begin(args), std::end(args), "--short") != std::end(args));
     if (std::find(std::begin(args), std::end(args), "--short") + 1 != std::end(args))
@@ -207,33 +218,41 @@ int main(int argc, char **argv) //!OCLINT main too long
     sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--profiling")){
+    //std::clog << "Process '--profiling' CLI option\n";
     close_at = 10000;
     sfml_window_manager::get().set_state(game_state::playing);
   }
   else if (std::count(std::begin(args), std::end(args), "--title"))
   {
+    //std::clog << "Process '--title' CLI option\n";
     sfml_window_manager::get().set_state(game_state::titlescreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--menu"))
   {
+    //std::clog << "Process '--menu' CLI option\n";
     sfml_window_manager::get().set_state(game_state::menuscreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--about"))
   {
+    //std::clog << "Process '--about' CLI option\n";
     sfml_window_manager::get().set_state(game_state::aboutscreen);
   }
   else if (std::count(std::begin(args), std::end(args), "--game-over") ||
            std::count(std::begin(args), std::end(args), "--gameover")) {
+    //std::clog << "Process '--gameover' CLI option\n";
     sfml_window_manager::get().set_state(game_state::gameover);
   }
   else if (std::count(std::begin(args), std::end(args), "--paused"))
   {
+    //std::clog << "Process '--paused' CLI option\n";
     sfml_window_manager::get().set_state(game_state::paused);
   }
   else if (std::count(std::begin(args), std::end(args), "--save"))
   {
+    //std::clog << "Process '--save' CLI option\n";
     sfml_window_manager::get().set_state(game_state::saving);
   }
+  //std::clog << "Processed all CLI options\n";
 
   //Not realy to show settings, but to use the variables
   std::cout << "Settings\n"
@@ -283,10 +302,14 @@ int main(int argc, char **argv) //!OCLINT main too long
     score = false;
   }
   else if(std::count(std::begin(args), std::end(args), "--god")) {
+    //std::clog << "Process '--god' CLI option\n";
     score = false;
     tiles = create_test_default_tiles();
     agents = create_default_agents();
   }
+
+  //A window should have opened up now
+  assert(sfml_window_manager::get().get_window().isOpen()); //BUG: Issue #606
 
   while (sfml_window_manager::get().get_window().isOpen()) {
     std::clog << "State: " << sfml_window_manager::get().get_state() << '\n';
