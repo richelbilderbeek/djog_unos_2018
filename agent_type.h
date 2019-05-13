@@ -18,7 +18,6 @@ enum class agent_type {
   goat,
   grass,
   lion,
-  none,
   octopus,
   plankton,
   snake,
