@@ -223,6 +223,21 @@ bool have_same_position(const tile& lhs, const tile& rhs) noexcept
       && lhs.get_y() == rhs.get_y();
 }
 
+void tile::rotate()
+{
+  std::cout << "ROT: " << m_rotation << std::endl;
+  std::cout << "TARGET: " << m_target_rotation << std::endl;
+
+  if (m_rotation < m_target_rotation)
+    m_rotation += 1;
+  else if (m_rotation > m_target_rotation)
+    m_rotation -= 1;
+  else {
+      m_is_rotating = false;
+    }
+  m_rotation %= 360;
+  m_target_rotation %= 360;
+}
 void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 {
   if (!g.allow_spawning() || m_type == tile_type::arctic) return;
@@ -268,14 +283,24 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 }
 
 void tile::rotate_c() {
-  m_rotation += 90;
-  m_rotation %= 360;
+  std::cout << "ROTATE C!!!" << std::endl;
+  if (m_is_rotating)
+    return;
+  m_is_rotating = true;
+  m_target_rotation -= 30;
+  m_target_rotation += 90;
+  m_target_rotation %= 90;
 }
 
 void tile::rotate_cc() {
-  m_rotation -= 90;
-  while (m_rotation < 0) m_rotation += 360;
-  m_rotation %= 360;
+  std::cout << "ROTATE CC!!!" << std::endl;
+  if (m_is_rotating)
+    return;
+  m_is_rotating = true;
+  m_target_rotation -= 30;
+  m_target_rotation -= 90;
+  while (m_target_rotation < 0) m_target_rotation += 360;
+  m_target_rotation %= 360;
 }
 
 double tile::get_width() const {
@@ -333,6 +358,8 @@ void tile::set_type(const tile_type t) noexcept
 }
 
 void tile::move(std::vector<agent>& a) {
+
+
   m_x += m_dx;
   m_y += m_dy;
   m_z += m_dz;

@@ -154,7 +154,7 @@ void game::process_events(sound_type& st)
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    //tile.process_events(*this); BUG this makes it crash
+    tile.process_events(*this); //BUG this makes it crash
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE

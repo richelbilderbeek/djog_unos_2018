@@ -85,6 +85,8 @@ public:
 
   void move();
 
+  void rotate();
+
   /// Get the tile's id
   int get_id() const noexcept { return m_id.get(); }
 
@@ -112,11 +114,16 @@ private:
 
   bool m_locked{false};
 
+  bool m_is_rotating = false;
+
   /// The type the tile
   tile_type m_type;
 
-  /// The width of the tile
+  /// The rotation of the tile
   int m_rotation;
+
+  int m_target_rotation;
+
 
   /// The x-coordinate of the top-left corner of the tile
   double m_x;
