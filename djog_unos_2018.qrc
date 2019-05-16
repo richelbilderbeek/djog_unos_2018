@@ -53,6 +53,10 @@
         <file>resources/nature zen background.png</file>
         <file>resources/tile_move.wav</file>
         <file>resources/moo.wav</file>
+        <file>resources/cow_01.wav</file>
+        <file>resources/horse_09.wav</file>
+        <file>resources/lion_04.wav</file>
+        <file>resources/owl_37.wav</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

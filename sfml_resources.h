@@ -80,6 +80,12 @@ private:
 
   sf::SoundBuffer m_cow_sound;
 
+  sf::SoundBuffer m_horse_sound;
+
+  sf::SoundBuffer m_lion_sound;
+
+  sf::SoundBuffer m_owl_sound;
+
   sf::Music m_benikeenspin;
 
   sf::Music m_game_music;
