@@ -68,8 +68,6 @@ public:
 
   void arrows(bool b, const sf::Event &event);
 
-  bool m_clicked_tile = false;
-
   int m_timer = 0;
 
   tile &getTileById(const std::vector<int> &tile_id);
@@ -88,10 +86,10 @@ public:
   bool check_collision(double x, double y);
   std::vector<int> get_collision_id(double x, double y) const;
 
-  /// Check if the tile will colide with another tile if it moves in given
+  /// Check if the tile will collide with another tile if it moves in given
   /// direction
   /// @param Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-  bool will_colide(int direction, tile &t);
+  bool will_collide(int direction, tile &t);
 
   void exec_tile_move(std::vector<int> selected);
 
@@ -116,8 +114,6 @@ public:
   void ben_ik_een_spin();
 
   void start_music();
-
-  void load_game(const std::string &filename);
 
 private:
   // Functions to display tiles and agents on the screen
@@ -228,6 +224,8 @@ private:
 
 ///Test the sfml_game class
 void test_sfml_game();
+
+int degreeToDirection(int deg, bool cc);
 
 int vectortoint(std::vector<int> v);
 

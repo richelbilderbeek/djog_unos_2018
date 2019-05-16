@@ -10,7 +10,7 @@ class sfml_load_screen
 {
 public:
 
-    sfml_load_screen(const int close_at);
+    sfml_load_screen();
 
     void exec();
 
@@ -37,9 +37,9 @@ private:
     sfml_scroll_box m_list;
 
     std::vector<sfml_button> m_saves;
-
-    int m_close_at;
-
 };
+
+/// Test the loading screen
+void test_sfml_load_screen();
 
 #endif // SFML_LOAD_SCREEN_H

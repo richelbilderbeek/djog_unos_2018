@@ -21,7 +21,10 @@ public:
         const double health = 1.0,  const double direction = 0.0,
         std::vector<agent_type> prey = std::vector<agent_type>());
 
-  void process_events(game &g);
+  std::vector<agent> process_events(game &g);
+
+  /// Get the tick at which the agent became a corpse
+  int get_corpse_ticks() const noexcept { return corpse_ticks; }
 
   /// The type the tile
   agent_type get_type() const noexcept { return m_type; }
@@ -67,6 +70,8 @@ public:
 
   void attract_to_agent(game& g, agent_type type);
 
+  std::vector <agent> reproduce_agents(game& g, agent_type type);
+
 private:
   /// The type the tile
   agent_type m_type;
@@ -108,8 +113,6 @@ private:
   /// Motivation for a certain horizontal velocity
   /// Added due to profiling results, see Issue  #543
   double m_dy_motivation = 0;
-
-  void reproduce_agents(game& g, agent_type type);
 
   void damage_own_type(game &g, agent_type type);
 

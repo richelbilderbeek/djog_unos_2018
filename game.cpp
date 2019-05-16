@@ -78,24 +78,67 @@ void game::process_events(sound_type& st)
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
 
-  for (auto& a: m_agents) {
-    a.process_events(*this);
+  //std::clog << "Reproduction\n";
+  {
+    std::vector<agent> all_kids;
+
+    //m_agents should not change in size during this loop!
+    const int n_agents_before = static_cast<int>(m_agents.size());
+
+    for (auto& a: m_agents)
+    {
+      const std::vector<agent> kids = a.process_events(*this);
+      std::copy(
+        std::begin(kids),
+        std::end(kids),
+        std::back_inserter(all_kids)
+      );
+
+      //m_agents should not change in size during this loop!
+      const int n_agents_in_loop = static_cast<int>(m_agents.size());
+      assert(n_agents_before == n_agents_in_loop);
+    }
+    add_agents(all_kids);
   }
 
-  // If an agent has less than zero health, turn it into a corpse
-  if(m_allow_damage){
-    kill_agents();
-  }
-
-  merge_tiles(st);
-
-  // Calculate the score
+  //std::clog << "Count plants\n";
   int agent_count = 0;
-  for (agent a : m_agents) {
+  for (const auto& a: m_agents) { //BUG: m_agents changes size
     if (!is_plant(a.get_type())) {
       agent_count++;
     }
   }
+
+  //std::clog << "If an agent has less than zero health, turn it into a corpse\n";
+  if(m_allow_damage)
+  {
+    kill_agents();
+  }
+
+
+  //std::clog << "Remove all corpses in m_agents\n";
+  {
+    for (int i = 0; i < static_cast<int>(m_agents.size()); ++i)
+    {
+      assert(i >= 0);
+      assert(i < static_cast<int>(m_agents.size()));
+      agent& a = m_agents[i];
+      //Agent is a corpse that needs to be removed at this tick
+      if(a.get_type() == agent_type::corpse
+        && a.get_corpse_ticks() + 300 < this->get_n_ticks()
+      )
+      {
+        m_agents[i] = m_agents.back();
+        m_agents.pop_back();
+        --i; // Retry this index with the new agent
+      }
+    }
+  }
+
+  //std::clog << "Merge tiles\n";
+  merge_tiles(st);
+
+  //std::clog << "Calculate the score\n";
   double ppt = agent_count;
   if (m_tiles.size() != 0) {
     assert(m_tiles.size() > 0);
@@ -104,27 +147,20 @@ void game::process_events(sound_type& st)
   if(m_allow_score){
     m_score = ppt * 112 - 112;
   }
-  //std::cout << ppt << std::endl;
 
-  //Process the events happening on the tiles
+  //std::clog << "Process the events happening on the tiles\n";
   for (auto& tile : m_tiles)
   {
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    tile.process_events(*this);
+    //tile.process_events(*this); BUG this makes it crash
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
 
+  //std::clog << "Adding a tick\n";
   ++m_n_tick;
-}
-
-void game::spawn(agent_type type, tile t)
-{
-  agent a1(type);
-  move_agent_to_tile(a1, t.get_corner().x/112, t.get_corner().y/112);
-  m_agents.push_back(a1);
 }
 
 void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_pos) {
@@ -201,39 +237,34 @@ void game::merge_tiles(sound_type &st) { //!OCLINT must simplify
   }
 }
 
-void game::kill_agents() {
-  const int n = count_n_agents(*this);
+void game::kill_agents()
+{
   for (int i = 0; i < static_cast<int>(m_agents.size()); ++i) {
     assert(i >= 0);
     assert(i < static_cast<int>(m_agents.size()));
+
     if (m_agents[i].get_health() <= 0.0 && m_agents[i].get_type() != agent_type::corpse) {
       agent a(agent_type::corpse, m_agents[i].get_x(), m_agents[i].get_y());
-      if(!is_plant(m_agents[i].get_type())){
-        m_agents.push_back(a);
-      }
-      m_agents[i] = m_agents.back();
+
+      if(!is_plant(m_agents[i].get_type())) {
+        m_agents.push_back(a); }
+
+      m_agents[i] = m_agents.back();            
       m_agents.pop_back();
+      --i; //Retry this index with the new agent
     }
   }
 }
 
 void game::remove_tile(double mouse_x, double mouse_y) {
-    std::vector<tile> n_tiles;
-    for (unsigned i = 0; i < m_tiles.size(); ++i) {
-    if (contains(m_tiles.at(i),
-       mouse_x, mouse_y))
-    {
-        assert((int)i < static_cast<int>(m_tiles.size()));
-        assert(0 < static_cast<int>(m_selected.size()));
-        if(m_tiles[i].get_id() == m_selected[0]){
-           m_selected.pop_back();
-        }
-    } else {
-
-      n_tiles.push_back(m_tiles[i]);
+  m_selected.clear();
+  for (unsigned int i = 0; i < m_tiles.size(); i++) {
+    if (contains(m_tiles.at(i), mouse_x, mouse_y)) {
+      m_tiles.at(i) = m_tiles.back();
+      m_tiles.pop_back();
+      return;
     }
   }
-  m_tiles = n_tiles;
 }
 
 int game::get_n_ticks() const{
@@ -242,7 +273,7 @@ int game::get_n_ticks() const{
 
 int game::get_agent_count(agent_type type){
     int count = 0;
-    for (unsigned int i=0; i<m_agents.size(); i++) {
+    for (unsigned int i = 0; i<m_agents.size(); i++) {
         agent a = m_agents.at(i);
         if (a.get_type() == type){
             ++count;
@@ -371,13 +402,14 @@ void test_game() //!OCLINT a testing function may be long
     const game g;
     const std::string filename{"tmp"};
     const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str() + ".sav";
-    if (QFile::exists(filename.c_str()))
-    {
+    //if (QFile::exists(filename.c_str()))
+    //{
       std::remove(filename.c_str());
-    }
+    //}
     assert(!QFile::exists(filename.c_str()));
     g.save_this(filename);
     assert(QFile::exists(actual_path));
+//    assert(!get_saves().empty());
   }
 
   //'is_on_tile' should detect if there is a tile at a certain coordinat
@@ -399,7 +431,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(g.get_agents().size() == 1);
     assert(g.get_tiles().size() == 1);
   }
-  //#define FIX_ISSUE_97
+  #define FIX_ISSUE_97
   #ifdef FIX_ISSUE_97
   // A game can be loaded
   {
@@ -408,14 +440,14 @@ void test_game() //!OCLINT a testing function may be long
                 );
     const std::string filename{"tmp"};
     const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str() + ".sav";
-    if (QFile::exists(filename.c_str()))
-    {
+    //if (QFile::exists(filename.c_str()))
+    //{
       std::remove(filename.c_str());
-    }
+    //}
     assert(!QFile::exists(filename.c_str()));
     save(g, filename);
     assert(QFile::exists(actual_path));
-    const game h = load(filename);
+    game h = load(filename);
     assert(g == h);
   }
   #endif // FIX_ISSUE_97
@@ -428,8 +460,8 @@ void test_game() //!OCLINT a testing function may be long
     const std::vector<tile> tiles
     {
       //   x    y    z    r    type         ID
-      tile(1.0, 1.0, 1.0, 0.0, 0.0, tile_type::grassland, tile_id()),
-      tile(1.0, 1.0, 1.0, 0.0, 0.0, tile_type::grassland, tile_id())
+      tile(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id()),
+      tile(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland, tile_id())
     };
 
     game g(tiles);
@@ -471,11 +503,6 @@ void test_game() //!OCLINT a testing function may be long
     const auto y_after = tile.get_y();
     assert(x_before != x_after);
     assert(y_before != y_after);
-  }
-  //A game event should rotate tiles
-
-  {
-
   }
   //#define FIX_ISSUE_415
   #ifdef FIX_ISSUE_415
@@ -594,11 +621,26 @@ void test_game() //!OCLINT a testing function may be long
       g.confirm_tile_move(t, 4, 1);
       assert(t.get_dx() == -1);
     }
-}
-
-void load(game& g, const std::string &filename) {
-  std::ifstream f(SAVE_DIR + filename + ".sav");
-  f >> g;
+  {
+    game g({tile(0, 0), tile(112, 0)});
+    g.move_tiles(100, 100);
+    assert(g.get_tiles().size() == 2);
+    g.remove_tile(100, 100);
+    assert(g.get_tiles().size() == 1);
+    assert(get_current_tile(g, 100, 100).empty());
+    assert(!get_current_tile(g, 212, 100).empty());
+    try {
+      g.confirm_tile_move(get_current_tile(g, 212, 100).at(0), 5, 1);
+    } catch (...) { //Pokemon exception handling
+      assert(!"Test failed!");
+    }
+  }
+  {
+    game g;
+    g.allow_spawning();
+    g.allow_damage();
+    g.allow_score();
+  }
 }
 
 game load(const std::string &filename) {
@@ -660,7 +702,7 @@ std::istream& operator>>(std::istream& is, game& g)
   g.m_tiles.clear();
   for (int i = 0; i < n_tiles; ++i)
   {
-    tile t(1, 1, 1, 0, 0, tile_type::grassland);
+    tile t(112, 112, 112, 0, 0, tile_type::grassland);
     is >> t;
     g.m_tiles.emplace_back(t);
   }
@@ -681,9 +723,4 @@ bool operator==(const game& lhs, const game& rhs) noexcept
          lhs.m_essence == rhs.m_essence &&
          lhs.m_tiles == rhs.m_tiles &&
          lhs.m_agents == rhs.m_agents;
-}
-
-bool operator!=(const game& lhs, const game& rhs) noexcept
-{
-  return !(lhs== rhs);
 }
