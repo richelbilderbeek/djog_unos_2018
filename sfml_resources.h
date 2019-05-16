@@ -53,7 +53,7 @@ public:
 
 //  sf::Texture &get_tile_sprite_portrait(const tile_type t) noexcept;
 
-  sf::Texture &get_tile_sprite_landscape(const tile_type t) noexcept;
+  sf::Texture &get_tile_sprite(const tile_type t) noexcept;
 
   sf::Texture& get_essence_texture() noexcept { return m_essence_texture; }
 
