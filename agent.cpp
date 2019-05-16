@@ -258,7 +258,7 @@ void agent::attract_to_agent(game &g, agent_type type){
   }
 }
 
-std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity too high
+std::vector<agent> agent::process_events(game& g) { //!OCLINT NPath complexity too high
   //Do not change game::m_agents in this function!
   //Measure at start of function, will check at end as well
   const int n_agents_before = static_cast<int>(g.get_agents().size());
@@ -295,13 +295,19 @@ std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity 
   if (is_plant(m_type))
     damage_own_type(g, m_type);
 
-   //TODO is depth suitable for agent
-  if (will_drown(m_type)
-    && !get_on_tile_type(g, *this).empty()
-    && get_on_tile_type(g, *this).front() == tile_type::water)
+  // Zero or one tile that the agent is on
+  const std::vector<tile> tiles = get_on_tile(g, *this);
+  if (tiles.size() ==1 && tiles[0].get_type() == tile_type::water)
   {
-    m_stamina -= 0.2;
+    // A water tile, on which agents can drown
+    if (will_drown(m_type, tiles[0].get_depth())
+      && !get_on_tile_type(g, *this).empty()
+      && get_on_tile_type(g, *this).front() == tile_type::water)
+    {
+      m_stamina -= 0.2;
+    }
   }
+
 
   ///Eating others
   eat(g);
@@ -598,10 +604,11 @@ sf::Vector2f agent::get_center(const sf::Texture &sprite) const {
                       m_y + sprite.getSize().y * 0.2 / 2.0f);
 }
 
-bool will_drown(agent_type a) { //!OCLINT can't be simpler
+bool will_drown(agent_type a, const int depth) { //!OCLINT can't be simpler
+  const auto range = get_depth_range(a);
   switch (a) {
     case agent_type::plankton:
-      return false;
+      return depth > range.x && depth <= range.y;
   case agent_type::worm:
     return false;
     case agent_type::bird:
@@ -611,11 +618,11 @@ bool will_drown(agent_type a) { //!OCLINT can't be simpler
     case agent_type::giraffe:
       return true;
     case agent_type::crocodile:
-      return false;
+      return depth > range.x && depth <= range.y;
     case agent_type::chameleon:
       return true;
     case agent_type::fish:
-      return false;
+      return depth > range.x && depth <= range.y;
     case agent_type::whale:
       return false;
     case agent_type::goat:
@@ -623,7 +630,7 @@ bool will_drown(agent_type a) { //!OCLINT can't be simpler
     case agent_type::spider:
       return true;
     case agent_type::octopus:
-      return false;
+      return depth > range.x && depth <= range.y;
     case agent_type::snake:
       return true;
     default:
@@ -673,7 +680,7 @@ int get_max_depth(agent_type a){
     }
 }
 
-sf::Vector2i get_depth(agent_type a){
+sf::Vector2i get_depth_range(agent_type a){
     return sf::Vector2i(get_min_depth(a), get_max_depth(a));
 }
 
@@ -1091,9 +1098,9 @@ void test_agent() //!OCLINT testing functions may be long
       g.process_events(st);
     }
   }
-  // Agents drown
+  // Agents drown in very very deep water
   {
-    game g({ tile(0, 0, 0, 90, 10, tile_type::water)},
+    game g({ tile(0, 0, 0, 90, 100, tile_type::water)},
            {agent(agent_type::cow, 10, 10),
             agent(agent_type::fish, 10, 10)});
     sound_type st { sound_type::none };
@@ -1137,7 +1144,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   //get depth test
   {
-    assert(get_depth(agent_type::fish) == sf::Vector2i(0, 50));
+    assert(get_depth_range(agent_type::fish) == sf::Vector2i(0, 50));
   }
   //a cow walks to grass when its close
   {

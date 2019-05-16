@@ -142,7 +142,12 @@ bool is_on_tile(const game& g, const agent& a);
 /// Determine if there is a tile at the given coordinat
 bool is_on_tile(const game& g, double x, double y);
 
-/// Get the tile_type the agent is one.
+/// Get the tile the agent is on.
+/// Returns one tile if the agent is on a tile.
+/// Returns an empty vector if the agent is above the void
+std::vector<tile> get_on_tile(const game& g, const agent& a);
+
+/// Get the tile_type the agent is on.
 /// Returns one tile_type if the agent is on a tile.
 /// Returns an empty vector if the agent is above the void
 std::vector<tile_type> get_on_tile_type(const game& g, const agent& a);

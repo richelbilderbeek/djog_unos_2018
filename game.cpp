@@ -308,7 +308,7 @@ bool is_on_tile(const game& g, const double x, const double y)
   return false;
 }
 
-std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
+std::vector<tile> get_on_tile(const game& g, const agent& a)
 {
   for (tile t : g.get_tiles())
   {
@@ -318,10 +318,18 @@ std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
         a.get_y() <= t.get_corner().y + t.get_height() + 6.0
     )
     {
-      return { t.get_type() };
+      return { t };
     }
   }
   return {};
+}
+
+std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
+{
+  const std::vector<tile> tiles = get_on_tile(g, a);
+  if (tiles.empty()) return {};
+  assert(tiles.size() == 1);
+  return { tiles[0].get_type() };
 }
 
 bool is_on_tile(const game& g, const agent& a) {
