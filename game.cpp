@@ -21,7 +21,7 @@ game::game(
     m_tiles{tiles},
     m_agents{agents},
     m_n_tick{0},
-    m_score{0},
+    m_score{100},
     m_essence{0},
     m_sound_type{sound_type::none}
 {
@@ -147,6 +147,12 @@ void game::process_events(sound_type& st)
   if(m_allow_score){
     m_score = ppt * 112 - 112;
   }
+
+  //std::clog << "Calculate the score\n";
+  if (m_n_tick % 100 == 0){
+     m_essence += 112 - m_score ;
+  }
+
 
   //std::clog << "Process the events happening on the tiles\n";
   for (auto& tile : m_tiles)
