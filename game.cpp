@@ -349,15 +349,19 @@ std::vector<tile> get_current_tile(game& g, double x, double y)
 void game::confirm_tile_move(tile& t, int direction, int tile_speed){
   switch (direction)
   {
+    // omhoog
     case 1:
       t.set_dy(-tile_speed);
       return;
+    // rechts
     case 2:
       t.set_dx(tile_speed);
       return;
+    // beneden
     case 3:
       t.set_dy(tile_speed);
       return;
+    // links
     case 4:
       t.set_dx(-tile_speed);
       return;
@@ -451,6 +455,44 @@ void test_game() //!OCLINT a testing function may be long
     assert(g == h);
   }
   #endif // FIX_ISSUE_97
+
+  //Test confirm_tile_move down
+  {
+    const std::vector<agent> no_agents;
+    game g( {
+            tile(0.0, 0.0, 0.0, 10.0, 10.0),
+            tile(0.0, 0.0, 0.0, 10.0, 10.0),
+            tile(0.0, 0.0, 0.0, 10.0, 10.0),
+            tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile1 = g.get_tiles()[0];
+    tile& tile2 = g.get_tiles()[1];
+    tile& tile3 = g.get_tiles()[2];
+    tile& tile4 = g.get_tiles()[3];
+
+
+    g.confirm_tile_move(tile1, 3, 1); // down
+    g.confirm_tile_move(tile2, 1, 1); // up
+    g.confirm_tile_move(tile3, 4, 1); // left
+    g.confirm_tile_move(tile4, 2, 1); // right
+
+    g.process_events(st);
+
+    // down
+    assert(tile1.get_x() == 0);
+    assert(tile1.get_y() == 1);
+    // up
+    //assert(tile2.get_x() == 0);
+    //assert(tile2.get_y() == -1);
+    // left
+    assert(tile3.get_x() == 0);
+    assert(tile3.get_y() == 1);
+    // right
+    assert(tile4.get_x() == 0);
+    assert(tile4.get_y() == 1);
+
+  }
+
   //Two grasses should merge to one mountain
   {
     // Create a game with two grassland blocks on top of each other
