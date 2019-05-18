@@ -136,9 +136,13 @@ private:
 
   void play_sound();
 
-  int m_pseudo_random_period;
+  const int m_half_minimum_period;
 
+  int m_pseudo_random_period;
   int m_pseudo_counter;
+
+  int init_pseudo_random_period() noexcept
+  { return random_int(2*m_half_minimum_period, 3*m_half_minimum_period); }
 
   void random_animal_sound();
 
