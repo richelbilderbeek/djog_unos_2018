@@ -28,7 +28,7 @@ public:
   );
 
   /// The height of the tile
-  double get_rotation() const noexcept { return m_rotation; }
+  int get_rotation() const noexcept;
 
   /// The type the tile
   tile_type get_type() const noexcept { return m_type; }
@@ -66,7 +66,7 @@ public:
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
 
-  void set_rotation(double r);
+  void set_rotation(int r);
 
   void rotate_c();
   void rotate_cc();
@@ -180,6 +180,8 @@ std::istream& operator>>(std::istream& os, tile& t);
 bool operator==(const tile& lhs, const tile& rhs) noexcept;
 
 int degreeToDirection(int deg, bool cc);
+
+int normalize_rotation(int degrees);
 
 /// Test the tile class
 void test_tile();
