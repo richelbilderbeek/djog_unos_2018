@@ -118,6 +118,8 @@ private:
 
   sf::Texture m_octopus_texture;
 
+  sf::Texture m_polar_bear_texture;
+
   sf::Texture m_snake_texture;
 
   sf::Texture m_foxgloves_texture;

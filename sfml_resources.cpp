@@ -150,6 +150,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_octopus_texture.loadFromFile("octopus.png"))
       throw std::runtime_error("Cannot find image file 'octopus.png'");
   }
+  // polar_bear texture
+  {
+    QFile f(":/nature_zen/resources/polar_bear.png");
+    f.copy("polar_bear.png");
+    if (!m_polar_bear_texture.loadFromFile("polar_bear.png"))
+      throw std::runtime_error("Cannot find image file 'polar_bear.png'");
+  }
   // Goat texture
   {
     QFile f(":/nature_zen/resources/mountain_goat.png");
