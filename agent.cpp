@@ -128,6 +128,9 @@ void agent::eat(game& g) { //!OCLINT high compexity
   //Plants do not eat
   if (is_plant(m_type)) return;
 
+  //Check if stamina changed, if not decrease it
+  double start_stamina = m_stamina;
+
   //What can the focal agent eat
   const std::vector<agent_type> prey_types = m_prey;
 
@@ -309,7 +312,7 @@ std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity 
   }
 
   //Agents always lose stamina
-  m_stamina -= 0.01;
+  m_stamina -= 0.0175;
 
   move(g);
 
@@ -977,10 +980,8 @@ void test_agent() //!OCLINT testing functions may be long
     assert(stamina_after < stamina_before);
   }
   //A cow must starve if alone
-  //#define FIX_ISSUE_287
-  #ifdef FIX_ISSUE_287
   {
-    game g({ tile(-1 * 112, -1 * 112, 0, 2, 2) }, { agent(agent_type::cow) } );
+    game g({ tile(0 * 112, 0 * 112, 0, 2, 2) }, { agent(agent_type::cow) } );
     sound_type st { sound_type::none };
     assert(!g.get_agents().empty());
     const auto health_before = g.get_agents()[0].get_health();
@@ -994,7 +995,6 @@ void test_agent() //!OCLINT testing functions may be long
     const auto health_after = g.get_agents()[0].get_health();
     assert(health_after < health_before);
   }
-  #endif // FIX_ISSUE_287
   //An agent must be removed if health is below zero
   {
     game g({tile(0, 0, 0, 90, 0, tile_type::grassland)}, { agent(agent_type::cow, 50, 50) } );
