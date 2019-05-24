@@ -662,20 +662,6 @@ void test_game() //!OCLINT a testing function may be long
       assert(t.get_dy() == 1);
       g.confirm_tile_move(t, 4, 1);
       assert(t.get_dx() == -1);
-    }
-  {
-    game g({tile(0, 0), tile(112, 0)});
-    g.move_tiles(100, 100);
-    assert(g.get_tiles().size() == 2);
-    g.remove_tile(100, 100);
-    assert(g.get_tiles().size() == 1);
-    assert(get_current_tile(g, 100, 100).empty());
-    assert(!get_current_tile(g, 212, 100).empty());
-    try {
-      g.confirm_tile_move(get_current_tile(g, 212, 100).at(0), 5, 1);
-    } catch (...) { //Pokemon exception handling
-      assert(!"Test failed!");
-    }
   }
   {
     game g;
