@@ -31,7 +31,6 @@ agent::agent(
     m_prey{prey}
 {
   //An agent of type none is used when a 'null' agent is needed
-  assert(type != agent_type::none || type == agent_type::none);
 }
 
 std::ostream& operator<<(std::ostream& os, const agent& a) noexcept
@@ -109,7 +108,7 @@ std::vector<agent_type> can_eat(const agent_type type) {
     //case agent_type::venus_fly_trap:
     //  return {agent_type::spider };
     default:
-      return {agent_type::none};
+      return {};
   }
 }
 
@@ -243,22 +242,30 @@ void agent::calculate_distances(game &g){
 }
 
 void agent::attract_to_agent(game &g, agent_type type){
-  agent near_a(agent_type::none, INFINITY, INFINITY);
-  double distance = pythagoras(fabs(m_x - near_a.get_x()), fabs(m_y - near_a.get_y()));
-  for(agent a : g.get_agents()){
-    double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-    if(distance_a > 350) continue;
-    if(a.get_type() == type &&
-      distance_a < distance){
-        near_a = a;
-        distance = distance_a;
+  std::vector<agent> v;
+  for(const agent& a : g.get_agents())
+  {
+    if(a.get_type() != type) continue;
+    if (v.empty())
+    {
+      v.push_back(a);
+    }
+    else
+    {
+      const double distance_v = pythagoras(abs(m_x - v[0].get_x()), abs(m_y - v[0].get_y()));
+      const double distance_a = pythagoras(abs(m_x - a.get_x()), abs(m_y - a.get_y()));
+      if (distance_a <distance_v)
+      {
+        v[0] = a;
+      }
     }
   }
-  if(near_a.get_type() != agent_type::none){
-    double x = -(0.01 * (m_x - near_a.get_x()));
+  if (!v.empty())
+  {
+    double x = -(0.01 * (m_x - v[0].get_x()));
     x = std::max(-0.05, std::min(x, 0.05));
     m_x += x;
-    double y = -(0.01 * (m_y - near_a.get_y()));
+    double y = -(0.01 * (m_y - v[0].get_y()));
     y = std::max(-0.05, std::min(y, 0.05));
     m_y += y;
     return;
@@ -840,7 +847,6 @@ void test_agent() //!OCLINT testing functions may be long
     assert(!is_plant(agent_type::goat));
     assert( is_plant(agent_type::grass));
     assert(!is_plant(agent_type::lion));
-    assert(!is_plant(agent_type::none));
     assert(!is_plant(agent_type::octopus));
     assert( is_plant(agent_type::plankton));
     assert(!is_plant(agent_type::snake));
