@@ -37,80 +37,92 @@ tile::tile(
 std::vector<tile> create_test_default_tiles() noexcept //!OCLINT indeed a function that is too long
 {
   std::vector<tile> tiles;
+//  {
+//    tile t(0 * 112, 0 * 112, 0 * 112, 90, 0, tile_type::grassland);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(1 * 112, 0 * 112, 1 * 112, 90, 0, tile_type::grassland);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(1 * 112, 5 * 112, 1 * 112, 0, 0, tile_type::grassland);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(0 * 112, 2 * 112, 2 * 112, 90, 0, tile_type::desert);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(2 * 112, 1 * 112, 3 * 112, 0, 0, tile_type::swamp);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(4 * 112, 4 * 112, 5 * 112, 0, 0, tile_type::dunes);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(1 * 112, 2 * 112, 4 * 112, 0, 0, tile_type::mountains);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(4 * 112, 1 * 112, 5 * 112, 0, 0, tile_type::arctic);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(3 * 112, 2 * 112, 6 * 112, 90, 20, tile_type::water);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(4 * 112, 2 * 112, 6 * 112, 90, 85, tile_type::water);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(5 * 112, 2 * 112, 8 * 112, 90, 0, tile_type::beach);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(6 * 112, 2 * 112, 8 * 112, 90, 0, tile_type::dunes);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(1 * 112, -1 * 112, 7 * 112, 0, 0, tile_type::savannah);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(4 * 112, -1 * 112, 8 * 112, 90, 0, tile_type::woods);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(0 * 112, -2 * 112, 8 * 112, 90, 0, tile_type::woods);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(6 * 112, -3 * 112, 8 * 112, 90, 0, tile_type::mangrove);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(-1 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::rainforest);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(-2 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::tundra);
+//    tiles.push_back(t);
+//  }
+//  {
+//    tile t(-3 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::hills);
+//    tiles.push_back(t);
+//  }
   {
-    tile t(0 * 112, 0 * 112, 0 * 112, 90, 0, tile_type::grassland);
+    tile t(0 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::grassland);
     tiles.push_back(t);
   }
   {
-    tile t(1 * 112, 0 * 112, 1 * 112, 90, 0, tile_type::grassland);
+    tile t(1 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::water);
     tiles.push_back(t);
   }
   {
-    tile t(1 * 112, 5 * 112, 1 * 112, 0, 0, tile_type::grassland);
-    tiles.push_back(t);
-  }
-  {
-    tile t(0 * 112, 2 * 112, 2 * 112, 90, 0, tile_type::desert);
-    tiles.push_back(t);
-  }
-  {
-    tile t(2 * 112, 1 * 112, 3 * 112, 0, 0, tile_type::swamp);
-    tiles.push_back(t);
-  }
-  {
-    tile t(4 * 112, 4 * 112, 5 * 112, 0, 0, tile_type::dunes);
-    tiles.push_back(t);
-  }
-  {
-    tile t(1 * 112, 2 * 112, 4 * 112, 0, 0, tile_type::mountains);
-    tiles.push_back(t);
-  }
-  {
-    tile t(4 * 112, 1 * 112, 5 * 112, 0, 0, tile_type::arctic);
-    tiles.push_back(t);
-  }
-  {
-    tile t(3 * 112, 2 * 112, 6 * 112, 90, 20, tile_type::water);
-    tiles.push_back(t);
-  }
-  {
-    tile t(4 * 112, 2 * 112, 6 * 112, 90, 85, tile_type::water);
-    tiles.push_back(t);
-  }
-  {
-    tile t(5 * 112, 2 * 112, 8 * 112, 90, 0, tile_type::beach);
-    tiles.push_back(t);
-  }
-  {
-    tile t(6 * 112, 2 * 112, 8 * 112, 90, 0, tile_type::dunes);
-    tiles.push_back(t);
-  }
-  {
-    tile t(1 * 112, -1 * 112, 7 * 112, 0, 0, tile_type::savannah);
-    tiles.push_back(t);
-  }
-  {
-    tile t(4 * 112, -1 * 112, 8 * 112, 90, 0, tile_type::woods);
-    tiles.push_back(t);
-  }
-  {
-    tile t(0 * 112, -2 * 112, 8 * 112, 90, 0, tile_type::woods);
-    tiles.push_back(t);
-  }
-  {
-    tile t(6 * 112, -3 * 112, 8 * 112, 90, 0, tile_type::mangrove);
-    tiles.push_back(t);
-  }
-  {
-    tile t(-1 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::rainforest);
-    tiles.push_back(t);
-  }
-  {
-    tile t(-2 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::tundra);
-    tiles.push_back(t);
-  }
-  {
-    tile t(-3 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::hills);
+    tile t(2 * 112, 0 * 112, 8 * 112, 90, 0, tile_type::grassland);
     tiles.push_back(t);
   }
   return tiles;
