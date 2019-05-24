@@ -456,42 +456,67 @@ void test_game() //!OCLINT a testing function may be long
   }
   #endif // FIX_ISSUE_97
 
-  //Test confirm_tile_move down
+  //Test confirm_tile_move up
   {
     const std::vector<agent> no_agents;
-    game g( {
-            tile(0.0, 0.0, 0.0, 10.0, 10.0),
-            tile(0.0, 0.0, 0.0, 10.0, 10.0),
-            tile(0.0, 0.0, 0.0, 10.0, 10.0),
-            tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
     sound_type st { sound_type::none };
-    tile& tile1 = g.get_tiles()[0];
-    tile& tile2 = g.get_tiles()[1];
-    tile& tile3 = g.get_tiles()[2];
-    tile& tile4 = g.get_tiles()[3];
+    tile& tile = g.get_tiles()[0];
 
-
-    g.confirm_tile_move(tile1, 3, 1); // down
-    g.confirm_tile_move(tile2, 1, 1); // up
-    g.confirm_tile_move(tile3, 4, 1); // left
-    g.confirm_tile_move(tile4, 2, 1); // right
+    g.confirm_tile_move(tile, 1, 1); // up
 
     g.process_events(st);
 
-    // down
-    assert(tile1.get_x() == 0);
-    assert(tile1.get_y() == 1);
-    // up
-    //assert(tile2.get_x() == 0);
-    //assert(tile2.get_y() == -1);
-    // left
-    assert(tile3.get_x() == 0);
-    assert(tile3.get_y() == 1);
-    // right
-    assert(tile4.get_x() == 0);
-    assert(tile4.get_y() == 1);
+    assert(tile.get_x() == 0);
+    assert(tile.get_y() == -1);
 
   }
+  //Test confirm_tile_move left
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 4, 1); // left
+
+    g.process_events(st);
+
+    assert(tile.get_x() == -1);
+    assert(tile.get_y() == 0);
+
+  }
+  //Test confirm_tile_move down
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 3, 1); // down
+
+    g.process_events(st);
+
+    assert(tile.get_x() == 0);
+    assert(tile.get_y() == 1);
+
+  }
+  //Test confirm_tile_move right
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 2, 1); // right
+
+    g.process_events(st);
+
+    assert(tile.get_x() == 1);
+    assert(tile.get_y() == 0);
+
+  }
+
 
   //Two grasses should merge to one mountain
   {
