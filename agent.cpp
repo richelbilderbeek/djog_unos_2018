@@ -128,9 +128,6 @@ void agent::eat(game& g) { //!OCLINT high compexity
   //Plants do not eat
   if (is_plant(m_type)) return;
 
-  //Check if stamina changed, if not decrease it
-  double start_stamina = m_stamina;
-
   //What can the focal agent eat
   const std::vector<agent_type> prey_types = m_prey;
 
