@@ -436,10 +436,11 @@ bool operator==(const tile& lhs, const tile& rhs) noexcept {
 }
 
 bool contains(const tile& t, double x, double y) noexcept {
-  return x > t.get_corner().x - 6
-      && x < t.get_corner().x + t.get_width() + 6
-      && y > t.get_corner().y - 6
-      && y < t.get_corner().y + t.get_height() + 6;
+  sf::Vector2f corner = t.get_corner();
+  return x > corner.x - 6
+      && x < corner.x + t.get_width() + 6
+      && y > corner.y - 6
+      && y < corner.y + t.get_height() + 6;
 }
 
 void tile::lock_movement(bool b) { m_locked = b; }

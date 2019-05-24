@@ -285,10 +285,11 @@ int game::get_agent_count(agent_type type){
 
 bool is_on_specific_tile(const double x, const double y, const tile& t)
 {
-  return x >= t.get_corner().x - 6 &&
-         x <= t.get_corner().x + t.get_width() + 6 &&
-         y >= t.get_corner().y - 6 &&
-         y <= t.get_corner().y + t.get_height() + 6;
+  sf::Vector2f corner = t.get_corner();
+  return x >= corner.x - 6 &&
+         x <= corner.x + t.get_width() + 6 &&
+         y >= corner.y - 6 &&
+         y <= corner.y + t.get_height() + 6;
 }
 
 bool is_on_specific_tile(const agent& a, const tile& t) {
@@ -299,10 +300,11 @@ bool is_on_specific_tile(const agent& a, const tile& t) {
 bool is_on_tile(const game& g, const double x, const double y)
 {
   for (tile t: g.get_tiles()) {
-    if(x >= t.get_corner().x - 6 &&
-       x <= t.get_corner().x + t.get_width() + 6 &&
-       y >= t.get_corner().y - 6 &&
-       y <= t.get_corner().y + t.get_height() + 6)
+    sf::Vector2f corner = t.get_corner();
+    if(x >= corner.x - 6 &&
+       x <= corner.x + t.get_width() + 6 &&
+       y >= corner.y - 6 &&
+       y <= corner.y + t.get_height() + 6)
       return true;
   }
   return false;
@@ -312,10 +314,11 @@ std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
   for (tile t : g.get_tiles())
   {
-    if (a.get_x() >= t.get_corner().x - 6.0 &&
-        a.get_x() <= t.get_corner().x + t.get_width() + 6.0 &&
-        a.get_y() >= t.get_corner().y - 6.0 &&
-        a.get_y() <= t.get_corner().y + t.get_height() + 6.0
+    sf::Vector2f corner = t.get_corner();
+    if (a.get_x() >= corner.x - 6.0 &&
+        a.get_x() <= corner.x + t.get_width() + 6.0 &&
+        a.get_y() >= corner.y - 6.0 &&
+        a.get_y() <= corner.y + t.get_height() + 6.0
     )
     {
       return { t.get_type() };

@@ -808,24 +808,25 @@ std::vector<int> sfml_game::get_collision_id(double x, double y) const
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
 bool sfml_game::will_collide(int direction, tile& t)
 {
+  sf::Vector2f corner = t.get_corner();
   switch (direction)
   {
     case 1:
       return sfml_game::check_collision(
-            t.get_corner().x + (t.get_width() / 2),
-            t.get_corner().y - (t.get_height() / 2) + 10);
+            corner.x + (t.get_width() / 2),
+            corner.y - (t.get_height() / 2) + 10);
     case 2:
       return sfml_game::check_collision(
-            t.get_corner().x + (t.get_width() * 1.5) - 10,
-            t.get_corner().y + (t.get_height() / 2));
+            corner.x + (t.get_width() * 1.5) - 10,
+            corner.y + (t.get_height() / 2));
     case 3:
       return sfml_game::check_collision(
-            t.get_corner().x + (t.get_width() / 2),
-            t.get_corner().y + (t.get_height() * 1.5) - 10);
+            corner.x + (t.get_width() / 2),
+            corner.y + (t.get_height() * 1.5) - 10);
     case 4:
       return sfml_game::check_collision(
-            t.get_corner().x - (t.get_width() / 2) + 10,
-            t.get_corner().y + (t.get_height() / 2));
+            corner.x - (t.get_width() / 2) + 10,
+            corner.y + (t.get_height() / 2));
     default:
       break;
   }
