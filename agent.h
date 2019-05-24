@@ -116,6 +116,8 @@ private:
 
   void damage_own_type(game &g, agent_type type);
 
+  std::vector<agent> near_agent;
+
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);
   friend bool operator==(const agent& lhs, const agent& rhs) noexcept;

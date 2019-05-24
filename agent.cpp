@@ -229,33 +229,46 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
 //    m_x += std::max(-0.35, std::min(m_dx_motivation, 0.35));
 //    m_y += std::max(-0.35, std::min(m_dy_motivation, 0.35));
 //  }
-  std::vector<agent> v;
-  for(const agent& a : g.get_agents())
-  {
-    if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) == m_prey.end()) continue;
-    if (v.empty())
+  if(g.get_n_ticks() % 100 == 0){
+    std::vector<agent> v;
+    for(const agent& a : g.get_agents())
     {
-      v.push_back(a);
-    }
-    else
-    {
-      const double distance_v = pythagoras(fabs(m_x - v[0].get_x()), fabs(m_y - v[0].get_y()));
-      const double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-      if (distance_a <distance_v)
+      if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) == m_prey.end()) continue;
+      if (v.empty())
       {
-        v[0] = a;
+        v.push_back(a);
+      }
+      else
+      {
+        const double distance_v = pythagoras(fabs(m_x - v[0].get_x()), fabs(m_y - v[0].get_y()));
+        const double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
+        if (distance_a <distance_v)
+        {
+          v[0] = a;
+        }
       }
     }
+    if (!v.empty())
+    {
+      double x = -(0.01 * (m_x - v[0].get_x()));
+      x = std::max(-0.05, std::min(x, 0.05));
+      m_x += x;
+      double y = -(0.01 * (m_y - v[0].get_y()));
+      y = std::max(-0.05, std::min(y, 0.05));
+      m_y += y;
+    }
+    near_agent = v;
   }
-  if (!v.empty())
-  {
-    double x = -(0.01 * (m_x - v[0].get_x()));
-    x = std::max(-0.05, std::min(x, 0.05));
-    m_x += x;
-    double y = -(0.01 * (m_y - v[0].get_y()));
-    y = std::max(-0.05, std::min(y, 0.05));
-    m_y += y;
-    return;
+  else{
+    if (!near_agent.empty())
+    {
+      double x = -(0.01 * (m_x - near_agent[0].get_x()));
+      x = std::max(-0.05, std::min(x, 0.05));
+      m_x += x;
+      double y = -(0.01 * (m_y - near_agent[0].get_y()));
+      y = std::max(-0.05, std::min(y, 0.05));
+      m_y += y;
+    }
   }
 }
 
