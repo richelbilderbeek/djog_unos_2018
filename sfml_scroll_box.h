@@ -30,15 +30,8 @@ public:
 
   void draw(sf::RenderWindow& window);
 
-  //No ABCs
-  //void add_drawable(sf::Drawable &drawable);
   void add_rectangle(sf::RectangleShape &r);
   void add_text(sf::Text &t);
-
-  //No ABCs
-  //void remove_drawable(sf::Drawable &drawable);
-
-  void remove_rectangle(sf::RectangleShape &r);
 
   void scroll(sf::Event &event);
 

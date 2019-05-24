@@ -641,6 +641,11 @@ void test_game() //!OCLINT a testing function may be long
     g.allow_damage();
     g.allow_score();
   }
+  std::clog << "saves:" << std::endl;
+  for (auto &a : get_saves()) {
+    std::clog << a << "\n";
+  }
+  std::clog << std::endl;
 }
 
 game load(const std::string &filename) {
@@ -651,7 +656,7 @@ game load(const std::string &filename) {
 }
 
 void save(const game &g, const std::string &filename) {
-  QString path = QDir::currentPath() + "/saves";
+  QString path = QDir::currentPath() + QString::fromStdString(SAVE_DIR);
   QDir dir = QDir::root();
   dir.mkpath(path);
 
@@ -660,9 +665,8 @@ void save(const game &g, const std::string &filename) {
 }
 
 std::vector<std::string> get_saves() {
-  QString path = QDir::currentPath() + "/saves";
-  QDir dir = QDir(path);
-  std::vector<std::string> filenames;
+  QDir dir(QDir::currentPath() + "/" + QString::fromStdString(SAVE_DIR));
+  std::vector<std::string> filenames{};
   std::list<QString> entries = dir.entryList().toStdList();
   for (QString qstr : entries) {
     std::string str = qstr.toStdString();

@@ -28,7 +28,6 @@ sfml_load_screen::sfml_load_screen()
   m_list.set_size(500, 200);
   m_list.set_pos(100, 100, m_window);
 
-  // BUG "pure virtual method called" or otherwise not displaying the buttons
   int y = 0;
   sf::Vector2i p = m_window.mapCoordsToPixel(m_list.get_pos());
   sf::View tmp_view = m_window.getView();
@@ -43,8 +42,8 @@ sfml_load_screen::sfml_load_screen()
     b.set_pos(pos.x, pos.y);
     y += 80;
     m_saves.push_back(b);
-    m_list.add_rectangle(b.get_shape());
-    m_list.add_text(b.get_text());
+    m_list.add_rectangle(m_saves.back().get_shape());
+    m_list.add_text(m_saves.back().get_text());
   }
   m_window.setView(tmp_view);
 

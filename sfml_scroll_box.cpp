@@ -35,10 +35,6 @@ void sfml_scroll_box::draw(sf::RenderWindow& window) {
   const sf::View tmp_view = window.getView();
   window.draw(m_shape);
   window.setView(m_view);
-  //No ABCs
-  //for (sf::Drawable &d : m_drawables) {
-  //  window.draw(d);
-  //}
   for (sf::RectangleShape &r : m_rectangles) {
     window.draw(r);
   }
@@ -48,30 +44,12 @@ void sfml_scroll_box::draw(sf::RenderWindow& window) {
   window.setView(tmp_view);
 }
 
-//No ABCs
-//void sfml_scroll_box::add_drawable(sf::Drawable& drawable) {
-//  m_drawables.push_back(std::ref(drawable));
-//}
-
 void sfml_scroll_box::add_rectangle(sf::RectangleShape& r) {
-
   m_rectangles.push_back(std::ref(r));
 }
 
 void sfml_scroll_box::add_text(sf::Text& t) {
-
   m_texts.push_back(std::ref(t));
-}
-
-//No ABCs
-//void sfml_scroll_box::remove_drawable(sf::Drawable& drawable) {
-//  drawable = m_drawables.back();
-//  m_drawables.pop_back();
-//}
-
-void sfml_scroll_box::remove_rectangle(sf::RectangleShape& r) {
-  r = m_rectangles.back();
-  m_rectangles.pop_back();
 }
 
 void sfml_scroll_box::scroll(sf::Event&
