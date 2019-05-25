@@ -66,11 +66,13 @@ public:
   ///Moves the agent. It will do nothing if exhausted.
   ///If it has stamina, the agent will go looking for food
   ///@param game the game logic
-  void move(const game& g);
+  void move(game& g);
 
   void attract_to_agent(game& g, agent_type type);
 
   std::vector <agent> reproduce_agents(game& g, agent_type type);
+
+  void find_destination(game &g);
 
 private:
   /// The type the tile
@@ -116,7 +118,7 @@ private:
 
   void damage_own_type(game &g, agent_type type);
 
-  std::vector<agent> near_agent;
+  std::vector<agent> destination;
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);

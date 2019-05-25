@@ -187,7 +187,7 @@ void agent::move(double x, double y)
   m_y += y;
 }
 
-void agent::move(const game &g){ //!OCLINT too complex indeed
+void agent::move(game &g){ //!OCLINT too complex indeed
   // Plants don't move to their food
   if (is_plant(m_type)) {
     return;
@@ -207,11 +207,19 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
   if (m_type == agent_type::corpse) return;
 
   //Move randomly a bit
-  m_x += 0.1 * (-1 + (std::rand() % 3));
-  m_y += 0.1 * (-1 + (std::rand() % 3));
-//As long as we don't have a random seed, this can't be used here
-//m_x += 0.1 * (-1 + random_double(0, 3));
-//m_y += 0.1 * (-1 + random_double(0, 3));
+  double temp_x = 0.1 * (-1 + (std::rand() % 3));
+  double temp_y = 0.1 * (-1 + (std::rand() % 3));
+  sf::Vector2f center_temp = get_agent_center(*this);
+  std::vector<tile> t_temp = get_current_tile(g, center_temp.x + temp_x, center_temp.y + temp_y);
+  if(is_on_tile(g, center_temp.x + temp_x, center_temp.y + temp_y)
+     && t_temp[0].get_type() != tile_type::water){
+    m_x += temp_x;
+    m_y += temp_y;
+  }
+
+//  As long as we don't have a random seed, this can't be used here
+//  m_x += 0.1 * (-1 + random_double(0, 3));
+//  m_y += 0.1 * (-1 + random_double(0, 3));
 
 //  This doesn't work properly
 //
@@ -229,55 +237,43 @@ void agent::move(const game &g){ //!OCLINT too complex indeed
 //    m_x += std::max(-0.35, std::min(m_dx_motivation, 0.35));
 //    m_y += std::max(-0.35, std::min(m_dy_motivation, 0.35));
 //  }
-  if(g.get_n_ticks() % 100 == 0){
-    std::vector<agent> v;
-    for(const agent& a : g.get_agents())
-    {
-      if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) == m_prey.end()) continue;
-      if (v.empty())
-      {
-        v.push_back(a);
-      }
-      else
-      {
-        const double distance_v = pythagoras(fabs(m_x - v[0].get_x()), fabs(m_y - v[0].get_y()));
-        const double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
-        if (distance_a <distance_v)
-        {
-          v[0] = a;
-        }
-      }
-    }
-    if (!v.empty())
-    {
-      double x = -(0.01 * (m_x - v[0].get_x()));
-      x = std::max(-0.05, std::min(x, 0.05));
+  if (!destination.empty())
+  {
+    double x = -(0.005 * (m_x - destination[0].get_x()));
+    x = std::max(-0.05, std::min(x, 0.05));
+    double y = -(0.005 * (m_y - destination[0].get_y()));
+    y = std::max(-0.05, std::min(y, 0.05));
+    sf::Vector2f center = get_agent_center(*this);
+    std::vector<tile> t = get_current_tile(g, center.x + x*2, center.y + y*2);
+    if(is_on_tile(g, center.x + x*2, center.y + y*2)
+       && t[0].get_type() != tile_type::water){
       m_x += x;
-      double y = -(0.01 * (m_y - v[0].get_y()));
-      y = std::max(-0.05, std::min(y, 0.05));
       m_y += y;
-      if(get_on_tile_type(g, *this)[0] == tile_type::water){
-        m_x -= x*2;
-        m_y -= y*2;
-      }
     }
-    near_agent = v;
   }
-  else{
-    if (!near_agent.empty())
+}
+
+
+void agent::find_destination(game &g){
+  std::vector<agent> v;
+  for(const agent& a : g.get_agents())
+  {
+    if(std::find(m_prey.begin(), m_prey.end(), a.get_type()) == m_prey.end()) continue;
+    if (v.empty())
     {
-      double x = -(0.01 * (m_x - near_agent[0].get_x()));
-      x = std::max(-0.05, std::min(x, 0.05));
-      m_x += x;
-      double y = -(0.01 * (m_y - near_agent[0].get_y()));
-      y = std::max(-0.05, std::min(y, 0.05));
-      m_y += y;
-      if(get_on_tile_type(g, *this)[0] == tile_type::water){
-        m_x -= x*2;
-        m_y -= y*2;
+      v.push_back(a);
+    }
+    else
+    {
+      const double distance_v = pythagoras(fabs(m_x - v[0].get_x()), fabs(m_y - v[0].get_y()));
+      const double distance_a = pythagoras(fabs(m_x - a.get_x()), fabs(m_y - a.get_y()));
+      if (distance_a <distance_v)
+      {
+        v[0] = a;
       }
     }
   }
+  destination = v;
 }
 
 void agent::attract_to_agent(game &g, agent_type type){
@@ -331,6 +327,8 @@ std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity 
 
   //Agents always lose stamina
   m_stamina -= 0.0175;
+
+  if(g.get_n_ticks() % 100 == 0) find_destination(g);
 
   move(g);
 
@@ -917,7 +915,7 @@ void test_agent() //!OCLINT testing functions may be long
   }
   // A crocodile moves
   {
-    const game dummy_game; //Unused
+    game dummy_game; //Unused
     const double x{12.345};
     const double y{56.789};
     agent a(agent_type::crocodile, x, y);

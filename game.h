@@ -146,6 +146,9 @@ bool is_on_tile(const game& g, double x, double y);
 /// Returns one tile_type if the agent is on a tile.
 /// Returns an empty vector if the agent is above the void
 std::vector<tile_type> get_on_tile_type(const game& g, const agent& a);
+std::vector<tile_type> get_on_tile_type(const game& g, const double x, const double y);
+
+sf::Vector2f get_agent_center(const agent& a);
 
 /// Determine if an agent is on a specific tile
 bool is_on_specific_tile(const agent& a, const tile& t);
