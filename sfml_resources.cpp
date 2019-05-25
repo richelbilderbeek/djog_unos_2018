@@ -707,7 +707,7 @@ void test_sfml_resources() //!OCLINT tests may be long
   }
   assert(resources.get_tile_sprite(tile_type::arctic).getSize().x > 0);
   assert(resources.get_tile_sprite(tile_type::beach).getSize().x > 0);
-  //assert(resources.get_tile_sprite(tile_type::desert).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::desert).getSize().x > 0);TODO
   assert(resources.get_tile_sprite(tile_type::dunes).getSize().x > 0);
   //assert(resources.get_tile_sprite(tile_type::grassland).getSize().x > 0);
   assert(resources.get_tile_sprite(tile_type::hills).getSize().x > 0);
