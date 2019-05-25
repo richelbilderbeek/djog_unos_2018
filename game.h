@@ -40,7 +40,8 @@ public:
 
   double get_score() const noexcept { return m_score; }
 
-  void change_score_by(int delta_score);
+  // No defenition???
+  //void change_score_by(int delta_score);
 
   int get_essence() const noexcept { return m_essence; }
 
@@ -70,7 +71,8 @@ public:
 
   int get_agent_count(agent_type type);
 
-  void spawn(agent_type type, tile t);
+  // No defenition???
+  //void spawn(agent_type type, tile t);
 
   /// Allow the real game to allow spawning of agents
   void set_allow_spawning(const bool do_allow) noexcept { m_allow_spawning = do_allow; }
