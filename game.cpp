@@ -148,13 +148,19 @@ void game::process_events(sound_type& st)
     m_score = ppt * 112 - 112;
   }
 
+  //std::clog << "Calculate the score\n";
+  if (m_n_tick % 100 == 0){
+     m_essence += 112 - m_score ;
+  }
+
+
   //std::clog << "Process the events happening on the tiles\n";
   for (auto& tile : m_tiles)
   {
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    //tile.process_events(*this); BUG this makes it crash
+    tile.process_events(*this); //BUG this makes it crash
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -349,15 +355,19 @@ std::vector<tile> get_current_tile(game& g, double x, double y)
 void game::confirm_tile_move(tile& t, int direction, int tile_speed){
   switch (direction)
   {
+    // omhoog
     case 1:
       t.set_dy(-tile_speed);
       return;
+    // rechts
     case 2:
       t.set_dx(tile_speed);
       return;
+    // beneden
     case 3:
       t.set_dy(tile_speed);
       return;
+    // links
     case 4:
       t.set_dx(-tile_speed);
       return;
@@ -451,6 +461,69 @@ void test_game() //!OCLINT a testing function may be long
     assert(g == h);
   }
   #endif // FIX_ISSUE_97
+
+  //Test confirm_tile_move up
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 1, 1); // up
+
+    g.process_events(st);
+
+    assert(tile.get_x() == 0);
+    assert(tile.get_y() == -1);
+
+  }
+  //Test confirm_tile_move left
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 4, 1); // left
+
+    g.process_events(st);
+
+    assert(tile.get_x() == -1);
+    assert(tile.get_y() == 0);
+
+  }
+  //Test confirm_tile_move down
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 3, 1); // down
+
+    g.process_events(st);
+
+    assert(tile.get_x() == 0);
+    assert(tile.get_y() == 1);
+
+  }
+  //Test confirm_tile_move right
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 2, 1); // right
+
+    g.process_events(st);
+
+    assert(tile.get_x() == 1);
+    assert(tile.get_y() == 0);
+
+  }
+
+
   //Two grasses should merge to one mountain
   {
     // Create a game with two grassland blocks on top of each other
@@ -620,20 +693,6 @@ void test_game() //!OCLINT a testing function may be long
       assert(t.get_dy() == 1);
       g.confirm_tile_move(t, 4, 1);
       assert(t.get_dx() == -1);
-    }
-  {
-    game g({tile(0, 0), tile(112, 0)});
-    g.move_tiles(100, 100);
-    assert(g.get_tiles().size() == 2);
-    g.remove_tile(100, 100);
-    assert(g.get_tiles().size() == 1);
-    assert(get_current_tile(g, 100, 100).empty());
-    assert(!get_current_tile(g, 212, 100).empty());
-    try {
-      g.confirm_tile_move(get_current_tile(g, 212, 100).at(0), 5, 1);
-    } catch (...) { //Pokemon exception handling
-      assert(!"Test failed!");
-    }
   }
   {
     game g;
@@ -641,6 +700,38 @@ void test_game() //!OCLINT a testing function may be long
     g.allow_damage();
     g.allow_score();
   }
+
+  // Operator== tests
+  //#define FIX_ISSUE_583
+  #ifdef FIX_ISSUE_583
+  { // Two default-constructed games should be the same
+    game g1;
+    game g2;
+    assert(g1 == g2);
+  }
+  // Two default-constructed games, after a change to one game, should result in two different games
+  { // tick/score/essence change
+    game g1;
+    game g2;
+    sound_type st = sound_type::none;
+    for (int i = 0; i < 50; i++)
+      g1.process_events(st);
+    assert(!(g1 == g2));
+  }
+  { // agent change
+    game g1;
+    game g2;
+    agent a(agent_type::bird);
+    g1.add_agents({a});
+    assert(!(g1 == g2));
+  }
+  { // tile difference
+    game g1;
+    tile t;
+    game g2({t});
+    assert(!(g1 == g2));
+  }
+  #endif
 }
 
 game load(const std::string &filename) {
