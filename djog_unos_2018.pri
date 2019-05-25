@@ -58,5 +58,3 @@ HEADERS += \
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc
 
-DISTFILES += \
-    $$PWD/resources/polar_bear.png

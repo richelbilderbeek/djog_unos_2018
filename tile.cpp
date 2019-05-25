@@ -62,7 +62,7 @@ std::vector<tile> create_test_default_tiles() noexcept //!OCLINT indeed a functi
     tiles.push_back(t);
   }
   {
-    tile t(1 * 112, 2 * 112, 4 * 112, 0, 0, tile_type::mountains);
+    tile t(1 * 112, 2 * 112, 4 * 112, 0, 0, tile_type::mountain);
     tiles.push_back(t);
   }
   {
@@ -237,7 +237,7 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
     triplet(tile_type::grassland, agent_type::grass, agent_type::cow),
     triplet(tile_type::hills, agent_type::foxgloves, agent_type::goat),
     triplet(tile_type::mangrove, agent_type::worm, agent_type::crocodile),
-    triplet(tile_type::mountains, agent_type::foxgloves, agent_type::bird),
+    triplet(tile_type::mountain, agent_type::foxgloves, agent_type::bird),
     triplet(tile_type::rainforest, agent_type::tree, agent_type::cow),
     triplet(tile_type::savannah, agent_type::grass, agent_type::giraffe),
     triplet(tile_type::swamp, agent_type::venus_fly_trap, agent_type::cow),
