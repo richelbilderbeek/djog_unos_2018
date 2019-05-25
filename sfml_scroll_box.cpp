@@ -12,6 +12,7 @@ sfml_scroll_box::sfml_scroll_box(const double x, const double y,
   m_shape.setOutlineColor(sf::Color(43,189,121));
 
   m_view.setViewport(m_shape.getGlobalBounds());
+  m_view.setCenter(m_width / 2, m_height / 2);
 }
 
 void sfml_scroll_box::set_pos(int x, int y, sf::RenderWindow &window) {
@@ -20,6 +21,7 @@ void sfml_scroll_box::set_pos(int x, int y, sf::RenderWindow &window) {
   m_shape.setPosition(window.mapPixelToCoords(sf::Vector2i(m_x, m_y)));
 
   m_view.setViewport(m_shape.getGlobalBounds());
+  m_view.setCenter(0, 0);
 }
 
 void sfml_scroll_box::set_size(double width, double height) {

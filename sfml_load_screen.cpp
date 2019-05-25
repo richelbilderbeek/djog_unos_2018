@@ -29,7 +29,6 @@ sfml_load_screen::sfml_load_screen()
   m_list.set_pos(100, 100, m_window);
 
   int y = 0;
-  sf::Vector2i p = m_window.mapCoordsToPixel(m_list.get_pos());
   sf::View tmp_view = m_window.getView();
   m_window.setView(m_list.get_view());
   for (std::string str : get_saves()) {
@@ -38,10 +37,11 @@ sfml_load_screen::sfml_load_screen()
     b_s.setFillColor(sf::Color(53,234,151));
     b.set_size(100, 75);
     b.set_string(str);
-    sf::Vector2f pos = m_window.mapPixelToCoords(sf::Vector2i(p.x + 10, p.y + y));
+    sf::Vector2f pos(m_list.get_pos() + sf::Vector2f(10, y));
     b.set_pos(pos.x, pos.y);
     y += 80;
     m_saves.push_back(b);
+    m_saves.back().set_pos(b.get_pos());
     m_list.add_rectangle(m_saves.back().get_shape());
     m_list.add_text(m_saves.back().get_text());
   }
@@ -123,6 +123,15 @@ void sfml_load_screen::set_positions() {
   m_new_game.set_pos(ng_pos.x, ng_pos.y);
 
   m_list.set_pos(m_window.getSize().y/2, 200, m_window); // map pixel to coords is built in
+
+  const sf::View o_view = m_window.getView();
+  m_window.setView(m_list.get_view());
+  int y = 10;
+  for (auto &b : m_saves) {
+    b.set_pos(10, y);
+    y += 80;
+  }
+  m_window.setView(o_view);
 }
 
 void sfml_load_screen::close(game_state s) {
