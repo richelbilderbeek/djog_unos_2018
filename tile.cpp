@@ -582,6 +582,7 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_x() == dx);
     assert(t.get_y() == dy);
   }
+
   // A tile has the correct depth
   {
     tile g(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland);
