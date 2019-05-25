@@ -356,10 +356,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file hills_standing.png");
   }
   {
-    QFile f(":/nature_zen/resources/Essence_29_32.png");
-    f.copy("Essence_29_32.png");
-    if (!m_essence_texture.loadFromFile("Essence_29_32.png")) {
-      throw std::runtime_error("Cannot find image file Essence_29_32.png");
+    QFile f(":/nature_zen/resources/essence.png");
+    f.copy("essence.png");
+    if (!m_essence_texture.loadFromFile("essence.png")) {
+      throw std::runtime_error("Cannot find image file essence.png");
     }
   }
   {

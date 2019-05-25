@@ -154,7 +154,7 @@ void game::process_events(sound_type& st)
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    //tile.process_events(*this); BUG this makes it crash
+    tile.process_events(*this); //BUG this makes it crash
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -641,6 +641,38 @@ void test_game() //!OCLINT a testing function may be long
     g.allow_damage();
     g.allow_score();
   }
+
+  // Operator== tests
+  //#define FIX_ISSUE_583
+  #ifdef FIX_ISSUE_583
+  { // Two default-constructed games should be the same
+    game g1;
+    game g2;
+    assert(g1 == g2);
+  }
+  // Two default-constructed games, after a change to one game, should result in two different games
+  { // tick/score/essence change
+    game g1;
+    game g2;
+    sound_type st = sound_type::none;
+    for (int i = 0; i < 50; i++)
+      g1.process_events(st);
+    assert(!(g1 == g2));
+  }
+  { // agent change
+    game g1;
+    game g2;
+    agent a(agent_type::bird);
+    g1.add_agents({a});
+    assert(!(g1 == g2));
+  }
+  { // tile difference
+    game g1;
+    tile t;
+    game g2({t});
+    assert(!(g1 == g2));
+  }
+  #endif
 }
 
 game load(const std::string &filename) {

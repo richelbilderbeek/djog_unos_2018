@@ -82,6 +82,9 @@ void sfml_game::start_music() {
 
 void sfml_game::play_sound()
 {
+  if (!m_play_sounds)
+    return;
+
   /// Only play actual sounds
   if (m_sound_type != sound_type::none)
   {
@@ -395,6 +398,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
   if (!selected.empty())
   {
     tile& temp_tile = getTileById(selected);
+    temp_tile.rotate();
     if (m_timer <= 0)
     {
       temp_tile.set_dx(0);
@@ -558,6 +562,11 @@ void sfml_game::stop_music()
     m_background_music.stop();
   if (m_ben_ik_een_spin.getStatus() != sf::Music::Stopped)
     m_ben_ik_een_spin.stop();
+}
+
+void sfml_game::stop_sounds()
+{
+  m_play_sounds = false;
 }
 
 void sfml_game::arrows(bool b, const sf::Event& event)
