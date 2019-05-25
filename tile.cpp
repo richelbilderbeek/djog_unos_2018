@@ -27,7 +27,7 @@ tile::tile(
     m_id{id},
     m_type{type},
     m_rotation{rotation},
-    m_target_rotation{0},
+    m_target_rotation{rotation},
     m_x{x},
     m_y{y},
     m_z{z}
@@ -272,6 +272,8 @@ void tile::rotate_c() {
   if (m_is_rotating)
     return;
 
+  m_is_rotating_clockwise = true;
+
   m_rotation = normalize_rotation(m_rotation);
   m_target_rotation = normalize_rotation(m_target_rotation);
 
@@ -289,6 +291,8 @@ void tile::rotate_c() {
 void tile::rotate_cc() {
   if (m_is_rotating)
     return;
+
+  m_is_rotating_clockwise = false;
   m_rotation = normalize_rotation(m_rotation);
   m_target_rotation = normalize_rotation(m_target_rotation);
   if (m_rotation != 0 && m_rotation != 90 && m_rotation != 180 && m_rotation != 270 && m_rotation != 360)
@@ -309,19 +313,22 @@ void tile::rotate()
     m_target_rotation = normalize_rotation(m_target_rotation);
   }
 
-  if (m_rotation < m_target_rotation && m_target_rotation != 270)
-    m_rotation += 1;
-  else if (m_rotation < m_target_rotation && m_target_rotation == 270)
-    m_rotation -= 1;
-  else if (m_rotation > m_target_rotation && m_target_rotation != 0)
-    m_rotation -= 1;
-  else if (m_rotation > m_target_rotation && m_target_rotation == 0)
-    m_rotation += 1;
-  else {
+  if (m_is_rotating_clockwise) // Clockwise
+  {
+      if (m_rotation == m_target_rotation)
+        m_is_rotating = false;
+      else {
+        m_rotation += 1;
+      }
+  }
+  else // Counterclockwise
+  {
+    if (m_rotation == m_target_rotation)
       m_is_rotating = false;
+    else {
+      m_rotation -= 1;
     }
-  m_rotation %= 360;
-  m_target_rotation %= 360;
+  }
 }
 
 double tile::get_width() const {

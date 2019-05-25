@@ -115,6 +115,7 @@ private:
   bool m_locked{false};
 
   bool m_is_rotating = false;
+  bool m_is_rotating_clockwise = false;
 
   /// The type the tile
   tile_type m_type;
