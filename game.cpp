@@ -21,7 +21,7 @@ game::game(
     m_tiles{tiles},
     m_agents{agents},
     m_n_tick{0},
-    m_score{100},
+    m_score{0},
     m_essence{0},
     m_sound_type{sound_type::none}
 {
