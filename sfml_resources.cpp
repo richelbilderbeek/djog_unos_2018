@@ -491,17 +491,16 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT t
 
 sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLINT cannot be simpler
 {
-  switch (t) {
-    case tile_type::tundra:
-      return m_tundra_laying;
-    case tile_type::beach:
-      return m_beach_laying;
-    case tile_type::water:
-      return m_water_laying;
-    case tile_type::dunes:
-      return m_dunes_laying;
-    case tile_type::hills:
-      return m_hills_laying;
+  switch (t)
+  {
+    case tile_type::beach: return m_beach_laying;
+    case tile_type::dunes: return m_dunes_laying;
+    case tile_type::hills: return m_hills_laying;
+    //case tile_type::swamp: return m_swamp_laying;
+    case tile_type::tundra: return m_tundra_laying;
+    case tile_type::water: return m_water_laying;
+    //case tile_type::woods:  return m_woods_laying;
+
     default:
       break;
   }

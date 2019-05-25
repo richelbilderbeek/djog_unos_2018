@@ -148,6 +148,12 @@ void game::process_events(sound_type& st)
     m_score = ppt * 112 - 112;
   }
 
+  //std::clog << "Calculate the score\n";
+  if (m_n_tick % 100 == 0){
+     m_essence += 112 - m_score ;
+  }
+
+
   //std::clog << "Process the events happening on the tiles\n";
   for (auto& tile : m_tiles)
   {
