@@ -256,7 +256,6 @@ void game::kill_agents()
       double width = get_agent_width(sfml_resources::get().get_agent_sprite(a.get_type())) * 0.2f;
       double height = get_agent_height(sfml_resources::get().get_agent_sprite(a.get_type())) * 0.2f;
       double x = a.get_x() - width/2;
-      std::cout << a.get_x() << " + " << x << " + " << width/2 << std::endl;
       a.set_x(a.get_x() - width/2);
       a.set_y(a.get_y() - height/2);
 
