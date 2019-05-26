@@ -128,24 +128,21 @@ void agent::eat(game& g) { //!OCLINT high compexity
   //Plants do not eat
   if (is_plant(m_type)) return;
 
-  //What can the focal agent eat
-  const std::vector<agent_type> prey_types = m_prey;
-
   //Is agent_type a in food?
   for (agent& other : g.get_agents()) {
     //Agents never eat themselves
     if (this == &other) continue;
 
-    //Skip other agent if it is not a prey type
-    const agent_type prey_type = other.get_type();
-    if (std::count(std::begin(prey_types), std::end(prey_types), prey_type) == 0) continue;
+    // Focal agent will not eat corpses
+    if (other.get_health() <= 0.0) continue;
 
     //Skip other agent if it is not in range
     // NOTE not calculated from the center of the agent
     if (!is_in_range(other.get_x(), other.get_y(), 25.0)) continue;
 
-    // Focal agent will not eat corpses
-    if (other.get_health() <= 0.0) continue;
+    //Skip other agent if it is not a prey type
+    const agent_type prey_type = other.get_type();
+    if (std::count(std::begin(m_prey), std::end(m_prey), prey_type) == 0) continue;
 
     // Focal agent will eat the prey
     // As in any food chain, energy is lost: the predator gains less energy
@@ -746,7 +743,7 @@ void test_agent() //!OCLINT testing functions may be long
     const double prev_health2 = g.get_agents()[1].get_health();
 
     // Damage time
-    for(int i = 0; i != 100; ++i){      
+    for(int i = 0; i != 100; ++i){
       g.process_events(st);
     }
 
