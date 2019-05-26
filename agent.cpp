@@ -208,8 +208,10 @@ void agent::move(game &g){ //!OCLINT too complex indeed
   double temp_y = 0.1 * (-1 + (std::rand() % 3));
   sf::Vector2f center_temp = get_agent_center(*this);
   std::vector<tile> t_temp = get_current_tile(g, center_temp.x + temp_x, center_temp.y + temp_y);
-  if(is_on_tile(g, center_temp.x + temp_x, center_temp.y + temp_y)
-     && t_temp[0].get_type() != tile_type::water){
+  if((is_on_tile(g, center_temp.x + temp_x, center_temp.y + temp_y)
+     && t_temp[0].get_type() != tile_type::water)
+     || (!will_drown(m_type) && is_on_tile(g, center_temp.x + temp_x, center_temp.y + temp_y))
+     || m_type == agent_type::bird){
     m_x += temp_x;
     m_y += temp_y;
   }
@@ -242,8 +244,9 @@ void agent::move(game &g){ //!OCLINT too complex indeed
     y = std::max(-0.05, std::min(y, 0.05));
     sf::Vector2f center = get_agent_center(*this);
     std::vector<tile> t = get_current_tile(g, center.x + x*2, center.y + y*2);
-    if(is_on_tile(g, center.x + x*2, center.y + y*2)
-       && t[0].get_type() != tile_type::water){
+    if((is_on_tile(g, center.x + x*2, center.y + y*2)
+       && t[0].get_type() != tile_type::water)
+       || m_type == agent_type::bird){
       m_x += x;
       m_y += y;
     }
