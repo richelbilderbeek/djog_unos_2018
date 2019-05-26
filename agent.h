@@ -49,7 +49,6 @@ public:
 
   sf::Vector2f get_center(const sf::Texture& sprite) const;
 
-
   void move(double x, double y);
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;

@@ -126,6 +126,7 @@ void game::process_events(sound_type& st)
       //Agent is a corpse that needs to be removed at this tick
       if(a.get_type() == agent_type::corpse
         && a.get_corpse_ticks() + 300 < this->get_n_ticks()
+        && a.get_corpse_ticks() >= 0
       )
       {
         m_agents[i] = m_agents.back();
@@ -250,7 +251,14 @@ void game::kill_agents()
     assert(i < static_cast<int>(m_agents.size()));
 
     if (m_agents[i].get_health() <= 0.0 && m_agents[i].get_type() != agent_type::corpse) {
-      agent a(agent_type::corpse, m_agents[i].get_x(), m_agents[i].get_y());
+      sf::Vector2f center1 = get_agent_center(m_agents[i]);
+      agent a(agent_type::corpse, center1.x, center1.y);
+      double width = get_agent_width(sfml_resources::get().get_agent_sprite(a.get_type())) * 0.2f;
+      double height = get_agent_height(sfml_resources::get().get_agent_sprite(a.get_type())) * 0.2f;
+      double x = a.get_x() - width/2;
+      std::cout << a.get_x() << " + " << x << " + " << width/2 << std::endl;
+      a.set_x(a.get_x() - width/2);
+      a.set_y(a.get_y() - height/2);
 
       if(!is_plant(m_agents[i].get_type())) {
         m_agents.push_back(a); }
@@ -340,6 +348,14 @@ std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 
 sf::Vector2f get_agent_center(const agent& a){
   return a.get_center(sfml_resources::get().get_agent_sprite(a));
+}
+
+double get_agent_width(const sf::Texture& a){
+  return a.getSize().x;
+}
+
+double get_agent_height(const sf::Texture& a){
+  return a.getSize().y;
 }
 
 bool is_on_tile(const game& g, const agent& a) {

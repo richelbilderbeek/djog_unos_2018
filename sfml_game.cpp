@@ -14,6 +14,7 @@
 #include <string>
 #include <sstream>
 #include <SFML/Window.hpp>
+#include <chrono>
 
 sfml_game::sfml_game(
   const sfml_game_delegate& delegate,
@@ -550,7 +551,8 @@ void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
   assert(tiles.size() > 0);
-  const int i = random_int(0, tiles.size());
+  int ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  const int i = random_int(0, tiles.size() - 1, ms);
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
   m_game.m_selected[0] = id;

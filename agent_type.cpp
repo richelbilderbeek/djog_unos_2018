@@ -165,6 +165,55 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   return agent_type::corpse;
 }
 
+agent_type random_agent_type(int type){
+  switch(type){
+    case 1:
+      return agent_type::cow;
+    case 2:
+      return agent_type::crocodile;
+    case 3:
+      return agent_type::plankton;
+    case 4:
+      return agent_type::worm;
+    case 5:
+      return agent_type::whale;
+    case 6:
+      return agent_type::fish;
+    case 7:
+      return agent_type::grass;
+    case 8:
+      return agent_type::tree;
+    case 9:
+      return agent_type::bird;
+    case 10:
+      return agent_type::spider;
+    case 11:
+      return agent_type::sunflower;
+    case 12:
+      return agent_type::goat;
+    case 13:
+      return agent_type::snake;
+    case 14:
+      return agent_type::octopus;
+    case 15:
+      return agent_type::lion;
+    case 16:
+      return agent_type::giraffe;
+    case 17:
+      return agent_type::venus_fly_trap;
+    case 18:
+      return agent_type::foxgloves;
+    case 19:
+      return agent_type::cactus;
+    case 20:
+      return agent_type::corpse;
+    case 21:
+      return agent_type::chameleon;
+    default:
+      return agent_type::cow;
+  }
+}
+
 std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
   os << to_str(a);
   return os;

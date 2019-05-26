@@ -315,7 +315,7 @@ std::vector <agent> agent::process_events(game& g) { //!OCLINT NPath complexity 
   std::vector <agent> new_agents;
 
   //Sessile and aquatic species die instantly when on void
-  if(m_type != agent_type::bird && !is_on_tile(g, *this))
+  if(m_type != agent_type::bird && !is_on_tile(g, *this) && m_type != agent_type::corpse)
   {
     m_health = 0.0;
     return new_agents;

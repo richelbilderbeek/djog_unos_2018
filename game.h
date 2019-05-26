@@ -152,6 +152,10 @@ std::vector<tile_type> get_on_tile_type(const game& g, const double x, const dou
 
 sf::Vector2f get_agent_center(const agent& a);
 
+double get_agent_width(const sf::Texture& a);
+
+double get_agent_height(const sf::Texture& a);
+
 /// Determine if an agent is on a specific tile
 bool is_on_specific_tile(const agent& a, const tile& t);
 
