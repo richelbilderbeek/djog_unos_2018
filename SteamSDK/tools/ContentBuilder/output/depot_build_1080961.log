@@ -1,0 +1,129 @@
+[2019-05-25 21:10:54]: Starting build for depot 1080961, content path is "C:\Users\DJOG\Downloads\sdk\tools\ContentBuilder\content\", build flags 0x0
+[2019-05-25 21:10:54]: Building file listing for depot 1080961 ...
+[2019-05-25 21:10:54]: Found 98 files for mapping: C:\Users\DJOG\Downloads\sdk\tools\ContentBuilder\content\windows_content * -> .
+[2019-05-25 21:10:57]: Found 98 files (219 MB) for depot 1080961
+[2019-05-25 21:10:58]: Building depot 1080961, no baseline manifest
+[2019-05-25 21:11:47]: Found 259 chunks ( 0 used previously ) for depot 1080961, took 0 minutes, 49 seconds
+
+[2019-05-25 21:11:47]: Changes to baseline manifest 0 :
+[2019-05-25 21:11:47]: Added  : "agent.o" 848 kB 
+[2019-05-25 21:11:47]: Added  : "agent_type.o" 138 kB 
+[2019-05-25 21:11:47]: Added  : "Barachem_Zauberspiel_Preliminary_Edit.ogg" 4609 kB 
+[2019-05-25 21:11:47]: Added  : "beach_texture_laying.png" 28 kB 
+[2019-05-25 21:11:47]: Added  : "beach_texture_standing.png" 38 kB 
+[2019-05-25 21:11:47]: Added  : "ben_ik_een_spin.ogg" 2874 kB 
+[2019-05-25 21:11:47]: Added  : "biology.o" 5 kB 
+[2019-05-25 21:11:47]: Added  : "blood-spatter.png" 45 kB 
+[2019-05-25 21:11:47]: Added  : "cactus.png" 6 kB 
+[2019-05-25 21:11:47]: Added  : "chameleon.png" 56 kB 
+[2019-05-25 21:11:47]: Added  : "cow.png" 8 kB 
+[2019-05-25 21:11:47]: Added  : "cow_01.wav" 71 kB 
+[2019-05-25 21:11:47]: Added  : "crocodile.png" 9 kB 
+[2019-05-25 21:11:47]: Added  : "dunes_laying.png" 8 kB 
+[2019-05-25 21:11:47]: Added  : "dunes_standing.png" 10 kB 
+[2019-05-25 21:11:47]: Added  : "Essence_29_32.png" 2 kB 
+[2019-05-25 21:11:47]: Added  : "fish.png" 6 kB 
+[2019-05-25 21:11:47]: Added  : "flying_bird.png" 10 kB 
+[2019-05-25 21:11:47]: Added  : "font.ttf" 213 kB 
+[2019-05-25 21:11:47]: Added  : "foxgloves.png" 11 kB 
+[2019-05-25 21:11:47]: Added  : "game.o" 1147 kB 
+[2019-05-25 21:11:47]: Added  : "game_state.o" 121 kB 
+[2019-05-25 21:11:47]: Added  : "giraffe.png" 4 kB 
+[2019-05-25 21:11:47]: Added  : "grass.png" 6 kB 
+[2019-05-25 21:11:47]: Added  : "hills_laying.png" 8 kB 
+[2019-05-25 21:11:47]: Added  : "hills_standing.png" 10 kB 
+[2019-05-25 21:11:47]: Added  : "horse_09.wav" 73 kB 
+[2019-05-25 21:11:47]: Added  : "launcher.bat" 1 kB 
+[2019-05-25 21:11:47]: Added  : "libgcc_s_dw2-1.dll" 118 kB 
+[2019-05-25 21:11:47]: Added  : "libstdc++-6.dll" 1505 kB 
+[2019-05-25 21:11:47]: Added  : "libwinpthread-1.dll" 78 kB 
+[2019-05-25 21:11:47]: Added  : "lion.png" 40 kB 
+[2019-05-25 21:11:47]: Added  : "lion_04.wav" 178 kB 
+[2019-05-25 21:11:47]: Added  : "main.o" 1221 kB 
+[2019-05-25 21:11:47]: Added  : "mountain_goat.png" 8 kB 
+[2019-05-25 21:11:47]: Added  : "naturezen.exe" 28003 kB 
+[2019-05-25 21:11:47]: Added  : "none_agent.png" 12 kB 
+[2019-05-25 21:11:47]: Added  : "none_tile.png" 1 kB 
+[2019-05-25 21:11:47]: Added  : "octopus.png" 2 kB 
+[2019-05-25 21:11:47]: Added  : "openal32.dll" 616 kB 
+[2019-05-25 21:11:47]: Added  : "owl_37.wav" 69 kB 
+[2019-05-25 21:11:47]: Added  : "plankton.png" 19 kB 
+[2019-05-25 21:11:47]: Added  : "qrc_djog_unos_2018.cpp" 27 kB 
+[2019-05-25 21:11:47]: Added  : "qrc_djog_unos_2018.o" 15992 kB 
+[2019-05-25 21:11:47]: Added  : "qrc_djog_unos_2018.tmp.o" 15992 kB 
+[2019-05-25 21:11:47]: Added  : "Qt5Cored.dll" 119552 kB 
+[2019-05-25 21:11:47]: Added  : "saves" 0 kB ,Flags: 64
+[2019-05-25 21:11:47]: Added  : "saves\tmp.sav" 1 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-audio-2.dll" 1559 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-audio-d-2.dll" 3226 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-graphics-2.dll" 1175 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-graphics-d-2.dll" 3856 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-network-2.dll" 214 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-network-d-2.dll" 1249 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-system-2.dll" 113 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-system-d-2.dll" 742 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-window-2.dll" 237 kB 
+[2019-05-25 21:11:47]: Added  : "sfml-window-d-2.dll" 2201 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_about_screen.o" 686 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_button.o" 606 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_camera.o" 32 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_game.o" 967 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_gameover_screen.o" 617 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_game_delegate.o" 571 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_load_screen.o" 914 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_menu_screen.o" 616 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_pause_overlay.o" 617 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_resources.o" 608 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_save_overlay.o" 692 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_scroll_box.o" 502 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_shop_overlay.o" 616 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_text_input.o" 611 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_title_screen.o" 615 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_window_manager.o" 142 kB 
+[2019-05-25 21:11:47]: Added  : "sfml_zen_bar.o" 588 kB 
+[2019-05-25 21:11:47]: Added  : "snake.png" 4 kB 
+[2019-05-25 21:11:47]: Added  : "sound_type.o" 88 kB 
+[2019-05-25 21:11:47]: Added  : "spider.png" 2 kB 
+[2019-05-25 21:11:47]: Added  : "squirrel.png" 43 kB 
+[2019-05-25 21:11:47]: Added  : "sunflower.png" 6 kB 
+[2019-05-25 21:11:47]: Added  : "tile.o" 705 kB 
+[2019-05-25 21:11:47]: Added  : "tile_id.o" 4 kB 
+[2019-05-25 21:11:47]: Added  : "tile_merge.wav" 25 kB 
+[2019-05-25 21:11:47]: Added  : "tile_move.wav" 91 kB 
+[2019-05-25 21:11:47]: Added  : "tile_type.o" 609 kB 
+[2019-05-25 21:11:47]: Added  : "title_music.ogg" 4934 kB 
+[2019-05-25 21:11:47]: Added  : "title_screen_background.png" 12 kB 
+[2019-05-25 21:11:47]: Added  : "tree.png" 5 kB 
+[2019-05-25 21:11:47]: Added  : "tundra_laying.png" 4 kB 
+[2019-05-25 21:11:47]: Added  : "tundra_standing.png" 3 kB 
+[2019-05-25 21:11:47]: Added  : "venus_fly_trap.png" 23 kB 
+[2019-05-25 21:11:47]: Added  : "water_standing.png" 40 kB 
+[2019-05-25 21:11:47]: Added  : "whale.png" 6 kB 
+[2019-05-25 21:11:47]: Added  : "worm.png" 1 kB 
+[2019-05-25 21:11:47]: Added  : "zen_bar.png" 1 kB 
+[2019-05-25 21:11:47]: Added  : "zen_font.ttf" 46 kB 
+[2019-05-25 21:11:47]: Added  : "zen_indicator.png" 11 kB 
+[2019-05-25 21:11:47]: Added  : "zen_title.png" 13 kB 
+[2019-05-25 21:11:47]: Summary: 98 files added, 0 files changed, 0 files removed
+[2019-05-25 21:11:48]: Uploading new manifest to 208.64.201.182:80 (handle 5563077800145026521, 17880 bytes).
+[2019-05-25 21:11:49]: Uploading 259 out of 259 missing chunks.
+[2019-05-25 21:13:15]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/e35ea5492a73b971642e969b53767567e1dd8c61/3432985412" (Error code 408)
+
+[2019-05-25 21:13:18]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/ee64803fc6064b84bff57852a21bb759bfd1adac/1591911703" (Error code 408)
+
+[2019-05-25 21:13:20]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/e9aed5ec2b164e3029c93254eafb76a4bff96b2d/4215997028" (Error code 408)
+
+[2019-05-25 21:13:21]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/db2ea7e21f54f0b477f0f68f2035445a79b7d316/3284766958" (Error code 408)
+
+[2019-05-25 21:13:21]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/f611f1acfa90d3547f00dbd91d13a26023c8f956/1463483270" (Error code 408)
+
+[2019-05-25 21:13:28]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/fb1cc4d937440343208f0abd9a2718fbb92ac6e8/220463782" (Error code 408)
+
+[2019-05-25 21:13:30]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/fc9c378bdef4140a43ddd1585a9ea0d4a40ae016/3310093329" (Error code 408)
+
+[2019-05-25 21:14:10]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/f2e35429e97512255553160be2cf1e839ca94569/4233871735" (Error code 408)
+
+[2019-05-25 21:14:12]: Retrying chunk for URL "/depotupload/5563077800145026521/chunk/f8f1044be8533f71a0d303b2bf3effb0cb6f8763/2097528630" (Error code 408)
+
+[2019-05-25 21:14:26]: Uploading 9 out of 9 missing chunks.
+[2019-05-25 21:14:43]: Success! New manifestID 4455991131139841003 created and 259 new chunks uploaded.

@@ -356,10 +356,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file hills_standing.png");
   }
   {
-    QFile f(":/nature_zen/resources/Essence_29_32.png");
-    f.copy("Essence_29_32.png");
-    if (!m_essence_texture.loadFromFile("Essence_29_32.png")) {
-      throw std::runtime_error("Cannot find image file Essence_29_32.png");
+    QFile f(":/nature_zen/resources/essence.png");
+    f.copy("essence.png");
+    if (!m_essence_texture.loadFromFile("essence.png")) {
+      throw std::runtime_error("Cannot find image file essence.png");
     }
   }
   {
@@ -484,17 +484,16 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT t
 
 sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLINT cannot be simpler
 {
-  switch (t) {
-    case tile_type::tundra:
-      return m_tundra_laying;
-    case tile_type::beach:
-      return m_beach_laying;
-    case tile_type::water:
-      return m_water_laying;
-    case tile_type::dunes:
-      return m_dunes_laying;
-    case tile_type::hills:
-      return m_hills_laying;
+  switch (t)
+  {
+    case tile_type::beach: return m_beach_laying;
+    case tile_type::dunes: return m_dunes_laying;
+    case tile_type::hills: return m_hills_laying;
+    //case tile_type::swamp: return m_swamp_laying;
+    case tile_type::tundra: return m_tundra_laying;
+    case tile_type::water: return m_water_laying;
+    //case tile_type::woods:  return m_woods_laying;
+
     default:
       break;
   }

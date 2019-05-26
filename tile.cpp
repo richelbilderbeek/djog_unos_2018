@@ -27,6 +27,7 @@ tile::tile(
     m_id{id},
     m_type{type},
     m_rotation{rotation},
+    m_target_rotation{rotation},
     m_x{x},
     m_y{y},
     m_z{z}
@@ -268,14 +269,66 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 }
 
 void tile::rotate_c() {
-  m_rotation += 90;
-  m_rotation %= 360;
+  if (m_is_rotating)
+    return;
+
+  m_is_rotating_clockwise = true;
+
+  m_rotation = normalize_rotation(m_rotation);
+  m_target_rotation = normalize_rotation(m_target_rotation);
+
+  if (m_rotation != 0 && m_rotation != 90 && m_rotation != 180 && m_rotation != 270 && m_rotation != 360)
+  {
+    m_rotation = 0;
+    m_target_rotation = 0;
+  }
+
+  m_is_rotating = true;
+  m_target_rotation += 90;
+  m_target_rotation = normalize_rotation(m_target_rotation);
 }
 
 void tile::rotate_cc() {
-  m_rotation -= 90;
-  while (m_rotation < 0) m_rotation += 360;
-  m_rotation %= 360;
+  if (m_is_rotating)
+    return;
+
+  m_is_rotating_clockwise = false;
+  m_rotation = normalize_rotation(m_rotation);
+  m_target_rotation = normalize_rotation(m_target_rotation);
+  if (m_rotation != 0 && m_rotation != 90 && m_rotation != 180 && m_rotation != 270 && m_rotation != 360)
+  {
+    m_rotation = 0;
+    m_target_rotation = 0;
+  }
+  m_is_rotating = true;
+  m_target_rotation -= 90;
+  m_target_rotation = normalize_rotation(m_target_rotation);
+}
+
+void tile::rotate()
+{
+  if (normalize_rotation(m_rotation) == normalize_rotation(m_target_rotation))
+  {
+    m_rotation = normalize_rotation(m_rotation);
+    m_target_rotation = normalize_rotation(m_target_rotation);
+  }
+
+  if (m_is_rotating_clockwise) // Clockwise
+  {
+      if (m_rotation == m_target_rotation)
+        m_is_rotating = false;
+      else {
+        m_rotation += 1;
+      }
+  }
+  else // Counterclockwise
+  {
+    if (m_rotation == m_target_rotation)
+      m_is_rotating = false;
+    else {
+      m_rotation -= 1;
+    }
+  }
 }
 
 double tile::get_width() const {
@@ -322,9 +375,18 @@ void tile::set_dy(double dy) {
     m_dy = dy;
 }
 
-void tile::set_rotation(double r) {
+int tile::get_rotation() const noexcept
+{
+  return normalize_rotation(m_rotation);
+}
+
+void tile::set_rotation(int r) {
   if (!m_locked)
+  {
     m_rotation = r;
+    m_target_rotation = r;
+  }
+
 }
 
 void tile::set_type(const tile_type t) noexcept
@@ -445,6 +507,19 @@ bool contains(const tile& t, double x, double y) noexcept {
 
 void tile::lock_movement(bool b) { m_locked = b; }
 
+int normalize_rotation(int degrees)
+{
+  int normalized = degrees;
+
+  normalized = normalized % 360;
+
+  if (normalized < 0)
+  {
+      normalized += 360;
+  }
+  return normalized;
+}
+
 void test_tile() //!OCLINT testing function may be many lines
 {
   //#define FIX_ISSUE_522
@@ -508,6 +583,7 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(t.get_x() == dx);
     assert(t.get_y() == dy);
   }
+
   // A tile has the correct depth
   {
     tile g(0.0, 0.0, 0.0, 0.0, 0.0, tile_type::grassland);
@@ -600,13 +676,22 @@ void test_tile() //!OCLINT testing function may be many lines
     assert(create_default_tiles().size() > 0);
   }
   {
-    tile t;
+    tile t = tile(0, 0, 0, 0, 10, tile_type::grassland);
+    game g = game({t});
+    sound_type st { sound_type::none };
     assert(t.get_rotation() == 0);
     t.rotate_cc();
+
+    for(int i = 0; i != 200; ++i){
+        t.rotate();
+    }
     assert(t.get_rotation() == 270);
     assert(t.get_corner() == sf::Vector2f(t.get_x(), t.get_y() - (t.get_height() / 2.0)));
     assert(t.get_center() == sf::Vector2f(t.get_x() + (t.get_width() / 2.0), t.get_y()));
     t.rotate_cc();
+    for(int i = 0; i != 200; ++i){
+        t.rotate();
+    }
     assert(t.get_rotation() == 180);
     assert(t.get_corner() == sf::Vector2f(t.get_x() - (t.get_width() / 2.0), t.get_y()));
     assert(t.get_center() == sf::Vector2f(t.get_x(), t.get_y() + (t.get_height() / 2.0)));

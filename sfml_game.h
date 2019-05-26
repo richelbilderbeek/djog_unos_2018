@@ -66,6 +66,9 @@ public:
   /// Stop the music
   void stop_music();
 
+  /// Stop the sounds
+  void stop_sounds();
+
   void arrows(bool b, const sf::Event &event);
 
   int m_timer = 0;
@@ -219,6 +222,8 @@ private:
   sfml_save_overlay m_save_screen;
 
   double m_zoom_state = 1;
+
+  bool m_play_sounds = true;
 
 };
 
