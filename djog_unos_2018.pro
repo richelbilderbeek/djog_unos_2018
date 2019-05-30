@@ -27,6 +27,7 @@ CONFIG += debug_and_release
 CONFIG(release, debug|release) {
 
   DEFINES += NDEBUG
+  DEFINES += SFML_STATIC
 
   # GNU/Linux
   unix:!macx {

@@ -3,10 +3,9 @@
 #include "agent.h"
 #include "tile_type.h"
 #include "tile.h"
+#include "sfml_game.h"
 
 #include <cassert>
-
-
 
 sfml_resources *sfml_resources::m_instance = nullptr; //!OCLINT static accepted singleton
 
@@ -54,11 +53,35 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
-    // moo
-    QFile f(":/nature_zen/resources/moo.wav");
-    f.copy("moo.wav");
-    if (!m_cow_sound.loadFromFile("moo.wav")) {
-      throw std::runtime_error("Cannot find music file 'moo.wav'");
+    // cow
+    QFile f(":/nature_zen/resources/cow_01.wav");
+    f.copy("cow_01.wav");
+    if (!m_cow_sound.loadFromFile("cow_01.wav")) {
+      throw std::runtime_error("Cannot find music file 'cow_01.wav'");
+    }
+  }  
+  {
+    // horse
+    QFile f(":/nature_zen/resources/horse_09.wav");
+    f.copy("horse_09.wav");
+    if (!m_horse_sound.loadFromFile("horse_09.wav")) {
+      throw std::runtime_error("Cannot find music file 'horse_09.wav'");
+    }
+  }
+  {
+    // lion
+    QFile f(":/nature_zen/resources/lion_04.wav");
+    f.copy("lion_04.wav");
+    if (!m_lion_sound.loadFromFile("lion_04.wav")) {
+      throw std::runtime_error("Cannot find music file 'lion_04.wav'");
+    }
+  }
+  {
+    // owl
+    QFile f(":/nature_zen/resources/owl_37.wav");
+    f.copy("owl_37.wav");
+    if (!m_owl_sound.loadFromFile("owl_37.wav")) {
+      throw std::runtime_error("Cannot find music file 'owl_37.wav'");
     }
   }
    // plankton texture
@@ -333,10 +356,10 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file hills_standing.png");
   }
   {
-    QFile f(":/nature_zen/resources/Essence_29_32.png");
-    f.copy("Essence_29_32.png");
-    if (!m_essence_texture.loadFromFile("Essence_29_32.png")) {
-      throw std::runtime_error("Cannot find image file Essence_29_32.png");
+    QFile f(":/nature_zen/resources/essence.png");
+    f.copy("essence.png");
+    if (!m_essence_texture.loadFromFile("essence.png")) {
+      throw std::runtime_error("Cannot find image file essence.png");
     }
   }
   {
@@ -438,51 +461,44 @@ sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
 
 sf::SoundBuffer& sfml_resources::random_animal_sound()
 {
+  const int choose{ random_int(1, 4, std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()) };
+
+  switch (choose)
+  {
+    case 1 :
+      return m_cow_sound;
+    case 2 :
+      return m_horse_sound;
+    case 3 :
+      return m_lion_sound;
+    case 4 :
+      return m_owl_sound;
+  }
   return m_cow_sound;
 }
 
 sf::Texture &sfml_resources::get_tile_sprite(const tile &t) noexcept //!OCLINT too long, needs to be fixed
 {
-  return get_tile_sprite_landscape(t.get_type());
+  return get_tile_sprite(t.get_type());
 }
 
-sf::Texture &sfml_resources::get_tile_sprite_landscape(const tile_type t) noexcept //!OCLINT cannot be simpler
+sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLINT cannot be simpler
 {
-  switch (t) {
-    case tile_type::tundra:
-      return m_tundra_laying;
-    case tile_type::beach:
-      return m_beach_laying;
-    case tile_type::water:
-      return m_water_laying;
-    case tile_type::dunes:
-      return m_dunes_laying;
-    case tile_type::hills:
-      return m_hills_laying;
+  switch (t)
+  {
+    case tile_type::beach: return m_beach_laying;
+    case tile_type::dunes: return m_dunes_laying;
+    case tile_type::hills: return m_hills_laying;
+    //case tile_type::swamp: return m_swamp_laying;
+    case tile_type::tundra: return m_tundra_laying;
+    case tile_type::water: return m_water_laying;
+    //case tile_type::woods:  return m_woods_laying;
+
     default:
       break;
   }
   return m_empty_tile;
 }
-
-//sf::Texture &sfml_resources::get_tile_sprite_portrait(const tile_type t) noexcept //!OCLINT cannot be simpler
-//{
-//  switch (t) {
-//    case tile_type::tundra:
-//      return m_tundra_standing;
-//    case tile_type::beach:
-//      return m_beach_standing;
-//    case tile_type::water:
-//      return m_water_standing;
-//    case tile_type::dunes:
-//      return m_dunes_standing;
-//    case tile_type::hills:
-//      return m_hills_standing;
-//    default:
-//     break;
-//  }
-//  return m_empty_tile;
-//}
 
 void test_sfml_resources() //!OCLINT tests may be long
 {
@@ -513,12 +529,5 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
-  //#define FIX_ISSUE_538
-  #ifdef FIX_ISSUE_538
-  // Can get the sprite of a tile type
-  {
-    assert(resources.get_tile_sprite_portrait(tile_type::grassland).getSize().x > 0);
-    assert(resources.get_tile_sprite_landscape(tile_type::grassland).getSize().x > 0);
-  }
-  #endif // FIX_ISSUE_538
+  assert(resources.get_tile_sprite(tile_type::grassland).getSize().x > 0);
 }

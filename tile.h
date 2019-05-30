@@ -28,7 +28,7 @@ public:
   );
 
   /// The height of the tile
-  double get_rotation() const noexcept { return m_rotation; }
+  int get_rotation() const noexcept;
 
   /// The type the tile
   tile_type get_type() const noexcept { return m_type; }
@@ -66,7 +66,7 @@ public:
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
 
-  void set_rotation(double r);
+  void set_rotation(int r);
 
   void rotate_c();
   void rotate_cc();
@@ -84,6 +84,8 @@ public:
   void move(std::vector<agent>& a);
 
   void move();
+
+  void rotate();
 
   /// Get the tile's id
   int get_id() const noexcept { return m_id.get(); }
@@ -112,11 +114,17 @@ private:
 
   bool m_locked{false};
 
+  bool m_is_rotating = false;
+  bool m_is_rotating_clockwise = false;
+
   /// The type the tile
   tile_type m_type;
 
-  /// The width of the tile
+  /// The rotation of the tile
   int m_rotation;
+
+  int m_target_rotation;
+
 
   /// The x-coordinate of the top-left corner of the tile
   double m_x;
@@ -173,6 +181,8 @@ std::istream& operator>>(std::istream& os, tile& t);
 bool operator==(const tile& lhs, const tile& rhs) noexcept;
 
 int degreeToDirection(int deg, bool cc);
+
+int normalize_rotation(int degrees);
 
 /// Test the tile class
 void test_tile();

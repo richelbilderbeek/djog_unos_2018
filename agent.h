@@ -49,7 +49,6 @@ public:
 
   sf::Vector2f get_center(const sf::Texture& sprite) const;
 
-
   void move(double x, double y);
 
   bool is_clicked(const double x, const double y, const sf::Texture& sprite) const noexcept;
@@ -66,11 +65,13 @@ public:
   ///Moves the agent. It will do nothing if exhausted.
   ///If it has stamina, the agent will go looking for food
   ///@param game the game logic
-  void move(const game& g);
+  void move(game& g);
 
   void attract_to_agent(game& g, agent_type type);
 
   std::vector <agent> reproduce_agents(game& g, agent_type type);
+
+  void find_destination(game &g);
 
 private:
   /// The type the tile
@@ -115,6 +116,8 @@ private:
   double m_dy_motivation = 0;
 
   void damage_own_type(game &g, agent_type type);
+
+  std::vector<agent> destination;
 
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);

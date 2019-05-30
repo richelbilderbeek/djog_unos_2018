@@ -47,16 +47,16 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
   return types;
 }
 
-int random_int(int min, int max){
-    std::default_random_engine device(314);
+int random_int(int min, int max, unsigned seed){
+    std::default_random_engine device(seed);
     std::mt19937 generator(device());
     std::uniform_int_distribution<int> distribution(min, max);
 
     return distribution(generator);
 }
 
-double random_double(double min, double max){
-    std::default_random_engine device(314);
+double random_double(double min, double max, unsigned seed){
+    std::default_random_engine device(seed);
     std::mt19937 generator(device());
     std::uniform_real_distribution<double> distribution(min, max);
 
@@ -126,6 +126,7 @@ void game::process_events(sound_type& st)
       //Agent is a corpse that needs to be removed at this tick
       if(a.get_type() == agent_type::corpse
         && a.get_corpse_ticks() + 300 < this->get_n_ticks()
+        && a.get_corpse_ticks() >= 0
       )
       {
         m_agents[i] = m_agents.back();
@@ -148,13 +149,19 @@ void game::process_events(sound_type& st)
     m_score = ppt * 112 - 112;
   }
 
+  //std::clog << "Calculate the score\n";
+  if (m_n_tick % 100 == 0){
+     m_essence += 112 - m_score ;
+  }
+
+
   //std::clog << "Process the events happening on the tiles\n";
   for (auto& tile : m_tiles)
   {
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    //tile.process_events(*this); BUG this makes it crash
+    tile.process_events(*this); //BUG this makes it crash
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -181,8 +188,9 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   assert(m_selected.empty());
 }
 
-void game::move_tiles(double mouse_X, double mouse_y){
-  bool clicked_tile = false;
+void game::check_selection(double mouse_X, double mouse_y){
+
+  // Check is there is a tile on mouse-click coordinates
   for (unsigned i = 0; i < m_tiles.size(); i++)
   {
     if (contains(m_tiles.at(i),
@@ -190,26 +198,31 @@ void game::move_tiles(double mouse_X, double mouse_y){
     {
       for (unsigned j = 0; j < m_tiles.size(); j++)
       {
+        // If some tiles are moving, don't select
         if (m_tiles.at(j).get_dx() != 0 || m_tiles.at(j).get_dy() != 0){
           return;
         }
       }
+      // Set the tile whithin mouse-click coordinates as the selected tile
       tile s_tile = m_tiles.at(i);
       m_selected.clear();
       m_selected.push_back(s_tile.get_id());
-      clicked_tile = true;
+      return;
     }
   }
-  if (clicked_tile == false)
+
+  // If there's no tile at the mouse-selection coordinates check if some tiles are moving
+
+  for (unsigned i = 0; i < m_tiles.size(); i++)
   {
-    for (unsigned i = 0; i < m_tiles.size(); i++)
-    {
-      if (m_tiles.at(i).get_dx() != 0 || m_tiles.at(i).get_dy() != 0){
-        return;
-      }
+    // If there are moving tiles, return
+    if (m_tiles.at(i).get_dx() != 0 || m_tiles.at(i).get_dy() != 0){
+      return;
     }
-    m_selected.clear();
   }
+
+  // Else clear selection
+  m_selected.clear();
 }
 
 void game::merge_tiles(sound_type &st) { //!OCLINT must simplify
@@ -244,7 +257,12 @@ void game::kill_agents()
     assert(i < static_cast<int>(m_agents.size()));
 
     if (m_agents[i].get_health() <= 0.0 && m_agents[i].get_type() != agent_type::corpse) {
-      agent a(agent_type::corpse, m_agents[i].get_x(), m_agents[i].get_y());
+      sf::Vector2f center1 = get_agent_center(m_agents[i]);
+      agent a(agent_type::corpse, center1.x, center1.y);
+      double width = get_agent_width(sfml_resources::get().get_agent_sprite(a.get_type())) * 0.2f;
+      double height = get_agent_height(sfml_resources::get().get_agent_sprite(a.get_type())) * 0.2f;
+      a.set_x(a.get_x() - width/2);
+      a.set_y(a.get_y() - height/2);
 
       if(!is_plant(m_agents[i].get_type())) {
         m_agents.push_back(a); }
@@ -285,10 +303,11 @@ int game::get_agent_count(agent_type type){
 
 bool is_on_specific_tile(const double x, const double y, const tile& t)
 {
-  return x >= t.get_corner().x - 6 &&
-         x <= t.get_corner().x + t.get_width() + 6 &&
-         y >= t.get_corner().y - 6 &&
-         y <= t.get_corner().y + t.get_height() + 6;
+  sf::Vector2f corner = t.get_corner();
+  return x >= corner.x - 6 &&
+         x <= corner.x + t.get_width() + 6 &&
+         y >= corner.y - 6 &&
+         y <= corner.y + t.get_height() + 6;
 }
 
 bool is_on_specific_tile(const agent& a, const tile& t) {
@@ -299,23 +318,26 @@ bool is_on_specific_tile(const agent& a, const tile& t) {
 bool is_on_tile(const game& g, const double x, const double y)
 {
   for (tile t: g.get_tiles()) {
-    if(x >= t.get_corner().x - 6 &&
-       x <= t.get_corner().x + t.get_width() + 6 &&
-       y >= t.get_corner().y - 6 &&
-       y <= t.get_corner().y + t.get_height() + 6)
+    sf::Vector2f corner = t.get_corner();
+    if(x >= corner.x - 6 &&
+       x <= corner.x + t.get_width() + 6 &&
+       y >= corner.y - 6 &&
+       y <= corner.y + t.get_height() + 6)
       return true;
   }
   return false;
 }
 
-std::vector<tile> get_on_tile(const game& g, const agent& a)
+
+std::vector<tile_type> get_on_tile_type(const game& g, const double x, const double y)
 {
   for (tile t : g.get_tiles())
   {
-    if (a.get_x() >= t.get_corner().x - 6.0 &&
-        a.get_x() <= t.get_corner().x + t.get_width() + 6.0 &&
-        a.get_y() >= t.get_corner().y - 6.0 &&
-        a.get_y() <= t.get_corner().y + t.get_height() + 6.0
+    sf::Vector2f corner = t.get_corner();
+    if (x >= corner.x - 6.0 &&
+        x <= corner.x + t.get_width() + 6.0 &&
+        y >= corner.y - 6.0 &&
+        y <= corner.y + t.get_height() + 6.0
     )
     {
       return { t };
@@ -326,10 +348,20 @@ std::vector<tile> get_on_tile(const game& g, const agent& a)
 
 std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
-  const std::vector<tile> tiles = get_on_tile(g, a);
-  if (tiles.empty()) return {};
-  assert(tiles.size() == 1);
-  return { tiles[0].get_type() };
+  sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
+  return get_on_tile_type(g, center.x, center.y);
+}
+
+sf::Vector2f get_agent_center(const agent& a){
+  return a.get_center(sfml_resources::get().get_agent_sprite(a));
+}
+
+double get_agent_width(const sf::Texture& a){
+  return a.getSize().x;
+}
+
+double get_agent_height(const sf::Texture& a){
+  return a.getSize().y;
 }
 
 bool is_on_tile(const game& g, const agent& a) {
@@ -357,21 +389,30 @@ std::vector<tile> get_current_tile(game& g, double x, double y)
 void game::confirm_tile_move(tile& t, int direction, int tile_speed){
   switch (direction)
   {
+    // omhoog
     case 1:
       t.set_dy(-tile_speed);
       return;
+    // rechts
     case 2:
       t.set_dx(tile_speed);
       return;
+    // beneden
     case 3:
       t.set_dy(tile_speed);
       return;
+    // links
     case 4:
       t.set_dx(-tile_speed);
       return;
     default:
       return;
   }
+}
+
+bool game::is_selected()
+{
+    return m_selected.empty();
 }
 
 void game::save_this(const std::string filename) const {
@@ -417,7 +458,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(!QFile::exists(filename.c_str()));
     g.save_this(filename);
     assert(QFile::exists(actual_path));
-//    assert(!get_saves().empty());
+  //    assert(!get_saves().empty());
   }
 
   //'is_on_tile' should detect if there is a tile at a certain coordinat
@@ -459,6 +500,70 @@ void test_game() //!OCLINT a testing function may be long
     assert(g == h);
   }
   #endif // FIX_ISSUE_97
+
+  //Test confirm_tile_move up
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 1, 1); // up
+
+    g.process_events(st);
+
+    assert(tile.get_x() == 0);
+    assert(tile.get_y() == -1);
+
+  }
+  //Test confirm_tile_move left
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 4, 1); // left
+
+    g.process_events(st);
+
+    assert(tile.get_x() == -1);
+    assert(tile.get_y() == 0);
+
+  }
+  //Test confirm_tile_move down
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 3, 1); // down
+
+    g.process_events(st);
+
+    assert(tile.get_x() == 0);
+    assert(tile.get_y() == 1);
+
+  }
+  //Test confirm_tile_move right
+  {
+    const std::vector<agent> no_agents;
+    game g( { tile(0.0, 0.0, 0.0, 10.0, 10.0)}, no_agents);
+    sound_type st { sound_type::none };
+    tile& tile = g.get_tiles()[0];
+
+    g.confirm_tile_move(tile, 2, 1); // right
+
+    g.process_events(st);
+
+    assert(tile.get_x() == 1);
+    assert(tile.get_y() == 0);
+
+  }
+
+  //#define FIX_ISSUE_617
+  #ifdef FIX_ISSUE_617
   //Two grasses should merge to one mountain
   {
     // Create a game with two grassland blocks on top of each other
@@ -481,6 +586,7 @@ void test_game() //!OCLINT a testing function may be long
     assert(count_n_tiles(g) == 1);
     assert(collect_tile_types(g)[0] == tile_type::hills);
   }
+  #endif
   //When an agent dies, score must decrease
   //Depends on #285
 //  { //TODO rewrite this test
@@ -628,20 +734,6 @@ void test_game() //!OCLINT a testing function may be long
       assert(t.get_dy() == 1);
       g.confirm_tile_move(t, 4, 1);
       assert(t.get_dx() == -1);
-    }
-  {
-    game g({tile(0, 0), tile(112, 0)});
-    g.move_tiles(100, 100);
-    assert(g.get_tiles().size() == 2);
-    g.remove_tile(100, 100);
-    assert(g.get_tiles().size() == 1);
-    assert(get_current_tile(g, 100, 100).empty());
-    assert(!get_current_tile(g, 212, 100).empty());
-    try {
-      g.confirm_tile_move(get_current_tile(g, 212, 100).at(0), 5, 1);
-    } catch (...) { //Pokemon exception handling
-      assert(!"Test failed!");
-    }
   }
   {
     game g;
@@ -649,6 +741,48 @@ void test_game() //!OCLINT a testing function may be long
     g.allow_damage();
     g.allow_score();
   }
+
+  {
+    // Test "game::check_selection"
+        game g({tile(0, 0, 0, 0, 0, tile_type::grassland)});
+        assert(g.is_selected());
+        g.check_selection(0, 0);
+        assert(!g.is_selected());
+        g.check_selection(500, 500);
+        assert(g.is_selected());
+  }
+
+  // Operator== tests
+  //#define FIX_ISSUE_583
+  #ifdef FIX_ISSUE_583
+  { // Two default-constructed games should be the same
+    game g1;
+    game g2;
+    assert(g1 == g2);
+  }
+  // Two default-constructed games, after a change to one game, should result in two different games
+  { // tick/score/essence change
+    game g1;
+    game g2;
+    sound_type st = sound_type::none;
+    for (int i = 0; i < 50; i++)
+      g1.process_events(st);
+    assert(!(g1 == g2));
+  }
+  { // agent change
+    game g1;
+    game g2;
+    agent a(agent_type::bird);
+    g1.add_agents({a});
+    assert(!(g1 == g2));
+  }
+  { // tile difference
+    game g1;
+    tile t;
+    game g2({t});
+    assert(!(g1 == g2));
+  }
+  #endif
 }
 
 game load(const std::string &filename) {
