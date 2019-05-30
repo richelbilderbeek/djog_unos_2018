@@ -328,8 +328,15 @@ bool is_on_tile(const game& g, const double x, const double y)
   return false;
 }
 
+std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
+{
+  const std::vector<tile> tiles = get_on_tile(g, a);
+  if (tiles.empty()) return {};
+  assert(tiles.size() == 1);
+  return { tiles[0].get_type() };
+}
 
-std::vector<tile_type> get_on_tile_type(const game& g, const double x, const double y)
+std::vector<tile> get_on_tile(const game& g, const double x, const double y)
 {
   for (tile t : g.get_tiles())
   {
@@ -346,11 +353,13 @@ std::vector<tile_type> get_on_tile_type(const game& g, const double x, const dou
   return {};
 }
 
+/*
 std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
 {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
   return get_on_tile_type(g, center.x, center.y);
 }
+*/
 
 sf::Vector2f get_agent_center(const agent& a){
   return a.get_center(sfml_resources::get().get_agent_sprite(a));
