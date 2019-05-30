@@ -147,7 +147,7 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
   return "grassland";
 }
 
-tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
+tile_type to_tile(std::string str)
 {
   const std::map<std::string, tile_type> m{
     { "arctic", tile_type::arctic},
