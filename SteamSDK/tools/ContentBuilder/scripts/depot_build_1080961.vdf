@@ -8,7 +8,7 @@
 	// will be resolved relative to this root.
 	// If you don't define ContentRoot, then it will be assumed to be
 	// the location of this script file, which probably isn't what you want
-	"ContentRoot"	"C:\Users\DJOG\Downloads\sdk\tools\ContentBuilder\content\"
+	"ContentRoot"	"C:\Users\DJOG\djog_unos_2018\SteamSDK\tools\ContentBuilder\content\"
 
 	// include all files recursivley
   "FileMapping"
