@@ -51,7 +51,8 @@ public:
 
   int get_n_ticks() const;
 
-  void move_tiles(double mouse_X, double mouse_y);
+  /// Check whether the clicked tile can be selected and if so select it
+  void check_selection(double mouse_X, double mouse_y);
 
   void confirm_tile_move(tile& t, int direction, int tile_speed);
 
@@ -70,6 +71,8 @@ public:
   void remove_tile(double mouse_x, double mouse_y);
 
   int get_agent_count(agent_type type);
+
+  bool is_selected();
 
   // No defenition???
   //void spawn(agent_type type, tile t);

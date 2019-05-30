@@ -514,7 +514,7 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 
   if (event.mouseButton.button == sf::Mouse::Left)
   {
-    m_game.move_tiles(
+    m_game.check_selection(
       sf::Mouse::getPosition(m_window).x + m_camera.x,
       sf::Mouse::getPosition(m_window).y + m_camera.y
     );

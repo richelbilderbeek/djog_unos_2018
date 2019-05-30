@@ -188,8 +188,9 @@ void game::tile_merge(tile& focal_tile, const tile& other_tile, const int other_
   assert(m_selected.empty());
 }
 
-void game::move_tiles(double mouse_X, double mouse_y){
-  bool clicked_tile = false;
+void game::check_selection(double mouse_X, double mouse_y){
+
+  // Check is there is a tile on mouse-click coordinates
   for (unsigned i = 0; i < m_tiles.size(); i++)
   {
     if (contains(m_tiles.at(i),
@@ -197,26 +198,31 @@ void game::move_tiles(double mouse_X, double mouse_y){
     {
       for (unsigned j = 0; j < m_tiles.size(); j++)
       {
+        // If some tiles are moving, don't select
         if (m_tiles.at(j).get_dx() != 0 || m_tiles.at(j).get_dy() != 0){
           return;
         }
       }
+      // Set the tile whithin mouse-click coordinates as the selected tile
       tile s_tile = m_tiles.at(i);
       m_selected.clear();
       m_selected.push_back(s_tile.get_id());
-      clicked_tile = true;
+      return;
     }
   }
-  if (clicked_tile == false)
+
+  // If there's no tile at the mouse-selection coordinates check if some tiles are moving
+
+  for (unsigned i = 0; i < m_tiles.size(); i++)
   {
-    for (unsigned i = 0; i < m_tiles.size(); i++)
-    {
-      if (m_tiles.at(i).get_dx() != 0 || m_tiles.at(i).get_dy() != 0){
-        return;
-      }
+    // If there are moving tiles, return
+    if (m_tiles.at(i).get_dx() != 0 || m_tiles.at(i).get_dy() != 0){
+      return;
     }
-    m_selected.clear();
   }
+
+  // Else clear selection
+  m_selected.clear();
 }
 
 void game::merge_tiles(sound_type &st) { //!OCLINT must simplify
@@ -400,6 +406,11 @@ void game::confirm_tile_move(tile& t, int direction, int tile_speed){
     default:
       return;
   }
+}
+
+bool game::is_selected()
+{
+    return m_selected.empty();
 }
 
 void game::save_this(const std::string filename) const {
@@ -727,6 +738,16 @@ void test_game() //!OCLINT a testing function may be long
     g.allow_spawning();
     g.allow_damage();
     g.allow_score();
+  }
+
+  {
+    // Test "game::check_selection"
+        game g({tile(0, 0, 0, 0, 0, tile_type::grassland)});
+        assert(g.is_selected());
+        g.check_selection(0, 0);
+        assert(!g.is_selected());
+        g.check_selection(500, 500);
+        assert(g.is_selected());
   }
 
   // Operator== tests
