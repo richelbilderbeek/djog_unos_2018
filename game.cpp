@@ -353,13 +353,11 @@ std::vector<tile> get_on_tile(const game& g, const double x, const double y)
   return {};
 }
 
-/*
-std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
+std::vector<tile> get_on_tile(const game& g, const agent& a)
 {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
-  return get_on_tile_type(g, center.x, center.y);
+  return get_on_tile(g, center.x, center.y);
 }
-*/
 
 sf::Vector2f get_agent_center(const agent& a){
   return a.get_center(sfml_resources::get().get_agent_sprite(a));
