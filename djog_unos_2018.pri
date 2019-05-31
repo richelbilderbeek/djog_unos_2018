@@ -57,3 +57,4 @@ HEADERS += \
 
 RESOURCES += \
     $$PWD/djog_unos_2018.qrc
+
