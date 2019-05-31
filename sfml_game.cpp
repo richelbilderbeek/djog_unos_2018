@@ -157,7 +157,7 @@ void sfml_game::display_essence()
 
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
-  m_window.clear(sf::Color::Black); // Clear the window with black color
+  m_window.clear(sf::Color(0, 0, 0)); // Clear the window with black color
   // Display all tiles
   for (const tile& t : m_game.get_tiles())
   {
