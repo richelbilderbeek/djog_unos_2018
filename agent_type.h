@@ -11,6 +11,7 @@ enum class agent_type {
   chameleon,
   cow,
   corpse,
+  polar_bear,
   crocodile,
   fish,
   foxgloves,

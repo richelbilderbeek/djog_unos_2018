@@ -173,6 +173,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     if (!m_octopus_texture.loadFromFile("octopus.png"))
       throw std::runtime_error("Cannot find image file 'octopus.png'");
   }
+  // polar_bear texture
+  {
+    QFile f(":/nature_zen/resources/polar_bear.png");
+    f.copy("polar_bear.png");
+    if (!m_polar_bear_texture.loadFromFile("polar_bear.png"))
+      throw std::runtime_error("Cannot find image file 'polar_bear.png'");
+  }
   // Goat texture
   {
     QFile f(":/nature_zen/resources/mountain_goat.png");
@@ -285,18 +292,7 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
 
-  {
-    QFile fl(":/nature_zen/resources/tundra_laying.png");
-    fl.copy("tundra_laying.png");
-    if (!m_tundra_laying.loadFromFile("tundra_laying.png")) {
-      throw std::runtime_error("Texture 'tundra_laying.png' not found");
-    }
-    QFile fs(":/nature_zen/resources/tundra_standing.png");
-    fs.copy("tundra_standing.png");
-    if (!m_tundra_standing.loadFromFile("tundra_standing.png")) {
-      throw std::runtime_error("Texture 'tundra_standing.png' not found");
-    }
-  }
+
   {
     QFile f(":/nature_zen/resources/zen_title.png");
     f.copy("zen_title.png");
@@ -311,50 +307,238 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file cactus.png");
     }
   }
+  //----------------------------------------------------------------------------
+  // Land types
+  //----------------------------------------------------------------------------
+//  {
+//    QFile f(":/nature_zen/resources/arctic_laying.png");
+//    f.copy("arctic_laying.png");
+//    if (!m_arctic_laying.loadFromFile("arctic_laying.png")) {
+//      throw std::runtime_error("Cannot find image file arctic_laying.png");
+//    }
+//  }
   {
-    QFile f(":/nature_zen/resources/beach_texture_laying.png");
-    f.copy("beach_texture_laying.png");
-    if (!m_beach_laying.loadFromFile("beach_texture_laying.png")) {
-      throw std::runtime_error("Cannot find image file beach_texture_laying.png");
+    QFile f(":/nature_zen/resources/arctic_standing.png");
+    f.copy("arctic_standing.png");
+    if (!m_arctic_standing.loadFromFile("arctic_standing.png")) {
+      throw std::runtime_error("Cannot find image file arctic_standing.png");
     }
   }
   {
-    QFile f(":/nature_zen/resources/beach_texture_standing.png");
-    f.copy("beach_texture_standing.png");
-    if (!m_beach_standing.loadFromFile("beach_texture_standing.png")) {
-      throw std::runtime_error("Cannot find image file beach_texture_standing.png");
+    QFile f(":/nature_zen/resources/beach_laying.png");
+    f.copy("beach_laying.png");
+    if (!m_beach_laying.loadFromFile("beach_laying.png")) {
+      throw std::runtime_error("Cannot find image file beach_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/beach_standing.png");
+    f.copy("beach_standing.png");
+    if (!m_beach_standing.loadFromFile("beach_standing.png")) {
+      throw std::runtime_error("Cannot find image file beach_standing.png");
+    }
+  }
+  /* TODO
+  {
+    QFile f(":/nature_zen/resources/desert_laying.png");
+    f.copy("desert_laying.png");
+    if (!m_desert_laying.loadFromFile("desert_laying.png")) {
+      throw std::runtime_error("Cannot find image file desert_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/desert_standing.png");
+    f.copy("desert_standing.png");
+    if (!m_desert_standing.loadFromFile("desert_standing.png")) {
+      throw std::runtime_error("Cannot find image file desert_standing.png");
+    }
+  }
+  */
+  {
+    QFile f(":/nature_zen/resources/dunes_laying.png");
+    f.copy("dunes_laying.png");
+    if (!m_dunes_laying.loadFromFile("dunes_laying.png")) {
+      throw std::runtime_error("Cannot find image file dunes_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/dunes_standing.png");
+    f.copy("dunes_standing.png");
+    if (!m_dunes_standing.loadFromFile("dunes_standing.png")) {
+      throw std::runtime_error("Cannot find image file dunes_standing.png");
+    }
+  }
+  /* TODO
+  {
+    QFile f(":/nature_zen/resources/grassland_laying.png");
+    f.copy("grassland_laying.png");
+    if (!m_grassland_laying.loadFromFile("grassland_laying.png")) {
+      throw std::runtime_error("Cannot find image file grassland_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/grassland_standing.png");
+    f.copy("grassland_standing.png");
+    if (!m_grassland_standing.loadFromFile("grassland_standing.png")) {
+      throw std::runtime_error("Cannot find image file grassland_standing.png");
+    }
+  }
+  */
+  {
+    QFile f(":/nature_zen/resources/hills_laying.png");
+    f.copy("hills_laying.png");
+    if (!m_hills_laying.loadFromFile("hills_laying.png")) {
+      throw std::runtime_error("Cannot find image file hills_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/hills_standing.png");
+    f.copy("hills_standing.png");
+    if (!m_hills_standing.loadFromFile("hills_standing.png")) {
+      throw std::runtime_error("Cannot find image file hills_standing.png");
+    }
+  }
+  /*TODO
+  {
+    QFile f(":/nature_zen/resources/mangrove_laying.png");
+    f.copy("mangrove_laying.png");
+    if (!m_mangrove_laying.loadFromFile("mangrove_laying.png")) {
+      throw std::runtime_error("Cannot find image file mangrove_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/mangrove_standing.png");
+    f.copy("mangrove_standing.png");
+    if (!m_mangrove_standing.loadFromFile("mangrove_standing.png")) {
+      throw std::runtime_error("Cannot find image file mangrove_standing.png");
+    }
+  }
+  */
+  {
+    QFile f(":/nature_zen/resources/mountain_laying.png");
+    f.copy("mountain_laying.png");
+    if (!m_mountain_laying.loadFromFile("mountain_laying.png")) {
+      throw std::runtime_error("Cannot find image file mountain_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/mountain_standing.png");
+    f.copy("mountain_standing.png");
+    if (!m_mountain_standing.loadFromFile("mountain_standing.png")) {
+      throw std::runtime_error("Cannot find image file mountain_standing.png");
+    }
+  }
+  /*TODO
+  {
+    QFile f(":/nature_zen/resources/rainforest_laying.png");
+    f.copy("rainforest_laying.png");
+    if (!m_rainforest_laying.loadFromFile("rainforest_laying.png")) {
+      throw std::runtime_error("Cannot find image file rainforest_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/rainforest_standing.png");
+    f.copy("rainforest_standing.png");
+    if (!m_rainforest_standing.loadFromFile("rainforest_standing.png")) {
+      throw std::runtime_error("Cannot find image file rainforest_standing.png");
+    }
+  }
+  */
+  /*
+  {
+    QFile f(":/nature_zen/resources/savannah_laying.png");
+    f.copy("savannah_laying.png");
+    if (!m_savannah_laying.loadFromFile("savannah_laying.png")) {
+      throw std::runtime_error("Cannot find image file savannah_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/savannah_standing.png");
+    f.copy("savannah_standing.png");
+    if (!m_savannah_standing.loadFromFile("savannah_standing.png")) {
+      throw std::runtime_error("Cannot find image file savannah_standing.png");
+    }
+  }
+  */
+  /*TODO
+  {
+    QFile f(":/nature_zen/resources/swamp_laying.png");
+    f.copy("swamp_laying.png");
+    if (!m_swamp_laying.loadFromFile("swamp_laying.png")) {
+      throw std::runtime_error("Cannot find image file swamp_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/essence.png");
+    f.copy("essence.png");
+    if (!m_essence_texture.loadFromFile("essence.png")) {
+      throw std::runtime_error("Cannot find image file essence.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/swamp_standing.png");
+    f.copy("swamp_standing.png");
+    if (!m_swamp_standing.loadFromFile("swamp_standing.png")) {
+      throw std::runtime_error("Cannot find image file swamp_standing.png");
+    }
+  }
+  */
+  {
+    QFile f(":/nature_zen/resources/tundra_laying.png");
+    f.copy("tundra_laying.png");
+    if (!m_tundra_laying.loadFromFile("tundra_laying.png")) {
+      throw std::runtime_error("Cannot find image file tundra_laying.png");
+    }
+  }
+  {
+    QFile f(":/nature_zen/resources/tundra_standing.png");
+    f.copy("tundra_standing.png");
+    if (!m_tundra_standing.loadFromFile("tundra_standing.png")) {
+      throw std::runtime_error("Cannot find image file tundra_standing.png");
+    }
+  }
+  /*TODO
+  {
+    QFile f(":/nature_zen/resources/water_laying.png");
+    f.copy("water_laying.png");
+    if (!m_water_laying.loadFromFile("water_laying.png")) {
+      throw std::runtime_error("Cannot find image file water_laying.png");
     }
   }
   {
     QFile f(":/nature_zen/resources/water_standing.png");
     f.copy("water_standing.png");
-    if (!m_water_standing.loadFromFile("water_standing.png"))
+    if (!m_water_standing.loadFromFile("water_standing.png")) {
       throw std::runtime_error("Cannot find image file water_standing.png");
+    }
+  }
+  */
+  /*TODO
+  {
+    QFile f(":/nature_zen/resources/woods_laying.png");
+    f.copy("woods_laying.png");
+    if (!m_woods_laying.loadFromFile("woods_laying.png")) {
+      throw std::runtime_error("Cannot find image file woods_laying.png");
+    }
   }
   {
-    QFile f(":/nature_zen/resources/dunes_laying.png");
-    f.copy("dunes_laying.png");
-    if (!m_dunes_laying.loadFromFile("dunes_laying.png"))
-      throw std::runtime_error("Cannot find image file dunes_laying.png");
+    QFile f(":/nature_zen/resources/woods_standing.png");
+    f.copy("woods_standing.png");
+    if (!m_woods_standing.loadFromFile("woods_standing.png")) {
+      throw std::runtime_error("Cannot find image file woods_standing.png");
+    }
   }
-  {
-    QFile f(":/nature_zen/resources/dunes_standing.png");
-    f.copy("dunes_standing.png");
-    if (!m_dunes_standing.loadFromFile("dunes_standing.png"))
-      throw std::runtime_error("Cannot find image file dunes_standing.png");
-  }
-  {
-    QFile f(":/nature_zen/resources/hills_laying.png");
-    f.copy("hills_laying.png");
-    if (!m_hills_laying.loadFromFile("hills_laying.png"))
-      throw std::runtime_error("Cannot find image file hills_laying.png");
-  }
-  {
-    QFile f(":/nature_zen/resources/hills_standing.png");
-    f.copy("hills_standing.png");
-    if (!m_hills_standing.loadFromFile("hills_standing.png"))
-      throw std::runtime_error("Cannot find image file hills_standing.png");
-  }
+  */
+   //-------------------------------------------------------------------------
+  // Misc other things
+  //-------------------------------------------------------------------------
+  /*{
+    QFile f(":/nature_zen/resources/Essence_29_32.png");
+    f.copy("Essence_29_32.png");
+    if (!m_essence_texture.loadFromFile("Essence_29_32.png")) {
+      throw std::runtime_error("Cannot find image file Essence_29_32.png");
+    }
+  }*/
   {
     QFile f(":/nature_zen/resources/essence.png");
     f.copy("essence.png");
@@ -486,14 +670,20 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLI
 {
   switch (t)
   {
+    case tile_type::arctic: return m_arctic_laying;
     case tile_type::beach: return m_beach_laying;
+    case tile_type::desert: return m_desert_laying;
     case tile_type::dunes: return m_dunes_laying;
+    case tile_type::grassland: return m_grassland_laying;
     case tile_type::hills: return m_hills_laying;
-    //case tile_type::swamp: return m_swamp_laying;
+    case tile_type::mangrove: return m_mangrove_laying;
+    case tile_type::mountain: return m_mountain_laying;
+    case tile_type::rainforest: return m_rainforest_laying;
+    case tile_type::savannah: return m_savannah_laying;
+    case tile_type::swamp: return m_swamp_laying;
     case tile_type::tundra: return m_tundra_laying;
     case tile_type::water: return m_water_laying;
-    //case tile_type::woods:  return m_woods_laying;
-
+    case tile_type::woods: return m_woods_laying;
     default:
       break;
   }
@@ -529,5 +719,18 @@ void test_sfml_resources() //!OCLINT tests may be long
     assert(texture.getSize().x > 0);
     assert(texture.getSize().y > 0);
   }
-  assert(resources.get_tile_sprite(tile_type::grassland).getSize().x > 0);
+//  assert(resources.get_tile_sprite(tile_type::arctic).getSize().x > 0);
+  assert(resources.get_tile_sprite(tile_type::beach).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::desert).getSize().x > 0);TODO
+  assert(resources.get_tile_sprite(tile_type::dunes).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::grassland).getSize().x > 0);
+  assert(resources.get_tile_sprite(tile_type::hills).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::mangrove).getSize().x > 0);
+  assert(resources.get_tile_sprite(tile_type::mountain).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::rainforest).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::savannah).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::swamp).getSize().x > 0);
+  assert(resources.get_tile_sprite(tile_type::tundra).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::water).getSize().x > 0);
+  //assert(resources.get_tile_sprite(tile_type::woods).getSize().x > 0);
 }

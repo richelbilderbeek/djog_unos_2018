@@ -724,7 +724,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::grassland:
       color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
       break;
-    case tile_type::mountains:
+    case tile_type::mountain:
       color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
       break;
     case tile_type::water:

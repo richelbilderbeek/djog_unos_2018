@@ -682,6 +682,8 @@ bool will_drown(agent_type a, const int depth) { //!OCLINT can't be simpler
       return true;
     case agent_type::octopus:
       return depth > range.x && depth <= range.y;
+    case agent_type::polar_bear:
+      return false;
     case agent_type::snake:
       return true;
     default:
@@ -894,6 +896,7 @@ void test_agent() //!OCLINT testing functions may be long
     assert(!is_plant(agent_type::octopus));
     assert( is_plant(agent_type::plankton));
     assert(!is_plant(agent_type::snake));
+    assert(!is_plant(agent_type::polar_bear));
     assert(!is_plant(agent_type::spider));
     assert(!is_plant(agent_type::squirrel));
     assert( is_plant(agent_type::cactus));

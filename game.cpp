@@ -575,7 +575,7 @@ void test_game() //!OCLINT a testing function may be long
   {
     // Create a game with two grassland blocks on top of each other
     // +====+====+    +----+----+
-    // || grass || -> |mountains|
+    // || grass || -> |mountain|
     // +====+====+    +----+----+
     const std::vector<tile> tiles
     {
