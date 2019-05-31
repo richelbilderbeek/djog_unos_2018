@@ -47,16 +47,15 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
   return types;
 }
 
-int random_int(int min, int max, unsigned seed){
-    std::default_random_engine device(seed);
+std::default_random_engine device(time(NULL));
+int random_int(int min, int max){
     std::mt19937 generator(device());
     std::uniform_int_distribution<int> distribution(min, max);
 
     return distribution(generator);
 }
 
-double random_double(double min, double max, unsigned seed){
-    std::default_random_engine device(seed);
+double random_double(double min, double max){
     std::mt19937 generator(device());
     std::uniform_real_distribution<double> distribution(min, max);
 
@@ -748,7 +747,6 @@ void test_game() //!OCLINT a testing function may be long
     g.allow_damage();
     g.allow_score();
   }
-
   {
     // Test "game::check_selection"
         game g({tile(0, 0, 0, 0, 0, tile_type::grassland)});

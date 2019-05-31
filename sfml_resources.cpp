@@ -645,7 +645,7 @@ sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
 
 sf::SoundBuffer& sfml_resources::random_animal_sound()
 {
-  const int choose{ random_int(1, 4, std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()) };
+  const int choose{ random_int(1, 4) };
 
   switch (choose)
   {

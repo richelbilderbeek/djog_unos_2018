@@ -460,24 +460,37 @@ void agent::damage_own_type(game &g, agent_type type)
   const double MAX_DISTANCE = 30; // The max range to deal damage to an object
   const double MAX_DAMAGE = 0.18; // The max damage to deal per frame per agent
 
-  std::vector <agent> all_agents{ g.get_agents() };
+//  std::vector <agent> all_agents{ g.get_agents() };
 
-  for (agent& current_agent : all_agents)
+//  for (agent& current_agent : all_agents)
+//  {
+//    if (current_agent == *this)
+//        continue;
+
+//    if (current_agent.get_type() == type)
+//    {
+//        double distance = pythagoras(fabs(current_agent.get_x() - m_x), fabs(current_agent.get_y() - m_y));
+//        if (!(distance <= MAX_DISTANCE))
+//          continue;
+
+//        double rate = 1-distance / MAX_DISTANCE;
+//        double damage = MAX_DAMAGE * rate;
+//        double relative_damage = damage / (all_agents.size() - 1);
+//        m_health -= relative_damage;
+//    }
+//  }
+  agent a = g.get_agents()[static_cast<unsigned>(random_int(0, static_cast<int>(g.get_agents().size() - 1)))];
+  if (a == *this) return;
+  if (a.get_type() == type)
   {
-    if (current_agent == *this)
-        continue;
+    double distance = pythagoras(fabs(a.get_x() - m_x), fabs(a.get_y() - m_y));
+    if (!(distance <= MAX_DISTANCE))
+       return;
 
-    if (current_agent.get_type() == type)
-    {
-        double distance = pythagoras(abs(current_agent.get_x() - m_x), abs(current_agent.get_y() - m_y));
-        if (!(distance <= MAX_DISTANCE))
-          continue;
-
-        double rate = 1-distance / MAX_DISTANCE;
-        double damage = MAX_DAMAGE * rate;
-        double relative_damage = damage / (all_agents.size() - 1);
-        m_health -= relative_damage;
-    }
+    double rate = 1-distance / MAX_DISTANCE;
+    double damage = MAX_DAMAGE * rate;
+    double relative_damage = damage / (g.get_agents().size() - 1);
+    m_health -= relative_damage;
   }
 }
 
