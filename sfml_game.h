@@ -226,6 +226,9 @@ private:
 
   bool m_play_sounds = true;
 
+  int m_bg_color;
+  bool m_bg_up;
+
 };
 
 ///Test the sfml_game class
