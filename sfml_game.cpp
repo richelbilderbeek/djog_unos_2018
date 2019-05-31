@@ -14,6 +14,7 @@
 #include <string>
 #include <sstream>
 #include <SFML/Window.hpp>
+#include <chrono>
 
 sfml_game::sfml_game(
   const sfml_game_delegate& delegate,
@@ -513,7 +514,7 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 
   if (event.mouseButton.button == sf::Mouse::Left)
   {
-    m_game.move_tiles(
+    m_game.check_selection(
       sf::Mouse::getPosition(m_window).x + m_camera.x,
       sf::Mouse::getPosition(m_window).y + m_camera.y
     );
@@ -550,7 +551,8 @@ void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
   assert(tiles.size() > 0);
-  const int i = random_int(0, tiles.size());
+  int ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  const int i = random_int(0, tiles.size() - 1, ms);
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
   m_game.m_selected[0] = id;
@@ -817,24 +819,25 @@ std::vector<int> sfml_game::get_collision_id(double x, double y) const
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
 bool sfml_game::will_collide(int direction, tile& t)
 {
+  sf::Vector2f corner = t.get_corner();
   switch (direction)
   {
     case 1:
       return sfml_game::check_collision(
-            t.get_corner().x + (t.get_width() / 2),
-            t.get_corner().y - (t.get_height() / 2) + 10);
+            corner.x + (t.get_width() / 2),
+            corner.y - (t.get_height() / 2) + 10);
     case 2:
       return sfml_game::check_collision(
-            t.get_corner().x + (t.get_width() * 1.5) - 10,
-            t.get_corner().y + (t.get_height() / 2));
+            corner.x + (t.get_width() * 1.5) - 10,
+            corner.y + (t.get_height() / 2));
     case 3:
       return sfml_game::check_collision(
-            t.get_corner().x + (t.get_width() / 2),
-            t.get_corner().y + (t.get_height() * 1.5) - 10);
+            corner.x + (t.get_width() / 2),
+            corner.y + (t.get_height() * 1.5) - 10);
     case 4:
       return sfml_game::check_collision(
-            t.get_corner().x - (t.get_width() / 2) + 10,
-            t.get_corner().y + (t.get_height() / 2));
+            corner.x - (t.get_width() / 2) + 10,
+            corner.y + (t.get_height() / 2));
     default:
       break;
   }

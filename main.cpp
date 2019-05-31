@@ -54,7 +54,7 @@ void test() {
   test_sfml_resources();
   test_sfml_game();
   test_sfml_game_delegate();
-  //test_sfml_load_screen();
+//  test_sfml_load_screen();
 }
 
 ///Start the game
@@ -290,7 +290,8 @@ int main(int argc, char **argv) //!OCLINT main too long
       }
     }
     for(int i = 0; i < agents_size; i++){
-      agent a(agent_type::cow, i, i);
+      int type = random_int(1, 21, static_cast<unsigned>(i));
+      agent a(random_agent_type(type), i, i);
       agents.push_back(a);
     }
     for(int i = 0; i < tiles_size; i++){

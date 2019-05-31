@@ -51,7 +51,8 @@ public:
 
   int get_n_ticks() const;
 
-  void move_tiles(double mouse_X, double mouse_y);
+  /// Check whether the clicked tile can be selected and if so select it
+  void check_selection(double mouse_X, double mouse_y);
 
   void confirm_tile_move(tile& t, int direction, int tile_speed);
 
@@ -70,6 +71,8 @@ public:
   void remove_tile(double mouse_x, double mouse_y);
 
   int get_agent_count(agent_type type);
+
+  bool is_selected();
 
   // No defenition???
   //void spawn(agent_type type, tile t);
@@ -135,8 +138,8 @@ int count_n_tiles(const game& g) noexcept;
 
 int count_n_agents(const game& g) noexcept;
 
-int random_int(int min, int max);
-double random_double(double min, double max);
+int random_int(int min, int max, unsigned seed = 314);
+double random_double(double min, double max, unsigned seed = 314);
 
 /// Determine if an agent is on a tile
 bool is_on_tile(const game& g, const agent& a);
@@ -148,6 +151,13 @@ bool is_on_tile(const game& g, double x, double y);
 /// Returns one tile_type if the agent is on a tile.
 /// Returns an empty vector if the agent is above the void
 std::vector<tile_type> get_on_tile_type(const game& g, const agent& a);
+std::vector<tile_type> get_on_tile_type(const game& g, const double x, const double y);
+
+sf::Vector2f get_agent_center(const agent& a);
+
+double get_agent_width(const sf::Texture& a);
+
+double get_agent_height(const sf::Texture& a);
 
 /// Determine if an agent is on a specific tile
 bool is_on_specific_tile(const agent& a, const tile& t);

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include "sfml_menu_screen.h"
 #include "game.h"
@@ -142,7 +143,8 @@ private:
   int m_pseudo_counter;
 
   int init_pseudo_random_period() noexcept
-  { return random_int(2*m_half_minimum_period, 3*m_half_minimum_period); }
+  { return random_int(2*m_half_minimum_period, 3*m_half_minimum_period,
+                      std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()); }
 
   void random_animal_sound();
 

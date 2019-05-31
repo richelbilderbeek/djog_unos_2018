@@ -165,6 +165,10 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   return agent_type::corpse;
 }
 
+agent_type random_agent_type(int type){
+  return collect_all_agent_types()[type];
+}
+
 std::ostream& operator <<(std::ostream& os, const agent_type a) noexcept {
   os << to_str(a);
   return os;
