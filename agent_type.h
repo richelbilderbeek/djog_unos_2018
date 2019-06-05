@@ -11,6 +11,7 @@ enum class agent_type {
   chameleon,
   cow,
   corpse,
+  polar_bear,
   crocodile,
   fish,
   foxgloves,
@@ -34,6 +35,7 @@ enum class agent_type {
 std::vector<agent_type> collect_all_agent_types();
 std::string to_str(agent_type a);
 agent_type to_agent(std::string);
+agent_type random_agent_type(int type);
 
 ///Tests the agent_type
 void test_agent_type();

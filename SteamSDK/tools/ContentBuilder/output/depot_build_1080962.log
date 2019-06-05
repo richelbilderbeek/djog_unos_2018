@@ -1,0 +1,158 @@
+[2019-05-30 20:56:39]: Starting build for depot 1080962, content path is "C:\Users\DJOG\djog_unos_2018\SteamSDK\tools\ContentBuilder\content\", build flags 0x0
+[2019-05-30 20:56:39]: Building file listing for depot 1080962 ...
+[2019-05-30 20:56:39]: Found 146 files for mapping: C:\Users\DJOG\djog_unos_2018\SteamSDK\tools\ContentBuilder\content\linux_content * -> .
+[2019-05-30 20:56:39]: Found 146 files (94 MB) for depot 1080962
+[2019-05-30 20:56:39]: Building depot 1080962, no baseline manifest
+[2019-05-30 20:56:43]: Found 179 chunks ( 0 used previously ) for depot 1080962, took 0 minutes, 4 seconds
+
+[2019-05-30 20:56:43]: Changes to baseline manifest 0 :
+[2019-05-30 20:56:43]: Added  : ".qmake.stash" 1 kB 
+[2019-05-30 20:56:43]: Added  : "Barachem_Zauberspiel_Preliminary_Edit.ogg" 4609 kB 
+[2019-05-30 20:56:43]: Added  : "beach_texture_laying.png" 34 kB 
+[2019-05-30 20:56:43]: Added  : "beach_texture_standing.png" 38 kB 
+[2019-05-30 20:56:43]: Added  : "ben_ik_een_spin.ogg" 2874 kB 
+[2019-05-30 20:56:43]: Added  : "blood-spatter.png" 43 kB 
+[2019-05-30 20:56:43]: Added  : "cactus.png" 6 kB 
+[2019-05-30 20:56:43]: Added  : "chameleon.png" 22 kB 
+[2019-05-30 20:56:43]: Added  : "cow.png" 5 kB 
+[2019-05-30 20:56:43]: Added  : "cow_01.wav" 71 kB 
+[2019-05-30 20:56:43]: Added  : "crocodile.png" 7 kB 
+[2019-05-30 20:56:43]: Added  : "debug" 0 kB ,Flags: 64
+[2019-05-30 20:56:43]: Added  : "debug\agent.gcda" 59 kB 
+[2019-05-30 20:56:43]: Added  : "debug\agent.gcno" 325 kB 
+[2019-05-30 20:56:43]: Added  : "debug\agent.o" 1463 kB 
+[2019-05-30 20:56:43]: Added  : "debug\agent_type.gcda" 23 kB 
+[2019-05-30 20:56:43]: Added  : "debug\agent_type.gcno" 51 kB 
+[2019-05-30 20:56:43]: Added  : "debug\agent_type.o" 212 kB 
+[2019-05-30 20:56:43]: Added  : "debug\biology.gcda" 17 kB 
+[2019-05-30 20:56:43]: Added  : "debug\biology.gcno" 1 kB 
+[2019-05-30 20:56:43]: Added  : "debug\biology.o" 8 kB 
+[2019-05-30 20:56:43]: Added  : "debug\game.gcda" 69 kB 
+[2019-05-30 20:56:43]: Added  : "debug\game.gcno" 399 kB 
+[2019-05-30 20:56:43]: Added  : "debug\game.o" 1906 kB 
+[2019-05-30 20:56:43]: Added  : "debug\game_state.gcda" 17 kB 
+[2019-05-30 20:56:43]: Added  : "debug\game_state.gcno" 4 kB 
+[2019-05-30 20:56:43]: Added  : "debug\game_state.o" 184 kB 
+[2019-05-30 20:56:43]: Added  : "debug\main.gcda" 45 kB 
+[2019-05-30 20:56:43]: Added  : "debug\main.gcno" 265 kB 
+[2019-05-30 20:56:43]: Added  : "debug\main.o" 1807 kB 
+[2019-05-30 20:56:43]: Added  : "debug\qrc_djog_unos_2018.cpp" 26 kB 
+[2019-05-30 20:56:43]: Added  : "debug\qrc_djog_unos_2018.o" 16013 kB 
+[2019-05-30 20:56:43]: Added  : "debug\qrc_djog_unos_2018.tmp.gcda" 17 kB 
+[2019-05-30 20:56:43]: Added  : "debug\qrc_djog_unos_2018.tmp.gcno" 2 kB 
+[2019-05-30 20:56:43]: Added  : "debug\qrc_djog_unos_2018.tmp.o" 16013 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_about_screen.gcda" 27 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_about_screen.gcno" 66 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_about_screen.o" 1067 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_button.gcda" 21 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_button.gcno" 26 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_button.o" 908 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_camera.gcda" 18 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_camera.gcno" 8 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_camera.o" 74 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_game.gcda" 35 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_game.gcno" 216 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_game.o" 1599 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_gameover_screen.gcda" 23 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_gameover_screen.gcno" 37 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_gameover_screen.o" 953 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_game_delegate.gcda" 9 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_game_delegate.gcno" 8 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_game_delegate.o" 825 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_load_screen.gcda" 28 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_load_screen.gcno" 130 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_load_screen.o" 1430 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_menu_screen.gcda" 24 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_menu_screen.gcno" 42 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_menu_screen.o" 963 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_pause_overlay.gcda" 24 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_pause_overlay.gcno" 44 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_pause_overlay.o" 970 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_resources.gcda" 36 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_resources.gcno" 128 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_resources.o" 1043 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_save_overlay.gcda" 19 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_save_overlay.gcno" 39 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_save_overlay.o" 1039 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_scroll_box.gcda" 33 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_scroll_box.gcno" 113 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_scroll_box.o" 736 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_shop_overlay.gcda" 23 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_shop_overlay.gcno" 35 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_shop_overlay.o" 948 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_text_input.gcda" 22 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_text_input.gcno" 34 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_text_input.o" 921 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_title_screen.gcda" 24 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_title_screen.gcno" 42 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_title_screen.o" 964 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_window_manager.gcda" 20 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_window_manager.gcno" 20 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_window_manager.o" 230 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_zen_bar.gcda" 23 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_zen_bar.gcno" 37 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sfml_zen_bar.o" 904 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sound_type.gcda" 20 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sound_type.gcno" 25 kB 
+[2019-05-30 20:56:43]: Added  : "debug\sound_type.o" 127 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile.gcda" 29 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile.gcno" 148 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile.o" 1127 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile_id.gcda" 19 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile_id.gcno" 2 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile_id.o" 8 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile_type.gcda" 34 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile_type.gcno" 128 kB 
+[2019-05-30 20:56:43]: Added  : "debug\tile_type.o" 799 kB 
+[2019-05-30 20:56:43]: Added  : "dunes_laying.png" 8 kB 
+[2019-05-30 20:56:43]: Added  : "dunes_standing.png" 10 kB 
+[2019-05-30 20:56:43]: Added  : "essence.png" 2 kB 
+[2019-05-30 20:56:43]: Added  : "Essence_29_32.png" 2 kB 
+[2019-05-30 20:56:43]: Added  : "fish.png" 33 kB 
+[2019-05-30 20:56:43]: Added  : "flying_bird.png" 22 kB 
+[2019-05-30 20:56:43]: Added  : "font.ttf" 213 kB 
+[2019-05-30 20:56:43]: Added  : "foxgloves.png" 11 kB 
+[2019-05-30 20:56:43]: Added  : "giraffe.png" 4 kB 
+[2019-05-30 20:56:43]: Added  : "grass.png" 6 kB 
+[2019-05-30 20:56:43]: Added  : "hills_laying.png" 8 kB 
+[2019-05-30 20:56:43]: Added  : "hills_standing.png" 10 kB 
+[2019-05-30 20:56:43]: Added  : "horse_09.wav" 73 kB 
+[2019-05-30 20:56:43]: Added  : "lion.png" 40 kB 
+[2019-05-30 20:56:43]: Added  : "lion_04.wav" 178 kB 
+[2019-05-30 20:56:43]: Added  : "Makefile" 21 kB 
+[2019-05-30 20:56:43]: Added  : "Makefile.Debug" 32 kB 
+[2019-05-30 20:56:43]: Added  : "Makefile.Release" 32 kB 
+[2019-05-30 20:56:43]: Added  : "mountain_goat.png" 4 kB 
+[2019-05-30 20:56:43]: Added  : "naturezen" 24218 kB 
+[2019-05-30 20:56:43]: Added  : "none_agent.png" 12 kB 
+[2019-05-30 20:56:43]: Added  : "none_tile.png" 1 kB 
+[2019-05-30 20:56:43]: Added  : "octopus.png" 4 kB 
+[2019-05-30 20:56:43]: Added  : "owl_37.wav" 69 kB 
+[2019-05-30 20:56:43]: Added  : "plankton.png" 19 kB 
+[2019-05-30 20:56:43]: Added  : "release" 0 kB ,Flags: 64
+[2019-05-30 20:56:43]: Added  : "saves" 0 kB ,Flags: 64
+[2019-05-30 20:56:43]: Added  : "saves\tmp.sav" 1 kB 
+[2019-05-30 20:56:43]: Added  : "snake.png" 4 kB 
+[2019-05-30 20:56:43]: Added  : "spider.png" 2 kB 
+[2019-05-30 20:56:43]: Added  : "squirrel.png" 19 kB 
+[2019-05-30 20:56:43]: Added  : "sunflower.png" 6 kB 
+[2019-05-30 20:56:43]: Added  : "tile_merge.wav" 25 kB 
+[2019-05-30 20:56:43]: Added  : "tile_move.wav" 91 kB 
+[2019-05-30 20:56:43]: Added  : "title_music.ogg" 4934 kB 
+[2019-05-30 20:56:43]: Added  : "title_screen_background.png" 12 kB 
+[2019-05-30 20:56:43]: Added  : "tree.png" 5 kB 
+[2019-05-30 20:56:43]: Added  : "tundra_laying.png" 4 kB 
+[2019-05-30 20:56:43]: Added  : "tundra_standing.png" 3 kB 
+[2019-05-30 20:56:43]: Added  : "venus_fly_trap.png" 23 kB 
+[2019-05-30 20:56:43]: Added  : "water_lying.png" 39 kB 
+[2019-05-30 20:56:43]: Added  : "water_standing.png" 40 kB 
+[2019-05-30 20:56:43]: Added  : "whale.png" 2 kB 
+[2019-05-30 20:56:43]: Added  : "worm.png" 1 kB 
+[2019-05-30 20:56:43]: Added  : "zen_bar.png" 1 kB 
+[2019-05-30 20:56:43]: Added  : "zen_font.ttf" 46 kB 
+[2019-05-30 20:56:43]: Added  : "zen_indicator.png" 11 kB 
+[2019-05-30 20:56:43]: Added  : "zen_title.png" 13 kB 
+[2019-05-30 20:56:43]: Summary: 146 files added, 0 files changed, 0 files removed
+[2019-05-30 20:56:44]: Uploading new manifest to 208.64.201.182:80 (handle 6020791449231086026, 19602 bytes).
+[2019-05-30 20:56:45]: Uploading 15 out of 15 missing chunks.
+[2019-05-30 20:56:57]: Success! New manifestID 2323365528124953315 created and 15 new chunks uploaded.

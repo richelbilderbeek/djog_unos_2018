@@ -12,7 +12,7 @@ enum class tile_type {
   grassland,
   hills,
   mangrove,
-  mountains,
+  mountain,
   rainforest,
   savannah,
   swamp,

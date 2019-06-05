@@ -40,7 +40,8 @@ public:
 
   double get_score() const noexcept { return m_score; }
 
-  void change_score_by(int delta_score);
+  // No defenition???
+  //void change_score_by(int delta_score);
 
   int get_essence() const noexcept { return m_essence; }
 
@@ -50,7 +51,8 @@ public:
 
   int get_n_ticks() const;
 
-  void move_tiles(double mouse_X, double mouse_y);
+  /// Check whether the clicked tile can be selected and if so select it
+  void check_selection(double mouse_X, double mouse_y);
 
   void confirm_tile_move(tile& t, int direction, int tile_speed);
 
@@ -70,7 +72,10 @@ public:
 
   int get_agent_count(agent_type type);
 
-  void spawn(agent_type type, tile t);
+  bool is_selected();
+
+  // No defenition???
+  //void spawn(agent_type type, tile t);
 
   /// Allow the real game to allow spawning of agents
   void set_allow_spawning(const bool do_allow) noexcept { m_allow_spawning = do_allow; }
@@ -142,10 +147,22 @@ bool is_on_tile(const game& g, const agent& a);
 /// Determine if there is a tile at the given coordinat
 bool is_on_tile(const game& g, double x, double y);
 
-/// Get the tile_type the agent is one.
+/// Get the tile the agent is on.
+/// Returns one tile if the agent is on a tile.
+/// Returns an empty vector if the agent is above the void
+std::vector<tile> get_on_tile(const game& g, const agent& a);
+
+/// Get the tile_type the agent is on.
 /// Returns one tile_type if the agent is on a tile.
 /// Returns an empty vector if the agent is above the void
 std::vector<tile_type> get_on_tile_type(const game& g, const agent& a);
+std::vector<tile_type> get_on_tile_type(const game& g, const double x, const double y);
+
+sf::Vector2f get_agent_center(const agent& a);
+
+double get_agent_width(const sf::Texture& a);
+
+double get_agent_height(const sf::Texture& a);
 
 /// Determine if an agent is on a specific tile
 bool is_on_specific_tile(const agent& a, const tile& t);
