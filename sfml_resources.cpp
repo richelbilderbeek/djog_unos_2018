@@ -13,19 +13,19 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
   {
     // background music
-    QFile f(":/nature_zen/resources/Barachem_Zauberspiel_Preliminary_Edit.ogg");
-    f.copy("Barachem_Zauberspiel_Preliminary_Edit.ogg");
-    if (!m_background_music.openFromFile("Barachem_Zauberspiel_Preliminary_Edit.ogg")) {
+    QFile f(":/nature_zen/resources/Theme_Music.ogg");
+    f.copy("Theme_Music.ogg");
+    if (!m_background_music.openFromFile("Theme_Music.ogg")) {
       throw std::runtime_error("Cannot find music file "
-                               "'Barachem_Zauberspiel_Preliminary_Edit.ogg'");
+                               "'Theme_Music.ogg'");
     }
   }
   {
     // title music
-    QFile f(":/nature_zen/resources/title_music.ogg");
-    f.copy("title_music.ogg");
-    if (!m_title_music.openFromFile("title_music.ogg")) {
-      throw std::runtime_error("Cannot find music file 'title_music.ogg'");
+    QFile f(":/nature_zen/resources/Title_Music.ogg");
+    f.copy("Title_Music.ogg");
+    if (!m_title_music.openFromFile("Title_Music.ogg")) {
+      throw std::runtime_error("Cannot find music file 'Title_Music.ogg'");
     }
   }
   {
