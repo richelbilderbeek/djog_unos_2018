@@ -143,8 +143,7 @@ private:
   int m_pseudo_counter;
 
   int init_pseudo_random_period() noexcept
-  { return random_int(2*m_half_minimum_period, 3*m_half_minimum_period,
-                      std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()); }
+  { return random_int(2*m_half_minimum_period, 3*m_half_minimum_period); }
 
   void random_animal_sound();
 
@@ -223,7 +222,7 @@ private:
 
   sfml_save_overlay m_save_screen;
 
-  double m_zoom_state = 1;
+  double m_zoom_state = 1.0;
 
   bool m_play_sounds = true;
 

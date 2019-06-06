@@ -290,7 +290,7 @@ int main(int argc, char **argv) //!OCLINT main too long
       }
     }
     for(int i = 0; i < agents_size; i++){
-      int type = random_int(1, 21, static_cast<unsigned>(i));
+      int type = random_int(1, 21);
       agent a(random_agent_type(type), i, i);
       agents.push_back(a);
     }

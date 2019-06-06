@@ -47,17 +47,16 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
   return types;
 }
 
-int random_int(int min, int max, unsigned seed){
-    std::default_random_engine device(seed);
-    std::mt19937 generator(device());
+std::default_random_engine device(time(NULL));
+int random_int(int min, int max){
+    std::minstd_rand generator(device());
     std::uniform_int_distribution<int> distribution(min, max);
 
     return distribution(generator);
 }
 
-double random_double(double min, double max, unsigned seed){
-    std::default_random_engine device(seed);
-    std::mt19937 generator(device());
+double random_double(double min, double max){
+    std::minstd_rand generator(device());
     std::uniform_real_distribution<double> distribution(min, max);
 
     return distribution(generator);
@@ -328,7 +327,16 @@ bool is_on_tile(const game& g, const double x, const double y)
   return false;
 }
 
-std::vector<tile_type> get_on_tile_type(const game& g, const double x, const double y){
+std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
+{
+  const std::vector<tile> tiles = get_on_tile(g, a);
+  if (tiles.empty()) return {};
+  assert(tiles.size() == 1);
+  return { tiles[0].get_type() };
+}
+
+std::vector<tile> get_on_tile(const game& g, const double x, const double y)
+{
   for (tile t : g.get_tiles())
   {
     sf::Vector2f corner = t.get_corner();
@@ -338,16 +346,16 @@ std::vector<tile_type> get_on_tile_type(const game& g, const double x, const dou
         y <= corner.y + t.get_height() + 6.0
     )
     {
-      return { t.get_type() };
+      return { t };
     }
   }
   return {};
 }
 
-std::vector<tile_type> get_on_tile_type(const game& g, const agent& a)
+std::vector<tile> get_on_tile(const game& g, const agent& a)
 {
   sf::Vector2f center = a.get_center(sfml_resources::get().get_agent_sprite(a));
-  return get_on_tile_type(g, center.x, center.y);
+  return get_on_tile(g, center.x, center.y);
 }
 
 sf::Vector2f get_agent_center(const agent& a){
@@ -566,7 +574,7 @@ void test_game() //!OCLINT a testing function may be long
   {
     // Create a game with two grassland blocks on top of each other
     // +====+====+    +----+----+
-    // || grass || -> |mountains|
+    // || grass || -> |mountain|
     // +====+====+    +----+----+
     const std::vector<tile> tiles
     {
@@ -739,7 +747,6 @@ void test_game() //!OCLINT a testing function may be long
     g.allow_damage();
     g.allow_score();
   }
-
   {
     // Test "game::check_selection"
         game g({tile(0, 0, 0, 0, 0, tile_type::grassland)});

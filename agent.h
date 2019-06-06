@@ -133,18 +133,25 @@ std::vector<agent> create_default_agents() noexcept;
 
 void move_agent_to_tile(agent &a, double tile_x, double tile_y);
 
-bool will_drown(agent_type a);
+/// Will the agent drown in water with a certain depth
+/// For example, a fish will down at a depth beyond 50;
+/// only a whale can survive at a depth of 100
+/// @param at the agent type
+/// @param depth the depth at which the agent will or will not survive
+bool will_drown(agent_type at, const int depth);
 
 /// Determine if the agent_type is a plant
 /// @return true if the agent_type is a plant
 /// @note plankton is counted as plants, but do include small animals as well
 bool is_plant(const agent_type type) noexcept;
 
+//
 int get_min_depth(agent_type a);
 
 int get_max_depth(agent_type a);
 
-sf::Vector2i get_depth(agent_type a);
+/// Get the range at which the agent can survive
+sf::Vector2i get_depth_range(agent_type a);
 
 /// Test the tile class
 void test_agent();

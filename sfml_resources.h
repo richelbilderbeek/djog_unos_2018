@@ -124,6 +124,8 @@ private:
 
   sf::Texture m_octopus_texture;
 
+  sf::Texture m_polar_bear_texture;
+
   sf::Texture m_snake_texture;
 
   sf::Texture m_foxgloves_texture;
@@ -146,20 +148,47 @@ private:
 
   sf::Texture m_zen_title;
 
-  sf::Texture m_tundra_laying;
-  sf::Texture m_tundra_standing;
+  sf::Texture m_arctic_laying;
+  sf::Texture m_arctic_standing;
 
   sf::Texture m_beach_laying;
   sf::Texture m_beach_standing;
 
-  sf::Texture m_water_laying;
-  sf::Texture m_water_standing;
+  sf::Texture m_desert_laying;
+  sf::Texture m_desert_standing;
 
   sf::Texture m_dunes_laying;
   sf::Texture m_dunes_standing;
 
+  sf::Texture m_grassland_laying;
+  sf::Texture m_grassland_standing;
+
   sf::Texture m_hills_laying;
   sf::Texture m_hills_standing;
+
+  sf::Texture m_mangrove_laying;
+  sf::Texture m_mangrove_standing;
+
+  sf::Texture m_mountain_laying;
+  sf::Texture m_mountain_standing;
+
+  sf::Texture m_rainforest_laying;
+  sf::Texture m_rainforest_standing;
+
+  sf::Texture m_savannah_laying;
+  sf::Texture m_savannah_standing;
+
+  sf::Texture m_swamp_laying;
+  sf::Texture m_swamp_standing;
+
+  sf::Texture m_tundra_laying;
+  sf::Texture m_tundra_standing;
+
+  sf::Texture m_water_laying;
+  sf::Texture m_water_standing;
+
+  sf::Texture m_woods_laying;
+  sf::Texture m_woods_standing;
 
   sf::Texture m_corpse_texture;
 

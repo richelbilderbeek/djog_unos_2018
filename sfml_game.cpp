@@ -157,7 +157,7 @@ void sfml_game::display_essence()
 
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
-  m_window.clear(sf::Color::Black); // Clear the window with black color
+  m_window.clear(sf::Color(0, 0, 0)); // Clear the window with black color
   // Display all tiles
   for (const tile& t : m_game.get_tiles())
   {
@@ -208,26 +208,29 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
 }
 
 void sfml_game::display_tile(const tile &t) {
-    sf::RectangleShape sfml_tile(sf::Vector2f(212 * m_zoom_state, 100 * m_zoom_state));
+    sf::RectangleShape sfml_tile(sf::Vector2f(212.0 * m_zoom_state, 100.0 * m_zoom_state));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
     const double screen_x{ (t.get_x() - m_camera.x) * m_zoom_state };
     const double screen_y{ (t.get_y() - m_camera.y) * m_zoom_state };
-    sfml_tile.setOrigin(50, 50);
+    const double factor{50.0 * m_zoom_state};
+    sfml_tile.setOrigin(factor, factor);
     sfml_tile.setRotation(t.get_rotation());
-    sfml_tile.setPosition(screen_x + 50, screen_y + 50);
+    sfml_tile.setPosition(screen_x + factor, screen_y + factor);
     sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
     color_tile_shape(sfml_tile, t);
+    std::clog << "sfml_tile (size): " << sfml_tile.getSize().x << " x " << sfml_tile.getSize().y << '\n';
     m_window.draw(sfml_tile);
     // Texture
     sf::Sprite sprite;
     sprite.setScale(m_zoom_state, m_zoom_state);
     set_tile_sprite(t, sprite);
     assert(sprite.getTexture());
-    sprite.setOrigin(50, 50);
+    sprite.setOrigin(factor, factor);
     sprite.rotate(t.get_rotation());
-    sprite.setPosition(screen_x + 50, screen_y + 50);
+    sprite.setPosition(screen_x + factor, screen_y + factor);
     sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
+    std::clog << "sprite (size): " << (sprite.getTexture()->getSize().x * m_zoom_state) << " x " << (sprite.getTexture()->getSize().y * m_zoom_state) << "\n\n";
     m_window.draw(sprite);
 }
 
@@ -515,8 +518,8 @@ void sfml_game::process_mouse_input(const sf::Event& event)
   if (event.mouseButton.button == sf::Mouse::Left)
   {
     m_game.check_selection(
-      sf::Mouse::getPosition(m_window).x + m_camera.x,
-      sf::Mouse::getPosition(m_window).y + m_camera.y
+      (sf::Mouse::getPosition(m_window).x + m_camera.x) * m_zoom_state,
+      (sf::Mouse::getPosition(m_window).y + m_camera.y) * m_zoom_state
     );
     if (m_shop_button.is_clicked(event, m_window))
       close(game_state::shop);
@@ -526,8 +529,8 @@ void sfml_game::process_mouse_input(const sf::Event& event)
   }
   else if (event.mouseButton.button == sf::Mouse::Right){
     m_game.remove_tile(
-      sf::Mouse::getPosition(m_window).x + m_camera.x,
-      sf::Mouse::getPosition(m_window).y + m_camera.y
+      (sf::Mouse::getPosition(m_window).x + m_camera.x) * m_zoom_state,
+      (sf::Mouse::getPosition(m_window).y + m_camera.y) * m_zoom_state
     );
   }
 }
@@ -551,8 +554,8 @@ void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
   assert(tiles.size() > 0);
-  int ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-  const int i = random_int(0, tiles.size() - 1, ms);
+  //int ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  const int i = random_int(0, tiles.size() - 1);
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
   m_game.m_selected[0] = id;
@@ -667,21 +670,21 @@ sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
   switch (direction)
   {
     case 1:
-      return sf::Vector2f(t.get_x() + (t.get_width() / 2),
-        t.get_y() - (t.get_height() / 2) - plus);
+      return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
+        t.get_y() - (t.get_height() / 2.0) - plus);
     case 2:
       return sf::Vector2f(t.get_x() + (t.get_width() * 1.5) + plus,
-        t.get_y() + (t.get_height() / 2));
+        t.get_y() + (t.get_height() / 2.0));
     case 3:
-      return sf::Vector2f(t.get_x() + (t.get_width() / 2),
+      return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
         t.get_y() + (t.get_height() * 1.5) + plus);
     case 4:
-      return sf::Vector2f(t.get_x() - (t.get_width() / 2) - plus,
-        t.get_y() + (t.get_height() / 2));
+      return sf::Vector2f(t.get_x() - (t.get_width() / 2.0) - plus,
+        t.get_y() + (t.get_height() / 2.0));
     default:
-      return sf::Vector2f(0, 0);
+      return sf::Vector2f(0.0, 0.0);
   }
-  return sf::Vector2f(0, 0);
+  return sf::Vector2f(0.0, 0.0);
 }
 
 int vectortoint(std::vector<int> v)
@@ -724,7 +727,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::grassland:
       color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
       break;
-    case tile_type::mountains:
+    case tile_type::mountain:
       color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
       break;
     case tile_type::water:
@@ -766,7 +769,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
       color_shape(sfml_tile, sf::Color(240, 226, 180), sf::Color(223, 206, 157));
       break;
   }
-  sfml_tile.setOutlineThickness(5 * m_zoom_state);
+  sfml_tile.setOutlineThickness(5.0 * m_zoom_state);
   auto selected = vectortoint(m_game.m_selected);
   if (t.get_id() == selected)
   {
