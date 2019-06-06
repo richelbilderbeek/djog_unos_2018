@@ -57,6 +57,9 @@
         <file>resources/beach_standing.png</file>
         <file>resources/mountain_laying.png</file>
         <file>resources/mountain_standing.png</file>
+        <file>resources/End_Music.ogg</file>
+        <file>resources/Theme_Music.ogg</file>
+        <file>resources/Title_Music.ogg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
