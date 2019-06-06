@@ -124,14 +124,14 @@ void sfml_load_screen::set_positions() {
 
   m_list.set_pos(m_window.getSize().y/2, 200, m_window); // map pixel to coords is built in
 
-  const sf::View o_view = m_window.getView();
-  m_window.setView(m_list.get_view());
+//  const sf::View o_view = m_window.getView();
+//  m_window.setView(m_list.get_view());
   int y = 10;
   for (auto &b : m_saves) {
     b.set_pos(10, y);
     y += 80;
   }
-  m_window.setView(o_view);
+//  m_window.setView(o_view);
 }
 
 void sfml_load_screen::close(game_state s) {
