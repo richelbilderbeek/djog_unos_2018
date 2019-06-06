@@ -10,7 +10,7 @@ QMAKE_CXXFLAGS += -std=c++14
 
 # High warning levels
 # SFML goes bad with -Weffc++
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
 
 unix:!macx {
 # Fix error: unrecognized option '--push-state--no-as-needed'
@@ -62,7 +62,7 @@ CONFIG(debug, debug|release) {
 
 # High warning level, warnings are errors
 QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
-QMAKE_CXXFLAGS += -Werror
+#QMAKE_CXXFLAGS += -Werror
 
 # SFML
 # GNU/Linux

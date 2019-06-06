@@ -18,6 +18,11 @@ sfml_shop_overlay::sfml_shop_overlay()
   m_button1.set_size(100, 100);
   m_button1.set_string("CLOSE");
 
+  sf::RectangleShape &b2_s = m_button2.get_shape();
+  b2_s.setFillColor(sf::Color(53,234,151));
+  m_button2.set_size(300, 100);
+  m_button2.set_string("grassland");
+
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color(51, 51, 51));
   m_header.setOutlineColor(sf::Color(41,180,116));
@@ -58,6 +63,13 @@ void sfml_shop_overlay::exec()
         if (m_button1.is_clicked(event, m_window))
           close(game_state::playing);
         break;
+    // what the butoon is going to do
+    /*case sf::Event::MouseButtonPressed:
+      if (m_button2.is_clicked(event, m_window))
+
+        break;
+    */
+
       default:
         sfml_window_manager::get().process();
         break;
@@ -73,6 +85,8 @@ void sfml_shop_overlay::draw_objects() {
   m_window.draw(m_header);
   m_window.draw(m_button1.get_shape());
   m_window.draw(m_button1.get_text());
+  m_window.draw(m_button2.get_shape());
+  m_window.draw(m_button2.get_text());
 }
 
 void sfml_shop_overlay::set_positions() {
@@ -93,6 +107,12 @@ void sfml_shop_overlay::set_positions() {
     m_window.getSize().y - (m_button1.get_size().y / 2)
   );
   m_button1.set_pos(m_window.mapPixelToCoords(pos));
+
+  // Button 2
+  sf::Vector2i pos1 = sf::Vector2i(
+    get_grid_position(m_button2, 0, 0)
+  );
+  m_button2.set_pos(m_window.mapPixelToCoords(pos1));
 }
 
 void sfml_shop_overlay::close(game_state s) {
@@ -101,4 +121,8 @@ void sfml_shop_overlay::close(game_state s) {
 
 void sfml_shop_overlay::close() {
   m_window.close();
+}
+
+sf::Vector2f get_grid_position(sfml_button &b, int x_p, int y_p) {
+    return sf::Vector2f(200 + (310 * x_p), 200 + (110 * y_p));
 }
