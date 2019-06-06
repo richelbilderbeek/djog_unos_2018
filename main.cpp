@@ -305,7 +305,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   else if(std::count(std::begin(args), std::end(args), "--god")) {
     //std::clog << "Process '--god' CLI option\n";
     score = false;
-    tiles = create_test_default_tiles();
+    tiles = create_default_tiles();
     agents = create_default_agents();
   }
 

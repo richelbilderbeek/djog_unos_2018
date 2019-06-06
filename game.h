@@ -16,7 +16,7 @@ friend class sfml_game;
 public:
   /// Constructor
   game(
-    const std::vector<tile>& tiles = create_test_default_tiles(),
+    const std::vector<tile>& tiles = create_default_tiles(),
     const std::vector<agent>& agents = create_default_agents()
   );
 
