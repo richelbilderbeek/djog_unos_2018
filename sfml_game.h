@@ -127,7 +127,7 @@ private:
   /// Background music file object
   sf::Music &m_background_music;
 
-  sf::Music &m_ben_ik_een_spin;
+  sf::Music &m_end_music;
 
   sound_type m_sound_type;
 
