@@ -4,6 +4,7 @@
 #include "sfml_button.h"
 #include "game_state.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class sfml_gameover_screen
 {
@@ -19,9 +20,13 @@ public:
     ///Close the game
     void close();
 
+    void stop_music();
+
     void set_positions();
 
 private:
+
+    sf::Music &m_end_music;
 
     sf::RenderWindow& m_window;
 

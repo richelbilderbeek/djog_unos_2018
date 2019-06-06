@@ -6,10 +6,14 @@
 #include <cassert>
 
 sfml_gameover_screen::sfml_gameover_screen(const int close_at)
-    : m_window{ sfml_window_manager::get().get_window() },
+    : m_end_music{ sfml_resources::get().get_end_music() },
+      m_window{ sfml_window_manager::get().get_window() },
       m_font{ sfml_resources::get().get_default_font() },
       m_close_at{close_at}
 {
+    m_end_music.setLoop(true);
+    m_end_music.play();
+
     m_header.setFont(m_font);
     m_header.setString("GAME OVER");
 
@@ -87,3 +91,6 @@ void sfml_gameover_screen::close(game_state s) {
 void sfml_gameover_screen::close() {
   m_window.close();
 }
+
+void sfml_gameover_screen::stop_music()
+{ m_end_music.stop(); }
