@@ -17,7 +17,7 @@ std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept
   const std::vector<triplet> v = {
     //Ordered alphabetically
     triplet(tile_type::arctic, tile_type::grassland, tile_type::tundra),
-    triplet(tile_type::arctic, tile_type::mountains, tile_type::tundra),
+    triplet(tile_type::arctic, tile_type::mountain, tile_type::tundra),
     triplet(tile_type::arctic, tile_type::savannah, tile_type::tundra),
     triplet(tile_type::arctic, tile_type::swamp, tile_type::tundra),
     triplet(tile_type::arctic, tile_type::woods, tile_type::tundra),
@@ -31,10 +31,10 @@ std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept
     triplet(tile_type::grassland, tile_type::mangrove, tile_type::swamp),
     triplet(tile_type::grassland, tile_type::water, tile_type::swamp),
     triplet(tile_type::hills, tile_type::beach, tile_type::dunes),
-    triplet(tile_type::hills, tile_type::hills, tile_type::mountains),
+    triplet(tile_type::hills, tile_type::hills, tile_type::mountain),
     triplet(tile_type::mangrove, tile_type::grassland, tile_type::swamp),
-    triplet(tile_type::mountains, tile_type::arctic, tile_type::tundra),
-    triplet(tile_type::mountains, tile_type::water, tile_type::arctic),
+    triplet(tile_type::mountain, tile_type::arctic, tile_type::tundra),
+    triplet(tile_type::mountain, tile_type::water, tile_type::arctic),
     triplet(tile_type::rainforest, tile_type::water, tile_type::mangrove),
     triplet(tile_type::savannah, tile_type::arctic, tile_type::tundra),
     triplet(tile_type::swamp, tile_type::arctic, tile_type::tundra),
@@ -42,7 +42,7 @@ std::vector<tile_type> get_merge_type(tile_type type1, tile_type type2) noexcept
     triplet(tile_type::water, tile_type::dunes, tile_type::beach),
     triplet(tile_type::water, tile_type::grassland, tile_type::swamp),
     triplet(tile_type::water, tile_type::rainforest, tile_type::mangrove),
-    triplet(tile_type::water, tile_type::mountains, tile_type::arctic),
+    triplet(tile_type::water, tile_type::mountain, tile_type::arctic),
     triplet(tile_type::water, tile_type::woods, tile_type::mangrove),
     triplet(tile_type::woods, tile_type::arctic, tile_type::tundra),
     triplet(tile_type::woods, tile_type::water, tile_type::mangrove),
@@ -67,13 +67,13 @@ void test_tile_type() //!OCLINT testing functions can be long and complex
   {
     // merging of types
     assert(get_merge_type(tile_type::grassland, tile_type::grassland).front() == tile_type::hills);
-    assert(get_merge_type(tile_type::hills, tile_type::hills).front() == tile_type::mountains);
+    assert(get_merge_type(tile_type::hills, tile_type::hills).front() == tile_type::mountain);
     assert(get_merge_type(tile_type::grassland, tile_type::desert).front() == tile_type::savannah);
     assert(get_merge_type(tile_type::desert, tile_type::grassland).front() == tile_type::savannah);
     assert(get_merge_type(tile_type::grassland, tile_type::water).front() == tile_type::swamp);
     assert(get_merge_type(tile_type::water, tile_type::grassland).front() == tile_type::swamp);
-    assert(get_merge_type(tile_type::water, tile_type::mountains).front() == tile_type::arctic);
-    assert(get_merge_type(tile_type::mountains, tile_type::water).front() == tile_type::arctic);
+    assert(get_merge_type(tile_type::water, tile_type::mountain).front() == tile_type::arctic);
+    assert(get_merge_type(tile_type::mountain, tile_type::water).front() == tile_type::arctic);
     assert(get_merge_type(tile_type::water, tile_type::woods).front() == tile_type::mangrove);
     assert(get_merge_type(tile_type::woods, tile_type::water).front() == tile_type::mangrove);
     assert(get_merge_type(tile_type::hills, tile_type::beach).front() == tile_type::dunes);
@@ -114,7 +114,7 @@ std::vector<tile_type> get_all_tile_types() noexcept
     tile_type::grassland,
     tile_type::hills,
     tile_type::mangrove,
-    tile_type::mountains,
+    tile_type::mountain,
     tile_type::rainforest,
     tile_type::savannah,
     tile_type::swamp,
@@ -133,7 +133,7 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
     { tile_type::grassland, "grassland"},
     { tile_type::hills, "hills"},
     { tile_type::mangrove, "mangrove"},
-    { tile_type::mountains, "mountains"},
+    { tile_type::mountain, "mountain"},
     { tile_type::rainforest, "rainforest"},
     { tile_type::savannah, "savannah"},
     { tile_type::swamp, "swamp"},
@@ -147,7 +147,7 @@ std::string to_str(tile_type t) //!OCLINT cannot be simpler
   return m.find(t)->second;
 }
 
-tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds limit of 200
+tile_type to_tile(std::string str)
 {
   const std::map<std::string, tile_type> m{
     { "arctic", tile_type::arctic},
@@ -156,7 +156,7 @@ tile_type to_tile(std::string str) //!OCLINT NPath Complexity Number 256 exceeds
     { "grassland", tile_type::grassland},
     { "hills", tile_type::hills},
     { "mangrove", tile_type::mangrove},
-    { "mountains", tile_type::mountains},
+    { "mountain", tile_type::mountain},
     { "rainforest", tile_type::rainforest},
     { "savannah", tile_type::savannah},
     { "swamp", tile_type::swamp},

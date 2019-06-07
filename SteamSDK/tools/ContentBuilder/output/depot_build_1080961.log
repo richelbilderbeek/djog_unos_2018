@@ -1,0 +1,27 @@
+[2019-06-06 19:11:09]: Starting build for depot 1080961, content path is "/home/rafayelgardishyan/githubs/djog_unos_2018/SteamSDK/tools/ContentBuilder/content/", build flags 0x0
+[2019-06-06 19:11:09]: Building file listing for depot 1080961 ...
+[2019-06-06 19:11:09]: Found 122 files for mapping: /home/rafayelgardishyan/githubs/djog_unos_2018/SteamSDK/tools/ContentBuilder/content/windows_content * -> .
+[2019-06-06 19:11:09]: Found 122 files (108 MB) for depot 1080961
+[2019-06-06 19:11:12]: Building depot 1080961, baseline manifest 7453834503591667106 (107 files)
+[2019-06-06 19:11:13]: Found 159 chunks ( 154 used previously ) for depot 1080961, took 0 minutes, 0 seconds
+
+[2019-06-06 19:11:13]: Changes to baseline manifest 7453834503591667106 :
+[2019-06-06 19:11:13]: Added  : "libsfml-audio.so" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-audio.so.2.5" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-audio.so.2.5.1" 139 kB 
+[2019-06-06 19:11:13]: Added  : "libsfml-graphics.so" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-graphics.so.2.5" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-graphics.so.2.5.1" 461 kB 
+[2019-06-06 19:11:13]: Added  : "libsfml-network.so" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-network.so.2.5" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-network.so.2.5.1" 137 kB 
+[2019-06-06 19:11:13]: Added  : "libsfml-system.so" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-system.so.2.5" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-system.so.2.5.1" 65 kB 
+[2019-06-06 19:11:13]: Added  : "libsfml-window.so" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-window.so.2.5" 0 kB ,Flags: 512
+[2019-06-06 19:11:13]: Added  : "libsfml-window.so.2.5.1" 202 kB 
+[2019-06-06 19:11:13]: Summary: 15 files added, 0 files changed, 0 files removed
+[2019-06-06 19:11:13]: Uploading new manifest to 208.64.201.182:80 (handle 13220297753420522575, 17342 bytes).
+[2019-06-06 19:11:14]: Uploading 5 out of 5 missing chunks.
+[2019-06-06 19:11:16]: Success! New manifestID 6900349644355944187 created and 5 new chunks uploaded.
