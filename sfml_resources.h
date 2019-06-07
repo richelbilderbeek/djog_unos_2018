@@ -148,7 +148,6 @@ private:
 
   sf::Texture m_zen_title;
 
-  sf::Texture m_arctic_laying;
   sf::Texture m_arctic;
 
   sf::Texture m_beach_laying;
