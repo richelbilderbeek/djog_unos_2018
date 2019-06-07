@@ -486,9 +486,15 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLI
 {
   switch (t)
   {
+    //case tile_type::arctic: return m_arctic_laying;
     case tile_type::beach: return m_beach_laying;
+    //case tile_type::desert: return m_desert_laying;
     case tile_type::dunes: return m_dunes_laying;
     case tile_type::hills: return m_hills_laying;
+    //case tile_type::mangrove: return m_mangrove_laying;
+    //case tile_type::mountains: return m_mountains_laying;
+    //case tile_type::rainforest: return m_rainforest;
+    //case tile_type::savannah: return  m_savannah;
     //case tile_type::swamp: return m_swamp_laying;
     case tile_type::tundra: return m_tundra_laying;
     case tile_type::water: return m_water_laying;
