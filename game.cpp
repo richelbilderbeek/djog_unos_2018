@@ -520,8 +520,26 @@ void test_game() //!OCLINT a testing function may be long
 
     assert(tile.get_x() == 0);
     assert(tile.get_y() == -1);
-
   }
+
+  //Test remove_tile
+  {
+    const std::vector<agent> no_agents;
+    game g( {
+              tile(300.0, 300.0, 0.0, 10.0, 10.0),
+              tile(0.0, 0.0, 0.0, 10.0, 10.0)
+            }, no_agents);
+    sound_type st { sound_type::none };
+
+    g.remove_tile(0.0, 0.0);
+
+    g.process_events(st);
+
+    int tilecount = g.get_tiles().size();
+
+    assert(tilecount == 1);
+  }
+
   //Test confirm_tile_move left
   {
     const std::vector<agent> no_agents;
@@ -533,6 +551,7 @@ void test_game() //!OCLINT a testing function may be long
 
     g.process_events(st);
 
+    g.get_tiles();
     assert(tile.get_x() == -1);
     assert(tile.get_y() == 0);
 
