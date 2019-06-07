@@ -35,6 +35,8 @@ public:
 
   void scroll(sf::Event &event);
 
+  bool is_clicked(sf::Vector2f pos) const;
+
 private:
 
   sf::RectangleShape m_shape;

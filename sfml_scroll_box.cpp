@@ -11,8 +11,8 @@ sfml_scroll_box::sfml_scroll_box(const double x, const double y,
   m_shape.setOutlineThickness(5);
   m_shape.setOutlineColor(sf::Color(43,189,121));
 
-  m_view.setViewport(m_shape.getGlobalBounds());
-  m_view.setCenter(m_width / 2, m_height / 2);
+  m_view = sf::View(sf::Vector2f(m_width + m_x, m_height + m_y),
+                    sf::Vector2f(m_width * 2, m_height * 2));
 }
 
 void sfml_scroll_box::set_pos(int x, int y, sf::RenderWindow &window) {
@@ -20,17 +20,26 @@ void sfml_scroll_box::set_pos(int x, int y, sf::RenderWindow &window) {
   m_y = y;
   m_shape.setPosition(window.mapPixelToCoords(sf::Vector2i(m_x, m_y)));
 
-  m_view.setViewport(m_shape.getGlobalBounds());
-  m_view.setCenter(0, 0);
+  float x_pos = m_shape.getPosition().x / window.getSize().x;
+  float y_pos = m_shape.getPosition().y / window.getSize().y;
+  float x_per = m_shape.getSize().x / window.getSize().x;
+  float y_per = m_shape.getSize().y / window.getSize().y;
+  m_view.setViewport(sf::FloatRect(x_pos, y_pos, x_per, y_per));
+  //m_view.setCenter(0, 0);
 }
+
+bool sfml_scroll_box::is_clicked(sf::Vector2f pos) const {
+  double x = pos.x;
+  double y = pos.y;
+  return x > m_x && x < m_x + m_width &&
+         y > m_y && y < m_y + m_height;
+}
+
 
 void sfml_scroll_box::set_size(double width, double height) {
   m_width = width;
   m_height = height;
   m_shape.setSize(sf::Vector2f(m_width, m_height));
-
-  m_view.setSize(m_shape.getSize());
-  m_view.setViewport(m_shape.getLocalBounds());
 }
 
 void sfml_scroll_box::draw(sf::RenderWindow& window) {
@@ -64,5 +73,5 @@ void sfml_scroll_box::scroll(sf::Event&
   if (event.type != sf::Event::MouseWheelScrolled) return;
   m_view.move(0, event.mouseWheelScroll.delta);
   #endif
-  m_view.setViewport(m_shape.getGlobalBounds());
+  //m_view.setViewport(m_shape.getGlobalBounds());
 }

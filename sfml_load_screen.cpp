@@ -25,23 +25,26 @@ sfml_load_screen::sfml_load_screen()
   m_new_game.set_size(590, 75);
   m_new_game.set_string("new game");
 
-  m_list.set_size(500, 200);
-  m_list.set_pos(100, 100, m_window);
+  m_list.set_size(340, 120);
+  m_list.set_pos(m_window.getSize().x - 170, 100, m_window);
 
-  int y = 0;
+  int y = 45;
+  int x = 60;
   sf::View tmp_view = m_window.getView();
   m_window.setView(m_list.get_view());
   for (std::string str : get_saves()) {
     sfml_button b;
     sf::RectangleShape &b_s = b.get_shape();
     b_s.setFillColor(sf::Color(53,234,151));
-    b.set_size(100, 75);
+    b.set_size(100, 80);
     b.set_string(str);
-    sf::Vector2f pos(m_list.get_pos() + sf::Vector2f(10, y));
-    b.set_pos(pos.x, pos.y);
-    y += 80;
+    b.set_pos(60, y);
+    x += 110;
+    if (x >= 280) {
+      x = 60;
+      y += 85;
+    }
     m_saves.push_back(b);
-    m_saves.back().set_pos(b.get_pos());
     m_list.add_rectangle(m_saves.back().get_shape());
     m_list.add_text(m_saves.back().get_text());
   }
@@ -64,21 +67,34 @@ void sfml_load_screen::exec()
     sf::Event event;
     while (m_window.pollEvent(event))
     {
-      sf::View view = m_window.getDefaultView();
       switch (event.type) //!OCLINT too few branches, please fix
       {
         case sf::Event::Closed:
             close();
             break;
         case sf::Event::Resized:
+        {
+          sf::View view = m_window.getDefaultView();
           sfml_window_manager::get().update();
           view.setSize(static_cast<float>(m_window.getSize().x),
                        static_cast<float>(m_window.getSize().y));
           m_window.setView(view);
           break;
+        }
         case sf::Event::MouseButtonPressed:
-          for (sfml_button b : m_saves) {
-            if (b.is_clicked(event, m_window)) {
+          for (sfml_button &b : m_saves) {
+            sf::Vector2f pos1 = m_window.mapPixelToCoords(
+                                  sf::Mouse::getPosition(m_window),
+                                  m_window.getView());
+            sf::Vector2f pos2 = m_window.mapPixelToCoords(
+                                  sf::Mouse::getPosition(m_window),
+                                  m_list.get_view());
+            std::clog << pos2.x << " " << pos2.y << " | "
+                      << b.get_pos().x << " " << b.get_pos().y << " | "
+                      << pos1.x << " " << pos1.y << " | "
+                      << m_list.get_pos().x << " " << m_list.get_pos().y;
+            std::clog << std::endl;
+            if (b.is_clicked(pos2) && m_list.is_clicked(pos1)) {
               sfml_game g;
               //g.load_game(b.get_string());
               close(game_state::playing);
@@ -105,7 +121,13 @@ void sfml_load_screen::draw_objects() {
   m_window.draw(m_header);
   m_window.draw(m_new_game.get_shape());
   m_window.draw(m_new_game.get_text());
+
+//  m_list.get_view().setCenter(-40, -27.5);
   m_list.draw(m_window);
+
+//  std::clog << m_saves.at(0).get_pos().x << " " << m_saves.at(0).get_pos().y;
+//  std::clog << "\n-------------------" << std::endl;
+
   m_window.display();
 }
 
@@ -123,12 +145,15 @@ void sfml_load_screen::set_positions() {
   m_new_game.set_pos(ng_pos.x, ng_pos.y);
 
   m_list.set_pos(m_window.getSize().y/2, 200, m_window); // map pixel to coords is built in
+//  m_list.get_view().setViewport(m_list.get_shape().getLocalBounds());
+//  m_list.get_view().setCenter(0, 0);
+//  m_list.get_view().setSize(m_list.get_shape().getSize());
 
 //  const sf::View o_view = m_window.getView();
 //  m_window.setView(m_list.get_view());
-  int y = 10;
+  int y = 45;
   for (auto &b : m_saves) {
-    b.set_pos(10, y);
+    b.set_pos(60, y);
     y += 80;
   }
 //  m_window.setView(o_view);
