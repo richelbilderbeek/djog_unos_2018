@@ -222,7 +222,7 @@ private:
 
   sfml_save_overlay m_save_screen;
 
-  double m_zoom_state = 1;
+  double m_zoom_state = 1.0;
 
   bool m_play_sounds = true;
 
