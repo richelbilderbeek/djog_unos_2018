@@ -2,7 +2,7 @@
  
 [![DJOG logo](pics/Djog.png)](https://www.djog.nl/)
 
-![Octane logo](pics/octane_black.png)
+![Octane logo](https://github.com/richelbilderbeek/djog_unos_2018/blob/rijk/pics/team%20octance%20logo.png)
  
 [![IRC Network](https://img.shields.io/badge/irc-%23nature_zen_devs-blue.svg "IRC Freenode")](https://webchat.freenode.net/?channels=nature_zen_devs)
 
