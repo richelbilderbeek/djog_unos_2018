@@ -53,7 +53,10 @@ void sfml_gameover_screen::exec()
           break;
         case sf::Event::MouseButtonPressed:
           if (m_button1.is_clicked(event, m_window))
-            sfml_window_manager::get().set_state(game_state::menuscreen);
+          {
+            stop_music();
+            sfml_window_manager::get().set_state(game_state::menuscreen);            
+          }
           break;
         default:
           sfml_window_manager::get().process();
@@ -84,13 +87,11 @@ void sfml_gameover_screen::set_positions() {
   m_button1.set_pos(b1_pos.x, b1_pos.y);
 }
 
-void sfml_gameover_screen::close(game_state s) {
-  sfml_window_manager::get().set_state(s);
-}
+void sfml_gameover_screen::close(game_state s)
+{ sfml_window_manager::get().set_state(s); }
 
-void sfml_gameover_screen::close() {
-  m_window.close();
-}
+void sfml_gameover_screen::close()
+{ m_window.close(); }
 
 void sfml_gameover_screen::stop_music()
 { m_end_music.stop(); }

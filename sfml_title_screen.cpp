@@ -65,9 +65,11 @@ void sfml_title_screen::exec()
           stretch_bg();
           break;
         case sf::Event::KeyPressed:
+            stop_music();
             sfml_window_manager::get().set_state(game_state::menuscreen);
             break;
         case sf::Event::MouseButtonPressed:
+            stop_music();
             sfml_window_manager::get().set_state(game_state::menuscreen);
             break;
         default:
