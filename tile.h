@@ -85,7 +85,7 @@ public:
 
   void move();
 
-  void rotate();
+  void rotate(game& g);
 
   /// Get the tile's id
   int get_id() const noexcept { return m_id.get(); }

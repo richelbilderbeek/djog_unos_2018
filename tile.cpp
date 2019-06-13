@@ -305,8 +305,10 @@ void tile::rotate_cc() {
   m_target_rotation = normalize_rotation(m_target_rotation);
 }
 
-void tile::rotate()
+void tile::rotate(game& g)
 {
+  if (!m_is_rotating)
+    return;
   if (normalize_rotation(m_rotation) == normalize_rotation(m_target_rotation))
   {
     m_rotation = normalize_rotation(m_rotation);
@@ -327,6 +329,12 @@ void tile::rotate()
       m_is_rotating = false;
     else {
       m_rotation -= 1;
+    }
+  }
+
+  for (auto& agent:g.get_agents()) {
+    if(is_on_specific_tile(agent, *this)){
+        // Calculate something & set position
     }
   }
 }
@@ -683,14 +691,14 @@ void test_tile() //!OCLINT testing function may be many lines
     t.rotate_cc();
 
     for(int i = 0; i != 200; ++i){
-        t.rotate();
+        t.rotate(g);
     }
     assert(t.get_rotation() == 270);
     assert(t.get_corner() == sf::Vector2f(t.get_x(), t.get_y() - (t.get_height() / 2.0)));
     assert(t.get_center() == sf::Vector2f(t.get_x() + (t.get_width() / 2.0), t.get_y()));
     t.rotate_cc();
     for(int i = 0; i != 200; ++i){
-        t.rotate();
+        t.rotate(g);
     }
     assert(t.get_rotation() == 180);
     assert(t.get_corner() == sf::Vector2f(t.get_x() - (t.get_width() / 2.0), t.get_y()));

@@ -83,6 +83,7 @@ private:
   /// The y-coordinat of the top-left corner of the agent
   double m_y;
 
+
   /// The direction angle of the agent:
   ///
   ///           0.5 * pi
