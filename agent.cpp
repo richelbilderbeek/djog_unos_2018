@@ -207,11 +207,17 @@ void agent::move(game &g){ //!OCLINT too complex indeed
   double temp_x = 0.1 * (-1 + (std::rand() % 3));
   double temp_y = 0.1 * (-1 + (std::rand() % 3));
   sf::Vector2f center_temp = get_agent_center(*this);
-  std::vector<tile> t_temp = get_current_tile(g, center_temp.x + temp_x, center_temp.y + temp_y);
-  if((is_on_tile(g, center_temp.x + temp_x, center_temp.y + temp_y)
-     && t_temp[0].get_type() != tile_type::water)
-     || (!will_drown(m_type, 12.34) && is_on_tile(g, center_temp.x + temp_x, center_temp.y + temp_y))
-     || m_type == agent_type::bird){
+      std::vector<tile> t_temp = get_current_tile(g, center_temp.x + temp_x, center_temp.y + temp_y);
+  if(
+      ( // Als het agent op een tile bevindt en de tile niet een type::water heeft mag je de tile bewegen
+        is_on_tile(g, center_temp.x + temp_x, center_temp.y + temp_y)
+        && t_temp[0].get_type() != tile_type::water
+      )
+      // Of als de agend niet zinkt op eeen bepaalde diepte en het op een tile bevindt mag je de tile bewegen
+      || (!will_drown(m_type, 25) && is_on_tile(g, center_temp.x + temp_x, center_temp.y + temp_y))
+      || m_type == agent_type::bird // Of als de agent type::vogel heeft mag je de tile bewegen
+    ){
+    // beweeg de tile
     m_x += temp_x;
     m_y += temp_y;
   }
