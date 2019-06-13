@@ -64,7 +64,7 @@ script:
   - rm -rf oclint-0.10.3 oclint-0.10.3-x86_64-linux-3.13.0-74-generic.tar.gz oclint.log
   - rm -rf .git
   - rm -rf debug
-  - rm -rf debug
+  - rm -rf release
   - cd ..; sloccount --overhead 1 --personcost 22614 djog_unos_2018 | egrep -v "Adding"; cd djog_unos_2018
 
 after_success:
