@@ -219,7 +219,6 @@ void sfml_game::display_tile(const tile &t) {
     sfml_tile.setPosition(screen_x + factor, screen_y + factor);
     sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
     color_tile_shape(sfml_tile, t);
-    std::clog << "sfml_tile (size): " << sfml_tile.getSize().x << " x " << sfml_tile.getSize().y << '\n';
     m_window.draw(sfml_tile);
     // Texture
     sf::Sprite sprite;
@@ -230,7 +229,6 @@ void sfml_game::display_tile(const tile &t) {
     sprite.rotate(t.get_rotation());
     sprite.setPosition(screen_x + factor, screen_y + factor);
     sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
-    std::clog << "sprite (size): " << (sprite.getTexture()->getSize().x * m_zoom_state) << " x " << (sprite.getTexture()->getSize().y * m_zoom_state) << "\n\n";
     m_window.draw(sprite);
 }
 
