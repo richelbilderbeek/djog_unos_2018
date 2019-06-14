@@ -130,7 +130,7 @@ double get_agent_reproduction_health(const agent_type t) noexcept;
 
 std::vector<agent_type> can_eat(const agent_type type);
 
-std::vector<agent> create_default_agents() noexcept;
+std::vector<agent> create_test_default_agents() noexcept;
 
 void move_agent_to_tile(agent &a, double tile_x, double tile_y);
 

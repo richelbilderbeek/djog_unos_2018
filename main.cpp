@@ -307,7 +307,8 @@ int main(int argc, char **argv) //!OCLINT main too long
     //std::clog << "Process '--god' CLI option\n";
     score = false;
     tiles = create_default_tiles();
-    agents = create_default_agents();
+    // Agents spawn automatically
+    // agents = create_default_agents();
   }
 
   //A window should have opened up now

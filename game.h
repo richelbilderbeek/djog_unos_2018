@@ -17,7 +17,7 @@ public:
   /// Constructor
   game(
     const std::vector<tile>& tiles = create_default_tiles(),
-    const std::vector<agent>& agents = create_default_agents()
+     const std::vector<agent>& agents = create_test_default_agents()
   );
 
   ///Does the game spawn agents?
