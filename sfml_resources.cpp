@@ -53,6 +53,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
+    // tile rotate
+    QFile f(":/nature_zen/resources/tile_rotate.wav");
+    f.copy("tile_rotate.wav");
+    if (!m_tile_rotate_soundbuffer.loadFromFile("tile_rotate.wav")) {
+      throw std::runtime_error("Cannot find music file 'tile_rotate.wav'");
+    }
+  }
+  {
     // cow
     QFile f(":/nature_zen/resources/cow_01.wav");
     f.copy("cow_01.wav");
@@ -636,6 +644,8 @@ sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
     return m_tile_collission_soundbuffer;
   if (st == sound_type::tile_move)
     return m_tile_move_soundbuffer;
+  if (st == sound_type::tile_rotate)
+    return m_tile_rotate_soundbuffer;
   if (st == sound_type::random_animal)
     return random_animal_sound();
 
