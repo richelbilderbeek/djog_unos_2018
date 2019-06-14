@@ -6,6 +6,7 @@
 #include "game.h"
 #include <iostream>
 #include <cassert>
+#include <functional>
 
 sfml_load_screen::sfml_load_screen()
     : m_window{ sfml_window_manager::get().get_window() },
@@ -25,24 +26,24 @@ sfml_load_screen::sfml_load_screen()
   m_new_game.set_size(590, 75);
   m_new_game.set_string("new game");
 
-  m_list.set_size(340, 120);
-  m_list.set_pos(m_window.getSize().x - 170, 100, m_window);
+  m_list.set_size(m_window.getSize().x / 2, 240);
+  m_list.set_pos(m_window.getSize().x / 4, 60, m_window);
 
-  int y = 45;
-  int x = 60;
+  int y = 10;
+  int x = 10;
   sf::View tmp_view = m_window.getView();
   m_window.setView(m_list.get_view());
   for (std::string str : get_saves()) {
     sfml_button b;
     sf::RectangleShape &b_s = b.get_shape();
     b_s.setFillColor(sf::Color(53,234,151));
-    b.set_size(100, 80);
+    b.set_size(100, 70);
     b.set_string(str);
-    b.set_pos(60, y);
+    b.set_pos(x, y);
     x += 110;
     if (x >= 280) {
       x = 60;
-      y += 85;
+      y += 80;
     }
     m_saves.push_back(b);
     m_list.add_rectangle(m_saves.back().get_shape());
@@ -96,7 +97,8 @@ void sfml_load_screen::exec()
             std::clog << std::endl;
             if (b.is_clicked(pos2) && m_list.is_clicked(pos1)) {
               sfml_game g;
-              //g.load_game(b.get_string());
+              //g.load_game(b.get_string()); TODO load
+              //TODO scroll
               close(game_state::playing);
               g.exec();
               return;
@@ -123,7 +125,7 @@ void sfml_load_screen::draw_objects() {
   m_window.draw(m_new_game.get_text());
 
 //  m_list.get_view().setCenter(-40, -27.5);
-  m_list.draw(m_window);
+  m_list.draw(m_window, m_saves);
 
 //  std::clog << m_saves.at(0).get_pos().x << " " << m_saves.at(0).get_pos().y;
 //  std::clog << "\n-------------------" << std::endl;
@@ -140,21 +142,26 @@ void sfml_load_screen::set_positions() {
                             sf::Vector2i(m_header.getPosition())));
 
   sf::Vector2f ng_pos(m_window.mapPixelToCoords(sf::Vector2i(
-                                                  (m_window.getSize().x / 2 - 100),
-                                                  (m_window.getSize().y/568)*450)));
+                                                  (m_window.getSize().x / 2),
+                                                  (m_window.getSize().y/568)*500)));
   m_new_game.set_pos(ng_pos.x, ng_pos.y);
 
-  m_list.set_pos(m_window.getSize().y/2, 200, m_window); // map pixel to coords is built in
+  m_list.set_pos(m_window.getSize().x / 4, 200, m_window); // map pixel to coords is built in
 //  m_list.get_view().setViewport(m_list.get_shape().getLocalBounds());
 //  m_list.get_view().setCenter(0, 0);
 //  m_list.get_view().setSize(m_list.get_shape().getSize());
 
 //  const sf::View o_view = m_window.getView();
 //  m_window.setView(m_list.get_view());
-  int y = 45;
+  int y = 10;
+  int x = 10;
   for (auto &b : m_saves) {
-    b.set_pos(60, y);
-    y += 80;
+    b.set_pos(x, y);
+    x += 110;
+    if (x >= 170) {
+      x = 10;
+      y += 90;
+    }
   }
 //  m_window.setView(o_view);
 }

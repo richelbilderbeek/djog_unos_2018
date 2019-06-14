@@ -317,13 +317,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
 //      throw std::runtime_error("Cannot find image file arctic_laying.png");
 //    }
 //  }
-  {
-    QFile f(":/nature_zen/resources/arctic_standing.png");
-    f.copy("arctic_standing.png");
-    if (!m_arctic_standing.loadFromFile("arctic_standing.png")) {
-      throw std::runtime_error("Cannot find image file arctic_standing.png");
-    }
-  }
+//  {
+//    QFile f(":/nature_zen/resources/arctic_standing.png");
+//    f.copy("arctic_standing.png");
+//    if (!m_arctic_standing.loadFromFile("arctic_standing.png")) {
+//      throw std::runtime_error("Cannot find image file arctic_standing.png");
+//    }
+//  }
   {
     QFile f(":/nature_zen/resources/beach_laying.png");
     f.copy("beach_laying.png");

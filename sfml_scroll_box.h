@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <functional>
+#include <sfml_button.h>
 
 class sfml_scroll_box
 {
@@ -29,6 +30,7 @@ public:
   void set_size(double width, double height);
 
   void draw(sf::RenderWindow& window);
+  void draw(sf::RenderWindow& window, std::vector<sfml_button> v);
 
   void add_rectangle(sf::RectangleShape &r);
   void add_text(sf::Text &t);
@@ -36,6 +38,7 @@ public:
   void scroll(sf::Event &event);
 
   bool is_clicked(sf::Vector2f pos) const;
+
 
 private:
 

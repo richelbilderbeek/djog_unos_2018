@@ -11,8 +11,8 @@ sfml_scroll_box::sfml_scroll_box(const double x, const double y,
   m_shape.setOutlineThickness(5);
   m_shape.setOutlineColor(sf::Color(43,189,121));
 
-  m_view = sf::View(sf::Vector2f(m_width + m_x, m_height + m_y),
-                    sf::Vector2f(m_width * 2, m_height * 2));
+  m_view = sf::View(sf::Vector2f(65, 55),
+                    sf::Vector2f(230, 190));
 }
 
 void sfml_scroll_box::set_pos(int x, int y, sf::RenderWindow &window) {
@@ -46,11 +46,22 @@ void sfml_scroll_box::draw(sf::RenderWindow& window) {
   const sf::View tmp_view = window.getView();
   window.draw(m_shape);
   window.setView(m_view);
-  for (sf::RectangleShape &r : m_rectangles) {
+  for (sf::RectangleShape& r : m_rectangles) {
     window.draw(r);
   }
-  for (sf::Text &t : m_texts) {
+  for (sf::Text& t : m_texts) {
     window.draw(t);
+  }
+  window.setView(tmp_view);
+}
+
+void sfml_scroll_box::draw(sf::RenderWindow& window, std::vector<sfml_button> v) {
+  const sf::View tmp_view = window.getView();
+  window.draw(m_shape);
+  window.setView(m_view);
+  for (sfml_button &b : v) {
+    window.draw(b.get_shape());
+    window.draw(b.get_text());
   }
   window.setView(tmp_view);
 }
