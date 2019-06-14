@@ -13,27 +13,27 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
   {
     // background music
-    QFile f(":/nature_zen/resources/Barachem_Zauberspiel_Preliminary_Edit.ogg");
-    f.copy("Barachem_Zauberspiel_Preliminary_Edit.ogg");
-    if (!m_background_music.openFromFile("Barachem_Zauberspiel_Preliminary_Edit.ogg")) {
+    QFile f(":/nature_zen/resources/Theme_Music.ogg");
+    f.copy("Theme_Music.ogg");
+    if (!m_background_music.openFromFile("Theme_Music.ogg")) {
       throw std::runtime_error("Cannot find music file "
-                               "'Barachem_Zauberspiel_Preliminary_Edit.ogg'");
+                               "'Theme_Music.ogg'");
     }
   }
   {
     // title music
-    QFile f(":/nature_zen/resources/title_music.ogg");
-    f.copy("title_music.ogg");
-    if (!m_title_music.openFromFile("title_music.ogg")) {
-      throw std::runtime_error("Cannot find music file 'title_music.ogg'");
+    QFile f(":/nature_zen/resources/Title_Music.ogg");
+    f.copy("Title_Music.ogg");
+    if (!m_title_music.openFromFile("Title_Music.ogg")) {
+      throw std::runtime_error("Cannot find music file 'Title_Music.ogg'");
     }
   }
   {
     // ik ben een spin
-    QFile f(":/nature_zen/resources/ben_ik_een_spin.ogg");
-    f.copy("ben_ik_een_spin.ogg");
-    if (!m_benikeenspin.openFromFile("ben_ik_een_spin.ogg")) {
-      throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
+    QFile f(":/nature_zen/resources/End_Music.ogg");
+    f.copy("End_Music.ogg");
+    if (!m_end_music.openFromFile("End_Music.ogg")) {
+      throw std::runtime_error("Cannot find music file 'End_Music.ogg'");
     }
   }
   {

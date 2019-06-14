@@ -2,6 +2,7 @@
 #define SFML_ABOUT_SCREEN_H
 
 #include "game_state.h"
+#include "sfml_zen_bar.h"
 #include <SFML/Graphics.hpp>
 
 class sfml_about_screen {
@@ -42,7 +43,7 @@ private:
 
   sf::Font m_zen_font;  
 
-  sf::Sprite m_zen_bar;
+  sfml_zen_bar m_zen_bar;
   sf::Sprite m_zen_icon;
   
   void display_assets();
