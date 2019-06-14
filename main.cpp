@@ -89,6 +89,7 @@ int start_sfml_game(
   //std::clog << "We're done with the sfml_game\n";
   return 0;
 }
+
 int show_sfml_title_screen(int ca, bool music) {
   sfml_title_screen ts(ca);
   if (!music) ts.stop_music();

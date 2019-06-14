@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/nature_zen">
         <file>resources/background_music.ogg</file>
-        <file>resources/title_music.ogg</file>
         <file>resources/font.ttf</file>
         <file>resources/grass.png</file>
         <file>resources/cow.png</file>
@@ -58,6 +57,9 @@
         <file>resources/beach_standing.png</file>
         <file>resources/mountain_laying.png</file>
         <file>resources/mountain_standing.png</file>
+        <file>resources/End_Music.ogg</file>
+        <file>resources/Theme_Music.ogg</file>
+        <file>resources/Title_Music.ogg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
