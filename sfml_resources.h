@@ -26,7 +26,7 @@ public:
 
   sf::Music &get_title_music() noexcept { return m_title_music; }
 
-  sf::Music &get_benikeenspin() noexcept { return m_benikeenspin; }
+  sf::Music &get_end_music() noexcept { return m_end_music; }
 
   /// Get the appropriate soundbuffer
   sf::SoundBuffer& get_soundbuffer(const sound_type st);
@@ -86,7 +86,7 @@ private:
 
   sf::SoundBuffer m_owl_sound;
 
-  sf::Music m_benikeenspin;
+  sf::Music m_end_music;
 
   sf::Music m_game_music;
 
@@ -148,8 +148,7 @@ private:
 
   sf::Texture m_zen_title;
 
-  sf::Texture m_arctic_laying;
-  sf::Texture m_arctic_standing;
+  sf::Texture m_arctic;
 
   sf::Texture m_beach_laying;
   sf::Texture m_beach_standing;

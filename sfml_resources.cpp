@@ -13,27 +13,27 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   // Background music
   {
     // background music
-    QFile f(":/nature_zen/resources/Barachem_Zauberspiel_Preliminary_Edit.ogg");
-    f.copy("Barachem_Zauberspiel_Preliminary_Edit.ogg");
-    if (!m_background_music.openFromFile("Barachem_Zauberspiel_Preliminary_Edit.ogg")) {
+    QFile f(":/nature_zen/resources/Theme_Music.ogg");
+    f.copy("Theme_Music.ogg");
+    if (!m_background_music.openFromFile("Theme_Music.ogg")) {
       throw std::runtime_error("Cannot find music file "
-                               "'Barachem_Zauberspiel_Preliminary_Edit.ogg'");
+                               "'Theme_Music.ogg'");
     }
   }
   {
     // title music
-    QFile f(":/nature_zen/resources/title_music.ogg");
-    f.copy("title_music.ogg");
-    if (!m_title_music.openFromFile("title_music.ogg")) {
-      throw std::runtime_error("Cannot find music file 'title_music.ogg'");
+    QFile f(":/nature_zen/resources/Title_Music.ogg");
+    f.copy("Title_Music.ogg");
+    if (!m_title_music.openFromFile("Title_Music.ogg")) {
+      throw std::runtime_error("Cannot find music file 'Title_Music.ogg'");
     }
   }
   {
     // ik ben een spin
-    QFile f(":/nature_zen/resources/ben_ik_een_spin.ogg");
-    f.copy("ben_ik_een_spin.ogg");
-    if (!m_benikeenspin.openFromFile("ben_ik_een_spin.ogg")) {
-      throw std::runtime_error("Cannot find music file 'ben_ik_een_spin.ogg'");
+    QFile f(":/nature_zen/resources/End_Music.ogg");
+    f.copy("End_Music.ogg");
+    if (!m_end_music.openFromFile("End_Music.ogg")) {
+      throw std::runtime_error("Cannot find music file 'End_Music.ogg'");
     }
   }
   {
@@ -310,18 +310,11 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   //----------------------------------------------------------------------------
   // Land types
   //----------------------------------------------------------------------------
-//  {
-//    QFile f(":/nature_zen/resources/arctic_laying.png");
-//    f.copy("arctic_laying.png");
-//    if (!m_arctic_laying.loadFromFile("arctic_laying.png")) {
-//      throw std::runtime_error("Cannot find image file arctic_laying.png");
-//    }
-//  }
   {
-    QFile f(":/nature_zen/resources/arctic_standing.png");
-    f.copy("arctic_standing.png");
-    if (!m_arctic_standing.loadFromFile("arctic_standing.png")) {
-      throw std::runtime_error("Cannot find image file arctic_standing.png");
+    QFile f(":/nature_zen/resources/arctic.png");
+    f.copy("arctic.png");
+    if (!m_arctic.loadFromFile("arctic.png")) {
+      throw std::runtime_error("Cannot find image file arctic.png");
     }
   }
   {
@@ -670,7 +663,7 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLI
 {
   switch (t)
   {
-    case tile_type::arctic: return m_arctic_laying;
+    case tile_type::arctic: return m_arctic;
     case tile_type::beach: return m_beach_laying;
     case tile_type::desert: return m_desert_laying;
     case tile_type::dunes: return m_dunes_laying;

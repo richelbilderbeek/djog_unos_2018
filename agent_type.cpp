@@ -96,8 +96,6 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "plankton";
     case agent_type::worm:
       return "worm";
-    case agent_type::chameleon:
-        return "chameleon";
     case agent_type::bird:
       return "bird";
     case agent_type::cow:

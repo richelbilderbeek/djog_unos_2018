@@ -1,0 +1,45 @@
+"linux"
+{
+	"version"		"1556817422"
+	"steamcmd_public_all"
+	{
+		"file"		"steamcmd_public_all.zip.b39b6cdd6b3a9eb1d407e080502e8266b7219be5"
+		"size"		"71088"
+		"sha2"		"42f1b89c7041a095960c62cee28d8a04b7044b67387223030cb42449a6d3685c"
+		"zipvz"		"steamcmd_public_all.zip.vz.4a8c2fb2d68bf59aec8230abce89cfb44bbb5c54_27309"
+		"sha2vz"		"93677ecfad8f3f9976f6108459220580fb930b9cc9ba3c50b3f932bfc8f23b5f"
+	}
+	"steamcmd_bins_linux"
+	{
+		"file"		"steamcmd_bins_linux.zip.6c3b87fdac99f58137052ad27baaf366c6484d45"
+		"size"		"20161608"
+		"sha2"		"395b863281b8248ec1f1a85cbabd6f9ab29a32c39669bd61e3677834571e8716"
+		"zipvz"		"steamcmd_bins_linux.zip.vz.e5fe9843db8a7beaa5c95e8d1473f50ec3b66854_13650561"
+		"sha2vz"		"5147ccf5431b192533d28eb4a4efa9e20d431ec2872a2db1410257899c9554b1"
+	}
+	"steamcmd_siteserverui_linux"
+	{
+		"file"		"steamcmd_siteserverui_linux.zip.8f191c9f9ed805a16b64ce5e026f7de415c8603d"
+		"size"		"52047762"
+		"sha2"		"021f261d4f2873e25d9eef8e0bd46e0897d92e45d230483dc44149253c136ea7"
+		"zipvz"		"steamcmd_siteserverui_linux.zip.vz.25690c9c13da96bad5ebd886c5617a5bc217ecda_35761509"
+		"sha2vz"		"c484dc02d25b167b6a2638eadecff95c27c31e883193f80f8c053dbf247c1ba2"
+	}
+	"steamcmd_linux"
+	{
+		"file"		"steamcmd_linux.zip.1a88b6afe564e1e08bc22f8ce3ac76006e705cfc"
+		"size"		"1925000"
+		"sha2"		"309488cf7236747e81c5e0071d6ceaae751d0457fffbc80e35ad5288cfd7c1fd"
+		"zipvz"		"steamcmd_linux.zip.vz.31a4100b42076218b6db34e8e022a0bda7039f36_1489986"
+		"sha2vz"		"8666ed46bbb391554f3f094e2b91dd32aceabdb3658c1bdafb8948d41d4c5fcb"
+		"IsBootstrapperPackage"		"1"
+	}
+}
+"kvsign2"
+{
+	"linux"		"4c339ab7e5a0702b0c0105a41bfd68d0d5e16f4ede0432296f6f746e9e1f6617d19f2dccab927a33739ca740234d0bb0625ae12e197cbb9cbc294651a0d8f001"
+}
+"kvsignatures"
+{
+	"linux"		"c38bbc973a4ea54239ff2d6feb30360d03242a9c948248ae213f40da7a20f6ba25a12df9f9c6f8372f84911ceb4dd4e0efb521c39022c5188a31d7ed7d5f9ff5cd4cb9374bf8297cc6d1aa88d08d542dadd24c58cccce87e7e692b686b1b7ab0568da65de40f999ac1be12b3af70450330a4efd8de923610c4fd78304fda896f"
+}

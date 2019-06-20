@@ -127,7 +127,7 @@ private:
   /// Background music file object
   sf::Music &m_background_music;
 
-  sf::Music &m_ben_ik_een_spin;
+  sf::Music &m_end_music;
 
   sound_type m_sound_type;
 
@@ -222,7 +222,7 @@ private:
 
   sfml_save_overlay m_save_screen;
 
-  double m_zoom_state = 1;
+  double m_zoom_state = 1.0;
 
   bool m_play_sounds = true;
 
