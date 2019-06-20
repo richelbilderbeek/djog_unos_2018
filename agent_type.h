@@ -6,30 +6,36 @@
 
 /// The type an agent can be
 enum class agent_type {
-    none,
-    plankton,
-    cow,
-    grass,
-    fish,
-    crocodile,
-    squirrel,
-    tree,
-    goat,
-    snake,
-    bird,
-    spider,
-    octopus,
-    worm,
-    whale,
-    lion,
-    giraffe,
-    chameleon
+  bird,
+  cactus,
+  chameleon,
+  cow,
+  corpse,
+  polar_bear,
+  crocodile,
+  fish,
+  foxgloves,
+  giraffe,
+  goat,
+  grass,
+  lion,
+  octopus,
+  plankton,
+  snake,
+  spider,
+  squirrel,
+  sunflower,
+  tree,
+  venus_fly_trap,
+  whale,
+  worm
 };
 
 /// Get all the agent types in a std::vector
 std::vector<agent_type> collect_all_agent_types();
 std::string to_str(agent_type a);
 agent_type to_agent(std::string);
+agent_type random_agent_type(int type);
 
 ///Tests the agent_type
 void test_agent_type();

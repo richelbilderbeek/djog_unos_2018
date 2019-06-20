@@ -37,6 +37,20 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   m_text.setColor(sf::Color::Green);
   #endif
   m_text.setString(get_team_name_string());
+  m_y = m_window.getSize().y;
+
+  m_copyright_text.setCharacterSize(18);
+  m_copyright_text.setFont(m_font);
+  m_copyright_text.setString("(C) 2018 Team Octane");
+  #if(SFML_VERSION_MINOR > 3)
+  m_copyright_text.setOutlineColor(sf::Color::White);
+  m_copyright_text.setFillColor(sf::Color::White);
+  #else
+  //Only relevant for Travis and RuG
+  m_copyright_text.setColor(sf::Color::Black);
+  #endif
+  m_copyright_text.setPosition(m_window.getSize().x / 100, m_window.getSize().y / 1.05f);
+
 }
 
 std::string get_team_name_string(){
@@ -53,16 +67,24 @@ std::vector<std::string> get_team_names() noexcept
 {
   return
   {
-    "Rafayel Gardishyan",
+    "Senior Developer",
     "Richel Bilderbeek",
+    "\nMedior Developers",
+    "Anton Hensen",
     "Joshua van Waardenberg",
+    "Rafayel Gardishyan",
     "Rob Kruger",
-    "Richel Bilderbeek",
+    "\nJunior Developers",
     "Enzo de Haas",
+    "Isis Reinders",
+    "Jan Derk Kotlarski",
+    "Jolien Gay",
+    "Mart Prenger",
     "Rijk van Putten",
-    "Mart nogwat",
-    "Isis",
-    "Jan Derk Kotlarski"
+    "Same Drenth",
+    "Tom Stuivenga",
+    "\nFormer Team Members",
+    "Anne Hinrichs",
   };
 }
 
@@ -80,6 +102,10 @@ void sfml_about_screen::display_assets()
     m_window.draw(m_header);
     m_window.draw(m_text);
 
+    m_window.draw(m_zen_bar.get_drawable_bar(m_window.getSize().x/2.0f, 15, m_window));
+    m_window.draw(m_zen_bar.get_drawable_ind(m_window.getSize().x/2.0f, 15, m_window));
+
+    m_window.draw(m_copyright_text);
     m_window.display();
 }
 
@@ -87,23 +113,22 @@ void sfml_about_screen::prepare_assets()
 {
     m_window.clear(sf::Color::Black); // Clear the window with black color
 
-    m_header.setPosition(25, 25);
+    m_header.setPosition(25 + m_x, 25 + m_y);
 
     m_header.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_header.getPosition())));
 
-    m_text.setPosition(25, 90);
+    m_text.setPosition(25 + m_x, 175 + m_y);
 
     m_text.setPosition(m_window.mapPixelToCoords(
                          sf::Vector2i(m_text.getPosition())));
 
+    sf::Vector2i pos = sf::Vector2i(10, m_window.getSize().y - 26);
+    m_copyright_text.setPosition(m_window.mapPixelToCoords(pos));
 }
 
-void sfml_about_screen::exec()
+void sfml_about_screen::display()
 {
-  if (m_close_at >= 0) close(game_state::gameover);
-  while (active(game_state::aboutscreen))
-  {
     sf::Event event;
     while (m_window.pollEvent(event))
     {
@@ -131,6 +156,22 @@ void sfml_about_screen::exec()
 
     prepare_assets();
     display_assets();
+}
+
+void sfml_about_screen::update()
+{
+  m_x = static_cast<double>(m_window.getSize().x / 2 - 220);
+  m_y += static_cast<double>(deltatime.asSeconds() * -30.0);
+  deltatime = deltaclock.restart();
+}
+
+void sfml_about_screen::exec()
+{
+  if (m_close_at >= 0) close(game_state::gameover);
+  while (active(game_state::aboutscreen))
+  {
+    update();
+    display();
   }
     
 }

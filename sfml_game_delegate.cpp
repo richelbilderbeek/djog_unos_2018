@@ -5,8 +5,8 @@
 #include <SFML/Window/Event.hpp>
 #include "sfml_game.h"
 
-sfml_game_delegate::sfml_game_delegate(const int close_at)
-    : m_close_at{close_at} {}
+sfml_game_delegate::sfml_game_delegate(const int close_at, bool spawning, bool damage, bool score)
+    : m_close_at{close_at}, m_spawning{spawning}, m_damage{damage}, m_score{score} {}
 
 bool sfml_game_delegate::do_actions(sfml_game &sg) {
 
@@ -14,7 +14,7 @@ bool sfml_game_delegate::do_actions(sfml_game &sg) {
   if (m_close_at < 0)
     return false;
 
-  if (sg.get_n_displayed() % 2 == 0)
+  if (sg.get_n_displayed() % 2 == 0 && !sg.get_game().get_tiles().empty())
   {
     sg.select_random_tile();
   }

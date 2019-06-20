@@ -13,23 +13,25 @@ public:
   /// @param x the x-coordinate of the top-left corner of the tile
   /// @param y the y-coordinate of the top-left corner of the tile
   /// @param z the z-coordinate of the top-left corner of the tile
-  /// @param width the width of the tile
-  /// @param height the height of the tile
+  /// @param rotation the angle of the tile
   /// @param depth the depth of the tile
   /// @param type the type the tile
   /// @param the tiles id
-  tile(double x = 0.0, double y = 0.0, const double z = 0.0,
-       double width = 0.0, double height = 0.0, double depth = 0.0,
-       const tile_type type = tile_type::grassland, const tile_id = tile_id());
+  tile(
+    const double x = 0.0,
+    const double y = 0.0,
+    const double z = 0.0,
+    const int rotation = 0.0,
+    const double depth = 0.0,
+    const tile_type type = tile_type::grassland,
+    const tile_id = tile_id()
+  );
 
   /// The height of the tile
-  double get_height() const noexcept { return m_height; }
+  int get_rotation() const noexcept;
 
   /// The type the tile
   tile_type get_type() const noexcept { return m_type; }
-
-  /// The width of the tile
-  double get_width() const noexcept { return m_width; }
 
   /// The x-coordinat of the top-left corner of the tile
   double get_x() const noexcept { return m_x; }
@@ -50,16 +52,27 @@ public:
   double get_depth() const noexcept { return m_depth; }
 
   /// The center of the tile
-  sf::Vector2f get_center() const noexcept { return sf::Vector2f(m_width / 2.0f, m_height / 2.0f); }
+  sf::Vector2f get_center() const noexcept;
+  sf::Vector2f get_corner() const noexcept;
 
   ///Process events, for example, make the agents move
-  void process_events();
+  void process_events(game& g);
+
+  void spawn(game& g, agent_type type);
 
   /// Set the movement coeficient on the x-axis
   void set_dx(double dx);
 
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
+
+  void set_rotation(int r);
+
+  void rotate_c();
+  void rotate_cc();
+
+  double get_width() const;
+  double get_height() const;
 
   /// Set the movement coeficient of the z-axis
   void set_dz(double dz);
@@ -68,7 +81,11 @@ public:
   void set_type(const tile_type t) noexcept;
 
   /// Move the tile by the movement coeficients
+  void move(std::vector<agent>& a);
+
   void move();
+
+  void rotate();
 
   /// Get the tile's id
   int get_id() const noexcept { return m_id.get(); }
@@ -79,14 +96,35 @@ public:
   bool get_m_locked() const noexcept { return m_locked; }
 
 private:
-  /// The height of the tile
-  double m_height;
+
+  /// The tile's depth
+  double m_depth;
+
+  /// The movement coefficient on the x-axis
+  double m_dx{0.0};
+
+  /// The movement coefficient on the y-axis
+  double m_dy{0.0};
+
+  /// The movement coefficient on the z-axis
+  double m_dz{0.0};
+
+  /// The tile's id
+  tile_id m_id;
+
+  bool m_locked{false};
+
+  bool m_is_rotating = false;
+  bool m_is_rotating_clockwise = false;
 
   /// The type the tile
   tile_type m_type;
 
-  /// The width of the tile
-  double m_width;
+  /// The rotation of the tile
+  int m_rotation;
+
+  int m_target_rotation;
+
 
   /// The x-coordinate of the top-left corner of the tile
   double m_x;
@@ -97,22 +135,7 @@ private:
   /// The z-coordinate of the top-left corner of the tile
   double m_z;
 
-  /// The movement coefficient on the x-axis
-  double m_dx;
-
-  /// The movement coefficient on the y-axis
-  double m_dy;
-
-  /// The movement coefficient on the z-axis
-  double m_dz;
-
-  /// The tile's id
-  tile_id m_id;
-
-  /// The tile's depth
-  double m_depth;
-
-  bool m_locked = false;
+  int ticks = 1;
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const tile& t);
@@ -123,6 +146,21 @@ private:
 
 /// Create the default collection of tiles
 std::vector<tile> create_default_tiles() noexcept;
+
+/// Create the default collection of tiles (old)
+std::vector<tile> create_test_default_tiles() noexcept;
+
+/// Create a tile to be used in testing:
+///
+///   (0,0)-------(1,0)
+///     |           |
+///     | grassland |
+///     |           |
+///   (0,1)-------(1,1)
+///
+/// * z: 0.0
+/// * depth: 0.0
+tile create_test_tile() noexcept;
 
 /// Create two horizontally adjacent grass tiles
 /// +----+----+----+----+
@@ -141,6 +179,10 @@ std::ostream& operator<<(std::ostream& os, const tile& t);
 std::istream& operator>>(std::istream& os, tile& t);
 
 bool operator==(const tile& lhs, const tile& rhs) noexcept;
+
+int degreeToDirection(int deg, bool cc);
+
+int normalize_rotation(int degrees);
 
 /// Test the tile class
 void test_tile();

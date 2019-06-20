@@ -2,6 +2,7 @@
 #define SFML_ABOUT_SCREEN_H
 
 #include "game_state.h"
+#include "sfml_zen_bar.h"
 #include <SFML/Graphics.hpp>
 
 class sfml_about_screen {
@@ -18,19 +19,32 @@ public:
 
 private:
 
+  double m_x = {0};
+  double m_y = {0};
+
+  void display();
+  void update();
+
   sf::RenderWindow& m_window;
 
   sf::Text m_header;
 
+  sf::Clock deltaclock;
+
+  sf::Time deltatime;
+
   sf::Text m_text;
+
+  sf::Text m_copyright_text;
 
   int m_close_at;
 
   sf::Font m_font;
 
   sf::Font m_zen_font;  
-  sf::RectangleShape m_zen_bar;
-  sf::RectangleShape m_zen_ind;
+
+  sfml_zen_bar m_zen_bar;
+  sf::Sprite m_zen_icon;
   
   void display_assets();
   void prepare_assets();

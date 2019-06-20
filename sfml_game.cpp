@@ -14,27 +14,46 @@
 #include <string>
 #include <sstream>
 #include <SFML/Window.hpp>
+#include <chrono>
 
 sfml_game::sfml_game(
   const sfml_game_delegate& delegate,
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents)
   : m_background_music{ sfml_resources::get().get_background_music() },
-    m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
+    m_end_music{ sfml_resources::get().get_end_music() },
+    m_sound_type(sound_type::none),
+    m_soundbuffer(),
+    m_sound(),
+    m_half_minimum_period(500),
+    m_pseudo_random_period(init_pseudo_random_period()),
+    m_pseudo_counter(0),
     m_delegate{ delegate },
     m_game{ game(tiles, agents) },
-    m_window{ sfml_window_manager::get().get_window() }
-{ // Set up music
+    m_window{ sfml_window_manager::get().get_window() },
+    m_pause_screen(),
+    m_shop_overlay(),
+    m_save_screen(m_game)
+{
+  assert(m_sound_type == sound_type::none);
+  // Set up music
   m_background_music.setLoop(true);
-  m_ben_ik_een_spin.setLoop(true);
+
+  m_end_music.setLoop(true);
   start_music();
-  setup_display_score();
+  setup_essence_symbol();
   setup_tickcounter_text();
+  setup_selected_text();
+  m_game.set_allow_spawning(m_delegate.get_spawning());
+  m_game.set_allow_damage(m_delegate.get_damage());
+  m_game.set_allow_score(m_delegate.get_score());
 
-  // Set up framerate
-  m_window.setFramerateLimit(60);
+  // Set up Shop Button
+  sf::RectangleShape &b1_s = m_shop_button.get_shape();
+  b1_s.setFillColor(sf::Color(53,184,151));
+  m_shop_button.set_size(100, 100);
+  m_shop_button.set_string("SHOP");
 }
-
 
 sfml_game::~sfml_game()
 {
@@ -42,9 +61,13 @@ sfml_game::~sfml_game()
 }
 
 void sfml_game::close(game_state s) {
-  m_camera.reset();
-  sf::View old_view = sfml_window_manager::get().get_window().getDefaultView();
-  sfml_window_manager::get().get_window().setView(old_view);
+  if (s != game_state::paused && s != game_state::shop) {
+    m_camera.reset();
+  }
+  m_camera.m_movecam_r = false;
+  m_camera.m_movecam_l = false;
+  m_camera.m_movecam_u = false;
+  m_camera.m_movecam_d = false;
   sfml_window_manager::get().set_state(s);
 }
 
@@ -58,29 +81,83 @@ void sfml_game::start_music() {
   m_background_music.play();
 }
 
+void sfml_game::play_sound()
+{
+  if (!m_play_sounds)
+    return;
+
+  /// Only play actual sounds
+  if (m_sound_type != sound_type::none)
+  {
+    assert(m_sound_type != sound_type::none);
+
+    /// Get the soundbuffer from the file
+    m_soundbuffer = sfml_resources::get().get_soundbuffer(m_sound_type);
+
+    /// Set m_soundbuffer
+    /// Keep it in scope while m_sound exists
+    m_sound.setBuffer(m_soundbuffer);
+
+    /// Play the sound
+    m_sound.play();
+
+    /// Reset m_sound_type so this function
+    /// does not trigger continuously
+    m_sound_type = sound_type::none;
+  }
+}
+
+void sfml_game::random_animal_sound()
+{
+  if (m_pseudo_counter >= m_pseudo_random_period)
+  {
+    m_sound_type = sound_type::random_animal;
+    play_sound();
+    m_pseudo_random_period = init_pseudo_random_period();
+    m_pseudo_counter = 0;
+  }
+  else
+  { ++m_pseudo_counter; }
+}
+
 void sfml_game::setup_tickcounter_text() {
     m_debug_font.loadFromFile("font.ttf");
     m_tickcounter_text.setFont(m_debug_font);
     m_tickcounter_text.setCharacterSize(20);
 }
 
-void sfml_game::setup_display_score() {
-  m_zen_bar.setSize(sf::Vector2f(sfml_resources::get().get_zen_bar().getSize()));
-  m_zen_bar.setPosition(sf::Vector2f(
-                          (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
-                          15));
-  m_zen_bar.setTexture(&sfml_resources::get().get_zen_bar());
+void sfml_game::setup_selected_text() {
+    m_selected_text.setFont(m_debug_font);
+    m_selected_text.setCharacterSize(24);
+}
 
-  m_zen_ind.setSize(sf::Vector2f(sfml_resources::get().get_zen_ind().getSize()));
-  m_zen_ind.setPosition(sf::Vector2f(
-                          (m_window.getSize().x/2.0f)-(m_zen_ind.getSize().x/2.0f),
-                          15+(m_zen_bar.getSize().y/2.0f)));
-  m_zen_ind.setTexture(&sfml_resources::get().get_zen_ind());
+void sfml_game::setup_essence_symbol()
+{
+  m_essence_symbol.setSize(0.6f * sf::Vector2f(
+          sfml_resources::get().get_essence_texture().getSize()));
+  m_essence_symbol.setTexture(&sfml_resources::get().get_essence_texture());
+}
+
+void sfml_game::display_essence_symbol()
+{
+  m_essence_symbol.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*51.0f/64.0f, 15)));
+  m_window.draw(m_essence_symbol);
+}
+
+void sfml_game::display_essence()
+{
+  std::stringstream s;
+  s << " : " << m_game.get_essence();
+  m_tickcounter_text.setString(s.str());
+  m_tickcounter_text.setPosition(
+    m_window.mapPixelToCoords(sf::Vector2i(m_window.getSize().x*52.0f/64.0f, 10)));
+  m_window.draw(m_tickcounter_text);
 }
 
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
-  m_window.clear(sf::Color::Black); // Clear the window with black color
+  m_window.clear(sf::Color(0, 0, 0)); // Clear the window with black color
   // Display all tiles
   for (const tile& t : m_game.get_tiles())
   {
@@ -91,63 +168,77 @@ void sfml_game::display() //!OCLINT indeed long, must be made shorter
   {
     display_agent(a);
   }
+  // Display Shop Button
+  {
+    sf::Vector2i pos = sf::Vector2i(m_window.getSize().x
+      - (m_shop_button.get_size().x / 2), m_window.getSize().y
+      - (m_shop_button.get_size().y / 2));
+    m_shop_button.set_pos(m_window.mapPixelToCoords(pos));
+    m_window.draw(m_shop_button.get_shape());
+    m_window.draw(m_shop_button.get_text());
+  }
   // Display & Update Tickcounter
   {
     std::stringstream s;
     s << "TICK COUNT: " << m_game.get_n_ticks() << "\n"
-      << "MOUSE SPEED: " << m_mouse_speed << "\n"
       << "SCORE: " << m_game.get_score();
     m_tickcounter_text.setString(s.str());
     m_tickcounter_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(10, 10)));
     m_window.draw(m_tickcounter_text);
   }
+  // Display Selected Tile Text
+  {
+    float x = (m_window.getSize().x / 2) - (m_selected_text.getLocalBounds().width / 2);
+    m_selected_text.setPosition(m_window.mapPixelToCoords(sf::Vector2i(x, 72)));
+    m_window.draw(m_selected_text);
+  }
+  // Display the essence
+  {
+    display_essence();
+    sfml_game::display_essence_symbol();
+  }
   // Display the zen
   {
-    m_zen_bar.setPosition(sf::Vector2f(
-                            (m_window.getSize().x/2.0f)-(m_zen_bar.getSize().x/2.0f),
-                            15));
-    m_zen_bar.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_bar.getPosition())));
-    m_window.draw(m_zen_bar);
-    m_zen_ind.setPosition(sf::Vector2f(
-                              (m_window.getSize().x/2.0f)-
-                              (m_zen_ind.getSize().x/2.0f)+
-                              m_game.get_score(),
-                              15+(m_zen_bar.getSize().y/2.0f)-
-                              (m_zen_ind.getSize().x/2.0f))
-                            );
-    m_zen_ind.setPosition(m_window.mapPixelToCoords(sf::Vector2i(m_zen_ind.getPosition())));
-    m_window.draw(m_zen_ind);
+    m_window.draw(m_zen_bar.get_drawable_bar(m_window.getSize().x/2.0f, 15, m_window));
+    m_zen_bar.set_score(m_game.get_score());
+    m_window.draw(m_zen_bar.get_drawable_ind(m_window.getSize().x/2.0f, 15, m_window));
   }
-  m_window.display(); // Put everything on the screen
+  if (active(game_state::playing))
+    m_window.display(); // Put everything on the screen
 }
 
-void sfml_game::display_tile(const tile &t){
-    sf::RectangleShape sfml_tile(sf::Vector2f(
-      static_cast<float>(t.get_width()), static_cast<float>(t.get_height())));
+void sfml_game::display_tile(const tile &t) {
+    sf::RectangleShape sfml_tile(sf::Vector2f(212.0 * m_zoom_state, 100.0 * m_zoom_state));
     // If the camera moves to right/bottom, tiles move relatively
     // left/downwards
-    const double screen_x{ t.get_x() - m_camera.x };
-    const double screen_y{ t.get_y() - m_camera.y };
-    sfml_tile.setPosition(screen_x, screen_y);
+    const double screen_x{ (t.get_x() - m_camera.x) * m_zoom_state };
+    const double screen_y{ (t.get_y() - m_camera.y) * m_zoom_state };
+    const double factor{50.0 * m_zoom_state};
+    sfml_tile.setOrigin(factor, factor);
+    sfml_tile.setRotation(t.get_rotation());
+    sfml_tile.setPosition(screen_x + factor, screen_y + factor);
     sfml_tile.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sfml_tile.getPosition())));
     color_tile_shape(sfml_tile, t);
     m_window.draw(sfml_tile);
     // Texture
     sf::Sprite sprite;
+    sprite.setScale(m_zoom_state, m_zoom_state);
     set_tile_sprite(t, sprite);
     assert(sprite.getTexture());
-    sprite.setPosition(screen_x, screen_y);
+    sprite.setOrigin(factor, factor);
+    sprite.rotate(t.get_rotation());
+    sprite.setPosition(screen_x + factor, screen_y + factor);
     sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
     m_window.draw(sprite);
 }
 
 void sfml_game::display_agent(const agent &a){
-  const double screen_x{ a.get_x() - m_camera.x };
-  const double screen_y{ a.get_y() - m_camera.y };
+  const double screen_x{ (a.get_x() - m_camera.x) * m_zoom_state };
+  const double screen_y{ (a.get_y() - m_camera.y) * m_zoom_state };
   sf::Sprite sprite;
   set_agent_sprite(a, sprite);
   assert(sprite.getTexture());
-  sprite.setScale(0.2f, 0.2f);
+  sprite.setScale(0.2f * m_zoom_state, 0.2f * m_zoom_state);
   sprite.setPosition(screen_x, screen_y);
   sprite.setPosition(m_window.mapPixelToCoords(sf::Vector2i(sprite.getPosition())));
   m_window.draw(sprite);
@@ -163,18 +254,51 @@ void sfml_game::set_tile_sprite(const tile &t, sf::Sprite &sprite) {
 
 void sfml_game::exec()
 {
-  while (active(game_state::playing))
+  //std::clog << "Start executing an sfml_game\n";
+
+  //std::clog << "Create an SFML view\n";
+  sf::View view = m_window.getDefaultView();
+  view.setSize(static_cast<float>(m_window.getSize().x),
+               static_cast<float>(m_window.getSize().y));
+  m_window.setView(view);
+
+  //std::clog << "Start main program loop\n";
+  while (active(game_state::playing) ||
+         active(game_state::paused) ||
+         active(game_state::saving) ||
+         active(game_state::shop))
   {
-    process_input();
-    process_events();
-    display();
+    if (active(game_state::paused)) {
+      //std::clog << "Paused ...\n";
+      display();
+      m_pause_screen.exec();
+    } else if (active(game_state::saving)) {
+      //std::clog << "Saving ...\n";
+      display();
+      m_save_screen.exec();
+    } else if (active(game_state::shop)) {
+      //std::clog << "Shopping ...\n";
+      display();
+      m_shop_overlay.exec();
+    } else {
+      //std::clog << "Doing something else ...\n";
+      process_input();
+      process_events(m_sound_type);
+      display();
+    }
   }
+  //std::clog << "Done executing an sfml_game!\n";
 }
 
-void sfml_game::process_events()
+void sfml_game::process_events(sound_type& st)
 {
+  //std::clog << "Start processing an sfml_game!\n";
 
-  m_game.process_events();
+  //std::clog << "Play a random animal sound\n";
+  random_animal_sound();
+
+  //std::clog << "Process events\n";
+  m_game.process_events(st);
 
   sf::Vector2i current_mouse = sf::Mouse::getPosition();
   sf::Vector2i mouse_delta = current_mouse - m_prev_mouse_pos;
@@ -185,28 +309,44 @@ void sfml_game::process_events()
         || 112.0 / m_tile_speed != std::abs(std::ceil(112.0 / m_tile_speed)))
     || m_tile_speed > 112.0)
   {
+    std::cerr << "The set tile speed is not usable\n";
     throw std::runtime_error("The set tile speed is not usable");
   }
 
   if (m_game.m_selected.empty())
   {
+    //std::clog << "No selected tile\n";
     confirm_move();
+    // Clear selected tile text if nothing is selected
+    m_selected_text.setString("");
   }
   else
   {
+    //std::clog << "A selected tile\n";
     follow_tile();
+    update_selected_text();
   }
 
+  //std::clog << "Execute the tile_move\n";
   exec_tile_move(m_game.m_selected);
 
   if (m_game.get_score() >= 112 || m_game.get_score() <= -112) {
     close(game_state::gameover);
   }
 
+  //std::clog << "Manage the timer\n";
   manage_timer();
 
+  //std::clog << "Let the delegate do its thing\n";
   m_delegate.do_actions(*this);
+
+  //std::clog << "Displayed another frame\n";
   ++m_n_displayed;
+
+  //std::clog << "Play a sound\n";
+  play_sound();
+
+  //std::clog << "Processed an sfml_game!\n";
 }
 
 void sfml_game::confirm_move()
@@ -225,11 +365,26 @@ void sfml_game::follow_tile()
 {
   sf::Vector2i screen_center = sfml_window_manager::get().get_window_center();
   const tile& t = getTileById(m_game.m_selected);
-  m_camera.x = 0;
-  m_camera.y = 0;
-  sf::Vector2f new_coords = sf::Vector2f(t.get_x() + (t.get_width() / 2) - screen_center.x,
-                                         t.get_y() + (t.get_height() / 2) - screen_center.y);
-  m_camera.move_camera(new_coords);
+  m_camera.x = 0.0;
+  m_camera.y = 0.0;
+  m_camera.move_camera(sf::Vector2f(
+                         t.get_center().x - screen_center.x,
+                         t.get_center().y - screen_center.y));
+}
+
+void sfml_game::update_selected_text()
+{
+  const tile& t = getTileById(m_game.m_selected);
+  std::string text = to_str(t.get_type());
+  text[0] = toupper(text[0]);
+  m_selected_text.setString(text);
+
+  #if(SFML_VERSION_MINOR > 3)
+  sf::RectangleShape color_shape(sf::Vector2f(10,10));
+  color_tile_shape(color_shape, t);
+  sf::Color text_color = color_shape.getFillColor();
+  m_selected_text.setFillColor(text_color);
+  #endif
 }
 
 void sfml_game::manage_timer()
@@ -245,6 +400,7 @@ void sfml_game::exec_tile_move(std::vector<int> selected)
   if (!selected.empty())
   {
     tile& temp_tile = getTileById(selected);
+    temp_tile.rotate();
     if (m_timer <= 0)
     {
       temp_tile.set_dx(0);
@@ -262,16 +418,13 @@ void sfml_game::process_event(const sf::Event& event)
       close();
       break;
 
+    case sf::Event::KeyReleased:
     case sf::Event::KeyPressed:
       process_keyboard_input(event);
       break;
 
     case sf::Event::MouseButtonPressed:
       process_mouse_input(event);
-      break;
-
-    case sf::Event::KeyReleased:
-      process_keyboard_input(event);
       break;
 
     case sf::Event::Resized:
@@ -308,9 +461,28 @@ void sfml_game::process_keyboard_input(const sf::Event& event) //OCLINT complexi
   {
     arrows(true, event);
     if (!m_game.m_selected.empty())
+    {
+      assert(!m_game.m_selected.empty());
       control_tile(true, event, getTileById(m_game.m_selected));
+    }
     if (m_timer > 0)
+    {
+      //Bug is here
+      assert(!m_game.m_selected.empty());
       control_tile(false, event, getTileById(m_game.m_selected));
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    {
+      close(game_state::paused);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+    {
+      m_zoom_state += m_zoom_state < 2 ? 0.01 : 0;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+    {
+      m_zoom_state -= m_zoom_state > 0.1 ? 0.01 : 0;
+    }
   }
   else
   {
@@ -328,8 +500,8 @@ void sfml_game::move_selected_tile_randomly()
 
 void sfml_game::reset_input()
 {
-  m_camera.x = 0;
-  m_camera.y = 0;
+  m_camera.x = 0.0;
+  m_camera.y = 0.0;
   m_camera.m_movecam_r = false;
   m_camera.m_movecam_l = false;
   m_camera.m_movecam_u = false;
@@ -343,14 +515,21 @@ void sfml_game::process_mouse_input(const sf::Event& event)
 
   if (event.mouseButton.button == sf::Mouse::Left)
   {
-    m_game.move_tiles(m_window, m_camera);
-    m_clicked_tile = false;
+    m_game.check_selection(
+      (sf::Mouse::getPosition(m_window).x + m_camera.x) * m_zoom_state,
+      (sf::Mouse::getPosition(m_window).y + m_camera.y) * m_zoom_state
+    );
+    if (m_shop_button.is_clicked(event, m_window))
+      close(game_state::shop);
     if (m_game.get_agents().size() == 1 &&
         m_game.get_tiles().size() > 0)
       ben_ik_een_spin();
   }
   else if (event.mouseButton.button == sf::Mouse::Right){
-    m_game.remove_tile(m_window, m_camera);
+    m_game.remove_tile(
+      (sf::Mouse::getPosition(m_window).x + m_camera.x) * m_zoom_state,
+      (sf::Mouse::getPosition(m_window).y + m_camera.y) * m_zoom_state
+    );
   }
 }
 
@@ -362,17 +541,19 @@ void sfml_game::ben_ik_een_spin() {
       spin.is_clicked(sf::Mouse::getPosition(m_window).x + m_camera.x,
                       sf::Mouse::getPosition(m_window).y + m_camera.y,
                       sfml_resources::get().get_agent_sprite(spin)) &&
-      m_ben_ik_een_spin.getStatus() != sf::Music::Playing)
+      m_end_music.getStatus() != sf::Music::Playing)
   {
     stop_music();
-    m_ben_ik_een_spin.play();
+    m_end_music.play();
   }
 }
 
 void sfml_game::select_random_tile()
 {
   const auto& tiles = m_game.get_tiles();
-  const int i = std::rand() % tiles.size();
+  assert(tiles.size() > 0);
+  //int ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  const int i = random_int(0, tiles.size() - 1);
   const int id = tiles[i].get_id();
   m_game.m_selected.resize(1);
   m_game.m_selected[0] = id;
@@ -382,8 +563,13 @@ void sfml_game::stop_music()
 {
   if (m_background_music.getStatus() != sf::Music::Stopped)
     m_background_music.stop();
-  if (m_ben_ik_een_spin.getStatus() != sf::Music::Stopped)
-    m_ben_ik_een_spin.stop();
+  if (m_end_music.getStatus() != sf::Music::Stopped)
+    m_end_music.stop();
+}
+
+void sfml_game::stop_sounds()
+{
+  m_play_sounds = false;
 }
 
 void sfml_game::arrows(bool b, const sf::Event& event)
@@ -425,26 +611,10 @@ void sfml_game::tile_move_ctrl(const sf::Event& event, tile& t)
     switch_collide(t, 1);
   if (event.key.code == sf::Keyboard::S)
     switch_collide(t, 3);
-}
-
-void sfml_game::confirm_tile_move(tile& t, int direction)
-{
-  switch (direction)
-  {
-    case 1:
-      t.set_dy(-m_tile_speed);
-      return;
-    case 2:
-      t.set_dx(m_tile_speed);
-      return;
-    case 3:
-      t.set_dy(m_tile_speed);
-      return;
-    case 4:
-      t.set_dx(-m_tile_speed);
-      return;
-    default:
-      return;
+  if (event.key.code == sf::Keyboard::R) {
+    try_rotate(t, false);
+  } else if (event.key.code == sf::Keyboard::T) {
+    try_rotate(t, true);
   }
 }
 
@@ -452,18 +622,22 @@ void sfml_game::switch_collide(tile& t, int direction)
 {
   sf::Vector2f v = get_direction_pos(direction, t, 0);
   //std::vector<tile> added_tiles;
-  if (!will_colide(direction, t))
+  if (!will_collide(direction, t))
   {
-    //confirm_tile_move(t, direction);
     m_game.confirm_tile_move(t, direction, m_tile_speed);
+    m_sound_type = sound_type::tile_move;
   }
-  if (get_collision_id(v.x, v.y)[0] != 0 && will_colide(direction, t)
+  if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t)
       && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
       && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
       && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
   {
-    //confirm_tile_move(t, direction);
+
+    //confirm_tile_move(t, direction);    
+
+    m_sound_type = sound_type::tile_collision;
     m_game.confirm_tile_move(t, direction, m_tile_speed);
+    m_sound_type = sound_type::tile_move;
     sf::Vector2f b = get_direction_pos(direction, t, 112);
     if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
     {
@@ -473,9 +647,20 @@ void sfml_game::switch_collide(tile& t, int direction)
   }
 }
 
+void sfml_game::try_rotate(tile &t, bool cc) {
+  int rot = static_cast<int>(t.get_rotation());
+  if (cc) {
+    if (!will_collide(degreeToDirection(rot, true), t)) {
+      t.rotate_cc();
+    }
+  } else if (!will_collide(degreeToDirection(rot, false), t)) {
+    t.rotate_c();
+  }
+}
+
 bool sfml_game::check_merge(tile& t1, tile& t2)
 {
-  return get_merge_type(t1.get_type(), t2.get_type()) != tile_type::nonetile;
+  return !get_merge_type(t1.get_type(), t2.get_type()).empty();
 }
 
 sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
@@ -483,21 +668,21 @@ sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
   switch (direction)
   {
     case 1:
-      return sf::Vector2f(t.get_x() + (t.get_width() / 2),
-        t.get_y() - (t.get_height() / 2) - plus);
+      return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
+        t.get_y() - (t.get_height() / 2.0) - plus);
     case 2:
       return sf::Vector2f(t.get_x() + (t.get_width() * 1.5) + plus,
-        t.get_y() + (t.get_height() / 2));
+        t.get_y() + (t.get_height() / 2.0));
     case 3:
-      return sf::Vector2f(t.get_x() + (t.get_width() / 2),
+      return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
         t.get_y() + (t.get_height() * 1.5) + plus);
     case 4:
-      return sf::Vector2f(t.get_x() - (t.get_width() / 2) - plus,
-        t.get_y() + (t.get_height() / 2));
+      return sf::Vector2f(t.get_x() - (t.get_width() / 2.0) - plus,
+        t.get_y() + (t.get_height() / 2.0));
     default:
-      return sf::Vector2f(0, 0);
+      return sf::Vector2f(0.0, 0.0);
   }
-  return sf::Vector2f(0, 0);
+  return sf::Vector2f(0.0, 0.0);
 }
 
 int vectortoint(std::vector<int> v)
@@ -540,7 +725,7 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::grassland:
       color_shape(sfml_tile, sf::Color(0, 255, 0), sf::Color(0, 100, 0));
       break;
-    case tile_type::mountains:
+    case tile_type::mountain:
       color_shape(sfml_tile, sf::Color(120, 120, 120), sf::Color(50, 50, 50));
       break;
     case tile_type::water:
@@ -578,12 +763,11 @@ void sfml_game::color_tile_shape(sf::RectangleShape& sfml_tile, const tile& t) /
     case tile_type::rainforest:
       color_shape(sfml_tile, sf::Color(41,47,13), sf::Color(33,19,4));
       break;
-    default:
-      color_shape(
-        sfml_tile, sf::Color(205, 205, 205), sf::Color(255, 255, 255));
+    case tile_type::beach:
+      color_shape(sfml_tile, sf::Color(240, 226, 180), sf::Color(223, 206, 157));
       break;
   }
-  sfml_tile.setOutlineThickness(5);
+  sfml_tile.setOutlineThickness(5.0 * m_zoom_state);
   auto selected = vectortoint(m_game.m_selected);
   if (t.get_id() == selected)
   {
@@ -634,38 +818,27 @@ std::vector<int> sfml_game::get_collision_id(double x, double y) const
 }
 
 // Direction: 1 = /\, 2 = >, 3 = \/, 4 = <
-bool sfml_game::will_colide(int direction, tile& t)
+bool sfml_game::will_collide(int direction, tile& t)
 {
+  sf::Vector2f corner = t.get_corner();
   switch (direction)
   {
     case 1:
-      if (sfml_game::check_collision(
-            t.get_x() + (t.get_width() / 2), t.get_y() - (t.get_height() / 2)))
-      {
-        return true;
-      }
-      return false;
+      return sfml_game::check_collision(
+            corner.x + (t.get_width() / 2),
+            corner.y - (t.get_height() / 2) + 10);
     case 2:
-      if (sfml_game::check_collision(t.get_x() + (t.get_width() * 1.5),
-            t.get_y() + (t.get_height() / 2)))
-      {
-        return true;
-      }
-      return false;
+      return sfml_game::check_collision(
+            corner.x + (t.get_width() * 1.5) - 10,
+            corner.y + (t.get_height() / 2));
     case 3:
-      if (sfml_game::check_collision(t.get_x() + (t.get_width() / 2),
-            t.get_y() + (t.get_height() * 1.5)))
-      {
-        return true;
-      }
-      return false;
+      return sfml_game::check_collision(
+            corner.x + (t.get_width() / 2),
+            corner.y + (t.get_height() * 1.5) - 10);
     case 4:
-      if (sfml_game::check_collision(
-            t.get_x() - (t.get_width() / 2), t.get_y() + (t.get_height() / 2)))
-      {
-        return true;
-      }
-      return false;
+      return sfml_game::check_collision(
+            corner.x - (t.get_width() / 2) + 10,
+            corner.y + (t.get_height() / 2));
     default:
       break;
   }

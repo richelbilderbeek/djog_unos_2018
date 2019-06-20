@@ -1,11 +1,9 @@
 <RCC>
     <qresource prefix="/nature_zen">
         <file>resources/background_music.ogg</file>
-        <file>resources/title_music.ogg</file>
         <file>resources/font.ttf</file>
         <file>resources/grass.png</file>
         <file>resources/cow.png</file>
-        <file>resources/title_screen_background.png</file>
         <file>resources/fish.png</file>
         <file>resources/crocodile.png</file>
         <file>resources/zen_font.ttf</file>
@@ -30,6 +28,37 @@
         <file>resources/lion.png</file>
         <file>resources/zen_title.png</file>
         <file>resources/squirrel.png</file>
-        <file>resources/kameleon.png</file>
+        <file>resources/sunflower.png</file>
+        <file>resources/venus_fly_trap.png</file>
+        <file>resources/foxgloves.png</file>
+        <file>resources/cactus.png</file>
+        <file>resources/water_standing.png</file>
+        <file>resources/dunes_laying.png</file>
+        <file>resources/dunes_standing.png</file>
+        <file>resources/hills_laying.png</file>
+        <file>resources/hills_standing.png</file>
+        <file>resources/blood-spatter.png</file>
+        <file>resources/Barachem_Zauberspiel_Preliminary_Edit.ogg</file>
+        <file>resources/chameleon.png</file>
+        <file>resources/tile_merge.wav</file>
+        <file>resources/title_screen_background.png</file>
+        <file>resources/arctic.png</file>
+        <file>resources/nature zen background.png</file>
+        <file>resources/tile_move.wav</file>
+        <file>resources/moo.wav</file>
+        <file>resources/cow_01.wav</file>
+        <file>resources/horse_09.wav</file>
+        <file>resources/lion_04.wav</file>
+        <file>resources/owl_37.wav</file>
+        <file>resources/essence.png</file>
+        <file>resources/polar_bear.png</file>
+        <file>resources/beach_laying.png</file>
+        <file>resources/beach_standing.png</file>
+        <file>resources/mountain_laying.png</file>
+        <file>resources/mountain_standing.png</file>
+        <file>resources/End_Music.ogg</file>
+        <file>resources/Theme_Music.ogg</file>
+        <file>resources/Title_Music.ogg</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

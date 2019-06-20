@@ -48,3 +48,17 @@ object_script.djog_unos_2018.Release
 
 # Nature Zen Savefiles
 *.sav
+
+*.gcno
+*.gcda
+djog_unos_2018
+qrc_djog_unos_2018.cpp
+*.gcda
+*.gcdo
+*.gcno
+djog_unos_2018_plugin_import.cpp
+djog_unos_2018_plugin_import.cpp
+djog_unos_2018
+*.ogg
+*.ttf
+helgrind.log

@@ -17,10 +17,10 @@ Topic branches, ordered alphabetically:
 
 Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)|[![AppVeyor](pics/AppVeyor.png)](https://www.appveyor.com/)
 ---|---|---|---
+`aram`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=aram)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=aram)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=aram)|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/aram?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog-unos-2018/branch/aram)
 `enzo`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=enzo)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=enzo)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=enzo)|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/enzo?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog-unos-2018/branch/enzo)
 `isis`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=isis)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=isis)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=isis)|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/isis?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog-unos-2018/branch/isis)
 `jan`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jan)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jan)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jan)|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/jan?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog-unos-2018/branch/jan)
-`jana`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jana)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jana)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jana)|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/jana?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog-unos-2018/branch/jana)
 `jolien`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=jolien)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=jolien)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=jolien)|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/jolien?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog-unos-2018/branch/jolien)
 `joshua`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=joshua)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=joshua)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=joshua)|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/joshua?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog-unos-2018/branch/joshua)
 `mart`|[![Build Status](https://travis-ci.org/richelbilderbeek/djog_unos_2018.svg?branch=mart)](https://travis-ci.org/richelbilderbeek/djog_unos_2018/branches) | [![codecov.io](https://codecov.io/github/richelbilderbeek/djog_unos_2018/coverage.svg?branch=mart)](https://codecov.io/github/richelbilderbeek/djog_unos_2018?branch=mart)|[![Build status](https://ci.appveyor.com/api/projects/status/kmy0bqe0kcmwfjjx/branch/mart?svg=true)](https://ci.appveyor.com/project/richelbilderbeek/djog-unos-2018/branch/mart)
@@ -33,7 +33,7 @@ Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![Codecov 
 
 ## Goal
 
-Collaboratively create a game, to be put on, for example, Steam.
+Collaboratively create a game, to be put on Steam.
 
   * [architecture](doc/architecture.md)
   * [code of conduct](code_of_conduct.md)
@@ -55,6 +55,8 @@ Collaboratively create a game, to be put on, for example, Steam.
 ## Progress
 
 Most recent at the top. See [videos](doc/videos.md) for the [videos](doc/videos.md).
+
+![](pics/20190530.png)
 
 ![](pics/20190222.png)
 

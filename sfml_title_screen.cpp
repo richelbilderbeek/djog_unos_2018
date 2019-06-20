@@ -19,8 +19,8 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   title_text.setOrigin(title_text.getGlobalBounds().left
       + title_text.getGlobalBounds().width / 2.0f,
     title_text.getGlobalBounds().top
-      + title_text.getGlobalBounds().height / 2.0f);
-  title_text.setScale(2,2);
+      + title_text.getGlobalBounds().height / 4.0f);
+  title_text.setScale(3,3);
   #if(SFML_VERSION_MINOR > 3)
   title_text.setOutlineColor(sf::Color(36, 211, 16));
   title_text.setFillColor(sf::Color(155, 40, 0));
@@ -29,38 +29,21 @@ sfml_title_screen::sfml_title_screen(const int close_at)
   //Only relevant for Travis and RuG
   title_text.setColor(sf::Color(36, 211, 16));
   #endif
-  title_text.setPosition(400, 200);
 
-  copyright_text.setFont(m_default_font);
-  copyright_text.setString("(C) 2018 Team Octane");
-  #if(SFML_VERSION_MINOR > 3)
-  copyright_text.setOutlineColor(sf::Color::Black);
-  copyright_text.setFillColor(sf::Color::Black);
-  #else
-  //Only relevant for Travis and RuG
-  copyright_text.setColor(sf::Color::Black);
-  #endif
-  copyright_text.setPosition(10, 840);
 
   m_zen_title.setTexture(sfml_resources::get().get_zen_title());
   m_zen_title.setScale(2,2);
-  m_zen_title.setPosition(710, 300);
-
-  m_zen_bar.setTexture(sfml_resources::get().get_zen_bar());
-  m_zen_bar.setScale(2,1.25);
-  m_zen_bar.setPosition(540, 350);
-
-  sf::RectangleShape &b1_s = start_button.get_shape();
-  b1_s.setFillColor(sf::Color(0,128,0));
-  start_button.set_size(325, 100);
-  start_button.set_string("Start Game");
-  start_button.set_pos(840, 650);
+  m_zen_title.setOrigin(m_zen_title.getGlobalBounds().left
+                        + m_zen_title.getGlobalBounds().width / 2.0f,
+                      m_zen_title.getGlobalBounds().top
+                        + m_zen_title.getGlobalBounds().height / 2.0f);
+  m_zen_title.setPosition(m_window.getSize().x / 1.75f, m_window.getSize().y / 1.5f);
 
   m_bg_sprite.setTexture(sfml_resources::get().get_background_image());
   stretch_bg();
 }
 
-void sfml_title_screen::exec() //!OCLINT must be shorter
+void sfml_title_screen::exec()
 {
   while(active(game_state::titlescreen)) {
     if (m_close_at >= 0) close(game_state::menuscreen);
@@ -69,7 +52,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     while (m_window.pollEvent(event))
     {
       sf::View view = m_window.getDefaultView();
-      switch (event.type) //!OCLINT TODO too few branches, please fix
+      switch (event.type)
       {
         case sf::Event::Closed:
           close();
@@ -81,25 +64,26 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
           m_window.setView(view);
           stretch_bg();
           break;
+        case sf::Event::KeyPressed:
+            stop_music();
+            sfml_window_manager::get().set_state(game_state::menuscreen);
+            break;
         case sf::Event::MouseButtonPressed:
-          if (start_button.is_clicked(event, m_window))
-            sfml_window_manager::get().set_state(game_state::playing);
-          break;
+            stop_music();
+            sfml_window_manager::get().set_state(game_state::menuscreen);
+            break;
         default:
           sfml_window_manager::get().process();
           break;
       }
     }
-    title_text.setPosition(m_window.getSize().x/2,
-                           m_window.getView().getCenter().y-(m_window.getSize().y/2)+
-                           (m_window.getSize().y/568)*110+i);
+    title_text.setPosition(
+      m_window.getSize().x/2,
+      m_window.getView().getCenter().y - (m_window.getSize().y/2) +
+        (m_window.getSize().y/568)*130+i
+    );
     title_text.setPosition(m_window.mapPixelToCoords(
                            sf::Vector2i(title_text.getPosition())));
-
-    //m_bg_sprite.setPosition(sf::Vector2f(m_window.getView().getCenter().x -
-    //                                     m_bg_sprite.getTexture()->getSize().x,
-    //                                     m_window.getView().getCenter().y -
-    //                                     m_bg_sprite.getTexture()->getSize().y));
     m_bg_sprite.setPosition(0, 0);
     m_bg_sprite.setPosition(m_window.mapPixelToCoords(
                                sf::Vector2i(m_bg_sprite.getPosition())));
@@ -107,11 +91,7 @@ void sfml_title_screen::exec() //!OCLINT must be shorter
     m_window.clear();
     m_window.draw(m_bg_sprite);
     m_window.draw(title_text);
-    m_window.draw(copyright_text);
-    m_window.draw(m_zen_bar);
     m_window.draw(m_zen_title);
-    m_window.draw(start_button.get_shape());
-    m_window.draw(start_button.get_text());
     m_window.display();
   }
 }
