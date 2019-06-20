@@ -23,7 +23,9 @@ std::vector<agent_type> collect_all_agent_types()
     agent_type::octopus,
     agent_type::lion,
     agent_type::giraffe,
-    agent_type::none
+    agent_type::none,
+    agent_type::chameleon
+
   };
 }
 
@@ -109,6 +111,8 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
     return "lion";
     case agent_type::giraffe:
       return "giraffe";
+    case agent_type::chameleon:
+      return "chameleon";
     default:
       assert(a == agent_type::none); //!OCLINT accepted idiom
       return "none";
@@ -132,6 +136,7 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "spider") return agent_type::spider;
   if (str == "lion") return agent_type::lion;
   if (str == "giraffe") return agent_type::giraffe;
+    if (str == "chameleon") return agent_type::chameleon;
   return agent_type::none;
 }
 
