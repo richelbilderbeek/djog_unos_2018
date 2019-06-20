@@ -21,7 +21,7 @@ sfml_shop_overlay::sfml_shop_overlay()
   sf::RectangleShape &b2_s = m_button2.get_shape();
   b2_s.setFillColor(sf::Color(53,234,151));
   m_button2.set_size(300, 100);
-  m_button2.set_string("grassland");
+  m_button2.set_string("grassland | 400");
 
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color(51, 51, 51));

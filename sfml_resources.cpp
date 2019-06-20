@@ -317,6 +317,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file arctic.png");
     }
   }
+    {
+      QFile f(":/nature_zen/resources/swamp.png");
+      f.copy("swamp.png");
+      if (!m_swamp.loadFromFile("swamp.png")) {
+      throw std::runtime_error("Cannot find image file swamp.png");
+    }
+  }
   {
     QFile f(":/nature_zen/resources/beach_laying.png");
     f.copy("beach_laying.png");
@@ -673,7 +680,7 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLI
     case tile_type::mountain: return m_mountain_laying;
     case tile_type::rainforest: return m_rainforest_laying;
     case tile_type::savannah: return m_savannah_laying;
-    case tile_type::swamp: return m_swamp_laying;
+    case tile_type::swamp: return m_swamp;
     case tile_type::tundra: return m_tundra_laying;
     case tile_type::water: return m_water_laying;
     case tile_type::woods: return m_woods_laying;

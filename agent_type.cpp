@@ -134,7 +134,8 @@ std::string to_str(agent_type a) //!OCLINT cannot be simpler
       return "foxgloves";
     case agent_type::cactus:
       return "cactus";
-    default:
+    case agent_type::chameleon:
+      return "chameleon";
       break;
   }
   assert(agent_type::corpse == a);

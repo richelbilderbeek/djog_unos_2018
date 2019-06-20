@@ -150,6 +150,8 @@ private:
 
   sf::Texture m_arctic;
 
+  sf::Texture m_swamp;
+
   sf::Texture m_beach_laying;
   sf::Texture m_beach_standing;
 

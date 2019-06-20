@@ -59,6 +59,7 @@
         <file>resources/End_Music.ogg</file>
         <file>resources/Theme_Music.ogg</file>
         <file>resources/Title_Music.ogg</file>
+        <file>resources/swamp.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
