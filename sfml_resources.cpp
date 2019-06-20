@@ -540,6 +540,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
+    QFile f(":/nature_zen/resources/team_octance_logo.png");
+    f.copy("team_octance_logo.png");
+    if (!m_team_octance_logo.loadFromFile("team_octance_logo.png")) {
+      throw std::runtime_error("Cannot find image file team_octance_logo.png");
+    }
+  }
+  {
     QFile f(":/nature_zen/resources/blood-spatter.png");
     f.copy("blood-spatter.png");
     if (!m_corpse_texture.loadFromFile("blood-spatter.png"))

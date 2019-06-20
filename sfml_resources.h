@@ -51,6 +51,8 @@ public:
 
   sf::Texture &get_tile_sprite(const tile& t) noexcept;
 
+  sf::Texture &get_team_octance_logo() noexcept { return m_team_octance_logo; }
+
 //  sf::Texture &get_tile_sprite_portrait(const tile_type t) noexcept;
 
   sf::Texture &get_tile_sprite(const tile_type t) noexcept;
@@ -190,6 +192,8 @@ private:
   sf::Texture m_woods_standing;
 
   sf::Texture m_corpse_texture;
+
+  sf::Texture m_team_octance_logo;
 
   sf::Texture m_essence_texture;
 
