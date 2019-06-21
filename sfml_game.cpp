@@ -21,7 +21,7 @@ sfml_game::sfml_game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents)
   : m_background_music{ sfml_resources::get().get_background_music() },
-    m_ben_ik_een_spin{ sfml_resources::get().get_benikeenspin() },
+    m_end_music{ sfml_resources::get().get_end_music() },
     m_sound_type(sound_type::none),
     m_soundbuffer(),
     m_sound(),
@@ -41,7 +41,7 @@ sfml_game::sfml_game(
   // Set up music
   m_background_music.setLoop(true);
 
-  m_ben_ik_een_spin.setLoop(true);
+  m_end_music.setLoop(true);
   start_music();
   setup_essence_symbol();
   setup_tickcounter_text();
@@ -554,10 +554,10 @@ void sfml_game::ben_ik_een_spin() {
       spin.is_clicked(sf::Mouse::getPosition(m_window).x + m_camera.x,
                       sf::Mouse::getPosition(m_window).y + m_camera.y,
                       sfml_resources::get().get_agent_sprite(spin)) &&
-      m_ben_ik_een_spin.getStatus() != sf::Music::Playing)
+      m_end_music.getStatus() != sf::Music::Playing)
   {
     stop_music();
-    m_ben_ik_een_spin.play();
+    m_end_music.play();
   }
 }
 
@@ -576,8 +576,8 @@ void sfml_game::stop_music()
 {
   if (m_background_music.getStatus() != sf::Music::Stopped)
     m_background_music.stop();
-  if (m_ben_ik_een_spin.getStatus() != sf::Music::Stopped)
-    m_ben_ik_een_spin.stop();
+  if (m_end_music.getStatus() != sf::Music::Stopped)
+    m_end_music.stop();
 }
 
 void sfml_game::stop_sounds()
