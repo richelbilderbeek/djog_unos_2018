@@ -2,7 +2,7 @@
 
 sfml_scroll_box::sfml_scroll_box(const double x, const double y,
                                  const double height, const double width)
-  : m_x{x}, m_y{y}, m_height{height}, m_width{width}
+  : m_x{x}, m_y{y}, m_height{height}, m_width{width}, m_scroll{0}
 {
   m_shape.setSize(sf::Vector2f(m_width,m_height));
   m_shape.setPosition(sf::Vector2f(m_x,m_y));
@@ -82,7 +82,8 @@ void sfml_scroll_box::scroll(sf::Event&
 
   #if(SFML_VERSION_MINOR > 3)
   if (event.type != sf::Event::MouseWheelScrolled) return;
-  m_view.move(0, event.mouseWheelScroll.delta);
+  m_scroll += event.mouseWheelScroll.delta * 18;
+  if (m_scroll > 0) m_scroll = 0;
   #endif
   //m_view.setViewport(m_shape.getGlobalBounds());
 }

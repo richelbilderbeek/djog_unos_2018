@@ -82,6 +82,9 @@ void sfml_load_screen::exec()
           m_window.setView(view);
           break;
         }
+        case sf::Event::MouseWheelScrolled:
+          m_list.scroll(event);
+          break;
         case sf::Event::MouseButtonPressed:
           for (sfml_button &b : m_saves) {
             sf::Vector2f pos1 = m_window.mapPixelToCoords(
@@ -90,15 +93,9 @@ void sfml_load_screen::exec()
             sf::Vector2f pos2 = m_window.mapPixelToCoords(
                                   sf::Mouse::getPosition(m_window),
                                   m_list.get_view());
-            std::clog << pos2.x << " " << pos2.y << " | "
-                      << b.get_pos().x << " " << b.get_pos().y << " | "
-                      << pos1.x << " " << pos1.y << " | "
-                      << m_list.get_pos().x << " " << m_list.get_pos().y;
-            std::clog << std::endl;
             if (b.is_clicked(pos2) && m_list.is_clicked(pos1)) {
               sfml_game g;
-              //g.load_game(b.get_string()); TODO load
-              //TODO scroll
+              g.m_game = load(b.get_string());
               close(game_state::playing);
               g.exec();
               return;
@@ -153,7 +150,7 @@ void sfml_load_screen::set_positions() {
 
 //  const sf::View o_view = m_window.getView();
 //  m_window.setView(m_list.get_view());
-  int y = 10;
+  int y = 10 + m_list.get_scroll();
   int x = 10;
   for (auto &b : m_saves) {
     b.set_pos(x, y);

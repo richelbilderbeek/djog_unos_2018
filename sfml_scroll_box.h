@@ -39,6 +39,9 @@ public:
 
   bool is_clicked(sf::Vector2f pos) const;
 
+  int get_scroll() const noexcept { return m_scroll; }
+
+  void set_scroll(int scr) { m_scroll = scr; }
 
 private:
 
@@ -56,6 +59,8 @@ private:
   std::vector<std::reference_wrapper<sf::RectangleShape>> m_rectangles;
 
   std::vector<std::reference_wrapper<sf::Text>> m_texts;
+
+  int m_scroll;
 
 };
 

@@ -18,11 +18,14 @@
 #include "sfml_pause_overlay.h"
 #include "sfml_shop_overlay.h"
 #include "sfml_save_overlay.h"
+#include "sfml_load_screen.h"
 #include "sfml_zen_bar.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
 {
+
+  friend class sfml_load_screen;
 
 public:
   /// Constructor

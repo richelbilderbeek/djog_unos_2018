@@ -144,15 +144,14 @@ void game::process_events(sound_type& st)
     assert(m_tiles.size() > 0);
     ppt = ppt / m_tiles.size();
   }
-  if(m_allow_score){
+  if(m_allow_score) {
     m_score = ppt * 112 - 112;
   }
 
   //std::clog << "Calculate the score\n";
-  if (m_n_tick % 100 == 0){
-     m_essence += 112 - m_score ;
+  if (m_n_tick % 100 == 0) {
+     m_essence += 112 - std::abs(m_score);
   }
-
 
   //std::clog << "Process the events happening on the tiles\n";
   for (auto& tile : m_tiles)
@@ -160,7 +159,7 @@ void game::process_events(sound_type& st)
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    tile.process_events(*this); //BUG this makes it crash
+    tile.process_events(*this);
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
