@@ -130,7 +130,7 @@ private:
   /// Background music file object
   sf::Music &m_background_music;
 
-  sf::Music &m_end_music;
+  sf::Music &m_spin;
 
   sound_type m_sound_type;
 

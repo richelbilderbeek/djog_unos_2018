@@ -28,6 +28,8 @@ public:
 
   sf::Music &get_end_music() noexcept { return m_end_music; }
 
+  sf::Music &get_spin() noexcept { return m_spin; }
+
   /// Get the appropriate soundbuffer
   sf::SoundBuffer& get_soundbuffer(const sound_type st);
 
@@ -89,6 +91,8 @@ private:
   sf::Music m_end_music;
 
   sf::Music m_game_music;
+
+  sf::Music m_spin;
 
   sf::Texture m_cow_texture;
 
