@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/nature_zen">
         <file>resources/background_music.ogg</file>
-        <file>resources/title_music.ogg</file>
         <file>resources/font.ttf</file>
         <file>resources/grass.png</file>
         <file>resources/cow.png</file>
@@ -44,7 +43,6 @@
         <file>resources/tile_merge.wav</file>
         <file>resources/title_screen_background.png</file>
         <file>resources/arctic.png</file>
-        <file>resources/arctic_standing.png</file>
         <file>resources/nature zen background.png</file>
         <file>resources/tile_move.wav</file>
         <file>resources/moo.wav</file>
@@ -58,6 +56,9 @@
         <file>resources/beach_standing.png</file>
         <file>resources/mountain_laying.png</file>
         <file>resources/mountain_standing.png</file>
+        <file>resources/End_Music.ogg</file>
+        <file>resources/Theme_Music.ogg</file>
+        <file>resources/Title_Music.ogg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

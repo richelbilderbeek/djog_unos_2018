@@ -1,4 +1,5 @@
 #include "sfml_window_manager.h"
+#include "sfml_resources.h"
 #include <cassert>
 
 sfml_window_manager *sfml_window_manager::m_instance = nullptr; //!OCLINT static accepted singleton
@@ -15,6 +16,9 @@ sfml_window_manager::sfml_window_manager()
   m_screen_center = sf::Vector2i(m_window.getSize().x / 2,
                                  m_window.getSize().y / 2);
   m_window.setFramerateLimit(300);
+  sf::Image ico = sfml_resources::get().get_zen_ind().copyToImage();
+  sf::Vector2u is = ico.getSize();
+  m_window.setIcon(is.x, is.y, ico.getPixelsPtr());
 }
 #else
 sfml_window_manager::sfml_window_manager()

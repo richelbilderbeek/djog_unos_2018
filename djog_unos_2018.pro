@@ -54,9 +54,9 @@ CONFIG(debug, debug|release) {
     QMAKE_LFLAGS += -pthread -Wl,--no-as-needed
 
     # UBSAN
-    QMAKE_CXXFLAGS += -fsanitize=undefined
-    QMAKE_LFLAGS += -fsanitize=undefined
-    LIBS += -lubsan
+    #QMAKE_CXXFLAGS += -fsanitize=undefined
+    #QMAKE_LFLAGS += -fsanitize=undefined
+    #LIBS += -lubsan
   }
 }
 

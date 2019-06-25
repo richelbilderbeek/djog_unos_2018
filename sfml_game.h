@@ -18,11 +18,14 @@
 #include "sfml_pause_overlay.h"
 #include "sfml_shop_overlay.h"
 #include "sfml_save_overlay.h"
+#include "sfml_load_screen.h"
 #include "sfml_zen_bar.h"
 
 //TODO: decrease the number of member functions and member variables
 class sfml_game //!OCLINT indeed to big, will need to simplify
 {
+
+  friend class sfml_load_screen;
 
 public:
   /// Constructor
@@ -127,7 +130,7 @@ private:
   /// Background music file object
   sf::Music &m_background_music;
 
-  sf::Music &m_ben_ik_een_spin;
+  sf::Music &m_end_music;
 
   sound_type m_sound_type;
 
@@ -222,9 +225,12 @@ private:
 
   sfml_save_overlay m_save_screen;
 
-  double m_zoom_state = 1;
+  double m_zoom_state = 1.0;
 
   bool m_play_sounds = true;
+
+  int m_bg_color;
+  bool m_bg_up;
 
 };
 

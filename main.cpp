@@ -89,6 +89,7 @@ int start_sfml_game(
   //std::clog << "We're done with the sfml_game\n";
   return 0;
 }
+
 int show_sfml_title_screen(int ca, bool music) {
   sfml_title_screen ts(ca);
   if (!music) ts.stop_music();
@@ -310,7 +311,7 @@ int main(int argc, char **argv) //!OCLINT main too long
   }
 
   //A window should have opened up now
-  assert(sfml_window_manager::get().get_window().isOpen()); //BUG: Issue #606
+  assert(sfml_window_manager::get().get_window().isOpen());
 
   while (sfml_window_manager::get().get_window().isOpen()) {
     std::clog << "State: " << sfml_window_manager::get().get_state() << '\n';
