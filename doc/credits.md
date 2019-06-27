@@ -20,8 +20,9 @@ Richel Bilderbeek
 Rafayel Gardishyan
 Rob Krüger
 
-### Junior Developers
+### Junior developers
 
+Aram Petiet
 Enzo de Haas
 Isis Reinders
 Jan Kotlarski
@@ -41,21 +42,15 @@ Rafayel Gardishyan
 
 Joshua van Waardenberg
 
-### Game designers
-
-Rafayel Gardishyan
-Richel Bilderbeek
-[Cannot remember more examples of people having added ideas to the game]
-
 ## Test
 
 ### Lead test
 
 Mart Prenger
 
-### Beta testers
+### Bug hunter
 
-[none yet]
+Enzo de Haas
 
 ### Informal testers
 
@@ -67,14 +62,6 @@ Rik Pot
 
 Same Drenth
 
-### Graphics contributors
-
-Enzo de Haas
-Joshua van Waardenbergh
-Mart Prenger
-Rijk van Putten
-Rob Krüger
-
 ## Sound
 
 ### Lead sound
@@ -84,9 +71,12 @@ Jan Kotlarski
 ### Sound contributors
 
 Rafayel Gardishyan
-Joshua van Waardenbergh
 
-## Formal and adult supervision
+## SteamPipe
+
+Rafayel Gardishyan
+
+## Responsibility
 
 Richel Bilderbeek
 Anton Hensen
