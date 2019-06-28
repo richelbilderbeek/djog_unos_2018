@@ -318,18 +318,11 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
   //----------------------------------------------------------------------------
   // Land types
   //----------------------------------------------------------------------------
-//  {
-//    QFile f(":/nature_zen/resources/arctic_laying.png");
-//    f.copy("arctic_laying.png");
-//    if (!m_arctic_laying.loadFromFile("arctic_laying.png")) {
-//      throw std::runtime_error("Cannot find image file arctic_laying.png");
-//    }
-//  }
   {
-    QFile f(":/nature_zen/resources/arctic_standing.png");
-    f.copy("arctic_standing.png");
-    if (!m_arctic_standing.loadFromFile("arctic_standing.png")) {
-      throw std::runtime_error("Cannot find image file arctic_standing.png");
+    QFile f(":/nature_zen/resources/arctic.png");
+    f.copy("arctic.png");
+    if (!m_arctic.loadFromFile("arctic.png")) {
+      throw std::runtime_error("Cannot find image file arctic.png");
     }
   }
   {
@@ -680,7 +673,7 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLI
 {
   switch (t)
   {
-    case tile_type::arctic: return m_arctic_laying;
+    case tile_type::arctic: return m_arctic;
     case tile_type::beach: return m_beach_laying;
     case tile_type::desert: return m_desert_laying;
     case tile_type::dunes: return m_dunes_laying;
