@@ -643,22 +643,26 @@ void sfml_game::switch_collide(tile& t, int direction)
     m_game.confirm_tile_move(t, direction, m_tile_speed);
     m_sound_type = sound_type::tile_move;
   }
-  if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t)
-      && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
-      && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
-      && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
+
+  if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t))
   {
+    tile& other = getTileById(get_collision_id(v.x, v.y));
 
-    //confirm_tile_move(t, direction);    
-
-    m_sound_type = sound_type::tile_collision;
-    m_game.confirm_tile_move(t, direction, m_tile_speed);
-    m_sound_type = sound_type::tile_move;
-    sf::Vector2f b = get_direction_pos(direction, t, 112);
-    if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
+    if (check_merge(t, other)
+        && other.get_width() == t.get_width()
+        && other.get_height() == t.get_height())
     {
-      t.set_dx(t.get_dx() * 2);
-      t.set_dy(t.get_dy() * 2);
+      //confirm_tile_move(t, direction);
+
+      m_sound_type = sound_type::tile_collision;
+      m_game.confirm_tile_move(t, direction, m_tile_speed);
+      m_sound_type = sound_type::tile_move;
+      sf::Vector2f b = get_direction_pos(direction, t, 112);
+      if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
+      {
+        t.set_dx(t.get_dx() * 2);
+        t.set_dy(t.get_dy() * 2);
+      }
     }
   }
 }
@@ -693,7 +697,7 @@ sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
       return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
         t.get_y() + (t.get_height() * 1.5) + plus);
     case 4:
-      return sf::Vector2f(t.get_x() - (t.get_width() / 2.0) - plus,
+      return sf::Vector2f(t.get_x() - (t.get_width() * 1.5) - plus,
         t.get_y() + (t.get_height() / 2.0));
     default:
       return sf::Vector2f(0.0, 0.0);
