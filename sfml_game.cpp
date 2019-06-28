@@ -33,7 +33,9 @@ sfml_game::sfml_game(
     m_window{ sfml_window_manager::get().get_window() },
     m_pause_screen(),
     m_shop_overlay(),
-    m_save_screen(m_game)
+    m_save_screen(m_game),
+    m_bg_color{0},
+    m_bg_up{true}
 {
   assert(m_sound_type == sound_type::none);
   // Set up music
@@ -157,7 +159,18 @@ void sfml_game::display_essence()
 
 void sfml_game::display() //!OCLINT indeed long, must be made shorter
 {
-  m_window.clear(sf::Color(0, 0, 0)); // Clear the window with black color
+  if (m_bg_up) {
+    if (m_bg_color >= 1200) {
+      m_bg_up = false;
+    }
+    m_bg_color++;
+  } else {
+    if (m_bg_color <= 90) {
+      m_bg_up = true;
+    }
+    m_bg_color--;
+  }
+  m_window.clear(sf::Color(m_bg_color / 30, m_bg_color / 30, m_bg_color / 9));
   // Display all tiles
   for (const tile& t : m_game.get_tiles())
   {

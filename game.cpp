@@ -144,15 +144,14 @@ void game::process_events(sound_type& st)
     assert(m_tiles.size() > 0);
     ppt = ppt / m_tiles.size();
   }
-  if(m_allow_score){
+  if(m_allow_score) {
     m_score = ppt * 112 - 112;
   }
 
   //std::clog << "Calculate the score\n";
-  if (m_n_tick % 100 == 0){
-     m_essence += 112 - m_score ;
+  if (m_n_tick % 100 == 0) {
+     m_essence += 112 - std::abs(m_score);
   }
-
 
   //std::clog << "Process the events happening on the tiles\n";
   for (auto& tile : m_tiles)
@@ -160,7 +159,7 @@ void game::process_events(sound_type& st)
     if(tile.get_dx() != 0 || tile.get_dy() != 0) {
       tile.move(m_agents);
     }
-    tile.process_events(*this); //BUG this makes it crash
+    tile.process_events(*this);
   }
 
   // DO NOT DO FOR AGENT IN GET_AGENTS HERE
@@ -767,6 +766,13 @@ void test_game() //!OCLINT a testing function may be long
     g.allow_score();
   }
   {
+    std::clog << "saves:" << std::endl;
+    for (auto &a : get_saves()) {
+      std::clog << a << "\n";
+    }
+    std::clog << std::endl;
+  }
+  {
     // Test "game::check_selection"
         game g({tile(0, 0, 0, 0, 0, tile_type::grassland)});
         assert(g.is_selected());
@@ -817,7 +823,7 @@ game load(const std::string &filename) {
 }
 
 void save(const game &g, const std::string &filename) {
-  QString path = QDir::currentPath() + "/saves";
+  QString path = QDir::currentPath() + QString::fromStdString(SAVE_DIR);
   QDir dir = QDir::root();
   dir.mkpath(path);
 
@@ -826,9 +832,8 @@ void save(const game &g, const std::string &filename) {
 }
 
 std::vector<std::string> get_saves() {
-  QString path = QDir::currentPath() + "/saves";
-  QDir dir = QDir(path);
-  std::vector<std::string> filenames;
+  QDir dir(QDir::currentPath() + "/" + QString::fromStdString(SAVE_DIR));
+  std::vector<std::string> filenames{};
   std::list<QString> entries = dir.entryList().toStdList();
   for (QString qstr : entries) {
     std::string str = qstr.toStdString();

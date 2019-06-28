@@ -15,7 +15,8 @@ public:
               const double height = 100.0, const double width = 100.0);
 
   /// Is the button clicked?
-  bool is_clicked(const sf::Event& event, const sf::RenderWindow& window);
+  bool is_clicked(const sf::Event& event, const sf::RenderWindow& window) const;
+  bool is_clicked(sf::Vector2f pos) const;
 
   sf::RectangleShape &get_shape() noexcept { return m_shape; }
   sf::Text &get_text() noexcept { return m_text; }

@@ -167,6 +167,7 @@ agent_type to_agent(std::string str) //!OCLINT cannot be simpler
   if (str == "venus_fly_trap") return agent_type::venus_fly_trap;
   if (str == "foxgloves") return agent_type::foxgloves;
   if (str == "cactus") return agent_type::cactus;
+  if (str == "squirrel") return agent_type::squirrel;
   assert(str=="corpse");
   return agent_type::corpse;
 }
