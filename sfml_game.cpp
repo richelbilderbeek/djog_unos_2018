@@ -410,12 +410,14 @@ void sfml_game::manage_timer()
 
 void sfml_game::exec_tile_move(std::vector<int> selected)
 {
+  //Select thing must move
   if (!selected.empty())
   {
     tile& temp_tile = getTileById(selected);
     temp_tile.rotate();
     if (m_timer <= 0)
     {
+      //Set to standstill
       temp_tile.set_dx(0);
       temp_tile.set_dy(0);      
     }
@@ -604,10 +606,11 @@ void sfml_game::control_tile(bool b, const sf::Event& event, tile& t)
     if (b == true)
     {
       tile_move_ctrl(event, t);
-      m_timer += (1 / m_tile_speed) * 111;
+      m_timer += (1.0 / m_tile_speed) * 111;
     }
     else
     {
+      //Set the tile to standstill
       t.set_dx(0);
       t.set_dy(0);      
     }
