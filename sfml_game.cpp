@@ -685,19 +685,20 @@ bool sfml_game::check_merge(tile& t1, tile& t2)
 
 sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
 {
+  double width = t.get_width();
   switch (direction)
   {
     case 1:
       return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
         t.get_y() - (t.get_height() / 2.0) - plus);
     case 2:
-      return sf::Vector2f(t.get_x() + (t.get_width() * 1.5) + plus,
+      return sf::Vector2f(t.get_x() + (t.get_width()) + plus,
         t.get_y() + (t.get_height() / 2.0));
     case 3:
       return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
         t.get_y() + (t.get_height() * 1.5) + plus);
     case 4:
-      return sf::Vector2f(t.get_x() - (t.get_width() * 1.5) - plus,
+      return sf::Vector2f(t.get_x() - (t.get_width()) - plus,
         t.get_y() + (t.get_height() / 2.0));
     default:
       return sf::Vector2f(0.0, 0.0);
