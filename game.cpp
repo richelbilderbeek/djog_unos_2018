@@ -37,6 +37,15 @@ void game::add_agents(const std::vector<agent>& as)
   );
 }
 
+void game::add_tiles(const std::vector<tile>& ts)
+{
+  std::copy(
+    std::begin(ts),
+    std::end(ts),
+    std::back_inserter(m_tiles)
+  );
+}
+
 std::vector<tile_type> collect_tile_types(const game& g) noexcept
 {
   std::vector<tile_type> types;

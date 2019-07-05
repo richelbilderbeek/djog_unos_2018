@@ -3,6 +3,7 @@
 
 #include "sfml_button.h"
 #include "game_state.h"
+#include "game.h"
 #include <SFML/Graphics.hpp>
 
 class sfml_shop_overlay
@@ -10,7 +11,7 @@ class sfml_shop_overlay
 public:
     sfml_shop_overlay();
 
-    void exec();
+    void exec(game& g);
 
     ///@param game state to change to
     void close(game_state s);
@@ -21,6 +22,12 @@ public:
     void set_positions();
 
     void draw_objects();
+
+    std::string extract_ints(std::ctype_base::mask category, std::string str, std::ctype<char> const& facet);
+
+    std::string extract_ints(std::string str);
+
+    void button_clicked(sf::Text button, game& g);
 
 private:
     sf::RenderWindow& m_window;

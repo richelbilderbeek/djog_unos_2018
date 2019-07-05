@@ -45,9 +45,13 @@ public:
 
   int get_essence() const noexcept { return m_essence; }
 
+  void set_essence(int essence) noexcept { m_essence = essence; }
+
   void delete_tiles(std::vector<tile> ts);
 
   void add_agents(const std::vector<agent>& as);
+
+  void add_tiles(const std::vector<tile>& ts);
 
   int get_n_ticks() const;
 
