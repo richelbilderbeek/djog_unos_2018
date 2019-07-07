@@ -292,7 +292,7 @@ void sfml_game::exec()
     } else if (active(game_state::shop)) {
       //std::clog << "Shopping ...\n";
       display();
-      m_shop_overlay.exec(m_game);
+      m_shop_overlay.exec(m_game, m_camera);
     } else {
       //std::clog << "Doing something else ...\n";
       process_input();

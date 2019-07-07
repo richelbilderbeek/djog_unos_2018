@@ -269,6 +269,7 @@ void tile::process_events(game& g) //!OCLINT high cyclomatic complexity
 }
 
 void tile::rotate_c() {
+  std::cout << "rotate" << std::endl;
   if (m_is_rotating)
     return;
 
