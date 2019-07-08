@@ -93,17 +93,24 @@ void sfml_shop_overlay::exec(game& g, sfml_camera& m_camera)
         break;
     }
     if(follow_tile){
-      std::cout << g.get_tiles().back().get_rotation();
       double x = sf::Mouse::getPosition(m_window).x + m_camera.x; //50
       double y = sf::Mouse::getPosition(m_window).y + m_camera.y; //106
       switch(g.get_tiles().back().get_rotation()){
+        case 0:
+          x -= 100;
+          y -= 50;
+          break;
         case 90:
-          x - 50;
-          y - 106;
+          x -= 50;
+          y -= 106;
+          break;
+        case 180:
+          x += 10;
+          y -= 50;
           break;
         case 270:
-          x + 50;
-          y + 106;
+          x -= 50;
+          y += 6;
           break;
       }
       g.get_tiles().back().set_x(x);
