@@ -84,6 +84,8 @@ std::vector<agent_type> can_eat(const agent_type type) {
               agent_type::fish,
               agent_type::goat,
               agent_type::squirrel};
+    case agent_type::polar_bear:
+      return {agent_type::fish};
     case agent_type::squirrel:
       return {agent_type::tree};
     case agent_type::whale:
@@ -637,6 +639,14 @@ std::vector<agent> create_default_agents() noexcept //!OCLINT indeed too long
     agents.push_back(a1);
     agent a2(agent_type::squirrel, 90, 150, 1, 0, can_eat(agent_type::squirrel));
     move_agent_to_tile(a2, 0, -2);
+    agents.push_back(a2);
+  }
+  {
+    agent a1(agent_type::polar_bear, 4, 112, 1, 0, can_eat(agent_type::polar_bear));
+    move_agent_to_tile(a1, 5, 0);
+    agents.push_back(a1);
+    agent a2(agent_type::polar_bear, 4, 112, 1, 0, can_eat(agent_type::polar_bear));
+    move_agent_to_tile(a2, 4, 0);
     agents.push_back(a2);
   }
   {

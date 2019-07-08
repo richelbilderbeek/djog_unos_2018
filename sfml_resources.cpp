@@ -600,6 +600,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept //!OC
       return m_fish_texture;
     case agent_type::whale:
       return m_whale_texture;
+    case agent_type::polar_bear:
+      return m_polar_bear_texture;
     case agent_type::grass:
       return m_grass_texture;
     case agent_type::tree:
