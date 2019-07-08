@@ -410,12 +410,14 @@ void sfml_game::manage_timer()
 
 void sfml_game::exec_tile_move(std::vector<int> selected)
 {
+  //Select thing must move
   if (!selected.empty())
   {
     tile& temp_tile = getTileById(selected);
     temp_tile.rotate();
     if (m_timer <= 0)
     {
+      //Set to standstill
       temp_tile.set_dx(0);
       temp_tile.set_dy(0);      
     }
@@ -604,10 +606,11 @@ void sfml_game::control_tile(bool b, const sf::Event& event, tile& t)
     if (b == true)
     {
       tile_move_ctrl(event, t);
-      m_timer += (1 / m_tile_speed) * 111;
+      m_timer += (1.0 / m_tile_speed) * 111;
     }
     else
     {
+      //Set the tile to standstill
       t.set_dx(0);
       t.set_dy(0);      
     }
@@ -640,22 +643,26 @@ void sfml_game::switch_collide(tile& t, int direction)
     m_game.confirm_tile_move(t, direction, m_tile_speed);
     m_sound_type = sound_type::tile_move;
   }
-  if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t)
-      && check_merge(t, getTileById(get_collision_id(v.x, v.y)))
-      && getTileById(get_collision_id(v.x, v.y)).get_width() == t.get_width()
-      && getTileById(get_collision_id(v.x, v.y)).get_height() == t.get_height())
+
+  if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t))
   {
+    tile& other = getTileById(get_collision_id(v.x, v.y));
 
-    //confirm_tile_move(t, direction);    
-
-    m_sound_type = sound_type::tile_collision;
-    m_game.confirm_tile_move(t, direction, m_tile_speed);
-    m_sound_type = sound_type::tile_move;
-    sf::Vector2f b = get_direction_pos(direction, t, 112);
-    if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
+    if (check_merge(t, other)
+        && other.get_width() == t.get_width()
+        && other.get_height() == t.get_height())
     {
-      t.set_dx(t.get_dx() * 2);
-      t.set_dy(t.get_dy() * 2);
+      //confirm_tile_move(t, direction);
+
+      m_sound_type = sound_type::tile_collision;
+      m_game.confirm_tile_move(t, direction, m_tile_speed);
+      m_sound_type = sound_type::tile_move;
+      sf::Vector2f b = get_direction_pos(direction, t, 112);
+      if (get_collision_id(b.x, b.y)[0] == get_collision_id(v.x, v.y)[0])
+      {
+        t.set_dx(t.get_dx() * 2);
+        t.set_dy(t.get_dy() * 2);
+      }
     }
   }
 }
@@ -684,19 +691,20 @@ bool sfml_game::check_merge(tile& t1, tile& t2)
 
 sf::Vector2f sfml_game::get_direction_pos(int direction, tile& t, double plus)
 {
+  double width = t.get_width();
   switch (direction)
   {
     case 1:
       return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
         t.get_y() - (t.get_height() / 2.0) - plus);
     case 2:
-      return sf::Vector2f(t.get_x() + (t.get_width() * 1.5) + plus,
+      return sf::Vector2f(t.get_x() + (t.get_width()) + plus,
         t.get_y() + (t.get_height() / 2.0));
     case 3:
       return sf::Vector2f(t.get_x() + (t.get_width() / 2.0),
         t.get_y() + (t.get_height() * 1.5) + plus);
     case 4:
-      return sf::Vector2f(t.get_x() - (t.get_width() / 2.0) - plus,
+      return sf::Vector2f(t.get_x() - (t.get_width()) - plus,
         t.get_y() + (t.get_height() / 2.0));
     default:
       return sf::Vector2f(0.0, 0.0);

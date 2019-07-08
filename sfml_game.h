@@ -75,10 +75,14 @@ public:
 
   void arrows(bool b, const sf::Event &event);
 
+  /// The number of ticks before some action (e.g. rotation, movement) is done.
+  /// When m_timer reaches zero, the ?selected tile is set to standstill
   int m_timer = 0;
 
   tile &getTileById(const std::vector<int> &tile_id);
 
+  /// ....?
+  /// @param b unknown parameter
   void control_tile(bool b, const sf::Event &event, tile &t);
   void tile_move_ctrl(const sf::Event &event, tile &t);
 
