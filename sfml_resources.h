@@ -80,6 +80,8 @@ private:
 
   sf::SoundBuffer m_tile_move_soundbuffer;
 
+  sf::SoundBuffer m_tile_rotate_soundbuffer;
+
   sf::SoundBuffer m_cow_sound;
 
   sf::SoundBuffer m_horse_sound;

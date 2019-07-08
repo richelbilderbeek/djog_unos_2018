@@ -662,11 +662,17 @@ void sfml_game::switch_collide(tile& t, int direction)
 
 void sfml_game::try_rotate(tile &t, bool cc) {
   int rot = static_cast<int>(t.get_rotation());
-  if (cc) {
-    if (!will_collide(degreeToDirection(rot, true), t)) {
+  if (cc)
+  {
+    if (!will_collide(degreeToDirection(rot, true), t))
+    {
+      m_sound_type = sound_type::tile_rotate;
       t.rotate_cc();
     }
-  } else if (!will_collide(degreeToDirection(rot, false), t)) {
+  }
+  else if (!will_collide(degreeToDirection(rot, false), t))
+  {
+    m_sound_type = sound_type::tile_rotate;
     t.rotate_c();
   }
 }
