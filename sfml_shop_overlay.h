@@ -43,13 +43,18 @@ private:
 
     sfml_button m_button2;
 
+    sfml_button m_button3;
+
     sf::RectangleShape m_bg_rect;
 
     bool follow_tile = false;
 
     int m_price;
 };
-
+///position button2
 sf::Vector2f get_grid_position(sfml_button & b, int x_p, int y_p);
+
+///position button3
+sf::Vector2f get_grid_position1(sfml_button & b, int x_p, int y_p);
 
 #endif // SFML_OVERLAY_OVERLAY_H

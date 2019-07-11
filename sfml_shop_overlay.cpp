@@ -9,6 +9,7 @@
 #include <locale>
 #include <string>
 #include <sstream>
+#include <cmath>
 #include <algorithm>
 #include <iterator>
 #include <cstring>
@@ -27,9 +28,14 @@ sfml_shop_overlay::sfml_shop_overlay()
   m_button1.set_string("CLOSE");
 
   sf::RectangleShape &b2_s = m_button2.get_shape();
-  b2_s.setFillColor(sf::Color(53,234,151));
+  b2_s.setFillColor(sf::Color(0,255,0));
   m_button2.set_size(300, 100);
   m_button2.set_string("Grassland | 400");
+
+  sf::RectangleShape &b3_s = m_button3.get_shape();
+  b3_s.setFillColor(sf::Color(0,255,0));
+  m_button3.set_size(300, 100);
+  m_button3.set_string("Beach | 400");
 
   #if(SFML_VERSION_MINOR > 3)
   m_header.setFillColor(sf::Color(51, 51, 51));
@@ -84,6 +90,9 @@ void sfml_shop_overlay::exec(game& g, sfml_camera& m_camera)
         }
         if (m_button2.is_clicked(event, m_window)){
           button_clicked(m_button2.get_text(), g);
+        }
+        if (m_button3.is_clicked(event, m_window)){
+          button_clicked(m_button3.get_text(), g);
         }
         if (follow_tile) place_on_grid(g);
         break;
@@ -187,6 +196,8 @@ void sfml_shop_overlay::draw_objects() {
     m_window.draw(m_bg_rect);
     m_window.draw(m_button2.get_shape());
     m_window.draw(m_button2.get_text());
+    m_window.draw(m_button3.get_shape());
+    m_window.draw(m_button3.get_text());
   }
   m_window.draw(m_button1.get_shape());
   m_window.draw(m_button1.get_text());
@@ -213,9 +224,14 @@ void sfml_shop_overlay::set_positions() {
 
   // Button 2
   sf::Vector2i pos1 = sf::Vector2i(
-    get_grid_position(m_button2, 0, 0)
-  );
+    get_grid_position(m_button2, 0, 0));
   m_button2.set_pos(m_window.mapPixelToCoords(pos1));
+
+  //button 3
+  sf::Vector2i pos2 = sf::Vector2i(
+    get_grid_position1(m_button3, 0, 0));
+  m_button3.set_pos(m_window.mapPixelToCoords(pos2));
+
 }
 
 void sfml_shop_overlay::close(game_state s) {
@@ -225,7 +241,11 @@ void sfml_shop_overlay::close(game_state s) {
 void sfml_shop_overlay::close() {
   m_window.close();
 }
-
 sf::Vector2f get_grid_position(sfml_button &b, int x_p, int y_p) {
     return sf::Vector2f(200 + (310 * x_p), 200 + (110 * y_p));
+
+}
+sf::Vector2f get_grid_position1(sfml_button &b, int x_p, int y_p) {
+    return sf::Vector2f(510 + (310 * x_p), 200 + (110 * y_p));
+
 }
