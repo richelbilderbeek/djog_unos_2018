@@ -772,7 +772,7 @@ void test_game() //!OCLINT a testing function may be long
         memory = number;
       }
 
-      std::cout << "Dupes: " << duplicates << std::endl;
+      // std::cout << "Dupes: " << duplicates << std::endl;
       assert(duplicates < loops - 1);
     }
 
