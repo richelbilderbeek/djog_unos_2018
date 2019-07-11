@@ -53,6 +53,14 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     }
   }
   {
+    // tile rotate
+    QFile f(":/nature_zen/resources/tile_rotate.wav");
+    f.copy("tile_rotate.wav");
+    if (!m_tile_rotate_soundbuffer.loadFromFile("tile_rotate.wav")) {
+      throw std::runtime_error("Cannot find music file 'tile_rotate.wav'");
+    }
+  }
+  {
     // cow
     QFile f(":/nature_zen/resources/cow_01.wav");
     f.copy("cow_01.wav");
@@ -267,6 +275,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
       throw std::runtime_error("Cannot find image file title_screen_background.png");
     }
   }
+  {
+    QFile f(":/nature_zen/resources/title_screen_background.png");
+    f.copy("title_screen_background.png");
+    if (!m_about_background_image.loadFromFile("title_screen_background.png")) {
+      throw std::runtime_error("Cannot find image file title_screen_background.png");
+    }
+  }
 
   {
     QFile f(":/nature_zen/resources/zen_bar.png");
@@ -315,6 +330,13 @@ sfml_resources::sfml_resources() { //!OCLINT must be shorter
     f.copy("arctic.png");
     if (!m_arctic.loadFromFile("arctic.png")) {
       throw std::runtime_error("Cannot find image file arctic.png");
+    }
+  }
+    {
+      QFile f(":/nature_zen/resources/swamp.png");
+      f.copy("swamp.png");
+      if (!m_swamp.loadFromFile("swamp.png")) {
+      throw std::runtime_error("Cannot find image file swamp.png");
     }
   }
   {
@@ -593,6 +615,8 @@ sf::Texture &sfml_resources::get_agent_sprite(const agent_type t) noexcept //!OC
       return m_fish_texture;
     case agent_type::whale:
       return m_whale_texture;
+    case agent_type::polar_bear:
+      return m_polar_bear_texture;
     case agent_type::grass:
       return m_grass_texture;
     case agent_type::tree:
@@ -636,6 +660,8 @@ sf::SoundBuffer& sfml_resources::get_soundbuffer(const sound_type st)
     return m_tile_collission_soundbuffer;
   if (st == sound_type::tile_move)
     return m_tile_move_soundbuffer;
+  if (st == sound_type::tile_rotate)
+    return m_tile_rotate_soundbuffer;
   if (st == sound_type::random_animal)
     return random_animal_sound();
 
@@ -680,7 +706,7 @@ sf::Texture &sfml_resources::get_tile_sprite(const tile_type t) noexcept //!OCLI
     case tile_type::mountain: return m_mountain_laying;
     case tile_type::rainforest: return m_rainforest_laying;
     case tile_type::savannah: return m_savannah_laying;
-    case tile_type::swamp: return m_swamp_laying;
+    case tile_type::swamp: return m_swamp;
     case tile_type::tundra: return m_tundra_laying;
     case tile_type::water: return m_water_laying;
     case tile_type::woods: return m_woods_laying;

@@ -66,6 +66,9 @@ public:
   /// Set the movement coeficient on the y-axis
   void set_dy(double dy);
 
+  void set_x(double x) noexcept { m_x = x; }
+  void set_y(double y) noexcept { m_y = y; }
+
   void set_rotation(int r);
 
   void rotate_c();

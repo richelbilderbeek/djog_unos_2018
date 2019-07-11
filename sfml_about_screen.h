@@ -11,6 +11,8 @@ public:
 
   void exec();
 
+  void stretch_bg();
+
   ///@param game state to change to
   void close(game_state s);
 
@@ -32,6 +34,8 @@ private:
   sf::Clock deltaclock;
 
   sf::Time deltatime;
+
+  sf::Sprite m_bg_sprite;
 
   sf::Text m_text;
 

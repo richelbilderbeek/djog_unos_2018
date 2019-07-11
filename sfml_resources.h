@@ -45,6 +45,8 @@ public:
 
   sf::Texture &get_zen_bar() noexcept { return m_zen_bar_texture; }
 
+  sf::Texture &get_about_background_image() noexcept { return m_about_background_image; }
+
   sf::Texture &get_zen_ind() noexcept { return m_zen_ind_texture; }
 
   sf::Texture &get_zen_title() noexcept { return m_zen_title; }
@@ -79,6 +81,8 @@ private:
   sf::SoundBuffer m_tile_collission_soundbuffer;
 
   sf::SoundBuffer m_tile_move_soundbuffer;
+
+  sf::SoundBuffer m_tile_rotate_soundbuffer;
 
   sf::SoundBuffer m_cow_sound;
 
@@ -134,6 +138,8 @@ private:
 
   sf::Texture m_background_image;
 
+  sf::Texture m_about_background_image;
+
   sf::Texture m_bird_texture;
 
   sf::Texture m_cactus_texture;
@@ -151,6 +157,8 @@ private:
   sf::Texture m_zen_title;
 
   sf::Texture m_arctic;
+
+  sf::Texture m_swamp;
 
   sf::Texture m_beach_laying;
   sf::Texture m_beach_standing;
