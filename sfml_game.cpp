@@ -86,14 +86,14 @@ void sfml_game::start_music() {
 void sfml_game::play_sound()
 {
   if (!m_play_sounds)
-    return;
+  { return; }
 
   /// Only play actual sounds
   if (m_sound_type != sound_type::none)
   {
     assert(m_sound_type != sound_type::none);
 
-    /// Get the soundbuffer from the file
+     /// Get the soundbuffer from the file
     m_soundbuffer = sfml_resources::get().get_soundbuffer(m_sound_type);
 
     /// Set m_soundbuffer
@@ -642,6 +642,7 @@ void sfml_game::switch_collide(tile& t, int direction)
   {
     m_game.confirm_tile_move(t, direction, m_tile_speed);
     m_sound_type = sound_type::tile_move;
+    // assert(1==0);
   }
 
   if (get_collision_id(v.x, v.y)[0] != 0 && will_collide(direction, t))

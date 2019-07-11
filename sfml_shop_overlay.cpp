@@ -9,6 +9,7 @@
 #include <locale>
 #include <string>
 #include <sstream>
+#include <cmath>
 #include <algorithm>
 #include <iterator>
 #include <cstring>

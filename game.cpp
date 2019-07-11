@@ -56,7 +56,9 @@ std::vector<tile_type> collect_tile_types(const game& g) noexcept
   return types;
 }
 
-std::default_random_engine device(time(NULL));
+// std::default_random_engine device(time(NULL));
+std::default_random_engine device(std::chrono::system_clock::now().time_since_epoch().count());
+
 int random_int(int min, int max){
     std::minstd_rand generator(device());
     std::uniform_int_distribution<int> distribution(min, max);
@@ -750,6 +752,30 @@ void test_game() //!OCLINT a testing function may be long
       int random = random_int(0, 10);
       assert(random >= 0 && random <= 10);
     }
+    {
+    const int loops { 100000 };
+      int duplicates { 0 };
+      int memory {-1};
+
+      for (int i { 0 }; i < loops; ++i)
+      {
+
+        const int number
+        { random_int(0, 100) };
+
+        // std::cout << "Number: " << number << std::endl;
+
+        if (i > 0 &&
+            number == memory)
+        { ++duplicates; }
+
+        memory = number;
+      }
+
+      std::cout << "Dupes: " << duplicates << std::endl;
+      assert(duplicates < loops - 1);
+    }
+
     //random_double() returns a random double between min (inclusive) and max (inclusive)
     {
       double random = random_double(0.0, 10.0);
