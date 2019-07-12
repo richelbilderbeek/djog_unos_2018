@@ -119,6 +119,8 @@ private:
 
   std::vector<agent> destination;
 
+  int m_destination_tick = 100;
+
   friend std::ostream& operator<<(std::ostream& os, const agent& a) noexcept;
   friend std::istream& operator>>(std::istream& is, agent& a);
   friend bool operator==(const agent& lhs, const agent& rhs) noexcept;

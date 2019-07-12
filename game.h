@@ -90,6 +90,8 @@ public:
 
   void save_this(const std::string filename) const;  
 
+  sf::Time get_dt() const noexcept { return dt; }
+
 private:
 
   ///Does the game spawn agents?
@@ -126,6 +128,10 @@ private:
   int m_essence;
 
   sound_type m_sound_type;
+
+  sf::Clock m_delta;
+
+  sf::Time dt;
 
   //A rare exception to use a friend
   friend std::ostream& operator<<(std::ostream& os, const game& g);

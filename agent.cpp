@@ -206,16 +206,16 @@ void agent::move(game &g){ //!OCLINT too complex indeed
   if (m_type == agent_type::corpse) return;
 
   //Move randomly a bit
-  double temp_x = 0.1 * (-1 + (std::rand() % 3));
-  double temp_y = 0.1 * (-1 + (std::rand() % 3));
+  double temp_x = 0.03 * (-1 + (std::rand() % 3));
+  double temp_y = 0.03 * (-1 + (std::rand() % 3));
   sf::Vector2f center_temp = get_agent_center(*this);
   std::vector<tile> t_temp = get_current_tile(g, center_temp.x + temp_x, center_temp.y + temp_y);
   if(t_temp.empty()
      || (!t_temp.empty() && t_temp[0].get_type() != tile_type::water)
      || (!t_temp.empty() && !will_drown(m_type, t_temp[0].get_depth()))
      || m_type == agent_type::bird){
-    m_x += temp_x;
-    m_y += temp_y;
+    m_x += temp_x * g.get_dt().asMilliseconds();
+    m_y += temp_y * g.get_dt().asMilliseconds();
   }
 
 //  As long as we don't have a random seed, this can't be used here
@@ -241,16 +241,16 @@ void agent::move(game &g){ //!OCLINT too complex indeed
   if (!destination.empty())
   {
     double x = -(0.005 * (m_x - destination[0].get_x()));
-    x = std::max(-0.05, std::min(x, 0.05));
+    x = std::max(-0.02, std::min(x, 0.02));
     double y = -(0.005 * (m_y - destination[0].get_y()));
-    y = std::max(-0.05, std::min(y, 0.05));
+    y = std::max(-0.02, std::min(y, 0.02));
     sf::Vector2f center = get_agent_center(*this);
     std::vector<tile> t = get_current_tile(g, center.x + x, center.y + y);
     if(t.empty()
        || (!t.empty() && t[0].get_type() != tile_type::water)
        || m_type == agent_type::bird){
-      m_x += x;
-      m_y += y;
+      m_x += x * g.get_dt().asMilliseconds();
+      m_y += y * g.get_dt().asMilliseconds();
     }
   }
 }
@@ -276,6 +276,7 @@ void agent::find_destination(game &g){
     }
   }
   destination = v;
+  m_destination_tick = random_int(80, 120);
 }
 
 void agent::attract_to_agent(game &g, agent_type type){
@@ -330,7 +331,7 @@ std::vector<agent> agent::process_events(game& g) { //!OCLINT NPath complexity t
   //Agents always lose stamina
   m_stamina -= 0.0175;
 
-  if(g.get_n_ticks() % 100 == 0) find_destination(g);
+  if(g.get_n_ticks() % m_destination_tick == 0) find_destination(g);
 
   move(g);
 

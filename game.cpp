@@ -83,6 +83,7 @@ int count_n_agents(const game& g) noexcept
 
 void game::process_events(sound_type& st)
 {
+  dt = m_delta.restart();
   set_sound_type(sound_type::none);
   assert(m_sound_type == sound_type::none);
 
