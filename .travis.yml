@@ -32,6 +32,10 @@ install:
   - if [[ $TRAVIS_BRANCH == "richel" ]]; then sudo apt-get install -qq valgrind; fi
   # SLOCcount
   - sudo apt-get install sloccount
+  # Get rid of 'Failed to open the audio device' errors
+  - sudo apt-get install -qq alsa-utils
+  - sudo modprobe snd_bcm2835
+  - sudo apt-get install -qq avahi-utils
 
 services:
  - xvfb
