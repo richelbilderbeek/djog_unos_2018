@@ -50,7 +50,8 @@ sfml_about_screen::sfml_about_screen(const int close_at)
   m_copyright_text.setColor(sf::Color::Black);
   #endif
   m_copyright_text.setPosition(m_window.getSize().x / 100, m_window.getSize().y / 1.05f);
-
+  m_bg_sprite.setTexture(sfml_resources::get().get_about_background_image());
+  stretch_bg();
 }
 
 std::string get_team_name_string(){
@@ -99,12 +100,12 @@ void sfml_about_screen::close()
 
 void sfml_about_screen::display_assets()
 {
+    m_bg_sprite.setPosition(0, 0);
+    m_bg_sprite.setPosition(m_window.mapPixelToCoords(
+                               sf::Vector2i(m_bg_sprite.getPosition())));
+    m_window.draw(m_bg_sprite);
     m_window.draw(m_header);
     m_window.draw(m_text);
-
-    m_window.draw(m_zen_bar.get_drawable_bar(m_window.getSize().x/2.0f, 15, m_window));
-    m_window.draw(m_zen_bar.get_drawable_ind(m_window.getSize().x/2.0f, 15, m_window));
-
     m_window.draw(m_copyright_text);
     m_window.display();
 }
@@ -125,6 +126,13 @@ void sfml_about_screen::prepare_assets()
 
     sf::Vector2i pos = sf::Vector2i(10, m_window.getSize().y - 26);
     m_copyright_text.setPosition(m_window.mapPixelToCoords(pos));
+}
+
+void sfml_about_screen::stretch_bg() {
+  sf::Vector2f size = sf::Vector2f(m_bg_sprite.getTexture()->getSize());
+  float scale_x = m_window.getSize().x/size.x;
+  float scale_y = m_window.getSize().y/size.y;
+  m_bg_sprite.setScale(scale_x, scale_y);
 }
 
 void sfml_about_screen::display()

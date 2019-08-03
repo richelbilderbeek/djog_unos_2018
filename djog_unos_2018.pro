@@ -3,19 +3,14 @@ include(djog_unos_2018.pri)
 # Entry point for user
 SOURCES += main.cpp
 
-# C++14
-CONFIG += c++14
+# C++17
+CONFIG += c++17
+QMAKE_CXXFLAGS += -std=c++17
 CONFIG += resources_big
-QMAKE_CXXFLAGS += -std=c++14
 
 # High warning levels
 # SFML goes bad with -Weffc++
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
-
-unix:!macx {
-# Fix error: unrecognized option '--push-state--no-as-needed'
-QMAKE_LFLAGS += -fuse-ld=gold
-}
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
 
 # Needed this to make std::cout work
 # CONFIG += console
@@ -62,7 +57,7 @@ CONFIG(debug, debug|release) {
 
 # High warning level, warnings are errors
 QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic
-QMAKE_CXXFLAGS += -Werror
+#QMAKE_CXXFLAGS += -Werror
 
 # Qt5
 QT += core gui
