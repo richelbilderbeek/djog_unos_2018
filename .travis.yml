@@ -4,11 +4,6 @@ compiler:
   - gcc
   # - clang 
 
-# Get rid of 'Failed to open the audio device' errors
-env:
-  global:
-    AUDIODEV=null
-
 install: 
   - sudo apt update -qq
   # Boost
@@ -17,11 +12,6 @@ install:
   - sudo apt-get install -qq qt5-qmake qt5-default
   # SFML
   - sudo apt-get install libsfml-dev
-  # XRandR, else you get 'Failed to use the XRandR extension while trying to get the desktop video modes'
-  #- sudo apt-get install libxrandr-dev
-  # ALSA
-  #- sudo apt-get install alsa-utils
-  #- if [ "$TRAVIS_OS_NAME" == "linux" ]; then CONFIG="$CONFIG --audio-drv-list=alsa,oss,pa,sdl"; fi
   # cppcheck
   - sudo apt-get install -qq cppcheck
   # Codecov
@@ -32,13 +22,10 @@ install:
   - if [[ $TRAVIS_BRANCH == "richel" ]]; then sudo apt-get install -qq valgrind; fi
   # SLOCcount
   - sudo apt-get install sloccount
-  # Get rid of 'Failed to open the audio device' errors
-  - sudo apt-get install -qq alsa-utils
-  - sudo apt-get install -qq avahi-utils
 
 services:
- - xvfb
  - alsa
+ - xvfb
 
 script: 
   # Build the project, then:
