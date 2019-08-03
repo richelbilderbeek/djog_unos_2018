@@ -101,7 +101,8 @@ QMAKE_CXXFLAGS += -Wno-unused-variable
 #}
 
 # SFML, crosscompiling
-LIBS += -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lsfml-audio-s
-LIBS += -lOpenAL32 -lFLAC
-LIBS += -lvorbis -logg -lvorbisenc -lvorbisfile
-DEFINES += SFML_STATIC
+# Uncomment when crosscompiling
+#LIBS += -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lsfml-audio-s
+#LIBS += -lOpenAL32 -lFLAC
+#LIBS += -lvorbis -logg -lvorbisenc -lvorbisfile
+#DEFINES += SFML_STATIC
