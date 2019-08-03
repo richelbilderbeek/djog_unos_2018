@@ -4,6 +4,11 @@ compiler:
   - gcc
   # - clang 
 
+# Get rid of 'Failed to open the audio device' errors
+env:
+  global:
+    AUDIODEV=null
+
 install: 
   - sudo apt update -qq
   # Boost
