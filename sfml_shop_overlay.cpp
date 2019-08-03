@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <iterator>
 #include <cstring>
+#include <cmath>
 
 sfml_shop_overlay::sfml_shop_overlay()
     : m_window{ sfml_window_manager::get().get_window() },
@@ -123,12 +124,13 @@ void sfml_shop_overlay::exec(game& g, sfml_camera& m_camera)
 }
 
 void sfml_shop_overlay::place_on_grid(game& g){
-  double current_x = g.get_tiles().back().get_x();
-  double current_y = g.get_tiles().back().get_y();
-  int placement_x = std::round(current_x / 112);
-  int placement_y = std::round(current_y / 112);
-  for(int i = 0; i < g.get_tiles().size(); i++){
-    if(contains(g.get_tiles()[i], placement_x * 112, placement_y * 112)){
+  const double current_x = g.get_tiles().back().get_x();
+  const double current_y = g.get_tiles().back().get_y();
+  const double placement_x = std::round(current_x / 112.0);
+  const double placement_y = std::round(current_y / 112.0);
+  const int n_tiles = static_cast<int>(g.get_tiles().size());
+  for(int i = 0; i < n_tiles; ++i){
+    if(contains(g.get_tiles()[i], placement_x * 112.0, placement_y * 112.0)){
       return;
     }
   }
@@ -226,6 +228,6 @@ void sfml_shop_overlay::close() {
   m_window.close();
 }
 
-sf::Vector2f get_grid_position(sfml_button &b, int x_p, int y_p) {
+sf::Vector2f get_grid_position(sfml_button & /* b */, int x_p, int y_p) {
     return sf::Vector2f(200 + (310 * x_p), 200 + (110 * y_p));
 }
