@@ -3,7 +3,7 @@ include(djog_unos_2018.pri)
 # Entry point for user
 SOURCES += main.cpp
 
-# C++17
+
 CONFIG += c++17
 QMAKE_CXXFLAGS += -std=c++17
 CONFIG += resources_big
