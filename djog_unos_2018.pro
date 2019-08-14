@@ -85,20 +85,20 @@ QMAKE_CXXFLAGS += -Wno-unused-variable
 
 # SFML, default compiling
 # GNU/Linux
-#unix:!macx {
-#  LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-#}
+unix:!macx {
+  LIBS += -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+}
 
-#win32{
-#  INCLUDEPATH += C:/Qt/sfml/include
-#  LIBS += -LC:/Qt/sfml/lib
-#  LIBS += -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
-#  LIBS += -lopenal32              #Dependency
-#  LIBS += -lfreetype              #Dependency
-#  LIBS += -lopengl32              #Dependency
-#  LIBS += -lgdi32                 #Dependency
-#  LIBS += -lwinmm                 #Dependency
-#}
+win32{
+  INCLUDEPATH += C:/Qt/sfml/include
+  LIBS += -LC:/Qt/sfml/lib
+  LIBS += -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+  LIBS += -lopenal32              #Dependency
+  LIBS += -lfreetype              #Dependency
+  LIBS += -lopengl32              #Dependency
+  LIBS += -lgdi32                 #Dependency
+  LIBS += -lwinmm                 #Dependency
+}
 
 # SFML, crosscompiling
 # Uncomment when crosscompiling
