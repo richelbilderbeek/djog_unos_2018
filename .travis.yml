@@ -47,7 +47,8 @@ script:
   - qmake -qt=qt5 djog_unos_2018.pro
   - make --silent debug
   - ./djog_unos_2018 --version
-  - ./djog_unos_2018 --god --short 1
+  # Don't due to #647
+  #- ./djog_unos_2018 --god --short 1
   # Call OCLint
   - ./do_oclint
   # Build and run and profile normal program
