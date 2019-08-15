@@ -47,8 +47,8 @@ script:
   #- if [[ $TRAVIS_BRANCH == "develop" || $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "rob" ]]; then head gprof.log -n 500; fi
   # Get code coverage
   - cp debug/*.* .
-  - ./get_code_cov
-  - codecov
+  - ./get_code_cov >/dev/null
+  - codecov >/dev/null
   # helgrind: takes long
   # - if [[ $TRAVIS_BRANCH == "richel" ]]; then travis_wait 50 valgrind --tool=helgrind --verbose --log-file=helgrind.log -v ./djog_unos_2018 --god --short 1; fi
   # - if [[ $TRAVIS_BRANCH == "richel" ]]; then cat helgrind.log; fi
