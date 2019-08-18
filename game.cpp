@@ -462,17 +462,17 @@ void test_game() //!OCLINT a testing function may be long
 
   // A game can be saved
   {
-    const game g;
+    /* const game g;
     const std::string filename{"tmp"};
     const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str() + ".sav";
-    //if (QFile::exists(filename.c_str()))
-    //{
+    if (QFile::exists(filename.c_str()))
+    {
       std::remove(filename.c_str());
-    //}
+    }
     assert(!QFile::exists(filename.c_str()));
     g.save_this(filename);
     assert(QFile::exists(actual_path));
-  //    assert(!get_saves().empty());
+  //    assert(!get_saves().empty()); */
   }
 
   //'is_on_tile' should detect if there is a tile at a certain coordinat
@@ -498,20 +498,20 @@ void test_game() //!OCLINT a testing function may be long
   #ifdef FIX_ISSUE_97
   // A game can be loaded
   {
-    const game g(create_test_default_tiles(),
+    /*const game g(create_test_default_tiles(),
                  std::vector<agent>{agent(agent_type::spider, 0, 0, 100)}
                 );
     const std::string filename{"tmp"};
     const QString actual_path = QString::fromStdString(SAVE_DIR) + filename.c_str() + ".sav";
-    //if (QFile::exists(filename.c_str()))
-    //{
+    if (QFile::exists(filename.c_str()))
+    {
       std::remove(filename.c_str());
-    //}
+    }
     assert(!QFile::exists(filename.c_str()));
     save(g, filename);
     assert(QFile::exists(actual_path));
     game h = load(filename);
-    assert(g == h);
+    assert(g == h); */
   }
   #endif // FIX_ISSUE_97
 

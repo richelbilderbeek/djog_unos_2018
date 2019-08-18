@@ -70,7 +70,7 @@ void sfml_shop_overlay::exec(game& g, sfml_camera& m_camera)
         if (event.key.code == sf::Keyboard::R && follow_tile)
         {
           g.get_tiles().back().rotate_c();
-          for(int i = 0; i < 90; i++) g.get_tiles().back().rotate();
+          for(int i = 0; i < 90; i++) g.get_tiles().back().rotate(g);
         }
         break;
       case sf::Event::MouseButtonPressed:

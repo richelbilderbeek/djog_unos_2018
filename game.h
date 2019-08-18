@@ -31,12 +31,12 @@ public:
   bool allow_score() const noexcept { return m_allow_score; }
 
   /// Read all tiles
-  const auto &get_tiles() const noexcept { return m_tiles; }
-  auto &get_tiles() noexcept { return m_tiles; }
+  const std::vector<tile> &get_tiles() const noexcept { return m_tiles; }
+  std::vector<tile> &get_tiles() noexcept { return m_tiles; }
 
   /// Read all agents
-  const auto &get_agents() const noexcept { return m_agents; }
-  auto &get_agents() noexcept { return m_agents; }
+  const std::vector<agent> &get_agents() const noexcept { return m_agents; }
+  std::vector<agent> &get_agents() noexcept { return m_agents; }
 
   double get_score() const noexcept { return m_score; }
 
