@@ -17,7 +17,7 @@ game::game(
   const std::vector<tile>& tiles,
   const std::vector<agent>& agents
 ) : m_allow_spawning{false},
-    m_allow_damage{true},
+    m_allow_damage{false},
     m_tiles{tiles},
     m_agents{agents},
     m_n_tick{0},
@@ -274,7 +274,7 @@ void game::kill_agents()
       if(!is_plant(m_agents[i].get_type())) {
         m_agents.push_back(a); }
 
-      m_agents[i] = m_agents.back();            
+      m_agents[i] = m_agents.back();
       m_agents.pop_back();
       --i; //Retry this index with the new agent
     }
