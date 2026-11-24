@@ -62,3 +62,6 @@ djog_unos_2018
 *.ogg
 *.ttf
 helgrind.log
+
+# Generated when building the website
+site/
