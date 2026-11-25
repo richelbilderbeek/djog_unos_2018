@@ -1,0 +1,64 @@
+# Check that the program can be built,
+# that its tests pass and measure the code coverage
+name: Check build
+
+on:
+  push:
+    paths:
+      - .github/workflows/check_build.yaml
+      - "**.cpp"
+      - "**.h"
+      - "**.pro"
+      - "**.pri"
+      - "**.qrc"
+      - "**.ui"
+  pull_request:
+    paths:
+      - .github/workflows/check_build.yaml
+      - "**.cpp"
+      - "**.h"
+      - "**.pro"
+      - "**.pri"
+      - "**.qrc"
+      - "**.ui"
+
+jobs:
+  check_build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Qt and other dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qtbase5-dev qtmultimedia5-dev libsfml-dev xvfb
+
+      - name: Build the tests, with code coverage
+        run: |
+          qmake "CONFIG+=debug" "QMAKE_CXXFLAGS+=--coverage" "QMAKE_LFLAGS+=--coverage" djog_unos_2018.pro
+          make --silent -j$(nproc)
+
+      # In a debug build, Nature Zen runs all its tests at startup
+      - name: Run the tests
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          xvfb-run -a ./djog_unos_2018 --version
+
+      - name: Measure code coverage
+        run: |
+          pip install gcovr
+          gcovr --root . --exclude-directories build --exclude '.*_test\.cpp' --exclude '.*moc_.*' --exclude '.*qrc_.*' --exclude '.*ui_.*' --print-summary --xml coverage.xml
+
+      - name: Upload code coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage.xml
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Build the game
+        run: |
+          make distclean
+          qmake djog_unos_2018.pro
+          make --silent -j$(nproc)
