@@ -14,7 +14,7 @@ You can stay until 22:00.
 
 We meet at De Jonge Onderzoekers, Dirk Huizingastraat 13, Groningen.
 It's in the Oosterparkwijk, close to the main entrance of the
-UMCG (University Medical Centre Groningen) and close 
+UMCG (University Medical Centre Groningen) and close
 to a Jumbo supermarket.
 
 ## What does it cost to join team Octane?

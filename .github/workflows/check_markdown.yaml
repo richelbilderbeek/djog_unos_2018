@@ -1,0 +1,27 @@
+# Check that there is correct Markdown in all files
+name: Check Markdown
+
+on:
+  push:
+    paths:
+      - .github/workflows/check_markdown.yaml
+      - "**.md"
+      - .markdownlintignore
+      - .markdownlint.jsonc
+  pull_request:
+    paths:
+      - .github/workflows/check_markdown.yaml
+      - "**.md"
+      - .markdownlintignore
+      - .markdownlint.jsonc
+
+jobs:
+  check_markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: articulate/actions-markdownlint@v1
+        with:
+          config: .markdownlint.jsonc
+          ignore: .markdownlintignore

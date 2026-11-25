@@ -23,8 +23,8 @@ Date|YouTube|MP4
 
 ## Programming
 
-YouTube|MP4
----|---
+Topic|YouTube|MP4
+---|---|---
 Class design 1|[here](https://youtu.be/U0-Wv_ek0k8)|[here](http://richelbilderbeek.nl/nature_zen_klassenontwerp_1.ogv)
 Class design 2|[here](https://youtu.be/tCC_Kf_K_48)|[here](http://richelbilderbeek.nl/nature_zen_klassenontwerp_2.ogv)
 Minimal SFML application|[here](https://youtu.be/FJDm7sK5BZY)|[here](http://richelbilderbeek.nl/nature_zen_minimal_sfml_application.ogv)

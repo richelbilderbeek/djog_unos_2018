@@ -12,11 +12,11 @@
 
 All you need to do is to create a comment by typing "//" followed by the type of Todo you want to use:
 
-  - `TODO`
-  - `FIXME`
-  - `BUG`
-  - `WARNING`
-  - `NOTE`
+- `TODO`
+- `FIXME`
+- `BUG`
+- `WARNING`
+- `NOTE`
 
 and type your message on the same line.
 

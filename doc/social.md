@@ -21,7 +21,7 @@ De Jonge Onderzoekers, can be contacted anonimously.
 
 ### Reason
 
-Everyone should have the same opportunity of picking an Issue. 
+Everyone should have the same opportunity of picking an Issue.
 
 ### Exceptions
 
@@ -33,13 +33,13 @@ Richel may assign you a second/third/etc. Issue. There will be a good reason for
 
 Your topic branch is your personal version. It's personal. It's yours. People must respect that.
 
-### Exceptions 
+### Exceptions
 
 One may do so, if he/she have been given permission on a GitHub Issue.
 
 ### Note
 
-Mediors and seniors may merge other people's topic branches in `develop` 
+Mediors and seniors may merge other people's topic branches in `develop`
 without permission. This prevents future merge conflicts.
 
 ## S.4. Juniors do not merge with `develop`
@@ -47,10 +47,10 @@ without permission. This prevents future merge conflicts.
 ### Reason
 
 We are a big team. Unexperienced juniors may randomly resolve merge conflicts,
-which can cause the loss of good code. 
+which can cause the loss of good code.
 
-### Exceptions 
+### Exceptions
 
 One may do so, if he/she has been given permission on a GitHub Issue.
 
-## S.5. New 
+## S.5. New

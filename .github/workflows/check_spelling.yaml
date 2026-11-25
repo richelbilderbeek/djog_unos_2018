@@ -1,0 +1,31 @@
+# Check that there is correct spelling in all Markdown files
+name: Check spelling
+
+on:
+  push:
+    paths:
+      - .github/workflows/check_spelling.yaml
+      - "**.md"
+      - .spellcheck.yml
+      - .wordlist.txt
+  pull_request:
+    paths:
+      - .github/workflows/check_spelling.yaml
+      - "**.md"
+      - .spellcheck.yml
+      - .wordlist.txt
+
+jobs:
+  check_spelling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Instructions how to fix
+        run: |
+          echo "If the spelling error is valid, fix the spelling error."
+          echo "If the spelling error is incorrect,"
+          echo "add this word to the file '.wordlist.txt' (in the project root):"
+          echo "this is a whitelist/allowlist"
+
+      - uses: igsekor/pyspelling-any@v1.0.4

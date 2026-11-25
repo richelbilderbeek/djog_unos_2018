@@ -1,3 +1,4 @@
+# Roze olifant
 
 Er was eens een roze olifant, en ze woonde in Groningen.
 Groningen is een plaats waar veel roze olifanten wonen.
@@ -14,5 +15,5 @@ De donzige wolkjes waren boos op de andere donzige wolkjes.
 Ze gingen weer terug naar Groningen en gingen de donzige wolkjes aanklagen bij de dokter.
 De dokter verwees ze door naar het ziekenhuis en het ziekenhuis verwees ze door naar de politie.
 Eenmaal op het politiebureau aangekomen, moesten ze aangifte doen.
-Maar de politie deed er niks aan dus de roze olifant en de donzige wolkjes gingen op zoek naar de andere donzige wolkjes, 
-maar de donzige wolkjes konden de donzige wolkjes niet vinden dus gingen ze terug 
+Maar de politie deed er niks aan dus de roze olifant en de donzige wolkjes gingen op zoek naar de andere donzige wolkjes,
+maar de donzige wolkjes konden de donzige wolkjes niet vinden dus gingen ze terug

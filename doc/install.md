@@ -5,7 +5,7 @@
 
 Type this in a terminal:
 
-```
+```text
 sudo apt-get install -qq qtcreator libqt5webkit5-dev qtdeclarative5-dev libqt5svg5* libqt5svg5-dev libsfml-dev
 ```
 
@@ -17,52 +17,53 @@ Done!
 
 ![Pick these Qt Creator items](install_qt_creator.png)
 
-### Download and install SFML
+### Download and install SFML on Windows
 
- * Go to the SFML download page, [https://www.sfml-dev.org/download/sfml/2.5.0/](https://www.sfml-dev.org/download/sfml/2.5.0/)
- * Pick `MacOS Clang - 64-bit (OS X 10.7+, compatible with C++11 and libc++)` [here](https://www.sfml-dev.org/files/SFML-2.5.1-macOS-clang.tar.gz)
+* Go to the SFML download page, [https://www.sfml-dev.org/download/sfml/2.5.0/](https://www.sfml-dev.org/download/sfml/2.5.0/)
+* Pick `MacOS Clang - 64-bit (OS X 10.7+, compatible with C++11 and libc++)` [here](https://www.sfml-dev.org/files/SFML-2.5.1-macOS-clang.tar.gz)
 
-![](install_sfml_mac.png)
+![install sfml mac](install_sfml_mac.png)
 
- * Unpack the tar, it will create a folder called `SFML-2.5.1-macos-clang`
- * Rename that folder to `SFML` and put it in your home folder. 
+* Unpack the tar, it will create a folder called `SFML-2.5.1-macos-clang`
+* Rename that folder to `SFML` and put it in your home folder.
    Its path will be `/Users/[username]/SFML`
- * Copy the content of `SFML/Frameworks` folder into `/Library/Frameworks`.
+* Copy the content of `SFML/Frameworks` folder into `/Library/Frameworks`.
    You will need root rights for this
 
 ## Windows
 
-### Download and install Qt Creator
- * Do not install the newer versions (Qt 5.12.0 or higher) if you are using a 32-bit SFML. 
+### Download and install Qt Creator on Windows
+
+* Do not install the newer versions (Qt 5.12.0 or higher) if you are using a 32-bit SFML.
 
 ![Pick these Qt Creator items](install_qt_creator.png)
 
-### Download and install SFML
+### Download and install SFML on Windows
 
- * Go to the SFML download page, [https://www.sfml-dev.org/download/sfml/2.5.0/](https://www.sfml-dev.org/download/sfml/2.5.0/)
- * Pick `GCC 7.3.0 MinGW (DW2) - 32-bit` [here](https://www.sfml-dev.org/files/SFML-2.5.0-windows-gcc-7.3.0-mingw-32-bit.zip)
+* Go to the SFML download page, [https://www.sfml-dev.org/download/sfml/2.5.0/](https://www.sfml-dev.org/download/sfml/2.5.0/)
+* Pick `GCC 7.3.0 MinGW (DW2) - 32-bit` [here](https://www.sfml-dev.org/files/SFML-2.5.0-windows-gcc-7.3.0-mingw-32-bit.zip)
 
 ![Pick this SFML version](install_sfml.png)
 
- * Unpack the zip, it will create a folder called `SFML-2.5.0`
- * Rename that folder to `sfml`
- * Move that folder to within `C:/Qt`. Its new path will be `C:/Qt/sfml`
+* Unpack the zip, it will create a folder called `SFML-2.5.0`
+* Rename that folder to `sfml`
+* Move that folder to within `C:/Qt`. Its new path will be `C:/Qt/sfml`
 
 ### Prepare Qt Creator
 
 If you run the Qt Creator project now, you will get a `During Startup program exited with code 0xc0000135` error. This means it cannot find the path.
 
- * In Qt Creator, click 'Projects' (at the left vertical menu bar), go to 'Build', go to 'Build Environment', add to the `Path` variable: `;C:\Qt\sfml\bin`
+* In Qt Creator, click 'Projects' (at the left vertical menu bar), go to 'Build', go to 'Build Environment', add to the `Path` variable: `;C:\Qt\sfml\bin`
 
 If you have this line, remove it:
 
-```
+```text
 LIBS += -ljpeg # Remove this line
 ```
 
 This is/was a working Qt Creator project file:
 
-```
+```text
 include(djog_unos_2018.pri)
 
 # Entry point for user
