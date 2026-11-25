@@ -20,7 +20,7 @@ Done!
 ### Download and install SFML on Windows
 
 * Go to the SFML download page, [https://www.sfml-dev.org/download/sfml/2.5.0/](https://www.sfml-dev.org/download/sfml/2.5.0/)
-* Pick `MacOS Clang - 64-bit (OS X 10.7+, compatible with C++11 and libc++)` [here](https://www.sfml-dev.org/files/SFML-2.5.1-macOS-clang.tar.gz)
+* Pick `MacOS Clang - 64-bit (OS X 10.7+, compatible with C++11 and libc++)` [download](https://www.sfml-dev.org/files/SFML-2.5.1-macOS-clang.tar.gz)
 
 ![install sfml mac](install_sfml_mac.png)
 
@@ -41,7 +41,7 @@ Done!
 ### Download and install SFML on Windows
 
 * Go to the SFML download page, [https://www.sfml-dev.org/download/sfml/2.5.0/](https://www.sfml-dev.org/download/sfml/2.5.0/)
-* Pick `GCC 7.3.0 MinGW (DW2) - 32-bit` [here](https://www.sfml-dev.org/files/SFML-2.5.0-windows-gcc-7.3.0-mingw-32-bit.zip)
+* Pick `GCC 7.3.0 MinGW (DW2) - 32-bit` [download](https://www.sfml-dev.org/files/SFML-2.5.0-windows-gcc-7.3.0-mingw-32-bit.zip)
 
 ![Pick this SFML version](install_sfml.png)
 
