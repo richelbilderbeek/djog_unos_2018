@@ -1,3 +1,4 @@
+# Nature Zen: build, run the tests and measure the code coverage
 # Check that the program can be built,
 # that its tests pass and measure the code coverage
 name: Check build
