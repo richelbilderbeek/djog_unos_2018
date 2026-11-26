@@ -8,7 +8,7 @@ All about `git`.
 
 ## Branching model
 
-* `master`: stable, should always pass
+* `main`: stable, should always pass
 * `develop`: development, merge of topic branches, should mostly pass
 * `[developer name]`: topic branch, for isolated development
 

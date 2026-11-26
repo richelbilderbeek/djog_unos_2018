@@ -2,7 +2,7 @@
 site_name = "Nature Zen"
 site_url = "https://richelbilderbeek.github.io/djog_unos_2018/"
 repo_url = "https://github.com/richelbilderbeek/djog_unos_2018"
-edit_uri = "blob/master/docs/"
+edit_uri = "blob/main/docs/"
 
 nav = [
   { "Start" = "README.md"}

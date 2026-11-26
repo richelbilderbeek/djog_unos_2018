@@ -2,7 +2,7 @@
 
 ## Branching policy
 
-* The `master` branch should always build successfully
+* The `main` branch should always build successfully
 * The `development` branch is for developers and should almost always build successfully
 * The other branches are topic branches
 
@@ -85,12 +85,12 @@ git merge develop
 git push
 ```
 
-### Merge with `master`
+### Merge with `main`
 
-If and only if the `develop` build passes, merge it with `master`:
+If and only if the `develop` build passes, merge it with `main`:
 
 ```text
-git checkout master
+git checkout main
 git merge develop
 ```
 
