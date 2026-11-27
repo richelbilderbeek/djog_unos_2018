@@ -1,5 +1,16 @@
 {
-  "aliveStatusCodes": [0, 200, 403, 418, 429, 500, 503],
+  "aliveStatusCodes": [
+    0,
+    200,
+    403,
+    418,
+    429,
+    500,
+    503
+  ],
   "ignorePatterns": [
+    {
+      "pattern": "^https://github.com/richelbilderbeek/djog_unos_2018/projects$"
+    }
   ]
 }
