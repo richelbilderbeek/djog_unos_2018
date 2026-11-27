@@ -1,4 +1,4 @@
-# [Planning](docs/planning.md)
+# Planning
 
 Date|What
 ---|---

@@ -26,7 +26,7 @@ See [install](install.md).
 * Go to the Nature Zen GitHub
 * Create a new branch for yourself:
 
-![create github branch](create_github_branch)
+![create github branch](create_github_branch.png)
 
 ## 4. Install git
 
